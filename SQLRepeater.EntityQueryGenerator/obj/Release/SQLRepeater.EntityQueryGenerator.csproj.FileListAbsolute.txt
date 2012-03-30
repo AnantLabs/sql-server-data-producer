@@ -1,0 +1,7 @@
+C:\src\dba\trunk\SQLRepeater\SQLRepeater.EntityQueryGenerator\bin\Release\SQLRepeater.EntityQueryGenerator.dll
+C:\src\dba\trunk\SQLRepeater\SQLRepeater.EntityQueryGenerator\bin\Release\SQLRepeater.EntityQueryGenerator.pdb
+C:\src\dba\trunk\SQLRepeater\SQLRepeater.EntityQueryGenerator\bin\Release\SQLRepeater.Entities.dll
+C:\src\dba\trunk\SQLRepeater\SQLRepeater.EntityQueryGenerator\bin\Release\SQLRepeater.Entities.pdb
+C:\src\dba\trunk\SQLRepeater\SQLRepeater.EntityQueryGenerator\obj\Release\ResolveAssemblyReference.cache
+C:\src\dba\trunk\SQLRepeater\SQLRepeater.EntityQueryGenerator\obj\Release\SQLRepeater.EntityQueryGenerator.dll
+C:\src\dba\trunk\SQLRepeater\SQLRepeater.EntityQueryGenerator\obj\Release\SQLRepeater.EntityQueryGenerator.pdb

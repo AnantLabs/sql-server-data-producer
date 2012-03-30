@@ -1,0 +1,6 @@
+C:\src\dba\trunk\SQLRepeater\SQLRepeater.TaskExecuter\obj\Debug\ResolveAssemblyReference.cache
+C:\src\dba\trunk\SQLRepeater\SQLRepeater.TaskExecuter\bin\Debug\SQLRepeater.TaskExecuter.dll
+C:\src\dba\trunk\SQLRepeater\SQLRepeater.TaskExecuter\bin\Debug\SQLRepeater.TaskExecuter.pdb
+C:\src\dba\trunk\SQLRepeater\SQLRepeater.TaskExecuter\obj\Debug\SQLRepeater.TaskExecuter.dll
+C:\src\dba\trunk\SQLRepeater\SQLRepeater.TaskExecuter\obj\Debug\SQLRepeater.TaskExecuter.pdb
+C:\src\dba\trunk\SQLRepeater\SQLRepeater.TaskExecuter\bin\Debug\SQLRepeater.TaskExecuter.dll.config

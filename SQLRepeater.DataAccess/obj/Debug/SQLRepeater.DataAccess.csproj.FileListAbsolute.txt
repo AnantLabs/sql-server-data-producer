@@ -1,0 +1,7 @@
+C:\src\dba\trunk\SQLRepeater\SQLRepeater.DataAccess\bin\Debug\SQLRepeater.DataAccess.dll
+C:\src\dba\trunk\SQLRepeater\SQLRepeater.DataAccess\bin\Debug\SQLRepeater.DataAccess.pdb
+C:\src\dba\trunk\SQLRepeater\SQLRepeater.DataAccess\bin\Debug\SQLRepeater.Entities.dll
+C:\src\dba\trunk\SQLRepeater\SQLRepeater.DataAccess\bin\Debug\SQLRepeater.Entities.pdb
+C:\src\dba\trunk\SQLRepeater\SQLRepeater.DataAccess\obj\Debug\ResolveAssemblyReference.cache
+C:\src\dba\trunk\SQLRepeater\SQLRepeater.DataAccess\obj\Debug\SQLRepeater.DataAccess.dll
+C:\src\dba\trunk\SQLRepeater\SQLRepeater.DataAccess\obj\Debug\SQLRepeater.DataAccess.pdb
