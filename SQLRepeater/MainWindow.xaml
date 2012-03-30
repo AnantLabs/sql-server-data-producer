@@ -20,7 +20,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel  Grid.Column="0" Grid.Row="0" Orientation="Horizontal">
-            <Button Content="..." Margin="3 3 3 3" Padding="5 0 5 0" Command="{Binding OpenSqlConnectionBuilderCommand}" />
+            <Button Content="Conn..." Margin="3 3 3 3" Padding="5 0 5 0" Command="{Binding OpenSqlConnectionBuilderCommand}" />
             <Button Content="Load" Margin="3 3 3 3" Padding="5 0 5 0" Command="{Binding LoadTablesCommand}" />
         </StackPanel>
         
@@ -29,13 +29,13 @@
         <Grid Grid.Column="1" Grid.Row="1">
             <DataGrid ItemsSource="{Binding Path=SelectedTable.Columns}" AutoGenerateColumns="False" >
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding ColumnName}" />
-                    <DataGridTextColumn Binding="{Binding ColumnDataType}" />
-                    <DataGridTemplateColumn>
+                    <DataGridTextColumn Binding="{Binding ColumnName}" Header="Column Name" />
+                    <DataGridTextColumn Binding="{Binding ColumnDataType}" Header="Data Type" />
+                    <DataGridTemplateColumn Header="Data Generator">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Label Content="{Binding Path=ColumnValue.Value}" Width="80" Height="25" FontSize="10" />
+                                    <Label Content="{Binding Path=ColumnValue.ValueGenerator.Method.Name}" Width="200" Height="25" FontSize="10" />
                                     <Button Content="..." 
                                                         Command="{Binding  Path=OpenValueEditWindowCommand, Source={StaticResource ResourceKey=vm}}" 
                                                         CommandParameter="{Binding Path=.}" Height="22"/>

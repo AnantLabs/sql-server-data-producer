@@ -47,36 +47,10 @@ namespace SQLRepeater
         public ColumnEntityValueConfigurationViewModel(ColumnEntity colEntity)
         {
             this.CurrentColumnEntity = colEntity;
-            DataGenerationSnippets = GetAppropriateSnippets(colEntity.ColumnDataType);
+            DataGenerationSnippets = Snippets.SnippetSupplier.GetSnippetsForDataType(colEntity.ColumnDataType);
         }
 
-        private ObservableCollection<ValueCreatorDelegate> GetAppropriateSnippets(string dataType)
-        {
-            switch (dataType)
-            {
-                case "int":
-                case "smallint":
-                case "tinyint":
-                    return Snippets.IntSnippets.Snippets;
-
-                case "decimal":
-                case "float":
-                    return Snippets.DecimalSnippets.Snippets;
-
-                case "datetime":
-                case "datetime2":
-                    return Snippets.DateTimeSnippets.Snippets;
-
-                case "varchar":
-                case "nvarchar":
-                case "char":
-                case "nchar":
-                    return Snippets.StringSnippets.Snippets;
-
-                default:
-                    return Snippets.StringSnippets.Snippets;
-            }
-        }
+       
 
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string propertyName)

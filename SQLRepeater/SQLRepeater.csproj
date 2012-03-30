@@ -58,10 +58,14 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\VisibilityConverter.cs" />
+    <Compile Include="Snippets\BooleanSnippets.cs" />
+    <Compile Include="Snippets\TinyIntSnippets.cs" />
+    <Compile Include="Snippets\SmallIntSnippets.cs" />
     <Compile Include="Snippets\DateTimeSnippets.cs" />
     <Compile Include="Snippets\DecimalSnippets.cs" />
     <Compile Include="Snippets\IntSnippets.cs" />
     <Compile Include="Snippets\RandomSupplier.cs" />
+    <Compile Include="Snippets\SnippetSupplier.cs" />
     <Compile Include="Snippets\StringSnippets.cs" />
     <Compile Include="SQLRepeaterSettings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -121,7 +125,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\SQLConnectionStringBuilderGUI\ConnectionStringCreatorGUI\ConnectionStringCreatorGUI.csproj">
+    <ProjectReference Include="..\SQLConnectionStringBuilderGUI\ConnectionStringCreatorGUI\ConnectionStringCreatorGUI.csproj">
       <Project>{7319917A-8A1B-41CA-99BC-6E14C324DC63}</Project>
       <Name>ConnectionStringCreatorGUI</Name>
     </ProjectReference>
@@ -143,11 +147,17 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Snippets\resources\Countries.txt" />
-    <Resource Include="Snippets\resources\MaleNames.txt" />
+    <Content Include="Snippets\resources\Countries.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Snippets\resources\MaleNames.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Snippets\resources\FemaleNames.txt" />
+    <Content Include="Snippets\resources\FemaleNames.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

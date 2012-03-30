@@ -233,8 +233,7 @@ namespace SQLRepeater
 
                 win.Show();
 
-            }
-            );
+            });
             
             LoadTablesCommand = new DelegateCommand(() =>
                 {

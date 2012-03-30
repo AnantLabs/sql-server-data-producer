@@ -3,3 +3,8 @@ C:\src\dba\trunk\SQLRepeater\SQLRepeater.Entities\bin\Debug\SQLRepeater.Entities
 C:\src\dba\trunk\SQLRepeater\SQLRepeater.Entities\obj\Debug\ResolveAssemblyReference.cache
 C:\src\dba\trunk\SQLRepeater\SQLRepeater.Entities\obj\Debug\SQLRepeater.Entities.dll
 C:\src\dba\trunk\SQLRepeater\SQLRepeater.Entities\obj\Debug\SQLRepeater.Entities.pdb
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater.Entities\bin\Debug\SQLRepeater.Entities.dll
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater.Entities\bin\Debug\SQLRepeater.Entities.pdb
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater.Entities\obj\Debug\ResolveAssemblyReference.cache
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater.Entities\obj\Debug\SQLRepeater.Entities.dll
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater.Entities\obj\Debug\SQLRepeater.Entities.pdb

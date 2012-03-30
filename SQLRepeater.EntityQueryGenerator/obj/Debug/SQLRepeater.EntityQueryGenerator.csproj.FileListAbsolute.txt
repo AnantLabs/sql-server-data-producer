@@ -5,3 +5,10 @@ C:\src\dba\trunk\SQLRepeater\SQLRepeater.EntityQueryGenerator\bin\Debug\SQLRepea
 C:\src\dba\trunk\SQLRepeater\SQLRepeater.EntityQueryGenerator\obj\Debug\ResolveAssemblyReference.cache
 C:\src\dba\trunk\SQLRepeater\SQLRepeater.EntityQueryGenerator\obj\Debug\SQLRepeater.EntityQueryGenerator.dll
 C:\src\dba\trunk\SQLRepeater\SQLRepeater.EntityQueryGenerator\obj\Debug\SQLRepeater.EntityQueryGenerator.pdb
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater.EntityQueryGenerator\bin\Debug\SQLRepeater.EntityQueryGenerator.dll
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater.EntityQueryGenerator\bin\Debug\SQLRepeater.EntityQueryGenerator.pdb
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater.EntityQueryGenerator\bin\Debug\SQLRepeater.Entities.dll
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater.EntityQueryGenerator\bin\Debug\SQLRepeater.Entities.pdb
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater.EntityQueryGenerator\obj\Debug\ResolveAssemblyReference.cache
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater.EntityQueryGenerator\obj\Debug\SQLRepeater.EntityQueryGenerator.dll
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater.EntityQueryGenerator\obj\Debug\SQLRepeater.EntityQueryGenerator.pdb

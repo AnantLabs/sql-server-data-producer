@@ -20,32 +20,21 @@ namespace SQLRepeater.Entities
         {
             Func<int, SqlParameter[]> paramCreator = n =>
                 {
-                    SqlParameter[] pars = new SqlParameter[Columns.Count];
-                    for (int i = 0; i < pars.Length; i++)
+                    List<SqlParameter> pars = new List<SqlParameter>();
+                    foreach (var col in Columns)
                     {
-                        pars[i] = new SqlParameter(
-                            string.Format("@{0}", Columns[i].ColumnName)
-                            , Columns[i].ColumnValue.ValueGenerator(n));
+                        if (!col.IsIdentity)
+                        {
+                            pars.Add(new SqlParameter(
+                                string.Format("@{0}", col.ColumnName)
+                                , col.ColumnValue.ValueGenerator(n)));
+                        }
                     }
 
-                    return pars;
+                    return pars.ToArray();
                 };
             return paramCreator;
         }
-
-        //public Func<int, SqlParameter[]> paramCreator = n =>
-        //{
-        //    SqlParameter[] pars = new SqlParameter[Columns.Count];
-        //    for (int i = 0; i < pars.Length; i++)
-        //    {
-        //        pars[i] = new SqlParameter(
-        //            string.Format("@{0}", Columns[i].ColumnName)
-        //            , Columns[i].ColumnValue.ValueGenerator(n));
-        //    }
-
-        //    return pars;
-        //};
-
 
         ObservableCollection<ColumnEntity> _columns;
         public ObservableCollection<ColumnEntity> Columns

@@ -15,6 +15,7 @@ namespace SQLRepeater.Snippets
             Snippets = new ObservableCollection<ValueCreatorDelegate>();
             Snippets.Add(UpCounter);
             Snippets.Add(DownCounter);
+            Snippets.Add(SmallRandomValues);
         }
 
 
@@ -27,7 +28,11 @@ namespace SQLRepeater.Snippets
         {
             return new Decimal(0-n).ToString();
         }
-       
+
+        public static string SmallRandomValues(int n)
+        {
+            return new Decimal(RandomSupplier.Randomer.Next() % 500).ToString();
+        }
 
     }
 }

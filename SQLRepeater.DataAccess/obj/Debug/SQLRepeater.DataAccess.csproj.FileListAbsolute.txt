@@ -5,3 +5,10 @@ C:\src\dba\trunk\SQLRepeater\SQLRepeater.DataAccess\bin\Debug\SQLRepeater.Entiti
 C:\src\dba\trunk\SQLRepeater\SQLRepeater.DataAccess\obj\Debug\ResolveAssemblyReference.cache
 C:\src\dba\trunk\SQLRepeater\SQLRepeater.DataAccess\obj\Debug\SQLRepeater.DataAccess.dll
 C:\src\dba\trunk\SQLRepeater\SQLRepeater.DataAccess\obj\Debug\SQLRepeater.DataAccess.pdb
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater.DataAccess\bin\Debug\SQLRepeater.DataAccess.dll
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater.DataAccess\bin\Debug\SQLRepeater.DataAccess.pdb
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater.DataAccess\bin\Debug\SQLRepeater.Entities.dll
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater.DataAccess\bin\Debug\SQLRepeater.Entities.pdb
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater.DataAccess\obj\Debug\ResolveAssemblyReference.cache
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater.DataAccess\obj\Debug\SQLRepeater.DataAccess.dll
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater.DataAccess\obj\Debug\SQLRepeater.DataAccess.pdb

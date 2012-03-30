@@ -7,7 +7,7 @@ namespace SQLRepeater.Snippets
 {
     public static class RandomSupplier
     {
-        static Random _random = new Random(DateTime.Now.Second);
+        static Random _random = new Random(DateTime.Now.Millisecond);
         public static Random Randomer
         {
             get
