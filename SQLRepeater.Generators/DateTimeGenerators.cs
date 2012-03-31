@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
 
-namespace SQLRepeater.Snippets
+namespace SQLRepeater.Generators
 {
-    public class DateTimeSnippets
+    public class DateTimeGenerators
     {
 
         private static DateTime _currentDate = DateTime.Now;
@@ -17,15 +17,16 @@ namespace SQLRepeater.Snippets
             }
         }
 
-        static DateTimeSnippets()
+        static DateTimeGenerators()
         {
-            Snippets = new ObservableCollection<ValueCreatorDelegate>();
-            Snippets.Add(CurrentDate);
-            Snippets.Add(RandomDates);
-            Snippets.Add(DaySeries);
-            Snippets.Add(HourSeries);
-            Snippets.Add(MinutesSeries);
-            Snippets.Add(SecondsSeries);
+            Generators = new ObservableCollection<ValueCreatorDelegate>();
+            Generators.Add(CurrentDate);
+            Generators.Add(RandomDates);
+            Generators.Add(DaySeries);
+            Generators.Add(HourSeries);
+            Generators.Add(MinutesSeries);
+            Generators.Add(SecondsSeries);
+            Generators.Add(MiliSecondSeries);
         }      
 
         public static string CurrentDate(int n)
@@ -62,18 +63,18 @@ namespace SQLRepeater.Snippets
         }
 
 
-        static ObservableCollection<ValueCreatorDelegate> _snippets;
-        public static  ObservableCollection<ValueCreatorDelegate> Snippets
+        static ObservableCollection<ValueCreatorDelegate> _Generators;
+        public static  ObservableCollection<ValueCreatorDelegate> Generators
         {
             get
             {
-                return _snippets;
+                return _Generators;
             }
             set
             {
-                if (_snippets != value)
+                if (_Generators != value)
                 {
-                    _snippets = value;
+                    _Generators = value;
                 }
             }
         }

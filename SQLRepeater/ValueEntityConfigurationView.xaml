@@ -20,11 +20,11 @@
 
         <Label Content="{Binding CurrentColumnEntity.ColumnName}" ></Label>
 
-        <TextBox Grid.Row="1" Text="{Binding CurrentColumnEntity.ColumnValue.Value}" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" />
-
+        <!--<TextBox Grid.Row="1" Text="{Binding CurrentColumnEntity.ColumnValue.Value}" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" />-->
+        <DataGrid Grid.Row="1" ItemsSource="{Binding CurrentColumnEntity.GeneratorParameter}" />
         <GroupBox Header="Use snippet:" Grid.Column="1" Grid.Row="1" BorderThickness="0" 
                   >
-            <ComboBox ItemsSource="{Binding DataGenerationSnippets}"
+            <ComboBox ItemsSource="{Binding DataGenerationGenerators}"
                       SelectedItem="{Binding CurrentColumnEntity.ColumnValue.ValueGenerator, Mode=TwoWay}"
                       Height="25" VerticalAlignment="Top">
                 <ComboBox.ItemTemplate>

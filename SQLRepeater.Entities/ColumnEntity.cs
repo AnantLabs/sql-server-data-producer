@@ -25,6 +25,22 @@ namespace SQLRepeater.Entities
             }
         }
 
+        private object _genParameter;
+        public object GeneratorParameter
+        {
+            get
+            {
+                return _genParameter;
+            }
+            set
+            {
+                if (_genParameter != value)
+                {
+                    _genParameter = value;
+                    OnPropertyChanged("GeneratorParameter");
+                }
+            }
+        }
 
         bool _isIdentity;
         [System.ComponentModel.ReadOnly(true)]

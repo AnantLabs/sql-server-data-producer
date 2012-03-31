@@ -27,27 +27,30 @@ namespace SQLRepeater
             }
         }
 
-        ObservableCollection<ValueCreatorDelegate> _dataGenerationSnippets;
-        public ObservableCollection<ValueCreatorDelegate> DataGenerationSnippets
+        ObservableCollection<ValueCreatorDelegate> _dataGenerationGenerators;
+        public ObservableCollection<ValueCreatorDelegate> DataGenerationGenerators
         {
             get
             {
-                return _dataGenerationSnippets;
+                return _dataGenerationGenerators;
             }
             set
             {
-                if (_dataGenerationSnippets != value)
+                if (_dataGenerationGenerators != value)
                 {
-                    _dataGenerationSnippets = value;
-                    OnPropertyChanged("DataGenerationSnippets");
+                    _dataGenerationGenerators = value;
+                    OnPropertyChanged("DataGenerationGenerators");
                 }
             }
         }
 
+
+
         public ColumnEntityValueConfigurationViewModel(ColumnEntity colEntity)
         {
             this.CurrentColumnEntity = colEntity;
-            DataGenerationSnippets = Snippets.SnippetSupplier.GetSnippetsForDataType(colEntity.ColumnDataType);
+            DataGenerationGenerators = Generators.Generatorsupplier.GetGeneratorsForDataType(colEntity.ColumnDataType);
+            CurrentColumnEntity.GeneratorParameter = Generators.Generatorsupplier.GetGeneratorParameterForDataType(colEntity.ColumnDataType);
         }
 
        

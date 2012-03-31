@@ -55,7 +55,8 @@ E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\obj\x86\Debug\SQLRe
 E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\obj\x86\Debug\SQLRepeater.Properties.Resources.resources
 E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\obj\x86\Debug\GenerateResource.read.1.tlog
 E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\obj\x86\Debug\GenerateResource.write.1.tlog
-E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\bin\Debug\Snippets\resources\Countries.txt
-E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\bin\Debug\Snippets\resources\MaleNames.txt
-E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\bin\Debug\Snippets\resources\FemaleNames.txt
-E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\obj\x86\Debug\SQLRepeater_Content.g.cs
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\bin\Debug\resources\Countries.txt
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\bin\Debug\resources\FemaleNames.txt
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\bin\Debug\resources\MaleNames.txt
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\bin\Debug\SQLRepeater.Generators.dll
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\bin\Debug\SQLRepeater.Generators.pdb

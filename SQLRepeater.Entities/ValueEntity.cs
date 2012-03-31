@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using SQLRepeater.Entities.ValueGeneratorParameters;
 
 namespace SQLRepeater.Entities
 {
@@ -25,6 +26,25 @@ namespace SQLRepeater.Entities
                 }
             }
         }
+
+        object[] _valueGeneratorParameter;
+        public object[] ValueGeneratorParameter
+        {
+            get
+            {
+                return _valueGeneratorParameter;
+            }
+            set
+            {
+                if (_valueGeneratorParameter != value)
+                {
+                    _valueGeneratorParameter = value;
+                    OnPropertyChanged("ValueGeneratorParameter");
+                }
+            }
+        }
+
+        
 
         string _value = string.Empty;
         public string Value

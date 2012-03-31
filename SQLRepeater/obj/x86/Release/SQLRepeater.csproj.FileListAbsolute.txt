@@ -27,9 +27,6 @@ C:\src\dba\trunk\SQLRepeater\SQLRepeater\obj\x86\Release\ValueEntityConfiguratio
 C:\src\dba\trunk\SQLRepeater\SQLRepeater\obj\x86\Release\GeneratedInternalTypeHelper.g.cs
 C:\src\dba\trunk\SQLRepeater\SQLRepeater\obj\x86\Release\ValueEntityConfigurationView.baml
 C:\src\dba\trunk\SQLRepeater\SQLRepeater\obj\x86\Release\SQLRepeater_Content.g.cs
-E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\bin\Release\Snippets\resources\Countries.txt
-E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\bin\Release\Snippets\resources\MaleNames.txt
-E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\bin\Release\Snippets\resources\FemaleNames.txt
 E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\bin\Release\SQLRepeater.exe.config
 E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\bin\Release\SQLRepeater.exe
 E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\bin\Release\SQLRepeater.pdb
@@ -47,7 +44,6 @@ E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\obj\x86\Release\Res
 E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\obj\x86\Release\MainWindow.g.cs
 E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\obj\x86\Release\ValueEntityConfigurationView.g.cs
 E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\obj\x86\Release\App.g.cs
-E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\obj\x86\Release\SQLRepeater_Content.g.cs
 E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\obj\x86\Release\GeneratedInternalTypeHelper.g.cs
 E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\obj\x86\Release\SQLRepeater_MarkupCompile.cache
 E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\obj\x86\Release\SQLRepeater_MarkupCompile.lref
@@ -59,3 +55,8 @@ E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\obj\x86\Release\Gen
 E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\obj\x86\Release\GenerateResource.write.1.tlog
 E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\obj\x86\Release\SQLRepeater.exe
 E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\obj\x86\Release\SQLRepeater.pdb
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\bin\Release\resources\Countries.txt
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\bin\Release\resources\FemaleNames.txt
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\bin\Release\resources\MaleNames.txt
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\bin\Release\SQLRepeater.Generators.dll
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\bin\Release\SQLRepeater.Generators.pdb

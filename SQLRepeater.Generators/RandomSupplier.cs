@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SQLRepeater.Snippets
+namespace SQLRepeater.Generators
 {
     public sealed class RandomSupplier
     {

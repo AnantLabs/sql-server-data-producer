@@ -8,8 +8,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("snippets/resources/countries.txt")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("snippets/resources/malenames.txt")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("snippets/resources/femalenames.txt")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("generators/resources/countries.txt")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("generators/resources/malenames.txt")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("generators/resources/femalenames.txt")]
 
 

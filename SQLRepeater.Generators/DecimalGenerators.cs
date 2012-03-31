@@ -4,18 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
 
-namespace SQLRepeater.Snippets
+namespace SQLRepeater.Generators
 {
-    public class DecimalSnippets 
+    public class DecimalGenerators 
     {
-        public static ObservableCollection<ValueCreatorDelegate> Snippets { get; set; }
+        public static ObservableCollection<ValueCreatorDelegate> Generators { get; set; }
 
-        static DecimalSnippets()
+        static DecimalGenerators()
         {
-            Snippets = new ObservableCollection<ValueCreatorDelegate>();
-            Snippets.Add(UpCounter);
-            Snippets.Add(DownCounter);
-            Snippets.Add(SmallRandomValues);
+            Generators = new ObservableCollection<ValueCreatorDelegate>();
+            Generators.Add(UpCounter);
+            Generators.Add(DownCounter);
+            Generators.Add(SmallRandomValues);
         }
 
 

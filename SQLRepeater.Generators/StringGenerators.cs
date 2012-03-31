@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SQLRepeater.Snippets
+namespace SQLRepeater.Generators
 {
-    public class StringSnippets 
+    public class StringGenerators 
     {
-        public static System.Collections.ObjectModel.ObservableCollection<ValueCreatorDelegate> Snippets { get; set; }
+        public static System.Collections.ObjectModel.ObservableCollection<ValueCreatorDelegate> Generators { get; set; }
 
-        static StringSnippets()
+        static StringGenerators()
         {
-            Snippets = new System.Collections.ObjectModel.ObservableCollection<ValueCreatorDelegate>();
-            Snippets.Add(Countries);
-            Snippets.Add(FemaleNames);
-            Snippets.Add(MaleNames);
+            Generators = new System.Collections.ObjectModel.ObservableCollection<ValueCreatorDelegate>();
+            Generators.Add(Countries);
+            Generators.Add(FemaleNames);
+            Generators.Add(MaleNames);
         }
 
         private static List<string> _countries;
@@ -25,7 +25,7 @@ namespace SQLRepeater.Snippets
                 if (_countries == null)
                 {
                     _countries = new List<string>();
-                    _countries.AddRange(System.IO.File.ReadAllLines(@".\Snippets\resources\Countries.txt"));
+                    _countries.AddRange(System.IO.File.ReadAllLines(@".\Generators\resources\Countries.txt"));
                 }
                 return _countries;
             }
@@ -39,7 +39,7 @@ namespace SQLRepeater.Snippets
                 if (_females == null)
                 {
                     _females = new List<string>();
-                    _females.AddRange(System.IO.File.ReadAllLines(@".\Snippets\resources\FemaleNames.txt"));
+                    _females.AddRange(System.IO.File.ReadAllLines(@".\Generators\resources\FemaleNames.txt"));
                 }
                 return _females;
             }
@@ -52,7 +52,7 @@ namespace SQLRepeater.Snippets
                 if (_males == null)
                 {
                     _males = new List<string>();
-                    _males.AddRange(System.IO.File.ReadAllLines(@".\Snippets\resources\MaleNames.txt"));
+                    _males.AddRange(System.IO.File.ReadAllLines(@".\Generators\resources\MaleNames.txt"));
                 }
                 return _males;
             }

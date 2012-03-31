@@ -1,0 +1,10 @@
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater.Generators\bin\Release\resources\Countries.txt
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater.Generators\bin\Release\resources\FemaleNames.txt
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater.Generators\bin\Release\resources\MaleNames.txt
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater.Generators\bin\Release\SQLRepeater.Generators.dll
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater.Generators\bin\Release\SQLRepeater.Generators.pdb
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater.Generators\bin\Release\SQLRepeater.Entities.dll
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater.Generators\bin\Release\SQLRepeater.Entities.pdb
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater.Generators\obj\Release\ResolveAssemblyReference.cache
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater.Generators\obj\Release\SQLRepeater.Generators.dll
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater.Generators\obj\Release\SQLRepeater.Generators.pdb

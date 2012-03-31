@@ -59,15 +59,6 @@
     </ApplicationDefinition>
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Converters\VisibilityConverter.cs" />
-    <Compile Include="Snippets\BooleanSnippets.cs" />
-    <Compile Include="Snippets\TinyIntSnippets.cs" />
-    <Compile Include="Snippets\SmallIntSnippets.cs" />
-    <Compile Include="Snippets\DateTimeSnippets.cs" />
-    <Compile Include="Snippets\DecimalSnippets.cs" />
-    <Compile Include="Snippets\IntSnippets.cs" />
-    <Compile Include="Snippets\RandomSupplier.cs" />
-    <Compile Include="Snippets\SnippetSupplier.cs" />
-    <Compile Include="Snippets\StringSnippets.cs" />
     <Compile Include="SQLRepeaterSettings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -142,23 +133,14 @@
       <Project>{6B6065E1-934E-4B2C-9B34-50D15BACAC3A}</Project>
       <Name>SQLRepeater.EntityQueryGenerator</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SQLRepeater.Generators\SQLRepeater.Generators.csproj">
+      <Project>{EFC3CE14-0157-4F7C-AA85-65D851044EFB}</Project>
+      <Name>SQLRepeater.Generators</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SQLRepeater.TaskExecuter\SQLRepeater.TaskExecuter.csproj">
       <Project>{AD47B9D0-0A49-49ED-9CF0-123809E266D4}</Project>
       <Name>SQLRepeater.TaskExecuter</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Snippets\resources\Countries.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Snippets\resources\MaleNames.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Snippets\resources\FemaleNames.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
