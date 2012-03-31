@@ -4,3 +4,9 @@ C:\src\dba\trunk\SQLRepeater\SQLRepeater.TaskExecuter\bin\Release\SQLRepeater.Ta
 C:\src\dba\trunk\SQLRepeater\SQLRepeater.TaskExecuter\obj\Release\ResolveAssemblyReference.cache
 C:\src\dba\trunk\SQLRepeater\SQLRepeater.TaskExecuter\obj\Release\SQLRepeater.TaskExecuter.dll
 C:\src\dba\trunk\SQLRepeater\SQLRepeater.TaskExecuter\obj\Release\SQLRepeater.TaskExecuter.pdb
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater.TaskExecuter\bin\Release\SQLRepeater.TaskExecuter.dll.config
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater.TaskExecuter\bin\Release\SQLRepeater.TaskExecuter.dll
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater.TaskExecuter\bin\Release\SQLRepeater.TaskExecuter.pdb
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater.TaskExecuter\obj\Release\ResolveAssemblyReference.cache
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater.TaskExecuter\obj\Release\SQLRepeater.TaskExecuter.dll
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater.TaskExecuter\obj\Release\SQLRepeater.TaskExecuter.pdb

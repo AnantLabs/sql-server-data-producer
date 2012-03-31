@@ -10,7 +10,7 @@ namespace SQLRepeater.Snippets
     {
 
         private static DateTime _currentDate = DateTime.Now;
-        private static DateTime CurrentDate { 
+        private static DateTime StartDate { 
             get
             {
                 return _currentDate;
@@ -20,42 +20,45 @@ namespace SQLRepeater.Snippets
         static DateTimeSnippets()
         {
             Snippets = new ObservableCollection<ValueCreatorDelegate>();
-            Snippets.Add(CurrentDateSnippet);
-            Snippets.Add(RandomDateSnippet);
-            Snippets.Add(DaySeriesSnippet);
-            Snippets.Add(HourSeriesSnippet);
-            Snippets.Add(MinutesSeriesSnippet);
-            Snippets.Add(SecondsSeriesSnippet);
+            Snippets.Add(CurrentDate);
+            Snippets.Add(RandomDates);
+            Snippets.Add(DaySeries);
+            Snippets.Add(HourSeries);
+            Snippets.Add(MinutesSeries);
+            Snippets.Add(SecondsSeries);
         }      
 
-        public static string CurrentDateSnippet(int n)
+        public static string CurrentDate(int n)
         {
             return DateTime.Now.ToString();
         }
 
-        public static string RandomDateSnippet(int n)
+        public static string RandomDates(int n)
         {
-            return CurrentDate.AddDays(RandomSupplier.Randomer.Next() % 30).ToString();
+            return StartDate.AddDays(RandomSupplier.Instance.GetNextInt() % 30).ToString();
         }
 
-        public static string SecondsSeriesSnippet(int n)
+        public static string SecondsSeries(int n)
         {
-            return CurrentDate.AddSeconds(n).ToString();
+            return StartDate.AddSeconds(n).ToString();
+        }
+        public static string MiliSecondSeries(int n)
+        {
+            return StartDate.AddMilliseconds(n).ToString();
+        }
+        public static string MinutesSeries(int n)
+        {
+            return StartDate.AddMinutes(n).ToString();
         }
 
-        public static string MinutesSeriesSnippet(int n)
+        public static string HourSeries(int n)
         {
-            return CurrentDate.AddMinutes(n).ToString();
+            return StartDate.AddHours(n).ToString();
         }
 
-        public static string HourSeriesSnippet(int n)
+        public static string DaySeries(int n)
         {
-                return CurrentDate.AddHours(n).ToString();
-        }
-
-        public static string DaySeriesSnippet(int n)
-        {
-             return CurrentDate.AddDays(n).ToString();
+             return StartDate.AddDays(n).ToString();
         }
 
 

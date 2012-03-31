@@ -12,13 +12,13 @@ namespace SQLRepeater.Snippets
         static StringSnippets()
         {
             Snippets = new System.Collections.ObjectModel.ObservableCollection<ValueCreatorDelegate>();
-            Snippets.Add(CountrySnippet);
-            Snippets.Add(FemaleNameSnippet);
-            Snippets.Add(MaleNameSnippet);
+            Snippets.Add(Countries);
+            Snippets.Add(FemaleNames);
+            Snippets.Add(MaleNames);
         }
 
         private static List<string> _countries;
-        static List<string> Countries
+        static List<string> CountryList
         {
             get
             {
@@ -59,15 +59,15 @@ namespace SQLRepeater.Snippets
         }
 
 
-        public static string CountrySnippet(int n)
+        public static string Countries(int n)
         {
-            return Countries[n % Countries.Count];
+            return CountryList[n % CountryList.Count];
         }
-        public static string FemaleNameSnippet(int n)
+        public static string FemaleNames(int n)
         {
             return Females[n % Females.Count];
         }
-        public static string MaleNameSnippet(int n)
+        public static string MaleNames(int n)
         {
             return Males[n % Males.Count];
         }

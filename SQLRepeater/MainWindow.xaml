@@ -7,6 +7,7 @@
     <Window.Resources>
         <me:MainWindowViewModel x:Key="vm" />
         <conv:VisibilityConverter x:Key="visiConv" />
+        <conv:InverseBooleanConverter x:Key="inverseBoolConvrt" />
     </Window.Resources>
     
     <Grid DataContext="{StaticResource ResourceKey=vm}">
@@ -36,7 +37,7 @@
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
                                     <Label Content="{Binding Path=ColumnValue.ValueGenerator.Method.Name}" Width="200" Height="25" FontSize="10" />
-                                    <Button Content="..." 
+                                    <Button Content="..." IsEnabled="{Binding IsIdentity, Converter={StaticResource ResourceKey=inverseBoolConvrt}}"
                                                         Command="{Binding  Path=OpenValueEditWindowCommand, Source={StaticResource ResourceKey=vm}}" 
                                                         CommandParameter="{Binding Path=.}" Height="22"/>
                                 </StackPanel>

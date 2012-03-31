@@ -13,7 +13,6 @@ namespace SQLRepeater.Snippets
         {
             Snippets = new System.Collections.ObjectModel.ObservableCollection<ValueCreatorDelegate>();
             Snippets.Add(UpCounter);
-           // Snippets.Add(DownCounter);
             Snippets.Add(RandomSmallInt);
         }
 
@@ -22,14 +21,9 @@ namespace SQLRepeater.Snippets
             return (n % byte.MaxValue).ToString();
         }
 
-        //public static string DownCounter(int n)
-        //{
-        //    return (1 - (n % byte.MaxValue)).ToString();
-        //}
-
         public static string RandomSmallInt(int n)
         {
-            return (RandomSupplier.Randomer.Next() % byte.MaxValue).ToString(); 
+            return (RandomSupplier.Instance.GetNextInt() % byte.MaxValue).ToString(); 
         }
     }
 }

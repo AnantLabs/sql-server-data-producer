@@ -57,6 +57,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Converters\VisibilityConverter.cs" />
     <Compile Include="Snippets\BooleanSnippets.cs" />
     <Compile Include="Snippets\TinyIntSnippets.cs" />

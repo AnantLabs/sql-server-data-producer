@@ -5,15 +5,37 @@ using System.Text;
 
 namespace SQLRepeater.Snippets
 {
-    public static class RandomSupplier
+    public sealed class RandomSupplier
     {
-        static Random _random = new Random(DateTime.Now.Millisecond);
-        public static Random Randomer
+        static readonly RandomSupplier instance = new RandomSupplier();
+
+        public static RandomSupplier Instance
         {
             get
             {
-                return _random;
+                return instance;
             }
         }
+
+        static RandomSupplier()
+        {        
+        }
+
+        RandomSupplier()
+        {
+            _random = new Random(DateTime.Now.Millisecond);
+        }
+
+        public int GetNextInt()
+        {
+            return _random.Next();
+        }
+        public double GetNextDouble()
+        {
+            return _random.NextDouble();
+        }
+        
+        readonly Random _random;
+        
     }
 }

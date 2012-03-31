@@ -31,7 +31,7 @@ namespace SQLRepeater.Snippets
 
         public static string SmallRandomValues(int n)
         {
-            return new Decimal(RandomSupplier.Randomer.Next() % 500).ToString();
+            return new Decimal(RandomSupplier.Instance.GetNextInt() % 500).ToString();
         }
 
     }

@@ -24,3 +24,16 @@ C:\src\dba\trunk\SQLConnectionStringBuilderGUI\ConnectionStringCreatorGUI\obj\Re
 C:\src\dba\trunk\SQLConnectionStringBuilderGUI\ConnectionStringCreatorGUI\obj\Release\ConnectionStringCreatorGUI.g.resources
 C:\src\dba\trunk\SQLConnectionStringBuilderGUI\ConnectionStringCreatorGUI\obj\Release\ConnectionStringCreatorGUI.dll
 C:\src\dba\trunk\SQLConnectionStringBuilderGUI\ConnectionStringCreatorGUI\obj\Release\ConnectionStringCreatorGUI.pdb
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLConnectionStringBuilderGUI\ConnectionStringCreatorGUI\bin\Release\ConnectionStringCreatorGUI.dll
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLConnectionStringBuilderGUI\ConnectionStringCreatorGUI\bin\Release\ConnectionStringCreatorGUI.pdb
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLConnectionStringBuilderGUI\ConnectionStringCreatorGUI\obj\Release\ResolveAssemblyReference.cache
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLConnectionStringBuilderGUI\ConnectionStringCreatorGUI\obj\Release\ConnectionStringBuilderWindow.g.cs
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLConnectionStringBuilderGUI\ConnectionStringCreatorGUI\obj\Release\SqlConnectionStringBuilder.g.cs
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLConnectionStringBuilderGUI\ConnectionStringCreatorGUI\obj\Release\GeneratedInternalTypeHelper.g.cs
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLConnectionStringBuilderGUI\ConnectionStringCreatorGUI\obj\Release\ConnectionStringCreatorGUI_MarkupCompile.cache
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLConnectionStringBuilderGUI\ConnectionStringCreatorGUI\obj\Release\ConnectionStringCreatorGUI_MarkupCompile.lref
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLConnectionStringBuilderGUI\ConnectionStringCreatorGUI\obj\Release\ConnectionStringBuilderWindow.baml
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLConnectionStringBuilderGUI\ConnectionStringCreatorGUI\obj\Release\SqlConnectionStringBuilder.baml
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLConnectionStringBuilderGUI\ConnectionStringCreatorGUI\obj\Release\ConnectionStringCreatorGUI.g.resources
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLConnectionStringBuilderGUI\ConnectionStringCreatorGUI\obj\Release\ConnectionStringCreatorGUI.dll
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLConnectionStringBuilderGUI\ConnectionStringCreatorGUI\obj\Release\ConnectionStringCreatorGUI.pdb

@@ -29,7 +29,7 @@ namespace SQLRepeater.Snippets
 
         public static string RandomSmallInt(int n)
         {
-            return (RandomSupplier.Randomer.Next() % short.MaxValue).ToString(); 
+            return (RandomSupplier.Instance.GetNextInt() % short.MaxValue).ToString(); 
         }
     }
 }

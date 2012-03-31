@@ -24,7 +24,7 @@ namespace SQLRepeater.Snippets
 
         public static string RandomBoolean(int n)
         {
-            return (RandomSupplier.Randomer.Next() % 2 == 0).ToString();
+            return (RandomSupplier.Instance.GetNextInt() % 2 == 0).ToString();
         }
     }
 }
