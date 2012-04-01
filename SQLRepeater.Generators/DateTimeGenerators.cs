@@ -27,37 +27,37 @@ namespace SQLRepeater.Generators
             Generators.Add(MinutesSeries);
             Generators.Add(SecondsSeries);
             Generators.Add(MiliSecondSeries);
-        }      
+        }
 
-        public static string CurrentDate(int n)
+        public static string CurrentDate(int n, object param)
         {
             return DateTime.Now.ToString();
         }
 
-        public static string RandomDates(int n)
+        public static string RandomDates(int n, object param)
         {
             return StartDate.AddDays(RandomSupplier.Instance.GetNextInt() % 30).ToString();
         }
 
-        public static string SecondsSeries(int n)
+        public static string SecondsSeries(int n, object param)
         {
             return StartDate.AddSeconds(n).ToString();
         }
-        public static string MiliSecondSeries(int n)
+        public static string MiliSecondSeries(int n, object param)
         {
             return StartDate.AddMilliseconds(n).ToString();
         }
-        public static string MinutesSeries(int n)
+        public static string MinutesSeries(int n, object param)
         {
             return StartDate.AddMinutes(n).ToString();
         }
 
-        public static string HourSeries(int n)
+        public static string HourSeries(int n, object param)
         {
             return StartDate.AddHours(n).ToString();
         }
 
-        public static string DaySeries(int n)
+        public static string DaySeries(int n, object param)
         {
              return StartDate.AddDays(n).ToString();
         }

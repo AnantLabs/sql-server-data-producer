@@ -42,6 +42,7 @@ namespace SQLRepeater.Entities
             }
         }
 
+
         bool _isIdentity;
         [System.ComponentModel.ReadOnly(true)]
         public bool IsIdentity

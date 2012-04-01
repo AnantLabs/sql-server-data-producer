@@ -16,12 +16,12 @@ namespace SQLRepeater.Generators
             Generators.Add(RandomSmallInt);
         }
 
-        public static string UpCounter(int n)
+        public static string UpCounter(int n, object param)
         {
             return (n % byte.MaxValue).ToString();
         }
 
-        public static string RandomSmallInt(int n)
+        public static string RandomSmallInt(int n, object param)
         {
             return (RandomSupplier.Instance.GetNextInt() % byte.MaxValue).ToString(); 
         }

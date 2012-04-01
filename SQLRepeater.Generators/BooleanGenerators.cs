@@ -17,12 +17,12 @@ namespace SQLRepeater.Generators
             Generators.Add(EveryOtherTrueEveryOtherFalse);
         }
 
-        public static string EveryOtherTrueEveryOtherFalse(int n)
+        public static string EveryOtherTrueEveryOtherFalse(int n, object param)
         {
             return (n % 2 == 0).ToString();
         }
 
-        public static string RandomBoolean(int n)
+        public static string RandomBoolean(int n, object param)
         {
             return (RandomSupplier.Instance.GetNextInt() % 2 == 0).ToString();
         }

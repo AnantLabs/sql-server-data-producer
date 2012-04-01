@@ -17,17 +17,17 @@ namespace SQLRepeater.Generators
             Generators.Add(RandomSmallInt);
         }
 
-        public static string UpCounter(int n)
+        public static string UpCounter(int n, object genParameter)
         {
             return (n % short.MaxValue).ToString();
         }
 
-        public static string DownCounter(int n)
+        public static string DownCounter(int n, object genParameter)
         {
             return (1-(n % short.MaxValue)).ToString();
         }
 
-        public static string RandomSmallInt(int n)
+        public static string RandomSmallInt(int n, object genParameter)
         {
             return (RandomSupplier.Instance.GetNextInt() % short.MaxValue).ToString(); 
         }

@@ -21,7 +21,9 @@
         <Label Content="{Binding CurrentColumnEntity.ColumnName}" ></Label>
 
         <!--<TextBox Grid.Row="1" Text="{Binding CurrentColumnEntity.ColumnValue.Value}" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" />-->
-        <DataGrid Grid.Row="1" ItemsSource="{Binding CurrentColumnEntity.GeneratorParameter}" />
+        <!--<DataGrid Grid.Row="1" ItemsSource="{Binding CurrentColumnEntity.GeneratorParameter}" />-->
+        <ContentControl Grid.Row="1"  Content="{Binding Configurator}"/>
+        
         <GroupBox Header="Use snippet:" Grid.Column="1" Grid.Row="1" BorderThickness="0" 
                   >
             <ComboBox ItemsSource="{Binding DataGenerationGenerators}"

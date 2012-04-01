@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SQLRepeater.Entities.ValueGeneratorParameters
 {
-    public class IntParameter : ValueGeneratorParameterBase
+    public class IntParameter : EntityBase
     {
         int _maxValue;
         public int MaxValue

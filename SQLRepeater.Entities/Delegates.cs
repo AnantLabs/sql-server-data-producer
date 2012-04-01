@@ -5,5 +5,5 @@ using System.Text;
 
 namespace SQLRepeater
 {
-    public delegate string ValueCreatorDelegate(int n);
+    public delegate string ValueCreatorDelegate(int n, object genParameter);
 }

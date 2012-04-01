@@ -5,10 +5,12 @@ using System.Text;
 using System.ComponentModel;
 using SQLRepeater.Entities;
 using System.Collections.ObjectModel;
+using SQLRepeater.Controls.GeneratorConfigurationControls;
+using SQLRepeater.Entities.ValueGeneratorParameters;
 
 namespace SQLRepeater 
 {
-    public class ColumnEntityValueConfigurationViewModel : INotifyPropertyChanged
+    public class ValueEntityConfigurationViewModel : INotifyPropertyChanged
     {
         ColumnEntity _currentColumn;
         public ColumnEntity CurrentColumnEntity
@@ -44,13 +46,30 @@ namespace SQLRepeater
             }
         }
 
+        private System.Windows.Controls.Control _configurator;
+
+        public System.Windows.Controls.Control Configurator
+        {
+            get { return _configurator; }
+            set 
+            {
+                if (_configurator != value)
+                {
+                    _configurator = value;
+                    OnPropertyChanged("Configurator");
+                }
+                    
+            }
+        }
 
 
-        public ColumnEntityValueConfigurationViewModel(ColumnEntity colEntity)
+        public ValueEntityConfigurationViewModel(ColumnEntity colEntity)
         {
             this.CurrentColumnEntity = colEntity;
             DataGenerationGenerators = Generators.Generatorsupplier.GetGeneratorsForDataType(colEntity.ColumnDataType);
             CurrentColumnEntity.GeneratorParameter = Generators.Generatorsupplier.GetGeneratorParameterForDataType(colEntity.ColumnDataType);
+
+            Configurator = ConfigurationViewFactory.GetConfiguratorForColumn(CurrentColumnEntity.GeneratorParameter);
         }
 
        

@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\App.xaml
-2-726044106
+7-435866231
 
-131582305112
+19219108091
 20960107748
-MainWindow.xaml;ValueEntityConfigurationView.xaml;
+Controls\GeneratorConfigurationControls\BooleanConfiguration.xaml;Controls\GeneratorConfigurationControls\DateTimeConfiguration.xaml;Controls\GeneratorConfigurationControls\DecimalConfiguration.xaml;Controls\GeneratorConfigurationControls\IntConfiguration.xaml;Controls\GeneratorConfigurationControls\StringConfiguration.xaml;MainWindow.xaml;ValueEntityConfigurationView.xaml;
 
 True
 

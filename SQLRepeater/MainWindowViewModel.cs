@@ -244,7 +244,7 @@ namespace SQLRepeater
                 {
                     ColumnEntityValueConfigurationView valueEditView = 
                         new ColumnEntityValueConfigurationView(
-                            new ColumnEntityValueConfigurationViewModel(colEntity));
+                            new ValueEntityConfigurationViewModel(colEntity));
                     valueEditView.Show();
                 });
 

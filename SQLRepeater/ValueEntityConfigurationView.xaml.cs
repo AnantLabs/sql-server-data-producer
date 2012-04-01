@@ -18,8 +18,8 @@ namespace SQLRepeater
     /// </summary>
     public partial class ColumnEntityValueConfigurationView : Window
     {
-        private ColumnEntityValueConfigurationViewModel _viewModel;
-        public ColumnEntityValueConfigurationView(ColumnEntityValueConfigurationViewModel vm)
+        private ValueEntityConfigurationViewModel _viewModel;
+        public ColumnEntityValueConfigurationView(ValueEntityConfigurationViewModel vm)
         {
             _viewModel = vm;
             Loaded += new RoutedEventHandler(ValueEntityConfigurationView_Loaded);

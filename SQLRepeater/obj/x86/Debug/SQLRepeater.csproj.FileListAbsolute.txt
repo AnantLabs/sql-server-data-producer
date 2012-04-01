@@ -60,3 +60,13 @@ E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\bin\Debug\resources
 E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\bin\Debug\resources\MaleNames.txt
 E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\bin\Debug\SQLRepeater.Generators.dll
 E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\bin\Debug\SQLRepeater.Generators.pdb
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\obj\x86\Debug\Controls\GeneratorConfigurationControls\DateTimeConfiguration.baml
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\obj\x86\Debug\Controls\GeneratorConfigurationControls\DecimalConfiguration.baml
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\obj\x86\Debug\Controls\GeneratorConfigurationControls\IntConfiguration.baml
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\obj\x86\Debug\Controls\GeneratorConfigurationControls\StringConfiguration.baml
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\obj\x86\Debug\Controls\GeneratorConfigurationControls\DateTimeConfiguration.g.cs
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\obj\x86\Debug\Controls\GeneratorConfigurationControls\DecimalConfiguration.g.cs
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\obj\x86\Debug\Controls\GeneratorConfigurationControls\IntConfiguration.g.cs
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\obj\x86\Debug\Controls\GeneratorConfigurationControls\StringConfiguration.g.cs
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\obj\x86\Debug\Controls\GeneratorConfigurationControls\BooleanConfiguration.baml
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\obj\x86\Debug\Controls\GeneratorConfigurationControls\BooleanConfiguration.g.cs

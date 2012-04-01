@@ -40,29 +40,35 @@ namespace SQLRepeater.Generators
             }
         }
 
-        public static object[] GetGeneratorParameterForDataType(string dataType)
+        public static object GetGeneratorParameterForDataType(string dataType)
         {
             switch (dataType)
             {
                 case "int":
                 case "smallint":
-                case "tinyint":
+                case "tinyint":                
+                    return  new IntParameter() ;
+
+                case "bit":
+                    return new BooleanParameter();
+
                 case "decimal":
                 case "float":
-                case "bit":
-                    return new object[]   { new IntParameter() };
+                    return new DecimalParameter();
 
                 case "datetime":
                 case "datetime2":
+                    return new DateTimeParameter();
+
                 case "varchar":
                 case "nvarchar":
                 case "char":
                 case "nchar":
                 
-                    return new object[]   { new StringParameter()};
+                    return new StringParameter();
 
                 default:
-                    return new object[] { new StringParameter() };
+                    return new StringParameter();
             }
         }
     }

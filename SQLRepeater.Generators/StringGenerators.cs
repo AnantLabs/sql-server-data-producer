@@ -59,15 +59,15 @@ namespace SQLRepeater.Generators
         }
 
 
-        public static string Countries(int n)
+        public static string Countries(int n, object param)
         {
             return CountryList[n % CountryList.Count];
         }
-        public static string FemaleNames(int n)
+        public static string FemaleNames(int n, object param)
         {
             return Females[n % Females.Count];
         }
-        public static string MaleNames(int n)
+        public static string MaleNames(int n, object param)
         {
             return Males[n % Males.Count];
         }
