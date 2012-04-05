@@ -16,7 +16,7 @@ namespace SQLRepeater.Entities
         }
 
 
-        public Func<int, SqlParameter[]> GetParamCreator()
+        public Func<int, SqlParameter[]> GetParamValueCreator()
         {
             Func<int, SqlParameter[]> paramCreator = n =>
                 {

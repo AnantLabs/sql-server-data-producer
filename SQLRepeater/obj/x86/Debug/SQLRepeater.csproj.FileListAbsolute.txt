@@ -26,7 +26,6 @@ C:\src\dba\trunk\SQLRepeater\SQLRepeater\obj\x86\Debug\SQLRepeater_MarkupCompile
 C:\src\dba\trunk\SQLRepeater\SQLRepeater\obj\x86\Debug\GeneratedInternalTypeHelper.g.cs
 C:\src\dba\trunk\SQLRepeater\SQLRepeater\obj\x86\Debug\ValueEntityConfigurationView.g.cs
 C:\src\dba\trunk\SQLRepeater\SQLRepeater\obj\x86\Debug\ValueEntityConfigurationView.baml
-C:\src\dba\trunk\SQLRepeater\SQLRepeater\obj\x86\Debug\SQLRepeater_Content.g.cs
 E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\bin\Debug\SQLRepeater.exe.config
 E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\obj\x86\Debug\SQLRepeater.exe
 E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\obj\x86\Debug\SQLRepeater.pdb
@@ -70,3 +69,18 @@ E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\obj\x86\Debug\Contr
 E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\obj\x86\Debug\Controls\GeneratorConfigurationControls\StringConfiguration.g.cs
 E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\obj\x86\Debug\Controls\GeneratorConfigurationControls\BooleanConfiguration.baml
 E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater\obj\x86\Debug\Controls\GeneratorConfigurationControls\BooleanConfiguration.g.cs
+C:\src\dba\trunk\SQLRepeater\SQLRepeater\bin\Debug\resources\Countries.txt
+C:\src\dba\trunk\SQLRepeater\SQLRepeater\bin\Debug\resources\FemaleNames.txt
+C:\src\dba\trunk\SQLRepeater\SQLRepeater\bin\Debug\resources\MaleNames.txt
+C:\src\dba\trunk\SQLRepeater\SQLRepeater\bin\Debug\SQLRepeater.Generators.dll
+C:\src\dba\trunk\SQLRepeater\SQLRepeater\bin\Debug\SQLRepeater.Generators.pdb
+C:\src\dba\trunk\SQLRepeater\SQLRepeater\obj\x86\Debug\Controls\GeneratorConfigurationControls\BooleanConfiguration.baml
+C:\src\dba\trunk\SQLRepeater\SQLRepeater\obj\x86\Debug\Controls\GeneratorConfigurationControls\DateTimeConfiguration.baml
+C:\src\dba\trunk\SQLRepeater\SQLRepeater\obj\x86\Debug\Controls\GeneratorConfigurationControls\DecimalConfiguration.baml
+C:\src\dba\trunk\SQLRepeater\SQLRepeater\obj\x86\Debug\Controls\GeneratorConfigurationControls\IntConfiguration.baml
+C:\src\dba\trunk\SQLRepeater\SQLRepeater\obj\x86\Debug\Controls\GeneratorConfigurationControls\StringConfiguration.baml
+C:\src\dba\trunk\SQLRepeater\SQLRepeater\obj\x86\Debug\Controls\GeneratorConfigurationControls\BooleanConfiguration.g.cs
+C:\src\dba\trunk\SQLRepeater\SQLRepeater\obj\x86\Debug\Controls\GeneratorConfigurationControls\DateTimeConfiguration.g.cs
+C:\src\dba\trunk\SQLRepeater\SQLRepeater\obj\x86\Debug\Controls\GeneratorConfigurationControls\DecimalConfiguration.g.cs
+C:\src\dba\trunk\SQLRepeater\SQLRepeater\obj\x86\Debug\Controls\GeneratorConfigurationControls\IntConfiguration.g.cs
+C:\src\dba\trunk\SQLRepeater\SQLRepeater\obj\x86\Debug\Controls\GeneratorConfigurationControls\StringConfiguration.g.cs

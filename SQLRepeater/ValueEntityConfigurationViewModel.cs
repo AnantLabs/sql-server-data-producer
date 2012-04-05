@@ -47,7 +47,9 @@ namespace SQLRepeater
         }
 
         private System.Windows.Controls.Control _configurator;
-
+        /// <summary>
+        /// The UserControl to be used to configure the generator
+        /// </summary>
         public System.Windows.Controls.Control Configurator
         {
             get { return _configurator; }

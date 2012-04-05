@@ -60,6 +60,10 @@ namespace SQLRepeater
 
         private void GetColumnsForTable(TableEntity table)
         {
+            if (table == null)
+            {
+                return;
+            }
             if (table.Columns.Count > 0)
                 return;
 
@@ -191,7 +195,7 @@ namespace SQLRepeater
                     _executor = new TaskExecuter.TaskExecuter();
 
                     Action<int> sqlTask = _executor.CreateSQLTask(sql
-                        , SelectedTable.GetParamCreator() 
+                        , SelectedTable.GetParamValueCreator() 
                         , ConnectionString);
 
                     IsQueryRunning = true;

@@ -8,3 +8,13 @@ E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater.Generators\bin\Debu
 E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater.Generators\obj\Debug\ResolveAssemblyReference.cache
 E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater.Generators\obj\Debug\SQLRepeater.Generators.dll
 E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater.Generators\obj\Debug\SQLRepeater.Generators.pdb
+C:\src\dba\trunk\SQLRepeater\SQLRepeater.Generators\bin\Debug\resources\Countries.txt
+C:\src\dba\trunk\SQLRepeater\SQLRepeater.Generators\bin\Debug\resources\FemaleNames.txt
+C:\src\dba\trunk\SQLRepeater\SQLRepeater.Generators\bin\Debug\resources\MaleNames.txt
+C:\src\dba\trunk\SQLRepeater\SQLRepeater.Generators\bin\Debug\SQLRepeater.Generators.dll
+C:\src\dba\trunk\SQLRepeater\SQLRepeater.Generators\bin\Debug\SQLRepeater.Generators.pdb
+C:\src\dba\trunk\SQLRepeater\SQLRepeater.Generators\bin\Debug\SQLRepeater.Entities.dll
+C:\src\dba\trunk\SQLRepeater\SQLRepeater.Generators\bin\Debug\SQLRepeater.Entities.pdb
+C:\src\dba\trunk\SQLRepeater\SQLRepeater.Generators\obj\Debug\ResolveAssemblyReference.cache
+C:\src\dba\trunk\SQLRepeater\SQLRepeater.Generators\obj\Debug\SQLRepeater.Generators.dll
+C:\src\dba\trunk\SQLRepeater\SQLRepeater.Generators\obj\Debug\SQLRepeater.Generators.pdb
