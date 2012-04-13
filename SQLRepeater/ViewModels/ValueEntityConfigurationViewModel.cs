@@ -7,6 +7,7 @@ using SQLRepeater.Entities;
 using System.Collections.ObjectModel;
 using SQLRepeater.Controls.GeneratorConfigurationControls;
 using SQLRepeater.Entities.ValueGeneratorParameters;
+using SQLRepeater.DatabaseEntities.Entities;
 
 namespace SQLRepeater 
 {

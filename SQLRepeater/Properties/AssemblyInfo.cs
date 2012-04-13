@@ -10,9 +10,9 @@ using System.Windows;
 [assembly: AssemblyTitle("SQLRepeater")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Net Entertainment NE, AB")]
+[assembly: AssemblyCompany("Peter Henell")]
 [assembly: AssemblyProduct("SQLRepeater")]
-[assembly: AssemblyCopyright("Copyright © Net Entertainment NE, AB 2012")]
+[assembly: AssemblyCopyright("Peter Henell")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

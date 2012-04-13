@@ -5,6 +5,7 @@ using System.Text;
 using SQLRepeater.Entities;
 using System.Data.SqlClient;
 using System.Collections.ObjectModel;
+using SQLRepeater.DatabaseEntities.Entities;
 
 namespace SQLRepeater.DataAccess
 {

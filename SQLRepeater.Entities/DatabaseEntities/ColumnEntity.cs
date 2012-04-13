@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SQLRepeater.Entities
+namespace SQLRepeater.DatabaseEntities.Entities
 {
-    public partial class ColumnEntity : EntityBase
+    public partial class ColumnEntity : SQLRepeater.Entities.EntityBase
     {
         string _columnDataType;
         [System.ComponentModel.ReadOnly(true)]

@@ -75,15 +75,29 @@
     </Compile>
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Converters\VisibilityConverter.cs" />
+    <Compile Include="Model\ApplicationModel.cs" />
     <Compile Include="SQLRepeaterSettings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>SQLRepeaterSettings.settings</DependentUpon>
     </Compile>
-    <Compile Include="ValueEntityConfigurationView.xaml.cs">
+    <Compile Include="ViewModels\SidePanelViewModel.cs" />
+    <Compile Include="Views\SidePanelView.xaml.cs">
+      <DependentUpon>SidePanelView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ValueEntityConfigurationView.xaml.cs">
       <DependentUpon>ValueEntityConfigurationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ValueEntityConfigurationViewModel.cs" />
+    <Compile Include="ViewModels\ValueEntityConfigurationViewModel.cs" />
+    <Compile Include="ViewModels\ExecutionDetailsViewModel.cs" />
+    <Compile Include="ViewModels\ExecutionOrderViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="Views\ExecutionDetailsView.xaml.cs">
+      <DependentUpon>ExecutionDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ExecutionOrderView.xaml.cs">
+      <DependentUpon>ExecutionOrderView.xaml</DependentUpon>
+    </Compile>
     <Page Include="Controls\GeneratorConfigurationControls\BooleanConfiguration.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -117,13 +131,25 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="ValueEntityConfigurationView.xaml">
+    <Page Include="Views\SidePanelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ValueEntityConfigurationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ExecutionDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ExecutionOrderView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -178,6 +204,7 @@
       <Name>SQLRepeater.TaskExecuter</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

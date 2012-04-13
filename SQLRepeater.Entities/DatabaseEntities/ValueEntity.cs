@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SQLRepeater.Entities.ValueGeneratorParameters;
+using SQLRepeater.Entities;
 
-namespace SQLRepeater.Entities
+namespace SQLRepeater.DatabaseEntities.Entities
 {
     public partial class ValueEntity : EntityBase
     {
@@ -27,22 +28,22 @@ namespace SQLRepeater.Entities
             }
         }
 
-        object[] _valueGeneratorParameter;
-        public object[] ValueGeneratorParameter
-        {
-            get
-            {
-                return _valueGeneratorParameter;
-            }
-            set
-            {
-                if (_valueGeneratorParameter != value)
-                {
-                    _valueGeneratorParameter = value;
-                    OnPropertyChanged("ValueGeneratorParameter");
-                }
-            }
-        }
+        //object[] _valueGeneratorParameter;
+        //public object[] ValueGeneratorParameter
+        //{
+        //    get
+        //    {
+        //        return _valueGeneratorParameter;
+        //    }
+        //    set
+        //    {
+        //        if (_valueGeneratorParameter != value)
+        //        {
+        //            _valueGeneratorParameter = value;
+        //            OnPropertyChanged("ValueGeneratorParameter");
+        //        }
+        //    }
+        //}
 
         
 

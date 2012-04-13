@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\src\dba\trunk\SQLRepeater\SQLRepeater\obj\x86\Debug\
+C:\src\GIT\sql-server-data-producer\SQLRepeater\obj\x86\Debug\
 SQLRepeater
 none
 false
 DEBUG;TRACE
-C:\src\dba\trunk\SQLRepeater\SQLRepeater\App.xaml
-7-435866231
+C:\src\GIT\sql-server-data-producer\SQLRepeater\App.xaml
+10-800429835
 
-19-846842307
-20-389641437
-Controls\GeneratorConfigurationControls\BooleanConfiguration.xaml;Controls\GeneratorConfigurationControls\DateTimeConfiguration.xaml;Controls\GeneratorConfigurationControls\DecimalConfiguration.xaml;Controls\GeneratorConfigurationControls\IntConfiguration.xaml;Controls\GeneratorConfigurationControls\StringConfiguration.xaml;MainWindow.xaml;ValueEntityConfigurationView.xaml;
+251302334446
+202050623850
+Controls\GeneratorConfigurationControls\BooleanConfiguration.xaml;Controls\GeneratorConfigurationControls\DateTimeConfiguration.xaml;Controls\GeneratorConfigurationControls\DecimalConfiguration.xaml;Controls\GeneratorConfigurationControls\IntConfiguration.xaml;Controls\GeneratorConfigurationControls\StringConfiguration.xaml;MainWindow.xaml;Views\SidePanelView.xaml;Views\ValueEntityConfigurationView.xaml;Views\ExecutionDetailsView.xaml;Views\ExecutionOrderView.xaml;
 
 True
 

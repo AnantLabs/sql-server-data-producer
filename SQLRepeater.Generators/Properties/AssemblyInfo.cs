@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("SQLRepeater.Generators")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Peter Henell")]
 [assembly: AssemblyProduct("SQLRepeater.Generators")]
-[assembly: AssemblyCopyright("Copyright ©  2012")]
+[assembly: AssemblyCopyright("Peter Henell")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

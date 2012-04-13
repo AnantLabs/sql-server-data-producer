@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using SQLRepeater.Entities;
 using System.Data.SqlClient;
+using SQLRepeater.DatabaseEntities.Entities;
 
 namespace SQLRepeater.EntityQueryGenerator
 {

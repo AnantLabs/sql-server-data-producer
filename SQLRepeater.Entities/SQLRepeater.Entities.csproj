@@ -40,18 +40,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ColumnEntity.cs" />
+    <Compile Include="DatabaseEntities\ColumnEntity.cs" />
+    <Compile Include="ExecutionOrderEntities\ExecutionItem.cs" />
     <Compile Include="Delegates.cs" />
     <Compile Include="EntityBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TableEntity.cs" />
+    <Compile Include="DatabaseEntities\TableEntity.cs" />
     <Compile Include="ValueGeneratorParameters\BooleanParameter.cs" />
     <Compile Include="ValueGeneratorParameters\DateTimeParameter.cs" />
     <Compile Include="ValueGeneratorParameters\DecimalParameter.cs" />
     <Compile Include="ValueGeneratorParameters\StringParameter.cs" />
     <Compile Include="ValueGeneratorParameters\IntParameter.cs" />
-    <Compile Include="ValueEntity.cs" />
+    <Compile Include="DatabaseEntities\ValueEntity.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

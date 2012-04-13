@@ -5,9 +5,9 @@ using System.Text;
 using System.Collections.ObjectModel;
 using System.Data.SqlClient;
 
-namespace SQLRepeater.Entities
+namespace SQLRepeater.DatabaseEntities.Entities
 {
-    public class TableEntity : EntityBase
+    public class TableEntity : SQLRepeater.Entities.EntityBase
     {
 
         public TableEntity()

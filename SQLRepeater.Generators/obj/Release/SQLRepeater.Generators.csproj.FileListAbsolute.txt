@@ -8,3 +8,13 @@ E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater.Generators\bin\Rele
 E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater.Generators\obj\Release\ResolveAssemblyReference.cache
 E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater.Generators\obj\Release\SQLRepeater.Generators.dll
 E:\Source\GitGoogleCode\sql-server-data-producer\SQLRepeater.Generators\obj\Release\SQLRepeater.Generators.pdb
+C:\src\GIT\sql-server-data-producer\SQLRepeater.Generators\bin\Release\resources\Countries.txt
+C:\src\GIT\sql-server-data-producer\SQLRepeater.Generators\bin\Release\resources\FemaleNames.txt
+C:\src\GIT\sql-server-data-producer\SQLRepeater.Generators\bin\Release\resources\MaleNames.txt
+C:\src\GIT\sql-server-data-producer\SQLRepeater.Generators\bin\Release\SQLRepeater.Generators.dll
+C:\src\GIT\sql-server-data-producer\SQLRepeater.Generators\bin\Release\SQLRepeater.Generators.pdb
+C:\src\GIT\sql-server-data-producer\SQLRepeater.Generators\bin\Release\SQLRepeater.Entities.dll
+C:\src\GIT\sql-server-data-producer\SQLRepeater.Generators\bin\Release\SQLRepeater.Entities.pdb
+C:\src\GIT\sql-server-data-producer\SQLRepeater.Generators\obj\Release\ResolveAssemblyReference.cache
+C:\src\GIT\sql-server-data-producer\SQLRepeater.Generators\obj\Release\SQLRepeater.Generators.dll
+C:\src\GIT\sql-server-data-producer\SQLRepeater.Generators\obj\Release\SQLRepeater.Generators.pdb
