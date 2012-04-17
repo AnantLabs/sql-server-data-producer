@@ -11,6 +11,7 @@ namespace SQLRepeater.Generators
             switch (dataType)
             {
                 case "int":
+                case "bigint":
                     return Generators.IntGenerators.Generators;
 
                 case "smallint":
@@ -46,6 +47,7 @@ namespace SQLRepeater.Generators
             switch (dataType)
             {
                 case "int":
+                case "bigint":
                     return Generators.IntGenerators.Generators.First();
 
                 case "smallint":

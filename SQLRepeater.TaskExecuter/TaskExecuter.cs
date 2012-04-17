@@ -83,11 +83,11 @@ namespace SQLRepeater.TaskExecuter
 
                     using (SqlCommand cmd = new SqlCommand(finalResult, con))
                     {
-                        //cmd.Connection.Open();
-                        //cmd.ExecuteNonQuery();
+                        ////cmd.Connection.Open();
+                        ////cmd.ExecuteNonQuery();
 
-                        Console.WriteLine(finalResult);
-                        System.IO.File.WriteAllText(string.Format(@"c:\temp\test{0}.sql", n), finalResult);
+                        //Console.WriteLine(finalResult);
+                        //System.IO.File.WriteAllText(string.Format(@"c:\temp\test{0}.sql", n), finalResult);
                     }
                 }
             });
