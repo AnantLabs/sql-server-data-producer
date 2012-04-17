@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQLRepeater.Generators", "S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsoleApplication", "ConsoleApplication1\TestConsoleApplication.csproj", "{4424FACB-FF8D-48A2-BAF7-F98594F34E3F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQLRepeater.Delegates", "SQLRepeater.Delegates\SQLRepeater.Delegates.csproj", "{A274312E-C585-49E6-AF3C-B6556D905B67}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -107,6 +109,16 @@ Global
 		{4424FACB-FF8D-48A2-BAF7-F98594F34E3F}.Release|Mixed Platforms.Build.0 = Release|x86
 		{4424FACB-FF8D-48A2-BAF7-F98594F34E3F}.Release|x86.ActiveCfg = Release|x86
 		{4424FACB-FF8D-48A2-BAF7-F98594F34E3F}.Release|x86.Build.0 = Release|x86
+		{A274312E-C585-49E6-AF3C-B6556D905B67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A274312E-C585-49E6-AF3C-B6556D905B67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A274312E-C585-49E6-AF3C-B6556D905B67}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{A274312E-C585-49E6-AF3C-B6556D905B67}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{A274312E-C585-49E6-AF3C-B6556D905B67}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A274312E-C585-49E6-AF3C-B6556D905B67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A274312E-C585-49E6-AF3C-B6556D905B67}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A274312E-C585-49E6-AF3C-B6556D905B67}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{A274312E-C585-49E6-AF3C-B6556D905B67}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{A274312E-C585-49E6-AF3C-B6556D905B67}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

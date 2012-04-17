@@ -7,7 +7,7 @@ using SQLRepeater.Entities.ValueGeneratorParameters;
 
 namespace SQLRepeater.Generators
 {
-    public class DecimalGenerators 
+    public class DecimalGenerators : GeneratorBase
     {
         public static ObservableCollection<ValueCreatorDelegate> Generators { get; set; }
 
@@ -20,11 +20,11 @@ namespace SQLRepeater.Generators
         }
 
 
-        public static string UpCounter(int n, object param)
+        public static object UpCounter(int n, object param)
         {
             DecimalParameter p = ObjectToDecimalParameter(param);
             // we can now use parameter while generating the values
-            return new Decimal(n).ToString();
+            return Wrap(new Decimal(n));
         }
 
         private static DecimalParameter ObjectToDecimalParameter(object param)
@@ -35,14 +35,14 @@ namespace SQLRepeater.Generators
             return param as DecimalParameter;
         }
 
-        public static string DownCounter(int n, object param)
+        public static object DownCounter(int n, object param)
         {
-            return new Decimal(0-n).ToString();
+            return Wrap(new Decimal(0 - n));
         }
 
-        public static string SmallRandomValues(int n, object param)
+        public static object SmallRandomValues(int n, object param)
         {
-            return new Decimal(RandomSupplier.Instance.GetNextInt() % 500).ToString();
+            return Wrap(new Decimal(RandomSupplier.Instance.GetNextInt() % 500));
         }
 
     }

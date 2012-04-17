@@ -8,6 +8,7 @@ using SQLRepeater.DatabaseEntities.Entities;
 using SQLRepeater.DataAccess;
 using SQLRepeater.TaskExecuter;
 using System.Data.SqlClient;
+using System.Collections.ObjectModel;
 
 namespace TestConsoleApplication
 {
@@ -16,24 +17,17 @@ namespace TestConsoleApplication
         
         static void Main(string[] args)
         {
-            List<ExecutionItem> lits = new List<ExecutionItem>(); ;
-
             TableEntityDataAccess tda = new TableEntityDataAccess( Connection());
 
-            TableEntity table = tda.GetTableAndColumns("core", "eventlog");
-            TableEntity table2 = tda.GetTableAndColumns("core", "staff");
+            ObservableCollection<TableEntity> tables = tda.GetAllTablesWithColumns();
 
-            lits.Add(new ExecutionItem(table, 1));
-            lits.Add(new ExecutionItem(table2, 2));
-
-
+            ObservableCollection<ExecutionItem> list = ExecutionItem.FromTables(tables);
             TaskExecuter executor = new TaskExecuter();
 
-
             InsertQueryGenerator queryGenerator = new InsertQueryGenerator();
-            string result = queryGenerator.GenerateQueryForExecutionItems(lits);
+            string result = queryGenerator.GenerateQueryForExecutionItems(list);
 
-            Action<int> a = executor.CreateSQLTaskForExecutionItems(lits, result, Connection());
+            Action<int> a = executor.CreateSQLTaskForExecutionItems(list, result, Connection());
 
             for (int n = 0; n < 10; n++)
             {

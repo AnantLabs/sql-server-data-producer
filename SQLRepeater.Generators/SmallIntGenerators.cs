@@ -6,7 +6,7 @@ using SQLRepeater.Entities.ValueGeneratorParameters;
 
 namespace SQLRepeater.Generators
 {
-    public class SmallIntGenerators 
+    public class SmallIntGenerators : GeneratorBase
     {
         public static System.Collections.ObjectModel.ObservableCollection<ValueCreatorDelegate> Generators { get; set; }
 
@@ -19,25 +19,25 @@ namespace SQLRepeater.Generators
             Generators.Add(StaticNumber);
         }
 
-        public static string UpCounter(int n, object genParameter)
+        public static object UpCounter(int n, object genParameter)
         {
-            return (n % short.MaxValue).ToString();
+            return (n % short.MaxValue);
         }
 
-        public static string DownCounter(int n, object genParameter)
+        public static object DownCounter(int n, object genParameter)
         {
-            return (1-(n % short.MaxValue)).ToString();
+            return (1-(n % short.MaxValue));
         }
 
-        public static string RandomSmallInt(int n, object genParameter)
+        public static object RandomSmallInt(int n, object genParameter)
         {
-            return (RandomSupplier.Instance.GetNextInt() % short.MaxValue).ToString(); 
+            return (RandomSupplier.Instance.GetNextInt() % short.MaxValue); 
         }
 
-        public static string StaticNumber(int n, object param)
+        public static object StaticNumber(int n, object param)
         {
             IntParameter p = ObjectToIntParameter(param);
-            return p.MinValue.ToString();
+            return Wrap(p.MinValue);
         }
 
         private static IntParameter ObjectToIntParameter(object param)

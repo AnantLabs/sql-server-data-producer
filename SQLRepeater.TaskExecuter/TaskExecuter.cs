@@ -106,7 +106,8 @@ namespace SQLRepeater.TaskExecuter
             {
                 foreach (ColumnEntity col in tabl.TargetTable.Columns)
                 {
-                    sb.AppendFormat("DECLARE @i{0}_{1} {2} = '{3}' \n", tabl.Order, col.ColumnName, col.ColumnDataType, col.ValueGenerator(n, col.GeneratorParameter));
+                    sb.AppendFormat("DECLARE @i{0}_{1} {2} = {3}", tabl.Order, col.ColumnName, col.ColumnDataType, col.ValueGenerator(n, col.GeneratorParameter));
+                    sb.AppendLine();
                 }
                 sb.AppendLine();
             }

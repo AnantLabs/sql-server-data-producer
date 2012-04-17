@@ -6,7 +6,7 @@ using System.Collections.ObjectModel;
 
 namespace SQLRepeater.Generators
 {
-    public class DateTimeGenerators
+    public class DateTimeGenerators : GeneratorBase
     {
 
         private static DateTime _currentDate = DateTime.Now;
@@ -29,37 +29,37 @@ namespace SQLRepeater.Generators
             Generators.Add(MiliSecondSeries);
         }
 
-        public static string CurrentDate(int n, object param)
+        public static object CurrentDate(int n, object param)
         {
-            return DateTime.Now.ToString();
+            return Wrap(DateTime.Now);
         }
 
-        public static string RandomDates(int n, object param)
+        public static object RandomDates(int n, object param)
         {
-            return StartDate.AddDays(RandomSupplier.Instance.GetNextInt() % 30).ToString();
+            return Wrap(StartDate.AddDays(RandomSupplier.Instance.GetNextInt() % 30));
         }
 
-        public static string SecondsSeries(int n, object param)
+        public static object SecondsSeries(int n, object param)
         {
-            return StartDate.AddSeconds(n).ToString();
+            return Wrap(StartDate.AddSeconds(n));
         }
-        public static string MiliSecondSeries(int n, object param)
+        public static object MiliSecondSeries(int n, object param)
         {
-            return StartDate.AddMilliseconds(n).ToString();
+            return Wrap(StartDate.AddMilliseconds(n));
         }
-        public static string MinutesSeries(int n, object param)
+        public static object MinutesSeries(int n, object param)
         {
-            return StartDate.AddMinutes(n).ToString();
-        }
-
-        public static string HourSeries(int n, object param)
-        {
-            return StartDate.AddHours(n).ToString();
+            return Wrap(StartDate.AddMinutes(n));
         }
 
-        public static string DaySeries(int n, object param)
+        public static object HourSeries(int n, object param)
         {
-             return StartDate.AddDays(n).ToString();
+            return Wrap(StartDate.AddHours(n));
+        }
+
+        public static object DaySeries(int n, object param)
+        {
+            return Wrap(StartDate.AddDays(n));
         }
 
 

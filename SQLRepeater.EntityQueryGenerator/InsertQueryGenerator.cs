@@ -100,7 +100,8 @@ namespace SQLRepeater.EntityQueryGenerator
             //        )
 
             StringBuilder sb = new StringBuilder();
-            sb.AppendFormat("INSERT {0}.{1} (\n", item.TargetTable.TableSchema, item.TargetTable.TableName);
+            sb.AppendFormat("INSERT {0}.{1} (", item.TargetTable.TableSchema, item.TargetTable.TableName);
+            sb.AppendLine();
             foreach (var col in item.TargetTable.Columns.Where(x => x.IsIdentity == false))
             {
                 sb.AppendFormat("\t{0}", col.ColumnName);
@@ -110,7 +111,8 @@ namespace SQLRepeater.EntityQueryGenerator
 
             sb.Append(")");
             sb.AppendLine();
-            sb.Append("VALUES(\n");
+            sb.Append("VALUES(");
+            sb.AppendLine();
             foreach (var col in item.TargetTable.Columns.Where(x => x.IsIdentity == false))
             {
                 sb.AppendFormat("\t@i{0}_{1}", item.Order, col.ColumnName);

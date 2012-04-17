@@ -11,6 +11,7 @@ namespace SQLRepeater.DataAccess
 {
     public partial class TableEntityDataAccess : DataAccessBase
     {
+        readonly string ALL_TABLES_QUERY = "select Table_Name, Table_Schema from information_Schema.Tables order by table_Schema, table_name";
 
         public TableEntityDataAccess(string connectionString) 
             : base(connectionString)
@@ -38,7 +39,24 @@ namespace SQLRepeater.DataAccess
 
         public void BeginGetAllTables(Action<ObservableCollection<TableEntity>> callback)
         {
-            BeginGetMany("select Table_Name, Table_Schema from information_Schema.Tables order by table_Schema, table_name", CreateTableEntity, callback);
+            BeginGetMany(ALL_TABLES_QUERY, CreateTableEntity, callback);
+        }
+
+        public ObservableCollection<TableEntity> GetAllTables()
+        {
+            return GetMany(ALL_TABLES_QUERY, CreateTableEntity);
+        }
+
+        public ObservableCollection<TableEntity> GetAllTablesWithColumns()
+        {
+            ObservableCollection<TableEntity> tables = GetAllTables();
+            ColumnEntityDataAccess cda = new ColumnEntityDataAccess(_connectionString);
+            foreach (var item in tables)
+            {
+                item.Columns = cda.GetAllColumnsForTable(item);
+            }
+
+            return tables;
         }
     }
 }
