@@ -45,7 +45,7 @@ namespace TestConsoleApplication
 
         private static string Connection()
         {
-            return "Data Source=localhost;Initial Catalog=LiveCasinoDev;Integrated Security=True";
+            return "Data Source=localhost;Initial Catalog=CustomerDB;Integrated Security=True";
         }
     }
 }
