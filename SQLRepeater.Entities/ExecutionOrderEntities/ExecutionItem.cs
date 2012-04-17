@@ -43,21 +43,27 @@ namespace SQLRepeater.Entities.ExecutionOrderEntities
             }
         }
 
-        string _name;
-        public string Name
+        public ExecutionItem(TableEntity table, int order)
         {
-            get
-            {
-                return _name;
-            }
-            set
-            {
-                if (_name != value)
-                {
-                    _name = value;
-                    OnPropertyChanged("Name");
-                }
-            }
+            TargetTable = table;
+            Order = order;
         }
+
+        //string _name;
+        //public string Name
+        //{
+        //    get
+        //    {
+        //        return _name;
+        //    }
+        //    set
+        //    {
+        //        if (_name != value)
+        //        {
+        //            _name = value;
+        //            OnPropertyChanged("Name");
+        //        }
+        //    }
+        //}
     }
 }

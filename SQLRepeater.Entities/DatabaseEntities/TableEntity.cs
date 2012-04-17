@@ -27,7 +27,7 @@ namespace SQLRepeater.DatabaseEntities.Entities
                         {
                             pars.Add(new SqlParameter(
                                 string.Format("@{0}", col.ColumnName)
-                                , col.ColumnValue.ValueGenerator(n, col.GeneratorParameter)));
+                                , col.ValueGenerator(n, col.GeneratorParameter)));
                         }
                     }
 

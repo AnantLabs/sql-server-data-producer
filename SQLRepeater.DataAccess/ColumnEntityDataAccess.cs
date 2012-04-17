@@ -22,8 +22,7 @@ namespace SQLRepeater.DataAccess
                 ColumnName = reader.GetString(0),
                 ColumnDataType = reader.GetString(1),
                 OrdinalPosition = reader.GetInt32(2),
-                IsIdentity = (bool)reader["IsIdentity"] ,
-                ColumnValue = new ValueEntity()
+                IsIdentity = (bool)reader["IsIdentity"] 
             };
         };
 
@@ -38,5 +37,14 @@ namespace SQLRepeater.DataAccess
                 , callback);
         }
 
+
+        public ObservableCollection<ColumnEntity> GetAllColumnsForTable(TableEntity table)
+        {
+            return GetMany(
+                string.Format("select name As ColumnName, type_name(system_type_id), column_id as OrdinalPosition, is_identity as IsIdentity from sys.columns where object_id=object_id('{1}.{0}')"
+                        , table.TableName
+                        , table.TableSchema)
+                , CreateColumnEntity );
+        }
     }
 }

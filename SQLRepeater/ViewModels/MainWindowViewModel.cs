@@ -72,15 +72,15 @@ namespace SQLRepeater.ViewModels
         public MainWindowViewModel()
         {
             Model = new SQLRepeater.Model.ApplicationModel();
-            CurrentExecutionDetailVM = new ExecutionDetailsViewModel(Model);
+            //CurrentExecutionDetailVM = new ExecutionDetailsViewModel(Model, null);
             ExecutionOrderVM = new ExecutionOrderViewModel(Model);
 
             Model.ExecutionItems = new ObservableCollection<ExecutionItem>();
-            Model.ExecutionItems.Add(new ExecutionItem { Name = "Peter2", Order = 1, TargetTable = new DatabaseEntities.Entities.TableEntity { TableName = "PetersTable1", TableSchema = "dbo" } });
-            Model.ExecutionItems.Add(new ExecutionItem { Name = "Peter3", Order = 1, TargetTable = new DatabaseEntities.Entities.TableEntity { TableName = "Ollese", TableSchema = "dbo" } });
-            Model.ExecutionItems.Add(new ExecutionItem { Name = "Peter4", Order = 1, TargetTable = new DatabaseEntities.Entities.TableEntity { TableName = "Peeele34", TableSchema = "dbo" } });
-            Model.ExecutionItems.Add(new ExecutionItem { Name = "Peter5", Order = 1, TargetTable = new DatabaseEntities.Entities.TableEntity { TableName = "PeeTable4", TableSchema = "dbo" } });
-            Model.ExecutionItems.Add(new ExecutionItem { Name = "Peter6", Order = 1, TargetTable = new DatabaseEntities.Entities.TableEntity { TableName = "Pe3e5", TableSchema = "dbo" } });
+            //Model.ExecutionItems.Add(new ExecutionItem {  Order = 1, TargetTable = new DatabaseEntities.Entities.TableEntity { TableName = "PetersTable1", TableSchema = "dbo" } });
+            //Model.ExecutionItems.Add(new ExecutionItem {  Order = 1, TargetTable = new DatabaseEntities.Entities.TableEntity { TableName = "Ollese", TableSchema = "dbo" } });
+            //Model.ExecutionItems.Add(new ExecutionItem {  Order = 1, TargetTable = new DatabaseEntities.Entities.TableEntity { TableName = "Peeele34", TableSchema = "dbo" } });
+            //Model.ExecutionItems.Add(new ExecutionItem {  Order = 1, TargetTable = new DatabaseEntities.Entities.TableEntity { TableName = "PeeTable4", TableSchema = "dbo" } });
+            //Model.ExecutionItems.Add(new ExecutionItem {  Order = 1, TargetTable = new DatabaseEntities.Entities.TableEntity { TableName = "Pe3e5", TableSchema = "dbo" } });
 
 
             OpenSqlConnectionBuilderCommand = new DelegateCommand(() =>

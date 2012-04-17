@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GeneratorBase.cs" />
     <Compile Include="BooleanGenerators.cs" />
     <Compile Include="DateTimeGenerators.cs" />
     <Compile Include="DecimalGenerators.cs" />

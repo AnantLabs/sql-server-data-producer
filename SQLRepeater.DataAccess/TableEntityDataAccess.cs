@@ -27,6 +27,15 @@ namespace SQLRepeater.DataAccess
             };
         };
 
+        public TableEntity GetTableAndColumns(string tableSchema, string tableName)
+        {
+            ColumnEntityDataAccess colDa = new ColumnEntityDataAccess(this._connectionString);
+            TableEntity table = GetOne(string.Format("select Table_Name, Table_Schema from information_Schema.Tables where table_schema = '{0}' and table_name = '{1}'", tableSchema, tableName), CreateTableEntity);
+            table.Columns = colDa.GetAllColumnsForTable(table);
+
+            return table;
+        }
+
         public void BeginGetAllTables(Action<ObservableCollection<TableEntity>> callback)
         {
             BeginGetMany("select Table_Name, Table_Schema from information_Schema.Tables order by table_Schema, table_name", CreateTableEntity, callback);

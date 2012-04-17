@@ -51,7 +51,6 @@
     <Compile Include="ValueGeneratorParameters\DecimalParameter.cs" />
     <Compile Include="ValueGeneratorParameters\StringParameter.cs" />
     <Compile Include="ValueGeneratorParameters\IntParameter.cs" />
-    <Compile Include="DatabaseEntities\ValueEntity.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

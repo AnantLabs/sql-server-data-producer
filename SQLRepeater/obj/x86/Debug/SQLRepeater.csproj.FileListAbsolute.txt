@@ -118,7 +118,6 @@ C:\src\GIT\sql-server-data-producer\SQLRepeater\obj\x86\Debug\Controls\Generator
 C:\src\GIT\sql-server-data-producer\SQLRepeater\obj\x86\Debug\Controls\GeneratorConfigurationControls\IntConfiguration.g.cs
 C:\src\GIT\sql-server-data-producer\SQLRepeater\obj\x86\Debug\Controls\GeneratorConfigurationControls\StringConfiguration.g.cs
 C:\src\GIT\sql-server-data-producer\SQLRepeater\obj\x86\Debug\MainWindow.g.cs
-C:\src\GIT\sql-server-data-producer\SQLRepeater\obj\x86\Debug\ValueEntityConfigurationView.g.cs
 C:\src\GIT\sql-server-data-producer\SQLRepeater\obj\x86\Debug\Views\ExecutionDetailsView.g.cs
 C:\src\GIT\sql-server-data-producer\SQLRepeater\obj\x86\Debug\Views\ExecutionOrderView.g.cs
 C:\src\GIT\sql-server-data-producer\SQLRepeater\obj\x86\Debug\App.g.cs
@@ -126,8 +125,11 @@ C:\src\GIT\sql-server-data-producer\SQLRepeater\obj\x86\Debug\GeneratedInternalT
 C:\src\GIT\sql-server-data-producer\SQLRepeater\obj\x86\Debug\SQLRepeater_MarkupCompile.cache
 C:\src\GIT\sql-server-data-producer\SQLRepeater\obj\x86\Debug\SQLRepeater_MarkupCompile.lref
 C:\src\GIT\sql-server-data-producer\SQLRepeater\obj\x86\Debug\MainWindow.baml
-C:\src\GIT\sql-server-data-producer\SQLRepeater\obj\x86\Debug\ValueEntityConfigurationView.baml
 C:\src\GIT\sql-server-data-producer\SQLRepeater\obj\x86\Debug\SQLRepeater.g.resources
 C:\src\GIT\sql-server-data-producer\SQLRepeater\obj\x86\Debug\SQLRepeater.Properties.Resources.resources
 C:\src\GIT\sql-server-data-producer\SQLRepeater\obj\x86\Debug\GenerateResource.read.1.tlog
 C:\src\GIT\sql-server-data-producer\SQLRepeater\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\src\GIT\sql-server-data-producer\SQLRepeater\obj\x86\Debug\Views\SidePanelView.g.cs
+C:\src\GIT\sql-server-data-producer\SQLRepeater\obj\x86\Debug\Views\ValueEntityConfigurationView.g.cs
+C:\src\GIT\sql-server-data-producer\SQLRepeater\obj\x86\Debug\Views\SidePanelView.baml
+C:\src\GIT\sql-server-data-producer\SQLRepeater\obj\x86\Debug\Views\ValueEntityConfigurationView.baml

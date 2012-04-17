@@ -116,19 +116,19 @@ namespace SQLRepeater.ViewModels
                 string sql = ig.GenerateQueryFor(Model.SelectedTable);
                 _executor = new TaskExecuter.TaskExecuter();
 
-                Action<int> sqlTask = _executor.CreateSQLTask(sql
-                    , Model.SelectedTable.GetParamValueCreator()
-                    , Model.ConnectionString);
+                //Action<int> sqlTask = _executor.CreateSQLTask(sql
+                //    , Model.SelectedTable.GetParamValueCreator()
+                //    , Model.ConnectionString);
 
-                IsQueryRunning = true;
-                _executor.BeginExecute(sqlTask
-                    , DateTime.Now.AddSeconds(DurationInSeconds)
-                    , NumTasks
-                    , count =>
-                    {
-                        IsQueryRunning = false;
-                        MessageBox.Show(count.ToString());
-                    });
+                //IsQueryRunning = true;
+                //_executor.BeginExecute(sqlTask
+                //    , DateTime.Now.AddSeconds(DurationInSeconds)
+                //    , NumTasks
+                //    , count =>
+                //    {
+                //        IsQueryRunning = false;
+                //        MessageBox.Show(count.ToString());
+                //    });
             });
 
             StopExecutionCommand = new DelegateCommand(() =>

@@ -6,4 +6,5 @@ using System.Text;
 namespace SQLRepeater
 {
     public delegate string ValueCreatorDelegate(int n, object genParameter);
+    public delegate string ValueCreatorDelegateForTable(int n, SQLRepeater.DatabaseEntities.Entities.TableEntity table, object genParameter);
 }

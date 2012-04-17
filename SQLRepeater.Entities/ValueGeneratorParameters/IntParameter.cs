@@ -40,5 +40,24 @@ namespace SQLRepeater.Entities.ValueGeneratorParameters
                 }
             }
         }
+
+
+        int _specificValue;
+        public int SpecifiedValue
+        {
+            get
+            {
+                return _specificValue;
+            }
+            set
+            {
+                if (_specificValue != value)
+                {
+                    _specificValue = value;
+                    OnPropertyChanged("SpecifiedValue");
+                }
+            }
+        }
+
     }
 }

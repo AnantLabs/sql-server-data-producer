@@ -98,21 +98,29 @@ namespace SQLRepeater.DatabaseEntities.Entities
             }
         }
 
-        ValueEntity _columnValue;
-        public ValueEntity ColumnValue
+        ValueCreatorDelegate _valueGenerator;
+        public ValueCreatorDelegate ValueGenerator
         {
             get
             {
-                return _columnValue;
+                return _valueGenerator;
             }
             set
             {
-                if (_columnValue != value)
+                if (_valueGenerator != value)
                 {
-                    _columnValue = value;
-                    OnPropertyChanged("ColumnValue");
+                    _valueGenerator = value;
+                    OnPropertyChanged("ValueGenerator");
                 }
             }
+        }
+
+        public ColumnEntity()
+        {
+            ValueGenerator = (n, p) =>
+                {
+                    return n.ToString();
+                };
         }
     }
 }

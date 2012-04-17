@@ -6,7 +6,7 @@ using SQLRepeater.Entities.ValueGeneratorParameters;
 
 namespace SQLRepeater.Generators
 {
-    public class IntGenerators 
+    public class IntGenerators : GeneratorBase
     {
         public static System.Collections.ObjectModel.ObservableCollection<ValueCreatorDelegate> Generators { get; set; }
 
@@ -17,27 +17,35 @@ namespace SQLRepeater.Generators
             Generators.Add(DownCounter);
             Generators.Add(RandomInt);
             Generators.Add(StaticNumber);
+            Generators.Add(IdentityFromExecutionItem);
         }
 
         public static string UpCounter(int n, object param)
         {
-            return n.ToString();
+            return Wrap(n);
         }
 
         public static string DownCounter(int n, object param)
         {
-            return (1-n).ToString();
+            return Wrap(0-n);
         }
 
         public static string RandomInt(int n, object param)
         {
-            return RandomSupplier.Instance.GetNextInt().ToString(); 
+            return Wrap(RandomSupplier.Instance.GetNextInt());
         }
         
         public static string StaticNumber(int n, object param)
         {
             IntParameter p = ObjectToIntParameter(param);
-            return p.MinValue.ToString();
+            return Wrap(p.SpecifiedValue);
+        }
+
+        public static string IdentityFromExecutionItem(int n, object param)
+        {
+            IntParameter p = ObjectToIntParameter(param);
+            // do not wrap
+            return string.Format("@i{0}_identity", p.SpecifiedValue);
         }
 
 

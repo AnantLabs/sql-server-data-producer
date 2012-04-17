@@ -28,6 +28,23 @@ namespace SQLRepeater.ViewModels
         }
 
 
+        ExecutionItem _execItem;
+        public ExecutionItem ExecutionItem
+        {
+            get
+            {
+                return _execItem;
+            }
+            set
+            {
+                if (_execItem != value)
+                {
+                    _execItem = value;
+                    OnPropertyChanged("ExecutionItem");
+                }
+            }
+        }
+
         public ExecutionDetailsViewModel(SQLRepeater.Model.ApplicationModel model, ExecutionItem execItem)
         {
             Model = model;
