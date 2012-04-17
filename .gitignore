@@ -1,2 +1,6 @@
 
 *.i.cs
+*.dll
+*.suo
+*.exe
+/obj/*
