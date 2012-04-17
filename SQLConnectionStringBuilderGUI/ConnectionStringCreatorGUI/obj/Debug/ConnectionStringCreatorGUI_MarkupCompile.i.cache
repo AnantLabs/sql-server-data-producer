@@ -4,7 +4,11 @@
 library
 C#
 .cs
+<<<<<<< HEAD
 C:\src\GIT\sql-server-data-producer\SQLConnectionStringBuilderGUI\ConnectionStringCreatorGUI\obj\Debug\
+=======
+E:\Source\GitGoogleCode\sql-server-data-producer\SQLConnectionStringBuilderGUI\ConnectionStringCreatorGUI\obj\Debug\
+>>>>>>> just stuff
 ConnectionStringCreatorGUI
 none
 false
@@ -12,7 +16,7 @@ DEBUG;TRACE
 
 22014650921
 
-8-2040585650
+81225015293
 132011745239
 ConnectionStringBuilderWindow.xaml;SqlConnectionStringBuilder.xaml;
 
