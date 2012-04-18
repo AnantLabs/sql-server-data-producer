@@ -42,17 +42,22 @@
   <ItemGroup>
     <Compile Include="DatabaseEntities\ColumnEntity.cs" />
     <Compile Include="ExecutionOrderEntities\ExecutionItem.cs" />
-    <Compile Include="Delegates.cs" />
     <Compile Include="EntityBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DatabaseEntities\TableEntity.cs" />
     <Compile Include="ValueGeneratorParameters\BooleanParameter.cs" />
     <Compile Include="ValueGeneratorParameters\DateTimeParameter.cs" />
     <Compile Include="ValueGeneratorParameters\DecimalParameter.cs" />
+    <Compile Include="ValueGeneratorParameters\ParameterSupplier.cs" />
     <Compile Include="ValueGeneratorParameters\StringParameter.cs" />
     <Compile Include="ValueGeneratorParameters\IntParameter.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\SQLRepeater.Delegates\SQLRepeater.Delegates.csproj">
+      <Project>{A274312E-C585-49E6-AF3C-B6556D905B67}</Project>
+      <Name>SQLRepeater.Delegates</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

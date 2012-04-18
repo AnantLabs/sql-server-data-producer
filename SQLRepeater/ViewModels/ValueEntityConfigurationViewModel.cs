@@ -70,7 +70,7 @@ namespace SQLRepeater
         {
             this.CurrentColumnEntity = colEntity;
             DataGenerationGenerators = Generators.Generatorsupplier.GetGeneratorsForDataType(colEntity.ColumnDataType);
-            CurrentColumnEntity.GeneratorParameter = Generators.Generatorsupplier.GetGeneratorParameterForDataType(colEntity.ColumnDataType);
+            CurrentColumnEntity.GeneratorParameter = ParameterSupplier.GetGeneratorParameterForDataType(colEntity.ColumnDataType);
 
             Configurator = ConfigurationViewFactory.GetConfiguratorForColumn(CurrentColumnEntity.GeneratorParameter);
         }

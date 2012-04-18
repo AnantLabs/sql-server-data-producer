@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SQLRepeater.Generators
 {
-    public class TinyIntGenerators 
+    public class TinyIntGenerators : GeneratorBase
     {
         public static System.Collections.ObjectModel.ObservableCollection<ValueCreatorDelegate> Generators { get; set; }
 
@@ -16,14 +16,14 @@ namespace SQLRepeater.Generators
             Generators.Add(RandomSmallInt);
         }
 
-        public static string UpCounter(int n, object param)
+        public static object UpCounter(int n, object param)
         {
-            return (n % byte.MaxValue).ToString();
+            return (n % byte.MaxValue);
         }
 
-        public static string RandomSmallInt(int n, object param)
+        public static object RandomSmallInt(int n, object param)
         {
-            return (RandomSupplier.Instance.GetNextInt() % byte.MaxValue).ToString(); 
+            return (RandomSupplier.Instance.GetNextInt() % byte.MaxValue); 
         }
     }
 }

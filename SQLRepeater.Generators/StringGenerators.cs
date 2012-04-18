@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SQLRepeater.Generators
 {
-    public class StringGenerators 
+    public class StringGenerators : GeneratorBase
     {
         public static System.Collections.ObjectModel.ObservableCollection<ValueCreatorDelegate> Generators { get; set; }
 
@@ -25,7 +25,7 @@ namespace SQLRepeater.Generators
                 if (_countries == null)
                 {
                     _countries = new List<string>();
-                    _countries.AddRange(System.IO.File.ReadAllLines(@".\Generators\resources\Countries.txt"));
+                    _countries.AddRange(System.IO.File.ReadAllLines(@".\resources\Countries.txt"));
                 }
                 return _countries;
             }
@@ -39,7 +39,7 @@ namespace SQLRepeater.Generators
                 if (_females == null)
                 {
                     _females = new List<string>();
-                    _females.AddRange(System.IO.File.ReadAllLines(@".\Generators\resources\FemaleNames.txt"));
+                    _females.AddRange(System.IO.File.ReadAllLines(@".\resources\FemaleNames.txt"));
                 }
                 return _females;
             }
@@ -52,24 +52,24 @@ namespace SQLRepeater.Generators
                 if (_males == null)
                 {
                     _males = new List<string>();
-                    _males.AddRange(System.IO.File.ReadAllLines(@".\Generators\resources\MaleNames.txt"));
+                    _males.AddRange(System.IO.File.ReadAllLines(@".\resources\MaleNames.txt"));
                 }
                 return _males;
             }
         }
 
 
-        public static string Countries(int n, object param)
+        public static object Countries(int n, object param)
         {
-            return CountryList[n % CountryList.Count];
+            return Wrap(CountryList[n % CountryList.Count]);
         }
-        public static string FemaleNames(int n, object param)
+        public static object FemaleNames(int n, object param)
         {
-            return Females[n % Females.Count];
+            return Wrap(Females[n % Females.Count]);
         }
-        public static string MaleNames(int n, object param)
+        public static object MaleNames(int n, object param)
         {
-            return Males[n % Males.Count];
+            return Wrap(Males[n % Males.Count]);
         }
 
     }

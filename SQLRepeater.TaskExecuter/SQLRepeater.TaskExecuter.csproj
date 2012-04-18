@@ -49,6 +49,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SQLRepeater.Delegates\SQLRepeater.Delegates.csproj">
+      <Project>{A274312E-C585-49E6-AF3C-B6556D905B67}</Project>
+      <Name>SQLRepeater.Delegates</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SQLRepeater.Entities\SQLRepeater.Entities.csproj">
       <Project>{0D135CAD-55DB-4090-BB5F-2C493A1F0072}</Project>
       <Name>SQLRepeater.Entities</Name>

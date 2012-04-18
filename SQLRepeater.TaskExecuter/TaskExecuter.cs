@@ -83,11 +83,11 @@ namespace SQLRepeater.TaskExecuter
 
                     using (SqlCommand cmd = new SqlCommand(finalResult, con))
                     {
-                        //cmd.Connection.Open();
-                        //cmd.ExecuteNonQuery();
+                        ////cmd.Connection.Open();
+                        ////cmd.ExecuteNonQuery();
 
-                        Console.WriteLine(finalResult);
-                        System.IO.File.WriteAllText(string.Format(@"c:\temp\test{0}.sql", n), finalResult);
+                        //Console.WriteLine(finalResult);
+                        //System.IO.File.WriteAllText(string.Format(@"c:\temp\test{0}.sql", n), finalResult);
                     }
                 }
             });
@@ -106,7 +106,8 @@ namespace SQLRepeater.TaskExecuter
             {
                 foreach (ColumnEntity col in tabl.TargetTable.Columns)
                 {
-                    sb.AppendFormat("DECLARE @i{0}_{1} {2} = '{3}' \n", tabl.Order, col.ColumnName, col.ColumnDataType, col.ValueGenerator(n, col.GeneratorParameter));
+                    sb.AppendFormat("DECLARE @i{0}_{1} {2} = {3}", tabl.Order, col.ColumnName, col.ColumnDataType, col.ValueGenerator(n, col.GeneratorParameter));
+                    sb.AppendLine();
                 }
                 sb.AppendLine();
             }

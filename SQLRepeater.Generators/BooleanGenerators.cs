@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SQLRepeater.Generators
 {
-    public static class BooleanGenerators
+    public class BooleanGenerators : GeneratorBase
     {
 
         public static System.Collections.ObjectModel.ObservableCollection<ValueCreatorDelegate> Generators { get; set; }
@@ -17,14 +17,14 @@ namespace SQLRepeater.Generators
             Generators.Add(EveryOtherTrueEveryOtherFalse);
         }
 
-        public static string EveryOtherTrueEveryOtherFalse(int n, object param)
+        public static object EveryOtherTrueEveryOtherFalse(int n, object param)
         {
-            return (n % 2 == 0).ToString();
+            return Wrap(n % 2 == 0);
         }
 
-        public static string RandomBoolean(int n, object param)
+        public static object RandomBoolean(int n, object param)
         {
-            return (RandomSupplier.Instance.GetNextInt() % 2 == 0).ToString();
+            return Wrap(RandomSupplier.Instance.GetNextInt() % 2 == 0);
         }
     }
 }

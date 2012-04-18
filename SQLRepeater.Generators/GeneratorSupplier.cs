@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
-using SQLRepeater.Entities.ValueGeneratorParameters;
+using System.Linq;
+//using SQLRepeater.Entities.ValueGeneratorParameters;
 
 namespace SQLRepeater.Generators
 {
@@ -10,6 +11,7 @@ namespace SQLRepeater.Generators
             switch (dataType)
             {
                 case "int":
+                case "bigint":
                     return Generators.IntGenerators.Generators;
 
                 case "smallint":
@@ -40,36 +42,41 @@ namespace SQLRepeater.Generators
             }
         }
 
-        public static object GetGeneratorParameterForDataType(string dataType)
+        public static ValueCreatorDelegate GetDefaultGeneratorForDataType(string dataType)
         {
             switch (dataType)
             {
                 case "int":
-                case "smallint":
-                case "tinyint":                
-                    return  new IntParameter() ;
+                case "bigint":
+                    return Generators.IntGenerators.Generators.First();
 
-                case "bit":
-                    return new BooleanParameter();
+                case "smallint":
+                    return Generators.SmallIntGenerators.Generators.First();
+
+                case "tinyint":
+                    return Generators.TinyIntGenerators.Generators.First();
 
                 case "decimal":
                 case "float":
-                    return new DecimalParameter();
+                    return Generators.DecimalGenerators.Generators.First();
 
                 case "datetime":
                 case "datetime2":
-                    return new DateTimeParameter();
+                    return Generators.DateTimeGenerators.Generators.First();
 
                 case "varchar":
                 case "nvarchar":
                 case "char":
                 case "nchar":
-                
-                    return new StringParameter();
+                    return Generators.StringGenerators.Generators.First();
+
+                case "bit":
+                    return Generators.BooleanGenerators.Generators.First();
 
                 default:
-                    return new StringParameter();
+                    return Generators.StringGenerators.Generators.First();
             }
         }
+
     }
 }

@@ -20,28 +20,28 @@ namespace SQLRepeater.Generators
             Generators.Add(IdentityFromExecutionItem);
         }
 
-        public static string UpCounter(int n, object param)
+        public static object UpCounter(int n, object param)
         {
-            return Wrap(n);
+            return n;
         }
 
-        public static string DownCounter(int n, object param)
+        public static object DownCounter(int n, object param)
         {
-            return Wrap(0-n);
+            return 0-n;
         }
 
-        public static string RandomInt(int n, object param)
+        public static object RandomInt(int n, object param)
         {
-            return Wrap(RandomSupplier.Instance.GetNextInt());
+            return RandomSupplier.Instance.GetNextInt();
         }
         
-        public static string StaticNumber(int n, object param)
+        public static object StaticNumber(int n, object param)
         {
             IntParameter p = ObjectToIntParameter(param);
-            return Wrap(p.SpecifiedValue);
+            return p.SpecifiedValue;
         }
 
-        public static string IdentityFromExecutionItem(int n, object param)
+        public static object IdentityFromExecutionItem(int n, object param)
         {
             IntParameter p = ObjectToIntParameter(param);
             // do not wrap

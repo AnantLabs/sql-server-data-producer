@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+
 namespace SQLRepeater.DatabaseEntities.Entities
 {
     public partial class ColumnEntity : SQLRepeater.Entities.EntityBase
@@ -115,12 +116,16 @@ namespace SQLRepeater.DatabaseEntities.Entities
             }
         }
 
-        public ColumnEntity()
+        public ColumnEntity(string columnName, string columnDatatype, bool isIdentity, int ordinalPosition, ValueCreatorDelegate generator, object genParameter)
         {
-            ValueGenerator = (n, p) =>
-                {
-                    return n.ToString();
-                };
+            this.ColumnName = columnName;
+            this.ColumnDataType = columnDatatype;
+            this.OrdinalPosition = ordinalPosition;
+            this.IsIdentity = isIdentity;
+            this.ValueGenerator = generator;
+            this.GeneratorParameter = genParameter;
         }
+
+      
     }
 }

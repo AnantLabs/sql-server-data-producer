@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SQLRepeater.DatabaseEntities.Entities;
+using System.Collections.ObjectModel;
 
 namespace SQLRepeater.Entities.ExecutionOrderEntities
 {
@@ -47,6 +48,17 @@ namespace SQLRepeater.Entities.ExecutionOrderEntities
         {
             TargetTable = table;
             Order = order;
+        }
+
+        public static ObservableCollection<ExecutionItem> FromTables(IEnumerable<TableEntity> tables)
+        {
+            ObservableCollection<ExecutionItem> c = new ObservableCollection<ExecutionItem>();
+            int count = 1;
+            foreach (var item in tables)
+            {
+                c.Add(new ExecutionItem(item, count++));
+            }
+            return c;
         }
 
         //string _name;
