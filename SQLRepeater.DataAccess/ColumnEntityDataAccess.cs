@@ -31,7 +31,16 @@ namespace SQLRepeater.DataAccess
         };
 
 
-        readonly string GET_COLUMNS_FOR_TABLE_QUERY = "select name As ColumnName, type_name(system_type_id), column_id as OrdinalPosition, is_identity as IsIdentity from sys.columns where object_id=object_id('{1}.{0}')";
+        readonly string GET_COLUMNS_FOR_TABLE_QUERY = @"select name As ColumnName, CASE TYPE_NAME(cols.system_type_id)
+    WHEN 'varchar' THEN TYPE_NAME(cols.system_type_id) + '(' + CAST(cols.max_length AS VARCHAR(100)) + ')'
+    WHEN 'nvarchar' THEN TYPE_NAME(cols.system_type_id) + '(' + CAST(cols.max_length AS VARCHAR(100)) + ')'
+    WHEN 'char' THEN TYPE_NAME(cols.system_type_id) + '(' + CAST(cols.max_length AS VARCHAR(100)) + ')'
+    WHEN 'nchar' THEN TYPE_NAME(cols.system_type_id) + '(' + CAST(cols.max_length AS VARCHAR(100)) + ')'
+    WHEN 'decimal' THEN TYPE_NAME(cols.system_type_id) + '(' + CAST(cols.precision AS VARCHAR(100)) + ', ' + CAST(cols.scale AS VARCHAR(100)) +')'
+    WHEN 'varbinary' THEN TYPE_NAME(cols.system_type_id) + '(' + CAST(cols.max_length AS VARCHAR(100)) + ')'
+    WHEN 'datetime2' THEN TYPE_NAME(cols.system_type_id) + '(' + CAST(cols.scale AS VARCHAR(100)) + ')'
+    ELSE TYPE_NAME(cols.system_type_id)
+END as DataType, column_id as OrdinalPosition, is_identity as IsIdentity from sys.columns cols where object_id=object_id('{1}.{0}')";
 
 
         public void BeginGetAllColumnsForTable(TableEntity table, Action<ObservableCollection<ColumnEntity>> callback)

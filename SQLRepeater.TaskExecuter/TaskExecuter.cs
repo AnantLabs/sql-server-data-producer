@@ -69,51 +69,33 @@ namespace SQLRepeater.TaskExecuter
         /// <param name="execItems">the items that should be included in the execution</param>
         /// <param name="baseQuery">The query containing insert statements for all the items and a placeholder for the variables and their values</param>
         /// <param name="connectionString">connection string to use to execute the query</param>
+        /// <param name="GenerateFinalQuery">The method to call to generate the final query, the parameters are: The list of ExecutionItems, the original query, the serial number. It will return the final query</param>
         /// <returns></returns>
-        public Action<int> CreateSQLTaskForExecutionItems(IEnumerable<ExecutionItem> execItems, string baseQuery, string connectionString)
+        public Action<int> CreateSQLTaskForExecutionItems(IEnumerable<ExecutionItem> execItems, string baseQuery, string connectionString, Func<IEnumerable<ExecutionItem>, string, int, string> GenerateFinalQuery)
         {
             return new Action<int>(n =>
             {
                 using (SqlConnection con = new SqlConnection(connectionString))
                 {
-                    string declarations = GenerateVariableDeclarationAndValuesForExecutionItems(n, execItems);
-
-                    // This will contain the insertstatements and the declare variables with values, ready to be executed
-                    string finalResult = string.Format(baseQuery, declarations);
+                    // For each time this Action is called, generate the final query. This will create the "declaration" part of the script with the generated data.
+                    // The "base" of the script will be kept from its original, we only generate the actual data here.
+                    string finalResult = GenerateFinalQuery(execItems, baseQuery, n);
 
                     using (SqlCommand cmd = new SqlCommand(finalResult, con))
                     {
-                        ////cmd.Connection.Open();
-                        ////cmd.ExecuteNonQuery();
+                        //cmd.Connection.Open();
+                        //cmd.ExecuteNonQuery();
 
-                        //Console.WriteLine(finalResult);
-                        //System.IO.File.WriteAllText(string.Format(@"c:\temp\test{0}.sql", n), finalResult);
+                        Console.WriteLine(finalResult);
+                        System.IO.File.WriteAllText(string.Format(@"c:\temp\test{0}.sql", n), finalResult);
                     }
                 }
             });
         }
 
-        /// <summary>
-        /// Generate the declaration section of the sqlquery, including the values for the variables
-        /// </summary>
-        /// <param name="n">The serial number to use when creating the values for the variables</param>
-        /// <param name="execItems">the executionItems to be included in the variable declarations</param>
-        /// <returns></returns>
-        private string GenerateVariableDeclarationAndValuesForExecutionItems(int n, IEnumerable<ExecutionItem> execItems)
-        {
-            StringBuilder sb = new StringBuilder();
-            foreach (var tabl in execItems)
-            {
-                foreach (ColumnEntity col in tabl.TargetTable.Columns)
-                {
-                    sb.AppendFormat("DECLARE @i{0}_{1} {2} = {3}", tabl.Order, col.ColumnName, col.ColumnDataType, col.ValueGenerator(n, col.GeneratorParameter));
-                    sb.AppendLine();
-                }
-                sb.AppendLine();
-            }
+        
 
-            return sb.ToString();
-        }
+        
 
         /// <summary>
         /// Start executing tasks until suplied datetime, using the supplied number of threads then call the callback once completed.
@@ -136,7 +118,7 @@ namespace SQLRepeater.TaskExecuter
                     {
                         Parallel.ForEach(actions, action =>
                         {
-                            action(++Counter);
+                            action(GetNextSerialNumber());
                         });
                     }
                 };
@@ -146,6 +128,11 @@ namespace SQLRepeater.TaskExecuter
                 onCompletedCallback(Counter);
             }, null);
 
+        }
+
+        private int GetNextSerialNumber()
+        {
+            return ++Counter;
         }
 
         /// <summary>

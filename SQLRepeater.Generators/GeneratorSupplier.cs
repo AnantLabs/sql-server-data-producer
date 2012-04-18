@@ -37,6 +37,9 @@ namespace SQLRepeater.Generators
                 case "bit":
                     return Generators.BooleanGenerators.Generators;
 
+                case "uniqueidentifier":
+                    return Generators.UniqueIdentifierGenerators.Generators;
+
                 default:
                     return Generators.StringGenerators.Generators;
             }
@@ -72,6 +75,9 @@ namespace SQLRepeater.Generators
 
                 case "bit":
                     return Generators.BooleanGenerators.Generators.First();
+
+                case "uniqueidentifier":
+                    return Generators.UniqueIdentifierGenerators.Generators.First();
 
                 default:
                     return Generators.StringGenerators.Generators.First();

@@ -27,7 +27,7 @@ namespace TestConsoleApplication
             InsertQueryGenerator queryGenerator = new InsertQueryGenerator();
             string result = queryGenerator.GenerateQueryForExecutionItems(list);
 
-            Action<int> a = executor.CreateSQLTaskForExecutionItems(list, result, Connection());
+            Action<int> a = executor.CreateSQLTaskForExecutionItems(list, result, Connection(), queryGenerator.GenerateFinalQuery);
 
             for (int n = 0; n < 10; n++)
             {
