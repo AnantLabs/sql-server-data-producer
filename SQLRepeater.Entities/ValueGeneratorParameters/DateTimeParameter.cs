@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SQLRepeater.Entities.ValueGeneratorParameters
 {
-    public class DateTimeParameter : EntityBase
+    public class DateTimeParameter : EntityBase, IParameter
     {
         private DateTime _startDate;
 

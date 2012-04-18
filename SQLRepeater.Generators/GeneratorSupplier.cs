@@ -12,36 +12,36 @@ namespace SQLRepeater.Generators
             {
                 case "int":
                 case "bigint":
-                    return Generators.IntGenerators.Generators;
+                    return Generators.IntGenerator.Generators;
 
                 case "smallint":
-                    return Generators.SmallIntGenerators.Generators;
+                    return Generators.SmallIntGenerator.Generators;
 
                 case "tinyint":
-                    return Generators.TinyIntGenerators.Generators;
+                    return Generators.TinyIntGenerator.Generators;
 
                 case "decimal":
                 case "float":
-                    return Generators.DecimalGenerators.Generators;
+                    return Generators.DecimalGenerator.Generators;
 
                 case "datetime":
                 case "datetime2":
-                    return Generators.DateTimeGenerators.Generators;
+                    return Generators.DateTimeGenerator.Generators;
 
                 case "varchar":
                 case "nvarchar":
                 case "char":
                 case "nchar":
-                    return Generators.StringGenerators.Generators;
+                    return Generators.StringGenerator.Generators;
 
                 case "bit":
-                    return Generators.BooleanGenerators.Generators;
+                    return Generators.BooleanGenerator.Generators;
 
                 case "uniqueidentifier":
-                    return Generators.UniqueIdentifierGenerators.Generators;
+                    return Generators.UniqueIdentifierGenerator.Generators;
 
                 default:
-                    return Generators.StringGenerators.Generators;
+                    return Generators.StringGenerator.Generators;
             }
         }
 
@@ -51,36 +51,36 @@ namespace SQLRepeater.Generators
             {
                 case "int":
                 case "bigint":
-                    return Generators.IntGenerators.Generators.First();
+                    return Generators.IntGenerator.Generators.First();
 
                 case "smallint":
-                    return Generators.SmallIntGenerators.Generators.First();
+                    return Generators.SmallIntGenerator.Generators.First();
 
                 case "tinyint":
-                    return Generators.TinyIntGenerators.Generators.First();
+                    return Generators.TinyIntGenerator.Generators.First();
 
                 case "decimal":
                 case "float":
-                    return Generators.DecimalGenerators.Generators.First();
+                    return Generators.DecimalGenerator.Generators.First();
 
                 case "datetime":
                 case "datetime2":
-                    return Generators.DateTimeGenerators.Generators.First();
+                    return Generators.DateTimeGenerator.Generators.First();
 
                 case "varchar":
                 case "nvarchar":
                 case "char":
                 case "nchar":
-                    return Generators.StringGenerators.Generators.First();
+                    return Generators.StringGenerator.Generators.First();
 
                 case "bit":
-                    return Generators.BooleanGenerators.Generators.First();
+                    return Generators.BooleanGenerator.Generators.First();
 
                 case "uniqueidentifier":
-                    return Generators.UniqueIdentifierGenerators.Generators.First();
+                    return Generators.UniqueIdentifierGenerator.Generators.First();
 
                 default:
-                    return Generators.StringGenerators.Generators.First();
+                    return Generators.StringGenerator.Generators.First();
             }
         }
 

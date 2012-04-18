@@ -6,7 +6,7 @@ using System.Collections.ObjectModel;
 
 namespace SQLRepeater.Generators
 {
-    public class DateTimeGenerators : GeneratorBase
+    public class DateTimeGenerator : GeneratorBase
     {
 
         private static DateTime _currentDate = DateTime.Now;
@@ -17,7 +17,7 @@ namespace SQLRepeater.Generators
             }
         }
 
-        static DateTimeGenerators()
+        static DateTimeGenerator()
         {
             Generators = new ObservableCollection<ValueCreatorDelegate>();
             Generators.Add(CurrentDate);

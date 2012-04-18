@@ -5,11 +5,11 @@ using System.Text;
 
 namespace SQLRepeater.Generators
 {
-    public class StringGenerators : GeneratorBase
+    public class StringGenerator : GeneratorBase
     {
         public static System.Collections.ObjectModel.ObservableCollection<ValueCreatorDelegate> Generators { get; set; }
 
-        static StringGenerators()
+        static StringGenerator()
         {
             Generators = new System.Collections.ObjectModel.ObservableCollection<ValueCreatorDelegate>();
             Generators.Add(Countries);

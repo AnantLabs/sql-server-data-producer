@@ -7,11 +7,11 @@ using SQLRepeater.Entities.ValueGeneratorParameters;
 
 namespace SQLRepeater.Generators
 {
-    public class DecimalGenerators : GeneratorBase
+    public class DecimalGenerator : GeneratorBase
     {
         public static ObservableCollection<ValueCreatorDelegate> Generators { get; set; }
 
-        static DecimalGenerators()
+        static DecimalGenerator()
         {
             Generators = new ObservableCollection<ValueCreatorDelegate>();
             Generators.Add(UpCounter);

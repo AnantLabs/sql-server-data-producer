@@ -5,12 +5,12 @@ using System.Text;
 
 namespace SQLRepeater.Generators
 {
-    public class BooleanGenerators : GeneratorBase
+    public class BooleanGenerator : GeneratorBase
     {
 
         public static System.Collections.ObjectModel.ObservableCollection<ValueCreatorDelegate> Generators { get; set; }
 
-        static BooleanGenerators()
+        static BooleanGenerator()
         {
             Generators = new System.Collections.ObjectModel.ObservableCollection<ValueCreatorDelegate>();
             Generators.Add(RandomBoolean);

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using SQLRepeater.Entities.DatabaseEntities;
+using SQLRepeater.Entities.Generators;
 
 
 namespace SQLRepeater.DatabaseEntities.Entities
@@ -99,30 +101,30 @@ namespace SQLRepeater.DatabaseEntities.Entities
             }
         }
 
-        ValueCreatorDelegate _valueGenerator;
-        public ValueCreatorDelegate ValueGenerator
+        IValueGenerator _generator;
+        public IValueGenerator Generator
         {
             get
             {
-                return _valueGenerator;
+                return _generator;
             }
             set
             {
-                if (_valueGenerator != value)
+                if (_generator != value)
                 {
-                    _valueGenerator = value;
-                    OnPropertyChanged("ValueGenerator");
+                    _generator = value;
+                    OnPropertyChanged("Generator");
                 }
             }
         }
 
-        public ColumnEntity(string columnName, string columnDatatype, bool isIdentity, int ordinalPosition, ValueCreatorDelegate generator, object genParameter)
+        public ColumnEntity(string columnName, string columnDatatype, bool isIdentity, int ordinalPosition, IValueGenerator generator, object genParameter)
         {
             this.ColumnName = columnName;
             this.ColumnDataType = columnDatatype;
             this.OrdinalPosition = ordinalPosition;
             this.IsIdentity = isIdentity;
-            this.ValueGenerator = generator;
+            this.Generator = generator;
             this.GeneratorParameter = genParameter;
         }
 

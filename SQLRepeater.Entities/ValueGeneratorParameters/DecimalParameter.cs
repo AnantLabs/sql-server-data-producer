@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SQLRepeater.Entities.ValueGeneratorParameters
 {
-    public class DecimalParameter : EntityBase
+    public class DecimalParameter : EntityBase, IParameter
     {
 
         private int _decimals;

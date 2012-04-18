@@ -5,11 +5,11 @@ using System.Text;
 
 namespace SQLRepeater.Generators
 {
-    public class TinyIntGenerators : GeneratorBase
+    public class TinyIntGenerator : GeneratorBase
     {
         public static System.Collections.ObjectModel.ObservableCollection<ValueCreatorDelegate> Generators { get; set; }
 
-        static TinyIntGenerators()
+        static TinyIntGenerator()
         {
             Generators = new System.Collections.ObjectModel.ObservableCollection<ValueCreatorDelegate>();
             Generators.Add(UpCounter);

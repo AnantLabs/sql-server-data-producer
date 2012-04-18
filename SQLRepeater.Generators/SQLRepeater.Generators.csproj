@@ -40,28 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GeneratorBase.cs" />
-    <Compile Include="BooleanGenerators.cs" />
-    <Compile Include="DateTimeGenerators.cs" />
-    <Compile Include="DecimalGenerators.cs" />
-    <Compile Include="GeneratorSupplier.cs" />
-    <Compile Include="IntGenerators.cs" />
-    <Compile Include="RandomSupplier.cs" />
-    <Compile Include="SmallIntGenerators.cs" />
-    <Compile Include="StringGenerators.cs" />
-    <Compile Include="TinyIntGenerators.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="resources\Countries.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="resources\FemaleNames.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="resources\MaleNames.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SQLRepeater.Delegates\SQLRepeater.Delegates.csproj">

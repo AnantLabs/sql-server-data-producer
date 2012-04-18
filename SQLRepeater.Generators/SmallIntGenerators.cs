@@ -6,11 +6,11 @@ using SQLRepeater.Entities.ValueGeneratorParameters;
 
 namespace SQLRepeater.Generators
 {
-    public class SmallIntGenerators : GeneratorBase
+    public class SmallIntGenerator : GeneratorBase
     {
         public static System.Collections.ObjectModel.ObservableCollection<ValueCreatorDelegate> Generators { get; set; }
 
-        static SmallIntGenerators()
+        static SmallIntGenerator()
         {
             Generators = new System.Collections.ObjectModel.ObservableCollection<ValueCreatorDelegate>();
             Generators.Add(UpCounter);
