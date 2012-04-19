@@ -5,8 +5,6 @@ using System.Text;
 using System.ComponentModel;
 using SQLRepeater.Entities;
 using System.Collections.ObjectModel;
-using SQLRepeater.Controls.GeneratorConfigurationControls;
-using SQLRepeater.Entities.ValueGeneratorParameters;
 using SQLRepeater.DatabaseEntities.Entities;
 
 namespace SQLRepeater 
@@ -30,22 +28,22 @@ namespace SQLRepeater
             }
         }
 
-        ObservableCollection<ValueCreatorDelegate> _dataGenerationGenerators;
-        public ObservableCollection<ValueCreatorDelegate> DataGenerationGenerators
-        {
-            get
-            {
-                return _dataGenerationGenerators;
-            }
-            set
-            {
-                if (_dataGenerationGenerators != value)
-                {
-                    _dataGenerationGenerators = value;
-                    OnPropertyChanged("DataGenerationGenerators");
-                }
-            }
-        }
+        //ObservableCollection<ValueCreatorDelegate> _dataGenerationGenerators;
+        //public ObservableCollection<ValueCreatorDelegate> DataGenerationGenerators
+        //{
+        //    get
+        //    {
+        //        return _dataGenerationGenerators;
+        //    }
+        //    set
+        //    {
+        //        if (_dataGenerationGenerators != value)
+        //        {
+        //            _dataGenerationGenerators = value;
+        //            OnPropertyChanged("DataGenerationGenerators");
+        //        }
+        //    }
+        //}
 
         private System.Windows.Controls.Control _configurator;
         /// <summary>
@@ -69,10 +67,10 @@ namespace SQLRepeater
         public ValueEntityConfigurationViewModel(ColumnEntity colEntity)
         {
             this.CurrentColumnEntity = colEntity;
-            DataGenerationGenerators = Generators.Generatorsupplier.GetGeneratorsForDataType(colEntity.ColumnDataType);
-            CurrentColumnEntity.GeneratorParameter = ParameterSupplier.GetGeneratorParameterForDataType(colEntity.ColumnDataType);
+            //DataGenerationGenerators = Generators.Generatorsupplier.GetGeneratorsForDataType(colEntity.ColumnDataType);
+            //CurrentColumnEntity.GeneratorParameter = ParameterSupplier.GetGeneratorParameterForDataType(colEntity.ColumnDataType);
 
-            Configurator = ConfigurationViewFactory.GetConfiguratorForColumn(CurrentColumnEntity.GeneratorParameter);
+            //Configurator = ConfigurationViewFactory.GetConfiguratorForColumn(CurrentColumnEntity.GeneratorParameter);
         }
 
        

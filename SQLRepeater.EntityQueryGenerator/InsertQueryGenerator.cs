@@ -145,7 +145,7 @@ namespace SQLRepeater.EntityQueryGenerator
                 foreach (ColumnEntity col in tabl.TargetTable.Columns)
                 {
                     // create declaration of the columns datatype, set the value to the generated value generated from the columns generator and its generatorParameter
-                    sb.AppendFormat("DECLARE @i{0}_{1} {2} = {3};", tabl.Order, col.ColumnName, col.ColumnDataType, col.ValueGenerator(n, col.GeneratorParameter));
+                    sb.AppendFormat("DECLARE @i{0}_{1} {2} = {3};", tabl.Order, col.ColumnName, col.ColumnDataType, col.Generator.GenerateValue(n));
                     sb.AppendLine();
                 }
                 sb.AppendLine();

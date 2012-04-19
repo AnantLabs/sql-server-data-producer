@@ -57,22 +57,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Controls\GeneratorConfigurationControls\BooleanConfiguration.xaml.cs">
-      <DependentUpon>BooleanConfiguration.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\GeneratorConfigurationControls\ConfigurationFactory.cs" />
-    <Compile Include="Controls\GeneratorConfigurationControls\DateTimeConfiguration.xaml.cs">
-      <DependentUpon>DateTimeConfiguration.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\GeneratorConfigurationControls\DecimalConfiguration.xaml.cs">
-      <DependentUpon>DecimalConfiguration.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\GeneratorConfigurationControls\IntConfiguration.xaml.cs">
-      <DependentUpon>IntConfiguration.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\GeneratorConfigurationControls\StringConfiguration.xaml.cs">
-      <DependentUpon>StringConfiguration.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Converters\VisibilityConverter.cs" />
     <Compile Include="Model\ApplicationModel.cs" />
@@ -98,26 +82,6 @@
     <Compile Include="Views\ExecutionOrderView.xaml.cs">
       <DependentUpon>ExecutionOrderView.xaml</DependentUpon>
     </Compile>
-    <Page Include="Controls\GeneratorConfigurationControls\BooleanConfiguration.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\GeneratorConfigurationControls\DateTimeConfiguration.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\GeneratorConfigurationControls\DecimalConfiguration.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\GeneratorConfigurationControls\IntConfiguration.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\GeneratorConfigurationControls\StringConfiguration.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -208,7 +172,9 @@
       <Name>SQLRepeater.TaskExecuter</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Controls\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

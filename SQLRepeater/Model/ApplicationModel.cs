@@ -97,6 +97,40 @@ namespace SQLRepeater.Model
         }
 
 
+        ColumnEntity _selectedColumn;
+        public ColumnEntity SelectedColumn
+        {
+            get
+            {
+                return _selectedColumn;
+            }
+            set
+            {
+                if (_selectedColumn != value)
+                {
+                    _selectedColumn = value;
+                    OnPropertyChanged("SelectedColumn");
+                }
+            }
+        }
+
+        Dictionary<string,object> _generatorParameters;
+        public Dictionary<string,object> SelectedGeneratorParameter
+        {
+            get
+            {
+                return _generatorParameters;
+            }
+            set
+            {
+                if (_generatorParameters != value)
+                {
+                    _generatorParameters = value;
+                    OnPropertyChanged("SelectedGeneratorParameter");
+                }
+            }
+        }
+
         string _connectionString = string.Empty;
         public string ConnectionString
         {

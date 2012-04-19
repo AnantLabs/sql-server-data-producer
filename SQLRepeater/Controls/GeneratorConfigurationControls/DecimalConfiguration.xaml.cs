@@ -19,19 +19,19 @@ namespace SQLRepeater.Controls.GeneratorConfigurationControls
     /// </summary>
     public partial class DecimalConfiguration : UserControl
     {
-        private Entities.ValueGeneratorParameters.DecimalParameter decimalParameter;
+        //private Entities.ValueGeneratorParameters.DecimalParameter decimalParameter;
 
-        public DecimalConfiguration(Entities.ValueGeneratorParameters.DecimalParameter decimalParameter)
-        {
-            this.DataContext = null;
-            this.decimalParameter = decimalParameter;
-            Loaded += new RoutedEventHandler(DecimalConfiguration_Loaded);
-            InitializeComponent();
-        }
+        //public DecimalConfiguration(Entities.ValueGeneratorParameters.DecimalParameter decimalParameter)
+        //{
+        //    this.DataContext = null;
+        //    this.decimalParameter = decimalParameter;
+        //    Loaded += new RoutedEventHandler(DecimalConfiguration_Loaded);
+        //    InitializeComponent();
+        //}
 
-        void DecimalConfiguration_Loaded(object sender, RoutedEventArgs e)
-        {
-            this.DataContext = decimalParameter;
-        }
+        //void DecimalConfiguration_Loaded(object sender, RoutedEventArgs e)
+        //{
+        //    this.DataContext = decimalParameter;
+        //}
     }
 }

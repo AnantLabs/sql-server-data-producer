@@ -38,10 +38,6 @@ namespace SQLRepeater.ViewModels
             }
         }
 
-
-
-        
-
         ExecutionOrderViewModel _executionOrderVM;
         public ExecutionOrderViewModel ExecutionOrderVM
         {
@@ -59,6 +55,60 @@ namespace SQLRepeater.ViewModels
             }
         }
 
+
+        ObservableCollection<ExecutionDetailsViewModel> _executionDetailsVMs;
+        public ObservableCollection<ExecutionDetailsViewModel> ExecutionDetailsVMS
+        {
+            get
+            {
+                return _executionDetailsVMs;
+            }
+            set
+            {
+                if (_executionDetailsVMs != value)
+                {
+                    _executionDetailsVMs = value;
+                    OnPropertyChanged("ExecutionDetailsVMS");
+                }
+            }
+        }
+
+
+        ExecutionDetailsViewModel _selectedExecutionDetailsVM;
+        public ExecutionDetailsViewModel SelectedExecutionDetailVM
+        {
+            get
+            {
+                return _selectedExecutionDetailsVM;
+            }
+            set
+            {
+                if (_selectedExecutionDetailsVM != value)
+                {
+                    _selectedExecutionDetailsVM = value;
+                    OnPropertyChanged("SelectedExecutionDetailVM");
+                }
+            }
+        }
+
+        SidePanelViewModel _sidepanelVM;
+        public SidePanelViewModel SidePanelVM
+        {
+            get
+            {
+                return _sidepanelVM;
+            }
+            set
+            {
+                if (_sidepanelVM != value)
+                {
+                    _sidepanelVM = value;
+                    OnPropertyChanged("SidePanelVM");
+                }
+            }
+        }
+
+
         private void LoadTables()
         {
             TableEntityDataAccess tda = new TableEntityDataAccess(Model.ConnectionString);
@@ -72,15 +122,13 @@ namespace SQLRepeater.ViewModels
         public MainWindowViewModel()
         {
             Model = new SQLRepeater.Model.ApplicationModel();
-            //CurrentExecutionDetailVM = new ExecutionDetailsViewModel(Model, null);
-            ExecutionOrderVM = new ExecutionOrderViewModel(Model);
-
             Model.ExecutionItems = new ObservableCollection<ExecutionItem>();
-            //Model.ExecutionItems.Add(new ExecutionItem {  Order = 1, TargetTable = new DatabaseEntities.Entities.TableEntity { TableName = "PetersTable1", TableSchema = "dbo" } });
-            //Model.ExecutionItems.Add(new ExecutionItem {  Order = 1, TargetTable = new DatabaseEntities.Entities.TableEntity { TableName = "Ollese", TableSchema = "dbo" } });
-            //Model.ExecutionItems.Add(new ExecutionItem {  Order = 1, TargetTable = new DatabaseEntities.Entities.TableEntity { TableName = "Peeele34", TableSchema = "dbo" } });
-            //Model.ExecutionItems.Add(new ExecutionItem {  Order = 1, TargetTable = new DatabaseEntities.Entities.TableEntity { TableName = "PeeTable4", TableSchema = "dbo" } });
-            //Model.ExecutionItems.Add(new ExecutionItem {  Order = 1, TargetTable = new DatabaseEntities.Entities.TableEntity { TableName = "Pe3e5", TableSchema = "dbo" } });
+            Model.SelectedExecutionItem = Model.ExecutionItems.FirstOrDefault();
+            
+            ExecutionOrderVM = new ExecutionOrderViewModel(Model);
+            SidePanelVM = new SidePanelViewModel(Model);
+
+            
 
 
             OpenSqlConnectionBuilderCommand = new DelegateCommand(() =>
@@ -118,14 +166,6 @@ namespace SQLRepeater.ViewModels
             //        valueEditView.Show();
             //    });
 
-        }
-
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
         }
 
     }

@@ -105,6 +105,7 @@ namespace SQLRepeater.ViewModels
 
 
         TaskExecuter.TaskExecuter _executor;
+        private SQLRepeater.Model.ApplicationModel Model_2;
 
         public SidePanelViewModel()
         {
@@ -113,8 +114,8 @@ namespace SQLRepeater.ViewModels
                 EntityQueryGenerator.InsertQueryGenerator ig =
                     new EntityQueryGenerator.InsertQueryGenerator();
 
-                string sql = ig.GenerateQueryFor(Model.SelectedTable);
-                _executor = new TaskExecuter.TaskExecuter();
+                //string sql = ig.GenerateQueryForExecutionItems(Model.SelectedTable);
+                //_executor = new TaskExecuter.TaskExecuter();
 
                 //Action<int> sqlTask = _executor.CreateSQLTask(sql
                 //    , Model.SelectedTable.GetParamValueCreator()
@@ -138,6 +139,12 @@ namespace SQLRepeater.ViewModels
                     _executor.EndExecute();
                 }
             });
+        }
+
+        public SidePanelViewModel(SQLRepeater.Model.ApplicationModel Model_2)
+        {
+            // TODO: Complete member initialization
+            this.Model_2 = Model_2;
         }
     }
 }

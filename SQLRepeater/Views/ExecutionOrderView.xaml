@@ -17,14 +17,23 @@
         </Grid.ColumnDefinitions>
         
         
-        <ListBox ItemsSource="{Binding ExecutionItems}" SelectedItem="{Binding CurrentExecutionItem, Mode=TwoWay}" Grid.Column="0">
+        <ListBox ItemsSource="{Binding Model.Tables}" SelectedItem="{Binding Model.SelectedTable, Mode=TwoWay}" Grid.Column="0">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Path=TableName}" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <ListBox ItemsSource="{Binding Model.ExecutionItems}" 
+                 SelectedItem="{Binding Model.SelectedExecutionItem, Mode=TwoWay}" Grid.Column="2">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Path=TargetTable.TableName}" />
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        
+
         <StackPanel Grid.Column="1">
             <Button Content="UP" Command="{Binding MoveItemUpCommand}" />
 

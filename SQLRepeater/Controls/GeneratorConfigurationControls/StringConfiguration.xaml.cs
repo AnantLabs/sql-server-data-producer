@@ -19,19 +19,19 @@ namespace SQLRepeater.Controls.GeneratorConfigurationControls
     /// </summary>
     public partial class StringConfiguration : UserControl
     {
-        private Entities.ValueGeneratorParameters.StringParameter stringParameter;
+        //private Entities.ValueGeneratorParameters.StringParameter stringParameter;
 
-        public StringConfiguration(Entities.ValueGeneratorParameters.StringParameter stringParameter)
-        {
-            this.DataContext = null;
-            this.stringParameter = stringParameter;
-            Loaded += new RoutedEventHandler(StringConfiguration_Loaded);
-            InitializeComponent();
-        }
+        //public StringConfiguration(Entities.ValueGeneratorParameters.StringParameter stringParameter)
+        //{
+        //    this.DataContext = null;
+        //    this.stringParameter = stringParameter;
+        //    Loaded += new RoutedEventHandler(StringConfiguration_Loaded);
+        //    InitializeComponent();
+        //}
 
-        void StringConfiguration_Loaded(object sender, RoutedEventArgs e)
-        {
-            this.DataContext = stringParameter;
-        }
+        //void StringConfiguration_Loaded(object sender, RoutedEventArgs e)
+        //{
+        //    this.DataContext = stringParameter;
+        //}
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SQLRepeater.Entities.DatabaseEntities;
+//using SQLRepeater.Entities.DatabaseEntities;
 using SQLRepeater.Entities.Generators;
 
 
@@ -28,22 +28,22 @@ namespace SQLRepeater.DatabaseEntities.Entities
             }
         }
 
-        private object _genParameter;
-        public object GeneratorParameter
-        {
-            get
-            {
-                return _genParameter;
-            }
-            set
-            {
-                if (_genParameter != value)
-                {
-                    _genParameter = value;
-                    OnPropertyChanged("GeneratorParameter");
-                }
-            }
-        }
+        //private object _genParameter;
+        //public object GeneratorParameter
+        //{
+        //    get
+        //    {
+        //        return _genParameter;
+        //    }
+        //    set
+        //    {
+        //        if (_genParameter != value)
+        //        {
+        //            _genParameter = value;
+        //            OnPropertyChanged("GeneratorParameter");
+        //        }
+        //    }
+        //}
 
 
         bool _isIdentity;
@@ -101,8 +101,8 @@ namespace SQLRepeater.DatabaseEntities.Entities
             }
         }
 
-        IValueGenerator _generator;
-        public IValueGenerator Generator
+        GeneratorBase _generator;
+        public GeneratorBase Generator
         {
             get
             {
@@ -118,14 +118,13 @@ namespace SQLRepeater.DatabaseEntities.Entities
             }
         }
 
-        public ColumnEntity(string columnName, string columnDatatype, bool isIdentity, int ordinalPosition, IValueGenerator generator, object genParameter)
+        public ColumnEntity(string columnName, string columnDatatype, bool isIdentity, int ordinalPosition, GeneratorBase generator)
         {
             this.ColumnName = columnName;
             this.ColumnDataType = columnDatatype;
             this.OrdinalPosition = ordinalPosition;
             this.IsIdentity = isIdentity;
             this.Generator = generator;
-            this.GeneratorParameter = genParameter;
         }
 
       

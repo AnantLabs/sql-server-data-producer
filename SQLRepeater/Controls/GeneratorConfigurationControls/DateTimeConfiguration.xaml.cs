@@ -19,19 +19,19 @@ namespace SQLRepeater.Controls.GeneratorConfigurationControls
     /// </summary>
     public partial class DateTimeConfiguration : UserControl
     {
-        private Entities.ValueGeneratorParameters.DateTimeParameter dateTimeParameter;
+        //private Entities.ValueGeneratorParameters.DateTimeParameter dateTimeParameter;
 
-        public DateTimeConfiguration(Entities.ValueGeneratorParameters.DateTimeParameter dateTimeParameter)
-        {
-            this.DataContext = null;
-            this.dateTimeParameter = dateTimeParameter;
-            Loaded += new RoutedEventHandler(DateTimeConfiguration_Loaded);
-            InitializeComponent();
-        }
+        //public DateTimeConfiguration(Entities.ValueGeneratorParameters.DateTimeParameter dateTimeParameter)
+        //{
+        //    this.DataContext = null;
+        //    this.dateTimeParameter = dateTimeParameter;
+        //    Loaded += new RoutedEventHandler(DateTimeConfiguration_Loaded);
+        //    InitializeComponent();
+        //}
 
-        void DateTimeConfiguration_Loaded(object sender, RoutedEventArgs e)
-        {
-            this.DataContext = dateTimeParameter;
-        }
+        //void DateTimeConfiguration_Loaded(object sender, RoutedEventArgs e)
+        //{
+        //    this.DataContext = dateTimeParameter;
+        //}
     }
 }

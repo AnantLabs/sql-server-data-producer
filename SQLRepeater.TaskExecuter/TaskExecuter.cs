@@ -48,20 +48,20 @@ namespace SQLRepeater.TaskExecuter
         //    });
         //}
 
-        public Action<int> CreateSQLTask(string query, string connectionString)
-        {
-            return new Action<int>(n =>
-            {
-                using (SqlConnection con = new SqlConnection(connectionString))
-                {
-                    using (SqlCommand cmd = new SqlCommand(query, con))
-                    {
-                        cmd.Connection.Open();
-                        cmd.ExecuteNonQuery();
-                    }
-                }
-            });
-        }
+        //public Action<int> CreateSQLTask(string query, string connectionString)
+        //{
+        //    return new Action<int>(n =>
+        //    {
+        //        using (SqlConnection con = new SqlConnection(connectionString))
+        //        {
+        //            using (SqlCommand cmd = new SqlCommand(query, con))
+        //            {
+        //                cmd.Connection.Open();
+        //                cmd.ExecuteNonQuery();
+        //            }
+        //        }
+        //    });
+        //}
 
         /// <summary>
         /// Creates an Action with insert statements and variables and then executes the query.

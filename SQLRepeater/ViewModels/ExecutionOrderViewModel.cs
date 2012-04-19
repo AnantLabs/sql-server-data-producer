@@ -68,10 +68,15 @@ namespace SQLRepeater.ViewModels
                 }
             }
         }
-
+       
         public ExecutionOrderViewModel(SQLRepeater.Model.ApplicationModel model)
         {
             Model = model;
+
+            MoveItemRightCommand = new DelegateCommand(() =>
+            {
+                Model.ExecutionItems.Add(new ExecutionItem(Model.SelectedTable, Model.ExecutionItems.Count + 1));
+            });
         }
     }
 }

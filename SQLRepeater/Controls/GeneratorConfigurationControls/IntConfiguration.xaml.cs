@@ -20,19 +20,19 @@ namespace SQLRepeater.Controls.GeneratorConfigurationControls
     public partial class IntConfiguration : UserControl
     {
 
-        private Entities.ValueGeneratorParameters.IntParameter _intParamter;
+        //private Entities.ValueGeneratorParameters.IntParameter _intParamter;
 
-        public IntConfiguration(Entities.ValueGeneratorParameters.IntParameter intParameter)
-        {
-            this.DataContext = null;
-            _intParamter = intParameter;
-            Loaded += new RoutedEventHandler(IntConfiguration_Loaded);
-            InitializeComponent();
-        }
+        //public IntConfiguration(Entities.ValueGeneratorParameters.IntParameter intParameter)
+        //{
+        //    this.DataContext = null;
+        //    _intParamter = intParameter;
+        //    Loaded += new RoutedEventHandler(IntConfiguration_Loaded);
+        //    InitializeComponent();
+        //}
 
-        void IntConfiguration_Loaded(object sender, RoutedEventArgs e)
-        {
-            this.DataContext = _intParamter;
-        }
+        //void IntConfiguration_Loaded(object sender, RoutedEventArgs e)
+        //{
+        //    this.DataContext = _intParamter;
+        //}
     }
 }

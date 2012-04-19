@@ -7,7 +7,6 @@
     
     <Window.Resources>
         <me:MainWindowViewModel x:Key="vm" />
-        <me:ExecutionOrderViewModel x:Key="orderVm" />
     </Window.Resources>
     
     <Grid DataContext="{StaticResource ResourceKey=vm}">
@@ -26,22 +25,22 @@
             <Button Content="Load" Margin="3 3 3 3" Padding="5 0 5 0" Command="{Binding LoadTablesCommand}" />
         </StackPanel>
         
-        <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding ConnectionString, Mode=TwoWay}" Margin="3 3 3 3" MinWidth="50" />
+        <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Model.ConnectionString, Mode=TwoWay}" Margin="3 3 3 3" MinWidth="50" />
 
         <StackPanel Grid.Column="1" Grid.Row="1">
-            <my:ExecutionOrderView DataContext="{StaticResource ResourceKey=orderVm}" />
-            <my:ExecutionDetailsView DataContext="{Binding Path=CurrentExecutionItem, Source={StaticResource ResourceKey=orderVm}}" />
+            <my:ExecutionOrderView DataContext="{Binding ExecutionOrderVM}" />
+            <my:ExecutionDetailsView DataContext="{Binding Model}" />
         </StackPanel>
 
-        <my:SidePanelView Grid.Column="0" Grid.Row="1" />
+        <my:SidePanelView DataContext="{Binding SidePanelVM}"  Grid.Column="0" Grid.Row="1" />
         
         <GroupBox Grid.Row="2" Grid.Column="1" Header="Options">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Start date:" Margin="0 3 0 3" />
-                <TextBox Text="{Binding StartDateForGeneration}"  Margin="0 3 0 3" />
+                <TextBox Text="{Binding Model.StartDateForGeneration}"  Margin="0 3 0 3" />
 
                 <TextBlock Text="Start N:" Margin="0 3 0 3" />
-                <TextBox Text="{Binding StartNumberForGeneration}"  Margin="0 3 0 3" />
+                <TextBox Text="{Binding Model.StartNumberForGeneration}"  Margin="0 3 0 3" />
             </StackPanel>
         </GroupBox>
         

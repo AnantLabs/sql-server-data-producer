@@ -6,8 +6,7 @@ using SQLRepeater.Entities;
 using System.Data.SqlClient;
 using System.Collections.ObjectModel;
 using SQLRepeater.DatabaseEntities.Entities;
-using SQLRepeater.Generators;
-using SQLRepeater.Entities.ValueGeneratorParameters;
+using SQLRepeater.Entities.Generators;
 
 namespace SQLRepeater.DataAccess
 {
@@ -25,8 +24,7 @@ namespace SQLRepeater.DataAccess
                 reader.GetString(1),
                 (bool)reader["IsIdentity"],
                 reader.GetInt32(2),
-                Generatorsupplier.GetDefaultGeneratorForDataType(reader.GetString(1)),
-                ParameterSupplier.GetGeneratorParameterForDataType(reader.GetString(1))
+                Generatorsupplier.GetDefaultGeneratorForDataType(reader.GetString(1))
             );
         };
 

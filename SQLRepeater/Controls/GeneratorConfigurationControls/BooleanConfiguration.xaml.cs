@@ -19,20 +19,20 @@ namespace SQLRepeater.Controls.GeneratorConfigurationControls
     /// </summary>
     public partial class BooleanConfiguration : UserControl
     {
-        private Entities.ValueGeneratorParameters.BooleanParameter booleanParameter;
+        //private Entities.ValueGeneratorParameters.BooleanParameter booleanParameter;
 
 
-        public BooleanConfiguration(Entities.ValueGeneratorParameters.BooleanParameter booleanParameter)
-        {
-            this.DataContext = null;
-            this.booleanParameter = booleanParameter;
-            Loaded += new RoutedEventHandler(BooleanConfiguration_Loaded);
-            InitializeComponent();
-        }
+        //public BooleanConfiguration(Entities.ValueGeneratorParameters.BooleanParameter booleanParameter)
+        //{
+        //    this.DataContext = null;
+        //    this.booleanParameter = booleanParameter;
+        //    Loaded += new RoutedEventHandler(BooleanConfiguration_Loaded);
+        //    InitializeComponent();
+        //}
 
-        void BooleanConfiguration_Loaded(object sender, RoutedEventArgs e)
-        {
-            this.DataContext = booleanParameter;
-        }
+        //void BooleanConfiguration_Loaded(object sender, RoutedEventArgs e)
+        //{
+        //    this.DataContext = booleanParameter;
+        //}
     }
 }
