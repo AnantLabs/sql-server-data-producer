@@ -24,6 +24,12 @@
                 <DataGridTemplateColumn Header="Data Generator">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
+                            <TextBlock Text="{Binding Generator.GeneratorName}" Height="25" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
                             <StackPanel Orientation="Horizontal">
                                 <ComboBox ItemsSource="{Binding PossibleGenerators}"
                                           SelectedItem="{Binding Generator, Mode=TwoWay}"
@@ -37,7 +43,7 @@
                                 </ComboBox>
                             </StackPanel>
                         </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
                 </DataGridTemplateColumn>
 
             </DataGrid.Columns>
