@@ -14,24 +14,32 @@ namespace SQLRepeater.Entities.Generators
         {
         }
 
-        static ObservableCollection<GeneratorBase> _valueGenerators;
-        public static ObservableCollection<GeneratorBase> ValueGenerators
-        {
-            get
-            {
-                return _valueGenerators;
-            }
-            set
-            {
-                _valueGenerators = value;
-            }
-        }
+        //static ObservableCollection<GeneratorBase> _valueGenerators;
+        //public static ObservableCollection<GeneratorBase> ValueGenerators
+        //{
+        //    get
+        //    {
+        //        return _valueGenerators;
+        //    }
+        //    set
+        //    {
+        //        _valueGenerators = value;
+        //    }
+        //}
 
-        static IntGenerator()
+        //static IntGenerator()
+        //{
+        //    ValueGenerators = new ObservableCollection<GeneratorBase>();
+        //    ValueGenerators.Add(CreateRandomGenerator());
+        //}
+
+        public static ObservableCollection<GeneratorBase> GetGenerators()
         {
-            ValueGenerators = new ObservableCollection<GeneratorBase>();
-            ValueGenerators.Add(CreateRandomGenerator());
-        }
+            ObservableCollection<GeneratorBase> valueGenerators = new ObservableCollection<GeneratorBase>();
+            valueGenerators.Add(CreateRandomGenerator());
+
+            return valueGenerators;
+        }   
 
         private static IntGenerator CreateRandomGenerator()
         {
@@ -42,7 +50,7 @@ namespace SQLRepeater.Entities.Generators
 
             IntGenerator gen = new IntGenerator("Random Int", (n, p) =>
                 {
-                    int maxValue = GetParameterByName<int>("MaxValue");
+                    int maxValue = GetParameterByName<int>(p, "MaxValue");
                     return RandomSupplier.Instance.GetNextInt() % maxValue;
                 }
                 , paramss);
@@ -93,9 +101,9 @@ namespace SQLRepeater.Entities.Generators
 
 
 
-        internal static GeneratorBase DefaultGenerator()
-        {
-            return CreateRandomGenerator();
-        }
+        //internal static GeneratorBase DefaultGenerator()
+        //{
+        //    return CreateRandomGenerator();
+        //}
     }
 }

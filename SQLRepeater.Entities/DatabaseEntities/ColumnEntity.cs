@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 //using SQLRepeater.Entities.DatabaseEntities;
 using SQLRepeater.Entities.Generators;
+using System.Collections.ObjectModel;
 
 
 namespace SQLRepeater.DatabaseEntities.Entities
@@ -28,22 +29,7 @@ namespace SQLRepeater.DatabaseEntities.Entities
             }
         }
 
-        //private object _genParameter;
-        //public object GeneratorParameter
-        //{
-        //    get
-        //    {
-        //        return _genParameter;
-        //    }
-        //    set
-        //    {
-        //        if (_genParameter != value)
-        //        {
-        //            _genParameter = value;
-        //            OnPropertyChanged("GeneratorParameter");
-        //        }
-        //    }
-        //}
+       
 
 
         bool _isIdentity;
@@ -118,13 +104,31 @@ namespace SQLRepeater.DatabaseEntities.Entities
             }
         }
 
-        public ColumnEntity(string columnName, string columnDatatype, bool isIdentity, int ordinalPosition, GeneratorBase generator)
+        ObservableCollection<GeneratorBase> _valueGenerators;
+        public ObservableCollection<GeneratorBase> PossibleGenerators
+        {
+            get
+            {
+                return _valueGenerators;
+            }
+            set
+            {
+                if (_valueGenerators != value)
+                {
+                    _valueGenerators = value;
+                    OnPropertyChanged("PossibleGenerators");
+                }
+            }
+        }
+
+        public ColumnEntity(string columnName, string columnDatatype, bool isIdentity, int ordinalPosition, GeneratorBase generator, ObservableCollection<GeneratorBase> possibleGenerators)
         {
             this.ColumnName = columnName;
             this.ColumnDataType = columnDatatype;
             this.OrdinalPosition = ordinalPosition;
             this.IsIdentity = isIdentity;
             this.Generator = generator;
+            this.PossibleGenerators = possibleGenerators;
         }
 
       
