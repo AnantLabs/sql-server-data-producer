@@ -19,7 +19,7 @@ namespace SQLRepeater.Entities.Generators
             {
                 return _genParameters;
             }
-            set
+            private set
             {
                 if (_genParameters != value)
                 {
@@ -31,13 +31,13 @@ namespace SQLRepeater.Entities.Generators
 
 
         string _generatorName;
-        private string GeneratorName
+        public string GeneratorName
         {
             get
             {
                 return _generatorName;
             }
-            set
+            private set
             {
                 if (_generatorName != value)
                 {
@@ -80,10 +80,10 @@ namespace SQLRepeater.Entities.Generators
         }
 
 
-        public IValueCreator Clone()
-        {
-            return new GeneratorBase(GeneratorName, ValueGenerator, GeneratorParameters);
-        }
+        //public IValueCreator Clone()
+        //{
+        //    return new GeneratorBase(GeneratorName, ValueGenerator, GeneratorParameters);
+        //}
 
 
 

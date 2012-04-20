@@ -14,29 +14,14 @@ namespace SQLRepeater.Entities.Generators
         {
         }
 
-        //static ObservableCollection<GeneratorBase> _valueGenerators;
-        //public static ObservableCollection<GeneratorBase> ValueGenerators
-        //{
-        //    get
-        //    {
-        //        return _valueGenerators;
-        //    }
-        //    set
-        //    {
-        //        _valueGenerators = value;
-        //    }
-        //}
-
-        //static IntGenerator()
-        //{
-        //    ValueGenerators = new ObservableCollection<GeneratorBase>();
-        //    ValueGenerators.Add(CreateRandomGenerator());
-        //}
-
         public static ObservableCollection<GeneratorBase> GetGenerators()
         {
             ObservableCollection<GeneratorBase> valueGenerators = new ObservableCollection<GeneratorBase>();
             valueGenerators.Add(CreateRandomGenerator());
+            valueGenerators.Add(CreateUpCounter());
+            valueGenerators.Add(CreateIdentityFromExecutionItem());
+            valueGenerators.Add(Query());
+            valueGenerators.Add(StaticNumber());
 
             return valueGenerators;
         }   
@@ -45,65 +30,86 @@ namespace SQLRepeater.Entities.Generators
         {
             ObservableCollection<GeneratorParameter> paramss = new ObservableCollection<GeneratorParameter>();
 
-            paramss.Add(new GeneratorParameter("MinValue", int.MinValue));
+            paramss.Add(new GeneratorParameter("MinValue", 0));
             paramss.Add(new GeneratorParameter("MaxValue", int.MaxValue));
 
             IntGenerator gen = new IntGenerator("Random Int", (n, p) =>
                 {
                     int maxValue = GetParameterByName<int>(p, "MaxValue");
-                    return RandomSupplier.Instance.GetNextInt() % maxValue;
+                    int minValue = GetParameterByName<int>(p, "MinValue");
+                    return (minValue + RandomSupplier.Instance.GetNextInt()) % maxValue;
                 }
                 , paramss);
             return gen;
         }
 
+        private static IntGenerator CreateUpCounter()
+        {
+            ObservableCollection<GeneratorParameter> paramss = new ObservableCollection<GeneratorParameter>();
 
+            paramss.Add(new GeneratorParameter("MinValue", 0));
+            paramss.Add(new GeneratorParameter("MaxValue", int.MaxValue));
 
-        //public static object UpCounter(int n, object param)
-        //{
+            IntGenerator gen = new IntGenerator("Counting up", (n, p) =>
+            {
+                int maxValue = GetParameterByName<int>(p, "MaxValue");
+                int minValue = GetParameterByName<int>(p, "MinValue");
+                return (n + minValue) % maxValue;
+            }
+                , paramss);
+            return gen;
+        }
 
-        //    return n;
-        //}
+        private static IntGenerator CreateIdentityFromExecutionItem()
+        {
+            ObservableCollection<GeneratorParameter> paramss = new ObservableCollection<GeneratorParameter>();
+            paramss.Add(new GeneratorParameter("Item Number#", 1));
+
+            IntGenerator gen = new IntGenerator("Identity from previous item", (n, p) =>
+            {
+                int value = GetParameterByName<int>(p, "Item Number#");
+
+                return string.Format("@i{0}_identity", value);
+            }
+                , paramss);
+            return gen;
+        }
+
+        private static IntGenerator StaticNumber()
+        {
+            ObservableCollection<GeneratorParameter> paramss = new ObservableCollection<GeneratorParameter>();
+
+            paramss.Add(new GeneratorParameter("Number", 0));
+
+            IntGenerator gen = new IntGenerator("Static Number", (n, p) =>
+            {
+                int value = GetParameterByName<int>(p, "Number");
+
+                return value;
+            }
+                , paramss);
+            return gen;
+        }
+
+        private static IntGenerator Query()
+        {
+            ObservableCollection<GeneratorParameter> paramss = new ObservableCollection<GeneratorParameter>();
+
+            paramss.Add(new GeneratorParameter("Query", 0));
+
+            IntGenerator gen = new IntGenerator("Custom SQL Query", (n, p) =>
+            {
+                string value = GetParameterByName<string>(p, "Query");
+
+                return string.Format("({0})",value);
+            }
+                , paramss);
+            return gen;
+        }
 
         //public static object DownCounter(int n, object param)
         //{
         //    return 0 - n;
-        //}
-
-        //private static object RandomInt(int n, ObservableCollection<GeneratorParameter> paramas)
-        //{
-        //    return RandomSupplier.Instance.GetNextInt();
-        //}
-
-        //public static object StaticNumber(int n, object param)
-        //{
-        //    IntParameter p = ObjectToIntParameter(param);
-        //    return p.SpecifiedValue;
-        //}
-
-        //public static object IdentityFromExecutionItem(int n, object param)
-        //{
-        //    IntParameter p = ObjectToIntParameter(param);
-        //    // do not wrap
-        //    return string.Format("@i{0}_identity", p.SpecifiedValue);
-        //}
-
-
-        //private static IntParameter ObjectToIntParameter(object param)
-        //{
-        //    if (!(param is IntParameter))
-        //        throw new ArgumentException("The supplied Parameter is not IntParameter");
-
-        //    return param as IntParameter;
-        //}
-
-
-
-
-
-        //internal static GeneratorBase DefaultGenerator()
-        //{
-        //    return CreateRandomGenerator();
         //}
     }
 }
