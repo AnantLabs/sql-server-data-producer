@@ -76,7 +76,7 @@ namespace SQLRepeater.Entities.Generators
 
         protected static TRes GetParameterByName<TRes>(ObservableCollection<GeneratorParameter> paramas, string name)
         {
-            return (TRes)paramas.Where(x => x.ParameterName == name).Select(x => x.Value).FirstOrDefault();
+            return (TRes)paramas.Where(x => x.ParameterName == name).First().Value;
         }
 
 

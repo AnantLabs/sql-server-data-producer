@@ -16,6 +16,8 @@ namespace SQLRepeater.Entities.Generators
 
         public static ObservableCollection<GeneratorBase> GetGenerators()
         {
+            // TODO: Replace with reflection?
+            // TODO: Use inheritance to reuse some of the generators? Some other way instead of inheritance?
             ObservableCollection<GeneratorBase> valueGenerators = new ObservableCollection<GeneratorBase>();
             valueGenerators.Add(CreateRandomGenerator());
             valueGenerators.Add(CreateUpCounter());
@@ -95,7 +97,7 @@ namespace SQLRepeater.Entities.Generators
         {
             ObservableCollection<GeneratorParameter> paramss = new ObservableCollection<GeneratorParameter>();
 
-            paramss.Add(new GeneratorParameter("Query", 0));
+            paramss.Add(new GeneratorParameter("Query", "select 1"));
 
             IntGenerator gen = new IntGenerator("Custom SQL Query", (n, p) =>
             {
