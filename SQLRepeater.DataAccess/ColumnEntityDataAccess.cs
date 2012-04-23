@@ -18,13 +18,15 @@ namespace SQLRepeater.DataAccess
 
         private Func<SqlDataReader, ColumnEntity> CreateColumnEntity = reader =>
         {
+            ObservableCollection<GeneratorBase> generators = Generatorsupplier.GetGeneratorsForDataType(reader.GetString(1));
             return new ColumnEntity
             (
                 reader.GetString(0),
                 reader.GetString(1),
                 (bool)reader["IsIdentity"],
                 reader.GetInt32(2),
-                Generatorsupplier.GetDefaultGeneratorForDataType(reader.GetString(1))
+                generators.FirstOrDefault(),
+                generators
             );
         };
 

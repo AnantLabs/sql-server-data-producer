@@ -11,14 +11,6 @@
         <conv:InverseBooleanConverter x:Key="inverseBoolConvrt" />
     </UserControl.Resources>
     <StackPanel>
-        <ComboBox ItemsSource="{Binding Tables}" SelectedItem="{Binding SelectedTable, Mode=TwoWay}" >
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <Label Content="{Binding TableName}" />
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
-
         <Label Content="Seconds to run;" />
         <TextBox Margin="3 3 3 3" Text="{Binding DurationInSeconds}" />
         <Label Content="Number of threads:" />

@@ -5,6 +5,7 @@ using System.Text;
 using SQLRepeater.DataAccess;
 using SQLRepeater.DatabaseEntities.Entities;
 using System.Windows;
+using SQLRepeater.EntityQueryGenerator;
 
 namespace SQLRepeater.ViewModels
 {
@@ -105,31 +106,36 @@ namespace SQLRepeater.ViewModels
 
 
         TaskExecuter.TaskExecuter _executor;
-        private SQLRepeater.Model.ApplicationModel Model_2;
 
-        public SidePanelViewModel()
+        public SidePanelViewModel(SQLRepeater.Model.ApplicationModel model)
         {
+            this.Model = model;
+            _executor = new TaskExecuter.TaskExecuter();
+
             RunSQLQueryCommand = new DelegateCommand(() =>
             {
                 EntityQueryGenerator.InsertQueryGenerator ig =
                     new EntityQueryGenerator.InsertQueryGenerator();
 
-                //string sql = ig.GenerateQueryForExecutionItems(Model.SelectedTable);
-                //_executor = new TaskExecuter.TaskExecuter();
+                InsertQueryGenerator queryGenerator = new InsertQueryGenerator();
+                string baseQuery = queryGenerator.GenerateQueryForExecutionItems(Model.ExecutionItems);
 
-                //Action<int> sqlTask = _executor.CreateSQLTask(sql
-                //    , Model.SelectedTable.GetParamValueCreator()
-                //    , Model.ConnectionString);
+                Action<int> a = _executor.CreateSQLTaskForExecutionItems(
+                    // The items to generate data for
+                    Model.ExecutionItems, 
+                    // The basequery containing all the insert statements
+                    baseQuery, 
+                    // The connection string to use
+                    Model.ConnectionString, 
+                    // The function to call to generate the final declare @.. statements for each iteration
+                    queryGenerator.GenerateFinalQuery);
 
-                //IsQueryRunning = true;
-                //_executor.BeginExecute(sqlTask
-                //    , DateTime.Now.AddSeconds(DurationInSeconds)
-                //    , NumTasks
-                //    , count =>
-                //    {
-                //        IsQueryRunning = false;
-                //        MessageBox.Show(count.ToString());
-                //    });
+                IsQueryRunning = true;
+               _executor.BeginExecute(a, DateTime.Now.AddSeconds(DurationInSeconds), NumTasks, count =>
+                    {
+                        IsQueryRunning = false;
+                        MessageBox.Show(count.ToString());
+                    });
             });
 
             StopExecutionCommand = new DelegateCommand(() =>
@@ -141,10 +147,6 @@ namespace SQLRepeater.ViewModels
             });
         }
 
-        public SidePanelViewModel(SQLRepeater.Model.ApplicationModel Model_2)
-        {
-            // TODO: Complete member initialization
-            this.Model_2 = Model_2;
-        }
+      
     }
 }

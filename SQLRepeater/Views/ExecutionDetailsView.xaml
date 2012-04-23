@@ -14,61 +14,53 @@
         
         <DataGrid 
             Grid.Column="0"
-            ItemsSource="{Binding Path=SelectedExecutionItem.TargetTable.Columns}" AutoGenerateColumns="True"
-            SelectedItem="{Binding SelectedColumn, Mode=TwoWay}" Grid.ColumnSpan="2">
-                <!--<DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding ColumnName}" Header="Column Name" />
-                    <DataGridTextColumn Binding="{Binding ColumnDataType}" Header="Data Type" />
-                   
-                    <DataGridTemplateColumn Header="Data Generator">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <ComboBox ItemsSource="{Binding DataGenerationGenerators}"
-                                          SelectedItem="{Binding CurrentColumnEntity.ColumnValue.ValueGenerator, Mode=TwoWay}"
-                                          Height="25" VerticalAlignment="Top">
-                                        <ComboBox.ItemTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding Method.Name}" />
-                                            </DataTemplate>
-                                        </ComboBox.ItemTemplate>
+            ItemsSource="{Binding Path=SelectedExecutionItem.TargetTable.Columns}" AutoGenerateColumns="false"
+            SelectionUnit="FullRow"
+            SelectedItem="{Binding SelectedColumn, Mode=TwoWay}" >
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding ColumnName}" Header="Column Name" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding ColumnDataType}" Header="Data Type" IsReadOnly="True" />
 
-                                    </ComboBox>
-                            </StackPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Data Generator">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Generator.GeneratorName}" Height="25" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
                     
-                </DataGrid.Columns>-->
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <ComboBox ItemsSource="{Binding PossibleGenerators}"
+                                          SelectedItem="{Binding Generator, Mode=TwoWay}"
+                                          Height="25" VerticalAlignment="Top">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding GeneratorName}" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+
+                                </ComboBox>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+
+            </DataGrid.Columns>
         </DataGrid>
-        <DataGrid 
+        
+        <ListBox
             Grid.Column="1"
-            ItemsSource="{Binding Path=SelectedColumn.Generator.GeneratorParameters}" AutoGenerateColumns="True"
-            SelectedItem="{Binding SelectedGeneratorParameter, Mode=TwoWay}" Grid.ColumnSpan="2">
-            <!--<DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding ColumnName}" Header="Column Name" />
-                    <DataGridTextColumn Binding="{Binding ColumnDataType}" Header="Data Type" />
-                   
-                    <DataGridTemplateColumn Header="Data Generator">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <ComboBox ItemsSource="{Binding DataGenerationGenerators}"
-                                          SelectedItem="{Binding CurrentColumnEntity.ColumnValue.ValueGenerator, Mode=TwoWay}"
-                                          Height="25" VerticalAlignment="Top">
-                                        <ComboBox.ItemTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding Method.Name}" />
-                                            </DataTemplate>
-                                        </ComboBox.ItemTemplate>
-
-                                    </ComboBox>
-                            </StackPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    
-                </DataGrid.Columns>-->
-        </DataGrid>
+            ItemsSource="{Binding Path=SelectedColumn.Generator.GeneratorParameters}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding ParameterName}" />
+                        <TextBox Text="{Binding Value}"    />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        
     </Grid>
 </UserControl>

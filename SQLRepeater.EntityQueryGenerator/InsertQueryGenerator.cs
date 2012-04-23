@@ -138,6 +138,9 @@ namespace SQLRepeater.EntityQueryGenerator
         private string GenerateVariableDeclarationAndValuesForExecutionItems(int n, IEnumerable<ExecutionItem> execItems)
         {
             StringBuilder sb = new StringBuilder();
+            sb.AppendFormat("DECLARE @n BIGINT = {0}", n);
+            sb.AppendLine();
+
             foreach (var tabl in execItems)
             {
                 sb.AppendFormat("-- Item {0}, {1}.{2}", tabl.Order, tabl.TargetTable.TableSchema, tabl.TargetTable.TableName);
