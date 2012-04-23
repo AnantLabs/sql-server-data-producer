@@ -42,7 +42,7 @@ namespace SQLRepeater.Entities.Generators
 
             IntGenerator gen = new IntGenerator("Random Int", (n, p) =>
                 {
-                    int maxValue = GetParameterByName<int>("MaxValue");
+                    int maxValue = GetParameterByName<int>(p, "MaxValue");
                     return RandomSupplier.Instance.GetNextInt() % maxValue;
                 }
                 , paramss);

@@ -74,9 +74,16 @@ namespace SQLRepeater.Entities.Generators
             return string.Format("'{0}'", s);
         }
 
-        protected TRes GetParameterByName<TRes>(string name)
+        /// <summary>
+        /// Helper function to retrieve parameter value from the collection
+        /// </summary>
+        /// <typeparam name="TRes">The type of value that it should return</typeparam>
+        /// <param name="parms">The observerablecollection containing the parmaeters</param>
+        /// <param name="name">the name of the parameter to get the value for</param>
+        /// <returns></returns>
+        protected static TRes GetParameterByName<TRes>(ObservableCollection<GeneratorParameter> parms, string name)
         {
-            return (TRes)GeneratorParameters.Where(x => x.ParameterName == name).Select(x => x.Value).FirstOrDefault();
+            return (TRes)parms.Where(x => x.ParameterName == name).Select(x => x.Value).FirstOrDefault();
         }
 
 
