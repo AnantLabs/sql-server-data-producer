@@ -3,7 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:me="clr-namespace:SQLRepeater.ViewModels"
         xmlns:conv="clr-namespace:SQLRepeater.Converters"
-        Title="SQL Repeater" Height="600" Width="800">
+        Title="SQL Repeater" Height="600" Width="800"
+        WindowState="Maximized"
+        >
     
     <Window.Resources>
         <me:MainWindowViewModel x:Key="vm" />

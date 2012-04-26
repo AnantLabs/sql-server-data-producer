@@ -57,12 +57,6 @@
     <Compile Include="DatabaseEntities\TableEntity.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SQLRepeater.Delegates\SQLRepeater.Delegates.csproj">
-      <Project>{A274312E-C585-49E6-AF3C-B6556D905B67}</Project>
-      <Name>SQLRepeater.Delegates</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Generators\resources\Countries.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
