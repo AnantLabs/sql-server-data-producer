@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
 using SQLRepeater.Entities.ExecutionOrderEntities;
+using SQLRepeater.DatabaseEntities.Entities;
 
 namespace SQLRepeater.ViewModels
 {
@@ -74,9 +75,42 @@ namespace SQLRepeater.ViewModels
             Model = model;
 
             MoveItemRightCommand = new DelegateCommand(() =>
-            {
-                Model.ExecutionItems.Add(new ExecutionItem(Model.SelectedTable, Model.ExecutionItems.Count + 1));
-            });
+                {
+                    if (Model.SelectedTable != null)
+                    {
+                        AddExecutionItem(Model.SelectedTable);
+                    }
+                });
+
+            MoveAllItemsRightCommand = new DelegateCommand(() =>
+                {
+                    foreach (var tabl in Model.Tables)
+                    {
+                        AddExecutionItem(tabl);
+                    }
+                });
+
+            MoveAllItemsLeftCommand = new DelegateCommand(() =>
+                {
+                    Model.ExecutionItems.Clear();
+                });
+            
+            MoveItemLeftCommand = new DelegateCommand(() =>
+                {
+                    if (Model.SelectedExecutionItem != null)
+                    {
+                        Model.ExecutionItems.Remove(Model.SelectedExecutionItem);
+                        for (int i = 0; i < Model.ExecutionItems.Count; i++)
+                        {
+                            Model.ExecutionItems[i].Order = i + 1;
+                        }
+                    }
+                });
+        }
+
+        private void AddExecutionItem(TableEntity table)
+        {
+            Model.ExecutionItems.Add(new ExecutionItem(table, Model.ExecutionItems.Count + 1));
         }
     }
 }

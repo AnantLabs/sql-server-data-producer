@@ -2,87 +2,116 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Collections.ObjectModel;
 //
 
 namespace SQLRepeater.Entities.Generators
 {
-    public class StringGenerator 
+    public class StringGenerator : GeneratorBase
     {
 
+        private StringGenerator(string name, ValueCreatorDelegate generator, ObservableCollection<GeneratorParameter> genParams)
+            : base(name, generator, genParams)
+        {
+        }
 
-        //public StringGenerator(ValueCreatorDelegate generator, StringParameter param)
-        //    : base(generator, param)
-        //{
+        internal static System.Collections.ObjectModel.ObservableCollection<GeneratorBase> GetGenerators()
+        {
+            ObservableCollection<GeneratorBase> valueGenerators = new ObservableCollection<GeneratorBase>();
+            valueGenerators.Add(CreateCountriesGenerator());
+            valueGenerators.Add(CreateFemaleNameGenerator());
+            valueGenerators.Add(CreateMaleNameGenerator());
+            valueGenerators.Add(CreateStaticStringGenerator());
+            valueGenerators.Add(CreateQueryGenerator());
 
-        //}
-
-
-        //#region Static Members
-        //public static System.Collections.ObjectModel.ObservableCollection<ValueCreatorDelegate> Generators { get; set; }
-
-        //static StringGenerator()
-        //{
-        //    Generators = new System.Collections.ObjectModel.ObservableCollection<ValueCreatorDelegate>();
-        //    Generators.Add(Countries);
-        //    Generators.Add(FemaleNames);
-        //    Generators.Add(MaleNames);
-        //}
-
-        //private static List<string> _countries;
-        //static List<string> CountryList
-        //{
-        //    get
-        //    {
-        //        if (_countries == null)
-        //        {
-        //            _countries = new List<string>();
-        //            _countries.AddRange(System.IO.File.ReadAllLines(@".\resources\Countries.txt"));
-        //        }
-        //        return _countries;
-        //    }
-        //}
-
-        //private static List<string> _females;
-        //static List<string> Females
-        //{
-        //    get
-        //    {
-        //        if (_females == null)
-        //        {
-        //            _females = new List<string>();
-        //            _females.AddRange(System.IO.File.ReadAllLines(@".\resources\FemaleNames.txt"));
-        //        }
-        //        return _females;
-        //    }
-        //}
-        //private static List<string> _males;
-        //static List<string> Males
-        //{
-        //    get
-        //    {
-        //        if (_males == null)
-        //        {
-        //            _males = new List<string>();
-        //            _males.AddRange(System.IO.File.ReadAllLines(@".\resources\MaleNames.txt"));
-        //        }
-        //        return _males;
-        //    }
-        //}
+            return valueGenerators;
+        }
 
 
-        //public static object Countries(int n, object param)
-        //{
-        //    return Wrap(CountryList[n % CountryList.Count]);
-        //}
-        //public static object FemaleNames(int n, object param)
-        //{
-        //    return Wrap(Females[n % Females.Count]);
-        //}
-        //public static object MaleNames(int n, object param)
-        //{
-        //    return Wrap(Males[n % Males.Count]);
-        //} 
-        //#endregion
+        private static StringGenerator CreateStaticStringGenerator()
+        {
+            ObservableCollection<GeneratorParameter> paramss = new ObservableCollection<GeneratorParameter>();
 
+            paramss.Add(new GeneratorParameter("Value", ""));
+
+            StringGenerator gen = new StringGenerator("Static String", (n, p) =>
+            {
+                return Wrap(GetParameterByName<string>(p, "Value"));
+            }
+                , paramss);
+            return gen;
+        }
+
+        private static StringGenerator CreateCountriesGenerator()
+        {
+            StringGenerator gen = new StringGenerator("Countries", (n, p) =>
+            {
+                return Wrap(CountryList[n % CountryList.Count]);
+            }
+                , null);
+            return gen;
+        }
+
+        private static StringGenerator CreateFemaleNameGenerator()
+        {
+            StringGenerator gen = new StringGenerator("Female names", (n, p) =>
+            {
+                return Wrap(Females[n % Females.Count]);
+            }
+                , null);
+            return gen;
+        }
+        private static StringGenerator CreateMaleNameGenerator()
+        {
+            StringGenerator gen = new StringGenerator("Male names", (n, p) =>
+            {
+                return Wrap(Males[n % Males.Count]);
+            }
+                , null);
+            return gen;
+        }
+
+        private static List<string> _countries;
+        static List<string> CountryList
+        {
+            get
+            {
+                if (_countries == null)
+                {
+                    _countries = new List<string>();
+                    _countries.AddRange(System.IO.File.ReadAllLines(@".\resources\Countries.txt"));
+                }
+                return _countries;
+            }
+        }
+
+        private static List<string> _females;
+        static List<string> Females
+        {
+            get
+            {
+                if (_females == null)
+                {
+                    _females = new List<string>();
+                    _females.AddRange(System.IO.File.ReadAllLines(@".\resources\FemaleNames.txt"));
+                }
+                return _females;
+            }
+        }
+        private static List<string> _males;
+        static List<string> Males
+        {
+            get
+            {
+                if (_males == null)
+                {
+                    _males = new List<string>();
+                    _males.AddRange(System.IO.File.ReadAllLines(@".\resources\MaleNames.txt"));
+                }
+                return _males;
+            }
+        }
+
+       
     }
 }

@@ -112,11 +112,20 @@ namespace SQLRepeater.ViewModels
         private void LoadTables()
         {
             TableEntityDataAccess tda = new TableEntityDataAccess(Model.ConnectionString);
-            tda.BeginGetAllTables(res =>
+            tda.BeginGetAllTablesAndColumns(res =>
             {
                 Model.Tables = res;
                 Model.SelectedTable = Model.Tables.FirstOrDefault();
             });
+            //ColumnEntityDataAccess cda = new ColumnEntityDataAccess(Model.ConnectionString);
+            //foreach (var tabl in Model.Tables)
+            //{
+            //    cda.BeginGetAllColumnsForTable(tabl, cols =>
+            //        {
+            //            tabl.Columns = cols;
+            //        });
+            //}
+
         }
 
         public MainWindowViewModel()

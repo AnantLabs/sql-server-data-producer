@@ -7,7 +7,7 @@ using System.Collections.ObjectModel;
 
 namespace SQLRepeater.Entities.Generators
 {
-    public class GeneratorBase: IValueCreator, INotifyPropertyChanged 
+    public class GeneratorBase: INotifyPropertyChanged 
     {
 
         protected ValueCreatorDelegate ValueGenerator { get; set; }
@@ -80,12 +80,21 @@ namespace SQLRepeater.Entities.Generators
         }
 
 
-        //public IValueCreator Clone()
-        //{
-        //    return new GeneratorBase(GeneratorName, ValueGenerator, GeneratorParameters);
-        //}
+        protected static GeneratorBase CreateQueryGenerator()
+        {
+            ObservableCollection<GeneratorParameter> paramss = new ObservableCollection<GeneratorParameter>();
 
+            paramss.Add(new GeneratorParameter("Query", "select ..."));
 
+            GeneratorBase gen = new GeneratorBase("Custom SQL Query", (n, p) =>
+            {
+                string value = GetParameterByName<string>(p, "Query");
+
+                return string.Format("({0})", value);
+            }
+                , paramss);
+            return gen;
+        }
 
 
         protected void OnPropertyChanged(string propertyName)

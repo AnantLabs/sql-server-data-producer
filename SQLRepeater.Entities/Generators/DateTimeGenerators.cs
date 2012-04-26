@@ -7,88 +7,124 @@ using System.Collections.ObjectModel;
 
 namespace SQLRepeater.Entities.Generators
 {
-    public class DateTimeGenerator //: GeneratorBase<DateTimeParameter>
+    public class DateTimeGenerator : GeneratorBase
     {
-        //public DateTimeGenerator(ValueCreatorDelegate generator, DateTimeParameter param)
-        //    : base(generator, param)
-        //{
+        private DateTimeGenerator(string name, ValueCreatorDelegate generator, ObservableCollection<GeneratorParameter> genParams)
+            : base(name, generator, genParams)
+        {
+        }
 
-        //}
-
-
-        //#region Static members
-        //private static DateTime _currentDate = DateTime.Now;
-        //private static DateTime StartDate
-        //{
-        //    get
-        //    {
-        //        return _currentDate;
-        //    }
-        //}
-
-        //static DateTimeGenerator()
-        //{
-        //    Generators = new ObservableCollection<ValueCreatorDelegate>();
-        //    Generators.Add(CurrentDate);
-        //    Generators.Add(RandomDates);
-        //    Generators.Add(DaySeries);
-        //    Generators.Add(HourSeries);
-        //    Generators.Add(MinutesSeries);
-        //    Generators.Add(SecondsSeries);
-        //    Generators.Add(MiliSecondSeries);
-        //}
-
-        //public static object CurrentDate(int n, object param)
-        //{
-        //    return Wrap(DateTime.Now);
-        //}
-
-        //public static object RandomDates(int n, object param)
-        //{
-        //    return Wrap(StartDate.AddDays(RandomSupplier.Instance.GetNextInt() % 30));
-        //}
-
-        //public static object SecondsSeries(int n, object param)
-        //{
-        //    return Wrap(StartDate.AddSeconds(n));
-        //}
-        //public static object MiliSecondSeries(int n, object param)
-        //{
-        //    return Wrap(StartDate.AddMilliseconds(n));
-        //}
-        //public static object MinutesSeries(int n, object param)
-        //{
-        //    return Wrap(StartDate.AddMinutes(n));
-        //}
-
-        //public static object HourSeries(int n, object param)
-        //{
-        //    return Wrap(StartDate.AddHours(n));
-        //}
-
-        //public static object DaySeries(int n, object param)
-        //{
-        //    return Wrap(StartDate.AddDays(n));
-        //}
+        
+        private static DateTime _currentDate = DateTime.Now;
+        private static DateTime StartDate
+        {
+            get
+            {
+                return _currentDate;
+            }
+        }
 
 
-        //static ObservableCollection<ValueCreatorDelegate> _Generators;
-        //public static ObservableCollection<ValueCreatorDelegate> Generators
-        //{
-        //    get
-        //    {
-        //        return _Generators;
-        //    }
-        //    set
-        //    {
-        //        if (_Generators != value)
-        //        {
-        //            _Generators = value;
-        //        }
-        //    }
-        //} 
-        //#endregion
+        internal static ObservableCollection<GeneratorBase> GetGenerators()
+        {
+            ObservableCollection<GeneratorBase> valueGenerators = new ObservableCollection<GeneratorBase>();
+            valueGenerators.Add(CreateCurrentDateGenerator());
+            valueGenerators.Add(CreateQueryGenerator());
+            valueGenerators.Add(CreateDaysSeriesGenerator());
+            valueGenerators.Add(CreateHoursSeriesGenerator());
+            valueGenerators.Add(CreateMiliSecondSeriesGenerator());
+            valueGenerators.Add(CreateMinutesSeriesGenerator());
+            valueGenerators.Add(CreateRandomDateGenerator());
+            valueGenerators.Add(CreateSecondSeriesGenerator());
+            
+            return valueGenerators;
+        }
 
+        private static DateTimeGenerator CreateCurrentDateGenerator()
+        {
+            DateTimeGenerator gen = new DateTimeGenerator("Current Date", (n, p) =>
+            {
+                return Wrap(DateTime.Now.ToString());
+            }
+                , null);
+            return gen;
+        }
+
+        private static DateTimeGenerator CreateStaticDateGenerator()
+        {
+            ObservableCollection<GeneratorParameter> paramss = new ObservableCollection<GeneratorParameter>();
+
+            paramss.Add(new GeneratorParameter("DATE", DateTime.Now.ToString()));
+
+            DateTimeGenerator gen = new DateTimeGenerator("Current Date", (n, p) =>
+            {
+                return Wrap(GetParameterByName<string>(p, "DATE"));
+            }
+                , paramss);
+            return gen;
+        }
+
+
+        private static DateTimeGenerator CreateRandomDateGenerator()
+        {
+            DateTimeGenerator gen = new DateTimeGenerator("Random Date", (n, p) =>
+            {
+                return Wrap(StartDate.AddDays(RandomSupplier.Instance.GetNextInt() % 30));
+            }
+                , null);
+            return gen;
+        }
+
+        private static DateTimeGenerator CreateSecondSeriesGenerator()
+        {
+            DateTimeGenerator gen = new DateTimeGenerator("Seconds Series", (n, p) =>
+            {
+                return Wrap(StartDate.AddSeconds(n));
+            }
+                , null);
+            return gen;
+        }
+
+        private static DateTimeGenerator CreateMiliSecondSeriesGenerator()
+        {
+            DateTimeGenerator gen = new DateTimeGenerator("Miliseconds Series", (n, p) =>
+            {
+                return Wrap(StartDate.AddMilliseconds(n));
+            }
+                , null);
+            return gen;
+        }
+
+        private static DateTimeGenerator CreateMinutesSeriesGenerator()
+        {
+            DateTimeGenerator gen = new DateTimeGenerator("Minutes Series", (n, p) =>
+            {
+                return Wrap(StartDate.AddMinutes(n));
+            }
+                , null);
+            return gen;
+        }
+        private static DateTimeGenerator CreateHoursSeriesGenerator()
+        {
+            DateTimeGenerator gen = new DateTimeGenerator("Hours Series", (n, p) =>
+            {
+                return Wrap(StartDate.AddHours(n));
+            }
+                , null);
+            return gen;
+        }
+        private static DateTimeGenerator CreateDaysSeriesGenerator()
+        {
+            DateTimeGenerator gen = new DateTimeGenerator("Days Series", (n, p) =>
+            {
+                return Wrap(StartDate.AddHours(n));
+            }
+                , null);
+            return gen;
+        }
        
+
+
+
     }
 }

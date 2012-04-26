@@ -17,7 +17,8 @@
         </Grid.ColumnDefinitions>
         
         
-        <ListBox ItemsSource="{Binding Model.Tables}" SelectedItem="{Binding Model.SelectedTable, Mode=TwoWay}" Grid.Column="0">
+        <ListBox Height="Auto" ItemsSource="{Binding Model.Tables}" SelectedItem="{Binding Model.SelectedTable, Mode=TwoWay}" Grid.Column="0"
+                ScrollViewer.VerticalScrollBarVisibility="Visible">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Path=TableName}" />
@@ -26,7 +27,10 @@
         </ListBox>
 
         <ListBox ItemsSource="{Binding Model.ExecutionItems}" 
-                 SelectedItem="{Binding Model.SelectedExecutionItem, Mode=TwoWay}" Grid.Column="2">
+                 SelectedItem="{Binding Model.SelectedExecutionItem, Mode=TwoWay}" 
+                 Grid.Column="2"
+                 ScrollViewer.VerticalScrollBarVisibility="Visible"
+                 >
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid>

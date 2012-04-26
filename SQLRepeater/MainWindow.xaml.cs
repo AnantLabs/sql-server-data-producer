@@ -22,13 +22,12 @@ namespace SQLRepeater
         public MainWindow()
         {
             InitializeComponent();
-          //  Loaded += new RoutedEventHandler(MainWindow_Loaded);
+            Loaded += new RoutedEventHandler(MainWindow_Loaded);
         }
 
-        //void MainWindow_Loaded(object sender, RoutedEventArgs e)
-        //{
-        //    this.DataContext = new MainWindowViewModel();
-        //    //DataGrid
-        //}
+        void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Maximized;
+        }
     }
 }

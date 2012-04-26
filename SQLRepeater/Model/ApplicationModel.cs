@@ -40,7 +40,7 @@ namespace SQLRepeater.Model
                 if (_selectedTable != value)
                 {
                     _selectedTable = value;
-                    GetColumnsForTable(_selectedTable);
+                    //GetColumnsForTable(_selectedTable);
                     OnPropertyChanged("SelectedTable");
                 }
             }

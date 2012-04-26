@@ -2,34 +2,72 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Collections.ObjectModel;
 
 namespace SQLRepeater.Entities.Generators
 {
-    public class UniqueIdentifierGenerator// : GeneratorBase<UniqueIdentifierParameter>
+    public class UniqueIdentifierGenerator : GeneratorBase
     {
-        // public UniqueIdentifierGenerator(ValueCreatorDelegate generator, UniqueIdentifierParameter param)
-        //    : base(generator, param)
-        //{
-
-        //}
-
+      
+        private UniqueIdentifierGenerator(string name, ValueCreatorDelegate generator, ObservableCollection<GeneratorParameter> genParams)
+            : base(name, generator, genParams)
+        {
+        }
         
-        //#region Static Members
-        //public static System.Collections.ObjectModel.ObservableCollection<ValueCreatorDelegate> Generators { get; set; }
 
-        //static UniqueIdentifierGenerator()
+        internal static ObservableCollection<GeneratorBase> GetGenerators()
+        {
+            ObservableCollection<GeneratorBase> valueGenerators = new ObservableCollection<GeneratorBase>();
+            valueGenerators.Add(CreateRandomGenerator());
+            valueGenerators.Add(CreateQueryGenerator());
+            valueGenerators.Add(StaticGUID());
+
+            return valueGenerators;
+        }
+
+        private static UniqueIdentifierGenerator CreateRandomGenerator()
+        {
+            ObservableCollection<GeneratorParameter> paramss = new ObservableCollection<GeneratorParameter>();
+
+            UniqueIdentifierGenerator gen = new UniqueIdentifierGenerator("Random GUID", (n, p) =>
+            {
+                return Wrap(Guid.NewGuid());
+            }
+                , paramss);
+            return gen;
+        }
+
+        //private static UniqueIdentifierGenerator Query()
         //{
-        //    Generators = new System.Collections.ObjectModel.ObservableCollection<ValueCreatorDelegate>();
-        //    Generators.Add(NewGuid);
+        //    ObservableCollection<GeneratorParameter> paramss = new ObservableCollection<GeneratorParameter>();
+
+        //    paramss.Add(new GeneratorParameter("Query", "select newid()"));
+
+        //    UniqueIdentifierGenerator gen = new UniqueIdentifierGenerator("Custom SQL Query", (n, p) =>
+        //    {
+        //        string value = GetParameterByName<string>(p, "Query");
+
+        //        return string.Format("({0})", value);
+        //    }
+        //        , paramss);
+        //    return gen;
         //}
 
-        //public static object NewGuid(int n, object param)
-        //{
-        //    return Wrap(new Guid());
-        //} 
-        //#endregion
 
+        private static UniqueIdentifierGenerator StaticGUID()
+        {
+            ObservableCollection<GeneratorParameter> paramss = new ObservableCollection<GeneratorParameter>();
 
+            paramss.Add(new GeneratorParameter("GUID", new Guid()));
 
+            UniqueIdentifierGenerator gen = new UniqueIdentifierGenerator("Static GUID", (n, p) =>
+            {
+                int value = GetParameterByName<int>(p, "GUID");
+
+                return Wrap(value);
+            }
+                , paramss);
+            return gen;
+        }
     }
 }
