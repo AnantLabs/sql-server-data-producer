@@ -58,7 +58,7 @@ namespace SQLRepeater.Entities.Generators
 
             DateTimeGenerator gen = new DateTimeGenerator("Current Date", (n, p) =>
             {
-                return Wrap(GetParameterByName<string>(p, "DATE"));
+                return Wrap(GetParameterByName(p, "DATE").ToString());
             }
                 , paramss);
             return gen;

@@ -27,10 +27,15 @@ namespace SQLRepeater.Entities.Generators
         private static DecimalGenerator CreateRandomGenerator()
         {
             ObservableCollection<GeneratorParameter> paramss = new ObservableCollection<GeneratorParameter>();
+            paramss.Add(new GeneratorParameter("MinValue", 0.0));
+            paramss.Add(new GeneratorParameter("MaxValue", 10000000));
 
             DecimalGenerator gen = new DecimalGenerator("Random Decimal", (n, p) =>
             {
-                return new Decimal(RandomSupplier.Instance.GetNextInt());
+                double maxValue = double.Parse(GetParameterByName(p, "MaxValue").ToString());
+                double minValue = double.Parse(GetParameterByName(p, "MinValue").ToString());
+
+                return RandomSupplier.Instance.GetNextDouble() % maxValue + minValue;
             }
                 , paramss);
             return gen;
@@ -41,16 +46,16 @@ namespace SQLRepeater.Entities.Generators
             ObservableCollection<GeneratorParameter> paramss = new ObservableCollection<GeneratorParameter>();
 
             paramss.Add(new GeneratorParameter("MinValue", 0.0));
-            paramss.Add(new GeneratorParameter("MaxValue", Decimal.MaxValue));
+            paramss.Add(new GeneratorParameter("MaxValue", 10000000));
             //paramss.Add(new GeneratorParameter("NumDecimals", 2));
             paramss.Add(new GeneratorParameter("Step", 1.0));
 
             DecimalGenerator gen = new DecimalGenerator("Counting up", (n, p) =>
             {
-                decimal maxValue = GetParameterByName<int>(p, "MaxValue");
-                decimal minValue = GetParameterByName<int>(p, "MinValue");
-                //int decimals = GetParameterByName<int>(p, "NumDecimals");
-                decimal step = GetParameterByName<decimal>(p, "Step");
+                double maxValue = double.Parse(GetParameterByName(p, "MaxValue").ToString());
+                double minValue = double.Parse(GetParameterByName(p, "MinValue").ToString());
+                //int doubles = GetParameterByName<int>(p, "NumDecimals");
+                double step = double.Parse(GetParameterByName(p, "Step").ToString());
 
                 return (minValue + (step * n)) % maxValue;
             }

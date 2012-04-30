@@ -62,7 +62,7 @@ namespace SQLRepeater.Entities.Generators
 
             UniqueIdentifierGenerator gen = new UniqueIdentifierGenerator("Static GUID", (n, p) =>
             {
-                int value = GetParameterByName<int>(p, "GUID");
+                string value = GetParameterByName(p, "GUID").ToString();
 
                 return Wrap(value);
             }

@@ -24,14 +24,14 @@ namespace SQLRepeater.Entities.Generators
         public static ObservableCollection<GeneratorBase> GetGeneratorsForSmallInt()
         {
             int maxValue = short.MaxValue;
-            int minValue = short.MinValue;
+            int minValue = 0;
 
             return CreateGeneratorsWithSettings(maxValue, minValue);
         }
         public static ObservableCollection<GeneratorBase> GetGeneratorsForBigInt()
         {
-            long maxValue = long.MaxValue;
-            long minValue = long.MinValue;
+            long maxValue = int.MaxValue;
+            long minValue = 0;
 
             return CreateGeneratorsWithSettings(maxValue, minValue);
         }
@@ -73,8 +73,8 @@ namespace SQLRepeater.Entities.Generators
 
             IntGenerator gen = new IntGenerator("Random Int", (n, p) =>
                 {
-                    int maxValue = GetParameterByName<int>(p, "MaxValue");
-                    int minValue = GetParameterByName<int>(p, "MinValue");
+                    long maxValue = long.Parse(GetParameterByName(p, "MaxValue").ToString());
+                    long minValue = long.Parse(GetParameterByName(p, "MinValue").ToString());
                     return (minValue + RandomSupplier.Instance.GetNextInt()) % maxValue;
                 }
                 , paramss);
@@ -90,8 +90,8 @@ namespace SQLRepeater.Entities.Generators
 
             IntGenerator gen = new IntGenerator("Counting up", (n, p) =>
             {
-                int maxValue = GetParameterByName<int>(p, "MaxValue");
-                int minValue = GetParameterByName<int>(p, "MinValue");
+                long maxValue = long.Parse(GetParameterByName(p, "MaxValue").ToString());
+                long minValue = long.Parse(GetParameterByName(p, "MinValue").ToString());
                 return (n + minValue) % maxValue;
             }
                 , paramss);
@@ -105,7 +105,7 @@ namespace SQLRepeater.Entities.Generators
 
             IntGenerator gen = new IntGenerator("Identity from previous item", (n, p) =>
             {
-                int value = GetParameterByName<int>(p, "Item Number#");
+                long value = long.Parse(GetParameterByName(p, "Item Number#").ToString());
 
                 return string.Format("@i{0}_identity", value);
             }
@@ -121,7 +121,7 @@ namespace SQLRepeater.Entities.Generators
 
             IntGenerator gen = new IntGenerator("Static Number", (n, p) =>
             {
-                int value = GetParameterByName<int>(p, "Number");
+                long value = long.Parse(GetParameterByName(p, "Number").ToString());
 
                 return value;
             }

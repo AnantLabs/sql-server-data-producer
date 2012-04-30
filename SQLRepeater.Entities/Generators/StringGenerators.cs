@@ -24,9 +24,30 @@ namespace SQLRepeater.Entities.Generators
             valueGenerators.Add(CreateStaticStringGenerator());
             valueGenerators.Add(CreateQueryGenerator());
 
+            
+            
             return valueGenerators;
         }
 
+
+        static StringGenerator()
+        {
+            if (_countries == null)
+            {
+                _countries = new List<string>();
+                _countries.AddRange(System.IO.File.ReadAllLines(@".\Generators\resources\Countries.txt"));
+            }
+            if (_females == null)
+            {
+                _females = new List<string>();
+                _females.AddRange(System.IO.File.ReadAllLines(@".\Generators\resources\FemaleNames.txt"));
+            }
+            if (_males == null)
+            {
+                _males = new List<string>();
+                _males.AddRange(System.IO.File.ReadAllLines(@".\Generators\resources\MaleNames.txt"));
+            }
+        }
 
         private static StringGenerator CreateStaticStringGenerator()
         {
@@ -36,7 +57,7 @@ namespace SQLRepeater.Entities.Generators
 
             StringGenerator gen = new StringGenerator("Static String", (n, p) =>
             {
-                return Wrap(GetParameterByName<string>(p, "Value"));
+                return Wrap(GetParameterByName(p, "Value").ToString());
             }
                 , paramss);
             return gen;
@@ -76,11 +97,7 @@ namespace SQLRepeater.Entities.Generators
         {
             get
             {
-                if (_countries == null)
-                {
-                    _countries = new List<string>();
-                    _countries.AddRange(System.IO.File.ReadAllLines(@".\resources\Countries.txt"));
-                }
+                
                 return _countries;
             }
         }
@@ -90,11 +107,7 @@ namespace SQLRepeater.Entities.Generators
         {
             get
             {
-                if (_females == null)
-                {
-                    _females = new List<string>();
-                    _females.AddRange(System.IO.File.ReadAllLines(@".\resources\FemaleNames.txt"));
-                }
+                
                 return _females;
             }
         }
@@ -103,11 +116,7 @@ namespace SQLRepeater.Entities.Generators
         {
             get
             {
-                if (_males == null)
-                {
-                    _males = new List<string>();
-                    _males.AddRange(System.IO.File.ReadAllLines(@".\resources\MaleNames.txt"));
-                }
+                
                 return _males;
             }
         }

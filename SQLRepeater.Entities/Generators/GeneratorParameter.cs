@@ -49,5 +49,7 @@ namespace SQLRepeater.Entities.Generators
             Value = value;
         }
 
+
+        private Type ParamType { get; set; }
     }
 }

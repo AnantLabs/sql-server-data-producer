@@ -74,9 +74,9 @@ namespace SQLRepeater.Entities.Generators
             return string.Format("'{0}'", s);
         }
 
-        protected static TRes GetParameterByName<TRes>(ObservableCollection<GeneratorParameter> paramas, string name)
+        protected static object GetParameterByName(ObservableCollection<GeneratorParameter> paramas, string name)
         {
-            return (TRes)paramas.Where(x => x.ParameterName == name).First().Value;
+            return paramas.Where(x => x.ParameterName == name).First().Value;
         }
 
 
@@ -88,7 +88,7 @@ namespace SQLRepeater.Entities.Generators
 
             GeneratorBase gen = new GeneratorBase("Custom SQL Query", (n, p) =>
             {
-                string value = GetParameterByName<string>(p, "Query");
+                string value = GetParameterByName(p, "Query").ToString();
 
                 return string.Format("({0})", value);
             }
