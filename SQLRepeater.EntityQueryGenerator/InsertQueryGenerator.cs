@@ -62,6 +62,12 @@ namespace SQLRepeater.EntityQueryGenerator
 
             foreach (var item in executionItems)
             {
+                // Skip tables with no columns
+                if (item.TargetTable.Columns.Count == 0)
+                {
+                    continue;
+                }
+
                 bool hasIdentity = item.TargetTable.Columns.Any(col => col.IsIdentity);
 
                 sb.AppendFormat("-- Insert item {0}", item.Order);
@@ -84,10 +90,11 @@ namespace SQLRepeater.EntityQueryGenerator
                 sb.AppendLine();
                 sb.AppendFormat("-- done insert item {0}", item.Order);
                 sb.AppendLine();
-                sb.AppendLine("COMMIT");
-                sb.AppendLine();
+                
                 
             }
+            sb.AppendLine("COMMIT");
+            sb.AppendLine();
 
             return sb.ToString();
         }
@@ -143,6 +150,12 @@ namespace SQLRepeater.EntityQueryGenerator
 
             foreach (var tabl in execItems)
             {
+                // Skip tables with no columns
+                if (tabl.TargetTable.Columns.Count == 0)
+                {
+                    continue;
+                }
+
                 sb.AppendFormat("-- Item {0}, {1}.{2}", tabl.Order, tabl.TargetTable.TableSchema, tabl.TargetTable.TableName);
                 sb.AppendLine();
                 foreach (ColumnEntity col in tabl.TargetTable.Columns)

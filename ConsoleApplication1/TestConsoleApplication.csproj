@@ -59,10 +59,6 @@
       <Project>{6B6065E1-934E-4B2C-9B34-50D15BACAC3A}</Project>
       <Name>SQLRepeater.EntityQueryGenerator</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SQLRepeater.Generators\SQLRepeater.Generators.csproj">
-      <Project>{EFC3CE14-0157-4F7C-AA85-65D851044EFB}</Project>
-      <Name>SQLRepeater.Generators</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SQLRepeater.TaskExecuter\SQLRepeater.TaskExecuter.csproj">
       <Project>{AD47B9D0-0A49-49ED-9CF0-123809E266D4}</Project>
       <Name>SQLRepeater.TaskExecuter</Name>

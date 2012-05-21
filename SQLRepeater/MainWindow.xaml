@@ -3,7 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:me="clr-namespace:SQLRepeater.ViewModels"
         xmlns:conv="clr-namespace:SQLRepeater.Converters"
-        Title="SQL Repeater" Height="600" Width="800">
+        Title="SQL Repeater" Height="600" Width="800"
+        WindowState="Maximized"
+        >
     
     <Window.Resources>
         <me:MainWindowViewModel x:Key="vm" />
@@ -15,9 +17,10 @@
             <ColumnDefinition Width="424*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="30*" />
-            <RowDefinition Height="281*" />
-            <RowDefinition Height="30*" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="400" />
+            <RowDefinition Height="400" />
+            <RowDefinition Height="30" />
         </Grid.RowDefinitions>
 
         <StackPanel  Grid.Column="0" Grid.Row="0" Orientation="Horizontal">
@@ -27,14 +30,16 @@
         
         <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Model.ConnectionString, Mode=TwoWay}" Margin="3 3 3 3" MinWidth="50" />
 
-        <StackPanel Grid.Column="1" Grid.Row="1">
-            <my:ExecutionOrderView DataContext="{Binding ExecutionOrderVM}" />
-            <my:ExecutionDetailsView DataContext="{Binding Model}" />
-        </StackPanel>
+        
+        <my:ExecutionOrderView DataContext="{Binding ExecutionOrderVM}"
+                               Grid.Column="1" Grid.Row="1"/>
+        <my:ExecutionDetailsView DataContext="{Binding Model}"
+                                 Grid.Column="1" Grid.Row="2"/>
+        
 
         <my:SidePanelView DataContext="{Binding SidePanelVM}"  Grid.Column="0" Grid.Row="1" />
         
-        <GroupBox Grid.Row="2" Grid.Column="1" Header="Options">
+        <GroupBox Grid.Row="3" Grid.Column="1" Header="Options">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Start date:" Margin="0 3 0 3" />
                 <TextBox Text="{Binding Model.StartDateForGeneration}"  Margin="0 3 0 3" />

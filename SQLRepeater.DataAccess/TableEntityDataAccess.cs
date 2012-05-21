@@ -16,7 +16,6 @@ namespace SQLRepeater.DataAccess
         public TableEntityDataAccess(string connectionString) 
             : base(connectionString)
         {
-
         }
 
         private Func<SqlDataReader, TableEntity> CreateTableEntity = reader =>
@@ -27,6 +26,7 @@ namespace SQLRepeater.DataAccess
                 TableSchema = reader.GetString(1)
             };
         };
+
 
         public TableEntity GetTableAndColumns(string tableSchema, string tableName)
         {
@@ -40,6 +40,18 @@ namespace SQLRepeater.DataAccess
         public void BeginGetAllTables(Action<ObservableCollection<TableEntity>> callback)
         {
             BeginGetMany(ALL_TABLES_QUERY, CreateTableEntity, callback);
+        }
+        public void BeginGetAllTablesAndColumns(Action<ObservableCollection<TableEntity>> callback)
+        {
+            BeginGetMany(ALL_TABLES_QUERY, CreateTableEntity, tables =>
+                {
+                    ColumnEntityDataAccess colDa = new ColumnEntityDataAccess(this._connectionString);
+                    foreach (var tabl in tables)
+                    {
+                        tabl.Columns = colDa.GetAllColumnsForTable(tabl);
+                    }
+                    callback(tables);
+                });
         }
 
         public ObservableCollection<TableEntity> GetAllTables()

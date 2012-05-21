@@ -14,48 +14,84 @@ namespace SQLRepeater.Entities.Generators
         {
         }
 
-        public static ObservableCollection<GeneratorBase> GetGenerators()
+        public static ObservableCollection<GeneratorBase> GetGeneratorsForInt()
         {
-            // TODO: Replace with reflection?
-            // TODO: Use inheritance to reuse some of the generators? Some other way instead of inheritance?
+            int maxValue = int.MaxValue;
+            int minValue = int.MinValue;
+
+            return CreateGeneratorsWithSettings(maxValue, minValue);
+        }
+        public static ObservableCollection<GeneratorBase> GetGeneratorsForSmallInt()
+        {
+            int maxValue = short.MaxValue;
+            int minValue = 0;
+
+            return CreateGeneratorsWithSettings(maxValue, minValue);
+        }
+        public static ObservableCollection<GeneratorBase> GetGeneratorsForBigInt()
+        {
+            long maxValue = int.MaxValue;
+            long minValue = 0;
+
+            return CreateGeneratorsWithSettings(maxValue, minValue);
+        }
+        public static ObservableCollection<GeneratorBase> GetGeneratorsForTinyInt()
+        {
+            long maxValue = byte.MaxValue;
+            long minValue = byte.MinValue;
+
+            return CreateGeneratorsWithSettings(maxValue, minValue);
+        }
+        public static ObservableCollection<GeneratorBase> GetGeneratorsForBit()
+        {
+            long maxValue = 1;
+            long minValue = 0;
+
+            return CreateGeneratorsWithSettings(maxValue, minValue);
+        }
+        
+
+
+        private static ObservableCollection<GeneratorBase> CreateGeneratorsWithSettings(long maxValue, long minValue)
+        {
             ObservableCollection<GeneratorBase> valueGenerators = new ObservableCollection<GeneratorBase>();
-            valueGenerators.Add(CreateRandomGenerator());
-            valueGenerators.Add(CreateUpCounter());
+            valueGenerators.Add(CreateRandomGenerator(minValue, maxValue));
+            valueGenerators.Add(CreateUpCounter(minValue, maxValue));
             valueGenerators.Add(CreateIdentityFromExecutionItem());
-            valueGenerators.Add(Query());
+            valueGenerators.Add(CreateQueryGenerator());
             valueGenerators.Add(StaticNumber());
 
             return valueGenerators;
-        }   
+        }
 
-        private static IntGenerator CreateRandomGenerator()
+        private static IntGenerator CreateRandomGenerator(long min, long max)
         {
             ObservableCollection<GeneratorParameter> paramss = new ObservableCollection<GeneratorParameter>();
 
-            paramss.Add(new GeneratorParameter("MinValue", 0));
-            paramss.Add(new GeneratorParameter("MaxValue", int.MaxValue));
+            paramss.Add(new GeneratorParameter("MinValue", min));
+            paramss.Add(new GeneratorParameter("MaxValue", max));
 
             IntGenerator gen = new IntGenerator("Random Int", (n, p) =>
                 {
-                    int maxValue = GetParameterByName<int>(p, "MaxValue");
-                    int minValue = GetParameterByName<int>(p, "MinValue");
+                    long maxValue = long.Parse(GetParameterByName(p, "MaxValue").ToString());
+                    long minValue = long.Parse(GetParameterByName(p, "MinValue").ToString());
                     return (minValue + RandomSupplier.Instance.GetNextInt()) % maxValue;
                 }
                 , paramss);
             return gen;
         }
 
-        private static IntGenerator CreateUpCounter()
+        private static IntGenerator CreateUpCounter(long min, long max)
         {
             ObservableCollection<GeneratorParameter> paramss = new ObservableCollection<GeneratorParameter>();
 
-            paramss.Add(new GeneratorParameter("MinValue", 0));
-            paramss.Add(new GeneratorParameter("MaxValue", int.MaxValue));
+            paramss.Add(new GeneratorParameter("MinValue", min));
+            paramss.Add(new GeneratorParameter("MaxValue", max));
 
             IntGenerator gen = new IntGenerator("Counting up", (n, p) =>
             {
-                int maxValue = GetParameterByName<int>(p, "MaxValue");
-                int minValue = GetParameterByName<int>(p, "MinValue");
+                long maxValue = long.Parse(GetParameterByName(p, "MaxValue").ToString());
+                long minValue = long.Parse(GetParameterByName(p, "MinValue").ToString());
                 return (n + minValue) % maxValue;
             }
                 , paramss);
@@ -69,7 +105,7 @@ namespace SQLRepeater.Entities.Generators
 
             IntGenerator gen = new IntGenerator("Identity from previous item", (n, p) =>
             {
-                int value = GetParameterByName<int>(p, "Item Number#");
+                long value = long.Parse(GetParameterByName(p, "Item Number#").ToString());
 
                 return string.Format("@i{0}_identity", value);
             }
@@ -85,7 +121,7 @@ namespace SQLRepeater.Entities.Generators
 
             IntGenerator gen = new IntGenerator("Static Number", (n, p) =>
             {
-                int value = GetParameterByName<int>(p, "Number");
+                long value = long.Parse(GetParameterByName(p, "Number").ToString());
 
                 return value;
             }
@@ -93,21 +129,7 @@ namespace SQLRepeater.Entities.Generators
             return gen;
         }
 
-        private static IntGenerator Query()
-        {
-            ObservableCollection<GeneratorParameter> paramss = new ObservableCollection<GeneratorParameter>();
-
-            paramss.Add(new GeneratorParameter("Query", "select 1"));
-
-            IntGenerator gen = new IntGenerator("Custom SQL Query", (n, p) =>
-            {
-                string value = GetParameterByName<string>(p, "Query");
-
-                return string.Format("({0})",value);
-            }
-                , paramss);
-            return gen;
-        }
+        
 
         //public static object DownCounter(int n, object param)
         //{

@@ -17,7 +17,8 @@
         </Grid.ColumnDefinitions>
         
         
-        <ListBox ItemsSource="{Binding Model.Tables}" SelectedItem="{Binding Model.SelectedTable, Mode=TwoWay}" Grid.Column="0">
+        <ListBox Height="Auto" ItemsSource="{Binding Model.Tables}" SelectedItem="{Binding Model.SelectedTable, Mode=TwoWay}" Grid.Column="0"
+                ScrollViewer.VerticalScrollBarVisibility="Visible">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Path=TableName}" />
@@ -26,16 +27,30 @@
         </ListBox>
 
         <ListBox ItemsSource="{Binding Model.ExecutionItems}" 
-                 SelectedItem="{Binding Model.SelectedExecutionItem, Mode=TwoWay}" Grid.Column="2">
+                 SelectedItem="{Binding Model.SelectedExecutionItem, Mode=TwoWay}" 
+                 Grid.Column="2"
+                 ScrollViewer.VerticalScrollBarVisibility="Visible"
+                 >
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Path=TargetTable.TableName}" />
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="{Binding Order}" Grid.Column="0" />
+                        <TextBlock Text="{Binding Path=TargetTable.TableName}" Grid.Column="1" />
+                    </Grid>
+                        
+                        
+                    
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
 
         <StackPanel Grid.Column="1">
-            <Button Content="UP" Command="{Binding MoveItemUpCommand}" />
+            <Button Content="UP" Command="{Binding MoveItemUpCommand}" IsEnabled="False" />
 
             <Button Content="&lt;"  Command="{Binding MoveItemLeftCommand}" />
             <Button Content="&gt;"  Command="{Binding MoveItemRightCommand}" />
@@ -43,7 +58,7 @@
             <Button Content="&gt;&gt;" Command="{Binding MoveAllItemsRightCommand}"  />
             <Button Content="&lt;&lt;"  Command="{Binding MoveAllItemsLeftCommand}" />
 
-            <Button Content="DOWN"  Command="{Binding MoveItemDownCommand}" />
+            <Button Content="DOWN"  Command="{Binding MoveItemDownCommand}" IsEnabled="False" />
         </StackPanel>
     </Grid>
 </UserControl>
