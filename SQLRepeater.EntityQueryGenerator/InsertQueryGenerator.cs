@@ -175,8 +175,7 @@ namespace SQLRepeater.EntityQueryGenerator
             string declarations = GenerateVariableDeclarationAndValuesForExecutionItems(n, execItems);
 
             // This will contain the insertstatements and the declare variables with values, ready to be executed
-            string finalResult = string.Format(baseQuery, declarations);
-            return finalResult;
+            return string.Format(baseQuery, declarations);
         }
 
     }

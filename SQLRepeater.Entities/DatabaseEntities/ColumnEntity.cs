@@ -46,7 +46,17 @@ namespace SQLRepeater.DatabaseEntities.Entities
                 {
                     _isIdentity = value;
                     OnPropertyChanged("IsIdentity");
+                    OnPropertyChanged("IsNotIdentity");
                 }
+            }
+        }
+
+        [System.ComponentModel.ReadOnly(true)]
+        public bool IsNotIdentity
+        {
+            get
+            {
+                return !_isIdentity;
             }
         }
 
