@@ -141,6 +141,6 @@ namespace SQLRepeater.DatabaseEntities.Entities
             this.PossibleGenerators = possibleGenerators;
         }
 
-      
+
     }
 }

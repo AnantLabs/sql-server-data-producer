@@ -17,22 +17,22 @@ namespace TestConsoleApplication
         
         static void Main(string[] args)
         {
-            TableEntityDataAccess tda = new TableEntityDataAccess( Connection());
+            //TableEntityDataAccess tda = new TableEntityDataAccess( Connection());
 
-            ObservableCollection<TableEntity> tables = tda.GetAllTablesWithColumns();
+            //ObservableCollection<TableEntity> tables = tda.GetAllTablesWithColumns();
 
-            ObservableCollection<ExecutionItem> list = ExecutionItem.FromTables(tables);
-            TaskExecuter executor = new TaskExecuter();
+            //ObservableCollection<ExecutionItem> list = ExecutionItem.FromTables(tables);
+            //TaskExecuter executor = new TaskExecuter();
 
-            InsertQueryGenerator queryGenerator = new InsertQueryGenerator();
-            string result = queryGenerator.GenerateQueryForExecutionItems(list);
+            //InsertQueryGenerator queryGenerator = new InsertQueryGenerator();
+            //string result = queryGenerator.GenerateQueryForExecutionItems(list);
 
-            Action<int> a = executor.CreateSQLTaskForExecutionItems(list, result, Connection(), queryGenerator.GenerateFinalQuery);
+            //Action<int> a = executor.CreateSQLTaskForExecutionItems(list, result, Connection(), queryGenerator.GenerateFinalQuery);
 
-            for (int n = 0; n < 10; n++)
-            {
-                executor.ExecuteOneTime(a, n);
-            }
+            //for (int n = 0; n < 10; n++)
+            //{
+            //    executor.ExecuteOneTime(a, n);
+            //}
 
         }
 

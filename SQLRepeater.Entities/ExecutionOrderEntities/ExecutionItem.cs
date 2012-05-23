@@ -50,32 +50,15 @@ namespace SQLRepeater.Entities.ExecutionOrderEntities
             Order = order;
         }
 
-        public static ObservableCollection<ExecutionItem> FromTables(IEnumerable<TableEntity> tables)
-        {
-            ObservableCollection<ExecutionItem> c = new ObservableCollection<ExecutionItem>();
-            int count = 1;
-            foreach (var item in tables)
-            {
-                c.Add(new ExecutionItem(item, count++));
-            }
-            return c;
-        }
-
-        //string _name;
-        //public string Name
+        //public static ObservableCollection<ExecutionItem> FromTables(IEnumerable<TableEntity> tables)
         //{
-        //    get
+        //    ObservableCollection<ExecutionItem> c = new ObservableCollection<ExecutionItem>();
+        //    int count = 1;
+        //    foreach (var item in tables)
         //    {
-        //        return _name;
+        //        c.Add(new ExecutionItem(item, count++));
         //    }
-        //    set
-        //    {
-        //        if (_name != value)
-        //        {
-        //            _name = value;
-        //            OnPropertyChanged("Name");
-        //        }
-        //    }
+        //    return c;
         //}
     }
 }

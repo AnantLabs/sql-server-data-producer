@@ -11,6 +11,8 @@ using System.Collections.ObjectModel;
 using System.Data.SqlClient;
 using SQLRepeater.DatabaseEntities.Entities;
 using SQLRepeater.Entities.ExecutionOrderEntities;
+using System.Windows.Threading;
+using System.Threading;
 
 
 namespace SQLRepeater.ViewModels
@@ -116,6 +118,16 @@ namespace SQLRepeater.ViewModels
             {
                 Model.Tables = res;
                 Model.SelectedTable = Model.Tables.FirstOrDefault();
+                Model.SelectedColumn = Model.SelectedTable.Columns.FirstOrDefault();
+
+                Application.Current.Dispatcher.Invoke(
+                    DispatcherPriority.Normal,
+                    new ThreadStart( () =>
+                        {
+                            Model.ExecutionItems.Clear();
+                            Model.SelectedExecutionItem = Model.ExecutionItems.FirstOrDefault();
+                        })
+                    );
             });
         }
 
@@ -127,8 +139,6 @@ namespace SQLRepeater.ViewModels
             
             ExecutionOrderVM = new ExecutionOrderViewModel(Model);
             SidePanelVM = new SidePanelViewModel(Model);
-
-            
 
 
             OpenSqlConnectionBuilderCommand = new DelegateCommand(() =>

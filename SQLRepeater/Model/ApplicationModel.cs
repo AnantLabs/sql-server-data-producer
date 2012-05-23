@@ -40,7 +40,6 @@ namespace SQLRepeater.Model
                 if (_selectedTable != value)
                 {
                     _selectedTable = value;
-                    //GetColumnsForTable(_selectedTable);
                     OnPropertyChanged("SelectedTable");
                 }
             }
@@ -52,8 +51,6 @@ namespace SQLRepeater.Model
             {
                 return;
             }
-            //if (table.Columns.Count > 0)
-            //    return;
 
             ColumnEntityDataAccess da = new ColumnEntityDataAccess(ConnectionString);
             da.BeginGetAllColumnsForTable(table, cols =>
@@ -110,23 +107,6 @@ namespace SQLRepeater.Model
                 {
                     _selectedColumn = value;
                     OnPropertyChanged("SelectedColumn");
-                }
-            }
-        }
-
-        Dictionary<string,object> _generatorParameters;
-        public Dictionary<string,object> SelectedGeneratorParameter
-        {
-            get
-            {
-                return _generatorParameters;
-            }
-            set
-            {
-                if (_generatorParameters != value)
-                {
-                    _generatorParameters = value;
-                    OnPropertyChanged("SelectedGeneratorParameter");
                 }
             }
         }

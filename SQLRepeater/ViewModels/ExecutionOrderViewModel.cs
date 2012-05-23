@@ -5,6 +5,7 @@ using System.Text;
 using System.Collections.ObjectModel;
 using SQLRepeater.Entities.ExecutionOrderEntities;
 using SQLRepeater.DatabaseEntities.Entities;
+using SQLRepeater.DataAccess;
 
 namespace SQLRepeater.ViewModels
 {
@@ -110,7 +111,10 @@ namespace SQLRepeater.ViewModels
 
         private void AddExecutionItem(TableEntity table)
         {
-            Model.ExecutionItems.Add(new ExecutionItem(table, Model.ExecutionItems.Count + 1));
+            TableEntityDataAccess tda = new TableEntityDataAccess(Model.ConnectionString);
+            // Clone the selected table so that each generation of that table is configurable uniquely
+            TableEntity clonedTable = tda.GetTableAndColumns(table.TableSchema, table.TableName);
+            Model.ExecutionItems.Add(new ExecutionItem(clonedTable, Model.ExecutionItems.Count + 1));
         }
     }
 }
