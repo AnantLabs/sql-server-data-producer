@@ -72,8 +72,10 @@ namespace SQLRepeater.EntityQueryGenerator
 
             // This line will be replaced during data generation
             // The variables will be generated and inserted instead of this line.
-            sb.AppendFormat("<DECLARE ITEM{0}>", item.Order);
             sb.AppendLine();
+            sb.AppendLine();
+            sb.AppendFormat("<DECLARE ITEM{0}>", item.Order);
+            
             sb.AppendFormat("INSERT {0}.{1} (", item.TargetTable.TableSchema, item.TargetTable.TableName);
             sb.AppendLine();
             foreach (var col in item.TargetTable.Columns.Where(x => x.IsIdentity == false))
@@ -124,6 +126,7 @@ namespace SQLRepeater.EntityQueryGenerator
                     continue;
                 }
 
+                sb.AppendLine();
                 sb.AppendFormat("-- Item {0}, {1}.{2}", item.Order, item.TargetTable.TableSchema, item.TargetTable.TableName);
                 sb.AppendLine();
                 foreach (ColumnEntity col in item.TargetTable.Columns.Where(x => x.IsIdentity == false))
@@ -132,7 +135,7 @@ namespace SQLRepeater.EntityQueryGenerator
                     sb.AppendFormat("DECLARE @i{0}_{1} {2} = {3};", item.Order, col.ColumnName, col.ColumnDataType, col.Generator.GenerateValue(n));
                     sb.AppendLine();
                 }
-                sb.AppendLine();
+                //sb.AppendLine();
 
                 string itemNumber = string.Format("<DECLARE ITEM{0}>", item.Order);
                 modified = modified.Replace(itemNumber, sb.ToString());
