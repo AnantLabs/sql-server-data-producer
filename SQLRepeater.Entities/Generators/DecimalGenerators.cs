@@ -35,7 +35,7 @@ namespace SQLRepeater.Entities.Generators
                 double maxValue = double.Parse(GetParameterByName(p, "MaxValue").ToString());
                 double minValue = double.Parse(GetParameterByName(p, "MinValue").ToString());
 
-                return RandomSupplier.Instance.GetNextDouble() % maxValue + minValue;
+                return (RandomSupplier.Instance.GetNextDouble() % maxValue + minValue).ToString().Replace(",", ".");
             }
                 , paramss);
             return gen;
@@ -47,17 +47,15 @@ namespace SQLRepeater.Entities.Generators
 
             paramss.Add(new GeneratorParameter("MinValue", 0.0));
             paramss.Add(new GeneratorParameter("MaxValue", 10000000));
-            //paramss.Add(new GeneratorParameter("NumDecimals", 2));
             paramss.Add(new GeneratorParameter("Step", 1.0));
 
             DecimalGenerator gen = new DecimalGenerator("Counting up", (n, p) =>
             {
                 double maxValue = double.Parse(GetParameterByName(p, "MaxValue").ToString());
                 double minValue = double.Parse(GetParameterByName(p, "MinValue").ToString());
-                //int doubles = GetParameterByName<int>(p, "NumDecimals");
                 double step = double.Parse(GetParameterByName(p, "Step").ToString());
 
-                return (minValue + (step * n)) % maxValue;
+                return ((minValue + (step * n)) % maxValue).ToString().Replace(",", ".");
             }
                 , paramss);
             return gen;
