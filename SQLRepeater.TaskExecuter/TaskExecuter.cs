@@ -69,9 +69,9 @@ namespace SQLRepeater.TaskExecuter
         /// <param name="execItems">the items that should be included in the execution</param>
         /// <param name="baseQuery">The query containing insert statements for all the items and a placeholder for the variables and their values</param>
         /// <param name="connectionString">connection string to use to execute the query</param>
-        /// <param name="GenerateFinalQuery">The method to call to generate the final query, the parameters are: The list of ExecutionItems, the original query, the serial number. It will return the final query</param>
+        /// <param name="GenerateParameters">The method to call to generate the final query, the parameters are: The list of ExecutionItems, the original query, the serial number. It will return the final query</param>
         /// <returns></returns>
-        public Action<int> CreateSQLTaskForExecutionItems(IEnumerable<ExecutionItem> execItems, string baseQuery, string connectionString, Func<IEnumerable<ExecutionItem>, string, int, string> GenerateFinalQuery)
+        public Action<int> CreateSQLTaskForExecutionItems(IEnumerable<ExecutionItem> execItems, string baseQuery, string connectionString, Func<string, int, IEnumerable<ExecutionItem>, string> GenerateFinalQuery)
         {
             return new Action<int>(n =>
             {
@@ -79,18 +79,33 @@ namespace SQLRepeater.TaskExecuter
                 {
                     // For each time this Action is called, generate the final query. This will create the "declaration" part of the script with the generated data.
                     // The "base" of the script will be kept from its original, we only generate the actual data here.
-                    string finalResult = GenerateFinalQuery(execItems, baseQuery, n);
+                    //IEnumerable<SqlParameter> parms = GenerateParameters(baseQuery, n, execItems);
+
+                    string finalResult = GenerateFinalQuery(baseQuery, n, execItems);
 
                     using (SqlCommand cmd = new SqlCommand(finalResult, con))
                     {
-                        cmd.Connection.Open();
-                        cmd.ExecuteNonQuery();
+                        WriteTaskCommandDebug(finalResult, n, null);
 
-                        //Console.WriteLine(finalResult);
-                        //System.IO.File.WriteAllText(string.Format(@"c:\temp\test{0}.sql", n), finalResult);
+                        //cmd.Parameters.AddRange(parms.ToArray());
+                        //cmd.Connection.Open();
+                        //cmd.ExecuteNonQuery();
+
+                        
                     }
                 }
             });
+        }
+
+        private static void WriteTaskCommandDebug(string baseQuery, int n, IEnumerable<SqlParameter> parms)
+        {
+            //Console.WriteLine(finalResult);
+            StringBuilder sb = new StringBuilder();
+            //foreach (var item in parms)
+            //{
+            //    sb.AppendFormat("{0} = {1}{2}", item.ParameterName, item.Value, Environment.NewLine);
+            //}
+            System.IO.File.WriteAllText(string.Format(@"c:\temp\repeater\test{0}.sql", n), baseQuery + sb.ToString());
         }
 
         

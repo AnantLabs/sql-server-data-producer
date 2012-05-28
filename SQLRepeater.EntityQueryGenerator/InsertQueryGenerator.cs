@@ -11,38 +11,6 @@ namespace SQLRepeater.EntityQueryGenerator
 {
     public class InsertQueryGenerator
     {
-        //public string GenerateQueryFor(TableEntity table)
-        //{
-        //    //string sql = string.Empty;
-        //    StringBuilder sb = new StringBuilder();
-        //    sb.AppendFormat("INSERT {0}.{1} (", table.TableSchema, table.TableName);
-        //    foreach (var col in table.Columns.Where( x => x.IsIdentity == false))
-        //    {
-        //        if (col.OrdinalPosition == table.Columns.Count)
-        //            sb.AppendFormat("{0}", col.ColumnName);
-        //        else
-        //            sb.AppendFormat("{0},", col.ColumnName);
-        //    }
-
-        //    sb.Append(")");
-        //    sb.AppendLine();
-        //    sb.Append("VALUES(");
-        //    foreach (var col in table.Columns.Where(x => x.IsIdentity == false))
-        //    {
-        //        if (col.OrdinalPosition == table.Columns.Count)
-        //            sb.AppendFormat("@{0}", col.ColumnName);
-        //        else
-        //            sb.AppendFormat("@{0},", col.ColumnName);
-        //    }
-        //    sb.Append(")");
-            
-        //    return sb.ToString(); ;
-        //}
-
-      
-
-
-
         public string GenerateQueryForExecutionItems(IList<ExecutionItem> executionItems)
         {
             StringBuilder sb = new StringBuilder();
@@ -54,11 +22,6 @@ namespace SQLRepeater.EntityQueryGenerator
             sb.AppendLine();
             sb.AppendLine("-- Declarations");
             sb.AppendLine();
-
-            sb.Append("{0}"); // all of these will be generated on the fly for each iteration later using GenerateVariableDeclarationAndValuesForExecutionItems
-            sb.AppendLine();
-
-            
 
             foreach (var item in executionItems)
             {
@@ -72,11 +35,6 @@ namespace SQLRepeater.EntityQueryGenerator
 
                 sb.AppendFormat("-- Insert item {0}", item.Order);
                 sb.AppendLine();
-                if (hasIdentity)
-                {
-                    sb.AppendFormat("declare @i{0}_identity bigint", item.Order);
-                    sb.AppendLine();
-                }
                 
                 // Generate for each column
                 sb.Append(GenerateInsertStatement(item));
@@ -84,7 +42,7 @@ namespace SQLRepeater.EntityQueryGenerator
                 if (hasIdentity)
                 {
                     sb.AppendLine();
-                    sb.AppendFormat("select @i{0}_identity = scope_identity()", item.Order);
+                    sb.AppendFormat("declare @i{0}_identity bigint = scope_Identity()", item.Order);
                 }
                 
                 sb.AppendLine();
@@ -111,6 +69,11 @@ namespace SQLRepeater.EntityQueryGenerator
             //        )
 
             StringBuilder sb = new StringBuilder();
+
+            // This line will be replaced during data generation
+            // The variables will be generated and inserted instead of this line.
+            sb.AppendFormat("<DECLARE ITEM{0}>", item.Order);
+            sb.AppendLine();
             sb.AppendFormat("INSERT {0}.{1} (", item.TargetTable.TableSchema, item.TargetTable.TableName);
             sb.AppendLine();
             foreach (var col in item.TargetTable.Columns.Where(x => x.IsIdentity == false))
@@ -126,7 +89,9 @@ namespace SQLRepeater.EntityQueryGenerator
             sb.AppendLine();
             foreach (var col in item.TargetTable.Columns.Where(x => x.IsIdentity == false))
             {
-                sb.AppendFormat("\t@i{0}_{1}", item.Order, col.ColumnName);
+                string value = CreateParameterName(item, col);
+                sb.Append("\t");
+                sb.Append(value);
                 sb.Append(col.OrdinalPosition == item.TargetTable.Columns.Count ? "" : ", ");
                 sb.AppendLine();
             }
@@ -135,6 +100,10 @@ namespace SQLRepeater.EntityQueryGenerator
             return sb.ToString();
         }
 
+        private string CreateParameterName(ExecutionItem item, ColumnEntity col)
+        {
+            return string.Format("@i{0}_{1}", item.Order, col.ColumnName);
+        }
 
         /// <summary>
         /// Generate the declaration section of the sqlquery, including the values for the variables
@@ -142,40 +111,59 @@ namespace SQLRepeater.EntityQueryGenerator
         /// <param name="n">The serial number to use when creating the values for the variables</param>
         /// <param name="execItems">the executionItems to be included in the variable declarations</param>
         /// <returns></returns>
-        private string GenerateVariableDeclarationAndValuesForExecutionItems(int n, IEnumerable<ExecutionItem> execItems)
+        public string GenerateFinalQuery(string baseQuery, int n, IEnumerable<ExecutionItem> execItems)
         {
-            StringBuilder sb = new StringBuilder();
-            sb.AppendFormat("DECLARE @n BIGINT = {0}", n);
-            sb.AppendLine();
+            string modified = baseQuery.Clone() as string;
 
-            foreach (var tabl in execItems)
+            foreach (var item in execItems)
             {
+                StringBuilder sb = new StringBuilder();
                 // Skip tables with no columns
-                if (tabl.TargetTable.Columns.Count == 0)
+                if (item.TargetTable.Columns.Count == 0)
                 {
                     continue;
                 }
 
-                sb.AppendFormat("-- Item {0}, {1}.{2}", tabl.Order, tabl.TargetTable.TableSchema, tabl.TargetTable.TableName);
+                sb.AppendFormat("-- Item {0}, {1}.{2}", item.Order, item.TargetTable.TableSchema, item.TargetTable.TableName);
                 sb.AppendLine();
-                foreach (ColumnEntity col in tabl.TargetTable.Columns)
+                foreach (ColumnEntity col in item.TargetTable.Columns.Where(x => x.IsIdentity == false))
                 {
                     // create declaration of the columns datatype, set the value to the generated value generated from the columns generator and its generatorParameter
-                    sb.AppendFormat("DECLARE @i{0}_{1} {2} = {3};", tabl.Order, col.ColumnName, col.ColumnDataType, col.Generator.GenerateValue(n));
+                    sb.AppendFormat("DECLARE @i{0}_{1} {2} = {3};", item.Order, col.ColumnName, col.ColumnDataType, col.Generator.GenerateValue(n));
                     sb.AppendLine();
                 }
                 sb.AppendLine();
+
+                string itemNumber = string.Format("<DECLARE ITEM{0}>", item.Order);
+                modified = modified.Replace(itemNumber, sb.ToString());
             }
 
-            return sb.ToString();
+            return modified;
         }
 
-        public string GenerateFinalQuery(IEnumerable<ExecutionItem> execItems, string baseQuery, int n)
-        {
-            string declarations = GenerateVariableDeclarationAndValuesForExecutionItems(n, execItems);
 
-            // This will contain the insertstatements and the declare variables with values, ready to be executed
-            return string.Format(baseQuery, declarations);
+        public IEnumerable<SqlParameter> GenerateParameters(int n, IEnumerable<ExecutionItem> execItems)
+        {
+            List<SqlParameter> parms = new List<SqlParameter>();
+
+            foreach (var execItem in execItems)
+            {
+                // Skip tables with no columns
+                if (execItem.TargetTable.Columns.Count == 0)
+                {
+                    continue;
+                }
+
+                foreach (ColumnEntity col in execItem.TargetTable.Columns.Where(x => x.IsIdentity == false))
+                {
+                    string paramName = CreateParameterName(execItem, col);
+                    object paramValue = col.Generator.GenerateValue(n);
+
+                    parms.Add(new SqlParameter(paramName, paramValue));
+                }
+            }
+
+            return parms;
         }
 
     }

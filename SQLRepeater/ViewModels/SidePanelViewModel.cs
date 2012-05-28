@@ -49,7 +49,7 @@ namespace SQLRepeater.ViewModels
         }
 
 
-        int _durationInSeconds = 60;
+        int _durationInSeconds = 2;
         public int DurationInSeconds
         {
             get
@@ -67,7 +67,7 @@ namespace SQLRepeater.ViewModels
         }
 
 
-        int _numTasks = 25;
+        int _numTasks = 1;
         public int NumTasks
         {
             get

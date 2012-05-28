@@ -30,6 +30,11 @@ namespace SQLRepeater.Entities.Generators
         {
             return _random.Next();
         }
+        public long GetNextLong()
+        {
+            //http://social.msdn.microsoft.com/Forums/en-US/csharpgeneral/thread/2e08381b-1e2d-459f-a7c9-986954321958/
+            return (long)((_random.NextDouble() * 2.0 - 1.0) * long.MaxValue);
+        }
         public double GetNextDouble()
         {
             return _random.NextDouble();
