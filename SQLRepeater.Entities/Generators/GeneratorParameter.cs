@@ -50,6 +50,8 @@ namespace SQLRepeater.Entities.Generators
         }
 
 
-        private Type ParamType { get; set; }
+        //private Type ParamType { get; set; }
+
+      
     }
 }

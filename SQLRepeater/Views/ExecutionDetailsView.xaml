@@ -27,7 +27,7 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding ColumnName}" Header="Column Name" IsReadOnly="True"/>
                     <DataGridTextColumn Binding="{Binding ColumnDataType}" Header="Data Type" IsReadOnly="True" />
-
+                    
                 <DataGridTemplateColumn Header="Data Generator">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -40,7 +40,6 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-
             </DataGrid.Columns>
         </DataGrid>
         

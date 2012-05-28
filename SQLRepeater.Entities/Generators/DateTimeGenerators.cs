@@ -36,6 +36,7 @@ namespace SQLRepeater.Entities.Generators
             valueGenerators.Add(CreateMinutesSeriesGenerator());
             valueGenerators.Add(CreateRandomDateGenerator());
             valueGenerators.Add(CreateSecondSeriesGenerator());
+            valueGenerators.Add(CreateSQLGetDateGenerator());
             
             return valueGenerators;
         }
@@ -61,6 +62,16 @@ namespace SQLRepeater.Entities.Generators
                 return Wrap(GetParameterByName(p, "DATE").ToString());
             }
                 , paramss);
+            return gen;
+        }
+
+        private static DateTimeGenerator CreateSQLGetDateGenerator()
+        {
+            DateTimeGenerator gen = new DateTimeGenerator("SQL GetDate()", (n, p) =>
+            {
+                return "Getdate()";
+            }
+                , null);
             return gen;
         }
 
