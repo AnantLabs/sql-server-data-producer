@@ -1,20 +1,67 @@
 ﻿<UserControl x:Class="SQLRepeater.Views.SidePanelView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:conv="clr-namespace:SQLRepeater.Converters"
+             xmlns:enums="clr-namespace:SQLRepeater.Entities.OptionEntities;assembly=SQLRepeater.Entities"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
+        <ObjectDataProvider x:Key="executionTypeEnum"
+                MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="enums:ExecutionTypes"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        
         <conv:VisibilityConverter x:Key="visiConv" />
+        
         <conv:InverseBooleanConverter x:Key="inverseBoolConvrt" />
     </UserControl.Resources>
     <StackPanel>
-        <Label Content="Seconds to run;" />
-        <TextBox Margin="3 3 3 3" Text="{Binding DurationInSeconds}" />
-        <Label Content="Number of threads:" />
-        <TextBox Margin="3 3 3 3" Text="{Binding NumTasks}" />
+        <ComboBox 
+            ItemsSource="{Binding Source={StaticResource executionTypeEnum}}" 
+            SelectedItem="{Binding Path=Options.ExecutionType, Mode=TwoWay}" />
+
+        <GroupBox Header="Time based execution:">
+            <GroupBox.Style>
+                <Style>
+                    <Setter Property="GroupBox.Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Options.ExecutionType}" Value="DurationBased" >
+                            <Setter Property="GroupBox.Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </GroupBox.Style>
+            
+            <StackPanel>
+                <Label Content="Seconds to run:" />
+                <TextBox Margin="3 3 3 3" Text="{Binding Path=Options.SecondsToRun, Mode=TwoWay}" />
+                <Label Content="Number of threads:" />
+                <TextBox Margin="3 3 3 3" Text="{Binding Path=Options.MaxThreads}" />
+            </StackPanel>
+        </GroupBox>
+        
+        <GroupBox Header="Execution Count:">
+            <GroupBox.Style>
+                <Style>
+                    <Setter Property="GroupBox.Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Options.ExecutionType}" Value="ExecutionCountBased" >
+                            <Setter Property="GroupBox.Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </GroupBox.Style>
+            <StackPanel>
+                <Label Content="Number of executions:" />
+                <TextBox Margin="3 3 3 3" Text="{Binding Path=Options.FixedExecutions, Mode=TwoWay}" />
+            </StackPanel>
+        </GroupBox>
+        
         <Button Content="Run!" Command="{Binding RunSQLQueryCommand}" />
         <Button Content="Stop!" Command="{Binding StopExecutionCommand}" />
         <ProgressBar 

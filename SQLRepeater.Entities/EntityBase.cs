@@ -20,4 +20,6 @@ namespace SQLRepeater.Entities
 
         public event PropertyChangedEventHandler PropertyChanged;
     }
+
+    
 }

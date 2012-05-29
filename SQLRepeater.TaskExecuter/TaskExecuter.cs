@@ -7,6 +7,7 @@ using System.Data.Common;
 using System.Data.SqlClient;
 using SQLRepeater.Entities.ExecutionOrderEntities;
 using SQLRepeater.DatabaseEntities.Entities;
+using SQLRepeater.Entities.OptionEntities;
 
 namespace SQLRepeater.TaskExecuter
 {
@@ -32,36 +33,6 @@ namespace SQLRepeater.TaskExecuter
             CancelTokenSource.Cancel();                        
         }
 
-        //public Action<int> CreateSQLTask(string query, Func<int, SqlParameter[]> parameterCreator, string connectionString)
-        //{
-        //    return new Action<int>( n =>
-        //    {
-        //        using (SqlConnection con = new SqlConnection(connectionString))
-        //        {
-        //            using (SqlCommand cmd = new SqlCommand(query, con))
-        //            {
-        //                cmd.Connection.Open();
-        //                cmd.Parameters.AddRange(parameterCreator(n));
-        //                cmd.ExecuteNonQuery();
-        //            }
-        //        }
-        //    });
-        //}
-
-        //public Action<int> CreateSQLTask(string query, string connectionString)
-        //{
-        //    return new Action<int>(n =>
-        //    {
-        //        using (SqlConnection con = new SqlConnection(connectionString))
-        //        {
-        //            using (SqlCommand cmd = new SqlCommand(query, con))
-        //            {
-        //                cmd.Connection.Open();
-        //                cmd.ExecuteNonQuery();
-        //            }
-        //        }
-        //    });
-        //}
 
         /// <summary>
         /// Creates an Action with insert statements and variables and then executes the query.
@@ -108,9 +79,6 @@ namespace SQLRepeater.TaskExecuter
             System.IO.File.WriteAllText(string.Format(@"c:\temp\repeater\test{0}.sql", n), baseQuery + sb.ToString());
         }
 
-        
-
-        
 
         /// <summary>
         /// Start executing tasks until suplied datetime, using the supplied number of threads then call the callback once completed.
@@ -119,24 +87,21 @@ namespace SQLRepeater.TaskExecuter
         /// <param name="until">datetime when the execution should stop</param>
         /// <param name="numThreads">maximum number of threads to use, not guaranteed to use these many treads </param>
         /// <param name="onCompletedCallback">the callback that will be called when execution is done or stopped</param>
-        public void BeginExecute(Action<int> task, DateTime until, int numThreads, Action<int> onCompletedCallback)
+        public void BeginExecute(Action<int> task, Action<int> onCompletedCallback)
         {
-            Action a = () =>
-                {
-                    List<Action<int>> actions = new List<Action<int>>();
-                    for (int i = 0; i < numThreads; i++)
-                    {
-                        actions.Add(task);
-                    }
+            Action a = null;
 
-                    while (DateTime.Now < until && !CancelTokenSource.IsCancellationRequested)
-                    {
-                        Parallel.ForEach(actions, action =>
-                        {
-                            action(GetNextSerialNumber());
-                        });
-                    }
-                };
+            switch (ExecutionTaskOptions.Instance.ExecutionType)
+            {
+                case ExecutionTypes.DurationBased:
+                    a = RunDurationBased(task);
+                    break;
+                case ExecutionTypes.ExecutionCountBased:
+                    a = RunExecutionCountBased(task);
+                    break;
+                default:
+                    break;
+            }
 
             a.BeginInvoke(ar =>
             {
@@ -144,6 +109,46 @@ namespace SQLRepeater.TaskExecuter
             }, null);
 
         }
+
+        private Action RunExecutionCountBased(Action<int> task)
+        {
+            Action a = () =>
+            {
+                for (int i = 0; i < ExecutionTaskOptions.Instance.FixedExecutions; i++)
+                {
+                    task(GetNextSerialNumber());
+                }
+            };
+
+            return a;
+        }
+
+        private Action RunDurationBased(Action<int> task)
+        {
+            DateTime until = DateTime.Now.AddSeconds(ExecutionTaskOptions.Instance.SecondsToRun);
+            int numThreads = ExecutionTaskOptions.Instance.MaxThreads;
+
+            Action a = () =>
+            {
+                List<Action<int>> actions = new List<Action<int>>();
+                for (int i = 0; i < numThreads; i++)
+                {
+                    actions.Add(task);
+                }
+
+                while (DateTime.Now < until && !CancelTokenSource.IsCancellationRequested)
+                {
+                    Parallel.ForEach(actions, action =>
+                    {
+                        action(GetNextSerialNumber());
+                    });
+                }
+            };
+
+            return a;
+        }
+
+       
 
         private int GetNextSerialNumber()
         {

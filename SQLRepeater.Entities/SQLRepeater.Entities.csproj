@@ -53,6 +53,8 @@
     <Compile Include="Generators\RandomSupplier.cs" />
     <Compile Include="Generators\StringGenerators.cs" />
     <Compile Include="Generators\UniqueIdentifierGenerators.cs" />
+    <Compile Include="OptionEntities\ExecutionTaskOptions.cs" />
+    <Compile Include="OptionEntities\ExecutionTypes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DatabaseEntities\TableEntity.cs" />
   </ItemGroup>
@@ -67,6 +69,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

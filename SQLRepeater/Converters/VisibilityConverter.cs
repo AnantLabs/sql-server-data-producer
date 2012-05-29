@@ -32,4 +32,5 @@ namespace SQLRepeater.Converters
             return (visibility == Visibility.Visible);
         }
     }
+
 }

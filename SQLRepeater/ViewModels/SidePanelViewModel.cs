@@ -6,6 +6,7 @@ using SQLRepeater.DataAccess;
 using SQLRepeater.DatabaseEntities.Entities;
 using System.Windows;
 using SQLRepeater.EntityQueryGenerator;
+using SQLRepeater.Entities.OptionEntities;
 
 namespace SQLRepeater.ViewModels
 {
@@ -49,40 +50,58 @@ namespace SQLRepeater.ViewModels
         }
 
 
-        int _durationInSeconds = 2;
-        public int DurationInSeconds
+
+        ExecutionTaskOptions _options;
+        public ExecutionTaskOptions Options
         {
             get
             {
-                return _durationInSeconds;
+                return _options;
             }
             set
             {
-                if (_durationInSeconds != value)
+                if (_options != value)
                 {
-                    _durationInSeconds = value;
-                    OnPropertyChanged("DurationInSeconds");
+                    _options = value;
+                    OnPropertyChanged("Options");
                 }
             }
         }
 
+        //int _durationInSeconds = 2;
+        //public int DurationInSeconds
+        //{
+        //    get
+        //    {
+        //        return _durationInSeconds;
+        //    }
+        //    set
+        //    {
+        //        if (_durationInSeconds != value)
+        //        {
+        //            _durationInSeconds = value;
+        //            OnPropertyChanged("DurationInSeconds");
+        //        }
+        //    }
+        //}
 
-        int _numTasks = 1;
-        public int NumTasks
-        {
-            get
-            {
-                return _numTasks;
-            }
-            set
-            {
-                if (_numTasks != value)
-                {
-                    _numTasks = value;
-                    OnPropertyChanged("NumTasks");
-                }
-            }
-        }
+
+        //int _numTasks = 1;
+        //public int NumTasks
+        //{
+        //    get
+        //    {
+        //        return _numTasks;
+        //    }
+        //    set
+        //    {
+        //        if (_numTasks != value)
+        //        {
+        //            _numTasks = value;
+        //            OnPropertyChanged("NumTasks");
+        //        }
+        //    }
+        //}
 
 
         int _taskProgPercent;
@@ -111,6 +130,7 @@ namespace SQLRepeater.ViewModels
         {
             this.Model = model;
             _executor = new TaskExecuter.TaskExecuter();
+            Options = ExecutionTaskOptions.Instance;
 
             RunSQLQueryCommand = new DelegateCommand(() =>
             {
@@ -120,7 +140,7 @@ namespace SQLRepeater.ViewModels
                 InsertQueryGenerator queryGenerator = new InsertQueryGenerator();
                 string baseQuery = queryGenerator.GenerateQueryForExecutionItems(Model.ExecutionItems);
 
-                Action<int> a = _executor.CreateSQLTaskForExecutionItems(
+                Action<int> taskToExecute = _executor.CreateSQLTaskForExecutionItems(
                     // The items to generate data for
                     Model.ExecutionItems, 
                     // The basequery containing all the insert statements
@@ -131,7 +151,7 @@ namespace SQLRepeater.ViewModels
                     queryGenerator.GenerateFinalQuery);
 
                 IsQueryRunning = true;
-               _executor.BeginExecute(a, DateTime.Now.AddSeconds(DurationInSeconds), NumTasks, count =>
+               _executor.BeginExecute(taskToExecute, count =>
                     {
                         IsQueryRunning = false;
                         MessageBox.Show(count.ToString());
