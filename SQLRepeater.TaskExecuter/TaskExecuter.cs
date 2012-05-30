@@ -91,7 +91,7 @@ namespace SQLRepeater.TaskExecuter
         {
             Action a = null;
 
-            switch (ExecutionTaskOptions.Instance.ExecutionType)
+            switch (ExecutionTaskOptionsManager.Instance.Options.ExecutionType)
             {
                 case ExecutionTypes.DurationBased:
                     a = RunDurationBased(task);
@@ -114,7 +114,7 @@ namespace SQLRepeater.TaskExecuter
         {
             Action a = () =>
             {
-                for (int i = 0; i < ExecutionTaskOptions.Instance.FixedExecutions; i++)
+                for (int i = 0; i < ExecutionTaskOptionsManager.Instance.Options.FixedExecutions; i++)
                 {
                     task(GetNextSerialNumber());
                 }
@@ -125,8 +125,8 @@ namespace SQLRepeater.TaskExecuter
 
         private Action RunDurationBased(Action<int> task)
         {
-            DateTime until = DateTime.Now.AddSeconds(ExecutionTaskOptions.Instance.SecondsToRun);
-            int numThreads = ExecutionTaskOptions.Instance.MaxThreads;
+            DateTime until = DateTime.Now.AddSeconds(ExecutionTaskOptionsManager.Instance.Options.SecondsToRun);
+            int numThreads = ExecutionTaskOptionsManager.Instance.Options.MaxThreads;
 
             Action a = () =>
             {

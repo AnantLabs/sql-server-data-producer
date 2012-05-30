@@ -94,7 +94,7 @@ namespace SQLRepeater.ViewModels
         {
             this.Model = model;
             _executor = new TaskExecuter.TaskExecuter();
-            Options = ExecutionTaskOptions.Instance;
+            Options = ExecutionTaskOptionsManager.Instance.Options;
 
             RunSQLQueryCommand = new DelegateCommand(() =>
             {

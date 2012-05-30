@@ -8,27 +8,10 @@ namespace SQLRepeater.Entities.OptionEntities
 {
     public class ExecutionTaskOptions : EntityBase
     {
-
-
-        static readonly ExecutionTaskOptions _instance = new ExecutionTaskOptions();
-
-        public static ExecutionTaskOptions Instance
+        public ExecutionTaskOptions()
         {
-            get
-            {
-                return _instance;
-            }
-        }
 
-        static ExecutionTaskOptions()
-        {        
         }
-
-        ExecutionTaskOptions()
-        {
-            
-        }
-
 
         bool _onlyOutputToFile = true;
         public bool OnlyOutputToFile
@@ -46,7 +29,6 @@ namespace SQLRepeater.Entities.OptionEntities
                 }
             }
         }
-
 
         long _startValue = 1;
         public long StartValue
@@ -82,7 +64,6 @@ namespace SQLRepeater.Entities.OptionEntities
             }
         }
 
-
         int _fixedExecutions = 10;
         public int FixedExecutions
         {
@@ -116,7 +97,6 @@ namespace SQLRepeater.Entities.OptionEntities
                 }
             }
         }
-
        
         int _secondsToRun = 2;
         public int SecondsToRun
@@ -152,9 +132,6 @@ namespace SQLRepeater.Entities.OptionEntities
             }
         }
 
-
-        
-       
     }
 
     public enum ExecutionTypes

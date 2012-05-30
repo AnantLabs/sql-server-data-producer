@@ -49,10 +49,9 @@ namespace SQLRepeater {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string ExecutionOptions {
+        public global::SQLRepeater.Entities.OptionEntities.ExecutionTaskOptions ExecutionOptions {
             get {
-                return ((string)(this["ExecutionOptions"]));
+                return ((global::SQLRepeater.Entities.OptionEntities.ExecutionTaskOptions)(this["ExecutionOptions"]));
             }
             set {
                 this["ExecutionOptions"] = value;

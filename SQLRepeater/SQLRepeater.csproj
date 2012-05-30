@@ -60,6 +60,7 @@
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Converters\VisibilityConverter.cs" />
     <Compile Include="Model\ApplicationModel.cs" />
+    <Compile Include="SQLRepeaterSettings.cs" />
     <Compile Include="SQLRepeaterSettings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -135,11 +136,13 @@
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </None>
     <AppDesigner Include="Properties\" />
     <None Include="SQLRepeaterSettings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>SQLRepeaterSettings.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup>
