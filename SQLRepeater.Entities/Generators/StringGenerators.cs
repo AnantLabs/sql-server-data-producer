@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
+using SQLRepeater.Entities.Generators.Collections;
 //
 
 namespace SQLRepeater.Entities.Generators
@@ -10,7 +11,7 @@ namespace SQLRepeater.Entities.Generators
     public class StringGenerator : GeneratorBase
     {
 
-        private StringGenerator(string name, ValueCreatorDelegate generator, ObservableCollection<GeneratorParameter> genParams)
+        private StringGenerator(string name, ValueCreatorDelegate generator, GeneratorParameterCollection genParams)
             : base(name, generator, genParams)
         {
         }
@@ -51,7 +52,7 @@ namespace SQLRepeater.Entities.Generators
 
         private static StringGenerator CreateStaticStringGenerator()
         {
-            ObservableCollection<GeneratorParameter> paramss = new ObservableCollection<GeneratorParameter>();
+            GeneratorParameterCollection paramss = new GeneratorParameterCollection();
 
             paramss.Add(new GeneratorParameter("Value", ""));
 

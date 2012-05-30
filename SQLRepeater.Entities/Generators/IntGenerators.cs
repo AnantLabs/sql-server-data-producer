@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
+using SQLRepeater.Entities.Generators.Collections;
 
 namespace SQLRepeater.Entities.Generators
 {
     public class IntGenerator : GeneratorBase
     {
 
-        private IntGenerator(string name, ValueCreatorDelegate generator, ObservableCollection<GeneratorParameter> genParams)
+        private IntGenerator(string name, ValueCreatorDelegate generator, GeneratorParameterCollection genParams)
             : base(name, generator, genParams)
         {
         }
@@ -66,7 +67,7 @@ namespace SQLRepeater.Entities.Generators
 
         private static IntGenerator CreateRandomGenerator(long min, long max)
         {
-            ObservableCollection<GeneratorParameter> paramss = new ObservableCollection<GeneratorParameter>();
+            GeneratorParameterCollection paramss = new GeneratorParameterCollection();
 
             paramss.Add(new GeneratorParameter("MinValue", min));
             paramss.Add(new GeneratorParameter("MaxValue", max));
@@ -83,7 +84,7 @@ namespace SQLRepeater.Entities.Generators
 
         private static IntGenerator CreateUpCounter(long min, long max)
         {
-            ObservableCollection<GeneratorParameter> paramss = new ObservableCollection<GeneratorParameter>();
+            GeneratorParameterCollection paramss = new GeneratorParameterCollection();
 
             paramss.Add(new GeneratorParameter("MinValue", min));
             paramss.Add(new GeneratorParameter("MaxValue", max));
@@ -100,7 +101,7 @@ namespace SQLRepeater.Entities.Generators
 
         private static IntGenerator CreateIdentityFromExecutionItem()
         {
-            ObservableCollection<GeneratorParameter> paramss = new ObservableCollection<GeneratorParameter>();
+            GeneratorParameterCollection paramss = new GeneratorParameterCollection();
             paramss.Add(new GeneratorParameter("Item Number#", 1));
 
             IntGenerator gen = new IntGenerator("Identity from previous item", (n, p) =>
@@ -115,7 +116,7 @@ namespace SQLRepeater.Entities.Generators
 
         private static IntGenerator StaticNumber()
         {
-            ObservableCollection<GeneratorParameter> paramss = new ObservableCollection<GeneratorParameter>();
+            GeneratorParameterCollection paramss = new GeneratorParameterCollection();
 
             paramss.Add(new GeneratorParameter("Number", 0));
 

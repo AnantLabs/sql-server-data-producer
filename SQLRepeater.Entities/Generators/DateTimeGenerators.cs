@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
+using SQLRepeater.Entities.Generators.Collections;
 
 
 namespace SQLRepeater.Entities.Generators
 {
     public class DateTimeGenerator : GeneratorBase
     {
-        private DateTimeGenerator(string name, ValueCreatorDelegate generator, ObservableCollection<GeneratorParameter> genParams)
+        private DateTimeGenerator(string name, ValueCreatorDelegate generator, GeneratorParameterCollection genParams)
             : base(name, generator, genParams)
         {
         }
@@ -53,8 +54,8 @@ namespace SQLRepeater.Entities.Generators
 
         private static DateTimeGenerator CreateStaticDateGenerator()
         {
-            ObservableCollection<GeneratorParameter> paramss = new ObservableCollection<GeneratorParameter>();
-
+            GeneratorParameterCollection paramss = new GeneratorParameterCollection();
+            
             paramss.Add(new GeneratorParameter("DATE", DateTime.Now.ToString()));
 
             DateTimeGenerator gen = new DateTimeGenerator("Current Date", (n, p) =>

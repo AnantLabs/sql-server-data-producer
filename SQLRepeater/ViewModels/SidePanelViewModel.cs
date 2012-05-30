@@ -68,58 +68,22 @@ namespace SQLRepeater.ViewModels
             }
         }
 
-        //int _durationInSeconds = 2;
-        //public int DurationInSeconds
+        //  int _taskProgPercent;
+        //public int TaskProgressPercentage
         //{
         //    get
         //    {
-        //        return _durationInSeconds;
+        //        return _taskProgPercent;
         //    }
         //    set
         //    {
-        //        if (_durationInSeconds != value)
+        //        if (_taskProgPercent != value)
         //        {
-        //            _durationInSeconds = value;
-        //            OnPropertyChanged("DurationInSeconds");
+        //            _taskProgPercent = value;
+        //            OnPropertyChanged("TaskProgressPercentage");
         //        }
         //    }
         //}
-
-
-        //int _numTasks = 1;
-        //public int NumTasks
-        //{
-        //    get
-        //    {
-        //        return _numTasks;
-        //    }
-        //    set
-        //    {
-        //        if (_numTasks != value)
-        //        {
-        //            _numTasks = value;
-        //            OnPropertyChanged("NumTasks");
-        //        }
-        //    }
-        //}
-
-
-        int _taskProgPercent;
-        public int TaskProgressPercentage
-        {
-            get
-            {
-                return _taskProgPercent;
-            }
-            set
-            {
-                if (_taskProgPercent != value)
-                {
-                    _taskProgPercent = value;
-                    OnPropertyChanged("TaskProgressPercentage");
-                }
-            }
-        }
 
  
 
@@ -134,6 +98,9 @@ namespace SQLRepeater.ViewModels
 
             RunSQLQueryCommand = new DelegateCommand(() =>
             {
+                if (Model.ExecutionItems.Count == 0)
+                    return;
+
                 EntityQueryGenerator.InsertQueryGenerator ig =
                     new EntityQueryGenerator.InsertQueryGenerator();
 

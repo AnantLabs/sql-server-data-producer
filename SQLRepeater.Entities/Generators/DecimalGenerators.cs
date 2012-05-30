@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
+using SQLRepeater.Entities.Generators.Collections;
 
 namespace SQLRepeater.Entities.Generators
 {
     public class DecimalGenerator : GeneratorBase
     {
 
-        private DecimalGenerator(string name, ValueCreatorDelegate generator, ObservableCollection<GeneratorParameter> genParams)
+        private DecimalGenerator(string name, ValueCreatorDelegate generator, GeneratorParameterCollection genParams)
             : base(name, generator, genParams)
         {
         }
@@ -26,7 +27,7 @@ namespace SQLRepeater.Entities.Generators
 
         private static DecimalGenerator CreateRandomGenerator()
         {
-            ObservableCollection<GeneratorParameter> paramss = new ObservableCollection<GeneratorParameter>();
+            GeneratorParameterCollection paramss = new GeneratorParameterCollection();
             paramss.Add(new GeneratorParameter("MinValue", 0.0));
             paramss.Add(new GeneratorParameter("MaxValue", 10000000));
 
@@ -43,7 +44,7 @@ namespace SQLRepeater.Entities.Generators
 
         private static DecimalGenerator CreateUpCounter()
         {
-            ObservableCollection<GeneratorParameter> paramss = new ObservableCollection<GeneratorParameter>();
+            GeneratorParameterCollection paramss = new GeneratorParameterCollection();
 
             paramss.Add(new GeneratorParameter("MinValue", 0.0));
             paramss.Add(new GeneratorParameter("MaxValue", 10000000));

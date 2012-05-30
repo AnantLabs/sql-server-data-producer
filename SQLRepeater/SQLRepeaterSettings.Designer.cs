@@ -46,5 +46,17 @@ namespace SQLRepeater {
                 this["QueryText"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ExecutionOptions {
+            get {
+                return ((string)(this["ExecutionOptions"]));
+            }
+            set {
+                this["ExecutionOptions"] = value;
+            }
+        }
     }
 }

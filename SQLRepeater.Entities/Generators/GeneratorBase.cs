@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
+using SQLRepeater.Entities.Generators.Collections;
 
 namespace SQLRepeater.Entities.Generators
 {
@@ -11,9 +12,9 @@ namespace SQLRepeater.Entities.Generators
     {
 
         protected ValueCreatorDelegate ValueGenerator { get; set; }
-       
-        ObservableCollection<GeneratorParameter> _genParameters;
-        public ObservableCollection<GeneratorParameter> GeneratorParameters
+
+        GeneratorParameterCollection _genParameters;
+        public GeneratorParameterCollection GeneratorParameters
         {
             get
             {
@@ -47,7 +48,7 @@ namespace SQLRepeater.Entities.Generators
             }
         }
 
-        protected GeneratorBase(string generatorName, ValueCreatorDelegate generator, ObservableCollection<GeneratorParameter> genParams)
+        protected GeneratorBase(string generatorName, ValueCreatorDelegate generator, GeneratorParameterCollection genParams)
         {
             ValueGenerator = generator;
             GeneratorParameters = genParams;
@@ -74,7 +75,7 @@ namespace SQLRepeater.Entities.Generators
             return string.Format("'{0}'", s);
         }
 
-        protected static object GetParameterByName(ObservableCollection<GeneratorParameter> paramas, string name)
+        protected static object GetParameterByName(GeneratorParameterCollection paramas, string name)
         {
             return paramas.Where(x => x.ParameterName == name).First().Value;
         }
@@ -82,7 +83,7 @@ namespace SQLRepeater.Entities.Generators
 
         protected static GeneratorBase CreateQueryGenerator()
         {
-            ObservableCollection<GeneratorParameter> paramss = new ObservableCollection<GeneratorParameter>();
+            GeneratorParameterCollection paramss = new GeneratorParameterCollection();
 
             paramss.Add(new GeneratorParameter("Query", "select ..."));
 

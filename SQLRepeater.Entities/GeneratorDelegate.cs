@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using SQLRepeater.Entities.Generators;
 using System.Collections.ObjectModel;
+using SQLRepeater.Entities.Generators.Collections;
 
 namespace SQLRepeater.Entities
 {
@@ -11,5 +12,5 @@ namespace SQLRepeater.Entities
     //public delegate IValueCreator GeneratorDelegate();
 
     // Functions that can generate values using the serial number n and the supplied parameters
-    public delegate object ValueCreatorDelegate(int n, ObservableCollection<GeneratorParameter> genParameters);
+    public delegate object ValueCreatorDelegate(int n, GeneratorParameterCollection genParameters);
 }
