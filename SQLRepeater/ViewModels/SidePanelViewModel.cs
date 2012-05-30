@@ -32,7 +32,7 @@ namespace SQLRepeater.ViewModels
             }
         }
 
-        bool _isQueryRunning = true;
+        bool _isQueryRunning = false;
         public bool IsQueryRunning
         {
             get

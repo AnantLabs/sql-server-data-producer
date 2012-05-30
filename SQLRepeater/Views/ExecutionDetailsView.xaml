@@ -10,71 +10,96 @@
     <UserControl.Resources>
         <conv:VisibilityConverter x:Key="visiConv" />
     </UserControl.Resources>
-    
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="35*" />
-            <RowDefinition Height="265*" />
+            <RowDefinition Height="100" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="50*" />
+            <ColumnDefinition Width="25*" />
+            <ColumnDefinition Width="25*" />
             <ColumnDefinition Width="50*" />
         </Grid.ColumnDefinitions>
         
-        <DataGrid ItemsSource="{Binding Path=SelectedExecutionItem.TargetTable.Columns}" AutoGenerateColumns="false"
-            SelectionUnit="FullRow"
-            SelectedItem="{Binding SelectedColumn, Mode=TwoWay}" Grid.RowSpan="2">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding ColumnName}" Header="Column Name" IsReadOnly="True"/>
-                    <DataGridTextColumn Binding="{Binding ColumnDataType}" Header="Data Type" IsReadOnly="True" />
-                    
-                <DataGridTemplateColumn Header="Data Generator">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel>
-                                <TextBlock Visibility="{Binding Path=IsNotIdentity,ConverterParameter=IsNotIdentity, Converter={StaticResource ResourceKey=visiConv}}" 
-                                           Text="{Binding Generator.GeneratorName}" Height="25" />
-                                <TextBlock Visibility="{Binding Path=IsIdentity,ConverterParameter=IsIdentity, Converter={StaticResource ResourceKey=visiConv}}" 
-                                           Text="Identity" Height="25" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTextColumn Binding="{Binding Generator.GeneratorParameters.NiceString}" Header="Parameters" IsReadOnly="True"/>
-                    
-            </DataGrid.Columns>
-        </DataGrid>
-        
-       
-        <ComboBox Grid.Column="1" Grid.Row="0" 
-                  ItemsSource="{Binding SelectedColumn.PossibleGenerators}"
-                  SelectedItem="{Binding SelectedColumn.Generator, Mode=TwoWay}"
-                  IsEnabled="{Binding Path=SelectedColumn.IsNotIdentity}"
-                  Height="25" VerticalAlignment="Top">
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding GeneratorName}" />
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
+            <GroupBox Grid.Row="0" Grid.Column="0">
+            <StackPanel>
+                <Label Content="Execution Item Description:" FontSize="11" />
+                <TextBox Text="{Binding SelectedExecutionItem.Description}" />
 
-        </ComboBox>
-       
-        
-        <ListBox
-            Grid.Column="1"
+                
+            </StackPanel>
+                                
+            </GroupBox>
+        <GroupBox Header="Options" Grid.Column="1">
+            <CheckBox Content="Truncate Table before execution" IsChecked="{Binding SelectedExecutionItem.TruncateBeforeExecution}" />
+        </GroupBox>
+
+        <GroupBox Grid.Row="1" Grid.ColumnSpan="3">
+            <Grid >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50*" />
+                    <ColumnDefinition Width="50*" />
+                </Grid.ColumnDefinitions>
+
+
+                <DataGrid ItemsSource="{Binding Path=SelectedExecutionItem.TargetTable.Columns}" Grid.Row="0" Grid.RowSpan="2" AutoGenerateColumns="false"
+            SelectionUnit="FullRow"
+            SelectedItem="{Binding SelectedColumn, Mode=TwoWay}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding ColumnName}" Header="Column Name" IsReadOnly="True"/>
+                        <DataGridTextColumn Binding="{Binding ColumnDataType}" Header="Data Type" IsReadOnly="True" />
+
+                        <DataGridTemplateColumn Header="Data Generator">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Visibility="{Binding Path=IsNotIdentity,ConverterParameter=IsNotIdentity, Converter={StaticResource ResourceKey=visiConv}}" 
+                                           Text="{Binding Generator.GeneratorName}" Height="25" />
+                                        <TextBlock Visibility="{Binding Path=IsIdentity,ConverterParameter=IsIdentity, Converter={StaticResource ResourceKey=visiConv}}" 
+                                           Text="Identity" Height="25" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Binding="{Binding Generator.GeneratorParameters.NiceString}" Header="Parameters" IsReadOnly="True"/>
+
+                    </DataGrid.Columns>
+                </DataGrid>
+                <GroupBox Header="Select Generator" Grid.Column="1" Grid.Row="0">
+                    <ComboBox  
+                    ItemsSource="{Binding SelectedColumn.PossibleGenerators}"
+                    SelectedItem="{Binding SelectedColumn.Generator, Mode=TwoWay}"
+                    IsEnabled="{Binding Path=SelectedColumn.IsNotIdentity}"
+                    Height="25" >
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding GeneratorName}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </GroupBox>
+
+                <GroupBox Header="Configure the Parameters for the Generator" Grid.Column="1" Grid.Row="1">
+                    <ListBox
             ItemsSource="{Binding Path=SelectedColumn.Generator.GeneratorParameters}" 
-            Grid.Row="1"
-            IsEnabled="{Binding Path=SelectedColumn.IsNotIdentity}"
-            >
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding ParameterName}" />
-                        <TextBox Text="{Binding Value}"    />
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        
+            IsEnabled="{Binding Path=SelectedColumn.IsNotIdentity}"  >
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding ParameterName}" />
+                                    <TextBox Text="{Binding Value}"    />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </GroupBox>
+            </Grid>
+        </GroupBox>
+
     </Grid>
+
 </UserControl>

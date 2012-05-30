@@ -36,11 +36,13 @@
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="20" />
-                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width="110" />
                         </Grid.ColumnDefinitions>
 
                         <TextBlock Text="{Binding Order}" Grid.Column="0" />
                         <TextBlock Text="{Binding Path=TargetTable.TableName}" Grid.Column="1" />
+                        <TextBlock Text="{Binding Path=Description}" Grid.Column="2" />
                     </Grid>
                         
                         

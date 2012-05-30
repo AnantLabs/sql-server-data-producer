@@ -50,6 +50,42 @@ namespace SQLRepeater.Entities.ExecutionOrderEntities
             Order = order;
         }
 
+
+
+        string _description;
+        public string Description
+        {
+            get
+            {
+                return _description;
+            }
+            set
+            {
+                if (_description != value)
+                {
+                    _description = value;
+                    OnPropertyChanged("Description");
+                }
+            }
+        }
+
+        bool _truncateBeforeExecution;
+        public bool TruncateBeforeExecution
+        {
+            get
+            {
+                return _truncateBeforeExecution;
+            }
+            set
+            {
+                if (_truncateBeforeExecution != value)
+                {
+                    _truncateBeforeExecution = value;
+                    OnPropertyChanged("TruncateBeforeExecution");
+                }
+            }
+        }
+
         //public static ObservableCollection<ExecutionItem> FromTables(IEnumerable<TableEntity> tables)
         //{
         //    ObservableCollection<ExecutionItem> c = new ObservableCollection<ExecutionItem>();

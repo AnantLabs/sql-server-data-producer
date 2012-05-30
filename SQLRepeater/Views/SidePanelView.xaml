@@ -21,6 +21,8 @@
         <conv:InverseBooleanConverter x:Key="inverseBoolConvrt" />
     </UserControl.Resources>
     <StackPanel>
+        <GroupBox Header="Select execution type">
+            <StackPanel>
         <ComboBox 
             ItemsSource="{Binding Source={StaticResource executionTypeEnum}}" 
             SelectedItem="{Binding Path=Options.ExecutionType, Mode=TwoWay}" />
@@ -61,13 +63,19 @@
                 <TextBox Margin="3 3 3 3" Text="{Binding Path=Options.FixedExecutions, Mode=TwoWay}" />
             </StackPanel>
         </GroupBox>
+            </StackPanel>
+        </GroupBox>
         
-        <Button Content="Run!" Command="{Binding RunSQLQueryCommand}" />
-        <Button Content="Stop!" Command="{Binding StopExecutionCommand}" />
-        <ProgressBar 
-                Visibility="{Binding IsQueryRunning, Converter={StaticResource ResourceKey=visiConv}}" 
-                Height="50" Margin="0 5 0 5" 
-                Maximum="100" 
-                Value="{Binding TaskProgressPercentage}"   />
+        <GroupBox Header="Run / Stop">
+            <StackPanel>
+                <Button Content="Run!" Command="{Binding RunSQLQueryCommand}" />
+                <Button Content="Stop!" Command="{Binding StopExecutionCommand}" />
+                <ProgressBar 
+                    Visibility="{Binding IsQueryRunning, Converter={StaticResource ResourceKey=visiConv}}" 
+                    Height="50" Margin="0 5 0 5" 
+                    Maximum="100" 
+                    Value="50"   />
+            </StackPanel>
+        </GroupBox>
     </StackPanel>
 </UserControl>

@@ -70,5 +70,12 @@ namespace SQLRepeater.DataAccess
 
             return tables;
         }
+
+        public void TruncateTable(TableEntity table)
+        { 
+            // TODO: Handle foreign keys
+            // Remove all? Recursively?
+            ExecuteNoResult(string.Format("Delete {0}.{1}"));
+        }
     }
 }

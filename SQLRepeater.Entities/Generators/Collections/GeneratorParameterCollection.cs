@@ -35,7 +35,6 @@ namespace SQLRepeater.Entities.Generators.Collections
 
         void GeneratorParameterCollection_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-
             switch (e.Action)
             {
                 case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
@@ -55,6 +54,10 @@ namespace SQLRepeater.Entities.Generators.Collections
                 case System.Collections.Specialized.NotifyCollectionChangedAction.Replace:
                     break;
                 case System.Collections.Specialized.NotifyCollectionChangedAction.Reset:
+                    foreach (var item in e.OldItems)
+                    {
+                        ((GeneratorParameter)item).PropertyChanged -= GeneratorParameterCollection_PropertyChanged;
+                    }
                     break;
                 default:
                     break;

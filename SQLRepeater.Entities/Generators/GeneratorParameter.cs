@@ -43,6 +43,28 @@ namespace SQLRepeater.Entities.Generators
             }
         }
 
+
+        
+        object _defaultValue;
+        /// <summary>
+        /// Gets the default value for the parameter
+        /// </summary>
+        public object DefaultValue
+        {
+            get
+            {
+                return _defaultValue;
+            }
+            private set
+            {
+                if (_defaultValue != value)
+                {
+                    _defaultValue = value;
+                    OnPropertyChanged("DefaultValue");
+                }
+            }
+        }
+
         public GeneratorParameter(string name, object value)
         {
             ParameterName = name;

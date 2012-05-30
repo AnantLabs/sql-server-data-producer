@@ -34,6 +34,27 @@ namespace SQLRepeater.DataAccess
             a.BeginInvoke(null, null);
         }
 
+
+        protected void BeginExecuteNoResult(string sql)
+        {
+            Action a = new Action(() =>
+                {
+                    ExecuteNoResult(sql);
+                });
+        }
+
+        protected void ExecuteNoResult(string sql)
+        {
+            using (SqlConnection con = new SqlConnection(_connectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(sql, con))
+                {
+                    cmd.Connection.Open();
+                    cmd.ExecuteReader();
+                }
+            }
+        }
+
         /// <summary>
         /// Asyncronously get many of T using the supplied <paramref name="sql"/> query string.
         /// </summary>

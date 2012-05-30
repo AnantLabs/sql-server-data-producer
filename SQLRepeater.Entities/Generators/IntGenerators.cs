@@ -69,7 +69,7 @@ namespace SQLRepeater.Entities.Generators
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
 
-            paramss.Add(new GeneratorParameter("MinValue", min));
+            paramss.Add(new GeneratorParameter("MinValue", 1));
             paramss.Add(new GeneratorParameter("MaxValue", max));
 
             IntGenerator gen = new IntGenerator("Random Int", (n, p) =>
