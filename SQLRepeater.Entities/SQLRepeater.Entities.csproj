@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DatabaseEntities\ColumnEntity.cs" />
+    <Compile Include="ExecutionOrderEntities\ExecutionItemCollection.cs" />
     <Compile Include="GeneratorDelegate.cs" />
     <Compile Include="Generators\Collections\GeneratorParameterCollection.cs" />
     <Compile Include="Generators\GeneratorParameter.cs" />
