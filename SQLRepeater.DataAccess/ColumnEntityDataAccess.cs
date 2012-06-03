@@ -18,7 +18,7 @@ namespace SQLRepeater.DataAccess
 
         private Func<SqlDataReader, ColumnEntity> CreateColumnEntity = reader =>
         {
-            ObservableCollection<GeneratorBase> generators = GeneratorFactory.GetGeneratorsForDataType(reader.GetString(1));
+            ObservableCollection<GeneratorBase> generators = GeneratorFactory.GetGeneratorsForDataType(reader.GetString(reader.GetOrdinal("DataType")));
             return new ColumnEntity
             (
                 reader.GetString(reader.GetOrdinal("ColumnName")),
@@ -110,14 +110,14 @@ where object_id=object_id('{1}.{0}')";
                         , table.TableSchema)
                 , CreateColumnEntity );
         }
-        public ObservableCollection<ColumnEntity> GetAllColumnsForTable(string schemaName, string tableName)
-        {
-            return GetMany(
-                string.Format(GET_COLUMNS_FOR_TABLE_QUERY
-                        , tableName
-                        , schemaName)
-                , CreateColumnEntity);
-        }
+        //public ObservableCollection<ColumnEntity> GetAllColumnsForTable(string schemaName, string tableName)
+        //{
+        //    return GetMany(
+        //        string.Format(GET_COLUMNS_FOR_TABLE_QUERY
+        //                , tableName
+        //                , schemaName)
+        //        , CreateColumnEntity);
+        //}
 
 
     }

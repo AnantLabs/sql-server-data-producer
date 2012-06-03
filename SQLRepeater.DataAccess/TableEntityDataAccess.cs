@@ -22,8 +22,8 @@ namespace SQLRepeater.DataAccess
         {
             return new TableEntity
             {
-                TableName = reader.GetString(0),
-                TableSchema = reader.GetString(1)
+                TableName = reader.GetString(reader.GetOrdinal("Table_Name")),
+                TableSchema = reader.GetString(reader.GetOrdinal("Table_Schema"))
             };
         };
 
@@ -59,23 +59,23 @@ namespace SQLRepeater.DataAccess
             return GetMany(ALL_TABLES_QUERY, CreateTableEntity);
         }
 
-        public ObservableCollection<TableEntity> GetAllTablesWithColumns()
-        {
-            ObservableCollection<TableEntity> tables = GetAllTables();
-            ColumnEntityDataAccess cda = new ColumnEntityDataAccess(_connectionString);
-            foreach (var item in tables)
-            {
-                item.Columns = cda.GetAllColumnsForTable(item);
-            }
+        //public ObservableCollection<TableEntity> GetAllTablesWithColumns()
+        //{
+        //    ObservableCollection<TableEntity> tables = GetAllTables();
+        //    ColumnEntityDataAccess cda = new ColumnEntityDataAccess(_connectionString);
+        //    foreach (var item in tables)
+        //    {
+        //        item.Columns = cda.GetAllColumnsForTable(item);
+        //    }
 
-            return tables;
-        }
+        //    return tables;
+        //}
 
         public void TruncateTable(TableEntity table)
         { 
             // TODO: Handle foreign keys
             // Remove all? Recursively?
-            ExecuteNoResult(string.Format("Delete {0}.{1}"));
+            ExecuteNoResult(string.Format("Delete {0}.{1}", table.TableSchema, table.TableName));
         }
     }
 }
