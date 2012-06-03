@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="ColumnEntityDataAccess.cs" />
     <Compile Include="DataAccessBase.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TableEntityDataAccess.cs" />
   </ItemGroup>

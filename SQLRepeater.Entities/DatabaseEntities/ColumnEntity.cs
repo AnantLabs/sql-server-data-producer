@@ -29,9 +29,6 @@ namespace SQLRepeater.DatabaseEntities.Entities
             }
         }
 
-       
-
-
         bool _isIdentity;
         [System.ComponentModel.ReadOnly(true)]
         public bool IsIdentity
@@ -131,16 +128,77 @@ namespace SQLRepeater.DatabaseEntities.Entities
             }
         }
 
-        public ColumnEntity(string columnName, string columnDatatype, bool isIdentity, int ordinalPosition, GeneratorBase generator, ObservableCollection<GeneratorBase> possibleGenerators)
+        private bool _isForeignKey;
+        [System.ComponentModel.ReadOnly(true)]
+        public bool IsForeignKey
+        {
+            get
+            {
+                return _isForeignKey;
+            }
+            set
+            {
+                if (_isForeignKey != value)
+                {
+                    _isForeignKey = value;
+                    OnPropertyChanged("IsForeignKey");
+                }
+            }
+        }
+
+        private string _referencingTable;
+        [System.ComponentModel.ReadOnly(true)]
+        public string ReferencingTable
+        {
+            get
+            {
+                return _referencingTable;
+            }
+            set
+            {
+                if (_referencingTable != value)
+                {
+                    _referencingTable = value;
+                    OnPropertyChanged("ReferencingTable");
+                }
+            }
+        }
+
+        private string _referencingColumn;
+        [System.ComponentModel.ReadOnly(true)]
+        public string ReferencingColumn
+        {
+            get
+            {
+                return _referencingColumn;
+            }
+            set
+            {
+                if (_referencingColumn != value)
+                {
+                    _referencingColumn = value;
+                    OnPropertyChanged("ReferencingColumn");
+                }
+            }
+        }
+
+
+        public ColumnEntity(string columnName, string columnDatatype, bool isIdentity, int ordinalPosition, bool isForeignKey, string referencingTable, string referencingColumn,
+           GeneratorBase generator, ObservableCollection<GeneratorBase> possibleGenerators)
         {
             this.ColumnName = columnName;
             this.ColumnDataType = columnDatatype;
             this.OrdinalPosition = ordinalPosition;
             this.IsIdentity = isIdentity;
+
+            this.IsForeignKey = isForeignKey;
+            this.ReferencingTable = referencingTable;
+            this.ReferencingColumn = referencingColumn;
+
+
             this.Generator = generator;
             this.PossibleGenerators = possibleGenerators;
+
         }
-
-
     }
 }
