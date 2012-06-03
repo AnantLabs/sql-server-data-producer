@@ -28,7 +28,7 @@ namespace SQLRepeater.TaskExecuter
         {
         }
 
-        private void Finalize()
+        private void FinalizeExecution()
         {
 
         }

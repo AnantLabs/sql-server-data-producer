@@ -16,6 +16,9 @@ namespace SQLRepeater.DataAccess
             : base(connectionString)
         { }
 
+        /// <summary>
+        /// Function to generate one ColumnEntity from a sqldatareader
+        /// </summary>
         private Func<SqlDataReader, ColumnEntity> CreateColumnEntity = reader =>
         {
             ObservableCollection<GeneratorBase> generators = GeneratorFactory.GetGeneratorsForDataType(reader.GetString(reader.GetOrdinal("DataType")));
@@ -91,6 +94,11 @@ outer apply(
 where object_id=object_id('{1}.{0}')";
 
 
+        /// <summary>
+        /// Begin get all columns for a table, does not block the caller. Provided callback method will be called when the execution is done.
+        /// </summary>
+        /// <param name="table">the table to get all columns for</param>
+        /// <param name="callback">the callback method that will be called once the execution is done</param>
         public void BeginGetAllColumnsForTable(TableEntity table, Action<ObservableCollection<ColumnEntity>> callback)
         {
             BeginGetMany(
@@ -101,7 +109,11 @@ where object_id=object_id('{1}.{0}')";
                 , callback);
         }
 
-
+        /// <summary>
+        /// Get all columns for the provided table.
+        /// </summary>
+        /// <param name="table">the table to get all columns for</param>
+        /// <returns></returns>
         public ObservableCollection<ColumnEntity> GetAllColumnsForTable(TableEntity table)
         {
             return GetMany(

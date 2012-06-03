@@ -6,9 +6,17 @@ using System.Collections.ObjectModel;
 
 namespace SQLRepeater.Entities.Generators.Collections
 {
+    /// <summary>
+    /// To enable binding to the NiceString property to the DataGrid.
+    /// </summary>
     public class GeneratorParameterCollection : ObservableCollection<GeneratorParameter>
     {
 
+        /// <summary>
+        /// Returns a humanly readable string that describes the GeneratorParameters in the collection.
+        /// Format: Name: Value
+        /// </summary>
+        /// <returns>readable string</returns>
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
@@ -20,6 +28,9 @@ namespace SQLRepeater.Entities.Generators.Collections
         }
 
 
+        /// <summary>
+        /// Bindable ToString property
+        /// </summary>
         public string NiceString
         {
             get { return this.ToString(); }
@@ -33,6 +44,11 @@ namespace SQLRepeater.Entities.Generators.Collections
             
         }
 
+        /// <summary>
+        /// To notify about updates of the NiceString property we need to hook up events of the internal collection and add event handler to all the added items.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void GeneratorParameterCollection_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             switch (e.Action)
@@ -64,6 +80,12 @@ namespace SQLRepeater.Entities.Generators.Collections
             }
         }
 
+        /// <summary>
+        /// If any of the properties of the Items in the collections change, then we will trigger the PropertyChanged event for the NiceString property.
+        /// This way we can bind to NiceString in the GUI.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void GeneratorParameterCollection_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             OnPropertyChanged(new System.ComponentModel.PropertyChangedEventArgs("NiceString"));

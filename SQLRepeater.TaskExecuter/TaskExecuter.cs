@@ -94,10 +94,10 @@ namespace SQLRepeater.TaskExecuter
             switch (ExecutionTaskOptionsManager.Instance.Options.ExecutionType)
             {
                 case ExecutionTypes.DurationBased:
-                    a = RunDurationBased(task);
+                    a = CreateDurationBasedAction(task);
                     break;
                 case ExecutionTypes.ExecutionCountBased:
-                    a = RunExecutionCountBased(task);
+                    a = CreateExecutionCountBasedAction(task);
                     break;
                 default:
                     break;
@@ -110,7 +110,13 @@ namespace SQLRepeater.TaskExecuter
 
         }
 
-        private Action RunExecutionCountBased(Action<int> task)
+        /// <summary>
+        /// Creates an Action that will run the provided task a selected amount of times. 
+        /// The singleton ExecutionTaskOptionsManager will be used to get the configuration needed for this function.
+        /// </summary>
+        /// <param name="task">the task to run.</param>
+        /// <returns>the action that will run the task</returns>
+        private Action CreateExecutionCountBasedAction(Action<int> task)
         {
             Action a = () =>
             {
@@ -123,7 +129,13 @@ namespace SQLRepeater.TaskExecuter
             return a;
         }
 
-        private Action RunDurationBased(Action<int> task)
+        /// <summary>
+        /// Creates an Action that will run the provided task until a configured DateTime.
+        /// The singleton ExecutionTaskOptionsManager will be used to get the configuration needed for this function.
+        /// </summary>
+        /// <param name="task">the task to run</param>
+        /// <returns>the action that will run the task</returns>
+        private Action CreateDurationBasedAction(Action<int> task)
         {
             DateTime until = DateTime.Now.AddSeconds(ExecutionTaskOptionsManager.Instance.Options.SecondsToRun);
             int numThreads = ExecutionTaskOptionsManager.Instance.Options.MaxThreads;
@@ -149,7 +161,10 @@ namespace SQLRepeater.TaskExecuter
         }
 
        
-
+        /// <summary>
+        /// Get the next number in the sequence to generate data with.
+        /// </summary>
+        /// <returns>the next number in the sequence</returns>
         private int GetNextSerialNumber()
         {
             return ++Counter;

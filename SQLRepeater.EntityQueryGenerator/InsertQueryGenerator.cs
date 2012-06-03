@@ -11,7 +11,7 @@ namespace SQLRepeater.EntityQueryGenerator
 {
     public class InsertQueryGenerator
     {
-        public string GenerateQueryForExecutionItems(IList<ExecutionItem> executionItems)
+        public string GenerateQueryForExecutionItems(IEnumerable<ExecutionItem> executionItems)
         {
             StringBuilder sb = new StringBuilder();
 
@@ -20,8 +20,8 @@ namespace SQLRepeater.EntityQueryGenerator
             sb.AppendLine();
             sb.AppendLine("BEGIN TRANSACTION");
             sb.AppendLine();
-            sb.AppendLine("-- Declarations");
-            sb.AppendLine();
+            //sb.AppendLine("-- Declarations");
+            //sb.AppendLine();
 
             foreach (var item in executionItems)
             {
@@ -70,8 +70,8 @@ namespace SQLRepeater.EntityQueryGenerator
 
             StringBuilder sb = new StringBuilder();
 
-            // This line will be replaced during data generation
-            // The variables will be generated and inserted instead of this line.
+            // This placeholder will be replaced during data generation
+            // The variables will be generated and inserted instead of this placeholder.
             sb.AppendLine();
             sb.AppendLine();
             sb.AppendFormat("<DECLARE ITEM{0}>", item.Order);
@@ -135,8 +135,8 @@ namespace SQLRepeater.EntityQueryGenerator
                     sb.AppendFormat("DECLARE @i{0}_{1} {2} = {3};", item.Order, col.ColumnName, col.ColumnDataType, col.Generator.GenerateValue(n));
                     sb.AppendLine();
                 }
-                //sb.AppendLine();
 
+                // Find the place in the big string where this set of declarations belong and replace the placeholder with the actual values.
                 string itemNumber = string.Format("<DECLARE ITEM{0}>", item.Order);
                 modified = modified.Replace(itemNumber, sb.ToString());
             }
@@ -145,29 +145,29 @@ namespace SQLRepeater.EntityQueryGenerator
         }
 
 
-        public IEnumerable<SqlParameter> GenerateParameters(int n, IEnumerable<ExecutionItem> execItems)
-        {
-            List<SqlParameter> parms = new List<SqlParameter>();
+        //public IEnumerable<SqlParameter> GenerateParameters(int n, IEnumerable<ExecutionItem> execItems)
+        //{
+        //    List<SqlParameter> parms = new List<SqlParameter>();
 
-            foreach (var execItem in execItems)
-            {
-                // Skip tables with no columns
-                if (execItem.TargetTable.Columns.Count == 0)
-                {
-                    continue;
-                }
+        //    foreach (var execItem in execItems)
+        //    {
+        //        // Skip tables with no columns
+        //        if (execItem.TargetTable.Columns.Count == 0)
+        //        {
+        //            continue;
+        //        }
 
-                foreach (ColumnEntity col in execItem.TargetTable.Columns.Where(x => x.IsIdentity == false))
-                {
-                    string paramName = CreateParameterName(execItem, col);
-                    object paramValue = col.Generator.GenerateValue(n);
+        //        foreach (ColumnEntity col in execItem.TargetTable.Columns.Where(x => x.IsIdentity == false))
+        //        {
+        //            string paramName = CreateParameterName(execItem, col);
+        //            object paramValue = col.Generator.GenerateValue(n);
 
-                    parms.Add(new SqlParameter(paramName, paramValue));
-                }
-            }
+        //            parms.Add(new SqlParameter(paramName, paramValue));
+        //        }
+        //    }
 
-            return parms;
-        }
+        //    return parms;
+        //}
 
     }
 }

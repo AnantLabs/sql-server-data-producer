@@ -18,6 +18,9 @@ namespace SQLRepeater.DataAccess
         {
         }
 
+        /// <summary>
+        /// function that will create a TableEntity from a sqldatareader
+        /// </summary>
         private Func<SqlDataReader, TableEntity> CreateTableEntity = reader =>
         {
             return new TableEntity
@@ -27,7 +30,12 @@ namespace SQLRepeater.DataAccess
             };
         };
 
-
+        /// <summary>
+        /// Create a TableEntity and get all its columns
+        /// </summary>
+        /// <param name="tableSchema">schema name of the table to get</param>
+        /// <param name="tableName">tableName of the table to get</param>
+        /// <returns></returns>
         public TableEntity GetTableAndColumns(string tableSchema, string tableName)
         {
             ColumnEntityDataAccess colDa = new ColumnEntityDataAccess(this._connectionString);
@@ -37,10 +45,18 @@ namespace SQLRepeater.DataAccess
             return table;
         }
 
+        /// <summary>
+        /// Get all tables, does not block the caller. The provided callback method will be called when the exection is done.
+        /// </summary>
+        /// <param name="callback">the callback method to be called when the execution is done.</param>
         public void BeginGetAllTables(Action<ObservableCollection<TableEntity>> callback)
         {
             BeginGetMany(ALL_TABLES_QUERY, CreateTableEntity, callback);
         }
+        /// <summary>
+        /// Begin get all tables and their columns, does not block the caller. The provided callback method will be called when the exection is done.
+        /// </summary>
+        /// <param name="callback">the callback method to be called when the execution is done.</param>
         public void BeginGetAllTablesAndColumns(Action<ObservableCollection<TableEntity>> callback)
         {
             BeginGetMany(ALL_TABLES_QUERY, CreateTableEntity, tables =>
@@ -54,6 +70,10 @@ namespace SQLRepeater.DataAccess
                 });
         }
 
+        /// <summary>
+        /// Get TableEntitites for every table in the database.
+        /// </summary>
+        /// <returns></returns>
         public ObservableCollection<TableEntity> GetAllTables()
         {
             return GetMany(ALL_TABLES_QUERY, CreateTableEntity);
@@ -71,6 +91,10 @@ namespace SQLRepeater.DataAccess
         //    return tables;
         //}
 
+        /// <summary>
+        /// Delete all rows in the provided table...
+        /// </summary>
+        /// <param name="table">the tableEntity for which all rows should be deleted.</param>
         public void TruncateTable(TableEntity table)
         { 
             // TODO: Handle foreign keys

@@ -182,7 +182,18 @@ namespace SQLRepeater.DatabaseEntities.Entities
             }
         }
 
-
+        /// <summary>
+        /// Constructor of the ColumnEntity
+        /// </summary>
+        /// <param name="columnName">name of the column</param>
+        /// <param name="columnDatatype">string name of the SQL datatype of the column</param>
+        /// <param name="isIdentity">true if the column is identity, otherwise false</param>
+        /// <param name="ordinalPosition">the ordinal position of the column</param>
+        /// <param name="isForeignKey">true if this table is referencing another table using foreign key</param>
+        /// <param name="referencingTable">the name of the table that this column is referencing using foreign key. Leave empty if NA</param>
+        /// <param name="referencingColumn">the name of the column that this column is referencing using foreign key. Leave empty if NA</param>
+        /// <param name="generator">the default generator for this column</param>
+        /// <param name="possibleGenerators">the possible generators for this column</param>
         public ColumnEntity(string columnName, string columnDatatype, bool isIdentity, int ordinalPosition, bool isForeignKey, string referencingTable, string referencingColumn,
            GeneratorBase generator, ObservableCollection<GeneratorBase> possibleGenerators)
         {

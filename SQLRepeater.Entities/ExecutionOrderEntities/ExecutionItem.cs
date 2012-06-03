@@ -7,16 +7,23 @@ using System.Collections.ObjectModel;
 
 namespace SQLRepeater.Entities.ExecutionOrderEntities
 {
+
+    /// <summary>
+    /// An execution item is a table that have been configured to get data generated.
+    /// </summary>
     public class ExecutionItem : EntityBase
     {
         TableEntity _targetTable;
+        /// <summary>
+        /// The table to generate data for.
+        /// </summary>
         public TableEntity TargetTable
         {
             get
             {
                 return _targetTable;
             }
-            set
+            private set
             {
                 if (_targetTable != value)
                 {
@@ -44,6 +51,11 @@ namespace SQLRepeater.Entities.ExecutionOrderEntities
             }
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="table">The table to generate data for</param>
+        /// <param name="order">the order of the execution item. Is used to generate the name of variables so that other execution items can depend on this</param>
         public ExecutionItem(TableEntity table, int order)
         {
             TargetTable = table;
@@ -53,6 +65,9 @@ namespace SQLRepeater.Entities.ExecutionOrderEntities
 
 
         string _description;
+        /// <summary>
+        /// Description of the Execution Item. Use to describe the purpose of it
+        /// </summary>
         public string Description
         {
             get
@@ -70,6 +85,9 @@ namespace SQLRepeater.Entities.ExecutionOrderEntities
         }
 
         bool _truncateBeforeExecution;
+        /// <summary>
+        /// Should the table be truncated before running the data generation?
+        /// </summary>
         public bool TruncateBeforeExecution
         {
             get

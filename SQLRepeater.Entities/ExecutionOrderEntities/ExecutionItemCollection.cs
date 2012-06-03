@@ -6,6 +6,9 @@ using System.Collections.ObjectModel;
 
 namespace SQLRepeater.Entities.ExecutionOrderEntities
 {
+    /// <summary>
+    /// Collection of Execution Items. To be used to group the execution of ExecutionItems. The collection can have options that each execution should use.
+    /// </summary>
     public class ExecutionItemCollection : ObservableCollection<ExecutionItem>
     {
 
@@ -16,6 +19,9 @@ namespace SQLRepeater.Entities.ExecutionOrderEntities
         }
 
         string _collectionName;
+        /// <summary>
+        /// Name of the collection. To give the option to give a friendly name to a group of execution items.
+        /// </summary>
         public string CollectionName
         {
             get
@@ -34,6 +40,9 @@ namespace SQLRepeater.Entities.ExecutionOrderEntities
 
 
         object _executionGroupOptions;
+        /// <summary>
+        /// Not implemented yet. Options should include: Number of times to execute the ExecutionItems in the collection.
+        /// </summary>
         public object ExecutionGroupOptions
         {
             get

@@ -16,25 +16,25 @@ namespace SQLRepeater.DatabaseEntities.Entities
         }
 
 
-        public Func<int, SqlParameter[]> GetParamValueCreator()
-        {
-            Func<int, SqlParameter[]> paramCreator = n =>
-                {
-                    List<SqlParameter> pars = new List<SqlParameter>();
-                    foreach (var col in Columns)
-                    {
-                        if (!col.IsIdentity)
-                        {
-                            pars.Add(new SqlParameter(
-                                string.Format("@{0}", col.ColumnName)
-                                , col.Generator.GenerateValue(n)));
-                        }
-                    }
+        //public Func<int, SqlParameter[]> GetParamValueCreator()
+        //{
+        //    Func<int, SqlParameter[]> paramCreator = n =>
+        //        {
+        //            List<SqlParameter> pars = new List<SqlParameter>();
+        //            foreach (var col in Columns)
+        //            {
+        //                if (!col.IsIdentity)
+        //                {
+        //                    pars.Add(new SqlParameter(
+        //                        string.Format("@{0}", col.ColumnName)
+        //                        , col.Generator.GenerateValue(n)));
+        //                }
+        //            }
 
-                    return pars.ToArray();
-                };
-            return paramCreator;
-        }
+        //            return pars.ToArray();
+        //        };
+        //    return paramCreator;
+        //}
 
         ObservableCollection<ColumnEntity> _columns;
         public ObservableCollection<ColumnEntity> Columns
