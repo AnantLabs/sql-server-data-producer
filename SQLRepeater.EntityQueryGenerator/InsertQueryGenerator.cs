@@ -20,8 +20,8 @@ namespace SQLRepeater.EntityQueryGenerator
             sb.AppendLine();
             sb.AppendLine("BEGIN TRANSACTION");
             sb.AppendLine();
-            //sb.AppendLine("-- Declarations");
-            //sb.AppendLine();
+            sb.AppendLine("DECLARE @n bigint = <EXECUTIONNUMBER>");
+            sb.AppendLine();
 
             foreach (var item in executionItems)
             {
@@ -123,6 +123,8 @@ namespace SQLRepeater.EntityQueryGenerator
         public string GenerateFinalQuery(string baseQuery, int n, IEnumerable<ExecutionItem> execItems)
         {
             string modified = baseQuery.Clone() as string;
+
+            modified = modified.Replace("<EXECUTIONNUMBER>", n.ToString());
 
             foreach (var item in execItems)
             {

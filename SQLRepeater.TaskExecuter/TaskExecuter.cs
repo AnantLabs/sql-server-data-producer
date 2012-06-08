@@ -8,6 +8,7 @@ using System.Data.SqlClient;
 using SQLRepeater.Entities.ExecutionOrderEntities;
 using SQLRepeater.DatabaseEntities.Entities;
 using SQLRepeater.Entities.OptionEntities;
+using SQLRepeater.Entities;
 
 namespace SQLRepeater.TaskExecuter
 {
@@ -16,6 +17,13 @@ namespace SQLRepeater.TaskExecuter
         private int Counter { get; set; }
 
         private static System.Threading.CancellationTokenSource _cancelTokenSource;
+        private string _connectionString;
+
+        public TaskExecuter(string connectionString)
+        {
+            this._connectionString = connectionString;
+            Counter = 0;
+        }
 
         private static System.Threading.CancellationTokenSource CancelTokenSource
         {
@@ -42,11 +50,11 @@ namespace SQLRepeater.TaskExecuter
         /// <param name="connectionString">connection string to use to execute the query</param>
         /// <param name="GenerateParameters">The method to call to generate the final query, the parameters are: The list of ExecutionItems, the original query, the serial number. It will return the final query</param>
         /// <returns></returns>
-        public Action<int> CreateSQLTaskForExecutionItems(IEnumerable<ExecutionItem> execItems, string baseQuery, string connectionString, Func<string, int, IEnumerable<ExecutionItem>, string> GenerateFinalQuery)
+        public ExecutionTaskDelegate CreateSQLTaskForExecutionItems(IEnumerable<ExecutionItem> execItems, string baseQuery, FinalQueryGeneratorDelegate GenerateFinalQuery)
         {
-            return new Action<int>(n =>
+            return new ExecutionTaskDelegate(n =>
             {
-                using (SqlConnection con = new SqlConnection(connectionString))
+                using (SqlConnection con = new SqlConnection(_connectionString))
                 {
                     // For each time this Action is called, generate the final query. This will create the "declaration" part of the script with the generated data.
                     // The "base" of the script will be kept from its original, we only generate the actual data here.
@@ -87,7 +95,7 @@ namespace SQLRepeater.TaskExecuter
         /// <param name="until">datetime when the execution should stop</param>
         /// <param name="numThreads">maximum number of threads to use, not guaranteed to use these many treads </param>
         /// <param name="onCompletedCallback">the callback that will be called when execution is done or stopped</param>
-        public void BeginExecute(Action<int> task, Action<int> onCompletedCallback)
+        public void BeginExecute(ExecutionTaskDelegate task, ExecutionDoneCallbackDelegate onCompletedCallback)
         {
             Action a = null;
 
@@ -116,7 +124,7 @@ namespace SQLRepeater.TaskExecuter
         /// </summary>
         /// <param name="task">the task to run.</param>
         /// <returns>the action that will run the task</returns>
-        private Action CreateExecutionCountBasedAction(Action<int> task)
+        private Action CreateExecutionCountBasedAction(ExecutionTaskDelegate task)
         {
             Action a = () =>
             {
@@ -135,14 +143,14 @@ namespace SQLRepeater.TaskExecuter
         /// </summary>
         /// <param name="task">the task to run</param>
         /// <returns>the action that will run the task</returns>
-        private Action CreateDurationBasedAction(Action<int> task)
+        private Action CreateDurationBasedAction(ExecutionTaskDelegate task)
         {
             DateTime until = DateTime.Now.AddSeconds(ExecutionTaskOptionsManager.Instance.Options.SecondsToRun);
             int numThreads = ExecutionTaskOptionsManager.Instance.Options.MaxThreads;
 
             Action a = () =>
             {
-                List<Action<int>> actions = new List<Action<int>>();
+                List<ExecutionTaskDelegate> actions = new List<ExecutionTaskDelegate>();
                 for (int i = 0; i < numThreads; i++)
                 {
                     actions.Add(task);
@@ -175,7 +183,7 @@ namespace SQLRepeater.TaskExecuter
         /// </summary>
         /// <param name="action">action to execute</param>
         /// <param name="n">the serial number to use</param>
-        public void ExecuteOneTime(Action<int> action, int n)
+        public void ExecuteOneTime(ExecutionTaskDelegate action, int n)
         {
             action(n);
         }

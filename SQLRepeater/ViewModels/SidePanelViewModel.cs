@@ -7,6 +7,7 @@ using SQLRepeater.DatabaseEntities.Entities;
 using System.Windows;
 using SQLRepeater.EntityQueryGenerator;
 using SQLRepeater.Entities.OptionEntities;
+using SQLRepeater.Entities;
 
 namespace SQLRepeater.ViewModels
 {
@@ -93,11 +94,13 @@ namespace SQLRepeater.ViewModels
         public SidePanelViewModel(SQLRepeater.Model.ApplicationModel model)
         {
             this.Model = model;
-            _executor = new TaskExecuter.TaskExecuter();
+            
             Options = ExecutionTaskOptionsManager.Instance.Options;
 
             RunSQLQueryCommand = new DelegateCommand(() =>
             {
+                _executor = new TaskExecuter.TaskExecuter(Model.ConnectionString);
+
                 if (Model.ExecutionItems.Count == 0)
                     return;
 
@@ -107,13 +110,11 @@ namespace SQLRepeater.ViewModels
                 InsertQueryGenerator queryGenerator = new InsertQueryGenerator();
                 string baseQuery = queryGenerator.GenerateQueryForExecutionItems(Model.ExecutionItems);
 
-                Action<int> taskToExecute = _executor.CreateSQLTaskForExecutionItems(
+                ExecutionTaskDelegate taskToExecute = _executor.CreateSQLTaskForExecutionItems(
                     // The items to generate data for
                     Model.ExecutionItems, 
                     // The basequery containing all the insert statements
                     baseQuery, 
-                    // The connection string to use
-                    Model.ConnectionString, 
                     // The function to call to generate the final declare @.. statements for each iteration
                     queryGenerator.GenerateFinalQuery);
 
