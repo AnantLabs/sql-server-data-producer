@@ -9,6 +9,7 @@ using SQLRepeater.Entities.ExecutionOrderEntities;
 using SQLRepeater.DatabaseEntities.Entities;
 using SQLRepeater.Entities.OptionEntities;
 using SQLRepeater.Entities;
+using SQLRepeater.Entities.Generators;
 
 namespace SQLRepeater.TaskExecuter
 {
@@ -52,7 +53,7 @@ namespace SQLRepeater.TaskExecuter
         /// <returns></returns>
         public ExecutionTaskDelegate CreateSQLTaskForExecutionItems(IEnumerable<ExecutionItem> execItems, string baseQuery, FinalQueryGeneratorDelegate GenerateFinalQuery)
         {
-            return new ExecutionTaskDelegate(n =>
+            return new ExecutionTaskDelegate( () =>
             {
                 using (SqlConnection con = new SqlConnection(_connectionString))
                 {
@@ -60,11 +61,11 @@ namespace SQLRepeater.TaskExecuter
                     // The "base" of the script will be kept from its original, we only generate the actual data here.
                     //IEnumerable<SqlParameter> parms = GenerateParameters(baseQuery, n, execItems);
 
-                    string finalResult = GenerateFinalQuery(baseQuery, n, execItems);
+                    string finalResult = GenerateFinalQuery(baseQuery, execItems);
 
                     using (SqlCommand cmd = new SqlCommand(finalResult, con))
                     {
-                        WriteTaskCommandDebug(finalResult, n, null);
+                        WriteTaskCommandDebug(finalResult,null);
 
                         //cmd.Parameters.AddRange(parms.ToArray());
                         //cmd.Connection.Open();
@@ -76,15 +77,18 @@ namespace SQLRepeater.TaskExecuter
             });
         }
 
-        private static void WriteTaskCommandDebug(string baseQuery, int n, IEnumerable<SqlParameter> parms)
+        static int n = 1;
+
+        private static void WriteTaskCommandDebug(string baseQuery, IEnumerable<SqlParameter> parms)
         {
+            
             //Console.WriteLine(finalResult);
             StringBuilder sb = new StringBuilder();
             //foreach (var item in parms)
             //{
             //    sb.AppendFormat("{0} = {1}{2}", item.ParameterName, item.Value, Environment.NewLine);
             //}
-            System.IO.File.WriteAllText(string.Format(@"c:\temp\repeater\test{0}.sql", n), baseQuery + sb.ToString());
+            System.IO.File.WriteAllText(string.Format(@"c:\temp\repeater\test{0}.sql", n++), baseQuery + sb.ToString());
         }
 
 
@@ -130,7 +134,7 @@ namespace SQLRepeater.TaskExecuter
             {
                 for (int i = 0; i < ExecutionTaskOptionsManager.Instance.Options.FixedExecutions; i++)
                 {
-                    task(GetNextSerialNumber());
+                    task();
                 }
             };
 
@@ -160,7 +164,7 @@ namespace SQLRepeater.TaskExecuter
                 {
                     Parallel.ForEach(actions, action =>
                     {
-                        action(GetNextSerialNumber());
+                        action();
                     });
                 }
             };
@@ -175,7 +179,7 @@ namespace SQLRepeater.TaskExecuter
         /// <returns>the next number in the sequence</returns>
         private int GetNextSerialNumber()
         {
-            return ++Counter;
+            return GenerationNumberSupplier.GetNextNumber();
         }
 
         /// <summary>
@@ -183,9 +187,9 @@ namespace SQLRepeater.TaskExecuter
         /// </summary>
         /// <param name="action">action to execute</param>
         /// <param name="n">the serial number to use</param>
-        public void ExecuteOneTime(ExecutionTaskDelegate action, int n)
+        public void ExecuteOneTime(ExecutionTaskDelegate action)
         {
-            action(n);
+            action();
         }
        
 

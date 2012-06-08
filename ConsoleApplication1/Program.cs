@@ -9,6 +9,9 @@ using SQLRepeater.DataAccess;
 using SQLRepeater.TaskExecuter;
 using System.Data.SqlClient;
 using System.Collections.ObjectModel;
+using SQLRepeater.Entities;
+using System.Threading;
+using SQLRepeater.Entities.OptionEntities;
 
 namespace TestConsoleApplication
 {
@@ -17,23 +20,34 @@ namespace TestConsoleApplication
         
         static void Main(string[] args)
         {
-            //TableEntityDataAccess tda = new TableEntityDataAccess( Connection());
+            TableEntityDataAccess tda = new TableEntityDataAccess(Connection());
 
-            //ObservableCollection<TableEntity> tables = tda.GetAllTablesWithColumns();
+            TableEntity table = tda.GetTableAndColumns("chat", "badword");
 
-            //ObservableCollection<ExecutionItem> list = ExecutionItem.FromTables(tables);
-            //TaskExecuter executor = new TaskExecuter();
+            ExecutionTaskOptionsManager.Instance.Options.ExecutionType = ExecutionTypes.ExecutionCountBased;
+            ExecutionTaskOptionsManager.Instance.Options.FixedExecutions = 1;
 
-            //InsertQueryGenerator queryGenerator = new InsertQueryGenerator();
-            //string result = queryGenerator.GenerateQueryForExecutionItems(list);
+            ObservableCollection<ExecutionItem> list = new ObservableCollection<ExecutionItem>();
+            ExecutionItem item = new ExecutionItem(table, 1);
+            item.RepeatCount = 5;
+            ExecutionItem item2 = new ExecutionItem(table, 2);
+            item2.RepeatCount = 1;
 
-            //Action<int> a = executor.CreateSQLTaskForExecutionItems(list, result, Connection(), queryGenerator.GenerateFinalQuery);
+            TaskExecuter executor = new TaskExecuter(Connection());
+            list.Add(item);
+            list.Add(item2);
 
-            //for (int n = 0; n < 10; n++)
-            //{
-            //    executor.ExecuteOneTime(a, n);
-            //}
+            InsertQueryGenerator queryGenerator = new InsertQueryGenerator();
+            string result = queryGenerator.GenerateQueryForExecutionItems(list);
 
+            ExecutionTaskDelegate a = executor.CreateSQLTaskForExecutionItems(list, result, queryGenerator.GenerateFinalQuery);
+
+
+            executor.BeginExecute(a, v =>
+                {
+
+                });
+           // Thread.Sleep(1000);
         }
 
       

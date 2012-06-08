@@ -15,11 +15,11 @@ namespace SQLRepeater.Entities
     // Functions that can generate values using the serial number n and the supplied parameters
     public delegate object ValueCreatorDelegate(int n, GeneratorParameterCollection genParameters);
 
-    //Func<string, int, IEnumerable<ExecutionItem>, string>
-    public delegate string FinalQueryGeneratorDelegate(string baseQUery, int n, IEnumerable<ExecutionItem> executionItems);
+    //Func<string, IEnumerable<ExecutionItem>, string>
+    public delegate string FinalQueryGeneratorDelegate(string baseQUery, IEnumerable<ExecutionItem> executionItems);
 
-    // Action<int>
-    public delegate void ExecutionTaskDelegate(int n);
+    // Action<>
+    public delegate void ExecutionTaskDelegate();
 
     //Action<int>
     public delegate void ExecutionDoneCallbackDelegate(int n);

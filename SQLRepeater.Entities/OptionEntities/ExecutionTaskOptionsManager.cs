@@ -40,7 +40,7 @@ namespace SQLRepeater.Entities.OptionEntities
 
         ExecutionTaskOptionsManager()
         {
-           // Options = new ExecutionTaskOptions();
+           Options = new ExecutionTaskOptions();
         }
     }
 }

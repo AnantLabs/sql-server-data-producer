@@ -44,6 +44,7 @@
     <Compile Include="ExecutionOrderEntities\ExecutionItemCollection.cs" />
     <Compile Include="GeneratorDelegate.cs" />
     <Compile Include="Generators\Collections\GeneratorParameterCollection.cs" />
+    <Compile Include="Generators\GenerationNumberSupplier.cs" />
     <Compile Include="Generators\GeneratorParameter.cs" />
     <Compile Include="ExecutionOrderEntities\ExecutionItem.cs" />
     <Compile Include="EntityBase.cs" />
