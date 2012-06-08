@@ -114,5 +114,28 @@ namespace SQLRepeater.Entities.ExecutionOrderEntities
         //    }
         //    return c;
         //}
+
+
+        int _repeatExectution = 1;
+        public int RepeatCount
+        {
+            get
+            {
+                return _repeatExectution;
+            }
+            set
+            {
+                if (_repeatExectution != value)
+                {
+                    if (value < 1)
+                        value = 1;
+                    if (value > int.MaxValue)
+                        value = int.MaxValue;
+                    
+                    _repeatExectution = value;
+                    OnPropertyChanged("RepeatCount");
+                }
+            }
+        }
     }
 }

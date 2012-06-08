@@ -81,28 +81,35 @@ namespace SQLRepeater.EntityQueryGenerator
             foreach (var col in item.TargetTable.Columns.Where(x => x.IsIdentity == false))
             {
                 sb.AppendFormat("\t{0}", col.ColumnName);
-                sb.Append(col.OrdinalPosition == item.TargetTable.Columns.Count ? "" : ", ");
+                sb.Append(col.OrdinalPosition == item.TargetTable.Columns.Count ? string.Empty : ", ");
                 sb.AppendLine();
             }
 
             sb.Append(")");
             sb.AppendLine();
-            sb.Append("VALUES(");
+            sb.Append("SELECT");
             sb.AppendLine();
             foreach (var col in item.TargetTable.Columns.Where(x => x.IsIdentity == false))
             {
-                string value = CreateParameterName(item, col);
+                string variable = CreateVariableName(item, col);
                 sb.Append("\t");
-                sb.Append(value);
-                sb.Append(col.OrdinalPosition == item.TargetTable.Columns.Count ? "" : ", ");
+                sb.Append(variable);
+                sb.Append(col.OrdinalPosition == item.TargetTable.Columns.Count ? string.Empty : ", ");
                 sb.AppendLine();
             }
-            sb.Append(")");
+            
+            if (item.RepeatCount > 1)
+            {
+                // To have set based insertions we will append this line. The parameters will all have the same value, how to fix that?
+                // the execution item would need to have an option thats says if if should be repeated.
+                // Option to somehow generate new values for each repetition? How to handle that?
+                sb.AppendFormat("FROM (SELECT TOP {0} ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) FROM sys.objects o1, sys.objects o2, sys.objects o3) r(rn)", item.RepeatCount);
+            }
 
             return sb.ToString();
         }
 
-        private string CreateParameterName(ExecutionItem item, ColumnEntity col)
+        private string CreateVariableName(ExecutionItem item, ColumnEntity col)
         {
             return string.Format("@i{0}_{1}", item.Order, col.ColumnName);
         }
