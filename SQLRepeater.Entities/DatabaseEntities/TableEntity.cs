@@ -7,34 +7,13 @@ using System.Data.SqlClient;
 
 namespace SQLRepeater.DatabaseEntities.Entities
 {
-    public class TableEntity : SQLRepeater.Entities.EntityBase
+    public class TableEntity : SQLRepeater.Entities.EntityBase, IEquatable<TableEntity>
     {
 
         public TableEntity()
         {
             Columns = new ObservableCollection<ColumnEntity>();
         }
-
-
-        //public Func<int, SqlParameter[]> GetParamValueCreator()
-        //{
-        //    Func<int, SqlParameter[]> paramCreator = n =>
-        //        {
-        //            List<SqlParameter> pars = new List<SqlParameter>();
-        //            foreach (var col in Columns)
-        //            {
-        //                if (!col.IsIdentity)
-        //                {
-        //                    pars.Add(new SqlParameter(
-        //                        string.Format("@{0}", col.ColumnName)
-        //                        , col.Generator.GenerateValue(n)));
-        //                }
-        //            }
-
-        //            return pars.ToArray();
-        //        };
-        //    return paramCreator;
-        //}
 
         ObservableCollection<ColumnEntity> _columns;
         public ObservableCollection<ColumnEntity> Columns
@@ -91,6 +70,30 @@ namespace SQLRepeater.DatabaseEntities.Entities
         public override string ToString()
         {
             return string.Format("{0}.{1}", TableSchema, TableName);
+        }
+
+
+
+        public bool Equals(TableEntity other)
+        {
+            // Check whether the compared object is null.
+            if (Object.ReferenceEquals(other, null)) return false;
+
+            // Check whether the compared object references the same data.
+            if (Object.ReferenceEquals(this, other)) return true;
+
+            // Check whether the objects’ properties are equal.
+            return this.ToString().Equals(other.ToString());
+        }
+
+        // If Equals returns true for a pair of objects,
+        // GetHashCode must return the same value for these objects.
+
+        public override int GetHashCode()
+        {
+            // Get the hash code for the Textual field if it is not null.
+            return ToString().GetHashCode();
+
         }
     }
 }

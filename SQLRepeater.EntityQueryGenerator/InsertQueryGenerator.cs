@@ -22,9 +22,9 @@ namespace SQLRepeater.EntityQueryGenerator
             sb.AppendLine("BEGIN TRANSACTION");
             sb.AppendLine();
 
-            foreach (var item in executionItems.Where(x => x.TruncateBeforeExecution).Distinct())
+            foreach (var item in executionItems.Where(x => x.TruncateBeforeExecution).Select(x => x.TargetTable).Distinct())
             {
-                sb.AppendFormat("DELETE {0}.{1};", item.TargetTable.TableSchema, item.TargetTable.TableName);
+                sb.AppendFormat("DELETE {0}.{1};", item.TableSchema, item.TableName);
                 sb.AppendLine();
             }
 
