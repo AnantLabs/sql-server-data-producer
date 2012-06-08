@@ -108,11 +108,12 @@ namespace SQLRepeater.EntityQueryGenerator
                 sb.AppendLine();
                 for (int rep = 1; rep <= item.RepeatCount; rep++)
                 {
+                    int rowGenerationNumber = GenerationNumberSupplier.GetNextNumber();
                     sb.Append("\t");
                     sb.Append("SELECT ");
                     foreach (ColumnEntity col in item.TargetTable.Columns.Where(x => x.IsIdentity == false))
                     {
-                        sb.AppendFormat("{0}", col.Generator.GenerateValue(GenerationNumberSupplier.GetNextNumber()));
+                        sb.AppendFormat("{0}", col.Generator.GenerateValue(rowGenerationNumber));
                         sb.Append(col.OrdinalPosition == item.TargetTable.Columns.Count ? string.Empty : ", ");
                     }
                     sb.Append("");

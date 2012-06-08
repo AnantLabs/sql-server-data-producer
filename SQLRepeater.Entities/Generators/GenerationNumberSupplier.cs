@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace SQLRepeater.Entities.Generators
 {
@@ -16,7 +17,7 @@ namespace SQLRepeater.Entities.Generators
 
         public static int GetNextNumber()
         {
-            return _number++;
+            return Interlocked.Increment(ref _number);
         }
 
         public static void Reset()
