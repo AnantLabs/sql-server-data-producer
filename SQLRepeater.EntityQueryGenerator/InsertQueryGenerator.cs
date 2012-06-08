@@ -20,9 +20,13 @@ namespace SQLRepeater.EntityQueryGenerator
             sb.AppendLine("SET XACT_ABORT ON");
             sb.AppendLine();
             sb.AppendLine("BEGIN TRANSACTION");
-            //sb.AppendLine();
-            //sb.AppendLine("DECLARE @n bigint = <EXECUTIONNUMBER>");
             sb.AppendLine();
+
+            foreach (var item in executionItems.Where(x => x.TruncateBeforeExecution).Distinct())
+            {
+                sb.AppendFormat("DELETE {0}.{1};", item.TargetTable.TableSchema, item.TargetTable.TableName);
+                sb.AppendLine();
+            }
 
             foreach (var item in executionItems)
             {
@@ -34,7 +38,7 @@ namespace SQLRepeater.EntityQueryGenerator
 
                 bool hasIdentity = item.TargetTable.Columns.Any(col => col.IsIdentity);
 
-                sb.AppendFormat("-- INSERT item {0}", item.Order);
+                sb.AppendFormat("-- INSERT item {0} - {0}", item.Order, item.Description);
                 
                 // Generate for each column
                 sb.Append(GenerateInsertStatement(item));
@@ -74,8 +78,6 @@ namespace SQLRepeater.EntityQueryGenerator
 
             sb.Append(")");
             sb.AppendLine();
-            sb.Append("VALUES");
-            sb.AppendLine();
             
             sb.AppendFormat("<{0}VALUES>", item.Order);
 
@@ -107,14 +109,14 @@ namespace SQLRepeater.EntityQueryGenerator
                 for (int rep = 1; rep <= item.RepeatCount; rep++)
                 {
                     sb.Append("\t");
-                    sb.Append("(");
+                    sb.Append("SELECT ");
                     foreach (ColumnEntity col in item.TargetTable.Columns.Where(x => x.IsIdentity == false))
                     {
                         sb.AppendFormat("{0}", col.Generator.GenerateValue(GenerationNumberSupplier.GetNextNumber()));
                         sb.Append(col.OrdinalPosition == item.TargetTable.Columns.Count ? string.Empty : ", ");
                     }
-                    sb.Append(")");
-                    sb.Append(item.RepeatCount == rep ? string.Empty : ", ");
+                    sb.Append("");
+                    sb.Append(item.RepeatCount == rep ? string.Empty : " UNION ALL ");
                     sb.AppendLine();
                 }
                 // Find the place in the big string where this set of values belong and replace the placeholder with the actual values.

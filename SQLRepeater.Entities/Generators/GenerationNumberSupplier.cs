@@ -23,5 +23,10 @@ namespace SQLRepeater.Entities.Generators
         {
             _number = 1;
         }
+
+        public static int CurrentNumber()
+        {
+            return _number;
+        }
     }
 }

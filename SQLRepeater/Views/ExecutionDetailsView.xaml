@@ -10,7 +10,7 @@
     <UserControl.Resources>
         <conv:VisibilityConverter x:Key="visiConv" />
     </UserControl.Resources>
-    <Grid>
+    <Grid IsEnabled="{Binding HaveExecutionItemSelected}">
         <Grid.RowDefinitions>
             <RowDefinition Height="100" />
             <RowDefinition Height="*" />
@@ -22,18 +22,18 @@
         </Grid.ColumnDefinitions>
         
             <GroupBox Grid.Row="0" Grid.Column="0">
-            <StackPanel>
-                <Label Content="Execution Item Description:" FontSize="11" />
-                <TextBox Text="{Binding SelectedExecutionItem.Description}" />
+                <StackPanel>
+                    <Label Content="Execution Item Description:" FontSize="11" />
+                    <TextBox Text="{Binding SelectedExecutionItem.Description, Mode=TwoWay}" />
 
-                <Label Content="Number of insertions for this item:" FontSize="11" />
-                <TextBox Text="{Binding SelectedExecutionItem.RepeatCount}" />
+                    <Label Content="Number of insertions for this item:" FontSize="11" />
+                    <TextBox Text="{Binding SelectedExecutionItem.RepeatCount, Mode=TwoWay}" />
 
-            </StackPanel>
+                </StackPanel>
                                 
             </GroupBox>
         <GroupBox Header="Options" Grid.Column="1">
-            <CheckBox Content="Truncate Table before execution" IsChecked="{Binding SelectedExecutionItem.TruncateBeforeExecution}" />
+            <CheckBox Content="Truncate Table before execution" IsChecked="{Binding SelectedExecutionItem.TruncateBeforeExecution, Mode=TwoWay}" />
         </GroupBox>
 
         <GroupBox Grid.Row="1" Grid.ColumnSpan="3">

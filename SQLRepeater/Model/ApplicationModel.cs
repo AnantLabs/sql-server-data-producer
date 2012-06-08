@@ -51,19 +51,23 @@ namespace SQLRepeater.Model
             }
         }
 
-        //private void GetColumnsForTable(TableEntity table)
-        //{
-        //    if (table == null)
-        //    {
-        //        return;
-        //    }
 
-        //    ColumnEntityDataAccess da = new ColumnEntityDataAccess(ConnectionString);
-        //    da.BeginGetAllColumnsForTable(table, cols =>
-        //    {
-        //        table.Columns = cols;
-        //    });
-        //}
+        bool _haveExecutionItemSelected = false;
+        public bool HaveExecutionItemSelected
+        {
+            get
+            {
+                return _haveExecutionItemSelected;
+            }
+            set
+            {
+                if (_haveExecutionItemSelected != value)
+                {
+                    _haveExecutionItemSelected = value;
+                    OnPropertyChanged("HaveExecutionItemSelected");
+                }
+            }
+        }
 
         ObservableCollection<ExecutionItem> _executionItems;
         /// <summary>
@@ -99,6 +103,10 @@ namespace SQLRepeater.Model
             {
                 if (_currentExecutionItem != value)
                 {
+                    if (value != null)
+                    {
+                        HaveExecutionItemSelected = true;
+                    }
                     _currentExecutionItem = value;
                     OnPropertyChanged("SelectedExecutionItem");
                 }

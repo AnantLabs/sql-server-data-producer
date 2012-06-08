@@ -29,7 +29,8 @@ namespace TestConsoleApplication
 
             ObservableCollection<ExecutionItem> list = new ObservableCollection<ExecutionItem>();
             ExecutionItem item = new ExecutionItem(table, 1);
-            item.RepeatCount = 5;
+            item.RepeatCount = 5000;
+            item.TruncateBeforeExecution = true;
             ExecutionItem item2 = new ExecutionItem(table, 2);
             item2.RepeatCount = 1;
 
@@ -41,12 +42,12 @@ namespace TestConsoleApplication
             string result = queryGenerator.GenerateQueryForExecutionItems(list);
 
             ExecutionTaskDelegate a = executor.CreateSQLTaskForExecutionItems(list, result, queryGenerator.GenerateFinalQuery);
+            executor.CreateExecutionCountBasedAction(a)();
 
+            //executor.BeginExecute(a, v =>
+            //    {
 
-            executor.BeginExecute(a, v =>
-                {
-
-                });
+            //    });
            // Thread.Sleep(1000);
         }
 

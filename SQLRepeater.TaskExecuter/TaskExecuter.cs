@@ -117,7 +117,7 @@ namespace SQLRepeater.TaskExecuter
 
             a.BeginInvoke(ar =>
             {
-                onCompletedCallback(Counter);
+                onCompletedCallback(GenerationNumberSupplier.CurrentNumber());
             }, null);
 
         }
@@ -128,7 +128,7 @@ namespace SQLRepeater.TaskExecuter
         /// </summary>
         /// <param name="task">the task to run.</param>
         /// <returns>the action that will run the task</returns>
-        private Action CreateExecutionCountBasedAction(ExecutionTaskDelegate task)
+        public Action CreateExecutionCountBasedAction(ExecutionTaskDelegate task)
         {
             Action a = () =>
             {
@@ -173,14 +173,14 @@ namespace SQLRepeater.TaskExecuter
         }
 
        
-        /// <summary>
-        /// Get the next number in the sequence to generate data with.
-        /// </summary>
-        /// <returns>the next number in the sequence</returns>
-        private int GetNextSerialNumber()
-        {
-            return GenerationNumberSupplier.GetNextNumber();
-        }
+        ///// <summary>
+        ///// Get the next number in the sequence to generate data with.
+        ///// </summary>
+        ///// <returns>the next number in the sequence</returns>
+        //private int GetNextSerialNumber()
+        //{
+        //    return GenerationNumberSupplier.GetNextNumber();
+        //}
 
         /// <summary>
         /// Execute one action one time with the supplied serial number
