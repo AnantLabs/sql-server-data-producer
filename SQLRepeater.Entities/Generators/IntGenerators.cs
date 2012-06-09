@@ -75,7 +75,7 @@ namespace SQLRepeater.Entities.Generators
             GeneratorParameter foreignParam = new GeneratorParameter("Keys", fkkeys);
             foreignParam.IsWriteEnabled = false;
             paramss.Add(foreignParam);
-            IntGenerator gen = new IntGenerator("Foreign Key Value", (n, p) =>
+            IntGenerator gen = new IntGenerator("Random FOREIGN KEY Value", (n, p) =>
             {
                 ObservableCollection<int> keys = (ObservableCollection<int>)GetParameterByName(p, "Keys");
                 return keys[RandomSupplier.Instance.GetNextInt() % keys.Count];
