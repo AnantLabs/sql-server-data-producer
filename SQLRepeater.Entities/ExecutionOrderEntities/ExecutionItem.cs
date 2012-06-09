@@ -129,8 +129,8 @@ namespace SQLRepeater.Entities.ExecutionOrderEntities
                 {
                     if (value < 1)
                         value = 1;
-                    if (value > int.MaxValue)
-                        value = int.MaxValue;
+                    if (value > 1000)
+                        value = 1000;
                     
                     _repeatExectution = value;
                     OnPropertyChanged("RepeatCount");

@@ -106,18 +106,19 @@ namespace SQLRepeater.EntityQueryGenerator
 
                 sb.AppendFormat("\t-- Item {0}, {1}.{2}", item.Order, item.TargetTable.TableSchema, item.TargetTable.TableName);
                 sb.AppendLine();
+                sb.AppendLine("VALUES");
                 for (int rep = 1; rep <= item.RepeatCount; rep++)
                 {
                     int rowGenerationNumber = GenerationNumberSupplier.GetNextNumber();
                     sb.Append("\t");
-                    sb.Append("SELECT ");
+                    sb.Append("(");
                     foreach (ColumnEntity col in item.TargetTable.Columns.Where(x => x.IsIdentity == false))
                     {
                         sb.AppendFormat("{0}", col.Generator.GenerateValue(rowGenerationNumber));
                         sb.Append(col.OrdinalPosition == item.TargetTable.Columns.Count ? string.Empty : ", ");
                     }
-                    sb.Append("");
-                    sb.Append(item.RepeatCount == rep ? string.Empty : " UNION ALL ");
+                    sb.Append(")");
+                    sb.Append(item.RepeatCount == rep ? string.Empty : ", ");
                     sb.AppendLine();
                 }
                 // Find the place in the big string where this set of values belong and replace the placeholder with the actual values.

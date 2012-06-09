@@ -28,6 +28,7 @@ namespace SQLRepeater.Entities.Generators
 
         internal static ObservableCollection<GeneratorBase> GetGenerators()
         {
+            // TODO: Add edge case date generators. 1ms after midgnight, 1ms before midnight etc.
             ObservableCollection<GeneratorBase> valueGenerators = new ObservableCollection<GeneratorBase>();
             valueGenerators.Add(CreateCurrentDateGenerator());
             valueGenerators.Add(CreateQueryGenerator());

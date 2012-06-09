@@ -17,20 +17,25 @@ namespace TestConsoleApplication
 {
     class Program
     {
-        
+
         static void Main(string[] args)
         {
             TableEntityDataAccess tda = new TableEntityDataAccess(Connection());
 
-            TableEntity table = tda.GetTableAndColumns("chat", "badword");
+            TableEntity table = tda.GetTableAndColumns("dbo", "Customer");
 
             ExecutionTaskOptionsManager.Instance.Options.ExecutionType = ExecutionTypes.ExecutionCountBased;
-            ExecutionTaskOptionsManager.Instance.Options.FixedExecutions = 1;
+            ExecutionTaskOptionsManager.Instance.Options.FixedExecutions = 10000;
+            ExecutionTaskOptionsManager.Instance.Options.MaxThreads = 20;
+
+            //ExecutionTaskOptionsManager.Instance.Options.ExecutionType = ExecutionTypes.DurationBased;
+            //ExecutionTaskOptionsManager.Instance.Options.SecondsToRun = 30;
+            //ExecutionTaskOptionsManager.Instance.Options.MaxThreads = 20;
 
             ObservableCollection<ExecutionItem> list = new ObservableCollection<ExecutionItem>();
             ExecutionItem item = new ExecutionItem(table, 1);
-            item.RepeatCount = 5000;
-            item.TruncateBeforeExecution = true;
+            item.RepeatCount = 10;
+            item.TruncateBeforeExecution = false;
             ExecutionItem item2 = new ExecutionItem(table, 2);
             item2.RepeatCount = 1;
 
@@ -42,13 +47,22 @@ namespace TestConsoleApplication
             string result = queryGenerator.GenerateQueryForExecutionItems(list);
 
             ExecutionTaskDelegate a = executor.CreateSQLTaskForExecutionItems(list, result, queryGenerator.GenerateFinalQuery);
-            executor.CreateExecutionCountBasedAction(a)();
+            SetCounter newSetCounter = new SetCounter();
+            executor.CreateExecutionCountBasedAction(a, newSetCounter)();
+            
+            //executor.CreateDurationBasedAction(a, newSetCounter)();
+
+
+            Thread.Sleep(40000);
+
+            Console.WriteLine(newSetCounter.Peek());
+            Console.ReadKey();
 
             //executor.BeginExecute(a, v =>
             //    {
 
             //    });
-           // Thread.Sleep(1000);
+            // Thread.Sleep(1000);
         }
 
       

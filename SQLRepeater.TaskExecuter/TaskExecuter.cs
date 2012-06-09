@@ -10,6 +10,7 @@ using SQLRepeater.DatabaseEntities.Entities;
 using SQLRepeater.Entities.OptionEntities;
 using SQLRepeater.Entities;
 using SQLRepeater.Entities.Generators;
+using System.ComponentModel;
 
 namespace SQLRepeater.TaskExecuter
 {
@@ -28,18 +29,19 @@ namespace SQLRepeater.TaskExecuter
 
         private static System.Threading.CancellationTokenSource CancelTokenSource
         {
-            get {
+            get
+            {
                 if (_cancelTokenSource == null)
                     _cancelTokenSource = new System.Threading.CancellationTokenSource();
-                
-                return _cancelTokenSource; 
+
+                return _cancelTokenSource;
             }
             set { _cancelTokenSource = value; }
         }
 
         public void EndExecute()
         {
-            CancelTokenSource.Cancel();                        
+            CancelTokenSource.Cancel();
         }
 
 
@@ -53,7 +55,7 @@ namespace SQLRepeater.TaskExecuter
         /// <returns></returns>
         public ExecutionTaskDelegate CreateSQLTaskForExecutionItems(IEnumerable<ExecutionItem> execItems, string baseQuery, FinalQueryGeneratorDelegate GenerateFinalQuery)
         {
-            return new ExecutionTaskDelegate( () =>
+            return new ExecutionTaskDelegate(() =>
             {
                 using (SqlConnection con = new SqlConnection(_connectionString))
                 {
@@ -65,13 +67,13 @@ namespace SQLRepeater.TaskExecuter
 
                     using (SqlCommand cmd = new SqlCommand(finalResult, con))
                     {
-                        WriteTaskCommandDebug(finalResult,null);
+                        //WriteTaskCommandDebug(finalResult,null);
 
                         //cmd.Parameters.AddRange(parms.ToArray());
-                        //cmd.Connection.Open();
-                        //cmd.ExecuteNonQuery();
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
 
-                        
+
                     }
                 }
             });
@@ -81,7 +83,7 @@ namespace SQLRepeater.TaskExecuter
 
         private static void WriteTaskCommandDebug(string baseQuery, IEnumerable<SqlParameter> parms)
         {
-            
+
             //Console.WriteLine(finalResult);
             StringBuilder sb = new StringBuilder();
             //foreach (var item in parms)
@@ -103,13 +105,14 @@ namespace SQLRepeater.TaskExecuter
         {
             Action a = null;
 
+            SetCounter setCounter = new SetCounter();
             switch (ExecutionTaskOptionsManager.Instance.Options.ExecutionType)
             {
                 case ExecutionTypes.DurationBased:
-                    a = CreateDurationBasedAction(task);
+                    a = CreateDurationBasedAction(task, setCounter);
                     break;
                 case ExecutionTypes.ExecutionCountBased:
-                    a = CreateExecutionCountBasedAction(task);
+                    a = CreateExecutionCountBasedAction(task, setCounter);
                     break;
                 default:
                     break;
@@ -117,7 +120,7 @@ namespace SQLRepeater.TaskExecuter
 
             a.BeginInvoke(ar =>
             {
-                onCompletedCallback(GenerationNumberSupplier.CurrentNumber());
+                onCompletedCallback(setCounter.Peek());
             }, null);
 
         }
@@ -128,13 +131,26 @@ namespace SQLRepeater.TaskExecuter
         /// </summary>
         /// <param name="task">the task to run.</param>
         /// <returns>the action that will run the task</returns>
-        public Action CreateExecutionCountBasedAction(ExecutionTaskDelegate task)
+        public Action CreateExecutionCountBasedAction(ExecutionTaskDelegate task, SetCounter counter)
         {
+            int numThreads = ExecutionTaskOptionsManager.Instance.Options.MaxThreads;
+            int targetNumExecutions = ExecutionTaskOptionsManager.Instance.Options.FixedExecutions;
+
             Action a = () =>
             {
-                for (int i = 0; i < ExecutionTaskOptionsManager.Instance.Options.FixedExecutions; i++)
+                List<BackgroundWorker> workers = new List<BackgroundWorker>();
+                for (int i = 0; i < numThreads; i++)
                 {
-                    task();
+                    workers.Add(new BackgroundWorker());
+                    workers[i].DoWork += (sender, e) =>
+                    {
+                        while (counter.Peek() < targetNumExecutions && !CancelTokenSource.IsCancellationRequested)
+                        {
+                            task();
+                            counter.Increment();
+                        }
+                    };
+                    workers[i].RunWorkerAsync();
                 }
             };
 
@@ -147,25 +163,27 @@ namespace SQLRepeater.TaskExecuter
         /// </summary>
         /// <param name="task">the task to run</param>
         /// <returns>the action that will run the task</returns>
-        private Action CreateDurationBasedAction(ExecutionTaskDelegate task)
+        /// <param name="counter"></param>
+        public Action CreateDurationBasedAction(ExecutionTaskDelegate task, SetCounter counter)
         {
             DateTime until = DateTime.Now.AddSeconds(ExecutionTaskOptionsManager.Instance.Options.SecondsToRun);
             int numThreads = ExecutionTaskOptionsManager.Instance.Options.MaxThreads;
 
             Action a = () =>
             {
-                List<ExecutionTaskDelegate> actions = new List<ExecutionTaskDelegate>();
+                List<BackgroundWorker> workers = new List<BackgroundWorker>();
                 for (int i = 0; i < numThreads; i++)
                 {
-                    actions.Add(task);
-                }
-
-                while (DateTime.Now < until && !CancelTokenSource.IsCancellationRequested)
-                {
-                    Parallel.ForEach(actions, action =>
-                    {
-                        action();
-                    });
+                    workers.Add(new BackgroundWorker());
+                    workers[i].DoWork += (sender, e) =>
+                        {
+                            while (DateTime.Now < until && !CancelTokenSource.IsCancellationRequested)
+                            {
+                                task();
+                                counter.Increment();
+                            }
+                        };
+                    workers[i].RunWorkerAsync();
                 }
             };
 
