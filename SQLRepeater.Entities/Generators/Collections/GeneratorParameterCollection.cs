@@ -22,6 +22,10 @@ namespace SQLRepeater.Entities.Generators.Collections
             StringBuilder sb = new StringBuilder();
             foreach (var s in this.Items)
             {
+                // Avoid showing parameters that cannot be changed anyway
+                if (!s.IsWriteEnabled)
+                    continue;
+                
                 sb.AppendFormat("{{{0}: {1}}}; ", s.ParameterName, s.Value);
             }
             return sb.ToString();

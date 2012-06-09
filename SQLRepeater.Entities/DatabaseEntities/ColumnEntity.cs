@@ -5,6 +5,7 @@ using System.Text;
 //using SQLRepeater.Entities.DatabaseEntities;
 using SQLRepeater.Entities.Generators;
 using System.Collections.ObjectModel;
+using SQLRepeater.Entities;
 
 
 namespace SQLRepeater.DatabaseEntities.Entities
@@ -146,41 +147,25 @@ namespace SQLRepeater.DatabaseEntities.Entities
             }
         }
 
-        private string _referencingTable;
+        private ForeignKeyEntity _foreignKey;
         [System.ComponentModel.ReadOnly(true)]
-        public string ReferencingTable
+        public ForeignKeyEntity ForeignKey
         {
             get
             {
-                return _referencingTable;
+                return _foreignKey;
             }
             set
             {
-                if (_referencingTable != value)
+                if (_foreignKey != value)
                 {
-                    _referencingTable = value;
-                    OnPropertyChanged("ReferencingTable");
+                    _foreignKey = value;
+                    OnPropertyChanged("ForeignKey");
                 }
             }
         }
-
-        private string _referencingColumn;
-        [System.ComponentModel.ReadOnly(true)]
-        public string ReferencingColumn
-        {
-            get
-            {
-                return _referencingColumn;
-            }
-            set
-            {
-                if (_referencingColumn != value)
-                {
-                    _referencingColumn = value;
-                    OnPropertyChanged("ReferencingColumn");
-                }
-            }
-        }
+        
+       
 
         /// <summary>
         /// Constructor of the ColumnEntity
@@ -190,11 +175,9 @@ namespace SQLRepeater.DatabaseEntities.Entities
         /// <param name="isIdentity">true if the column is identity, otherwise false</param>
         /// <param name="ordinalPosition">the ordinal position of the column</param>
         /// <param name="isForeignKey">true if this table is referencing another table using foreign key</param>
-        /// <param name="referencingTable">the name of the table that this column is referencing using foreign key. Leave empty if NA</param>
-        /// <param name="referencingColumn">the name of the column that this column is referencing using foreign key. Leave empty if NA</param>
         /// <param name="generator">the default generator for this column</param>
         /// <param name="possibleGenerators">the possible generators for this column</param>
-        public ColumnEntity(string columnName, string columnDatatype, bool isIdentity, int ordinalPosition, bool isForeignKey, string referencingTable, string referencingColumn,
+        public ColumnEntity(string columnName, string columnDatatype, bool isIdentity, int ordinalPosition, bool isForeignKey, ForeignKeyEntity foreignKeyEntity,
            GeneratorBase generator, ObservableCollection<GeneratorBase> possibleGenerators)
         {
             this.ColumnName = columnName;
@@ -203,9 +186,7 @@ namespace SQLRepeater.DatabaseEntities.Entities
             this.IsIdentity = isIdentity;
 
             this.IsForeignKey = isForeignKey;
-            this.ReferencingTable = referencingTable;
-            this.ReferencingColumn = referencingColumn;
-
+            this.ForeignKey = foreignKeyEntity;
 
             this.Generator = generator;
             this.PossibleGenerators = possibleGenerators;

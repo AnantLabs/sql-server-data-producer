@@ -23,11 +23,10 @@ namespace SQLRepeater.DataAccess
         /// </summary>
         private Func<SqlDataReader, TableEntity> CreateTableEntity = reader =>
         {
-            return new TableEntity
-            {
-                TableName = reader.GetString(reader.GetOrdinal("Table_Name")),
-                TableSchema = reader.GetString(reader.GetOrdinal("Table_Schema"))
-            };
+            return new TableEntity(
+                reader.GetString(reader.GetOrdinal("Table_Schema")),
+                reader.GetString(reader.GetOrdinal("Table_Name"))
+                );
         };
 
         /// <summary>
@@ -100,6 +99,16 @@ namespace SQLRepeater.DataAccess
             // TODO: Handle foreign keys
             // Remove all? Recursively?
             ExecuteNoResult(string.Format("Delete {0}.{1}", table.TableSchema, table.TableName));
+        }
+
+        public ObservableCollection<int> GetPrimaryKeysForColumnInTable(TableEntity table, string primaryKeyColumn)
+        {
+            string s = string.Format("SELECT TOP {0} {1} FROM {2}.{3}", 1000, primaryKeyColumn, table.TableSchema, table.TableName);
+            Func<SqlDataReader, int> createKey = reader =>
+            {
+                return reader.GetInt32(0);
+            };
+            return GetMany(s, createKey);
         }
     }
 }

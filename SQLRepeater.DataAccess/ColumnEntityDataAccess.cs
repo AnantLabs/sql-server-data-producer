@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Collections.ObjectModel;
 using SQLRepeater.DatabaseEntities.Entities;
 using SQLRepeater.Entities.Generators;
+using SQLRepeater.EntityQueryGenerator;
 
 namespace SQLRepeater.DataAccess
 {
@@ -21,18 +22,25 @@ namespace SQLRepeater.DataAccess
         /// </summary>
         private Func<SqlDataReader, ColumnEntity> CreateColumnEntity = reader =>
         {
-            ObservableCollection<GeneratorBase> generators = GeneratorFactory.GetGeneratorsForDataType(reader.GetString(reader.GetOrdinal("DataType")));
-            return new ColumnEntity
-            (
+            ObservableCollection<GeneratorBase> possibleGenerators = GeneratorFactory.GetGeneratorsForDataType(reader.GetString(reader.GetOrdinal("DataType")));
+            GeneratorBase defaultGenerator = possibleGenerators.FirstOrDefault();
+
+            return new ColumnEntity(
                 reader.GetString(reader.GetOrdinal("ColumnName")),
                 reader.GetString(reader.GetOrdinal("DataType")),
                 (bool)reader["IsIdentity"],
                 reader.GetInt32(reader.GetOrdinal("OrdinalPosition")),
                 (bool)reader["IsForeignKey"],
-                reader.GetStringOrEmpty("ReferencedTable"),
-                reader.GetStringOrEmpty("ReferencedColumn"),
-                generators.FirstOrDefault(),
-                generators
+                new ForeignKeyEntity
+                {
+                    ReferencingTable = new TableEntity(
+                        reader.GetStringOrEmpty("ReferencedTableSchema"),
+                        reader.GetStringOrEmpty("ReferencedTable")),
+                    ReferencingColumn = reader.GetStringOrEmpty("ReferencedColumn")
+                },
+                defaultGenerator
+                ,possibleGenerators
+
             );
         };
 
@@ -53,6 +61,7 @@ select
     , column_id as OrdinalPosition
     , is_identity as IsIdentity 
 	, IsForeignKey = cast(case when foreignInfo.ReferencedTable is null then 0 else 1 end as bit)
+	, ReferencedTableSchema = foreignInfo.ReferencedTableSchema
 	, ReferencedTable = foreignInfo.ReferencedTable
 	, ReferencedColumn = foreignInfo.ReferencedColumn
 
@@ -61,7 +70,8 @@ from
 
 outer apply(
 	select 
-		  referencedTable.name as ReferencedTable
+		schema_name(referencedTable.schema_id)
+		,  referencedTable.name as ReferencedTable
 		, crk.name ReferencedColumn
 	FROM 
 		sys.tables AS tbl
@@ -89,7 +99,7 @@ outer apply(
 			referencedCols.column_id = cols.column_id
 			and cols.object_id = tbl.object_id
 
-) foreignInfo( ReferencedTable, ReferencedColumn)
+) foreignInfo( ReferencedTableSchema,ReferencedTable, ReferencedColumn)
 
 where object_id=object_id('{1}.{0}')";
 
@@ -106,7 +116,17 @@ where object_id=object_id('{1}.{0}')";
                         , table.TableName
                         , table.TableSchema)
                 , CreateColumnEntity
-                , callback);
+                , cols =>
+                {
+                    foreach (var item in cols.Where(x => x.IsForeignKey))
+                    {
+                        item.ForeignKey.Keys = ForeignKeyManager.Instance.GetPrimaryKeysForTable(this._connectionString, item.ForeignKey.ReferencingTable, item.ForeignKey.ReferencingColumn);
+                        GeneratorBase fkGenerator = IntGenerator.CreateForeignKeyGenerator(item.ForeignKey.Keys);
+                        item.PossibleGenerators.Add(fkGenerator);
+                        item.Generator = fkGenerator;
+                    }
+                    callback(cols);
+                });
         }
 
         /// <summary>
@@ -116,11 +136,23 @@ where object_id=object_id('{1}.{0}')";
         /// <returns></returns>
         public ObservableCollection<ColumnEntity> GetAllColumnsForTable(TableEntity table)
         {
-            return GetMany(
-                string.Format(GET_COLUMNS_FOR_TABLE_QUERY
-                        , table.TableName
-                        , table.TableSchema)
-                , CreateColumnEntity );
+            ObservableCollection<ColumnEntity> cols = GetMany(
+                            string.Format(GET_COLUMNS_FOR_TABLE_QUERY
+                                    , table.TableName
+                                    , table.TableSchema)
+                            , CreateColumnEntity);
+
+            foreach (var item in cols.Where(x => x.IsForeignKey))
+            {
+                item.ForeignKey.Keys = ForeignKeyManager.Instance.GetPrimaryKeysForTable(this._connectionString, item.ForeignKey.ReferencingTable, item.ForeignKey.ReferencingColumn);
+                GeneratorBase fkGenerator = IntGenerator.CreateForeignKeyGenerator(item.ForeignKey.Keys);
+                item.PossibleGenerators.Add(fkGenerator);
+                item.Generator = fkGenerator;
+            }
+
+            return cols;
+
+
         }
         //public ObservableCollection<ColumnEntity> GetAllColumnsForTable(string schemaName, string tableName)
         //{

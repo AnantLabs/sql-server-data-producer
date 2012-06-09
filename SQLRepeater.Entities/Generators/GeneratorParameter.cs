@@ -43,7 +43,22 @@ namespace SQLRepeater.Entities.Generators
             }
         }
 
-
+        bool _isWriteEnabled = true;
+        public bool IsWriteEnabled
+        {
+            get
+            {
+                return _isWriteEnabled;
+            }
+            internal set
+            {
+                if (_isWriteEnabled != value)
+                {
+                    _isWriteEnabled = value;
+                    OnPropertyChanged("IsWriteEnabled");
+                }
+            }
+        }
         
         object _defaultValue;
         /// <summary>

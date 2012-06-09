@@ -10,9 +10,11 @@ namespace SQLRepeater.DatabaseEntities.Entities
     public class TableEntity : SQLRepeater.Entities.EntityBase, IEquatable<TableEntity>
     {
 
-        public TableEntity()
+        public TableEntity(string tableSchema, string tableName)
         {
             Columns = new ObservableCollection<ColumnEntity>();
+            TableName = tableName;
+            TableSchema = tableSchema;
         }
 
         ObservableCollection<ColumnEntity> _columns;

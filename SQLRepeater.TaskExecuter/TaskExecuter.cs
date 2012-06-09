@@ -11,6 +11,7 @@ using SQLRepeater.Entities.OptionEntities;
 using SQLRepeater.Entities;
 using SQLRepeater.Entities.Generators;
 using System.ComponentModel;
+using System.Threading;
 
 namespace SQLRepeater.TaskExecuter
 {
@@ -151,6 +152,10 @@ namespace SQLRepeater.TaskExecuter
                         }
                     };
                     workers[i].RunWorkerAsync();
+                }
+                while (workers.Any(x => x.IsBusy))
+                {
+                    Thread.Sleep(100);
                 }
             };
 

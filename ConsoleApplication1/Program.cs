@@ -25,7 +25,7 @@ namespace TestConsoleApplication
             TableEntity table = tda.GetTableAndColumns("dbo", "Customer");
 
             ExecutionTaskOptionsManager.Instance.Options.ExecutionType = ExecutionTypes.ExecutionCountBased;
-            ExecutionTaskOptionsManager.Instance.Options.FixedExecutions = 10000;
+            ExecutionTaskOptionsManager.Instance.Options.FixedExecutions = 2;
             ExecutionTaskOptionsManager.Instance.Options.MaxThreads = 20;
 
             //ExecutionTaskOptionsManager.Instance.Options.ExecutionType = ExecutionTypes.DurationBased;
@@ -53,7 +53,7 @@ namespace TestConsoleApplication
             //executor.CreateDurationBasedAction(a, newSetCounter)();
 
 
-            Thread.Sleep(40000);
+            Thread.Sleep(4000);
 
             Console.WriteLine(newSetCounter.Peek());
             Console.ReadKey();

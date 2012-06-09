@@ -42,16 +42,17 @@
   <ItemGroup>
     <Compile Include="DatabaseEntities\ColumnEntity.cs" />
     <Compile Include="ExecutionOrderEntities\ExecutionItemCollection.cs" />
+    <Compile Include="ForeignKeyEntity.cs" />
     <Compile Include="GeneratorDelegate.cs" />
-    <Compile Include="Generators\Collections\GeneratorParameterCollection.cs" />
-    <Compile Include="Generators\GenerationNumberSupplier.cs" />
-    <Compile Include="Generators\GeneratorParameter.cs" />
     <Compile Include="ExecutionOrderEntities\ExecutionItem.cs" />
     <Compile Include="EntityBase.cs" />
+    <Compile Include="Generators\Collections\GeneratorParameterCollection.cs" />
     <Compile Include="Generators\DateTimeGenerators.cs" />
     <Compile Include="Generators\DecimalGenerators.cs" />
+    <Compile Include="Generators\GenerationNumberSupplier.cs" />
     <Compile Include="Generators\GeneratorBase.cs" />
     <Compile Include="Generators\GeneratorFactory.cs" />
+    <Compile Include="Generators\GeneratorParameter.cs" />
     <Compile Include="Generators\IntGenerators.cs" />
     <Compile Include="Generators\RandomSupplier.cs" />
     <Compile Include="Generators\StringGenerators.cs" />
@@ -72,7 +73,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
