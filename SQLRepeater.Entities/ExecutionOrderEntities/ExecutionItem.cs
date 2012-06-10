@@ -104,17 +104,6 @@ namespace SQLRepeater.Entities.ExecutionOrderEntities
             }
         }
 
-        //public static ObservableCollection<ExecutionItem> FromTables(IEnumerable<TableEntity> tables)
-        //{
-        //    ObservableCollection<ExecutionItem> c = new ObservableCollection<ExecutionItem>();
-        //    int count = 1;
-        //    foreach (var item in tables)
-        //    {
-        //        c.Add(new ExecutionItem(item, count++));
-        //    }
-        //    return c;
-        //}
-
 
         int _repeatExectution = 1;
         public int RepeatCount

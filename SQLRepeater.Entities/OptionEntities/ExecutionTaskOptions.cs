@@ -30,6 +30,24 @@ namespace SQLRepeater.Entities.OptionEntities
             }
         }
 
+        string _scriptOutputFolder;
+        public string ScriptOutputFolder
+        {
+            get
+            {
+                return _scriptOutputFolder;
+            }
+            set
+            {
+                if (_scriptOutputFolder != value)
+                {
+                    _scriptOutputFolder = value;
+                    OnPropertyChanged("ScriptOutputFolder");
+                }
+            }
+        }
+
+
         long _startValue = 1;
         public long StartValue
         {

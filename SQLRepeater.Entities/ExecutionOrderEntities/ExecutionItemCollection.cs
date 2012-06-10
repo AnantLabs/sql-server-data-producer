@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
+using System.Xml.Serialization;
+using System.IO;
 
 namespace SQLRepeater.Entities.ExecutionOrderEntities
 {
@@ -38,6 +40,23 @@ namespace SQLRepeater.Entities.ExecutionOrderEntities
             }
         }
 
+        //public void Save(string fileName)
+        //{
+        //    XmlSerializer serializer = new XmlSerializer(typeof(ExecutionItemCollection));
+        //    using (FileStream stream = new FileStream(fileName, FileMode.Create))
+        //    {
+        //        serializer.Serialize(stream, this);
+        //    }
+        //}
+
+        //public static ExecutionItemCollection Load(string fileName)
+        //{
+        //    XmlSerializer serializer = new XmlSerializer(typeof(ExecutionItemCollection));
+        //    using (FileStream stream = new FileStream(fileName, FileMode.Open))
+        //    {
+        //        return (ExecutionItemCollection)serializer.Deserialize(stream);
+        //    }
+        //}
 
         object _executionGroupOptions;
         /// <summary>

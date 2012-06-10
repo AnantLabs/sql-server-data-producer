@@ -67,7 +67,8 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTextColumn Binding="{Binding Generator.GeneratorParameters.NiceString}" Header="Parameters" IsReadOnly="True"/>
+                        <DataGridTextColumn Binding="{Binding Generator.GeneratorParameters.NiceString}" 
+                                            Header="Parameters" IsReadOnly="True"/>
 
                     </DataGrid.Columns>
                 </DataGrid>
@@ -91,7 +92,7 @@
             IsEnabled="{Binding Path=SelectedColumn.IsNotIdentity}"  >
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
+                                <StackPanel Orientation="Horizontal" Visibility="{Binding IsWriteEnabled, Converter={StaticResource ResourceKey=visiConv}}">
                                     <TextBlock Text="{Binding ParameterName}" />
                                     <TextBox Text="{Binding Value}"    />
                                 </StackPanel>

@@ -65,7 +65,12 @@
         </GroupBox>
             </StackPanel>
         </GroupBox>
-        
+        <GroupBox Header="Options">
+            <StackPanel>
+                <CheckBox Content="Do not execute, save script(s) in this folder:" IsChecked="{Binding Options.OnlyOutputToFile, Mode=TwoWay}"/>
+                <TextBox Text="{Binding Options.ScriptOutputFolder, Mode=TwoWay}"/>
+            </StackPanel>
+        </GroupBox>
         <GroupBox Header="Run / Stop">
             <StackPanel>
                 <Button Content="Run!" Command="{Binding RunSQLQueryCommand}" />

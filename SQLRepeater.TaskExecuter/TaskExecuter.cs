@@ -12,6 +12,7 @@ using SQLRepeater.Entities;
 using SQLRepeater.Entities.Generators;
 using System.ComponentModel;
 using System.Threading;
+using System.IO;
 
 namespace SQLRepeater.TaskExecuter
 {
@@ -51,47 +52,47 @@ namespace SQLRepeater.TaskExecuter
         /// </summary>
         /// <param name="execItems">the items that should be included in the execution</param>
         /// <param name="baseQuery">The query containing insert statements for all the items and a placeholder for the variables and their values</param>
-        /// <param name="connectionString">connection string to use to execute the query</param>
-        /// <param name="GenerateParameters">The method to call to generate the final query, the parameters are: The list of ExecutionItems, the original query, the serial number. It will return the final query</param>
+        /// <param name="GenerateFinalQuery">The FinalQueryGeneratorDelegate that will be run to create the final query. The final query will include the actuall values</param>
         /// <returns></returns>
         public ExecutionTaskDelegate CreateSQLTaskForExecutionItems(IEnumerable<ExecutionItem> execItems, string baseQuery, FinalQueryGeneratorDelegate GenerateFinalQuery)
         {
             return new ExecutionTaskDelegate(() =>
             {
-                using (SqlConnection con = new SqlConnection(_connectionString))
+                // Generate the final query.
+                string finalResult = GenerateFinalQuery(baseQuery, execItems);
+
+                if (ExecutionTaskOptionsManager.Instance.Options.OnlyOutputToFile)
+                    WriteScriptToFile(finalResult);
+                else
                 {
-                    // For each time this Action is called, generate the final query. This will create the "declaration" part of the script with the generated data.
-                    // The "base" of the script will be kept from its original, we only generate the actual data here.
-                    //IEnumerable<SqlParameter> parms = GenerateParameters(baseQuery, n, execItems);
-
-                    string finalResult = GenerateFinalQuery(baseQuery, execItems);
-
-                    using (SqlCommand cmd = new SqlCommand(finalResult, con))
+                    using (SqlConnection con = new SqlConnection(_connectionString))
                     {
-                        //WriteTaskCommandDebug(finalResult,null);
-
-                        //cmd.Parameters.AddRange(parms.ToArray());
-                        cmd.Connection.Open();
-                        cmd.ExecuteNonQuery();
-
-
+                        // For each time this Action is called, generate the final query. This will create the "declaration" part of the script with the generated data.
+                        // The "base" of the script will be kept from its original, we only generate the actual data here.
+                        using (SqlCommand cmd = new SqlCommand(finalResult, con))
+                        {
+                            cmd.Connection.Open();
+                            cmd.ExecuteNonQuery();
+                        }
                     }
                 }
             });
         }
 
-        static int n = 1;
+        static SetCounter _setCounter = new SetCounter();
 
-        private static void WriteTaskCommandDebug(string baseQuery, IEnumerable<SqlParameter> parms)
+        private static void WriteScriptToFile(string baseQuery)
         {
+            long c = _setCounter.GetNext();
+            string dir = ExecutionTaskOptionsManager.Instance.Options.ScriptOutputFolder;
+            if (!Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
 
-            //Console.WriteLine(finalResult);
-            StringBuilder sb = new StringBuilder();
-            //foreach (var item in parms)
-            //{
-            //    sb.AppendFormat("{0} = {1}{2}", item.ParameterName, item.Value, Environment.NewLine);
-            //}
-            System.IO.File.WriteAllText(string.Format(@"c:\temp\repeater\test{0}.sql", n++), baseQuery + sb.ToString());
+            if (!dir.EndsWith("\\"))
+            {
+                dir = dir + "\\";
+            }
+            System.IO.File.WriteAllText(string.Format("{1}GeneratedScript_{0}.sql", c, dir), baseQuery);
         }
 
 
