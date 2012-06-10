@@ -69,11 +69,11 @@ namespace SQLRepeater.Model
             }
         }
 
-        ObservableCollection<ExecutionItem> _executionItems;
+        ExecutionItemCollection _executionItems;
         /// <summary>
         /// The list of ExecutionItems created. This is the list of "tables" that have been choosen to get data generated.
         /// </summary>
-        public ObservableCollection<ExecutionItem> ExecutionItems
+        public ExecutionItemCollection ExecutionItems
         {
             get
             {

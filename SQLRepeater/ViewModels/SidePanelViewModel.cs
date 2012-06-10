@@ -69,27 +69,7 @@ namespace SQLRepeater.ViewModels
             }
         }
 
-        //  int _taskProgPercent;
-        //public int TaskProgressPercentage
-        //{
-        //    get
-        //    {
-        //        return _taskProgPercent;
-        //    }
-        //    set
-        //    {
-        //        if (_taskProgPercent != value)
-        //        {
-        //            _taskProgPercent = value;
-        //            OnPropertyChanged("TaskProgressPercentage");
-        //        }
-        //    }
-        //}
-
- 
-
-
-        TaskExecuter.TaskExecuter _executor;
+           //TaskExecuter.TaskExecuter _executor;
 
         public SidePanelViewModel(SQLRepeater.Model.ApplicationModel model)
         {
@@ -99,30 +79,38 @@ namespace SQLRepeater.ViewModels
 
             RunSQLQueryCommand = new DelegateCommand(() =>
             {
-                _executor = new TaskExecuter.TaskExecuter(Model.ConnectionString);
+                
 
                 if (Model.ExecutionItems.Count == 0)
                     return;
 
-                EntityQueryGenerator.InsertQueryGenerator ig =
-                    new EntityQueryGenerator.InsertQueryGenerator();
+               // EntityQueryGenerator.InsertQueryGenerator ig =
+               //     new EntityQueryGenerator.InsertQueryGenerator();
 
-                InsertQueryGenerator queryGenerator = new InsertQueryGenerator();
-                string baseQuery = queryGenerator.GenerateQueryForExecutionItems(Model.ExecutionItems);
+               // InsertQueryGenerator queryGenerator = new InsertQueryGenerator();
+               // string baseQuery = queryGenerator.GenerateQueryForExecutionItems(Model.ExecutionItems);
 
-                ExecutionTaskDelegate taskToExecute = _executor.CreateSQLTaskForExecutionItems(
-                    // The items to generate data for
-                    Model.ExecutionItems, 
-                    // The basequery containing all the insert statements
-                    baseQuery, 
-                    // The function to call to generate the final declare @.. statements for each iteration
-                    queryGenerator.GenerateFinalQuery);
+               // _executor = new TaskExecuter.TaskExecuter(Model.ConnectionString);
+               // ExecutionTaskDelegate taskToExecute = _executor.CreateSQLTaskForExecutionItems(
+               //     // The items to generate data for
+               //     Model.ExecutionItems, 
+               //     // The basequery containing all the insert statements
+               //     baseQuery, 
+               //     // The function to call to generate the final declare @.. statements for each iteration
+               //     queryGenerator.GenerateFinalQuery);
 
+               // IsQueryRunning = true;
+               //_executor.BeginExecute(taskToExecute, count =>
+               //     {
+               //         IsQueryRunning = false;
+               //         MessageBox.Show(count.ToString());
+               //     });
+                WorkflowManager wfm = new WorkflowManager();
                 IsQueryRunning = true;
-               _executor.BeginExecute(taskToExecute, count =>
+                wfm.RunWorkFlowAsync(Model.ConnectionString, Model.ExecutionItems, c =>
                     {
                         IsQueryRunning = false;
-                        MessageBox.Show(count.ToString());
+                        MessageBox.Show(c.ToString());
                     });
             });
 
@@ -131,6 +119,7 @@ namespace SQLRepeater.ViewModels
                 if (_executor != null)
                 {
                     _executor.EndExecute();
+                    IsQueryRunning = false;
                 }
             });
         }
