@@ -79,6 +79,9 @@ namespace SQLRepeater.TaskExecuter
             });
         }
 
+        /// <summary>
+        /// Used to set the filenames of the script files.
+        /// </summary>
         static SetCounter _setCounter = new SetCounter();
 
         private static void WriteScriptToFile(string baseQuery)
@@ -140,6 +143,8 @@ namespace SQLRepeater.TaskExecuter
 
             Action a = () =>
             {
+                // Reset percent done to zero before starting
+                ExecutionTaskOptionsManager.Instance.Options.PercentCompleted = 0;
                 List<BackgroundWorker> workers = new List<BackgroundWorker>();
                 for (int i = 0; i < numThreads; i++)
                 {
@@ -150,6 +155,8 @@ namespace SQLRepeater.TaskExecuter
                         {
                             task();
                             counter.Increment();
+                            float percentDone = (float)counter.Peek() / (float)ExecutionTaskOptionsManager.Instance.Options.FixedExecutions;
+                            ExecutionTaskOptionsManager.Instance.Options.PercentCompleted = (int)(percentDone * 100);
                         }
                     };
                     workers[i].RunWorkerAsync();
@@ -172,11 +179,15 @@ namespace SQLRepeater.TaskExecuter
         /// <param name="counter"></param>
         public Action CreateDurationBasedAction(ExecutionTaskDelegate task, SetCounter counter)
         {
-            DateTime until = DateTime.Now.AddSeconds(ExecutionTaskOptionsManager.Instance.Options.SecondsToRun);
-            int numThreads = ExecutionTaskOptionsManager.Instance.Options.MaxThreads;
-
             Action a = () =>
             {
+                DateTime beginTime = new DateTime(DateTime.Now.Ticks);
+                DateTime until = DateTime.Now.AddSeconds(ExecutionTaskOptionsManager.Instance.Options.SecondsToRun);
+            
+                int numThreads = ExecutionTaskOptionsManager.Instance.Options.MaxThreads;
+                // Reset percent done to zero before starting
+                ExecutionTaskOptionsManager.Instance.Options.PercentCompleted = 0;
+
                 List<BackgroundWorker> workers = new List<BackgroundWorker>();
                 for (int i = 0; i < numThreads; i++)
                 {
@@ -187,9 +198,15 @@ namespace SQLRepeater.TaskExecuter
                             {
                                 task();
                                 counter.Increment();
+                                float percentDone = ((float)(DateTime.Now.Ticks - beginTime.Ticks) / (float)(until.Ticks - beginTime.Ticks));
+                                ExecutionTaskOptionsManager.Instance.Options.PercentCompleted = (int)(percentDone * 100);
                             }
                         };
                     workers[i].RunWorkerAsync();
+                }
+                while (workers.Any(x => x.IsBusy))
+                {
+                    Thread.Sleep(100);
                 }
             };
 

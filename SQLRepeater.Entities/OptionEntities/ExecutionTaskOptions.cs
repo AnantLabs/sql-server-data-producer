@@ -150,6 +150,22 @@ namespace SQLRepeater.Entities.OptionEntities
             }
         }
 
+        int _percentCompleted = 0;
+        public int PercentCompleted
+        {
+            get
+            {
+                return _percentCompleted;
+            }
+            set
+            {
+                if (_percentCompleted != value)
+                {
+                    _percentCompleted = value;
+                    OnPropertyChanged("PercentCompleted");
+                }
+            }
+        }
     }
 
     public enum ExecutionTypes
