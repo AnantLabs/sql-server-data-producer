@@ -134,7 +134,7 @@ namespace SQLRepeater.ViewModels
         public MainWindowViewModel()
         {
             Model = new SQLRepeater.Model.ApplicationModel();
-            Model.ExecutionItems = new ObservableCollection<ExecutionItem>();
+            Model.ExecutionItems = new ExecutionItemCollection();
             Model.SelectedExecutionItem = Model.ExecutionItems.FirstOrDefault();
             
             ExecutionOrderVM = new ExecutionOrderViewModel(Model);

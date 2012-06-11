@@ -12,6 +12,7 @@ using System.Collections.ObjectModel;
 using SQLRepeater.Entities;
 using System.Threading;
 using SQLRepeater.Entities.OptionEntities;
+using SQLRepeater;
 
 namespace TestConsoleApplication
 {
@@ -22,38 +23,25 @@ namespace TestConsoleApplication
         {
             TableEntityDataAccess tda = new TableEntityDataAccess(Connection());
 
-            TableEntity table = tda.GetTableAndColumns("dbo", "Customer");
-
-            //ExecutionTaskOptionsManager.Instance.Options.ExecutionType = ExecutionTypes.DurationBased;
-            //ExecutionTaskOptionsManager.Instance.Options.SecondsToRun = 30;
-            //ExecutionTaskOptionsManager.Instance.Options.MaxThreads = 20;
+            TableEntity table = tda.GetTableAndColumns("chat", "badword");
 
             ExecutionItemCollection list = SetupExecutionItems(table);
-            TaskExecuter executor = new TaskExecuter(Connection());
+            WorkflowManager manager = new WorkflowManager();
 
+            ExecutionTaskOptions options = new ExecutionTaskOptions();
+            options.ExecutionType = ExecutionTypes.ExecutionCountBased;
+            options.FixedExecutions = 200;
+            options.MaxThreads = 20;
+            options.OnlyOutputToFile = true;
+            options.ScriptOutputFolder = @"c:\temp\repeater";
+            string preScript = string.Empty;
+            string postScript = string.Empty;
+            
+            int res = manager.RunWorkFlow(options, Connection(), list);
 
-            InsertQueryGenerator queryGenerator = new InsertQueryGenerator();
-            string result = queryGenerator.GenerateQueryForExecutionItems(list);
-
-
-            SetCounter newSetCounter = RunExecutionBasedTest(list, executor, queryGenerator, result);
-
-            Thread.Sleep(4000);
-
-            Console.WriteLine(newSetCounter.Peek());
+            Console.WriteLine(res);
             Console.ReadKey();
             
-        }
-
-        private static SetCounter RunExecutionBasedTest(ExecutionItemCollection list, TaskExecuter executor, InsertQueryGenerator queryGenerator, string result)
-        {
-            ExecutionTaskOptionsManager.Instance.Options.ExecutionType = ExecutionTypes.ExecutionCountBased;
-            ExecutionTaskOptionsManager.Instance.Options.FixedExecutions = 2;
-            ExecutionTaskOptionsManager.Instance.Options.MaxThreads = 20;
-            ExecutionTaskDelegate a = executor.CreateSQLTaskForExecutionItems(list, result, queryGenerator.GenerateFinalQuery);
-            SetCounter newSetCounter = new SetCounter();
-            executor.CreateExecutionCountBasedAction(a, newSetCounter)();
-            return newSetCounter;
         }
 
         private static ExecutionItemCollection SetupExecutionItems(TableEntity table)

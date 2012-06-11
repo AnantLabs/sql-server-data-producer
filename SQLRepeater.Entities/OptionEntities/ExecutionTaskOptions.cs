@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
+using SQLRepeater.Entities.ExecutionOrderEntities;
 
 namespace SQLRepeater.Entities.OptionEntities
 {
@@ -14,6 +15,9 @@ namespace SQLRepeater.Entities.OptionEntities
         }
 
         bool _onlyOutputToFile = true;
+        /// <summary>
+        /// Get and set wether this execution should only write the scripts to disk instead of running them on the sql server.
+        /// </summary>
         public bool OnlyOutputToFile
         {
             get
@@ -30,7 +34,10 @@ namespace SQLRepeater.Entities.OptionEntities
             }
         }
 
-        string _scriptOutputFolder;
+        string _scriptOutputFolder = @"c:\temp\repeater";
+        /// <summary>
+        /// Get and Set the folder to where the sql script files should be stored when the <see cref="OnlyOutputToFile"/> option is set to True.
+        /// </summary>
         public string ScriptOutputFolder
         {
             get
@@ -48,24 +55,28 @@ namespace SQLRepeater.Entities.OptionEntities
         }
 
 
-        long _startValue = 1;
-        public long StartValue
-        {
-            get
-            {
-                return _startValue;
-            }
-            set
-            {
-                if (_startValue != value)
-                {
-                    _startValue = value;
-                    OnPropertyChanged("StartValue");
-                }
-            }
-        }
+        //long _startValue = 1;
+        
+        //public long StartValue
+        //{
+        //    get
+        //    {
+        //        return _startValue;
+        //    }
+        //    set
+        //    {
+        //        if (_startValue != value)
+        //        {
+        //            _startValue = value;
+        //            OnPropertyChanged("StartValue");
+        //        }
+        //    }
+        //}
 
         DateTime _dateTimeGenerationStartTime = DateTime.Now;
+        /// <summary>
+        /// Get and Set the datetime that the generators should use as their start dates during value generation
+        /// </summary>
         public DateTime DateTimeGenerationStartTime
         {
             get
@@ -83,6 +94,9 @@ namespace SQLRepeater.Entities.OptionEntities
         }
 
         int _fixedExecutions = 10;
+        /// <summary>
+        /// Get and Set the number of executions to run when using the Count based execution type.
+        /// </summary>
         public int FixedExecutions
         {
             get
@@ -117,6 +131,9 @@ namespace SQLRepeater.Entities.OptionEntities
         }
        
         int _secondsToRun = 2;
+        /// <summary>
+        /// Set and get the number of seconds that this task should be run when using the DurationBased Execution
+        /// </summary>
         public int SecondsToRun
         {
             get
@@ -134,6 +151,9 @@ namespace SQLRepeater.Entities.OptionEntities
         }
 
         int _maxThreads = 1;
+        /// <summary>
+        /// Set and get the maximum number of threads used in the execution of the task.
+        /// </summary>
         public int MaxThreads
         {
             get
@@ -151,6 +171,10 @@ namespace SQLRepeater.Entities.OptionEntities
         }
 
         int _percentCompleted = 0;
+        /// <summary>
+        /// The percentage of how far the task have been executed. 
+        /// Changing this manually will not change the remaining amount of work in the task and the manual change will be overwritten.
+        /// </summary>
         public int PercentCompleted
         {
             get

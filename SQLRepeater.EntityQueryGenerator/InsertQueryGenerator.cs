@@ -12,7 +12,7 @@ namespace SQLRepeater.EntityQueryGenerator
 {
     public class InsertQueryGenerator
     {
-        public string GenerateQueryForExecutionItems(IEnumerable<ExecutionItem> executionItems)
+        public string GenerateQueryForExecutionItems(ExecutionItemCollection executionItems)
         {
             StringBuilder sb = new StringBuilder();
 

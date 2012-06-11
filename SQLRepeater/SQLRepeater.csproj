@@ -83,7 +83,6 @@
     <Compile Include="Views\ExecutionOrderView.xaml.cs">
       <DependentUpon>ExecutionOrderView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WorkflowManager.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -158,10 +157,6 @@
     <ProjectReference Include="..\SQLRepeater.Entities\SQLRepeater.Entities.csproj">
       <Project>{0D135CAD-55DB-4090-BB5F-2C493A1F0072}</Project>
       <Name>SQLRepeater.Entities</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SQLRepeater.EntityQueryGenerator\SQLRepeater.EntityQueryGenerator.csproj">
-      <Project>{6B6065E1-934E-4B2C-9B34-50D15BACAC3A}</Project>
-      <Name>SQLRepeater.EntityQueryGenerator</Name>
     </ProjectReference>
     <ProjectReference Include="..\SQLRepeater.TaskExecuter\SQLRepeater.TaskExecuter.csproj">
       <Project>{AD47B9D0-0A49-49ED-9CF0-123809E266D4}</Project>

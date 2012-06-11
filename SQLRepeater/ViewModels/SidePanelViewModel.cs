@@ -8,6 +8,7 @@ using System.Windows;
 using SQLRepeater.EntityQueryGenerator;
 using SQLRepeater.Entities.OptionEntities;
 using SQLRepeater.Entities;
+using SQLRepeater.TaskExecuter;
 
 namespace SQLRepeater.ViewModels
 {
@@ -75,52 +76,38 @@ namespace SQLRepeater.ViewModels
         {
             this.Model = model;
             
-            Options = ExecutionTaskOptionsManager.Instance.Options;
+            Options = (ExecutionTaskOptions)SQLRepeaterSettings.Default.ExecutionOptions;
+            if (Options == null)
+                Options = new ExecutionTaskOptions();
+
+            // If any changes are made to the options, then save the configuration
+            Options.PropertyChanged += (sender, e) =>
+                {
+                    SQLRepeaterSettings.Default.ExecutionOptions = Options;
+                    SQLRepeaterSettings.Default.Save();
+                };
 
             RunSQLQueryCommand = new DelegateCommand(() =>
             {
-                
-
                 if (Model.ExecutionItems.Count == 0)
                     return;
 
-               // EntityQueryGenerator.InsertQueryGenerator ig =
-               //     new EntityQueryGenerator.InsertQueryGenerator();
-
-               // InsertQueryGenerator queryGenerator = new InsertQueryGenerator();
-               // string baseQuery = queryGenerator.GenerateQueryForExecutionItems(Model.ExecutionItems);
-
-               // _executor = new TaskExecuter.TaskExecuter(Model.ConnectionString);
-               // ExecutionTaskDelegate taskToExecute = _executor.CreateSQLTaskForExecutionItems(
-               //     // The items to generate data for
-               //     Model.ExecutionItems, 
-               //     // The basequery containing all the insert statements
-               //     baseQuery, 
-               //     // The function to call to generate the final declare @.. statements for each iteration
-               //     queryGenerator.GenerateFinalQuery);
-
-               // IsQueryRunning = true;
-               //_executor.BeginExecute(taskToExecute, count =>
-               //     {
-               //         IsQueryRunning = false;
-               //         MessageBox.Show(count.ToString());
-               //     });
                 WorkflowManager wfm = new WorkflowManager();
                 IsQueryRunning = true;
-                wfm.RunWorkFlowAsync(Model.ConnectionString, Model.ExecutionItems, c =>
+                wfm.RunWorkFlowAsync(Options, Model.ConnectionString, Model.ExecutionItems, (setsInserted) =>
                     {
                         IsQueryRunning = false;
-                        MessageBox.Show(c.ToString());
+                        MessageBox.Show(setsInserted.ToString());
                     });
             });
 
             StopExecutionCommand = new DelegateCommand(() =>
             {
-                if (_executor != null)
-                {
-                    _executor.EndExecute();
-                    IsQueryRunning = false;
-                }
+                //if (_executor != null)
+                //{
+                //    _executor.EndExecute();
+                //    IsQueryRunning = false;
+                //}
             });
         }
 

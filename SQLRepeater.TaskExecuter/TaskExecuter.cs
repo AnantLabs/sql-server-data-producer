@@ -16,17 +16,19 @@ using System.IO;
 
 namespace SQLRepeater.TaskExecuter
 {
-    public class TaskExecuter
+    internal class TaskExecuter
     {
-        private int Counter { get; set; }
+        //private int Counter { get; set; }
 
         private static System.Threading.CancellationTokenSource _cancelTokenSource;
         private string _connectionString;
+        public ExecutionTaskOptions Options { get; private set; }
 
-        public TaskExecuter(string connectionString)
+        public TaskExecuter(ExecutionTaskOptions options, string connectionString)
         {
             this._connectionString = connectionString;
-            Counter = 0;
+            this.Options = options;
+            //Counter = 0;
         }
 
         private static System.Threading.CancellationTokenSource CancelTokenSource
@@ -61,7 +63,7 @@ namespace SQLRepeater.TaskExecuter
                 // Generate the final query.
                 string finalResult = GenerateFinalQuery(baseQuery, execItems);
 
-                if (ExecutionTaskOptionsManager.Instance.Options.OnlyOutputToFile)
+                if (Options.OnlyOutputToFile)
                     WriteScriptToFile(finalResult);
                 else
                 {
@@ -84,10 +86,18 @@ namespace SQLRepeater.TaskExecuter
         /// </summary>
         static SetCounter _setCounter = new SetCounter();
 
-        private static void WriteScriptToFile(string baseQuery)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="baseQuery"></param>
+        /// <exception cref="ArgumentNullException">When the Options.ScriptOutputFolder have not been set</exception>
+        private void WriteScriptToFile(string baseQuery)
         {
+            if (Options.ScriptOutputFolder == null)
+                throw new ArgumentNullException("Options.ScriptOutputFolder");
+
             long c = _setCounter.GetNext();
-            string dir = ExecutionTaskOptionsManager.Instance.Options.ScriptOutputFolder;
+            string dir = Options.ScriptOutputFolder;
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
 
@@ -106,12 +116,12 @@ namespace SQLRepeater.TaskExecuter
         /// <param name="until">datetime when the execution should stop</param>
         /// <param name="numThreads">maximum number of threads to use, not guaranteed to use these many treads </param>
         /// <param name="onCompletedCallback">the callback that will be called when execution is done or stopped</param>
-        public void BeginExecute(ExecutionTaskDelegate task, ExecutionDoneCallbackDelegate onCompletedCallback)
+        public int Execute(ExecutionTaskDelegate task)
         {
             Action a = null;
 
             SetCounter setCounter = new SetCounter();
-            switch (ExecutionTaskOptionsManager.Instance.Options.ExecutionType)
+            switch (Options.ExecutionType)
             {
                 case ExecutionTypes.DurationBased:
                     a = CreateDurationBasedAction(task, setCounter);
@@ -123,10 +133,8 @@ namespace SQLRepeater.TaskExecuter
                     break;
             }
 
-            a.BeginInvoke(ar =>
-            {
-                onCompletedCallback(setCounter.Peek());
-            }, null);
+            a();
+            return setCounter.Peek();
 
         }
 
@@ -136,27 +144,26 @@ namespace SQLRepeater.TaskExecuter
         /// </summary>
         /// <param name="task">the task to run.</param>
         /// <returns>the action that will run the task</returns>
-        public Action CreateExecutionCountBasedAction(ExecutionTaskDelegate task, SetCounter counter)
+        private Action CreateExecutionCountBasedAction(ExecutionTaskDelegate task, SetCounter counter)
         {
-            int numThreads = ExecutionTaskOptionsManager.Instance.Options.MaxThreads;
-            int targetNumExecutions = ExecutionTaskOptionsManager.Instance.Options.FixedExecutions;
+            int numThreads = Options.MaxThreads;
+            int targetNumExecutions = Options.FixedExecutions;
 
             Action a = () =>
             {
                 // Reset percent done to zero before starting
-                ExecutionTaskOptionsManager.Instance.Options.PercentCompleted = 0;
+                Options.PercentCompleted = 0;
                 List<BackgroundWorker> workers = new List<BackgroundWorker>();
                 for (int i = 0; i < numThreads; i++)
                 {
                     workers.Add(new BackgroundWorker());
                     workers[i].DoWork += (sender, e) =>
                     {
-                        while (counter.Peek() < targetNumExecutions && !CancelTokenSource.IsCancellationRequested)
+                        while (counter.GetNext() <= targetNumExecutions && !CancelTokenSource.IsCancellationRequested)
                         {
                             task();
-                            counter.Increment();
-                            float percentDone = (float)counter.Peek() / (float)ExecutionTaskOptionsManager.Instance.Options.FixedExecutions;
-                            ExecutionTaskOptionsManager.Instance.Options.PercentCompleted = (int)(percentDone * 100);
+                            float percentDone = (float)counter.Peek() / (float)Options.FixedExecutions;
+                            Options.PercentCompleted = (int)(percentDone * 100);
                         }
                     };
                     workers[i].RunWorkerAsync();
@@ -177,31 +184,31 @@ namespace SQLRepeater.TaskExecuter
         /// <param name="task">the task to run</param>
         /// <returns>the action that will run the task</returns>
         /// <param name="counter"></param>
-        public Action CreateDurationBasedAction(ExecutionTaskDelegate task, SetCounter counter)
+        private Action CreateDurationBasedAction(ExecutionTaskDelegate task, SetCounter counter)
         {
             Action a = () =>
             {
                 DateTime beginTime = new DateTime(DateTime.Now.Ticks);
-                DateTime until = DateTime.Now.AddSeconds(ExecutionTaskOptionsManager.Instance.Options.SecondsToRun);
-            
-                int numThreads = ExecutionTaskOptionsManager.Instance.Options.MaxThreads;
+                DateTime until = DateTime.Now.AddSeconds(Options.SecondsToRun);
+
+                int numThreads = Options.MaxThreads;
                 // Reset percent done to zero before starting
-                ExecutionTaskOptionsManager.Instance.Options.PercentCompleted = 0;
+                Options.PercentCompleted = 0;
 
                 List<BackgroundWorker> workers = new List<BackgroundWorker>();
                 for (int i = 0; i < numThreads; i++)
                 {
                     workers.Add(new BackgroundWorker());
                     workers[i].DoWork += (sender, e) =>
+                    {
+                        while (DateTime.Now < until && !CancelTokenSource.IsCancellationRequested)
                         {
-                            while (DateTime.Now < until && !CancelTokenSource.IsCancellationRequested)
-                            {
-                                task();
-                                counter.Increment();
-                                float percentDone = ((float)(DateTime.Now.Ticks - beginTime.Ticks) / (float)(until.Ticks - beginTime.Ticks));
-                                ExecutionTaskOptionsManager.Instance.Options.PercentCompleted = (int)(percentDone * 100);
-                            }
-                        };
+                            task();
+                            counter.Increment();
+                            float percentDone = ((float)(DateTime.Now.Ticks - beginTime.Ticks) / (float)(until.Ticks - beginTime.Ticks));
+                            Options.PercentCompleted = (int)(percentDone * 100);
+                        }
+                    };
                     workers[i].RunWorkerAsync();
                 }
                 while (workers.Any(x => x.IsBusy))
@@ -213,27 +220,5 @@ namespace SQLRepeater.TaskExecuter
             return a;
         }
 
-       
-        ///// <summary>
-        ///// Get the next number in the sequence to generate data with.
-        ///// </summary>
-        ///// <returns>the next number in the sequence</returns>
-        //private int GetNextSerialNumber()
-        //{
-        //    return GenerationNumberSupplier.GetNextNumber();
-        //}
-
-        /// <summary>
-        /// Execute one action one time with the supplied serial number
-        /// </summary>
-        /// <param name="action">action to execute</param>
-        /// <param name="n">the serial number to use</param>
-        public void ExecuteOneTime(ExecutionTaskDelegate action)
-        {
-            action();
-        }
-       
-
-        
     }
 }

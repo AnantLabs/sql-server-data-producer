@@ -41,11 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommandFactory.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="SetCounter.cs" />
     <Compile Include="TaskExecuter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WorkflowManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -54,6 +54,10 @@
     <ProjectReference Include="..\SQLRepeater.Entities\SQLRepeater.Entities.csproj">
       <Project>{0D135CAD-55DB-4090-BB5F-2C493A1F0072}</Project>
       <Name>SQLRepeater.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SQLRepeater.EntityQueryGenerator\SQLRepeater.EntityQueryGenerator.csproj">
+      <Project>{6B6065E1-934E-4B2C-9B34-50D15BACAC3A}</Project>
+      <Name>SQLRepeater.EntityQueryGenerator</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
