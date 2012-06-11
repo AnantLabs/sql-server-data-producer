@@ -23,32 +23,25 @@ namespace SQLRepeater.TaskExecuter
 
         public int RunWorkFlow(ExecutionTaskOptions options, string connectionString, ExecutionItemCollection executionItems, string preScript = null, string postScript = null)
         {
-            Executor = new TaskExecuter(options, connectionString);
-
-            Func<int> a = InitWorkFlowAction(options, connectionString, executionItems);
-            return a();
+            return InternalRunWorkFlow(options, connectionString, executionItems, preScript, postScript);
         }
         public void RunWorkFlowAsync(ExecutionTaskOptions options, string connectionString, ExecutionItemCollection executionItems, Action<int> onCompletedCallback, string preScript = null, string postScript = null)
         {
             Action a = new Action(() =>
                 {
-                    Func<int> f = InitWorkFlowAction(options, connectionString, executionItems);
-                    int res = f();
+                    int res = InternalRunWorkFlow(options, connectionString, executionItems, preScript, postScript);
                     onCompletedCallback(res);
                 });
             a.BeginInvoke(null, null);
         }
 
-        private Func<int> InitWorkFlowAction(ExecutionTaskOptions options, string connectionString, ExecutionItemCollection executionItems, string preScript = null, string postScript = null)
+        private int InternalRunWorkFlow(ExecutionTaskOptions options, string connectionString, ExecutionItemCollection executionItems, string preScript = null, string postScript = null)
         {
-            Func<int> f = new Func<int>( () =>
-            {
-                RunPrepare(connectionString, preScript);
-                int result = Execute(connectionString, executionItems);
-                RunPostScript(connectionString, postScript);
-                return result;
-            });
-            return f;
+            Executor = new TaskExecuter(options, connectionString);
+            RunPrepare(connectionString, preScript);
+            int result = Execute(connectionString, executionItems);
+            RunPostScript(connectionString, postScript);
+            return result;
         }
 
         private void RunPostScript(string connectionString, string postScript)

@@ -21,18 +21,12 @@ namespace SQLRepeater
 
         void App_Startup(object sender, StartupEventArgs e)
         {
-            ExecutionTaskOptionsManager.Instance.Options =
-                (ExecutionTaskOptions)SQLRepeaterSettings.Default.ExecutionOptions;
-            if (ExecutionTaskOptionsManager.Instance.Options == null)
-            {
-                ExecutionTaskOptionsManager.Instance.Options = new ExecutionTaskOptions();
-            }
+           
         }
 
         void App_Exit(object sender, ExitEventArgs e)
         {
-            SQLRepeaterSettings.Default.ExecutionOptions = ExecutionTaskOptionsManager.Instance.Options;
-            SQLRepeaterSettings.Default.Save();
+           
         }
     }
 }
