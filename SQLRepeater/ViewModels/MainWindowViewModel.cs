@@ -13,6 +13,7 @@ using SQLRepeater.DatabaseEntities.Entities;
 using SQLRepeater.Entities.ExecutionOrderEntities;
 using System.Windows.Threading;
 using System.Threading;
+using SQLRepeater.Entities.OptionEntities;
 
 
 namespace SQLRepeater.ViewModels
@@ -75,24 +76,6 @@ namespace SQLRepeater.ViewModels
             }
         }
 
-
-        ExecutionDetailsViewModel _selectedExecutionDetailsVM;
-        public ExecutionDetailsViewModel SelectedExecutionDetailVM
-        {
-            get
-            {
-                return _selectedExecutionDetailsVM;
-            }
-            set
-            {
-                if (_selectedExecutionDetailsVM != value)
-                {
-                    _selectedExecutionDetailsVM = value;
-                    OnPropertyChanged("SelectedExecutionDetailVM");
-                }
-            }
-        }
-
         SidePanelViewModel _sidepanelVM;
         public SidePanelViewModel SidePanelVM
         {
@@ -131,12 +114,12 @@ namespace SQLRepeater.ViewModels
             });
         }
 
-        public MainWindowViewModel()
+        public MainWindowViewModel(ExecutionTaskOptions options)
         {
             Model = new SQLRepeater.Model.ApplicationModel();
             Model.ExecutionItems = new ExecutionItemCollection();
             Model.SelectedExecutionItem = Model.ExecutionItems.FirstOrDefault();
-            
+            Model.Options = options;
             ExecutionOrderVM = new ExecutionOrderViewModel(Model);
             SidePanelVM = new SidePanelViewModel(Model);
 

@@ -51,50 +51,21 @@ namespace SQLRepeater.ViewModels
             }
         }
 
-
-
-        ExecutionTaskOptions _options;
-        public ExecutionTaskOptions Options
-        {
-            get
-            {
-                return _options;
-            }
-            set
-            {
-                if (_options != value)
-                {
-                    _options = value;
-                    OnPropertyChanged("Options");
-                }
-            }
-        }
-
-           //TaskExecuter.TaskExecuter _executor;
+        private WorkflowManager _wfm;
 
         public SidePanelViewModel(SQLRepeater.Model.ApplicationModel model)
         {
             this.Model = model;
             
-            Options = (ExecutionTaskOptions)SQLRepeaterSettings.Default.ExecutionOptions;
-            if (Options == null)
-                Options = new ExecutionTaskOptions();
-
-            // If any changes are made to the options, then save the configuration
-            Options.PropertyChanged += (sender, e) =>
-                {
-                    SQLRepeaterSettings.Default.ExecutionOptions = Options;
-                    SQLRepeaterSettings.Default.Save();
-                };
-
             RunSQLQueryCommand = new DelegateCommand(() =>
             {
                 if (Model.ExecutionItems.Count == 0)
                     return;
 
-                WorkflowManager wfm = new WorkflowManager();
                 IsQueryRunning = true;
-                wfm.RunWorkFlowAsync(Options, Model.ConnectionString, Model.ExecutionItems, (setsInserted) =>
+
+                _wfm = new WorkflowManager();
+                _wfm.RunWorkFlowAsync(Model.Options, Model.ConnectionString, Model.ExecutionItems, (setsInserted) =>
                     {
                         IsQueryRunning = false;
                         MessageBox.Show(setsInserted.ToString());
@@ -103,11 +74,11 @@ namespace SQLRepeater.ViewModels
 
             StopExecutionCommand = new DelegateCommand(() =>
             {
-                //if (_executor != null)
-                //{
-                //    _executor.EndExecute();
-                //    IsQueryRunning = false;
-                //}
+                if (_wfm != null)
+                {
+                    _wfm.StopAsync();
+                    IsQueryRunning = false;
+                }
             });
         }
 

@@ -7,11 +7,11 @@
         WindowState="Maximized"
         >
     
-    <Window.Resources>
+    <!--<Window.Resources>
         <me:MainWindowViewModel x:Key="vm" />
-    </Window.Resources>
+    </Window.Resources>-->
     
-    <Grid DataContext="{StaticResource ResourceKey=vm}">
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="79*" />
             <ColumnDefinition Width="424*" />

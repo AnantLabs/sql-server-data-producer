@@ -13,6 +13,9 @@ namespace SQLRepeater
     /// </summary>
     public partial class App : Application
     {
+
+        ExecutionTaskOptions _options;
+
         public App()
         {
             this.Startup += new StartupEventHandler(App_Startup);
@@ -21,12 +24,18 @@ namespace SQLRepeater
 
         void App_Startup(object sender, StartupEventArgs e)
         {
-           
+            _options = (ExecutionTaskOptions)SQLRepeaterSettings.Default.ExecutionOptions;
+            if (_options == null)
+                _options = new ExecutionTaskOptions();
+
+            this.MainWindow = new MainWindow(_options);
+            this.MainWindow.Show();
         }
 
         void App_Exit(object sender, ExitEventArgs e)
         {
-           
+            SQLRepeaterSettings.Default.ExecutionOptions = _options;
+            SQLRepeaterSettings.Default.Save();
         }
     }
 }

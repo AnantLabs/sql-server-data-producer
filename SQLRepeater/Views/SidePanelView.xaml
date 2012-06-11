@@ -25,14 +25,14 @@
             <StackPanel>
         <ComboBox 
             ItemsSource="{Binding Source={StaticResource executionTypeEnum}}" 
-            SelectedItem="{Binding Path=Options.ExecutionType, Mode=TwoWay}" />
+            SelectedItem="{Binding Path=Model.Options.ExecutionType, Mode=TwoWay}" />
 
         <GroupBox Header="Time based execution:">
             <GroupBox.Style>
                 <Style>
                     <Setter Property="GroupBox.Visibility" Value="Collapsed" />
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding Options.ExecutionType}" Value="DurationBased" >
+                                <DataTrigger Binding="{Binding Model.Options.ExecutionType}" Value="DurationBased" >
                             <Setter Property="GroupBox.Visibility" Value="Visible" />
                         </DataTrigger>
                     </Style.Triggers>
@@ -41,9 +41,9 @@
             
             <StackPanel>
                 <Label Content="Seconds to run:" />
-                <TextBox Margin="3 3 3 3" Text="{Binding Path=Options.SecondsToRun, Mode=TwoWay}" />
+                        <TextBox Margin="3 3 3 3" Text="{Binding Path=Model.Options.SecondsToRun, Mode=TwoWay}" />
                 <Label Content="Number of threads:" />
-                <TextBox Margin="3 3 3 3" Text="{Binding Path=Options.MaxThreads}" />
+                        <TextBox Margin="3 3 3 3" Text="{Binding Path=Model.Options.MaxThreads}" />
             </StackPanel>
         </GroupBox>
         
@@ -52,7 +52,7 @@
                 <Style>
                     <Setter Property="GroupBox.Visibility" Value="Collapsed" />
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding Options.ExecutionType}" Value="ExecutionCountBased" >
+                                <DataTrigger Binding="{Binding Model.Options.ExecutionType}" Value="ExecutionCountBased" >
                             <Setter Property="GroupBox.Visibility" Value="Visible" />
                         </DataTrigger>
                     </Style.Triggers>
@@ -60,15 +60,15 @@
             </GroupBox.Style>
             <StackPanel>
                 <Label Content="Number of executions:" />
-                <TextBox Margin="3 3 3 3" Text="{Binding Path=Options.FixedExecutions, Mode=TwoWay}" />
+                        <TextBox Margin="3 3 3 3" Text="{Binding Path=Model.Options.FixedExecutions, Mode=TwoWay}" />
             </StackPanel>
         </GroupBox>
             </StackPanel>
         </GroupBox>
         <GroupBox Header="Options">
             <StackPanel>
-                <CheckBox Content="Do not execute, save script(s) in this folder:" IsChecked="{Binding Options.OnlyOutputToFile, Mode=TwoWay}"/>
-                <TextBox Text="{Binding Options.ScriptOutputFolder, Mode=TwoWay}"/>
+                <CheckBox Content="Do not execute, save script(s) in this folder:" IsChecked="{Binding Model.Options.OnlyOutputToFile, Mode=TwoWay}"/>
+                <TextBox Text="{Binding Model.Options.ScriptOutputFolder, Mode=TwoWay}"/>
             </StackPanel>
         </GroupBox>
         <GroupBox Header="Run / Stop">
@@ -79,7 +79,7 @@
                     Visibility="{Binding IsQueryRunning, Converter={StaticResource ResourceKey=visiConv}}" 
                     Height="50" Margin="0 5 0 5" 
                     Maximum="100" 
-                    Value="{Binding Options.PercentCompleted}"   />
+                    Value="{Binding Model.Options.PercentCompleted}"   />
             </StackPanel>
         </GroupBox>
     </StackPanel>

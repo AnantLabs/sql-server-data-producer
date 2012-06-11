@@ -70,10 +70,6 @@
     <Compile Include="Views\SidePanelView.xaml.cs">
       <DependentUpon>SidePanelView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ValueEntityConfigurationView.xaml.cs">
-      <DependentUpon>ValueEntityConfigurationView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ViewModels\ValueEntityConfigurationViewModel.cs" />
     <Compile Include="ViewModels\ExecutionDetailsViewModel.cs" />
     <Compile Include="ViewModels\ExecutionOrderViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
@@ -97,10 +93,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\SidePanelView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ValueEntityConfigurationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -11,6 +11,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using SQLRepeater.Entities.OptionEntities;
+using SQLRepeater.ViewModels;
 
 namespace SQLRepeater
 {
@@ -19,9 +21,17 @@ namespace SQLRepeater
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        ExecutionTaskOptions _options;
+        public MainWindow(ExecutionTaskOptions options)
         {
             InitializeComponent();
+            _options = options;
+            this.Loaded += new RoutedEventHandler(MainWindow_Loaded);
+        }
+
+        void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.DataContext = new MainWindowViewModel(_options);
         }
     }
 }

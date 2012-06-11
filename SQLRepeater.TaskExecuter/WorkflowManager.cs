@@ -7,6 +7,7 @@ using SQLRepeater.TaskExecuter;
 using SQLRepeater.Entities.ExecutionOrderEntities;
 using SQLRepeater.Entities;
 using SQLRepeater.Entities.OptionEntities;
+using SQLRepeater.DataAccess;
 
 namespace SQLRepeater.TaskExecuter
 {
@@ -48,14 +49,16 @@ namespace SQLRepeater.TaskExecuter
         {
             if (postScript == null)
                 return;
-            throw new NotImplementedException();
+            AdhocDataAccess adhd = new AdhocDataAccess(connectionString);
+            adhd.ExecuteNonQuery(postScript);
         }
 
         private void RunPrepare(string connectionString, string preScript)
         {
             if (preScript == null)
                 return;
-            throw new NotImplementedException();
+            AdhocDataAccess adhd = new AdhocDataAccess(connectionString);
+            adhd.ExecuteNonQuery(preScript);
         }
 
         private int Execute(string connectionString, ExecutionItemCollection executionItems)

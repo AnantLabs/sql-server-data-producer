@@ -163,6 +163,7 @@ namespace SQLRepeater.TaskExecuter
                         {
                             task();
                             float percentDone = (float)counter.Peek() / (float)Options.FixedExecutions;
+                            // TODO: Find out if this is eating to much performance (Sending many OnPropertyChanged events..
                             Options.PercentCompleted = (int)(percentDone * 100);
                         }
                     };

@@ -51,6 +51,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SQLRepeater.DataAccess\SQLRepeater.DataAccess.csproj">
+      <Project>{DE7F05FA-0F0C-4779-82C0-389713EB68C7}</Project>
+      <Name>SQLRepeater.DataAccess</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SQLRepeater.Entities\SQLRepeater.Entities.csproj">
       <Project>{0D135CAD-55DB-4090-BB5F-2C493A1F0072}</Project>
       <Name>SQLRepeater.Entities</Name>

@@ -7,7 +7,7 @@ using System.Collections.ObjectModel;
 
 namespace SQLRepeater.DataAccess
 {
-    public class DataAccessBase
+    public abstract class DataAccessBase
     {
         protected string _connectionString = string.Empty;
 

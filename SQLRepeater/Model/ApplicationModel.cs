@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using SQLRepeater.DatabaseEntities.Entities;
 using SQLRepeater.Entities.ExecutionOrderEntities;
 using SQLRepeater.DataAccess;
+using SQLRepeater.Entities.OptionEntities;
 
 namespace SQLRepeater.Model
 {
@@ -157,6 +158,23 @@ namespace SQLRepeater.Model
                     SQLRepeaterSettings.Default.ConnectionString = value;
                     SQLRepeaterSettings.Default.Save();
                     OnPropertyChanged("ConnectionString");
+                }
+            }
+        }
+
+        ExecutionTaskOptions _options;
+        public ExecutionTaskOptions Options
+        {
+            get
+            {
+                return _options;
+            }
+            set
+            {
+                if (_options != value)
+                {
+                    _options = value;
+                    OnPropertyChanged("Options");
                 }
             }
         }
