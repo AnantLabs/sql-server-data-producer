@@ -61,6 +61,8 @@
             <StackPanel>
                 <Label Content="Number of executions:" />
                         <TextBox Margin="3 3 3 3" Text="{Binding Path=Model.Options.FixedExecutions, Mode=TwoWay}" />
+                <Label Content="Number of threads:" />
+                        <TextBox Margin="3 3 3 3" Text="{Binding Path=Model.Options.MaxThreads}" />
             </StackPanel>
         </GroupBox>
             </StackPanel>
@@ -80,6 +82,13 @@
                     Height="50" Margin="0 5 0 5" 
                     Maximum="100" 
                     Value="{Binding Model.Options.PercentCompleted}"   />
+            </StackPanel>
+        </GroupBox>
+        
+        <GroupBox Header="Other Scripts">
+            <StackPanel>
+                <Button Content="Edit PreScript (Will run before the generation)" Command="{Binding EditPreScriptCommand}" />
+                <Button Content="Edit PostScript (Will run after the generation)" Command="{Binding EditPostScriptCommand}" />
             </StackPanel>
         </GroupBox>
     </StackPanel>

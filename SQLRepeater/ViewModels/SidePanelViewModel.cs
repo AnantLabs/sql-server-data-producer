@@ -9,6 +9,7 @@ using SQLRepeater.EntityQueryGenerator;
 using SQLRepeater.Entities.OptionEntities;
 using SQLRepeater.Entities;
 using SQLRepeater.TaskExecuter;
+using SQLRepeater.Views;
 
 namespace SQLRepeater.ViewModels
 {
@@ -16,7 +17,9 @@ namespace SQLRepeater.ViewModels
     {
         public DelegateCommand RunSQLQueryCommand { get; private set; }
         public DelegateCommand StopExecutionCommand { get; private set; }
-
+        public DelegateCommand EditPreScriptCommand { get; private set; }
+        public DelegateCommand EditPostScriptCommand { get; private set; }
+            
         SQLRepeater.Model.ApplicationModel _model;
         public SQLRepeater.Model.ApplicationModel Model
         {
@@ -30,6 +33,42 @@ namespace SQLRepeater.ViewModels
                 {
                     _model = value;
                     OnPropertyChanged("Model");
+                }
+            }
+        }
+
+
+
+        ScriptEditViewModel _postScriptVM;
+        public ScriptEditViewModel PostScriptViewModel
+        {
+            get
+            {
+                return _postScriptVM;
+            }
+            set
+            {
+                if (_postScriptVM != value)
+                {
+                    _postScriptVM = value;
+                    OnPropertyChanged("PostScriptViewModel");
+                }
+            }
+        }
+
+        ScriptEditViewModel _preScriptVM;
+        public ScriptEditViewModel PreScriptViewModel
+        {
+            get
+            {
+                return _preScriptVM;
+            }
+            set
+            {
+                if (_preScriptVM != value)
+                {
+                    _preScriptVM = value;
+                    OnPropertyChanged("PreScriptViewModel");
                 }
             }
         }
@@ -56,7 +95,9 @@ namespace SQLRepeater.ViewModels
         public SidePanelViewModel(SQLRepeater.Model.ApplicationModel model)
         {
             this.Model = model;
-            
+            PostScriptViewModel = new ScriptEditViewModel();
+            PreScriptViewModel = new ScriptEditViewModel();
+
             RunSQLQueryCommand = new DelegateCommand(() =>
             {
                 if (Model.ExecutionItems.Count == 0)
@@ -69,7 +110,9 @@ namespace SQLRepeater.ViewModels
                     {
                         IsQueryRunning = false;
                         MessageBox.Show(setsInserted.ToString());
-                    });
+                    }
+                    , PreScriptViewModel.ScriptText
+                    , PostScriptViewModel.ScriptText);
             });
 
             StopExecutionCommand = new DelegateCommand(() =>
@@ -79,6 +122,19 @@ namespace SQLRepeater.ViewModels
                     _wfm.StopAsync();
                     IsQueryRunning = false;
                 }
+            });
+
+            EditPostScriptCommand = new DelegateCommand(() =>
+            {
+                Window win = new Window();
+                win.Content = new ScriptEditView(PostScriptViewModel);
+                win.Show();
+            });
+            EditPreScriptCommand = new DelegateCommand(() =>
+            {
+                Window win = new Window();
+                win.Content = new ScriptEditView(PreScriptViewModel);
+                win.Show();
             });
         }
 

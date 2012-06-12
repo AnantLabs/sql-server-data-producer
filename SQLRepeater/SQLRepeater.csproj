@@ -67,6 +67,10 @@
       <DependentUpon>SQLRepeaterSettings.settings</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\SidePanelViewModel.cs" />
+    <Compile Include="Views\ScriptEditView.xaml.cs">
+      <DependentUpon>ScriptEditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\ScriptEditViewModel.cs" />
     <Compile Include="Views\SidePanelView.xaml.cs">
       <DependentUpon>SidePanelView.xaml</DependentUpon>
     </Compile>
@@ -92,6 +96,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\ScriptEditView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\SidePanelView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -47,7 +47,7 @@ namespace SQLRepeater.TaskExecuter
 
         private void RunPostScript(string connectionString, string postScript)
         {
-            if (postScript == null)
+            if (string.IsNullOrEmpty(postScript))
                 return;
             AdhocDataAccess adhd = new AdhocDataAccess(connectionString);
             adhd.ExecuteNonQuery(postScript);
@@ -55,7 +55,7 @@ namespace SQLRepeater.TaskExecuter
 
         private void RunPrepare(string connectionString, string preScript)
         {
-            if (preScript == null)
+            if (string.IsNullOrEmpty(preScript))
                 return;
             AdhocDataAccess adhd = new AdhocDataAccess(connectionString);
             adhd.ExecuteNonQuery(preScript);

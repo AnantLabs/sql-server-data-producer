@@ -38,16 +38,6 @@
         
 
         <my:SidePanelView DataContext="{Binding SidePanelVM}"  Grid.Column="0" Grid.Row="1" />
-        
-        <GroupBox Grid.Row="3" Grid.Column="1" Header="Options">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Start date:" Margin="0 3 0 3" />
-                <TextBox Text="{Binding Model.StartDateForGeneration}"  Margin="0 3 0 3" />
-
-                <TextBlock Text="Start N:" Margin="0 3 0 3" />
-                <TextBox Text="{Binding Model.StartNumberForGeneration}"  Margin="0 3 0 3" />
-            </StackPanel>
-        </GroupBox>
-        
+     
     </Grid>
 </Window>

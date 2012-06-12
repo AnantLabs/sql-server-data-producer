@@ -106,7 +106,11 @@ namespace SQLRepeater.DataAccess
             string s = string.Format("SELECT TOP {0} {1} FROM {2}.{3}", 1000, primaryKeyColumn, table.TableSchema, table.TableName);
             Func<SqlDataReader, int> createKey = reader =>
             {
-                return reader.GetInt32(0);
+                int fk;
+                if(int.TryParse(reader.GetValue(0).ToString(), out fk))
+                    return fk;
+
+                throw new NotImplementedException("Foreign keys can only be integer datatypes, not implemented for any other type of datatypes");
             };
             return GetMany(s, createKey);
         }
