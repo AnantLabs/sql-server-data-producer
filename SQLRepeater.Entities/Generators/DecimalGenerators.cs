@@ -36,7 +36,7 @@ namespace SQLRepeater.Entities.Generators
                 double maxValue = double.Parse(GetParameterByName(p, "MaxValue").ToString());
                 double minValue = double.Parse(GetParameterByName(p, "MinValue").ToString());
 
-                return ((RandomSupplier.Instance.GetNextDouble() % maxValue) + minValue).ToString().Replace(",", ".");
+                return (((RandomSupplier.Instance.GetNextDouble() * double.MaxValue) % maxValue) + minValue).ToString().Replace(",", ".");
             }
                 , paramss);
             return gen;

@@ -110,12 +110,11 @@ namespace SQLRepeater.EntityQueryGenerator
                 sb.AppendLine("VALUES");
                 for (int rep = 1; rep <= item.RepeatCount; rep++)
                 {
-                    
                     sb.Append("\t");
                     sb.Append("(");
                     foreach (ColumnEntity col in item.TargetTable.Columns.Where(x => x.IsIdentity == false))
                     {
-                        sb.AppendFormat("{0}", col.Generator.GenerateValue(rowGenerationNumber));
+                        sb.Append(col.Generator.GenerateValue(rowGenerationNumber));
                         sb.Append(col.OrdinalPosition == item.TargetTable.Columns.Count ? string.Empty : ", ");
                     }
                     sb.Append(")");

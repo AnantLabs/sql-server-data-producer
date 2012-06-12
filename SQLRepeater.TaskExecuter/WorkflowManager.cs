@@ -8,6 +8,7 @@ using SQLRepeater.Entities.ExecutionOrderEntities;
 using SQLRepeater.Entities;
 using SQLRepeater.Entities.OptionEntities;
 using SQLRepeater.DataAccess;
+using SQLRepeater.Entities.Generators;
 
 namespace SQLRepeater.TaskExecuter
 {
@@ -64,6 +65,7 @@ namespace SQLRepeater.TaskExecuter
         private int Execute(string connectionString, ExecutionItemCollection executionItems)
         {
             InsertQueryGenerator queryGenerator = new InsertQueryGenerator();
+            
             string basequery = queryGenerator.GenerateQueryForExecutionItems(executionItems);
             ExecutionTaskDelegate taskToExecute = Executor.CreateSQLTaskForExecutionItems(
                 // The items to generate data for

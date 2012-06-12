@@ -110,11 +110,16 @@ namespace SQLRepeater.Entities.Generators
 
         private static DateTimeGenerator CreateMinutesSeriesGenerator()
         {
+            GeneratorParameterCollection paramss = new GeneratorParameterCollection();
+
+            paramss.Add(new GeneratorParameter("Shift Seconds", 0));
+
             DateTimeGenerator gen = new DateTimeGenerator("Minutes Series", (n, p) =>
             {
-                return Wrap(StartDate.AddMinutes(n));
+                int shiftSeconds = int.Parse(GetParameterByName(p, "Shift Seconds").ToString());
+                return Wrap(StartDate.AddMinutes(n).AddSeconds(shiftSeconds));
             }
-                , null);
+                , paramss);
             return gen;
         }
         private static DateTimeGenerator CreateHoursSeriesGenerator()
