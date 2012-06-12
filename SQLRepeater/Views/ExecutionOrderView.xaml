@@ -21,7 +21,7 @@
                 ScrollViewer.VerticalScrollBarVisibility="Visible">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Path=TableName}" />
+                    <TextBlock Text="{Binding Path=.}" />
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

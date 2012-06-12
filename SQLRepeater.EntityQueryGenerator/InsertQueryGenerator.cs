@@ -97,6 +97,7 @@ namespace SQLRepeater.EntityQueryGenerator
 
             foreach (var item in execItems)
             {
+                int rowGenerationNumber = GenerationNumberSupplier.GetNextNumber();
                 StringBuilder sb = new StringBuilder();
                 // Skip tables with no columns
                 if (item.TargetTable.Columns.Count == 0)
@@ -109,7 +110,7 @@ namespace SQLRepeater.EntityQueryGenerator
                 sb.AppendLine("VALUES");
                 for (int rep = 1; rep <= item.RepeatCount; rep++)
                 {
-                    int rowGenerationNumber = GenerationNumberSupplier.GetNextNumber();
+                    
                     sb.Append("\t");
                     sb.Append("(");
                     foreach (ColumnEntity col in item.TargetTable.Columns.Where(x => x.IsIdentity == false))
