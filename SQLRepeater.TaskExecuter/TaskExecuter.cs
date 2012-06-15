@@ -20,7 +20,7 @@ namespace SQLRepeater.TaskExecuter
     {
         //private int Counter { get; set; }
 
-        private static System.Threading.CancellationTokenSource _cancelTokenSource;
+        private System.Threading.CancellationTokenSource _cancelTokenSource;
         private string _connectionString;
         public ExecutionTaskOptions Options { get; private set; }
 
@@ -31,7 +31,7 @@ namespace SQLRepeater.TaskExecuter
             //Counter = 0;
         }
 
-        private static System.Threading.CancellationTokenSource CancelTokenSource
+        private System.Threading.CancellationTokenSource CancelTokenSource
         {
             get
             {
@@ -60,23 +60,31 @@ namespace SQLRepeater.TaskExecuter
         {
             return new ExecutionTaskDelegate(() =>
             {
-                // Generate the final query.
-                string finalResult = GenerateFinalQuery(baseQuery, execItems);
-
-                if (Options.OnlyOutputToFile)
-                    WriteScriptToFile(finalResult);
-                else
+                try
                 {
-                    using (SqlConnection con = new SqlConnection(_connectionString))
+                    // Generate the final query.
+                    string finalResult = GenerateFinalQuery(baseQuery, execItems);
+
+                    if (Options.OnlyOutputToFile)
+                        WriteScriptToFile(finalResult);
+                    else
                     {
-                        // For each time this Action is called, generate the final query. This will create the "declaration" part of the script with the generated data.
-                        // The "base" of the script will be kept from its original, we only generate the actual data here.
-                        using (SqlCommand cmd = new SqlCommand(finalResult, con))
+                        using (SqlConnection con = new SqlConnection(_connectionString))
                         {
-                            cmd.Connection.Open();
-                            cmd.ExecuteNonQuery();
+                            // For each time this Action is called, generate the final query. This will create the "declaration" part of the script with the generated data.
+                            // The "base" of the script will be kept from its original, we only generate the actual data here.
+                            using (SqlCommand cmd = new SqlCommand(finalResult, con))
+                            {
+                                cmd.Connection.Open();
+                                cmd.ExecuteNonQuery();
+                            }
                         }
                     }
+                }
+                catch (Exception ex)
+                {
+                    // TODO: Count the error, save it in some list, and then show it to the user
+                    System.IO.File.AppendAllText(@"c:\temp\repeater\log.txt", ex.ToString());
                 }
             });
         }
@@ -118,6 +126,7 @@ namespace SQLRepeater.TaskExecuter
         /// <param name="onCompletedCallback">the callback that will be called when execution is done or stopped</param>
         public int Execute(ExecutionTaskDelegate task)
         {
+            
             Action a = null;
 
             SetCounter setCounter = new SetCounter();
