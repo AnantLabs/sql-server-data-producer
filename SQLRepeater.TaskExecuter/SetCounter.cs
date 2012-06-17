@@ -31,5 +31,18 @@ namespace SQLRepeater.TaskExecuter
         {
             return Interlocked.Equals(_counter, c);
         }
+        object _lock = new object();
+         
+        internal bool IncrementIfLessThan(int targetNumExecutions)
+        {
+            lock (_lock)
+            {
+                int next = Peek();
+                if (next < targetNumExecutions)
+                    return true;
+            }
+            return false;
+
+        }
     }
 }

@@ -94,5 +94,17 @@ namespace SQLRepeater.Entities.Generators.Collections
         {
             OnPropertyChanged(new System.ComponentModel.PropertyChangedEventArgs("NiceString"));
         }
+
+        internal GeneratorParameterCollection Clone()
+        {
+            var paramCollection = new GeneratorParameterCollection();
+            foreach (var c in this.Items)
+            {
+                GeneratorParameter para = new GeneratorParameter(c.ParameterName, c.Value);
+                para.IsWriteEnabled = c.IsWriteEnabled;
+                paramCollection.Add(para);
+            }
+            return paramCollection;
+        }
     }
 }

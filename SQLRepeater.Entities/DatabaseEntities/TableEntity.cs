@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
 using System.Data.SqlClient;
+using SQLRepeater.Entities.DatabaseEntities.Collections;
 
 namespace SQLRepeater.DatabaseEntities.Entities
 {
@@ -12,13 +13,13 @@ namespace SQLRepeater.DatabaseEntities.Entities
 
         public TableEntity(string tableSchema, string tableName)
         {
-            Columns = new ObservableCollection<ColumnEntity>();
+            Columns = new ColumnEntityCollection();
             TableName = tableName;
             TableSchema = tableSchema;
         }
 
-        ObservableCollection<ColumnEntity> _columns;
-        public ObservableCollection<ColumnEntity> Columns
+        ColumnEntityCollection _columns;
+        public ColumnEntityCollection Columns
         {
             get
             {
@@ -96,6 +97,18 @@ namespace SQLRepeater.DatabaseEntities.Entities
             // Get the hash code for the Textual field if it is not null.
             return ToString().GetHashCode();
 
+        }
+
+        internal TableEntity Clone()
+        {
+            return TableEntity.Create(this.TableSchema, this.TableName, this.Columns.Clone());
+        }
+
+        private static TableEntity Create(string tableSchema, string tableName, ColumnEntityCollection cols)
+        {
+            var t = new TableEntity(tableSchema, tableName);
+            t.Columns = cols;
+            return t;
         }
     }
 }

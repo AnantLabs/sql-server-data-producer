@@ -6,10 +6,7 @@
              xmlns:me="clr-namespace:SQLRepeater.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <!--<UserControl.Resources>
-        <me:ExecutionOrderViewModel x:Key="vm" />
-    </UserControl.Resources>-->
-    <Grid>
+    <Grid x:Name="OrderRoot">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="148*" />
             <ColumnDefinition Width="44" />
@@ -39,12 +36,18 @@
                             <ColumnDefinition Width="200" />
                             <ColumnDefinition Width="110" />
                             <ColumnDefinition Width="110" />
+                            <ColumnDefinition Width="40" />
                         </Grid.ColumnDefinitions>
 
                         <TextBlock Text="{Binding Order}" Grid.Column="0" />
                         <TextBlock Text="{Binding Path=TargetTable.TableName}" Grid.Column="1" />
                         <TextBlock Text="{Binding Path=Description}" Grid.Column="2" />
                         <TextBlock Text="{Binding Path=RepeatCount}" Grid.Column="3" />
+                        <Button Content="Clone" 
+                                Command="{Binding Path=DataContext.CloneExecutionItemCommand, 
+                                        RelativeSource={RelativeSource FindAncestor, 
+                                        AncestorType={x:Type ListBox}}}" 
+                                CommandParameter="{Binding .}" Grid.Column="4"></Button>
                         
                     </Grid>
                         

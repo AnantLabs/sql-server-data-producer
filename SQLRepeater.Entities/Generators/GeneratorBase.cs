@@ -51,7 +51,7 @@ namespace SQLRepeater.Entities.Generators
         protected GeneratorBase(string generatorName, ValueCreatorDelegate generator, GeneratorParameterCollection genParams)
         {
             ValueGenerator = generator;
-            GeneratorParameters = genParams;
+            GeneratorParameters = genParams ?? new GeneratorParameterCollection();
             GeneratorName = generatorName;
         }
         
@@ -106,5 +106,14 @@ namespace SQLRepeater.Entities.Generators
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+
+
+        internal GeneratorBase SetGeneratorParameters(GeneratorParameterCollection parammss)
+        {
+            this.GeneratorParameters = parammss;
+            return this;
+        }
+
     }
 }

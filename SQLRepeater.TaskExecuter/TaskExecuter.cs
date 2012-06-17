@@ -149,7 +149,6 @@ namespace SQLRepeater.TaskExecuter
 
         /// <summary>
         /// Creates an Action that will run the provided task a selected amount of times. 
-        /// The singleton ExecutionTaskOptionsManager will be used to get the configuration needed for this function.
         /// </summary>
         /// <param name="task">the task to run.</param>
         /// <returns>the action that will run the task</returns>
@@ -168,7 +167,7 @@ namespace SQLRepeater.TaskExecuter
                     workers.Add(new BackgroundWorker());
                     workers[i].DoWork += (sender, e) =>
                     {
-                        while (counter.GetNext() <= targetNumExecutions && !CancelTokenSource.IsCancellationRequested)
+                        while (counter.IncrementIfLessThan(targetNumExecutions) && !CancelTokenSource.IsCancellationRequested)
                         {
                             task();
                             float percentDone = (float)counter.Peek() / (float)Options.FixedExecutions;
@@ -189,7 +188,6 @@ namespace SQLRepeater.TaskExecuter
 
         /// <summary>
         /// Creates an Action that will run the provided task until a configured DateTime.
-        /// The singleton ExecutionTaskOptionsManager will be used to get the configuration needed for this function.
         /// </summary>
         /// <param name="task">the task to run</param>
         /// <returns>the action that will run the task</returns>

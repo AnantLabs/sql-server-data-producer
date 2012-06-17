@@ -6,6 +6,7 @@ using System.Text;
 using SQLRepeater.Entities.Generators;
 using System.Collections.ObjectModel;
 using SQLRepeater.Entities;
+using SQLRepeater.Entities.Generators.Collections;
 
 
 namespace SQLRepeater.DatabaseEntities.Entities
@@ -177,8 +178,7 @@ namespace SQLRepeater.DatabaseEntities.Entities
         /// <param name="isForeignKey">true if this table is referencing another table using foreign key</param>
         /// <param name="generator">the default generator for this column</param>
         /// <param name="possibleGenerators">the possible generators for this column</param>
-        public ColumnEntity(string columnName, string columnDatatype, bool isIdentity, int ordinalPosition, bool isForeignKey, ForeignKeyEntity foreignKeyEntity,
-           GeneratorBase generator, ObservableCollection<GeneratorBase> possibleGenerators)
+        public ColumnEntity(string columnName, string columnDatatype, bool isIdentity, int ordinalPosition, bool isForeignKey, ForeignKeyEntity foreignKeyEntity, ObservableCollection<GeneratorBase> possibleGenerators, GeneratorBase generator)
         {
             this.ColumnName = columnName;
             this.ColumnDataType = columnDatatype;
@@ -188,11 +188,24 @@ namespace SQLRepeater.DatabaseEntities.Entities
             this.IsForeignKey = isForeignKey;
             this.ForeignKey = foreignKeyEntity;
 
-            this.Generator = generator;
+            this.Generator = generator ?? possibleGenerators.First();
             this.PossibleGenerators = possibleGenerators;
 
         }
+        public ColumnEntity(string columnName, string columnDatatype, bool isIdentity, int ordinalPosition, bool isForeignKey, ForeignKeyEntity foreignKeyEntity, ObservableCollection<GeneratorBase> possibleGenerators, string generatorName, GeneratorParameterCollection paramms)
+        {
+            this.ColumnName = columnName;
+            this.ColumnDataType = columnDatatype;
+            this.OrdinalPosition = ordinalPosition;
+            this.IsIdentity = isIdentity;
 
+            this.IsForeignKey = isForeignKey;
+            this.ForeignKey = foreignKeyEntity;
+
+            this.Generator = possibleGenerators.Where(g => g.GeneratorName == generatorName).First();
+            this.Generator.SetGeneratorParameters(paramms);
+            this.PossibleGenerators = possibleGenerators;
+        }
 
         //public bool Equals(ColumnEntity other)
         //{

@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using SQLRepeater.DatabaseEntities.Entities;
 using SQLRepeater.Entities.Generators;
 using SQLRepeater.EntityQueryGenerator;
+using SQLRepeater.Entities.DatabaseEntities.Collections;
 
 namespace SQLRepeater.DataAccess
 {
@@ -25,23 +26,13 @@ namespace SQLRepeater.DataAccess
             ObservableCollection<GeneratorBase> possibleGenerators = GeneratorFactory.GetGeneratorsForDataType(reader.GetString(reader.GetOrdinal("DataType")));
             GeneratorBase defaultGenerator = possibleGenerators.FirstOrDefault();
 
-            return new ColumnEntity(
-                reader.GetString(reader.GetOrdinal("ColumnName")),
-                reader.GetString(reader.GetOrdinal("DataType")),
-                (bool)reader["IsIdentity"],
-                reader.GetInt32(reader.GetOrdinal("OrdinalPosition")),
-                (bool)reader["IsForeignKey"],
-                new ForeignKeyEntity
+            return new ColumnEntity(reader.GetString(reader.GetOrdinal("ColumnName")), reader.GetString(reader.GetOrdinal("DataType")), (bool)reader["IsIdentity"], reader.GetInt32(reader.GetOrdinal("OrdinalPosition")), (bool)reader["IsForeignKey"], new ForeignKeyEntity
                 {
                     ReferencingTable = new TableEntity(
                         reader.GetStringOrEmpty("ReferencedTableSchema"),
                         reader.GetStringOrEmpty("ReferencedTable")),
                     ReferencingColumn = reader.GetStringOrEmpty("ReferencedColumn")
-                },
-                defaultGenerator
-                ,possibleGenerators
-
-            );
+                }, possibleGenerators, defaultGenerator);
         };
 
 
@@ -109,7 +100,7 @@ where object_id=object_id('{1}.{0}')";
         /// </summary>
         /// <param name="table">the table to get all columns for</param>
         /// <param name="callback">the callback method that will be called once the execution is done</param>
-        public void BeginGetAllColumnsForTable(TableEntity table, Action<ObservableCollection<ColumnEntity>> callback)
+        public void BeginGetAllColumnsForTable(TableEntity table, Action<ColumnEntityCollection> callback)
         {
             BeginGetMany(
                 string.Format(GET_COLUMNS_FOR_TABLE_QUERY
@@ -125,7 +116,7 @@ where object_id=object_id('{1}.{0}')";
                         item.PossibleGenerators.Add(fkGenerator);
                         item.Generator = fkGenerator;
                     }
-                    callback(cols);
+                    callback((ColumnEntityCollection)cols);
                 });
         }
 
@@ -134,13 +125,13 @@ where object_id=object_id('{1}.{0}')";
         /// </summary>
         /// <param name="table">the table to get all columns for</param>
         /// <returns></returns>
-        public ObservableCollection<ColumnEntity> GetAllColumnsForTable(TableEntity table)
+        public ColumnEntityCollection GetAllColumnsForTable(TableEntity table)
         {
-            ObservableCollection<ColumnEntity> cols = GetMany(
+            ColumnEntityCollection cols = new ColumnEntityCollection(GetMany(
                             string.Format(GET_COLUMNS_FOR_TABLE_QUERY
                                     , table.TableName
                                     , table.TableSchema)
-                            , CreateColumnEntity);
+                            , CreateColumnEntity));
 
             foreach (var item in cols.Where(x => x.IsForeignKey))
             {
@@ -154,15 +145,5 @@ where object_id=object_id('{1}.{0}')";
 
 
         }
-        //public ObservableCollection<ColumnEntity> GetAllColumnsForTable(string schemaName, string tableName)
-        //{
-        //    return GetMany(
-        //        string.Format(GET_COLUMNS_FOR_TABLE_QUERY
-        //                , tableName
-        //                , schemaName)
-        //        , CreateColumnEntity);
-        //}
-
-
     }
 }

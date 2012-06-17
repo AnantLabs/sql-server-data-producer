@@ -59,6 +59,9 @@
     </ApplicationDefinition>
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Converters\VisibilityConverter.cs" />
+    <Compile Include="ModalWindows\CloneExecutionItemWindow.xaml.cs">
+      <DependentUpon>CloneExecutionItemWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Model\ApplicationModel.cs" />
     <Compile Include="SQLRepeaterSettings.cs" />
     <Compile Include="SQLRepeaterSettings.Designer.cs">
@@ -96,6 +99,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="ModalWindows\CloneExecutionItemWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ScriptEditView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

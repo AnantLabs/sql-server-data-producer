@@ -126,6 +126,21 @@ namespace SQLRepeater.Entities.ExecutionOrderEntities
                 }
             }
         }
-        
+
+
+        public ExecutionItem CloneWithOrderNumber(int orderNr)
+        {
+            return ExecutionItem.Create(this.Description, this.RepeatCount, this.TargetTable.Clone(), this.TruncateBeforeExecution, orderNr);
+        }
+
+        private static ExecutionItem Create(string description, int repeatCount, TableEntity table, bool truncateBeforeExecution, int orderNr)
+        {
+            var tabl = new TableEntity(table.TableSchema, table.TableName);
+            var ei = new ExecutionItem(table, orderNr);
+            ei.Description = description;
+            ei.RepeatCount = repeatCount;
+            ei.TruncateBeforeExecution = truncateBeforeExecution;
+            return ei;
+        }
     }
 }

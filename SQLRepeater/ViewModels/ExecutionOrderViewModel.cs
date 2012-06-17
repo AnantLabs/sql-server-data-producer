@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using SQLRepeater.Entities.ExecutionOrderEntities;
 using SQLRepeater.DatabaseEntities.Entities;
 using SQLRepeater.DataAccess;
+using SQLRepeater.ModalWindows;
 
 namespace SQLRepeater.ViewModels
 {
@@ -18,6 +19,9 @@ namespace SQLRepeater.ViewModels
         public DelegateCommand MoveAllItemsRightCommand { get; private set; }
         public DelegateCommand MoveAllItemsLeftCommand { get; private set; }
         public DelegateCommand MoveItemDownCommand { get; private set; }
+
+        public DelegateCommand<ExecutionItem> CloneExecutionItemCommand { get; private set; }
+        
 
         SQLRepeater.Model.ApplicationModel _model;
         public SQLRepeater.Model.ApplicationModel Model
@@ -106,6 +110,18 @@ namespace SQLRepeater.ViewModels
                             Model.ExecutionItems[i].Order = i + 1;
                         }
                     }
+                });
+
+            CloneExecutionItemCommand = new DelegateCommand<ExecutionItem>(item =>
+                {
+                    CloneExecutionItemWindow window = new CloneExecutionItemWindow( clones => 
+                    {
+                        for (int i = 0; i < clones; i++)
+                        {
+                            Model.ExecutionItems.Add(item.CloneWithOrderNumber(Model.ExecutionItems.Count + 1));
+                        }
+                    });
+                    window.Show();
                 });
         }
 
