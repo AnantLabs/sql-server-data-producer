@@ -68,5 +68,14 @@ namespace SQLRepeater.Entities
             }
         }
 
+
+        internal ForeignKeyEntity Clone()
+        {
+            ForeignKeyEntity fk = new ForeignKeyEntity();
+            fk.ReferencingColumn = this.ReferencingColumn;
+            fk.ReferencingTable = this.ReferencingTable.Clone();
+            fk.Keys = new ObservableCollection<int>(this.Keys); ;
+            return fk;
+        }
     }
 }

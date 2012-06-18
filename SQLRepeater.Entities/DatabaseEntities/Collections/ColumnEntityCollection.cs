@@ -27,7 +27,7 @@ namespace SQLRepeater.Entities.DatabaseEntities.Collections
         internal ColumnEntityCollection Clone()
         {
             var cols = from c in Items
-                       select new ColumnEntity(c.ColumnName, c.ColumnDataType, c.IsIdentity, c.OrdinalPosition, c.IsForeignKey, c.ForeignKey
+                       select new ColumnEntity(c.ColumnName, c.ColumnDataType, c.IsIdentity, c.OrdinalPosition, c.IsForeignKey, c.ForeignKey.Clone()
                            , GeneratorFactory.GetGeneratorsForDataType(c.ColumnDataType), c.Generator.GeneratorName, c.Generator.GeneratorParameters
                            );
 
