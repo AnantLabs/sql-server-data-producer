@@ -6,10 +6,8 @@ using System.ComponentModel;
 
 namespace SQLRepeater.Entities
 {
-    public partial class EntityBase : INotifyPropertyChanged
+    public abstract partial class EntityBase : INotifyPropertyChanged
     {
-
-
         protected void OnPropertyChanged(string propertyName)
         {
             if (PropertyChanged == null)

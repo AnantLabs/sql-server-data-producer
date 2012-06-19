@@ -37,12 +37,14 @@ namespace SQLRepeater.TaskExecuter
         {
             lock (_lock)
             {
-                int next = Peek();
+                int next = Peek() + 1;
                 if (next < targetNumExecutions)
+                {
+                    Increment();
                     return true;
+                }
+                return false;
             }
-            return false;
-
         }
     }
 }

@@ -167,8 +167,9 @@ namespace SQLRepeater.TaskExecuter
                     workers.Add(new BackgroundWorker());
                     workers[i].DoWork += (sender, e) =>
                     {
-                        while (counter.IncrementIfLessThan(targetNumExecutions) && !CancelTokenSource.IsCancellationRequested)
+                        while (counter.Peek() < targetNumExecutions && !CancelTokenSource.IsCancellationRequested)
                         {
+                            counter.Increment();
                             task();
                             float percentDone = (float)counter.Peek() / (float)Options.FixedExecutions;
                             // TODO: Find out if this is eating to much performance (Sending many OnPropertyChanged events..

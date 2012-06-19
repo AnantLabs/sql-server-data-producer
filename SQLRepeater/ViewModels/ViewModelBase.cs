@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SQLRepeater.ViewModels
 {
-    public class ViewModelBase : System.ComponentModel.INotifyPropertyChanged
+    public abstract partial class ViewModelBase : System.ComponentModel.INotifyPropertyChanged
     {
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 

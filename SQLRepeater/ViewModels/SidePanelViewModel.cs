@@ -127,12 +127,14 @@ namespace SQLRepeater.ViewModels
             EditPostScriptCommand = new DelegateCommand(() =>
             {
                 Window win = new Window();
+                win.Title = "Edit Post Script. Close window when done";
                 win.Content = new ScriptEditView(PostScriptViewModel);
                 win.Show();
             });
             EditPreScriptCommand = new DelegateCommand(() =>
             {
                 Window win = new Window();
+                win.Title = "Edit Pre Script. Close window when done";
                 win.Content = new ScriptEditView(PreScriptViewModel);
                 win.Show();
             });
