@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DatabaseEntities\Collections\ColumnEntityCollection.cs" />
+    <Compile Include="DatabaseEntities\Collections\GeneratorCollectionExtensions.cs" />
     <Compile Include="DatabaseEntities\ColumnEntity.cs" />
     <Compile Include="ExecutionOrderEntities\ExecutionItemCollection.cs" />
     <Compile Include="ForeignKeyEntity.cs" />

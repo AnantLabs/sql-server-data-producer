@@ -3,14 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:me="clr-namespace:SQLRepeater.ViewModels"
         xmlns:conv="clr-namespace:SQLRepeater.Converters"
-        Title="SQL Repeater" Height="600" Width="800"
+        Title="SQL Server Data Producer" Height="600" Width="800"
         WindowState="Maximized"
         >
-    
-    <!--<Window.Resources>
-        <me:MainWindowViewModel x:Key="vm" />
-    </Window.Resources>-->
-    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="79*" />
@@ -18,26 +13,38 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />
+            <RowDefinition Height="2" />
             <RowDefinition Height="400" />
             <RowDefinition Height="400" />
             <RowDefinition Height="30" />
         </Grid.RowDefinitions>
 
-        <StackPanel  Grid.Column="0" Grid.Row="0" Orientation="Horizontal">
-            <Button Content="Conn..." Margin="3 3 3 3" Padding="5 0 5 0" Command="{Binding OpenSqlConnectionBuilderCommand}" />
-            <Button Content="Load" Margin="3 3 3 3" Padding="5 0 5 0" Command="{Binding LoadTablesCommand}" />
-        </StackPanel>
+        <ToolBar Grid.Row="0" Grid.ColumnSpan="2">
+            <Button Command="{x:Static ApplicationCommands.Save}">Save</Button>
+            <Button Command="{x:Static ApplicationCommands.Open}">Load</Button>
+            <ToolBarPanel />
+            <!--<Button Command="{x:Static ApplicationCommands.Copy}">Copy</Button>
+            <Button Command="{x:Static ApplicationCommands.Paste}">Paste</Button>
+            <Button Command="{x:Static ApplicationCommands.SelectAll}">Select All</Button>-->
+            
+            <Button Content="Select Connection ..." Margin="3 3 3 3" Padding="5 0 5 0" Command="{Binding OpenSqlConnectionBuilderCommand}" />
+            <Button Content="Analyze DB" Margin="3 3 3 3" Padding="5 0 5 0" Command="{Binding LoadTablesCommand}" />
+            <TextBlock  Text="{Binding Model.ConnectionString, Mode=TwoWay}" Margin="5 3 5 3" MinWidth="50" />
+        </ToolBar>
         
-        <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Model.ConnectionString, Mode=TwoWay}" Margin="3 3 3 3" MinWidth="50" />
-
+        <!--<StackPanel Orientation="Horizontal" Grid.ColumnSpan="2" Grid.Row="1" >
+            <Button Content="Select Connection ..." Margin="3 3 3 3" Padding="5 0 5 0" Command="{Binding OpenSqlConnectionBuilderCommand}" />
+            <Button Content="Analyze DB" Margin="3 3 3 3" Padding="5 0 5 0" Command="{Binding LoadTablesCommand}" />
+            <TextBlock  Text="{Binding Model.ConnectionString, Mode=TwoWay}" Margin="5 3 5 3" MinWidth="50" />
+        </StackPanel>-->
         
         <my:ExecutionOrderView DataContext="{Binding ExecutionOrderVM}"
-                               Grid.Column="1" Grid.Row="1"/>
+                               Grid.Column="1" Grid.Row="2"/>
         <my:ExecutionDetailsView DataContext="{Binding Model}"
-                                 Grid.Column="1" Grid.Row="2"/>
+                                 Grid.Column="1" Grid.Row="3"/>
         
 
-        <my:SidePanelView DataContext="{Binding SidePanelVM}"  Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" />
+        <my:SidePanelView DataContext="{Binding SidePanelVM}" Grid.Row="2" Grid.RowSpan="2" />
      
     </Grid>
 </Window>

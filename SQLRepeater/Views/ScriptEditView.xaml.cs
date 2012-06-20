@@ -31,6 +31,7 @@ namespace SQLRepeater.Views
         void ScriptEditView_Loaded(object sender, RoutedEventArgs e)
         {
             this.DataContext = _viewModel;
+            
         }
     }
 }

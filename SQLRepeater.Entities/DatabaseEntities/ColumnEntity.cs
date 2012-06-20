@@ -149,6 +149,9 @@ namespace SQLRepeater.DatabaseEntities.Entities
         }
 
         private ForeignKeyEntity _foreignKey;
+        
+//        private ForeignKeyEntity foreignKeyEntity;
+        
         [System.ComponentModel.ReadOnly(true)]
         public ForeignKeyEntity ForeignKey
         {
@@ -192,7 +195,7 @@ namespace SQLRepeater.DatabaseEntities.Entities
             this.PossibleGenerators = possibleGenerators;
 
         }
-        public ColumnEntity(string columnName, string columnDatatype, bool isIdentity, int ordinalPosition, bool isForeignKey, ForeignKeyEntity foreignKeyEntity, ObservableCollection<GeneratorBase> possibleGenerators, string generatorName, GeneratorParameterCollection paramms)
+        public ColumnEntity(string columnName, string columnDatatype, bool isIdentity, int ordinalPosition, bool isForeignKey, ForeignKeyEntity foreignKeyEntity, ObservableCollection<GeneratorBase> generators, string generatorName)
         {
             this.ColumnName = columnName;
             this.ColumnDataType = columnDatatype;
@@ -202,10 +205,10 @@ namespace SQLRepeater.DatabaseEntities.Entities
             this.IsForeignKey = isForeignKey;
             this.ForeignKey = foreignKeyEntity;
 
-            this.Generator = possibleGenerators.Where(g => g.GeneratorName == generatorName).First();
-            this.Generator.SetGeneratorParameters(paramms);
-            this.PossibleGenerators = possibleGenerators;
+            this.Generator = generators.Where(g => g.GeneratorName == generatorName).First();
+            this.PossibleGenerators = generators;
         }
+
 
         //public bool Equals(ColumnEntity other)
         //{

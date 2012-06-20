@@ -28,8 +28,8 @@ namespace SQLRepeater.Entities.DatabaseEntities.Collections
         {
             var cols = from c in Items
                        select new ColumnEntity(c.ColumnName, c.ColumnDataType, c.IsIdentity, c.OrdinalPosition, c.IsForeignKey, c.ForeignKey.Clone()
-                           , GeneratorFactory.GetGeneratorsForDataType(c.ColumnDataType), c.Generator.GeneratorName, c.Generator.GeneratorParameters
-                           );
+                           , c.PossibleGenerators.Clone(), c.Generator.GeneratorName);
+                           
 
             return new ColumnEntityCollection(cols);
         }

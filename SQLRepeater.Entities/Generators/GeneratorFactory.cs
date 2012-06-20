@@ -53,7 +53,7 @@ namespace SQLRepeater.Entities.Generators
             {
                 return Generators.StringGenerator.GetGenerators();
             }
+
         }
-               
     }
 }

@@ -107,13 +107,9 @@ namespace SQLRepeater.Entities.Generators
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-
-
-        internal GeneratorBase SetGeneratorParameters(GeneratorParameterCollection parammss)
+        internal GeneratorBase Clone()
         {
-            this.GeneratorParameters = parammss;
-            return this;
+            return new GeneratorBase(this.GeneratorName, this.ValueGenerator, this.GeneratorParameters.Clone());
         }
-
     }
 }
