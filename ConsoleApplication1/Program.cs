@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SQLRepeater.EntityQueryGenerator;
-using SQLRepeater.Entities.ExecutionOrderEntities;
-using SQLRepeater.DatabaseEntities.Entities;
-using SQLRepeater.DataAccess;
-using SQLRepeater.TaskExecuter;
+using SQLDataProducer.EntityQueryGenerator;
+using SQLDataProducer.Entities.ExecutionEntities;
+using SQLDataProducer.DatabaseEntities.Entities;
+using SQLDataProducer.DataAccess;
+using SQLDataProducer.TaskExecuter;
 using System.Data.SqlClient;
 using System.Collections.ObjectModel;
-using SQLRepeater.Entities;
+using SQLDataProducer.Entities;
 using System.Threading;
-using SQLRepeater.Entities.OptionEntities;
-using SQLRepeater;
+using SQLDataProducer.Entities.OptionEntities;
+using SQLDataProducer;
 
 namespace TestConsoleApplication
 {
