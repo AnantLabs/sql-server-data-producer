@@ -8,14 +8,25 @@ namespace SQLDataProducer.Entities.ExecutionEntities
     public class ExecutionResult : EntityBase
     {
 
-        public ExecutionResult(DateTime startTime)
+        public ExecutionResult()
         {
-            StartTime = startTime;
+            //StartTime = startTime;
             ErrorList = new List<string>();
             InsertCount = 0;
-            EndTime = startTime;
+            //EndTime = startTime;
         }
 
+        public override string ToString()
+        {
+            return string.Format(@"
+Executed Items:                  {0},
+Inserted Rows(Approximation):    {1},
+Start Time:                      {2},
+End Time:                        {3},
+Duration:                        {4},
+Errors:                          {5}
+", ExecutedItemCount, InsertCount, StartTime.ToString(), EndTime.ToString(), Duration.ToString(), ErrorList.Count);
+        }
 
         long  _insertCount;
         public long InsertCount
@@ -29,7 +40,7 @@ namespace SQLDataProducer.Entities.ExecutionEntities
                 if (_insertCount != value)
                 {
                     _insertCount = value;
-                    // OnPropertyChanged for this property is called when EndTime is set for performance reasons
+                    OnPropertyChanged("InsertCount");
                 }
             }
         }
@@ -80,11 +91,13 @@ namespace SQLDataProducer.Entities.ExecutionEntities
                 if (_endTime != value)
                 {
                     _endTime = value;
-                    Duration = StartTime - _endTime;
+                    if (StartTime != null)
+                    {
+                        Duration = _endTime - StartTime;
+                        OnPropertyChanged("Duration");
+                    }
+                    
                     OnPropertyChanged("EndTime");
-                    OnPropertyChanged("Duration");
-                    // In case it affects performance, this should not be called until endTime is set
-                    OnPropertyChanged("InsertCount");
                 }
             }
         }
@@ -104,7 +117,24 @@ namespace SQLDataProducer.Entities.ExecutionEntities
                     OnPropertyChanged("Duration");
                 }
             }
-        }    
+        }
 
+        long _executedItemCount;
+        public long ExecutedItemCount
+        {
+            get
+            {
+                return _executedItemCount;
+            }
+            set
+            {
+                if (_executedItemCount != value)
+                {
+                    _executedItemCount = value;
+                    OnPropertyChanged("ExecutedItems");
+                }
+            }
+        }
+     
     }
 }

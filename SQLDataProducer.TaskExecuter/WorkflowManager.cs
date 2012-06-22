@@ -18,34 +18,79 @@ namespace SQLDataProducer.TaskExecuter
         {
         }
 
+        /// <summary>
+        /// Attempt to stop ongoing Async workflow
+        /// </summary>
         public void StopAsync()
         {
-            Executor.EndExecute();
+            if (Executor != null)
+            {
+                Executor.EndExecute();
+            }
         }
 
-        public int RunWorkFlow(ExecutionTaskOptions options, string connectionString, ExecutionItemCollection executionItems, string preScript = null, string postScript = null)
+
+        /// <summary>
+        /// Run the execution syncronous, blocking the caller.
+        /// It will, Truncate tables, Run PreScripts, Run the Execution, Run the PostScript and then assemble the Execution Result.
+        /// Truncation of tables, PreScript and PostScript is not part of any explicit transaction.
+        /// </summary>
+        /// <param name="options">The options to use for this execution</param>
+        /// <param name="connectionString">the connectionstring to the target database</param>
+        /// <param name="executionItems">list of the execution items that should be processed</param>
+        /// <param name="preScript">optional, the script that will run BEFORE everything else</param>
+        /// <param name="postScript">optional, the script that will run AFTER everything else</param>
+        public ExecutionResult RunWorkFlow(ExecutionTaskOptions options, string connectionString, ExecutionItemCollection executionItems, string preScript = null, string postScript = null)
         {
             return InternalRunWorkFlow(options, connectionString, executionItems, preScript, postScript);
         }
-        public void RunWorkFlowAsync(ExecutionTaskOptions options, string connectionString, ExecutionItemCollection executionItems, Action<int> onCompletedCallback, string preScript = null, string postScript = null)
+        /// <summary>
+        /// Run the execution Async without blocking the caller.
+        /// It will, Truncate tables, Run PreScripts, Run the Execution, Run the PostScript and then assemble the Execution Result.
+        /// Truncation of tables, PreScript and PostScript is not part of any explicit transaction.
+        /// </summary>
+        /// <param name="onCompletedCallback">The callback that will be called when the execution is done</param>
+        /// <param name="options">The options to use for this execution</param>
+        /// <param name="connectionString">the connectionstring to the target database</param>
+        /// <param name="executionItems">list of the execution items that should be processed</param>
+        /// <param name="preScript">optional, the script that will run BEFORE everything else</param>
+        /// <param name="postScript">optional, the script that will run AFTER everything else</param>
+        public void RunWorkFlowAsync(ExecutionTaskOptions options, string connectionString, ExecutionItemCollection executionItems, Action<ExecutionResult> onCompletedCallback, string preScript = null, string postScript = null)
         {
             Action a = new Action(() =>
                 {
-                    int res = InternalRunWorkFlow(options, connectionString, executionItems, preScript, postScript);
+                    ExecutionResult res = InternalRunWorkFlow(options, connectionString, executionItems, preScript, postScript);
                     onCompletedCallback(res);
                 });
             a.BeginInvoke(null, null);
         }
 
-        private int InternalRunWorkFlow(ExecutionTaskOptions options, string connectionString, ExecutionItemCollection executionItems, string preScript = null, string postScript = null)
+        /// <summary>
+        /// The main function that will run the execution. It will, Truncate tables, Run PreScripts, Run the Execution, Run the PostScript and then assemble the Execution Result.
+        /// </summary>
+        /// <param name="options">The options to use for this execution</param>
+        /// <param name="connectionString">the connectionstring to the target database</param>
+        /// <param name="executionItems">list of the execution items that should be processed</param>
+        /// <param name="preScript">optional, the script that will run BEFORE everything else</param>
+        /// <param name="postScript">optional, the script that will run AFTER everything else</param>
+        /// <returns>An object that describes the result of the execution</returns>
+        private ExecutionResult InternalRunWorkFlow(ExecutionTaskOptions options, string connectionString, ExecutionItemCollection executionItems, string preScript = null, string postScript = null)
         {
+            DateTime startTime = DateTime.Now;
             Executor = new TaskExecuter(options, connectionString);
             RunTruncationOnExecutionItems(connectionString, executionItems);
 
             RunPrepare(connectionString, preScript);
-            int result = Execute(connectionString, executionItems);
+            ExecutionResult execResult = Execute(connectionString, executionItems);
+
             RunPostScript(connectionString, postScript);
-            return result;
+
+            execResult.StartTime = startTime;
+            execResult.EndTime = DateTime.Now;
+            // Calculate approximation of how many insertions we did
+            execResult.InsertCount = executionItems.Sum(ei => ei.RepeatCount * execResult.ExecutedItemCount);
+
+            return execResult;
         }
 
         private void RunTruncationOnExecutionItems(string connectionString, ExecutionItemCollection executionItems)
@@ -74,7 +119,7 @@ namespace SQLDataProducer.TaskExecuter
             adhd.ExecuteNonQuery(preScript);
         }
 
-        private int Execute(string connectionString, ExecutionItemCollection executionItems)
+        private ExecutionResult Execute(string connectionString, ExecutionItemCollection executionItems)
         {
             InsertQueryGenerator queryGenerator = new InsertQueryGenerator();
             

@@ -36,10 +36,10 @@ namespace TestConsoleApplication
             options.ScriptOutputFolder = @"c:\temp\repeater";
             string preScript = string.Empty;
             string postScript = string.Empty;
-            
-            int res = manager.RunWorkFlow(options, Connection(), list);
 
-            Console.WriteLine(res);
+            ExecutionResult res = manager.RunWorkFlow(options, Connection(), list);
+
+            Console.WriteLine(res.ToString());
             Console.ReadKey();
             
         }

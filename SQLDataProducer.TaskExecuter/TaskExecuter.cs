@@ -18,30 +18,34 @@ namespace SQLDataProducer.TaskExecuter
 {
     internal class TaskExecuter
     {
-        //private int Counter { get; set; }
-
         private System.Threading.CancellationTokenSource _cancelTokenSource;
-        private string _connectionString;
+        
+        static SetCounter _setCounter = new SetCounter();
+        static SetCounter _insertCounter = new SetCounter();
+
         public ExecutionTaskOptions Options { get; private set; }
+        private string _connectionString;
 
         /// <summary>
         /// Used to lock writing to the logfile.
         /// </summary>
         private object _logFileLockObjs = new object();
 
+        private bool _doneMyWork;
+
         public TaskExecuter(ExecutionTaskOptions options, string connectionString)
         {
+            _doneMyWork = false;
             this._connectionString = connectionString;
             this.Options = options;
+            _cancelTokenSource = new CancellationTokenSource();
         }
 
+      
         private System.Threading.CancellationTokenSource CancelTokenSource
         {
             get
             {
-                if (_cancelTokenSource == null)
-                    _cancelTokenSource = new System.Threading.CancellationTokenSource();
-
                 return _cancelTokenSource;
             }
             set { _cancelTokenSource = value; }
@@ -49,6 +53,7 @@ namespace SQLDataProducer.TaskExecuter
 
         public void EndExecute()
         {
+            _doneMyWork = true;
             CancelTokenSource.Cancel();
         }
 
@@ -71,13 +76,10 @@ namespace SQLDataProducer.TaskExecuter
                     // The "base" of the script will be kept from its original, we only generate the actual data here.
                     string finalResult = GenerateFinalQuery(baseQuery, execItems);
 
-                    if (Options.OnlyOutputToFile)
-                        WriteScriptToFile(finalResult);
-                    else
+                    if (!Options.OnlyOutputToFile)
                     {
                         using (SqlConnection con = new SqlConnection(_connectionString))
                         {
-                            
                             using (SqlCommand cmd = new SqlCommand(finalResult, con))
                             {
                                 cmd.Connection.Open();
@@ -85,6 +87,9 @@ namespace SQLDataProducer.TaskExecuter
                             }
                         }
                     }
+                    else
+                        WriteScriptToFile(finalResult);
+                    
                 }
                 catch (Exception ex)
                 {
@@ -98,11 +103,6 @@ namespace SQLDataProducer.TaskExecuter
             });
         }
 
-        /// <summary>
-        /// Used to set the filenames of the script files.
-        /// </summary>
-        static SetCounter _setCounter = new SetCounter();
-        
 
         /// <summary>
         /// 
@@ -114,7 +114,7 @@ namespace SQLDataProducer.TaskExecuter
             if (Options.ScriptOutputFolder == null)
                 throw new ArgumentNullException("Options.ScriptOutputFolder");
 
-            long c = _setCounter.GetNext();
+            long c = _setCounter.Peek();
             string dir = Options.ScriptOutputFolder;
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
@@ -134,26 +134,39 @@ namespace SQLDataProducer.TaskExecuter
         /// <param name="until">datetime when the execution should stop</param>
         /// <param name="numThreads">maximum number of threads to use, not guaranteed to use these many treads </param>
         /// <param name="onCompletedCallback">the callback that will be called when execution is done or stopped</param>
-        public int Execute(ExecutionTaskDelegate task)
+        public ExecutionResult Execute(ExecutionTaskDelegate task)
         {
+            if (_doneMyWork)
+                throw new NotSupportedException("This TaskExecuter have already been used. It may not be used again. Create a new one and try again");
             
-            Action a = null;
-
-            SetCounter setCounter = new SetCounter();
-            switch (Options.ExecutionType)
+            ExecutionResult result = new ExecutionResult();
+            try
             {
-                case ExecutionTypes.DurationBased:
-                    a = CreateDurationBasedAction(task, setCounter);
-                    break;
-                case ExecutionTypes.ExecutionCountBased:
-                    a = CreateExecutionCountBasedAction(task, setCounter);
-                    break;
-                default:
-                    break;
+                switch (Options.ExecutionType)
+                {
+                    case ExecutionTypes.DurationBased:
+                        RunTaskDurationBased(task, _setCounter);
+                        break;
+                    case ExecutionTypes.ExecutionCountBased:
+                        RunTaskExecutionCountBased(task, _setCounter);
+                        break;
+                    default:
+                        break;
+                }
             }
-
-            a();
-            return setCounter.Peek();
+            catch (Exception e)
+            {
+                result.ErrorList.Add(e.ToString());
+            }
+            finally
+            {
+                result.InsertCount = _insertCounter.Peek();
+                result.ExecutedItemCount = _setCounter.Peek();
+                _doneMyWork = true;
+            }
+            
+            
+            return result;
 
         }
 
@@ -162,39 +175,35 @@ namespace SQLDataProducer.TaskExecuter
         /// </summary>
         /// <param name="task">the task to run.</param>
         /// <returns>the action that will run the task</returns>
-        private Action CreateExecutionCountBasedAction(ExecutionTaskDelegate task, SetCounter counter)
+        private void RunTaskExecutionCountBased(ExecutionTaskDelegate task, SetCounter counter)
         {
             int numThreads = Options.MaxThreads;
             int targetNumExecutions = Options.FixedExecutions;
 
-            Action a = () =>
+            // Reset percent done to zero before starting
+            Options.PercentCompleted = 0;
+            List<BackgroundWorker> workers = new List<BackgroundWorker>();
+            for (int i = 0; i < numThreads; i++)
             {
-                // Reset percent done to zero before starting
-                Options.PercentCompleted = 0;
-                List<BackgroundWorker> workers = new List<BackgroundWorker>();
-                for (int i = 0; i < numThreads; i++)
+                workers.Add(new BackgroundWorker());
+                workers[i].DoWork += (sender, e) =>
                 {
-                    workers.Add(new BackgroundWorker());
-                    workers[i].DoWork += (sender, e) =>
+                    while (counter.Peek() < targetNumExecutions && !CancelTokenSource.IsCancellationRequested)
                     {
-                        while (counter.Peek() < targetNumExecutions && !CancelTokenSource.IsCancellationRequested)
-                        {
-                            counter.Increment();
-                            task();
-                            float percentDone = (float)counter.Peek() / (float)Options.FixedExecutions;
-                            // TODO: Find out if this is eating to much performance (Sending many OnPropertyChanged events..
-                            Options.PercentCompleted = (int)(percentDone * 100);
-                        }
-                    };
-                    workers[i].RunWorkerAsync();
-                }
-                while (workers.Any(x => x.IsBusy))
-                {
-                    Thread.Sleep(100);
-                }
-            };
+                        counter.Increment();
+                        task();
+                        float percentDone = (float)counter.Peek() / (float)Options.FixedExecutions;
+                        // TODO: Find out if this is eating to much performance (Sending many OnPropertyChanged events..
+                        Options.PercentCompleted = (int)(percentDone * 100);
+                    }
+                };
+                workers[i].RunWorkerAsync();
+            }
+            while (workers.Any(x => x.IsBusy))
+            {
+                Thread.Sleep(100);
+            }
 
-            return a;
         }
 
         /// <summary>
@@ -203,40 +212,35 @@ namespace SQLDataProducer.TaskExecuter
         /// <param name="task">the task to run</param>
         /// <returns>the action that will run the task</returns>
         /// <param name="counter"></param>
-        private Action CreateDurationBasedAction(ExecutionTaskDelegate task, SetCounter counter)
+        private void RunTaskDurationBased(ExecutionTaskDelegate task, SetCounter counter)
         {
-            Action a = () =>
+            DateTime beginTime = new DateTime(DateTime.Now.Ticks);
+            DateTime until = DateTime.Now.AddSeconds(Options.SecondsToRun);
+
+            int numThreads = Options.MaxThreads;
+            // Reset percent done to zero before starting
+            Options.PercentCompleted = 0;
+
+            List<BackgroundWorker> workers = new List<BackgroundWorker>();
+            for (int i = 0; i < numThreads; i++)
             {
-                DateTime beginTime = new DateTime(DateTime.Now.Ticks);
-                DateTime until = DateTime.Now.AddSeconds(Options.SecondsToRun);
-
-                int numThreads = Options.MaxThreads;
-                // Reset percent done to zero before starting
-                Options.PercentCompleted = 0;
-
-                List<BackgroundWorker> workers = new List<BackgroundWorker>();
-                for (int i = 0; i < numThreads; i++)
+                workers.Add(new BackgroundWorker());
+                workers[i].DoWork += (sender, e) =>
                 {
-                    workers.Add(new BackgroundWorker());
-                    workers[i].DoWork += (sender, e) =>
+                    while (DateTime.Now < until && !CancelTokenSource.IsCancellationRequested)
                     {
-                        while (DateTime.Now < until && !CancelTokenSource.IsCancellationRequested)
-                        {
-                            task();
-                            counter.Increment();
-                            float percentDone = ((float)(DateTime.Now.Ticks - beginTime.Ticks) / (float)(until.Ticks - beginTime.Ticks));
-                            Options.PercentCompleted = (int)(percentDone * 100);
-                        }
-                    };
-                    workers[i].RunWorkerAsync();
-                }
-                while (workers.Any(x => x.IsBusy))
-                {
-                    Thread.Sleep(100);
-                }
-            };
-
-            return a;
+                        task();
+                        counter.Increment();
+                        float percentDone = ((float)(DateTime.Now.Ticks - beginTime.Ticks) / (float)(until.Ticks - beginTime.Ticks));
+                        Options.PercentCompleted = (int)(percentDone * 100);
+                    }
+                };
+                workers[i].RunWorkerAsync();
+            }
+            while (workers.Any(x => x.IsBusy))
+            {
+                Thread.Sleep(100);
+            }
         }
 
     }
