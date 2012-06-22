@@ -20,8 +20,8 @@ namespace SQLDataProducer.TaskExecuter
     {
         private System.Threading.CancellationTokenSource _cancelTokenSource;
         
-        static SetCounter _setCounter = new SetCounter();
-        static SetCounter _insertCounter = new SetCounter();
+        SetCounter _setCounter = new SetCounter();
+        SetCounter _insertCounter = new SetCounter();
 
         public ExecutionTaskOptions Options { get; private set; }
         private string _connectionString;
