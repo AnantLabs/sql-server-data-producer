@@ -27,18 +27,18 @@ namespace SQLDataProducer.DataAccess
             //      The execution items and their tables.
             //      The columns and their selected generator and it's parameters  
             //      
-            // We then load the correct information from the database and applies the loaded changes to the tables and columns retrieved from the database.
+            // We then get the correct information from the database and applies the loaded changes to the tables and columns retrieved from the database.
             // By doing this we will get all the columns correctly from the database, and we only need to store the configured parameter values in the savefile.
-            ExecutionItemCollection halfBakedExecCollection = new ExecutionItemCollection();
+            ExecutionItemCollection loadedExecCollection = new ExecutionItemCollection();
 
             ExecutionItemCollection completeExecCollection = new ExecutionItemCollection();
             using (XmlReader reader = XmlReader.Create(fileName))
             {
-                halfBakedExecCollection.ReadXml(reader);
+                loadedExecCollection.ReadXml(reader);
             }
             
             TableEntityDataAccess tda = new TableEntityDataAccess(connectionString);
-            foreach (var item in halfBakedExecCollection)
+            foreach (var item in loadedExecCollection)
             {
                 TableEntity table = tda.GetTableAndColumns(item.TargetTable.TableSchema, item.TargetTable.TableName);
                 foreach (var newColumn in table.Columns)
@@ -48,6 +48,10 @@ namespace SQLDataProducer.DataAccess
                         if (newColumn.ColumnName == c2.ColumnName)
                         {
                             newColumn.Generator = newColumn.PossibleGenerators.Where(gen => gen.GeneratorName == c2.Generator.GeneratorName).Single();
+                            // If this column is foreign key generator then use the foreign keys we just read from the DB
+                            if (newColumn.Generator.GeneratorName.ToLower().Contains("foreign"))
+                                continue;
+
                             newColumn.Generator.SetGeneratorParameters(c2.Generator.GeneratorParameters);
                         }
                     }

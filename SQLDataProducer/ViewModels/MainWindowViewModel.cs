@@ -61,22 +61,22 @@ namespace SQLDataProducer.ViewModels
         }
 
 
-        ObservableCollection<ExecutionDetailsViewModel> _executionDetailsVMs;
-        public ObservableCollection<ExecutionDetailsViewModel> ExecutionDetailsVMS
-        {
-            get
-            {
-                return _executionDetailsVMs;
-            }
-            set
-            {
-                if (_executionDetailsVMs != value)
-                {
-                    _executionDetailsVMs = value;
-                    OnPropertyChanged("ExecutionDetailsVMS");
-                }
-            }
-        }
+        //ObservableCollection<ExecutionDetailsViewModel> _executionDetailsVMs;
+        //public ObservableCollection<ExecutionDetailsViewModel> ExecutionDetailsVMS
+        //{
+        //    get
+        //    {
+        //        return _executionDetailsVMs;
+        //    }
+        //    set
+        //    {
+        //        if (_executionDetailsVMs != value)
+        //        {
+        //            _executionDetailsVMs = value;
+        //            OnPropertyChanged("ExecutionDetailsVMS");
+        //        }
+        //    }
+        //}
 
         SidePanelViewModel _sidepanelVM;
         public SidePanelViewModel SidePanelVM
@@ -177,6 +177,10 @@ namespace SQLDataProducer.ViewModels
 
             LoadCommand = new DelegateCommand(() =>
                 {
+                    if (string.IsNullOrEmpty(Model.ConnectionString))
+                        MessageBox.Show("The connection string must be set before loading");
+                    
+
                     System.Windows.Forms.OpenFileDialog dia = new System.Windows.Forms.OpenFileDialog();
                     dia.Filter = "Saved Files (*.xml)|*.xml";
                     dia.Multiselect = false;

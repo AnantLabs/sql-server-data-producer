@@ -192,9 +192,5 @@ namespace SQLDataProducer.Entities.OptionEntities
         }
     }
 
-    public enum ExecutionTypes
-    {
-        DurationBased,
-        ExecutionCountBased
-    } 
+    
 }

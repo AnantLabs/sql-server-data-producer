@@ -74,7 +74,7 @@ namespace SQLDataProducer.TaskExecuter
                     // Generate the final query.
                     // For each time this Action is called, generate the final query. This will create the "declaration" part of the script with the generated data.
                     // The "base" of the script will be kept from its original, we only generate the actual data here.
-                    string finalResult = GenerateFinalQuery(baseQuery, execItems);
+                    string finalResult = GenerateFinalQuery(baseQuery, execItems, _setCounter.Peek());
 
                     if (!Options.OnlyOutputToFile)
                     {

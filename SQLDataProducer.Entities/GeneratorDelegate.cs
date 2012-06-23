@@ -16,7 +16,7 @@ namespace SQLDataProducer.Entities
     public delegate object ValueCreatorDelegate(int n, GeneratorParameterCollection genParameters);
 
     //Func<string, IEnumerable<ExecutionItem>, string>
-    public delegate string FinalQueryGeneratorDelegate(string baseQUery, IEnumerable<ExecutionItem> executionItems);
+    public delegate string FinalQueryGeneratorDelegate(string baseQUery, IEnumerable<ExecutionItem> executionItems, int n);
 
     // Action<>
     public delegate void ExecutionTaskDelegate();

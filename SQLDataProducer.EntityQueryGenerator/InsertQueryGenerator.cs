@@ -22,7 +22,9 @@ namespace SQLDataProducer.EntityQueryGenerator
             sb.AppendLine("BEGIN TRANSACTION");
             sb.AppendLine();
 
-           
+            sb.AppendLine("DECLARE @N bigint = <N>");
+            sb.AppendLine();
+
 
             foreach (var item in executionItems)
             {
@@ -35,10 +37,19 @@ namespace SQLDataProducer.EntityQueryGenerator
                 bool hasIdentity = item.TargetTable.Columns.Any(col => col.IsIdentity);
 
                 sb.AppendFormat("-- INSERT item {0} - {0}", item.Order, item.Description);
+
+                if (item.ExecutionCondition != ExecutionConditions.None)
+                    sb.AppendFormat("IF @N {0} {1} BEGIN", item.ExecutionCondition.ToCompareString(), item.ExecutionConditionValue);
                 
                 // Generate for each column
                 sb.Append(GenerateInsertStatement(item));
 
+                if (item.ExecutionCondition != ExecutionConditions.None)
+                {
+                    sb.AppendLine("END");
+                    sb.AppendLine();
+                }
+                
                 if (hasIdentity)
                 {
                     sb.AppendLine();
@@ -87,20 +98,18 @@ namespace SQLDataProducer.EntityQueryGenerator
         /// <param name="n">The serial number to use when creating the values for the variables</param>
         /// <param name="execItems">the executionItems to be included in the variable declarations</param>
         /// <returns></returns>
-        public string GenerateFinalQuery(string baseQuery, IEnumerable<ExecutionItem> execItems)
+        public string GenerateFinalQuery(string baseQuery, IEnumerable<ExecutionItem> execItems, int n)
         {
             string modified = baseQuery.Clone() as string;
 
-            foreach (var item in execItems)
-            {
-                int rowGenerationNumber = GenerationNumberSupplier.GetNextNumber();
-                StringBuilder sb = new StringBuilder();
-                // Skip tables with no columns
-                if (item.TargetTable.Columns.Count == 0)
-                {
-                    continue;
-                }
+            modified = modified.Replace("<N>", n.ToString());
 
+            // Skip tables with no columns
+            foreach (var item in execItems.Where(x => x.TargetTable.Columns.Count > 0))
+            {
+                //int rowGenerationNumber = GenerationNumberSupplier.GetNextNumber();
+                StringBuilder sb = new StringBuilder();
+                
                 sb.AppendFormat("\t-- Item {0}, {1}.{2}", item.Order, item.TargetTable.TableSchema, item.TargetTable.TableName);
                 sb.AppendLine();
                 sb.AppendLine("VALUES");
@@ -110,7 +119,7 @@ namespace SQLDataProducer.EntityQueryGenerator
                     sb.Append("(");
                     foreach (ColumnEntity col in item.TargetTable.Columns.Where(x => x.IsIdentity == false))
                     {
-                        sb.Append(col.Generator.GenerateValue(rowGenerationNumber));
+                        sb.Append(col.Generator.GenerateValue(n));
                         sb.Append(col.OrdinalPosition == item.TargetTable.Columns.Count ? string.Empty : ", ");
                     }
                     sb.Append(")");

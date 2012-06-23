@@ -5,13 +5,13 @@ using System.Text;
 
 namespace SQLDataProducer.TaskExecuter
 {
-    public enum WorkFlowStates
-    {
-        NotStarted,
-        Preparation,
-        Execution,
-        Finalize,
-        Done,
-        Error
-    }
+    //public enum WorkFlowStates
+    //{
+    //    NotStarted,
+    //    Preparation,
+    //    Execution,
+    //    Finalize,
+    //    Done,
+    //    Error
+    //}
 }

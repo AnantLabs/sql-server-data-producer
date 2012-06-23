@@ -179,5 +179,27 @@ namespace SQLDataProducer.Entities.ExecutionEntities
             writer.WriteEndElement();
 
         }
+
+        private ExecutionConditions _executionCondition = ExecutionConditions.None;
+        public ExecutionConditions ExecutionCondition
+        {
+            get
+            {
+                return _executionCondition;
+            }
+            set
+            {
+                _executionCondition = value;
+            }
+        }
+        
+        private int _executionConditionValue;
+        public int ExecutionConditionValue
+        {
+            get
+            {
+                return _executionConditionValue;
+            }
+        }
     }
 }

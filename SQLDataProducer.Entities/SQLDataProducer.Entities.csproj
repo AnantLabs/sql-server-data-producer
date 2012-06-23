@@ -43,6 +43,7 @@
     <Compile Include="DatabaseEntities\Collections\ColumnEntityCollection.cs" />
     <Compile Include="DatabaseEntities\Collections\GeneratorCollectionExtensions.cs" />
     <Compile Include="DatabaseEntities\ColumnEntity.cs" />
+    <Compile Include="Enums.cs" />
     <Compile Include="ExecutionEntities\ExecutionItemCollection.cs" />
     <Compile Include="ExecutionEntities\ExecutionResult.cs" />
     <Compile Include="ForeignKeyEntity.cs" />

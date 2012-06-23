@@ -22,19 +22,11 @@
         <ToolBar Grid.Row="0" Grid.ColumnSpan="2">
             <Button Command="{Binding SaveCommand}" IsEnabled="{Binding Model.HavePendingChanges}">Save</Button>
             <Button Command="{Binding LoadCommand}">Load</Button>
-            <!--<Button Command="{Binding ClearCommand}">Clear</Button>-->
-            <ToolBarPanel />
             
             <Button Content="Select Connection ..." Margin="3 3 3 3" Padding="5 0 5 0" Command="{Binding OpenSqlConnectionBuilderCommand}" />
             <Button Content="Analyze DB" Margin="3 3 3 3" Padding="5 0 5 0" Command="{Binding LoadTablesCommand}" />
-            <TextBlock  Text="{Binding Model.ConnectionString, Mode=TwoWay}" Margin="5 3 5 3" MinWidth="50" />
+            <TextBlock  Text="{Binding Model.ConnectionString, Mode=TwoWay}" Margin="5 3 5 3" MinWidth="50" Background="GhostWhite" />
         </ToolBar>
-        
-        <!--<StackPanel Orientation="Horizontal" Grid.ColumnSpan="2" Grid.Row="1" >
-            <Button Content="Select Connection ..." Margin="3 3 3 3" Padding="5 0 5 0" Command="{Binding OpenSqlConnectionBuilderCommand}" />
-            <Button Content="Analyze DB" Margin="3 3 3 3" Padding="5 0 5 0" Command="{Binding LoadTablesCommand}" />
-            <TextBlock  Text="{Binding Model.ConnectionString, Mode=TwoWay}" Margin="5 3 5 3" MinWidth="50" />
-        </StackPanel>-->
         
         <my:ExecutionOrderView DataContext="{Binding ExecutionOrderVM}"
                                Grid.Column="1" Grid.Row="2"/>
