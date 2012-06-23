@@ -157,7 +157,7 @@ namespace SQLDataProducer.Entities.ExecutionEntities
             this.Description = reader.GetAttribute("Description");
             this.Order = reader.TryGetIntAttribute("Order", 1);
             this.RepeatCount = reader.TryGetIntAttribute("RepeatCount", 1);
-            this.TruncateBeforeExecution = bool.Parse(reader.GetAttribute("TruncateBeforeExecution"));
+            this.TruncateBeforeExecution = reader.TryGetBoolAttribute("TruncateBeforeExecution", false);
 
             this.ExecutionCondition = (ExecutionConditions)reader.TryGetIntAttribute("ExecutionCondition", 0);
             this.ExecutionConditionValue = reader.TryGetIntAttribute("ExecutionConditionValue", 0);
