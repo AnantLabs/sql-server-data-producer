@@ -12,6 +12,7 @@ namespace SQLDataProducer.Model
 {
     public class ApplicationModel : Entities.EntityBase
     {
+
         ObservableCollection<TableEntity> _tables;
         /// <summary>
         /// The list of tables available in the database
@@ -47,6 +48,9 @@ namespace SQLDataProducer.Model
                 if (_selectedTable != value)
                 {
                     _selectedTable = value;
+
+                    IsTableSelected = _selectedTable != null;
+                    
                     OnPropertyChanged("SelectedTable");
                 }
             }
@@ -79,6 +83,7 @@ namespace SQLDataProducer.Model
             get
             {
                 return _executionItems;
+                
             }
             set
             {
@@ -86,6 +91,13 @@ namespace SQLDataProducer.Model
                 {
                     _executionItems = value;
                     OnPropertyChanged("ExecutionItems");
+                }
+                if (value != null)
+                {
+                    _executionItems.CollectionChanged += (sender, e) =>
+                    {
+                        HavePendingChanges = true;
+                    };
                 }
             }
         }
@@ -104,10 +116,8 @@ namespace SQLDataProducer.Model
             {
                 if (_currentExecutionItem != value)
                 {
-                    if (value != null)
-                    {
-                        HaveExecutionItemSelected = true;
-                    }
+                    HaveExecutionItemSelected = value != null;
+                    
                     _currentExecutionItem = value;
                     OnPropertyChanged("SelectedExecutionItem");
                 }
@@ -178,5 +188,36 @@ namespace SQLDataProducer.Model
                 }
             }
         }
+
+        private bool _isTableSelected;
+        public bool IsTableSelected
+        {
+            get { return _isTableSelected; }
+
+            set
+            {
+                if (_isTableSelected != value)
+                {
+                    _isTableSelected = value;
+                    OnPropertyChanged("IsTableSelected");
+                }
+            }
+        }
+
+        private bool _havePendingChanges;
+        public bool HavePendingChanges
+        {
+            get { return _havePendingChanges; }
+
+            set
+            {
+                if (_havePendingChanges != value)
+                {
+                    _havePendingChanges = value;
+                    OnPropertyChanged("HavePendingChanges");
+                }
+            }
+        }
+
     }
 }

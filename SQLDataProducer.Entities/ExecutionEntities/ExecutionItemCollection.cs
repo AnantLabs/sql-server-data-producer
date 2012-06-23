@@ -11,7 +11,7 @@ namespace SQLDataProducer.Entities.ExecutionEntities
     /// <summary>
     /// Collection of Execution Items. To be used to group the execution of ExecutionItems. The collection can have options that each execution should use.
     /// </summary>
-    public class ExecutionItemCollection : ObservableCollection<ExecutionItem>//, IXmlSerializable
+    public class ExecutionItemCollection : ObservableCollection<ExecutionItem>, IXmlSerializable
     {
 
         public ExecutionItemCollection()

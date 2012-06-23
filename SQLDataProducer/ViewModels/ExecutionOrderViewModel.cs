@@ -99,7 +99,33 @@ namespace SQLDataProducer.ViewModels
                 {
                     Model.ExecutionItems.Clear();
                 });
-            
+
+            MoveItemUpCommand = new DelegateCommand(() =>
+                {
+                    int currentIndex = Model.ExecutionItems.IndexOf(Model.SelectedExecutionItem);
+                    int newIndex = Model.ExecutionItems.IndexOf(Model.SelectedExecutionItem) - 1;
+                    if (newIndex < 0)
+                        return;
+                    
+                    Model.ExecutionItems[newIndex].Order++;
+                    Model.SelectedExecutionItem.Order--;
+
+                    Model.ExecutionItems.Move(currentIndex, newIndex);
+                });
+
+            MoveItemDownCommand = new DelegateCommand(() =>
+                {
+                    int currentIndex = Model.ExecutionItems.IndexOf(Model.SelectedExecutionItem);
+                    int newIndex = Model.ExecutionItems.IndexOf(Model.SelectedExecutionItem) + 1;
+                    if (newIndex >= Model.ExecutionItems.Count)
+                        return;
+
+                    Model.ExecutionItems[newIndex].Order--;
+                    Model.SelectedExecutionItem.Order++;
+
+                    Model.ExecutionItems.Move(currentIndex, newIndex);
+                });
+
             MoveItemLeftCommand = new DelegateCommand(() =>
                 {
                     if (Model.SelectedExecutionItem != null)

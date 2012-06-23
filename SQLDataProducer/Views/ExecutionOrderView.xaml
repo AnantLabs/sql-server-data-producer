@@ -50,23 +50,20 @@
                                 CommandParameter="{Binding .}" Grid.Column="4"></Button>
                         
                     </Grid>
-                        
-                        
-                    
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
 
         <StackPanel Grid.Column="1">
-            <Button Content="UP" Command="{Binding MoveItemUpCommand}" IsEnabled="False" />
+            <Button Content="UP" Command="{Binding MoveItemUpCommand}" IsEnabled="{Binding Model.HaveExecutionItemSelected}" />
 
-            <Button Content="&lt;"  Command="{Binding MoveItemLeftCommand}" />
-            <Button Content="&gt;"  Command="{Binding MoveItemRightCommand}" />
+            <Button Content="&lt;"  Command="{Binding MoveItemLeftCommand}" IsEnabled="{Binding Model.HaveExecutionItemSelected}" />
+            <Button Content="&gt;"  Command="{Binding MoveItemRightCommand}" IsEnabled="{Binding Model.IsTableSelected}" />
 
             <Button Content="&gt;&gt;" Command="{Binding MoveAllItemsRightCommand}"  />
             <Button Content="&lt;&lt;"  Command="{Binding MoveAllItemsLeftCommand}" />
 
-            <Button Content="DOWN"  Command="{Binding MoveItemDownCommand}" IsEnabled="False" />
+            <Button Content="DOWN"  Command="{Binding MoveItemDownCommand}" IsEnabled="{Binding Model.HaveExecutionItemSelected}" />
         </StackPanel>
     </Grid>
 </UserControl>
