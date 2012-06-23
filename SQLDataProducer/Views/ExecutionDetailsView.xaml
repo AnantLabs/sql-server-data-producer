@@ -88,14 +88,19 @@
 
                 <GroupBox Header="Configure the Parameters for the Generator" Grid.Column="1" Grid.Row="1">
                     <ListBox
-            ItemsSource="{Binding Path=SelectedColumn.Generator.GeneratorParameters}" 
-            IsEnabled="{Binding Path=SelectedColumn.IsNotIdentity}"  >
+                        ItemsSource="{Binding Path=SelectedColumn.Generator.GeneratorParameters}" 
+                        IsEnabled="{Binding Path=SelectedColumn.IsNotIdentity}"  VerticalAlignment="Stretch">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <StackPanel Orientation="Horizontal" Visibility="{Binding IsWriteEnabled, Converter={StaticResource ResourceKey=visiConv}}">
-                                    <TextBlock Text="{Binding ParameterName}" />
-                                    <TextBox Text="{Binding Value}"    />
-                                </StackPanel>
+                                <Grid Visibility="{Binding IsWriteEnabled, Converter={StaticResource ResourceKey=visiConv}}"
+                                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="150" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{Binding ParameterName}" Grid.Column="0" />
+                                    <TextBox Text="{Binding Value}"  Grid.Column="1" MinWidth="150"/>
+                                </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
