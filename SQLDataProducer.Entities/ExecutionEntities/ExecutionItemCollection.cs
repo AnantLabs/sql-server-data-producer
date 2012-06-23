@@ -40,43 +40,27 @@ namespace SQLDataProducer.Entities.ExecutionEntities
             }
         }
 
-        //public void Save(string fileName)
+               
+
+        //object _executionGroupOptions;
+        ///// <summary>
+        ///// Not implemented yet. Options should include: Number of times to execute the ExecutionItems in the collection.
+        ///// </summary>
+        //public object ExecutionGroupOptions
         //{
-        //    XmlSerializer serializer = new XmlSerializer(typeof(ExecutionItemCollection));
-        //    using (FileStream stream = new FileStream(fileName, FileMode.Create))
+        //    get
         //    {
-        //        serializer.Serialize(stream, this);
+        //        return _executionGroupOptions;
+        //    }
+        //    set
+        //    {
+        //        if (_executionGroupOptions != value)
+        //        {
+        //            _executionGroupOptions = value;
+        //            OnPropertyChanged(new System.ComponentModel.PropertyChangedEventArgs("ExecutionGroupOptions"));
+        //        }
         //    }
         //}
-
-        //public static ExecutionItemCollection Load(string fileName)
-        //{
-        //    XmlSerializer serializer = new XmlSerializer(typeof(ExecutionItemCollection));
-        //    using (FileStream stream = new FileStream(fileName, FileMode.Open))
-        //    {
-        //        return (ExecutionItemCollection)serializer.Deserialize(stream);
-        //    }
-        //}
-
-        object _executionGroupOptions;
-        /// <summary>
-        /// Not implemented yet. Options should include: Number of times to execute the ExecutionItems in the collection.
-        /// </summary>
-        public object ExecutionGroupOptions
-        {
-            get
-            {
-                return _executionGroupOptions;
-            }
-            set
-            {
-                if (_executionGroupOptions != value)
-                {
-                    _executionGroupOptions = value;
-                    OnPropertyChanged(new System.ComponentModel.PropertyChangedEventArgs("ExecutionGroupOptions"));
-                }
-            }
-        }
 
     }
 }

@@ -95,7 +95,9 @@ namespace SQLDataProducer.Entities.Generators
                 {
                     long maxValue = long.Parse(GetParameterByName(p, "MaxValue").ToString());
                     long minValue = long.Parse(GetParameterByName(p, "MinValue").ToString());
-                    return (minValue + RandomSupplier.Instance.GetNextInt()) % maxValue;
+                    long newVariable = (RandomSupplier.Instance.GetNextInt() % maxValue) + minValue;
+                   // Console.WriteLine("This: " + newVariable);
+                    return newVariable;
                 }
                 , paramss);
             return gen;

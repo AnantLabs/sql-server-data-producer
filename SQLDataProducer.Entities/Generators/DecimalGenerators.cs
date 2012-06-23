@@ -29,7 +29,7 @@ namespace SQLDataProducer.Entities.Generators
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
             paramss.Add(new GeneratorParameter("MinValue", 0.0));
-            paramss.Add(new GeneratorParameter("MaxValue", 10000000));
+            paramss.Add(new GeneratorParameter("MaxValue", 10000000.0));
 
             DecimalGenerator gen = new DecimalGenerator("Random Decimal", (n, p) =>
             {

@@ -28,20 +28,32 @@ namespace SQLDataProducer.Entities.Generators
 
         public int GetNextInt()
         {
-            return _random.Next();
+            lock (_random)
+            {
+                return _random.Next();
+            }
         }
         public int GetNextInt(int min, int max)
         {
-            return _random.Next(min, max);
+            lock (_random)
+            {
+                return _random.Next(min, max);
+            }
         }
         public long GetNextLong()
         {
             //http://social.msdn.microsoft.com/Forums/en-US/csharpgeneral/thread/2e08381b-1e2d-459f-a7c9-986954321958/
-            return (long)((_random.NextDouble() * 2.0 - 1.0) * long.MaxValue);
+            lock (_random)
+            {
+                return (long)((_random.NextDouble() * 2.0 - 1.0) * long.MaxValue);
+            }
         }
         public double GetNextDouble()
         {
-            return _random.NextDouble();
+            lock (_random)
+            {
+                return _random.NextDouble();
+            }
         }
         
         readonly Random _random;
