@@ -155,9 +155,13 @@ namespace SQLDataProducer.Entities.ExecutionEntities
         public void ReadXml(System.Xml.XmlReader reader)
         {
             this.Description = reader.GetAttribute("Description");
-            this.Order = int.Parse(reader.GetAttribute("Order"));
-            this.RepeatCount = int.Parse(reader.GetAttribute("RepeatCount"));
+            this.Order = reader.TryGetIntAttribute("Order", 1);
+            this.RepeatCount = reader.TryGetIntAttribute("RepeatCount", 1);
             this.TruncateBeforeExecution = bool.Parse(reader.GetAttribute("TruncateBeforeExecution"));
+
+            this.ExecutionCondition = (ExecutionConditions)reader.TryGetIntAttribute("ExecutionCondition", 0);
+            this.ExecutionConditionValue = reader.TryGetIntAttribute("ExecutionConditionValue", 0);
+            
 
             if (reader.ReadToDescendant("Table"))
             {
@@ -175,6 +179,8 @@ namespace SQLDataProducer.Entities.ExecutionEntities
             writer.WriteAttributeString("Order", this.Order.ToString());
             writer.WriteAttributeString("RepeatCount", this.RepeatCount.ToString());
             writer.WriteAttributeString("TruncateBeforeExecution", this.TruncateBeforeExecution.ToString());
+            writer.WriteAttributeString("ExecutionCondition", this.ExecutionCondition.ToString());
+            writer.WriteAttributeString("ExecutionConditionValue", this.ExecutionConditionValue.ToString());
             this.TargetTable.WriteXml(writer);
             writer.WriteEndElement();
 
@@ -190,6 +196,7 @@ namespace SQLDataProducer.Entities.ExecutionEntities
             set
             {
                 _executionCondition = value;
+                OnPropertyChanged("ExecutionCondition");
             }
         }
         
@@ -199,6 +206,11 @@ namespace SQLDataProducer.Entities.ExecutionEntities
             get
             {
                 return _executionConditionValue;
+            }
+            set
+            {
+                _executionConditionValue = value;
+                OnPropertyChanged("ExecutionConditionValue");
             }
         }
     }

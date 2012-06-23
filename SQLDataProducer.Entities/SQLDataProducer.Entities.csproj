@@ -46,6 +46,7 @@
     <Compile Include="Enums.cs" />
     <Compile Include="ExecutionEntities\ExecutionItemCollection.cs" />
     <Compile Include="ExecutionEntities\ExecutionResult.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="ForeignKeyEntity.cs" />
     <Compile Include="GeneratorDelegate.cs" />
     <Compile Include="ExecutionEntities\ExecutionItem.cs" />
