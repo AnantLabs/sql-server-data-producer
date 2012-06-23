@@ -102,6 +102,10 @@ namespace SQLDataProducer.ViewModels
             {
                 if (Model.ExecutionItems.Count == 0)
                     return;
+                
+                if (string.IsNullOrEmpty(Model.ConnectionString))
+                    MessageBox.Show("The connection string must be set before executing");
+                
 
                 IsQueryRunning = true;
 
