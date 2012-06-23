@@ -106,7 +106,7 @@ namespace SQLDataProducer.Entities.Generators
             reader.MoveToContent();
             this.ParameterName = reader.GetAttribute("ParameterName");
             this.Value = reader.GetAttribute("Value");
-            this.IsWriteEnabled = bool.Parse(reader.GetAttribute("IsWriteEnabled"));
+            this.IsWriteEnabled = reader.TryGetBoolAttribute("IsWriteEnabled", true);
             //reader.ReadEndElement();
         }
 

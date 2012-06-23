@@ -15,5 +15,14 @@ namespace SQLDataProducer.Entities
             
             return fallback;
         }
+
+        public static bool TryGetBoolAttribute(this System.Xml.XmlReader reader, string attributeName, bool fallback)
+        {
+            bool a;
+            if (bool.TryParse(reader.GetAttribute(attributeName), out a))
+                return a;
+
+            return fallback;
+        }
     }
 }
