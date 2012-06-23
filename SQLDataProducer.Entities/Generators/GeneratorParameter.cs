@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace SQLDataProducer.Entities.Generators
 {
-    public class GeneratorParameter : EntityBase
+    public class GeneratorParameter : EntityBase, IXmlSerializable
     {
         string _paramName;
         [System.ComponentModel.ReadOnly(true)]
@@ -15,7 +16,7 @@ namespace SQLDataProducer.Entities.Generators
             {
                 return _paramName;
             }
-            set
+            private set
             {
                 if (_paramName != value)
                 {
@@ -27,6 +28,7 @@ namespace SQLDataProducer.Entities.Generators
 
 
         object _value;
+        
         public object Value
         {
             get
@@ -85,10 +87,36 @@ namespace SQLDataProducer.Entities.Generators
             ParameterName = name;
             Value = value;
         }
+        public GeneratorParameter()
+        {
 
+        }
 
         //private Type ParamType { get; set; }
 
-      
+
+
+        public System.Xml.Schema.XmlSchema GetSchema()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ReadXml(System.Xml.XmlReader reader)
+        {
+            reader.MoveToContent();
+            this.ParameterName = reader.GetAttribute("ParameterName");
+            this.Value = reader.GetAttribute("Value");
+            this.IsWriteEnabled = bool.Parse(reader.GetAttribute("IsWriteEnabled"));
+            //reader.ReadEndElement();
+        }
+
+        public void WriteXml(System.Xml.XmlWriter writer)
+        {
+            writer.WriteStartElement("GeneratorParameter");
+            writer.WriteAttributeString("ParameterName", this.ParameterName);
+            writer.WriteAttributeString("Value", this.Value.ToString());
+            writer.WriteAttributeString("IsWriteEnabled", this.IsWriteEnabled.ToString());
+            writer.WriteEndElement();
+        }
     }
 }

@@ -14,7 +14,7 @@ namespace SQLDataProducer.Entities.Generators
             : base(name, generator, genParams)
         {
         }
-
+        
         public static ObservableCollection<GeneratorBase> GetGeneratorsForInt()
         {
             int maxValue = int.MaxValue;
@@ -95,9 +95,8 @@ namespace SQLDataProducer.Entities.Generators
                 {
                     long maxValue = long.Parse(GetParameterByName(p, "MaxValue").ToString());
                     long minValue = long.Parse(GetParameterByName(p, "MinValue").ToString());
-                    long newVariable = (RandomSupplier.Instance.GetNextInt() % maxValue) + minValue;
-                   // Console.WriteLine("This: " + newVariable);
-                    return newVariable;
+                   
+                    return (RandomSupplier.Instance.GetNextInt() % maxValue) + minValue;;
                 }
                 , paramss);
             return gen;

@@ -6,11 +6,12 @@ using SQLDataProducer.Entities.Generators;
 using System.Collections.ObjectModel;
 using SQLDataProducer.Entities;
 using SQLDataProducer.Entities.Generators.Collections;
+using System.Xml.Serialization;
 
 
 namespace SQLDataProducer.DatabaseEntities.Entities
 {
-    public partial class ColumnEntity : SQLDataProducer.Entities.EntityBase
+    public partial class ColumnEntity : SQLDataProducer.Entities.EntityBase, IXmlSerializable
     {
         string _columnDataType;
         [System.ComponentModel.ReadOnly(true)]
@@ -20,7 +21,7 @@ namespace SQLDataProducer.DatabaseEntities.Entities
             {
                 return _columnDataType;
             }
-            set
+            private set
             {
                 if (_columnDataType != value)
                 {
@@ -38,7 +39,7 @@ namespace SQLDataProducer.DatabaseEntities.Entities
             {
                 return _isIdentity;
             }
-            set
+            private set
             {
                 if (_isIdentity != value)
                 {
@@ -66,7 +67,7 @@ namespace SQLDataProducer.DatabaseEntities.Entities
             {
                 return _columnName;
             }
-            set
+            private set
             {
                 if (_columnName != value)
                 {
@@ -85,7 +86,7 @@ namespace SQLDataProducer.DatabaseEntities.Entities
             {
                 return _ordinalPosition;
             }
-            set
+            private set
             {
                 if (_ordinalPosition != value)
                 {
@@ -119,7 +120,7 @@ namespace SQLDataProducer.DatabaseEntities.Entities
             {
                 return _valueGenerators;
             }
-            set
+            private set
             {
                 if (_valueGenerators != value)
                 {
@@ -137,7 +138,7 @@ namespace SQLDataProducer.DatabaseEntities.Entities
             {
                 return _isForeignKey;
             }
-            set
+            private set
             {
                 if (_isForeignKey != value)
                 {
@@ -148,9 +149,6 @@ namespace SQLDataProducer.DatabaseEntities.Entities
         }
 
         private ForeignKeyEntity _foreignKey;
-        
-//        private ForeignKeyEntity foreignKeyEntity;
-        
         [System.ComponentModel.ReadOnly(true)]
         public ForeignKeyEntity ForeignKey
         {
@@ -158,7 +156,7 @@ namespace SQLDataProducer.DatabaseEntities.Entities
             {
                 return _foreignKey;
             }
-            set
+            private set
             {
                 if (_foreignKey != value)
                 {
@@ -207,28 +205,34 @@ namespace SQLDataProducer.DatabaseEntities.Entities
             this.Generator = generators.Where(g => g.GeneratorName == generatorName).First();
             this.PossibleGenerators = generators;
         }
+        public ColumnEntity()
+        {
 
+        }
 
-        //public bool Equals(ColumnEntity other)
-        //{
-        //    // Check whether the compared object is null.
-        //    if (Object.ReferenceEquals(other, null)) return false;
+        public System.Xml.Schema.XmlSchema GetSchema()
+        {
+            throw new NotImplementedException();
+        }
 
-        //    // Check whether the compared object references the same data.
-        //    if (Object.ReferenceEquals(this, other)) return true;
+        public void ReadXml(System.Xml.XmlReader reader)
+        {
+            reader.MoveToContent();
+            this.ColumnName = reader.GetAttribute("ColumnName");
+            
+            GeneratorBase g = new GeneratorBase();
+            g.ReadXml(reader);
+            this.Generator = g;
+        }
 
-        //    // Check whether the objects’ properties are equal.
-        //    return ColumnName.Equals(other.ToString());
-        //}
+        public void WriteXml(System.Xml.XmlWriter writer)
+        {
+            writer.WriteStartElement("Column");
+            writer.WriteAttributeString("ColumnName", this.ColumnName);
+           
+            this.Generator.WriteXml(writer);
 
-        //// If Equals returns true for a pair of objects,
-        //// GetHashCode must return the same value for these objects.
-
-        //public override int GetHashCode()
-        //{
-        //    // Get the hash code for the Textual field if it is not null.
-        //    return ColumnName.GetHashCode();
-
-        //}
+            writer.WriteEndElement();
+        }
     }
 }

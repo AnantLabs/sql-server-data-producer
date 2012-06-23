@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using SQLDataProducer.DatabaseEntities.Entities;
 using System.Collections.ObjectModel;
+using System.Xml.Serialization;
 
 namespace SQLDataProducer.Entities.ExecutionEntities
 {
@@ -11,7 +12,7 @@ namespace SQLDataProducer.Entities.ExecutionEntities
     /// <summary>
     /// An execution item is a table that have been configured to get data generated.
     /// </summary>
-    public class ExecutionItem : EntityBase
+    public class ExecutionItem : EntityBase, IXmlSerializable
     {
         TableEntity _targetTable;
         /// <summary>
@@ -61,7 +62,10 @@ namespace SQLDataProducer.Entities.ExecutionEntities
             TargetTable = table;
             Order = order;
         }
+        public ExecutionItem()
+        {
 
+        }
 
 
         string _description;
@@ -141,6 +145,39 @@ namespace SQLDataProducer.Entities.ExecutionEntities
             ei.RepeatCount = repeatCount;
             ei.TruncateBeforeExecution = truncateBeforeExecution;
             return ei;
+        }
+
+        public System.Xml.Schema.XmlSchema GetSchema()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ReadXml(System.Xml.XmlReader reader)
+        {
+            this.Description = reader.GetAttribute("Description");
+            this.Order = int.Parse(reader.GetAttribute("Order"));
+            this.RepeatCount = int.Parse(reader.GetAttribute("RepeatCount"));
+            this.TruncateBeforeExecution = bool.Parse(reader.GetAttribute("TruncateBeforeExecution"));
+
+            if (reader.ReadToDescendant("Table"))
+            {
+                TableEntity table = new TableEntity();
+                table.ReadXml(reader);
+                this.TargetTable = table;
+            }
+
+        }
+
+        public void WriteXml(System.Xml.XmlWriter writer)
+        {
+            writer.WriteStartElement("ExecutionItem");
+            writer.WriteAttributeString("Description", this.Description);
+            writer.WriteAttributeString("Order", this.Order.ToString());
+            writer.WriteAttributeString("RepeatCount", this.RepeatCount.ToString());
+            writer.WriteAttributeString("TruncateBeforeExecution", this.TruncateBeforeExecution.ToString());
+            this.TargetTable.WriteXml(writer);
+            writer.WriteEndElement();
+
         }
     }
 }

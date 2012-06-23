@@ -5,10 +5,11 @@ using System.Text;
 using System.Collections.ObjectModel;
 using System.Data.SqlClient;
 using SQLDataProducer.Entities.DatabaseEntities.Collections;
+using System.Xml.Serialization;
 
 namespace SQLDataProducer.DatabaseEntities.Entities
 {
-    public class TableEntity : SQLDataProducer.Entities.EntityBase, IEquatable<TableEntity>
+    public class TableEntity : SQLDataProducer.Entities.EntityBase, IEquatable<TableEntity>, IXmlSerializable
     {
 
         public TableEntity(string tableSchema, string tableName)
@@ -17,7 +18,10 @@ namespace SQLDataProducer.DatabaseEntities.Entities
             TableName = tableName;
             TableSchema = tableSchema;
         }
-
+        public TableEntity()
+        {
+            Columns = new ColumnEntityCollection();
+        }
         ColumnEntityCollection _columns;
         public ColumnEntityCollection Columns
         {
@@ -42,7 +46,7 @@ namespace SQLDataProducer.DatabaseEntities.Entities
             {
                 return _tableSchema;
             }
-            set
+            private set
             {
                 if (_tableSchema != value)
                 {
@@ -59,7 +63,7 @@ namespace SQLDataProducer.DatabaseEntities.Entities
             {
                 return _tableName;
             }
-            set
+            private set
             {
                 if (_tableName != value)
                 {
@@ -109,6 +113,44 @@ namespace SQLDataProducer.DatabaseEntities.Entities
             var t = new TableEntity(tableSchema, tableName);
             t.Columns = cols;
             return t;
+        }
+
+        public System.Xml.Schema.XmlSchema GetSchema()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ReadXml(System.Xml.XmlReader reader)
+        {
+            this.TableSchema = reader.GetAttribute("TableSchema");
+            this.TableName = reader.GetAttribute("TableName");
+
+            if (reader.ReadToDescendant("Columns"))
+            {
+                //reader.ReadToDescendant("Column");
+                while (reader.Read() && reader.MoveToContent() == System.Xml.XmlNodeType.Element && reader.LocalName == "Column")//.ReadToNextSibling("Column"))
+                {
+                    ColumnEntity col = new ColumnEntity();
+                    col.ReadXml(reader);
+                    this.Columns.Add(col);
+                }
+            }
+        }
+
+        public void WriteXml(System.Xml.XmlWriter writer)
+        {
+
+            writer.WriteStartElement("Table");
+            writer.WriteAttributeString("TableSchema", this.TableSchema);
+            writer.WriteAttributeString("TableName", this.TableName);
+            writer.WriteStartElement("Columns");
+            foreach (var item in Columns)
+            {
+                item.WriteXml(writer);
+
+            }
+            writer.WriteEndElement();
+            writer.WriteEndElement();
         }
     }
 }

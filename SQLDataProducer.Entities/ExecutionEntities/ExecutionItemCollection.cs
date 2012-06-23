@@ -11,7 +11,7 @@ namespace SQLDataProducer.Entities.ExecutionEntities
     /// <summary>
     /// Collection of Execution Items. To be used to group the execution of ExecutionItems. The collection can have options that each execution should use.
     /// </summary>
-    public class ExecutionItemCollection : ObservableCollection<ExecutionItem>
+    public class ExecutionItemCollection : ObservableCollection<ExecutionItem>//, IXmlSerializable
     {
 
         public ExecutionItemCollection()
@@ -41,26 +41,34 @@ namespace SQLDataProducer.Entities.ExecutionEntities
         }
 
                
+        public System.Xml.Schema.XmlSchema GetSchema()
+        {
+            throw new NotImplementedException();
+        }
 
-        //object _executionGroupOptions;
-        ///// <summary>
-        ///// Not implemented yet. Options should include: Number of times to execute the ExecutionItems in the collection.
-        ///// </summary>
-        //public object ExecutionGroupOptions
-        //{
-        //    get
-        //    {
-        //        return _executionGroupOptions;
-        //    }
-        //    set
-        //    {
-        //        if (_executionGroupOptions != value)
-        //        {
-        //            _executionGroupOptions = value;
-        //            OnPropertyChanged(new System.ComponentModel.PropertyChangedEventArgs("ExecutionGroupOptions"));
-        //        }
-        //    }
-        //}
+        public void ReadXml(System.Xml.XmlReader reader)
+        {
+            if (reader.MoveToContent() == System.Xml.XmlNodeType.Element && reader.LocalName == "ExecutionItemCollection")
+            {
+                while (reader.ReadToFollowing("ExecutionItem"))
+                {
+                    ExecutionItem i = new ExecutionItem();
+                    i.ReadXml(reader);
+                    Items.Add(i);
 
+                }
+
+            }
+        }
+
+        public void WriteXml(System.Xml.XmlWriter writer)
+        {
+            writer.WriteStartElement("ExecutionItemCollection");
+            foreach (var item in Items)
+            {
+                item.WriteXml(writer);
+            }
+            writer.WriteEndElement();
+        }
     }
 }

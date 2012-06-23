@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
+using System.Xml.Serialization;
 
 namespace SQLDataProducer.Entities.Generators.Collections
 {
     /// <summary>
     /// To enable binding to the NiceString property to the DataGrid.
     /// </summary>
-    public class GeneratorParameterCollection : ObservableCollection<GeneratorParameter>
+    public class GeneratorParameterCollection : ObservableCollection<GeneratorParameter>, IXmlSerializable
     {
 
         /// <summary>
@@ -35,6 +36,7 @@ namespace SQLDataProducer.Entities.Generators.Collections
         /// <summary>
         /// Bindable ToString property
         /// </summary>
+        [XmlIgnore]
         public string NiceString
         {
             get { return this.ToString(); }
@@ -105,6 +107,37 @@ namespace SQLDataProducer.Entities.Generators.Collections
                 paramCollection.Add(para);
             }
             return paramCollection;
+        }
+
+        public System.Xml.Schema.XmlSchema GetSchema()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ReadXml(System.Xml.XmlReader reader)
+        {
+            if (reader.ReadToDescendant("GeneratorParameters"))
+            {
+                while (reader.Read() && reader.MoveToContent() == System.Xml.XmlNodeType.Element && reader.LocalName == "GeneratorParameter")
+                {
+                    GeneratorParameter p2 = new GeneratorParameter();
+                    p2.ReadXml(reader);
+                    Items.Add(p2);
+                }
+                reader.ReadEndElement();
+            }
+        }
+
+        public void WriteXml(System.Xml.XmlWriter writer)
+        {
+            writer.WriteStartElement("GeneratorParameters");
+            foreach (var item in Items)
+            {
+                item.WriteXml(writer);
+
+            }
+
+            writer.WriteEndElement();
         }
     }
 }

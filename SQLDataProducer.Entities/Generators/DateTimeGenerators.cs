@@ -14,8 +14,7 @@ namespace SQLDataProducer.Entities.Generators
             : base(name, generator, genParams)
         {
         }
-
-        
+              
         private static DateTime _currentDate = DateTime.Now;
         private static DateTime StartDate
         {

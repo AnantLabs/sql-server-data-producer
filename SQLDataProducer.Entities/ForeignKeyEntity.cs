@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using SQLDataProducer.DatabaseEntities.Entities;
 using System.Collections.ObjectModel;
+using System.Xml.Serialization;
 
 namespace SQLDataProducer.Entities
 {
+    
     public class ForeignKeyEntity : EntityBase
     {
         public ForeignKeyEntity()
@@ -77,5 +79,24 @@ namespace SQLDataProducer.Entities
             fk.Keys = new ObservableCollection<int>(this.Keys); ;
             return fk;
         }
+
+        //public System.Xml.Schema.XmlSchema GetSchema()
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //public void ReadXml(System.Xml.XmlReader reader)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //public void WriteXml(System.Xml.XmlWriter writer)
+        //{
+        //    writer.WriteStartElement("ForeignKey");
+        //    writer.WriteAttributeString("ReferencingColumn", this.ReferencingColumn);
+        //    writer.WriteAttributeString("ReferencingTable.TableName", this.ReferencingTable.TableName);
+        //    writer.WriteAttributeString("ReferencingTable.TableSchema", this.ReferencingTable.TableSchema);
+        //    writer.WriteEndElement();
+        //}
     }
 }

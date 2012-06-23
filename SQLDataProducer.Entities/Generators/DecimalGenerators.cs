@@ -14,7 +14,7 @@ namespace SQLDataProducer.Entities.Generators
             : base(name, generator, genParams)
         {
         }
-
+        
         internal static ObservableCollection<GeneratorBase> GetGenerators()
         {
             ObservableCollection<GeneratorBase> valueGenerators = new ObservableCollection<GeneratorBase>();

@@ -23,6 +23,8 @@ namespace SQLDataProducer.ViewModels
 
         public DelegateCommand OpenSqlConnectionBuilderCommand { get; private set; }
         public DelegateCommand LoadTablesCommand { get; private set; }
+        public DelegateCommand SaveCommand { get; private set; }
+        public DelegateCommand LoadCommand { get; private set; }
         
         SQLDataProducer.Model.ApplicationModel _model;
         public SQLDataProducer.Model.ApplicationModel Model
@@ -107,7 +109,7 @@ namespace SQLDataProducer.ViewModels
                     DispatcherPriority.Normal,
                     new ThreadStart( () =>
                         {
-                            Model.ExecutionItems.Clear();
+                            //Model.ExecutionItems.Clear();
                             Model.SelectedExecutionItem = Model.ExecutionItems.FirstOrDefault();
                         })
                     );
@@ -151,13 +153,53 @@ namespace SQLDataProducer.ViewModels
                     LoadTables();                        
                 });
 
-            //OpenValueEditWindowCommand = new DelegateCommand<ColumnEntity>(colEntity =>
-            //    {
-            //        ColumnEntityValueConfigurationView valueEditView = 
-            //            new ColumnEntityValueConfigurationView(
-            //                new ValueEntityConfigurationViewModel(colEntity));
-            //        valueEditView.Show();
-            //    });
+            SaveCommand = new DelegateCommand(() =>
+                {
+                    if (Model.ExecutionItems.Count > 0)
+                    {
+                        System.Windows.Forms.SaveFileDialog dia = new System.Windows.Forms.SaveFileDialog();
+                        dia.Filter = "Saved Files (*.xml)|*.xml";
+                        dia.AddExtension = true;
+                        dia.CheckFileExists = true;
+                        dia.DefaultExt = ".xml";
+                        //dia.InitialDirectory = ""; // TODO: Remember the last path
+
+                        System.Windows.Forms.DialogResult diaResult = dia.ShowDialog();
+                        if (diaResult != System.Windows.Forms.DialogResult.Cancel)
+                        {
+                            string fileName = dia.FileName;
+                            ExecutionItemCollectionManager m = new ExecutionItemCollectionManager();
+                            m.Save(Model.ExecutionItems, fileName);
+                        }
+                    }
+                    
+                });
+
+            LoadCommand = new DelegateCommand(() =>
+                {
+                    System.Windows.Forms.OpenFileDialog dia = new System.Windows.Forms.OpenFileDialog();
+                    dia.Filter = "Saved Files (*.xml)|*.xml";
+                    dia.Multiselect = false;
+                    dia.AddExtension = true;
+                    dia.CheckFileExists = true;
+                    dia.DefaultExt = ".xml";
+                    //dia.InitialDirectory = ""; // TODO: Remember the last path
+
+                    System.Windows.Forms.DialogResult diaResult = dia.ShowDialog();
+                    if (diaResult != System.Windows.Forms.DialogResult.Cancel)
+                    {
+                        string fileName = dia.FileName;
+                        ExecutionItemCollectionManager m = new ExecutionItemCollectionManager();
+                        var loaded = m.Load(fileName, Model.ConnectionString);
+                        Model.ExecutionItems.Clear();
+                        foreach (var item in loaded)
+                        {
+                            Model.ExecutionItems.Add(item);
+                        }
+                        Model.SelectedExecutionItem = Model.ExecutionItems.FirstOrDefault();    
+                    }
+                    
+                });
 
         }
 

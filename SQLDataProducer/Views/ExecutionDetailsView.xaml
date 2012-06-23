@@ -48,9 +48,9 @@
                 </Grid.ColumnDefinitions>
 
 
-                <DataGrid ItemsSource="{Binding Path=SelectedExecutionItem.TargetTable.Columns}" Grid.Row="0" Grid.RowSpan="2" AutoGenerateColumns="false"
-            SelectionUnit="FullRow"
-            SelectedItem="{Binding SelectedColumn, Mode=TwoWay}">
+                <DataGrid ItemsSource="{Binding Path=SelectedExecutionItem.TargetTable.Columns, Mode=OneWay}" Grid.Row="0" Grid.RowSpan="2" AutoGenerateColumns="false" IsReadOnly="True" 
+                    SelectionUnit="FullRow"
+                    SelectedItem="{Binding SelectedColumn, Mode=TwoWay}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding ColumnName}" Header="Column Name" IsReadOnly="True"/>
                         <DataGridTextColumn Binding="{Binding ColumnDataType}" Header="Data Type" IsReadOnly="True" />

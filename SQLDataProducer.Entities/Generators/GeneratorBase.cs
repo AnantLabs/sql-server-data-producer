@@ -5,12 +5,12 @@ using System.Text;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using SQLDataProducer.Entities.Generators.Collections;
+using System.Xml.Serialization;
 
 namespace SQLDataProducer.Entities.Generators
 {
-    public class GeneratorBase: INotifyPropertyChanged 
+    public class GeneratorBase : INotifyPropertyChanged, IXmlSerializable
     {
-
         protected ValueCreatorDelegate ValueGenerator { get; set; }
 
         GeneratorParameterCollection _genParameters;
@@ -54,7 +54,12 @@ namespace SQLDataProducer.Entities.Generators
             GeneratorParameters = genParams ?? new GeneratorParameterCollection();
             GeneratorName = generatorName;
         }
-        
+
+        public GeneratorBase()
+        {
+            GeneratorParameters = new GeneratorParameterCollection();
+        }
+
         public override string ToString()
         {
             return GeneratorName;
@@ -110,6 +115,37 @@ namespace SQLDataProducer.Entities.Generators
         internal GeneratorBase Clone()
         {
             return new GeneratorBase(this.GeneratorName, this.ValueGenerator, this.GeneratorParameters.Clone());
+        }
+
+        public System.Xml.Schema.XmlSchema GetSchema()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ReadXml(System.Xml.XmlReader reader)
+        {
+            if (reader.ReadToDescendant("Generator"))
+            {
+                this.GeneratorName = reader.GetAttribute("GeneratorName");
+                this.GeneratorParameters.ReadXml(reader);
+                reader.ReadEndElement();
+            }
+
+        }
+
+        public void WriteXml(System.Xml.XmlWriter writer)
+        {
+            writer.WriteStartElement("Generator");
+            writer.WriteAttributeString("GeneratorName", this.GeneratorName);
+
+            this.GeneratorParameters.WriteXml(writer);
+
+            writer.WriteEndElement();
+        }
+
+        public void SetGeneratorParameters(GeneratorParameterCollection generatorParameterCollection)
+        {
+            this.GeneratorParameters = generatorParameterCollection.Clone();
         }
     }
 }
