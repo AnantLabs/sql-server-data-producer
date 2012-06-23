@@ -8,12 +8,12 @@ using SQLDataProducer.Entities.Generators.Collections;
 
 namespace SQLDataProducer.Entities.Generators
 {
-    public class DateTimeGenerator : GeneratorBase
+    public partial class Generator
     {
-        private DateTimeGenerator(string name, ValueCreatorDelegate generator, GeneratorParameterCollection genParams)
-            : base(name, generator, genParams)
-        {
-        }
+        //private GeneratorBase(string name, ValueCreatorDelegate generator, GeneratorParameterCollection genParams)
+        //    : base(name, generator, genParams)
+        //{
+        //}
               
         private static DateTime _currentDate = DateTime.Now;
         private static DateTime StartDate
@@ -25,10 +25,10 @@ namespace SQLDataProducer.Entities.Generators
         }
 
 
-        internal static ObservableCollection<GeneratorBase> GetGenerators()
+        internal static ObservableCollection<Generator> GetDateTimeGenerators()
         {
             // TODO: Add edge case date generators. 1ms after midgnight, 1ms before midnight etc.
-            ObservableCollection<GeneratorBase> valueGenerators = new ObservableCollection<GeneratorBase>();
+            ObservableCollection<Generator> valueGenerators = new ObservableCollection<Generator>();
             valueGenerators.Add(CreateCurrentDateGenerator());
             valueGenerators.Add(CreateQueryGenerator());
             valueGenerators.Add(CreateDaysSeriesGenerator());
@@ -42,9 +42,9 @@ namespace SQLDataProducer.Entities.Generators
             return valueGenerators;
         }
 
-        private static DateTimeGenerator CreateCurrentDateGenerator()
+        private static Generator CreateCurrentDateGenerator()
         {
-            DateTimeGenerator gen = new DateTimeGenerator("Current Date", (n, p) =>
+            Generator gen = new Generator("Current Date", (n, p) =>
             {
                 return Wrap(DateTime.Now.ToString());
             }
@@ -52,13 +52,13 @@ namespace SQLDataProducer.Entities.Generators
             return gen;
         }
 
-        private static DateTimeGenerator CreateStaticDateGenerator()
+        private static Generator CreateStaticDateGenerator()
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
             
             paramss.Add(new GeneratorParameter("DATE", DateTime.Now.ToString()));
 
-            DateTimeGenerator gen = new DateTimeGenerator("Current Date", (n, p) =>
+            Generator gen = new Generator("Current Date", (n, p) =>
             {
                 return Wrap(GetParameterByName(p, "DATE").ToString());
             }
@@ -66,9 +66,9 @@ namespace SQLDataProducer.Entities.Generators
             return gen;
         }
 
-        private static DateTimeGenerator CreateSQLGetDateGenerator()
+        private static Generator CreateSQLGetDateGenerator()
         {
-            DateTimeGenerator gen = new DateTimeGenerator("SQL GetDate()", (n, p) =>
+            Generator gen = new Generator("SQL GetDate()", (n, p) =>
             {
                 return "Getdate()";
             }
@@ -77,9 +77,9 @@ namespace SQLDataProducer.Entities.Generators
         }
 
 
-        private static DateTimeGenerator CreateRandomDateGenerator()
+        private static Generator CreateRandomDateGenerator()
         {
-            DateTimeGenerator gen = new DateTimeGenerator("Random Date", (n, p) =>
+            Generator gen = new Generator("Random Date", (n, p) =>
             {
                 return Wrap(StartDate.AddDays(RandomSupplier.Instance.GetNextInt() % 30));
             }
@@ -87,9 +87,9 @@ namespace SQLDataProducer.Entities.Generators
             return gen;
         }
 
-        private static DateTimeGenerator CreateSecondSeriesGenerator()
+        private static Generator CreateSecondSeriesGenerator()
         {
-            DateTimeGenerator gen = new DateTimeGenerator("Seconds Series", (n, p) =>
+            Generator gen = new Generator("Seconds Series", (n, p) =>
             {
                 return Wrap(StartDate.AddSeconds(n));
             }
@@ -97,9 +97,9 @@ namespace SQLDataProducer.Entities.Generators
             return gen;
         }
 
-        private static DateTimeGenerator CreateMiliSecondSeriesGenerator()
+        private static Generator CreateMiliSecondSeriesGenerator()
         {
-            DateTimeGenerator gen = new DateTimeGenerator("Miliseconds Series", (n, p) =>
+            Generator gen = new Generator("Miliseconds Series", (n, p) =>
             {
                 return Wrap(StartDate.AddMilliseconds(n));
             }
@@ -107,13 +107,13 @@ namespace SQLDataProducer.Entities.Generators
             return gen;
         }
 
-        private static DateTimeGenerator CreateMinutesSeriesGenerator()
+        private static Generator CreateMinutesSeriesGenerator()
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
 
             paramss.Add(new GeneratorParameter("Shift Seconds", 0));
 
-            DateTimeGenerator gen = new DateTimeGenerator("Minutes Series", (n, p) =>
+            Generator gen = new Generator("Minutes Series", (n, p) =>
             {
                 int shiftSeconds = int.Parse(GetParameterByName(p, "Shift Seconds").ToString());
                 return Wrap(StartDate.AddMinutes(n).AddSeconds(shiftSeconds));
@@ -121,18 +121,18 @@ namespace SQLDataProducer.Entities.Generators
                 , paramss);
             return gen;
         }
-        private static DateTimeGenerator CreateHoursSeriesGenerator()
+        private static Generator CreateHoursSeriesGenerator()
         {
-            DateTimeGenerator gen = new DateTimeGenerator("Hours Series", (n, p) =>
+            Generator gen = new Generator("Hours Series", (n, p) =>
             {
                 return Wrap(StartDate.AddHours(n));
             }
                 , null);
             return gen;
         }
-        private static DateTimeGenerator CreateDaysSeriesGenerator()
+        private static Generator CreateDaysSeriesGenerator()
         {
-            DateTimeGenerator gen = new DateTimeGenerator("Days Series", (n, p) =>
+            Generator gen = new Generator("Days Series", (n, p) =>
             {
                 return Wrap(StartDate.AddHours(n));
             }

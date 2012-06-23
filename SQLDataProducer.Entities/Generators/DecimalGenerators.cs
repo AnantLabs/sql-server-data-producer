@@ -7,31 +7,31 @@ using SQLDataProducer.Entities.Generators.Collections;
 
 namespace SQLDataProducer.Entities.Generators
 {
-    public class DecimalGenerator : GeneratorBase
+    public partial class Generator
     {
 
-        private DecimalGenerator(string name, ValueCreatorDelegate generator, GeneratorParameterCollection genParams)
-            : base(name, generator, genParams)
-        {
-        }
+        //private GeneratorBase(string name, ValueCreatorDelegate generator, GeneratorParameterCollection genParams)
+        //    : base(name, generator, genParams)
+        //{
+        //}
         
-        internal static ObservableCollection<GeneratorBase> GetGenerators()
+        internal static ObservableCollection<Generator> GetDecimalGenerators()
         {
-            ObservableCollection<GeneratorBase> valueGenerators = new ObservableCollection<GeneratorBase>();
-            valueGenerators.Add(CreateUpCounter());
+            ObservableCollection<Generator> valueGenerators = new ObservableCollection<Generator>();
+            valueGenerators.Add(CreateDecimalUpCounter());
             valueGenerators.Add(CreateQueryGenerator());
-            valueGenerators.Add(CreateRandomGenerator());
+            valueGenerators.Add(CreateRandomDecimalGenerator());
 
             return valueGenerators;
         }
 
-        private static DecimalGenerator CreateRandomGenerator()
+        private static Generator CreateRandomDecimalGenerator()
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
             paramss.Add(new GeneratorParameter("MinValue", 0.0));
             paramss.Add(new GeneratorParameter("MaxValue", 10000000.0));
 
-            DecimalGenerator gen = new DecimalGenerator("Random Decimal", (n, p) =>
+            Generator gen = new Generator("Random Decimal", (n, p) =>
             {
                 double maxValue = double.Parse(GetParameterByName(p, "MaxValue").ToString());
                 double minValue = double.Parse(GetParameterByName(p, "MinValue").ToString());
@@ -42,7 +42,7 @@ namespace SQLDataProducer.Entities.Generators
             return gen;
         }
 
-        private static DecimalGenerator CreateUpCounter()
+        private static Generator CreateDecimalUpCounter()
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
 
@@ -50,7 +50,7 @@ namespace SQLDataProducer.Entities.Generators
             paramss.Add(new GeneratorParameter("MaxValue", 10000000));
             paramss.Add(new GeneratorParameter("Step", 1.0));
 
-            DecimalGenerator gen = new DecimalGenerator("Counting up", (n, p) =>
+            Generator gen = new Generator("Counting up", (n, p) =>
             {
                 double maxValue = double.Parse(GetParameterByName(p, "MaxValue").ToString());
                 double minValue = double.Parse(GetParameterByName(p, "MinValue").ToString());

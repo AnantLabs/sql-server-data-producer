@@ -7,75 +7,72 @@ using SQLDataProducer.Entities.Generators.Collections;
 
 namespace SQLDataProducer.Entities.Generators
 {
-    public class IntGenerator : GeneratorBase
+    public partial class Generator
     {
 
-        private IntGenerator(string name, ValueCreatorDelegate generator, GeneratorParameterCollection genParams)
-            : base(name, generator, genParams)
-        {
-        }
+        //private GeneratorBase(string name, ValueCreatorDelegate generator, GeneratorParameterCollection genParams)
+        //    : base(name, generator, genParams)
+        //{
+        //}
         
-        public static ObservableCollection<GeneratorBase> GetGeneratorsForInt()
+        public static ObservableCollection<Generator> GetGeneratorsForInt()
         {
             int maxValue = int.MaxValue;
             int minValue = int.MinValue;
 
-            return CreateGeneratorsWithSettings(maxValue, minValue);
+            return CreateIntGeneratorsWithSettings(maxValue, minValue);
         }
-        public static ObservableCollection<GeneratorBase> GetGeneratorsForSmallInt()
+        public static ObservableCollection<Generator> GetGeneratorsForSmallInt()
         {
             int maxValue = short.MaxValue;
             int minValue = 0;
 
-            return CreateGeneratorsWithSettings(maxValue, minValue);
+            return CreateIntGeneratorsWithSettings(maxValue, minValue);
         }
-        public static ObservableCollection<GeneratorBase> GetGeneratorsForBigInt()
+        public static ObservableCollection<Generator> GetGeneratorsForBigInt()
         {
             long maxValue = int.MaxValue;
             long minValue = 0;
 
-            return CreateGeneratorsWithSettings(maxValue, minValue);
+            return CreateIntGeneratorsWithSettings(maxValue, minValue);
         }
-        public static ObservableCollection<GeneratorBase> GetGeneratorsForTinyInt()
+        public static ObservableCollection<Generator> GetGeneratorsForTinyInt()
         {
             long maxValue = byte.MaxValue;
             long minValue = byte.MinValue;
 
-            return CreateGeneratorsWithSettings(maxValue, minValue);
+            return CreateIntGeneratorsWithSettings(maxValue, minValue);
         }
-        public static ObservableCollection<GeneratorBase> GetGeneratorsForBit()
+        public static ObservableCollection<Generator> GetGeneratorsForBit()
         {
             long maxValue = 1;
             long minValue = 0;
 
-            return CreateGeneratorsWithSettings(maxValue, minValue);
+            return CreateIntGeneratorsWithSettings(maxValue, minValue);
         }
 
 
 
-        private static ObservableCollection<GeneratorBase> CreateGeneratorsWithSettings(long maxValue, long minValue)
+        private static ObservableCollection<Generator> CreateIntGeneratorsWithSettings(long maxValue, long minValue)
         {
-            ObservableCollection<GeneratorBase> valueGenerators = new ObservableCollection<GeneratorBase>();
-            valueGenerators.Add(CreateRandomGenerator(minValue, maxValue));
-            valueGenerators.Add(CreateUpCounter(minValue, maxValue));
+            ObservableCollection<Generator> valueGenerators = new ObservableCollection<Generator>();
+            valueGenerators.Add(CreateRandomIntGenerator(minValue, maxValue));
+            valueGenerators.Add(CreateIntUpCounter(minValue, maxValue));
             valueGenerators.Add(CreateIdentityFromExecutionItem());
             valueGenerators.Add(CreateQueryGenerator());
-            valueGenerators.Add(StaticNumber());
-            //if (columnHaveForeignKey)
-            //    valueGenerators.Add(CreateForeignKeyGenerator(minValue, maxValue, fk));
-            
+            valueGenerators.Add(CreateStaticNumberGenerator());
 
             return valueGenerators;
         }
 
-        public static GeneratorBase CreateForeignKeyGenerator(ObservableCollection<int> fkkeys)
+        public static Generator CreateRandomForeignKeyGenerator(ObservableCollection<int> fkkeys)
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
 
             GeneratorParameter foreignParam = new GeneratorParameter("Keys", fkkeys);
             foreignParam.IsWriteEnabled = false;
             paramss.Add(foreignParam);
-            IntGenerator gen = new IntGenerator("Random FOREIGN KEY Value (EAGER)", (n, p) =>
+            Generator gen = new Generator("Random FOREIGN KEY Value (EAGER)", (n, p) =>
             {
                 ObservableCollection<int> keys = (ObservableCollection<int>)GetParameterByName(p, "Keys");
                 return keys[RandomSupplier.Instance.GetNextInt() % keys.Count];
@@ -83,15 +80,55 @@ namespace SQLDataProducer.Entities.Generators
                 , paramss);
             return gen;
         }
+        public static Generator CreateSequentialForeignKeyGenerator(ObservableCollection<int> fkkeys)
+        {
+            GeneratorParameterCollection paramss = new GeneratorParameterCollection();
 
-        private static IntGenerator CreateRandomGenerator(long min, long max)
+            GeneratorParameter foreignParam = new GeneratorParameter("Keys", fkkeys);
+            foreignParam.IsWriteEnabled = false;
+            GeneratorParameter startIndex = new GeneratorParameter("Start Index", 1);
+            GeneratorParameter maxIndex = new GeneratorParameter("Max Index", 1000);
+            
+            paramss.Add(foreignParam);
+            paramss.Add(startIndex);
+            paramss.Add(maxIndex);
+
+            Generator gen = new Generator("Sequential FOREIGN KEY Value (EAGER)", (n, p) =>
+            {
+                ObservableCollection<int> keys = (ObservableCollection<int>)GetParameterByName(p, "Keys");
+                int si = int.Parse(GetParameterByName(p, "Start Index").ToString());
+                int mi = int.Parse(GetParameterByName(p, "Max Index").ToString());
+                if (mi > fkkeys.Count)
+                {
+                    mi = fkkeys.Count;
+                }
+                return keys[n % keys.Count];
+            }
+                , paramss);
+            return gen;
+        }
+
+        // Todo: Cannot implemtent this as the generator does not know anything about the FK
+        //public static GeneratorBase CreateSequentialForeignKeyGeneratorLazy()
+        //{
+        //    GeneratorParameterCollection paramss = new GeneratorParameterCollection();
+            
+        //    GeneratorBase gen = new GeneratorBase("Random FOREIGN KEY Value (LAZY)", (n, p) =>
+        //    {
+        //        return keys[n % keys.Count];
+        //    }
+        //        , paramss);
+        //    return gen;
+        //}
+
+        private static Generator CreateRandomIntGenerator(long min, long max)
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
 
             paramss.Add(new GeneratorParameter("MinValue", 1));
             paramss.Add(new GeneratorParameter("MaxValue", max));
 
-            IntGenerator gen = new IntGenerator("Random Int", (n, p) =>
+            Generator gen = new Generator("Random Int", (n, p) =>
                 {
                     long maxValue = long.Parse(GetParameterByName(p, "MaxValue").ToString());
                     long minValue = long.Parse(GetParameterByName(p, "MinValue").ToString());
@@ -102,14 +139,14 @@ namespace SQLDataProducer.Entities.Generators
             return gen;
         }
 
-        private static IntGenerator CreateUpCounter(long min, long max)
+        private static Generator CreateIntUpCounter(long min, long max)
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
 
             paramss.Add(new GeneratorParameter("MinValue", min));
             paramss.Add(new GeneratorParameter("MaxValue", max));
 
-            IntGenerator gen = new IntGenerator("Counting up", (n, p) =>
+            Generator gen = new Generator("Counting up", (n, p) =>
             {
                 long maxValue = long.Parse(GetParameterByName(p, "MaxValue").ToString());
                 long minValue = long.Parse(GetParameterByName(p, "MinValue").ToString());
@@ -119,12 +156,12 @@ namespace SQLDataProducer.Entities.Generators
             return gen;
         }
 
-        private static IntGenerator CreateIdentityFromExecutionItem()
+        private static Generator CreateIdentityFromExecutionItem()
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
             paramss.Add(new GeneratorParameter("Item Number#", 1));
 
-            IntGenerator gen = new IntGenerator("Identity from previous item", (n, p) =>
+            Generator gen = new Generator("Identity from previous item", (n, p) =>
             {
                 long value = long.Parse(GetParameterByName(p, "Item Number#").ToString());
 
@@ -134,13 +171,13 @@ namespace SQLDataProducer.Entities.Generators
             return gen;
         }
 
-        private static IntGenerator StaticNumber()
+        private static Generator CreateStaticNumberGenerator()
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
 
             paramss.Add(new GeneratorParameter("Number", 0));
 
-            IntGenerator gen = new IntGenerator("Static Number", (n, p) =>
+            Generator gen = new Generator("Static Number", (n, p) =>
             {
                 long value = long.Parse(GetParameterByName(p, "Number").ToString());
 

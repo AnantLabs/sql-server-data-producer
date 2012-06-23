@@ -8,21 +8,21 @@ using SQLDataProducer.Entities.Generators.Collections;
 
 namespace SQLDataProducer.Entities.Generators
 {
-    public class StringGenerator : GeneratorBase
+    public partial class Generator
     {
 
-        private StringGenerator(string name, ValueCreatorDelegate generator, GeneratorParameterCollection genParams)
-            : base(name, generator, genParams)
-        {
-        }
+        //private GeneratorBase(string name, ValueCreatorDelegate generator, GeneratorParameterCollection genParams)
+        //    : base(name, generator, genParams)
+        //{
+        //}
 
-        internal static System.Collections.ObjectModel.ObservableCollection<GeneratorBase> GetGenerators()
+        internal static System.Collections.ObjectModel.ObservableCollection<Generator> GetStringGenerators()
         {
-            ObservableCollection<GeneratorBase> valueGenerators = new ObservableCollection<GeneratorBase>();
+            ObservableCollection<Generator> valueGenerators = new ObservableCollection<Generator>();
             valueGenerators.Add(CreateCountriesGenerator());
             valueGenerators.Add(CreateFemaleNameGenerator());
             valueGenerators.Add(CreateMaleNameGenerator());
-            valueGenerators.Add(CreateStaticStringGenerator());
+            valueGenerators.Add(CreateStaticStringGeneratorBase());
             valueGenerators.Add(CreateQueryGenerator());
 
             
@@ -31,7 +31,7 @@ namespace SQLDataProducer.Entities.Generators
         }
 
 
-        static StringGenerator()
+        static Generator()
         {
             if (_countries == null)
             {
@@ -50,13 +50,13 @@ namespace SQLDataProducer.Entities.Generators
             }
         }
 
-        private static StringGenerator CreateStaticStringGenerator()
+        private static Generator CreateStaticStringGeneratorBase()
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
 
             paramss.Add(new GeneratorParameter("Value", ""));
 
-            StringGenerator gen = new StringGenerator("Static String", (n, p) =>
+            Generator gen = new Generator("Static String", (n, p) =>
             {
                 return Wrap(GetParameterByName(p, "Value").ToString());
             }
@@ -64,9 +64,9 @@ namespace SQLDataProducer.Entities.Generators
             return gen;
         }
 
-        private static StringGenerator CreateCountriesGenerator()
+        private static Generator CreateCountriesGenerator()
         {
-            StringGenerator gen = new StringGenerator("Countries", (n, p) =>
+            Generator gen = new Generator("Countries", (n, p) =>
             {
                 return Wrap(CountryList[n % CountryList.Count]);
             }
@@ -74,18 +74,18 @@ namespace SQLDataProducer.Entities.Generators
             return gen;
         }
 
-        private static StringGenerator CreateFemaleNameGenerator()
+        private static Generator CreateFemaleNameGenerator()
         {
-            StringGenerator gen = new StringGenerator("Female names", (n, p) =>
+            Generator gen = new Generator("Female names", (n, p) =>
             {
                 return Wrap(Females[n % Females.Count]);
             }
                 , null);
             return gen;
         }
-        private static StringGenerator CreateMaleNameGenerator()
+        private static Generator CreateMaleNameGenerator()
         {
-            StringGenerator gen = new StringGenerator("Male names", (n, p) =>
+            Generator gen = new Generator("Male names", (n, p) =>
             {
                 return Wrap(Males[n % Males.Count]);
             }

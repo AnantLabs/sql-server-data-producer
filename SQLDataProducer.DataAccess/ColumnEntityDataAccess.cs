@@ -23,8 +23,8 @@ namespace SQLDataProducer.DataAccess
         /// </summary>
         private Func<SqlDataReader, ColumnEntity> CreateColumnEntity = reader =>
         {
-            ObservableCollection<GeneratorBase> possibleGenerators = GeneratorFactory.GetGeneratorsForDataType(reader.GetString(reader.GetOrdinal("DataType")));
-            GeneratorBase defaultGenerator = possibleGenerators.FirstOrDefault();
+            ObservableCollection<Generator> possibleGenerators = GeneratorFactory.GetGeneratorsForDataType(reader.GetString(reader.GetOrdinal("DataType")));
+            Generator defaultGenerator = possibleGenerators.FirstOrDefault();
 
             return new ColumnEntity(reader.GetString(reader.GetOrdinal("ColumnName")), reader.GetString(reader.GetOrdinal("DataType")), (bool)reader["IsIdentity"], reader.GetInt32(reader.GetOrdinal("OrdinalPosition")), (bool)reader["IsForeignKey"], new ForeignKeyEntity
                 {
@@ -111,10 +111,7 @@ where object_id=object_id('{1}.{0}')";
                 {
                     foreach (var item in cols.Where(x => x.IsForeignKey))
                     {
-                        item.ForeignKey.Keys = ForeignKeyManager.Instance.GetPrimaryKeysForTable(this._connectionString, item.ForeignKey.ReferencingTable, item.ForeignKey.ReferencingColumn);
-                        GeneratorBase fkGenerator = IntGenerator.CreateForeignKeyGenerator(item.ForeignKey.Keys);
-                        item.PossibleGenerators.Add(fkGenerator);
-                        item.Generator = fkGenerator;
+                        GetForeignKeyGeneratorsForColumn(item);
                     }
                     callback((ColumnEntityCollection)cols);
                 });
@@ -135,15 +132,24 @@ where object_id=object_id('{1}.{0}')";
 
             foreach (var item in cols.Where(x => x.IsForeignKey))
             {
-                item.ForeignKey.Keys = ForeignKeyManager.Instance.GetPrimaryKeysForTable(this._connectionString, item.ForeignKey.ReferencingTable, item.ForeignKey.ReferencingColumn);
-                GeneratorBase fkGenerator = IntGenerator.CreateForeignKeyGenerator(item.ForeignKey.Keys);
-                item.PossibleGenerators.Add(fkGenerator);
-                item.Generator = fkGenerator;
+                GetForeignKeyGeneratorsForColumn(item);
             }
 
             return cols;
 
 
+        }
+
+        private void GetForeignKeyGeneratorsForColumn(ColumnEntity item)
+        {
+            item.ForeignKey.Keys = ForeignKeyManager.Instance.GetPrimaryKeysForTable(this._connectionString, item.ForeignKey.ReferencingTable, item.ForeignKey.ReferencingColumn);
+            IEnumerable<Generator> fkGenerators = GeneratorFactory.GetForeignKeyGenerators(item.ForeignKey.Keys);
+            foreach (var fkgen in fkGenerators)
+            {
+                item.PossibleGenerators.Add(fkgen);
+            }
+
+            item.Generator = fkGenerators.First();
         }
     }
 }

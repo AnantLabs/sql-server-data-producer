@@ -96,8 +96,8 @@ namespace SQLDataProducer.DatabaseEntities.Entities
             }
         }
 
-        GeneratorBase _generator;
-        public GeneratorBase Generator
+        Generator _generator;
+        public Generator Generator
         {
             get
             {
@@ -113,8 +113,8 @@ namespace SQLDataProducer.DatabaseEntities.Entities
             }
         }
 
-        ObservableCollection<GeneratorBase> _valueGenerators;
-        public ObservableCollection<GeneratorBase> PossibleGenerators
+        ObservableCollection<Generator> _valueGenerators;
+        public ObservableCollection<Generator> PossibleGenerators
         {
             get
             {
@@ -178,7 +178,7 @@ namespace SQLDataProducer.DatabaseEntities.Entities
         /// <param name="isForeignKey">true if this table is referencing another table using foreign key</param>
         /// <param name="generator">the default generator for this column</param>
         /// <param name="possibleGenerators">the possible generators for this column</param>
-        public ColumnEntity(string columnName, string columnDatatype, bool isIdentity, int ordinalPosition, bool isForeignKey, ForeignKeyEntity foreignKeyEntity, ObservableCollection<GeneratorBase> possibleGenerators, GeneratorBase generator)
+        public ColumnEntity(string columnName, string columnDatatype, bool isIdentity, int ordinalPosition, bool isForeignKey, ForeignKeyEntity foreignKeyEntity, ObservableCollection<Generator> possibleGenerators, Generator generator)
         {
             this.ColumnName = columnName;
             this.ColumnDataType = columnDatatype;
@@ -192,7 +192,7 @@ namespace SQLDataProducer.DatabaseEntities.Entities
             this.PossibleGenerators = possibleGenerators;
 
         }
-        public ColumnEntity(string columnName, string columnDatatype, bool isIdentity, int ordinalPosition, bool isForeignKey, ForeignKeyEntity foreignKeyEntity, ObservableCollection<GeneratorBase> generators, string generatorName)
+        public ColumnEntity(string columnName, string columnDatatype, bool isIdentity, int ordinalPosition, bool isForeignKey, ForeignKeyEntity foreignKeyEntity, ObservableCollection<Generator> generators, string generatorName)
         {
             this.ColumnName = columnName;
             this.ColumnDataType = columnDatatype;
@@ -220,7 +220,7 @@ namespace SQLDataProducer.DatabaseEntities.Entities
             reader.MoveToContent();
             this.ColumnName = reader.GetAttribute("ColumnName");
             
-            GeneratorBase g = new GeneratorBase();
+            Generator g = new Generator();
             g.ReadXml(reader);
             this.Generator = g;
         }

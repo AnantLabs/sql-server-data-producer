@@ -8,9 +8,9 @@ namespace SQLDataProducer.Entities.DatabaseEntities.Collections
 {
     public static class GeneratorCollectionExtensions
     {
-        public static ObservableCollection<Generators.GeneratorBase> Clone(this ObservableCollection<Generators.GeneratorBase> gens)
+        public static ObservableCollection<Generators.Generator> Clone(this ObservableCollection<Generators.Generator> gens)
         {
-            var newGens = new ObservableCollection<Generators.GeneratorBase>();
+            var newGens = new ObservableCollection<Generators.Generator>();
             foreach (var item in gens)
             {
                 newGens.Add(item.Clone());

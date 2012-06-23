@@ -9,7 +9,7 @@ using System.Xml.Serialization;
 
 namespace SQLDataProducer.Entities.Generators
 {
-    public class GeneratorBase : INotifyPropertyChanged, IXmlSerializable
+    public partial class Generator : INotifyPropertyChanged, IXmlSerializable
     {
         protected ValueCreatorDelegate ValueGenerator { get; set; }
 
@@ -48,14 +48,14 @@ namespace SQLDataProducer.Entities.Generators
             }
         }
 
-        protected GeneratorBase(string generatorName, ValueCreatorDelegate generator, GeneratorParameterCollection genParams)
+        protected Generator(string generatorName, ValueCreatorDelegate generator, GeneratorParameterCollection genParams)
         {
             ValueGenerator = generator;
             GeneratorParameters = genParams ?? new GeneratorParameterCollection();
             GeneratorName = generatorName;
         }
 
-        public GeneratorBase()
+        public Generator()
         {
             GeneratorParameters = new GeneratorParameterCollection();
         }
@@ -86,13 +86,13 @@ namespace SQLDataProducer.Entities.Generators
         }
 
 
-        protected static GeneratorBase CreateQueryGenerator()
+        protected static Generator CreateQueryGenerator()
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
 
             paramss.Add(new GeneratorParameter("Query", "select ..."));
 
-            GeneratorBase gen = new GeneratorBase("Custom SQL Query", (n, p) =>
+            Generator gen = new Generator("Custom SQL Query", (n, p) =>
             {
                 string value = GetParameterByName(p, "Query").ToString();
 
@@ -112,9 +112,9 @@ namespace SQLDataProducer.Entities.Generators
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        internal GeneratorBase Clone()
+        internal Generator Clone()
         {
-            return new GeneratorBase(this.GeneratorName, this.ValueGenerator, this.GeneratorParameters.Clone());
+            return new Generator(this.GeneratorName, this.ValueGenerator, this.GeneratorParameters.Clone());
         }
 
         public System.Xml.Schema.XmlSchema GetSchema()

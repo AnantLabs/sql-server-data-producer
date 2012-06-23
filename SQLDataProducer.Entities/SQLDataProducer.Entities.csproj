@@ -53,7 +53,7 @@
     <Compile Include="Generators\DateTimeGenerators.cs" />
     <Compile Include="Generators\DecimalGenerators.cs" />
     <Compile Include="Generators\GenerationNumberSupplier.cs" />
-    <Compile Include="Generators\GeneratorBase.cs" />
+    <Compile Include="Generators\Generator.cs" />
     <Compile Include="Generators\GeneratorFactory.cs" />
     <Compile Include="Generators\GeneratorParameter.cs" />
     <Compile Include="Generators\IntGenerators.cs" />

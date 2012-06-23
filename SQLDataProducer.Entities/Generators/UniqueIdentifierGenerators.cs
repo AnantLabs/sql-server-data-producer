@@ -7,30 +7,30 @@ using SQLDataProducer.Entities.Generators.Collections;
 
 namespace SQLDataProducer.Entities.Generators
 {
-    public class UniqueIdentifierGenerator : GeneratorBase
+   public partial class Generator
     {
       
-        private UniqueIdentifierGenerator(string name, ValueCreatorDelegate generator, GeneratorParameterCollection genParams)
-            : base(name, generator, genParams)
-        {
-        }
+        //private UniqueIdentifierGenerator(string name, ValueCreatorDelegate generator, GeneratorParameterCollection genParams)
+        //    : base(name, generator, genParams)
+        //{
+        //}
         
 
-        internal static ObservableCollection<GeneratorBase> GetGenerators()
+        internal static ObservableCollection<Generator> GetGUIDGenerators()
         {
-            ObservableCollection<GeneratorBase> valueGenerators = new ObservableCollection<GeneratorBase>();
-            valueGenerators.Add(CreateRandomGenerator());
+            ObservableCollection<Generator> valueGenerators = new ObservableCollection<Generator>();
+            valueGenerators.Add(CreateRandomGUIDGenerator());
             valueGenerators.Add(CreateQueryGenerator());
             valueGenerators.Add(StaticGUID());
 
             return valueGenerators;
         }
 
-        private static UniqueIdentifierGenerator CreateRandomGenerator()
+        private static Generator CreateRandomGUIDGenerator()
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
 
-            UniqueIdentifierGenerator gen = new UniqueIdentifierGenerator("Random GUID", (n, p) =>
+            Generator gen = new Generator("Random GUID", (n, p) =>
             {
                 return Wrap(Guid.NewGuid());
             }
@@ -38,30 +38,13 @@ namespace SQLDataProducer.Entities.Generators
             return gen;
         }
 
-        //private static UniqueIdentifierGenerator Query()
-        //{
-        //    GeneratorParameterCollection paramss = new GeneratorParameterCollection();
-
-        //    paramss.Add(new GeneratorParameter("Query", "select newid()"));
-
-        //    UniqueIdentifierGenerator gen = new UniqueIdentifierGenerator("Custom SQL Query", (n, p) =>
-        //    {
-        //        string value = GetParameterByName<string>(p, "Query");
-
-        //        return string.Format("({0})", value);
-        //    }
-        //        , paramss);
-        //    return gen;
-        //}
-
-
-        private static UniqueIdentifierGenerator StaticGUID()
+        private static Generator StaticGUID()
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
 
             paramss.Add(new GeneratorParameter("GUID", new Guid()));
 
-            UniqueIdentifierGenerator gen = new UniqueIdentifierGenerator("Static GUID", (n, p) =>
+            Generator gen = new Generator("Static GUID", (n, p) =>
             {
                 string value = GetParameterByName(p, "GUID").ToString();
 
