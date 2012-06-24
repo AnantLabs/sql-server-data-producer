@@ -47,7 +47,7 @@ namespace SQLDataProducer.Entities.Generators
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
 
             paramss.Add(new GeneratorParameter("MinValue", 0.0));
-            paramss.Add(new GeneratorParameter("MaxValue", 10000000));
+            paramss.Add(new GeneratorParameter("MaxValue", 10000000.0));
             paramss.Add(new GeneratorParameter("Step", 1.0));
 
             Generator gen = new Generator("Counting up", (n, p) =>
@@ -56,7 +56,7 @@ namespace SQLDataProducer.Entities.Generators
                 double minValue = double.Parse(GetParameterByName(p, "MinValue").ToString());
                 double step = double.Parse(GetParameterByName(p, "Step").ToString());
 
-                return ((minValue + (step * n)) % maxValue).ToString().Replace(",", ".");
+                return ((minValue + (step * (n - 1))) % maxValue).ToString().Replace(",", ".");
             }
                 , paramss);
             return gen;

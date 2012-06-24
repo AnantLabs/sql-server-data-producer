@@ -150,7 +150,7 @@ namespace SQLDataProducer.Entities.Generators
             {
                 long maxValue = long.Parse(GetParameterByName(p, "MaxValue").ToString());
                 long minValue = long.Parse(GetParameterByName(p, "MinValue").ToString());
-                return (n + minValue) % maxValue;
+                return (n - 1 + minValue) % maxValue;
             }
                 , paramss);
             return gen;

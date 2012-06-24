@@ -39,7 +39,10 @@ namespace SQLDataProducer.EntityQueryGenerator
                 sb.AppendFormat("-- INSERT item {0} - {0}", item.Order, item.Description);
 
                 if (item.ExecutionCondition != ExecutionConditions.None)
-                    sb.AppendFormat("IF @N {0} {1} BEGIN", item.ExecutionCondition.ToCompareString(), item.ExecutionConditionValue);
+                {
+                    sb.AppendLine();
+                    sb.AppendFormat("IF @N {0} BEGIN", item.ExecutionCondition.ToCompareString(item.ExecutionConditionValue));
+                }
                 
                 // Generate for each column
                 sb.Append(GenerateInsertStatement(item));

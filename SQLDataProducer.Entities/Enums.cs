@@ -13,7 +13,8 @@ namespace SQLDataProducer.Entities
         EqualTo,
         EqualOrGreaterThan,
         GreaterThan,
-        NotEqualTo
+        NotEqualTo,
+        EveryOtherX
     }
 
     public enum ExecutionTypes
@@ -24,24 +25,26 @@ namespace SQLDataProducer.Entities
 
     public static class EnumExtensions
     {
-        public static string ToCompareString(this ExecutionConditions cond)
+        public static string ToCompareString(this ExecutionConditions cond, int conditionValue)
         {
             switch (cond)
             {
                 case ExecutionConditions.None:
                     return string.Empty;
                 case ExecutionConditions.LessThan:
-                    return "<";
+                    return string.Format("< {0}",  conditionValue);
                 case ExecutionConditions.LessOrEqualTo:
-                    return "<=";
+                    return string.Format("<= {0}",  conditionValue);
                 case ExecutionConditions.EqualTo:
-                    return "=";
+                    return string.Format("= {0}",  conditionValue);
                 case ExecutionConditions.EqualOrGreaterThan:
-                    return ">=";
+                    return string.Format(">= {0}",  conditionValue);
                 case ExecutionConditions.GreaterThan:
-                    return ">";
+                    return string.Format("> {0}",  conditionValue);
                 case ExecutionConditions.NotEqualTo:
-                    return "<>";
+                    return string.Format("<> {0}",  conditionValue);
+                case ExecutionConditions.EveryOtherX:
+                    return string.Format("% {0} = 0",  conditionValue);
                 default:
                     throw new NotImplementedException();
             }
