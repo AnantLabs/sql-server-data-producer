@@ -10,12 +10,6 @@ namespace SQLDataProducer.Entities.Generators
 {
     public partial class Generator
     {
-
-        //private GeneratorBase(string name, ValueCreatorDelegate generator, GeneratorParameterCollection genParams)
-        //    : base(name, generator, genParams)
-        //{
-        //}
-
         internal static System.Collections.ObjectModel.ObservableCollection<Generator> GetStringGenerators()
         {
             ObservableCollection<Generator> valueGenerators = new ObservableCollection<Generator>();
@@ -24,9 +18,8 @@ namespace SQLDataProducer.Entities.Generators
             valueGenerators.Add(CreateMaleNameGenerator());
             valueGenerators.Add(CreateStaticStringGeneratorBase());
             valueGenerators.Add(CreateQueryGenerator());
+            valueGenerators.Add(CreateCityGenerator());
 
-            
-            
             return valueGenerators;
         }
 
@@ -47,6 +40,11 @@ namespace SQLDataProducer.Entities.Generators
             {
                 _males = new List<string>();
                 _males.AddRange(System.IO.File.ReadAllLines(@".\Generators\resources\MaleNames.txt"));
+            }
+            if (_cities == null)
+            {
+                _cities = new List<string>();
+                _cities.AddRange(System.IO.File.ReadAllLines(@".\Generators\resources\SwedishCities.txt"));
             }
         }
 
@@ -93,6 +91,16 @@ namespace SQLDataProducer.Entities.Generators
             return gen;
         }
 
+        private static Generator CreateCityGenerator()
+        {
+            Generator gen = new Generator("Cities", (n, p) =>
+            {
+                return Wrap(Cities[n % Males.Count]);
+            }
+                , null);
+            return gen;
+        }
+
         private static List<string> _countries;
         static List<string> CountryList
         {
@@ -122,6 +130,15 @@ namespace SQLDataProducer.Entities.Generators
             }
         }
 
-       
+        private static List<string> _cities;
+        static List<string> Cities
+        {
+            get
+            {
+
+                return _cities;
+            }
+        }
+
     }
 }

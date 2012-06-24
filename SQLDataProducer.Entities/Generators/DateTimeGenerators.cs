@@ -10,11 +10,6 @@ namespace SQLDataProducer.Entities.Generators
 {
     public partial class Generator
     {
-        //private GeneratorBase(string name, ValueCreatorDelegate generator, GeneratorParameterCollection genParams)
-        //    : base(name, generator, genParams)
-        //{
-        //}
-              
         private static DateTime _currentDate = DateTime.Now;
         private static DateTime StartDate
         {
@@ -30,6 +25,7 @@ namespace SQLDataProducer.Entities.Generators
             // TODO: Add edge case date generators. 1ms after midgnight, 1ms before midnight etc.
             ObservableCollection<Generator> valueGenerators = new ObservableCollection<Generator>();
             valueGenerators.Add(CreateCurrentDateGenerator());
+            valueGenerators.Add(CreateStaticDateGenerator());
             valueGenerators.Add(CreateQueryGenerator());
             valueGenerators.Add(CreateDaysSeriesGenerator());
             valueGenerators.Add(CreateHoursSeriesGenerator());
@@ -58,7 +54,7 @@ namespace SQLDataProducer.Entities.Generators
             
             paramss.Add(new GeneratorParameter("DATE", DateTime.Now.ToString()));
 
-            Generator gen = new Generator("Current Date", (n, p) =>
+            Generator gen = new Generator("Static Date", (n, p) =>
             {
                 return Wrap(GetParameterByName(p, "DATE").ToString());
             }

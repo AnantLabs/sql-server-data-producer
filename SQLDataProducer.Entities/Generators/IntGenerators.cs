@@ -9,12 +9,6 @@ namespace SQLDataProducer.Entities.Generators
 {
     public partial class Generator
     {
-
-        //private GeneratorBase(string name, ValueCreatorDelegate generator, GeneratorParameterCollection genParams)
-        //    : base(name, generator, genParams)
-        //{
-        //}
-        
         public static ObservableCollection<Generator> GetGeneratorsForInt()
         {
             int maxValue = int.MaxValue;

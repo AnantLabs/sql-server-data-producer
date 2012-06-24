@@ -9,13 +9,6 @@ namespace SQLDataProducer.Entities.Generators
 {
    public partial class Generator
     {
-      
-        //private UniqueIdentifierGenerator(string name, ValueCreatorDelegate generator, GeneratorParameterCollection genParams)
-        //    : base(name, generator, genParams)
-        //{
-        //}
-        
-
         internal static ObservableCollection<Generator> GetGUIDGenerators()
         {
             ObservableCollection<Generator> valueGenerators = new ObservableCollection<Generator>();

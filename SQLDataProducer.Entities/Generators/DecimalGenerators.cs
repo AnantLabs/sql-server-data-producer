@@ -9,12 +9,6 @@ namespace SQLDataProducer.Entities.Generators
 {
     public partial class Generator
     {
-
-        //private GeneratorBase(string name, ValueCreatorDelegate generator, GeneratorParameterCollection genParams)
-        //    : base(name, generator, genParams)
-        //{
-        //}
-        
         internal static ObservableCollection<Generator> GetDecimalGenerators()
         {
             ObservableCollection<Generator> valueGenerators = new ObservableCollection<Generator>();
