@@ -19,7 +19,7 @@ namespace SQLDataProducer.Entities.Generators
             valueGenerators.Add(CreateStaticStringGeneratorBase());
             valueGenerators.Add(CreateQueryGenerator());
             valueGenerators.Add(CreateCityGenerator());
-
+            valueGenerators.Add(CreateUserNameGenerator());
             return valueGenerators;
         }
 
@@ -45,6 +45,11 @@ namespace SQLDataProducer.Entities.Generators
             {
                 _cities = new List<string>();
                 _cities.AddRange(System.IO.File.ReadAllLines(@".\Generators\resources\SwedishCities.txt"));
+            }
+            if (_userNames == null)
+            {
+                _userNames = new List<string>();
+                _userNames.AddRange(System.IO.File.ReadAllLines(@".\Generators\resources\UserNames.txt"));
             }
         }
 
@@ -95,7 +100,17 @@ namespace SQLDataProducer.Entities.Generators
         {
             Generator gen = new Generator("Cities", (n, p) =>
             {
-                return Wrap(Cities[n % Males.Count]);
+                return Wrap(Cities[n % Cities.Count]);
+            }
+                , null);
+            return gen;
+        }
+
+        private static Generator CreateUserNameGenerator()
+        {
+            Generator gen = new Generator("User Names", (n, p) =>
+            {
+                return Wrap(UserNames[n % UserNames.Count]);
             }
                 , null);
             return gen;
@@ -137,6 +152,16 @@ namespace SQLDataProducer.Entities.Generators
             {
 
                 return _cities;
+            }
+        }
+
+        private static List<string> _userNames;
+        static List<string> UserNames
+        {
+            get
+            {
+
+                return _userNames;
             }
         }
 
