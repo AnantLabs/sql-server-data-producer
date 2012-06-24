@@ -19,7 +19,7 @@
             <RowDefinition Height="30" />
         </Grid.RowDefinitions>
 
-        <ToolBar Grid.Row="0" Grid.ColumnSpan="2">
+        <ToolBar Grid.Row="0" Grid.ColumnSpan="2"  IsEnabled="{Binding Model.IsExecutionIdle}">
             <Button Command="{Binding SaveCommand}" IsEnabled="{Binding Model.HavePendingChanges}">Save</Button>
             <Button Command="{Binding LoadCommand}">Load</Button>
             
@@ -29,9 +29,11 @@
         </ToolBar>
         
         <my:ExecutionOrderView DataContext="{Binding ExecutionOrderVM}"
-                               Grid.Column="1" Grid.Row="2"/>
+                               Grid.Column="1" Grid.Row="2"
+                                IsEnabled="{Binding Model.IsExecutionIdle}" />
         <my:ExecutionDetailsView DataContext="{Binding Model}"
-                                 Grid.Column="1" Grid.Row="3"/>
+                                 Grid.Column="1" Grid.Row="3"
+                                  IsEnabled="{Binding Model.IsExecutionIdle}" />
         
 
         <my:SidePanelView DataContext="{Binding SidePanelVM}" Grid.Row="2" Grid.RowSpan="2" />

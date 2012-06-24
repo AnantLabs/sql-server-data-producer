@@ -219,5 +219,25 @@ namespace SQLDataProducer.Model
             }
         }
 
+
+        bool _isQueryRunning = false;
+        public bool IsQueryRunning
+        {
+            get
+            {
+                return _isQueryRunning;
+            }
+            set
+            {
+                if (_isQueryRunning != value)
+                {
+                    _isQueryRunning = value;
+                    OnPropertyChanged("IsQueryRunning");
+                    OnPropertyChanged("IsExecutionIdle");
+                }
+            }
+        }
+
+        public bool IsExecutionIdle { get { return !IsQueryRunning; } }
     }
 }

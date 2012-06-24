@@ -73,22 +73,7 @@ namespace SQLDataProducer.ViewModels
             }
         }
 
-        bool _isQueryRunning = false;
-        public bool IsQueryRunning
-        {
-            get
-            {
-                return _isQueryRunning;
-            }
-            set
-            {
-                if (_isQueryRunning != value)
-                {
-                    _isQueryRunning = value;
-                    OnPropertyChanged("IsQueryRunning");
-                }
-            }
-        }
+       
 
         private WorkflowManager _wfm;
 
@@ -107,12 +92,12 @@ namespace SQLDataProducer.ViewModels
                     MessageBox.Show("The connection string must be set before executing");
                 
 
-                IsQueryRunning = true;
+                Model.IsQueryRunning = true;
 
                 _wfm = new WorkflowManager();
                 _wfm.RunWorkFlowAsync(Model.Options, Model.ConnectionString, Model.ExecutionItems, (setsInserted) =>
                     {
-                        IsQueryRunning = false;
+                        Model.IsQueryRunning = false;
                         MessageBox.Show(setsInserted.ToString());
                     }
                     , PreScriptViewModel.ScriptText
@@ -124,7 +109,7 @@ namespace SQLDataProducer.ViewModels
                 if (_wfm != null)
                 {
                     _wfm.StopAsync();
-                    IsQueryRunning = false;
+                    Model.IsQueryRunning = false;
                 }
             });
 
