@@ -2,20 +2,18 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{4424FACB-FF8D-48A2-BAF7-F98594F34E3F}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{AD47B9D0-0A49-49ED-9CF0-123809E266D4}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TestConsoleApplication</RootNamespace>
-    <AssemblyName>TestConsoleApplication</AssemblyName>
+    <RootNamespace>SQLDataProducer.TaskExecuter</RootNamespace>
+    <AssemblyName>SQLDataProducer.TaskExecuter</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,8 +22,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -35,6 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -43,8 +41,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="Enums.cs" />
+    <Compile Include="SetCounter.cs" />
+    <Compile Include="TaskExecuter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WorkflowManager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SQLDataProducer.DataAccess\SQLDataProducer.DataAccess.csproj">
@@ -58,10 +62,6 @@
     <ProjectReference Include="..\SQLDataProducer.EntityQueryGenerator\SQLDataProducer.EntityQueryGenerator.csproj">
       <Project>{6B6065E1-934E-4B2C-9B34-50D15BACAC3A}</Project>
       <Name>SQLDataProducer.EntityQueryGenerator</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SQLDataProducer.TaskExecuter\SQLDataProducer.TaskExecuter.csproj">
-      <Project>{AD47B9D0-0A49-49ED-9CF0-123809E266D4}</Project>
-      <Name>SQLDataProducer.TaskExecuter</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
