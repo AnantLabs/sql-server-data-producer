@@ -45,7 +45,7 @@
             </GroupBox>
         <GroupBox Header="Options" Grid.Column="1">
             <StackPanel>
-                <CheckBox Content="Truncate Table before execution" IsChecked="{Binding SelectedExecutionItem.TruncateBeforeExecution, Mode=TwoWay}" />
+                <!--<CheckBox Content="Truncate Table before execution" IsChecked="{Binding SelectedExecutionItem.TruncateBeforeExecution, Mode=TwoWay}" />-->
                 <GroupBox Header="Conditional Insert?">
                     <StackPanel>
                         <ComboBox ItemsSource="{Binding Source={StaticResource executionConditionEnum}}"
