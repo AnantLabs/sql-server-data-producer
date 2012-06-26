@@ -22,6 +22,7 @@ namespace SQLDataProducer.TaskExecuter
         
         SetCounter _setCounter = new SetCounter();
         SetCounter _insertCounter = new SetCounter();
+        List<string> _errorMessages = new List<string>();
 
         public ExecutionTaskOptions Options { get; private set; }
         private string _connectionString;
@@ -96,9 +97,9 @@ namespace SQLDataProducer.TaskExecuter
                     // TODO: Count the error, save it in some list, and then show it to the user
                     lock (_logFileLockObjs)
                     {
+                        _errorMessages.Add(ex.ToString());
                         System.IO.File.AppendAllText(@"c:\temp\repeater\log.txt", ex.ToString());
                     }
-                    
                 }
             });
         }
@@ -160,6 +161,7 @@ namespace SQLDataProducer.TaskExecuter
             }
             finally
             {
+                result.ErrorList.AddRange(_errorMessages);
                 result.InsertCount = _insertCounter.Peek();
                 result.ExecutedItemCount = _setCounter.Peek();
                 _doneMyWork = true;
