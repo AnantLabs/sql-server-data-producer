@@ -92,7 +92,7 @@ outer apply(
 
 ) foreignInfo( ReferencedTableSchema,ReferencedTable, ReferencedColumn)
 
-where object_id=object_id('{1}.{0}')";
+where object_id=object_id('{1}.{0}')  and cols.is_computed = 0";
 
 
         /// <summary>
