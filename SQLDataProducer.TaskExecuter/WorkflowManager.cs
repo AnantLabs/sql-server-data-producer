@@ -88,7 +88,7 @@ namespace SQLDataProducer.TaskExecuter
             execResult.StartTime = startTime;
             execResult.EndTime = DateTime.Now;
             // Calculate approximation of how many insertions we did
-            execResult.InsertCount = executionItems.Sum(ei => ei.RepeatCount * execResult.ExecutedItemCount);
+            //execResult.InsertCount = executionItems.Sum(ei => ei.RepeatCount * execResult.ExecutedItemCount);
 
             return execResult;
         }

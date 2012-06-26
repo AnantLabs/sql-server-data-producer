@@ -8,7 +8,7 @@ using SQLDataProducer.DatabaseEntities.Entities;
 using SQLDataProducer.Entities.ExecutionEntities;
 using SQLDataProducer.Entities.Generators;
 
-namespace SQLDataProducer.EntityQueryGenerator
+namespace SQLDataProducer.TaskExecuter
 {
     public class InsertQueryGenerator
     {
@@ -101,7 +101,7 @@ namespace SQLDataProducer.EntityQueryGenerator
         /// <param name="n">The serial number to use when creating the values for the variables</param>
         /// <param name="execItems">the executionItems to be included in the variable declarations</param>
         /// <returns></returns>
-        public string GenerateFinalQuery(string baseQuery, IEnumerable<ExecutionItem> execItems, int n)
+        public string GenerateFinalQuery(string baseQuery, IEnumerable<ExecutionItem> execItems, int n , SetCounter m)
         {
             string modified = baseQuery.Clone() as string;
 
@@ -110,7 +110,7 @@ namespace SQLDataProducer.EntityQueryGenerator
             // Skip tables with no columns
             foreach (var item in execItems.Where(x => x.TargetTable.Columns.Count > 0))
             {
-                //int rowGenerationNumber = GenerationNumberSupplier.GetNextNumber();
+                
                 StringBuilder sb = new StringBuilder();
                 
                 sb.AppendFormat("\t-- Item {0}, {1}.{2}", item.Order, item.TargetTable.TableSchema, item.TargetTable.TableName);
@@ -118,11 +118,12 @@ namespace SQLDataProducer.EntityQueryGenerator
                 sb.AppendLine("VALUES");
                 for (int rep = 1; rep <= item.RepeatCount; rep++)
                 {
+                    int rowGenerationNumber = m.GetNext();
                     sb.Append("\t");
                     sb.Append("(");
                     foreach (ColumnEntity col in item.TargetTable.Columns.Where(x => x.IsIdentity == false))
                     {
-                        sb.Append(col.Generator.GenerateValue(n));
+                        sb.Append(col.Generator.GenerateValue(rowGenerationNumber));
                         sb.Append(col.OrdinalPosition == item.TargetTable.Columns.Count ? string.Empty : ", ");
                     }
                     sb.Append(")");

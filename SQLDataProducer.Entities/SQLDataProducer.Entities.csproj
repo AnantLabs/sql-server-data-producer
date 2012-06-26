@@ -65,6 +65,7 @@
     <Compile Include="OptionEntities\ExecutionTaskOptions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DatabaseEntities\TableEntity.cs" />
+    <Compile Include="SetCounter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Generators\resources\Countries.txt">

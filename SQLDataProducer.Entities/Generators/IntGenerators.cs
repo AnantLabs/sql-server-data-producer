@@ -69,6 +69,9 @@ namespace SQLDataProducer.Entities.Generators
             Generator gen = new Generator("Random FOREIGN KEY Value (EAGER)", (n, p) =>
             {
                 ObservableCollection<int> keys = (ObservableCollection<int>)GetParameterByName(p, "Keys");
+                if (keys == null || keys.Count == 0)
+                    throw new ArgumentException("There are no foreign keys in the table that this column references");
+                
                 return keys[RandomSupplier.Instance.GetNextInt() % keys.Count];
             }
                 , paramss);
@@ -90,6 +93,9 @@ namespace SQLDataProducer.Entities.Generators
             Generator gen = new Generator("Sequential FOREIGN KEY Value (EAGER)", (n, p) =>
             {
                 ObservableCollection<int> keys = (ObservableCollection<int>)GetParameterByName(p, "Keys");
+                if (keys == null || keys.Count == 0)
+                    throw new ArgumentException("There are no foreign keys in the table that this column references");
+
                 int si = int.Parse(GetParameterByName(p, "Start Index").ToString());
                 int mi = int.Parse(GetParameterByName(p, "Max Index").ToString());
                 if (mi > fkkeys.Count)
