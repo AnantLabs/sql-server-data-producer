@@ -34,9 +34,15 @@ namespace SQLDataProducer.Entities.Generators
                 || dataType.StartsWith("char")
                 || dataType.StartsWith("nchar"))
             {
-                Regex r = new Regex(@"(?<length>[0-9]*)", RegexOptions.Compiled);
+                // find the length from varchar(129) or varchar(max)
+                Regex r = new Regex(@"\((?<length>[0-9]*|max)\)", RegexOptions.Compiled);
                 int length;
-                if (!int.TryParse(r.Match(dataType).Result("${length}"), out length))
+                var m = r.Match(dataType).Result("${length}");
+                if (m.ToLower() == "max")
+	            {
+                    length = int.MaxValue;
+                }
+                else if (!int.TryParse(m, out length))
                 {
                     length = 0;
                 }
