@@ -24,5 +24,11 @@ namespace SQLDataProducer.Entities
 
             return fallback;
         }
+
+        public static string SubstringWithMaxLength(this string str, int maxLength)
+        { 
+            int l = Math.Min(maxLength, str.Length);
+            return str.Substring(0, l);
+        }
     }
 }

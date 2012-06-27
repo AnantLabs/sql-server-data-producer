@@ -69,7 +69,7 @@ namespace SQLDataProducer.Entities.Generators
             Generator gen = new Generator("Static String", (n, p) =>
             {
                 int l = int.Parse(GetParameterByName(p, "Length").ToString());
-                return Wrap(GetParameterByName(p, "Value").ToString().Substring(0, l));
+                return Wrap(GetParameterByName(p, "Value").ToString().SubstringWithMaxLength(l));
             }
                 , paramss);
             return gen;
@@ -82,7 +82,7 @@ namespace SQLDataProducer.Entities.Generators
             Generator gen = new Generator("Countries", (n, p) =>
             {
                 int l = int.Parse(GetParameterByName(p, "Length").ToString());
-                return Wrap(CountryList[n % CountryList.Count].Substring(0, l));
+                return Wrap(CountryList[n % CountryList.Count].SubstringWithMaxLength(l));
             }
                 , paramss);
             return gen;
@@ -95,7 +95,7 @@ namespace SQLDataProducer.Entities.Generators
             Generator gen = new Generator("Female names", (n, p) =>
             {
                 int l = int.Parse(GetParameterByName(p, "Length").ToString());
-                return Wrap(Females[n % Females.Count].Substring(0, l));
+                return Wrap(Females[n % Females.Count].SubstringWithMaxLength(l));
             }
                 , paramss);
             return gen;
@@ -107,7 +107,7 @@ namespace SQLDataProducer.Entities.Generators
             Generator gen = new Generator("Male names", (n, p) =>
             {
                 int l = int.Parse(GetParameterByName(p, "Length").ToString());
-                return Wrap(Males[n % Males.Count].Substring(0, l));
+                return Wrap(Males[n % Males.Count].SubstringWithMaxLength(l));
             }
                , paramss);
             return gen;
@@ -120,7 +120,7 @@ namespace SQLDataProducer.Entities.Generators
             Generator gen = new Generator("Cities", (n, p) =>
             {
                 int l = int.Parse(GetParameterByName(p, "Length").ToString());
-                return Wrap(Cities[n % Cities.Count].Substring(0, l));
+                return Wrap(Cities[n % Cities.Count].SubstringWithMaxLength(l));
             }
                 , paramss);
             return gen;
@@ -133,7 +133,7 @@ namespace SQLDataProducer.Entities.Generators
             Generator gen = new Generator("User Names", (n, p) =>
             {
                 int l = int.Parse(GetParameterByName(p, "Length").ToString());
-                return Wrap(UserNames[n % UserNames.Count].Substring(0, l));
+                return Wrap(UserNames[n % UserNames.Count].SubstringWithMaxLength(l));
             }
                 , paramss);
             return gen;
