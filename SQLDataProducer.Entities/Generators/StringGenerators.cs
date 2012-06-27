@@ -10,16 +10,16 @@ namespace SQLDataProducer.Entities.Generators
 {
     public partial class Generator
     {
-        internal static System.Collections.ObjectModel.ObservableCollection<Generator> GetStringGenerators()
+        internal static System.Collections.ObjectModel.ObservableCollection<Generator> GetStringGenerators(int length)
         {
             ObservableCollection<Generator> valueGenerators = new ObservableCollection<Generator>();
-            valueGenerators.Add(CreateCountriesGenerator());
-            valueGenerators.Add(CreateFemaleNameGenerator());
-            valueGenerators.Add(CreateMaleNameGenerator());
-            valueGenerators.Add(CreateStaticStringGeneratorBase());
+            valueGenerators.Add(CreateCountriesGenerator(length));
+            valueGenerators.Add(CreateFemaleNameGenerator(length));
+            valueGenerators.Add(CreateMaleNameGenerator(length));
+            valueGenerators.Add(CreateStaticStringGeneratorBase(length));
             valueGenerators.Add(CreateQueryGenerator());
-            valueGenerators.Add(CreateCityGenerator());
-            valueGenerators.Add(CreateUserNameGenerator());
+            valueGenerators.Add(CreateCityGenerator(length));
+            valueGenerators.Add(CreateUserNameGenerator(length));
             return valueGenerators;
         }
 
@@ -28,91 +28,114 @@ namespace SQLDataProducer.Entities.Generators
         {
             if (_countries == null)
             {
-                _countries = new List<string>();
-                _countries.AddRange(System.IO.File.ReadAllLines(@".\Generators\resources\Countries.txt"));
+                _countries = GetLinesFromFile( @".\Generators\resources\Countries.txt");
             }
             if (_females == null)
             {
-                _females = new List<string>();
-                _females.AddRange(System.IO.File.ReadAllLines(@".\Generators\resources\FemaleNames.txt"));
+                _females = GetLinesFromFile(@".\Generators\resources\FemaleNames.txt");
             }
             if (_males == null)
             {
-                _males = new List<string>();
-                _males.AddRange(System.IO.File.ReadAllLines(@".\Generators\resources\MaleNames.txt"));
+                _males = GetLinesFromFile(@".\Generators\resources\MaleNames.txt");
             }
             if (_cities == null)
             {
-                _cities = new List<string>();
-                _cities.AddRange(System.IO.File.ReadAllLines(@".\Generators\resources\SwedishCities.txt"));
+                _cities = GetLinesFromFile(@".\Generators\resources\SwedishCities.txt");
             }
             if (_userNames == null)
             {
-                _userNames = new List<string>();
-                _userNames.AddRange(System.IO.File.ReadAllLines(@".\Generators\resources\UserNames.txt"));
+                _userNames = GetLinesFromFile(@".\Generators\resources\UserNames.txt");
             }
         }
 
-        private static Generator CreateStaticStringGeneratorBase()
+        private static List<string> GetLinesFromFile(string fileName)
+        {
+            List<string> lines = new List<string>();
+            if (System.IO.File.Exists(fileName))
+                lines.AddRange(System.IO.File.ReadAllLines(fileName));
+            else
+                lines.Add(string.Format("{0} file not found", fileName));
+
+            return lines;
+        }
+
+        private static Generator CreateStaticStringGeneratorBase(int length)
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
 
             paramss.Add(new GeneratorParameter("Value", ""));
+            paramss.Add(new GeneratorParameter("Length", length, false));
 
             Generator gen = new Generator("Static String", (n, p) =>
             {
-                return Wrap(GetParameterByName(p, "Value").ToString());
+                int l = int.Parse(GetParameterByName(p, "Length").ToString());
+                return Wrap(GetParameterByName(p, "Value").ToString().Substring(0, l));
             }
                 , paramss);
             return gen;
         }
 
-        private static Generator CreateCountriesGenerator()
+        private static Generator CreateCountriesGenerator(int length)
         {
+            GeneratorParameterCollection paramss = new GeneratorParameterCollection();
+            paramss.Add(new GeneratorParameter("Length", length, false));
             Generator gen = new Generator("Countries", (n, p) =>
             {
-                return Wrap(CountryList[n % CountryList.Count]);
+                int l = int.Parse(GetParameterByName(p, "Length").ToString());
+                return Wrap(CountryList[n % CountryList.Count].Substring(0, l));
             }
-                , null);
+                , paramss);
             return gen;
         }
 
-        private static Generator CreateFemaleNameGenerator()
+        private static Generator CreateFemaleNameGenerator(int length)
         {
+            GeneratorParameterCollection paramss = new GeneratorParameterCollection();
+            paramss.Add(new GeneratorParameter("Length", length, false));
             Generator gen = new Generator("Female names", (n, p) =>
             {
-                return Wrap(Females[n % Females.Count]);
+                int l = int.Parse(GetParameterByName(p, "Length").ToString());
+                return Wrap(Females[n % Females.Count].Substring(0, l));
             }
-                , null);
+                , paramss);
             return gen;
         }
-        private static Generator CreateMaleNameGenerator()
+        private static Generator CreateMaleNameGenerator(int length)
         {
+            GeneratorParameterCollection paramss = new GeneratorParameterCollection();
+            paramss.Add(new GeneratorParameter("Length", length, false));
             Generator gen = new Generator("Male names", (n, p) =>
             {
-                return Wrap(Males[n % Males.Count]);
+                int l = int.Parse(GetParameterByName(p, "Length").ToString());
+                return Wrap(Males[n % Males.Count].Substring(0, l));
             }
-                , null);
+               , paramss);
             return gen;
         }
 
-        private static Generator CreateCityGenerator()
+        private static Generator CreateCityGenerator(int length)
         {
+            GeneratorParameterCollection paramss = new GeneratorParameterCollection();
+            paramss.Add(new GeneratorParameter("Length", length, false));
             Generator gen = new Generator("Cities", (n, p) =>
             {
-                return Wrap(Cities[n % Cities.Count]);
+                int l = int.Parse(GetParameterByName(p, "Length").ToString());
+                return Wrap(Cities[n % Cities.Count].Substring(0, l));
             }
-                , null);
+                , paramss);
             return gen;
         }
 
-        private static Generator CreateUserNameGenerator()
+        private static Generator CreateUserNameGenerator(int length)
         {
+            GeneratorParameterCollection paramss = new GeneratorParameterCollection();
+            paramss.Add(new GeneratorParameter("Length", length, false));
             Generator gen = new Generator("User Names", (n, p) =>
             {
-                return Wrap(UserNames[n % UserNames.Count]);
+                int l = int.Parse(GetParameterByName(p, "Length").ToString());
+                return Wrap(UserNames[n % UserNames.Count].Substring(0, l));
             }
-                , null);
+                , paramss);
             return gen;
         }
 

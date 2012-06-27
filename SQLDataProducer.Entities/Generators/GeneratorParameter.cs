@@ -82,10 +82,11 @@ namespace SQLDataProducer.Entities.Generators
             }
         }
 
-        public GeneratorParameter(string name, object value)
+        public GeneratorParameter(string name, object value, bool isWriteEnabled = true)
         {
             ParameterName = name;
             Value = value;
+            IsWriteEnabled = isWriteEnabled;
         }
         public GeneratorParameter()
         {

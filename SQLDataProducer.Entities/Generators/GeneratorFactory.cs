@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text.RegularExpressions;
 //
 
 namespace SQLDataProducer.Entities.Generators
@@ -33,7 +34,13 @@ namespace SQLDataProducer.Entities.Generators
                 || dataType.StartsWith("char")
                 || dataType.StartsWith("nchar"))
             {
-                return Generators.Generator.GetStringGenerators();
+                Regex r = new Regex(@"(?<length>[0-9]*)", RegexOptions.Compiled);
+                int length;
+                if (!int.TryParse(r.Match(dataType).Result("${length}"), out length))
+                {
+                    length = 0;
+                }
+                return Generators.Generator.GetStringGenerators(length);
             }
             else if (dataType.StartsWith("decimal")
                 || dataType.StartsWith("float"))
@@ -51,7 +58,7 @@ namespace SQLDataProducer.Entities.Generators
 
             else
             {
-                return Generators.Generator.GetStringGenerators();
+                return Generators.Generator.GetStringGenerators(1);
             }
 
         }
