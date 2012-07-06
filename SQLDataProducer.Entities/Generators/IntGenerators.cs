@@ -23,7 +23,7 @@ namespace SQLDataProducer.Entities.Generators
         public static ObservableCollection<Generator> GetGeneratorsForInt()
         {
             int maxValue = int.MaxValue;
-            int minValue = int.MinValue;
+            int minValue = 0;
 
             return CreateIntGeneratorsWithSettings(maxValue, minValue);
         }
@@ -44,7 +44,7 @@ namespace SQLDataProducer.Entities.Generators
         public static ObservableCollection<Generator> GetGeneratorsForTinyInt()
         {
             long maxValue = byte.MaxValue;
-            long minValue = byte.MinValue;
+            long minValue = 0;
 
             return CreateIntGeneratorsWithSettings(maxValue, minValue);
         }
@@ -66,6 +66,9 @@ namespace SQLDataProducer.Entities.Generators
             valueGenerators.Add(CreateIdentityFromExecutionItem());
             valueGenerators.Add(CreateQueryGenerator());
             valueGenerators.Add(CreateStaticNumberGenerator());
+            valueGenerators.Add(CreateExponentialRandomNumbersGenerator());
+            valueGenerators.Add(CreateNormallyDistributedRandomGenerator());
+            valueGenerators.Add(CreateWeibullRandomNumbersGenerator());
 
             return valueGenerators;
         }
@@ -198,7 +201,63 @@ namespace SQLDataProducer.Entities.Generators
             return gen;
         }
 
-        
+        private static Generator CreateNormallyDistributedRandomGenerator()
+        {
+            GeneratorParameterCollection paramss = new GeneratorParameterCollection();
+
+            paramss.Add(new GeneratorParameter("Mean", 1.1));
+            paramss.Add(new GeneratorParameter("StDev", 1.1));
+
+            Generator gen = new Generator("Normally Distributed Random Numbers", (n, p) =>
+            {
+                double Mean = double.Parse(GetParameterByName(p, "Mean").ToString());
+                double StDev = double.Parse(GetParameterByName(p, "StDev").ToString());
+                double URN1 = RandomSupplier.Instance.GetNextDouble();
+                double URN2 = RandomSupplier.Instance.GetNextDouble();
+
+                return (StDev * Math.Sqrt(-2 * Math.Log(URN1)) * Math.Cos(2 * Math.Acos(-1.0) * URN2)) + Mean;
+            }
+                , paramss);
+            return gen;
+        }
+
+        private static Generator CreateExponentialRandomNumbersGenerator()
+        {
+            GeneratorParameterCollection paramss = new GeneratorParameterCollection();
+
+            paramss.Add(new GeneratorParameter("Lambda", 1.1));
+
+            Generator gen = new Generator("Exponential Random Numbers", (n, p) =>
+            {
+                double Lambda = double.Parse(GetParameterByName(p, "Lambda").ToString());
+                double URN1 = RandomSupplier.Instance.GetNextDouble();
+
+                 //-LOG(@URN)/@Lambda
+                return -1.0 * (Math.Log(URN1) / Lambda);
+            }
+                , paramss);
+            return gen;
+        }
+
+         private static Generator CreateWeibullRandomNumbersGenerator()
+        {
+            GeneratorParameterCollection paramss = new GeneratorParameterCollection();
+
+            paramss.Add(new GeneratorParameter("Alpha", 1.1));
+            paramss.Add(new GeneratorParameter("Beta", 1.1));
+
+            Generator gen = new Generator("Weibull Random Numbers", (n, p) =>
+            {
+                double Alpha = double.Parse(GetParameterByName(p, "Alpha").ToString());
+                double Beta = double.Parse(GetParameterByName(p, "Beta").ToString());
+                double URN1 = RandomSupplier.Instance.GetNextDouble();
+
+                 //RETURN POWER((-1. / @Alpha) * LOG(1. - @URN), 1./@Beta)
+                return Math.Pow((-1.0 / Alpha) * Math.Log(1.0 - URN1), 1.0/Beta);
+            }
+                , paramss);
+            return gen;
+        }
 
         //public static object DownCounter(int n, object param)
         //{

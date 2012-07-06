@@ -25,6 +25,9 @@ namespace SQLDataProducer.Entities.Generators
             valueGenerators.Add(CreateDecimalUpCounter());
             valueGenerators.Add(CreateQueryGenerator());
             valueGenerators.Add(CreateRandomDecimalGenerator());
+            valueGenerators.Add(CreateExponentialRandomNumbersGenerator());
+            valueGenerators.Add(CreateNormallyDistributedRandomGenerator());
+            valueGenerators.Add(CreateWeibullRandomNumbersGenerator());
 
             return valueGenerators;
         }
