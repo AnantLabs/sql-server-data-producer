@@ -69,6 +69,7 @@ namespace SQLDataProducer.Entities.Generators
             valueGenerators.Add(CreateExponentialRandomNumbersGenerator());
             valueGenerators.Add(CreateNormallyDistributedRandomGenerator());
             valueGenerators.Add(CreateWeibullRandomNumbersGenerator());
+            valueGenerators.Add(CreateLaplaceRandomNumbersGenerator());
 
             return valueGenerators;
         }
@@ -201,6 +202,10 @@ namespace SQLDataProducer.Entities.Generators
             return gen;
         }
 
+        /// <summary>
+        /// http://www.sqlservercentral.com/articles/SQL+Uniform+Random+Numbers/91103/
+        /// </summary>
+        /// <returns></returns>
         private static Generator CreateNormallyDistributedRandomGenerator()
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
@@ -221,6 +226,10 @@ namespace SQLDataProducer.Entities.Generators
             return gen;
         }
 
+        /// <summary>
+        /// http://www.sqlservercentral.com/articles/SQL+Uniform+Random+Numbers/91103/
+        /// </summary>
+        /// <returns></returns>
         private static Generator CreateExponentialRandomNumbersGenerator()
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
@@ -239,7 +248,11 @@ namespace SQLDataProducer.Entities.Generators
             return gen;
         }
 
-         private static Generator CreateWeibullRandomNumbersGenerator()
+        /// <summary>
+        /// http://www.sqlservercentral.com/articles/SQL+Uniform+Random+Numbers/91103/
+        /// </summary>
+        /// <returns></returns>
+        private static Generator CreateWeibullRandomNumbersGenerator()
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
 
@@ -252,12 +265,49 @@ namespace SQLDataProducer.Entities.Generators
                 double Beta = double.Parse(GetParameterByName(p, "Beta").ToString());
                 double URN1 = RandomSupplier.Instance.GetNextDouble();
 
-                 //RETURN POWER((-1. / @Alpha) * LOG(1. - @URN), 1./@Beta)
-                return Math.Pow((-1.0 / Alpha) * Math.Log(1.0 - URN1), 1.0/Beta);
+                //RETURN POWER((-1. / @Alpha) * LOG(1. - @URN), 1./@Beta)
+                return Math.Pow((-1.0 / Alpha) * Math.Log(1.0 - URN1), 1.0 / Beta);
             }
                 , paramss);
             return gen;
         }
+
+        /// <summary>
+        /// http://www.sqlservercentral.com/articles/SQL+Uniform+Random+Numbers/91103/
+        /// </summary>
+        /// <returns></returns>
+        private static Generator CreateLaplaceRandomNumbersGenerator()
+        {
+            GeneratorParameterCollection paramss = new GeneratorParameterCollection();
+
+            paramss.Add(new GeneratorParameter("u", 1.1));
+            paramss.Add(new GeneratorParameter("b", 1.1));
+
+            Generator gen = new Generator("Laplace Random Numbers", (n, p) =>
+            {
+                double u = double.Parse(GetParameterByName(p, "u").ToString());
+                double b = double.Parse(GetParameterByName(p, "b").ToString());
+                double URN1 = RandomSupplier.Instance.GetNextDouble();
+
+                int s = 0;
+                if (0 < URN1 - 0.5)
+                    s = 1;
+                if (0 > URN1 - 0.5)
+                    s = -1;
+
+                return u - b * Math.Log(1 - 2 * Math.Abs(URN1 - 0.5)) * s;
+                //        RETURN @u - @b * LOG(1 - 2 * ABS(@URN - 0.5)) *
+                //CASE WHEN 0 < @URN - 0.5 THEN 1 
+                //     WHEN 0 > @URN - 0.5 THEN -1 
+                //     ELSE 0 
+                //END
+
+            }
+                , paramss);
+            return gen;
+        }
+
+        
 
         //public static object DownCounter(int n, object param)
         //{

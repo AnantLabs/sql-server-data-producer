@@ -28,6 +28,7 @@ namespace SQLDataProducer.Entities.Generators
             valueGenerators.Add(CreateExponentialRandomNumbersGenerator());
             valueGenerators.Add(CreateNormallyDistributedRandomGenerator());
             valueGenerators.Add(CreateWeibullRandomNumbersGenerator());
+            valueGenerators.Add(CreateLaplaceRandomNumbersGenerator());
 
             return valueGenerators;
         }
