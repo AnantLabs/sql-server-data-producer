@@ -201,6 +201,27 @@ namespace SQLDataProducer.Entities.OptionEntities
         }
 
 
+        private NumberGeneratorMethods _numberGeneratorMethod = NumberGeneratorMethods.NewNForEachExecution;
+        /// <summary>
+        /// Get set the method to use when generating N for the insertions.
+        /// </summary>
+        public NumberGeneratorMethods NumberGeneratorMethod
+        {
+            get
+            {
+                return _numberGeneratorMethod;
+            }
+            set
+            {
+                if (_numberGeneratorMethod != value)
+                {
+                    _numberGeneratorMethod = value;
+                    OnPropertyChanged("NumberGeneratorMethod");
+                }
+            }
+        }
+
+
     }
 
     

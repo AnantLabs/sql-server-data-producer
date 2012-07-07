@@ -34,6 +34,13 @@ namespace SQLDataProducer.Entities
         ExecutionCountBased
     }
 
+    public enum NumberGeneratorMethods
+    {
+        NewNForEachExecution,
+        NewNForEachRow,
+        ConstantN
+    }
+
     public static class EnumExtensions
     {
         public static string ToCompareString(this ExecutionConditions cond, int conditionValue)

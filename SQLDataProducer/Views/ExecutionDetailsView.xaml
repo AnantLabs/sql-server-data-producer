@@ -34,6 +34,7 @@
                 <x:Type TypeName="enums:ExecutionConditions"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
+        
     </UserControl.Resources>
     
     
@@ -69,6 +70,7 @@
                         <TextBox Text="{Binding SelectedExecutionItem.ExecutionConditionValue, Mode= TwoWay}" />
                     </StackPanel>
                 </GroupBox>
+                
             </StackPanel>
         </GroupBox>
 

@@ -75,7 +75,7 @@ namespace SQLDataProducer.TaskExecuter
         /// <param name="baseQuery">The query containing insert statements for all the items and a placeholder for the variables and their values</param>
         /// <param name="GenerateFinalQuery">The FinalQueryGeneratorDelegate that will be run to create the final query. The final query will include the actuall values</param>
         /// <returns></returns>
-        public ExecutionTaskDelegate CreateSQLTaskForExecutionItems(IEnumerable<ExecutionItem> execItems, string baseQuery, FinalQueryGeneratorDelegate GenerateFinalQuery)
+        public ExecutionTaskDelegate CreateSQLTaskForExecutionItems(ExecutionItemCollection execItems, string baseQuery, FinalQueryGeneratorDelegate GenerateFinalQuery)
         {
             return new ExecutionTaskDelegate(() =>
             {
@@ -84,7 +84,20 @@ namespace SQLDataProducer.TaskExecuter
                     // Generate the final query.
                     // For each time this Action is called, generate the final query. This will create the "declaration" part of the script with the generated data.
                     // The "base" of the script will be kept from its original, we only generate the actual data here.
-                    string finalResult = GenerateFinalQuery(baseQuery, execItems, _setCounter.Peek() ,_insertCounter);
+                    string finalResult = GenerateFinalQuery(baseQuery, execItems, _setCounter.Peek(), () =>
+                        {
+                            switch (Options.NumberGeneratorMethod)
+                            {
+                                case NumberGeneratorMethods.NewNForEachExecution:
+                                    return _insertCounter.Peek();
+                                case NumberGeneratorMethods.NewNForEachRow:
+                                    return _insertCounter.GetNext();
+                                case NumberGeneratorMethods.ConstantN:
+                                    return 1;
+                                default:
+                                    return 1;
+                            }
+                        });
 
                     if (!Options.OnlyOutputToFile)
                     {
@@ -203,6 +216,7 @@ namespace SQLDataProducer.TaskExecuter
                     {
                         counter.Increment();
                         task();
+                        _insertCounter.Peek();
                         float percentDone = (float)counter.Peek() / (float)Options.FixedExecutions;
                         // TODO: Find out if this is eating to much performance (Sending many OnPropertyChanged events..
                         Options.PercentCompleted = (int)(percentDone * 100);
@@ -241,6 +255,7 @@ namespace SQLDataProducer.TaskExecuter
                     while (DateTime.Now < until && !CancelTokenSource.IsCancellationRequested)
                     {
                         task();
+                        _insertCounter.Peek();
                         counter.Increment();
                         float percentDone = ((float)(DateTime.Now.Ticks - beginTime.Ticks) / (float)(until.Ticks - beginTime.Ticks));
                         Options.PercentCompleted = (int)(percentDone * 100);
