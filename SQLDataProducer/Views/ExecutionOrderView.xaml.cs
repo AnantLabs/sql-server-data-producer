@@ -13,6 +13,9 @@
 //   limitations under the License.
 
 using System.Windows.Controls;
+using SQLDataProducer.ViewModels;
+using System;
+using SQLDataProducer.DatabaseEntities.Entities;
 
 namespace SQLDataProducer.Views
 {
@@ -21,9 +24,35 @@ namespace SQLDataProducer.Views
     /// </summary>
     public partial class ExecutionOrderView : UserControl
     {
+        //ExecutionOrderViewModel vm;
+        //public System.ComponentModel.ICollectionView DefaultView;
+
         public ExecutionOrderView()
         {
             InitializeComponent();
+
+          //  Loaded += new System.Windows.RoutedEventHandler(ExecutionOrderView_Loaded);
         }
+
+        //void ExecutionOrderView_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        //{
+        //    vm = (ExecutionOrderViewModel)this.DataContext;
+        //    DefaultView = System.Windows.Data.CollectionViewSource.GetDefaultView(vm.Model.Tables);
+        //}
+
+        //private void txtSearch_TextChanged(object sender, TextChangedEventArgs e)
+        //{
+        //    DefaultView.Refresh();
+        //}
     }
+
+    //public class TextSearchFilter
+    //{
+    //    public TextSearchFilter(
+    //        System.ComponentModel.ICollectionView filteredView,
+    //        TextBox textBox)
+    //    {
+            
+    //    }
+    //}
 }

@@ -1,0 +1,18 @@
+﻿<Window x:Class="SQLDataProducer.ModalWindows.MassImportWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MassImportWindow" Height="500" Width="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="431*" />
+            <RowDefinition Height="30*" />
+        </Grid.RowDefinitions>
+        
+        <ListBox AllowDrop="True" Drop="ListBox_Drop">
+            
+        </ListBox>
+        
+        <Button Content="OK" Click="Button_Click" Grid.Row="1" />
+        
+    </Grid>
+</Window>

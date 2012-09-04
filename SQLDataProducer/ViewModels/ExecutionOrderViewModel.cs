@@ -17,6 +17,9 @@ using SQLDataProducer.Entities.ExecutionEntities;
 using SQLDataProducer.DatabaseEntities.Entities;
 using SQLDataProducer.DataAccess;
 using SQLDataProducer.ModalWindows;
+using System.Linq;
+using SQLDataProducer.Entities.DatabaseEntities.Collections;
+using System;
 
 namespace SQLDataProducer.ViewModels
 {
@@ -31,7 +34,8 @@ namespace SQLDataProducer.ViewModels
         public DelegateCommand MoveItemDownCommand { get; private set; }
 
         public DelegateCommand<ExecutionItem> CloneExecutionItemCommand { get; private set; }
-        
+
+        public DelegateCommand ClearSearchCriteraCommand { get; private set; }
 
         SQLDataProducer.Model.ApplicationModel _model;
         public SQLDataProducer.Model.ApplicationModel Model
@@ -84,7 +88,14 @@ namespace SQLDataProducer.ViewModels
                 }
             }
         }
-       
+
+
+        
+
+
+        
+        
+
         public ExecutionOrderViewModel(SQLDataProducer.Model.ApplicationModel model)
         {
             Model = model;
@@ -102,7 +113,7 @@ namespace SQLDataProducer.ViewModels
                     if (Model.Tables == null)
                         return;
 
-                    foreach (var tabl in Model.Tables)
+                    foreach (TableEntity tabl in Model.TablesView)
                     {
                         AddExecutionItem(tabl);
                     }
@@ -119,7 +130,7 @@ namespace SQLDataProducer.ViewModels
                     int newIndex = Model.ExecutionItems.IndexOf(Model.SelectedExecutionItem) - 1;
                     if (newIndex < 0)
                         return;
-                    
+
                     Model.ExecutionItems[newIndex].Order++;
                     Model.SelectedExecutionItem.Order--;
 
@@ -156,7 +167,7 @@ namespace SQLDataProducer.ViewModels
                     if (item == null)
                         return;
 
-                    CloneExecutionItemWindow window = new CloneExecutionItemWindow( clones => 
+                    CloneExecutionItemWindow window = new CloneExecutionItemWindow(clones =>
                     {
                         for (int i = 0; i < clones; i++)
                         {
@@ -165,6 +176,13 @@ namespace SQLDataProducer.ViewModels
                     });
                     window.Show();
                 });
+
+
+            ClearSearchCriteraCommand = new DelegateCommand(() =>
+                {
+                    Model.SearchCriteria = string.Empty;
+                });
+
         }
 
         private void AddExecutionItem(TableEntity table)

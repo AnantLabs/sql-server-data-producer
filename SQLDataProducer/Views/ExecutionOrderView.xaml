@@ -20,15 +20,32 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid x:Name="OrderRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20" />
+            <RowDefinition Height="282*" />
+        </Grid.RowDefinitions>
+        
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="148*" />
             <ColumnDefinition Width="44" />
             <ColumnDefinition Width="148*" />
         </Grid.ColumnDefinitions>
-        
-        
-        <ListBox Height="Auto" ItemsSource="{Binding Model.Tables}" SelectedItem="{Binding Model.SelectedTable, Mode=TwoWay}" Grid.Column="0"
-                ScrollViewer.VerticalScrollBarVisibility="Visible">
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="15"/>                
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Row="0" Text="{Binding Model.SearchCriteria, UpdateSourceTrigger=PropertyChanged}"  />
+            <Button Content="X" Grid.Column="1" Command="{Binding ClearSearchCriteraCommand}" />
+        </Grid>
+            
+        <ListBox 
+                ItemsSource="{Binding Model.TablesView}" 
+                SelectedItem="{Binding Model.SelectedTable, Mode=TwoWay}" 
+                ScrollViewer.VerticalScrollBarVisibility="Visible" 
+                Grid.Row="1" 
+                >
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Path=.}" />
@@ -39,8 +56,7 @@
         <ListBox ItemsSource="{Binding Model.ExecutionItems}" 
                  SelectedItem="{Binding Model.SelectedExecutionItem, Mode=TwoWay}" 
                  Grid.Column="2"
-                 ScrollViewer.VerticalScrollBarVisibility="Visible"
-                 >
+                 ScrollViewer.VerticalScrollBarVisibility="Visible" Grid.RowSpan="2">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid>
@@ -67,7 +83,7 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+        <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="0,88,0,106" Grid.Row="1">
             <Button Content="UP" Command="{Binding MoveItemUpCommand}" IsEnabled="{Binding Model.HaveExecutionItemSelected}" />
 
             <Button Content="&lt;"  Command="{Binding MoveItemLeftCommand}" IsEnabled="{Binding Model.HaveExecutionItemSelected}" />
@@ -75,7 +91,7 @@
 
             <Button Content="DOWN"  Command="{Binding MoveItemDownCommand}" IsEnabled="{Binding Model.HaveExecutionItemSelected}" />
         </StackPanel>
-        <StackPanel Grid.Column="1" VerticalAlignment="Bottom">
+        <StackPanel Grid.Column="1" VerticalAlignment="Bottom" Grid.Row="1">
             <Button Content="Add all" Command="{Binding MoveAllItemsRightCommand}" IsEnabled="{Binding Model.Tables.IsContainingData}"  />
             <Button Content="Clear!"  Command="{Binding MoveAllItemsLeftCommand}"  IsEnabled="{Binding Model.ExecutionItems.IsContainingData}" />
         </StackPanel>

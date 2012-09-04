@@ -255,5 +255,42 @@ namespace SQLDataProducer.Model
         }
 
         public bool IsExecutionIdle { get { return !IsQueryRunning; } }
+
+        string _searchCriteria;
+        public string SearchCriteria
+        {
+            get
+            {
+                return _searchCriteria;
+            }
+            set
+            {
+                if (_searchCriteria != value)
+                {
+                    _searchCriteria = value;
+                    TablesView.Refresh();
+                    OnPropertyChanged("SearchCriteria");
+                }
+            }
+        }
+
+        System.ComponentModel.ICollectionView _tablesView;
+        public System.ComponentModel.ICollectionView TablesView
+        {
+            get
+            {
+                return _tablesView;
+            }
+            set
+            {
+                if (_tablesView != value)
+                {
+                    _tablesView = value;
+                    OnPropertyChanged("TablesView");
+                }
+            }
+        }
+        
+        
     }
 }

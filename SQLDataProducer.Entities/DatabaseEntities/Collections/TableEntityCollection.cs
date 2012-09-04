@@ -46,6 +46,5 @@ namespace SQLDataProducer.Entities.DatabaseEntities.Collections
             }
         }
 
-
     }
 }

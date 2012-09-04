@@ -62,6 +62,9 @@
     <Compile Include="ModalWindows\CloneExecutionItemWindow.xaml.cs">
       <DependentUpon>CloneExecutionItemWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ModalWindows\MassImportWindow.xaml.cs">
+      <DependentUpon>MassImportWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Model\ApplicationModel.cs" />
     <Compile Include="SQLDataProducerSettings.cs" />
     <Compile Include="SQLDataProducerSettings.Designer.cs">
@@ -100,6 +103,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="ModalWindows\CloneExecutionItemWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ModalWindows\MassImportWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

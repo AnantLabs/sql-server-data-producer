@@ -13,6 +13,8 @@
 //   limitations under the License.
 
 using System;
+using System.Collections.ObjectModel;
+using System.Collections.Generic;
 
 namespace SQLDataProducer.Entities
 {
@@ -41,5 +43,13 @@ namespace SQLDataProducer.Entities
             int l = Math.Min(maxLength, str.Length);
             return str.Substring(0, l);
         }
+
+        //public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> coll)
+        //{
+        //    var c = new ObservableCollection<T>();
+        //    foreach (var e in coll)
+        //        c.Add(e);
+        //    return c;
+        //}
     }
 }

@@ -20,6 +20,7 @@ using SQLDataProducer.Entities.ExecutionEntities;
 using System.Windows.Threading;
 using System.Threading;
 using SQLDataProducer.Entities.OptionEntities;
+using SQLDataProducer.DatabaseEntities.Entities;
 
 
 namespace SQLDataProducer.ViewModels
@@ -99,12 +100,33 @@ namespace SQLDataProducer.ViewModels
                     new ThreadStart(() =>
                     {
                         //Model.ExecutionItems.Clear();
+                        SetTablesView();
                         Model.SelectedExecutionItem = Model.ExecutionItems.FirstOrDefault();
                         Model.IsQueryRunning = false;
                     })
                     );
             });
 
+        }
+
+        private void SetTablesView()
+        {
+            Model.TablesView = System.Windows.Data.CollectionViewSource.GetDefaultView(Model.Tables);
+
+            Model.TablesView.Filter = delegate(object obj)
+            {
+                TableEntity t = obj as TableEntity;
+
+                if (String.IsNullOrEmpty(Model.SearchCriteria))
+                    return true;
+
+                int index = t.TableName.IndexOf(
+                    Model.SearchCriteria,
+                    0,
+                    StringComparison.InvariantCultureIgnoreCase);
+
+                return index > -1;
+            };
         }
 
         public MainWindowViewModel(ExecutionTaskOptions options)
