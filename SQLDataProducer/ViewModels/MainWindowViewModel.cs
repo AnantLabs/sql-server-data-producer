@@ -87,28 +87,24 @@ namespace SQLDataProducer.ViewModels
         private void LoadTables()
         {
             TableEntityDataAccess tda = new TableEntityDataAccess(Model.ConnectionString);
-            try
+
+            Model.IsQueryRunning = true;
+            tda.BeginGetAllTablesAndColumns(res =>
             {
-                Model.IsQueryRunning = true;
-                tda.BeginGetAllTablesAndColumns(res =>
-                {
-                    Model.Tables = res;
-                    Model.SelectedTable = Model.Tables.FirstOrDefault();
-                    Model.SelectedColumn = Model.SelectedTable.Columns.FirstOrDefault();
-                    Application.Current.Dispatcher.Invoke(
-                        DispatcherPriority.Normal,
-                        new ThreadStart(() =>
-                        {
-                            //Model.ExecutionItems.Clear();
-                            Model.SelectedExecutionItem = Model.ExecutionItems.FirstOrDefault();
-                        })
-                        );
-                });
-            }
-            finally
-            {
-                Model.IsQueryRunning = false;
-            }
+                Model.Tables = res;
+                Model.SelectedTable = Model.Tables.FirstOrDefault();
+                Model.SelectedColumn = Model.SelectedTable.Columns.FirstOrDefault();
+                Application.Current.Dispatcher.Invoke(
+                    DispatcherPriority.Normal,
+                    new ThreadStart(() =>
+                    {
+                        //Model.ExecutionItems.Clear();
+                        Model.SelectedExecutionItem = Model.ExecutionItems.FirstOrDefault();
+                        Model.IsQueryRunning = false;
+                    })
+                    );
+            });
+
         }
 
         public MainWindowViewModel(ExecutionTaskOptions options)
