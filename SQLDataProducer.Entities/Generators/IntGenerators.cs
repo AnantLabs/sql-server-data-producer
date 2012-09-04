@@ -74,7 +74,7 @@ namespace SQLDataProducer.Entities.Generators
             return valueGenerators;
         }
 
-        public static Generator CreateRandomForeignKeyGenerator(ObservableCollection<int> fkkeys)
+        public static Generator CreateRandomForeignKeyGenerator(ObservableCollection<string> fkkeys)
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
 
@@ -92,7 +92,7 @@ namespace SQLDataProducer.Entities.Generators
                 , paramss);
             return gen;
         }
-        public static Generator CreateSequentialForeignKeyGenerator(ObservableCollection<int> fkkeys)
+        public static Generator CreateSequentialForeignKeyGenerator(ObservableCollection<string> fkkeys)
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
 

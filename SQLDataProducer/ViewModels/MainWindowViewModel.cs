@@ -66,24 +66,6 @@ namespace SQLDataProducer.ViewModels
             }
         }
 
-
-        //ObservableCollection<ExecutionDetailsViewModel> _executionDetailsVMs;
-        //public ObservableCollection<ExecutionDetailsViewModel> ExecutionDetailsVMS
-        //{
-        //    get
-        //    {
-        //        return _executionDetailsVMs;
-        //    }
-        //    set
-        //    {
-        //        if (_executionDetailsVMs != value)
-        //        {
-        //            _executionDetailsVMs = value;
-        //            OnPropertyChanged("ExecutionDetailsVMS");
-        //        }
-        //    }
-        //}
-
         SidePanelViewModel _sidepanelVM;
         public SidePanelViewModel SidePanelVM
         {
@@ -105,21 +87,28 @@ namespace SQLDataProducer.ViewModels
         private void LoadTables()
         {
             TableEntityDataAccess tda = new TableEntityDataAccess(Model.ConnectionString);
-            tda.BeginGetAllTablesAndColumns(res =>
+            try
             {
-                Model.Tables = res;
-                Model.SelectedTable = Model.Tables.FirstOrDefault();
-                Model.SelectedColumn = Model.SelectedTable.Columns.FirstOrDefault();
-
-                Application.Current.Dispatcher.Invoke(
-                    DispatcherPriority.Normal,
-                    new ThreadStart( () =>
+                Model.IsQueryRunning = true;
+                tda.BeginGetAllTablesAndColumns(res =>
+                {
+                    Model.Tables = res;
+                    Model.SelectedTable = Model.Tables.FirstOrDefault();
+                    Model.SelectedColumn = Model.SelectedTable.Columns.FirstOrDefault();
+                    Application.Current.Dispatcher.Invoke(
+                        DispatcherPriority.Normal,
+                        new ThreadStart(() =>
                         {
                             //Model.ExecutionItems.Clear();
                             Model.SelectedExecutionItem = Model.ExecutionItems.FirstOrDefault();
                         })
-                    );
-            });
+                        );
+                });
+            }
+            finally
+            {
+                Model.IsQueryRunning = false;
+            }
         }
 
         public MainWindowViewModel(ExecutionTaskOptions options)

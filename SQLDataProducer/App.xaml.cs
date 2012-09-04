@@ -32,6 +32,10 @@ namespace SQLDataProducer
 
         public App()
         {
+            AppDomain currentDomain = AppDomain.CurrentDomain;
+            currentDomain.UnhandledException += (sender, e) =>
+                MessageBox.Show(e.ExceptionObject.ToString());
+
             this.Startup += new StartupEventHandler(App_Startup);
             this.Exit += new ExitEventHandler(App_Exit);
         }

@@ -41,9 +41,9 @@ namespace SQLDataProducer.EntityQueryGenerator
             ForeignKeyContainerCache = new ObservableCollection<ForeignKeyContainer>();
         }
 
-        public ObservableCollection<int> GetPrimaryKeysForTable(string connectionString, TableEntity table, string primaryKeyColumn)
+        public ObservableCollection<string> GetPrimaryKeysForTable(string connectionString, TableEntity table, string primaryKeyColumn)
         {
-            ObservableCollection<int> fkeys;
+            ObservableCollection<string> fkeys;
 
             ForeignKeyContainer cached = ForeignKeyContainerCache.Where(x => x.Table == table).FirstOrDefault();
             if (cached != null)
@@ -59,7 +59,7 @@ namespace SQLDataProducer.EntityQueryGenerator
             return fkeys;
         }
 
-        private ObservableCollection<int> GetKeysForColumnInTable(string connectionString, TableEntity table, string primaryKeyColumn)
+        private ObservableCollection<string> GetKeysForColumnInTable(string connectionString, TableEntity table, string primaryKeyColumn)
         {
             TableEntityDataAccess tda = new TableEntityDataAccess(connectionString);
             return tda.GetPrimaryKeysForColumnInTable(table, primaryKeyColumn);
@@ -77,8 +77,8 @@ namespace SQLDataProducer.EntityQueryGenerator
             set { _table = value; }
         }
 
-        private ObservableCollection<int> _keyValues;
-        public ObservableCollection<int> KeyValues
+        private ObservableCollection<string> _keyValues;
+        public ObservableCollection<string> KeyValues
         {
             get { return _keyValues; }
             set { _keyValues = value; }
@@ -91,7 +91,7 @@ namespace SQLDataProducer.EntityQueryGenerator
             set { _keyColumnName = value; }
         }
 
-        public ForeignKeyContainer(DatabaseEntities.Entities.TableEntity table, string keyColumnName, ObservableCollection<int> keys)
+        public ForeignKeyContainer(DatabaseEntities.Entities.TableEntity table, string keyColumnName, ObservableCollection<string> keys)
         {
             this._table = table;
             this._keyValues = keys;

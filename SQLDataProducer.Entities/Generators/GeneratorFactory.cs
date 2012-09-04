@@ -69,7 +69,7 @@ namespace SQLDataProducer.Entities.Generators
 
         }
 
-        public static System.Collections.Generic.IEnumerable<Generator> GetForeignKeyGenerators(ObservableCollection<int> fkKeys)
+        public static System.Collections.Generic.IEnumerable<Generator> GetForeignKeyGenerators(ObservableCollection<string> fkKeys)
         {
             var l = new System.Collections.Generic.List<Generator>();
             l.Add(Generators.Generator.CreateRandomForeignKeyGenerator(fkKeys));

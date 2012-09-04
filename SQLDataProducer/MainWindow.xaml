@@ -19,6 +19,9 @@
         Title="SQL Server Data Producer" Height="600" Width="800"
         WindowState="Maximized"
         >
+    <Window.Resources>
+        <conv:VisibilityConverter x:Key="visiConv" />
+    </Window.Resources>    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="79*" />
@@ -32,13 +35,14 @@
             <RowDefinition Height="30" />
         </Grid.RowDefinitions>
 
-        <ToolBar Grid.Row="0" Grid.ColumnSpan="2"  IsEnabled="{Binding Model.IsExecutionIdle}">
+        <ToolBar Grid.Row="0" Grid.ColumnSpan="2">
             <Button Command="{Binding SaveCommand}" IsEnabled="{Binding Model.HavePendingChanges}">Save</Button>
             <Button Command="{Binding LoadCommand}">Load</Button>
             
             <Button Content="Select Connection ..." Margin="3 3 3 3" Padding="5 0 5 0" Command="{Binding OpenSqlConnectionBuilderCommand}" />
             <Button Content="Analyze DB" Margin="3 3 3 3" Padding="5 0 5 0" Command="{Binding LoadTablesCommand}" />
             <TextBlock  Text="{Binding Model.ConnectionString, Mode=TwoWay}" Margin="5 3 5 3" MinWidth="50" Background="GhostWhite" />
+            
         </ToolBar>
         
         <my:ExecutionOrderView DataContext="{Binding ExecutionOrderVM}"
