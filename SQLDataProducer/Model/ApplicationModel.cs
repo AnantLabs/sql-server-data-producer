@@ -16,17 +16,24 @@ using System.Collections.ObjectModel;
 using SQLDataProducer.DatabaseEntities.Entities;
 using SQLDataProducer.Entities.ExecutionEntities;
 using SQLDataProducer.Entities.OptionEntities;
+using SQLDataProducer.Entities.DatabaseEntities.Collections;
 
 namespace SQLDataProducer.Model
 {
     public class ApplicationModel : Entities.EntityBase
     {
 
-        ObservableCollection<TableEntity> _tables;
+
+        public ApplicationModel()
+        {
+            Tables = new TableEntityCollection();
+        }
+
+        TableEntityCollection _tables;
         /// <summary>
         /// The list of tables available in the database
         /// </summary>
-        public ObservableCollection<TableEntity> Tables
+        public TableEntityCollection Tables
         {
             get
             {

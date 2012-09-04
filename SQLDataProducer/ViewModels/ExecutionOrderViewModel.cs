@@ -99,6 +99,9 @@ namespace SQLDataProducer.ViewModels
 
             MoveAllItemsRightCommand = new DelegateCommand(() =>
                 {
+                    if (Model.Tables == null)
+                        return;
+
                     foreach (var tabl in Model.Tables)
                     {
                         AddExecutionItem(tabl);

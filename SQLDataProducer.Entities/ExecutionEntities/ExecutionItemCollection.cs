@@ -27,7 +27,20 @@ namespace SQLDataProducer.Entities.ExecutionEntities
         public ExecutionItemCollection()
             : base()
         {
-            
+            base.CollectionChanged += (sender, e) =>
+                OnPropertyChanged(new System.ComponentModel.PropertyChangedEventArgs("IsContainingData"));
+        }
+
+        
+        public bool IsContainingData
+        {
+            get
+            {
+                if (base.Items == null)
+                    return false;
+                
+                return base.Items.Count > 0;
+            }
         }
 
         string _collectionName;

@@ -76,8 +76,8 @@
             <Button Content="DOWN"  Command="{Binding MoveItemDownCommand}" IsEnabled="{Binding Model.HaveExecutionItemSelected}" />
         </StackPanel>
         <StackPanel Grid.Column="1" VerticalAlignment="Bottom">
-            <Button Content="Add all" Command="{Binding MoveAllItemsRightCommand}"  />
-            <Button Content="Clear!"  Command="{Binding MoveAllItemsLeftCommand}" />
+            <Button Content="Add all" Command="{Binding MoveAllItemsRightCommand}" IsEnabled="{Binding Model.Tables.IsContainingData}"  />
+            <Button Content="Clear!"  Command="{Binding MoveAllItemsLeftCommand}"  IsEnabled="{Binding Model.ExecutionItems.IsContainingData}" />
         </StackPanel>
     </Grid>
 </UserControl>

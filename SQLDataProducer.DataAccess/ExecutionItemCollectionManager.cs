@@ -67,7 +67,7 @@ namespace SQLDataProducer.DataAccess
                         }
                     }
                 }
-                ExecutionItem ei = new ExecutionItem(table, item.Order);
+                ExecutionItem ei = new ExecutionItem(table, item.Order, item.Description);
                 completeExecCollection.Add(ei);
             }
 

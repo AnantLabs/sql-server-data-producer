@@ -151,7 +151,7 @@ namespace SQLDataProducer.ViewModels
                         System.Windows.Forms.SaveFileDialog dia = new System.Windows.Forms.SaveFileDialog();
                         dia.Filter = "Saved Files (*.xml)|*.xml";
                         dia.AddExtension = true;
-                        dia.CheckFileExists = true;
+                        //dia.CheckFileExists = true;
                         dia.DefaultExt = ".xml";
                         //dia.InitialDirectory = ""; // TODO: Remember the last path
 

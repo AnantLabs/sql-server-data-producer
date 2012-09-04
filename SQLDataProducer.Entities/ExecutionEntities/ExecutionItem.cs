@@ -67,10 +67,11 @@ namespace SQLDataProducer.Entities.ExecutionEntities
         /// </summary>
         /// <param name="table">The table to generate data for</param>
         /// <param name="order">the order of the execution item. Is used to generate the name of variables so that other execution items can depend on this</param>
-        public ExecutionItem(TableEntity table, int order)
+        public ExecutionItem(TableEntity table, int order, string description = "")
         {
             TargetTable = table;
             Order = order;
+            Description = description;
         }
         public ExecutionItem()
         {

@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="DatabaseEntities\Collections\ColumnEntityCollection.cs" />
     <Compile Include="DatabaseEntities\Collections\GeneratorCollectionExtensions.cs" />
+    <Compile Include="DatabaseEntities\Collections\TableEntityCollection.cs" />
     <Compile Include="DatabaseEntities\ColumnEntity.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="ExecutionEntities\ExecutionItemCollection.cs" />

@@ -16,6 +16,7 @@ using System;
 using System.Data.SqlClient;
 using System.Collections.ObjectModel;
 using SQLDataProducer.DatabaseEntities.Entities;
+using SQLDataProducer.Entities.DatabaseEntities.Collections;
 
 namespace SQLDataProducer.DataAccess
 {
@@ -54,19 +55,19 @@ namespace SQLDataProducer.DataAccess
             return table;
         }
 
-        /// <summary>
-        /// Get all tables, does not block the caller. The provided callback method will be called when the exection is done.
-        /// </summary>
-        /// <param name="callback">the callback method to be called when the execution is done.</param>
-        public void BeginGetAllTables(Action<ObservableCollection<TableEntity>> callback)
-        {
-            BeginGetMany(ALL_TABLES_QUERY, CreateTableEntity, callback);
-        }
+        ///// <summary>
+        ///// Get all tables, does not block the caller. The provided callback method will be called when the exection is done.
+        ///// </summary>
+        ///// <param name="callback">the callback method to be called when the execution is done.</param>
+        //public void BeginGetAllTables(Action<TableEntityCollection> callback)
+        //{
+        //    BeginGetMany(ALL_TABLES_QUERY, CreateTableEntity, callback);
+        //}
         /// <summary>
         /// Begin get all tables and their columns, does not block the caller. The provided callback method will be called when the exection is done.
         /// </summary>
         /// <param name="callback">the callback method to be called when the execution is done.</param>
-        public void BeginGetAllTablesAndColumns(Action<ObservableCollection<TableEntity>> callback)
+        public void BeginGetAllTablesAndColumns(Action<TableEntityCollection> callback)
         {
             BeginGetMany(ALL_TABLES_QUERY, CreateTableEntity, tables =>
                 {
@@ -75,7 +76,7 @@ namespace SQLDataProducer.DataAccess
                     {
                         tabl.Columns = colDa.GetAllColumnsForTable(tabl);
                     }
-                    callback(tables);
+                    callback(new TableEntityCollection(tables));
                 });
         }
 
@@ -83,22 +84,10 @@ namespace SQLDataProducer.DataAccess
         /// Get TableEntitites for every table in the database.
         /// </summary>
         /// <returns></returns>
-        public ObservableCollection<TableEntity> GetAllTables()
+        public TableEntityCollection GetAllTables()
         {
-            return GetMany(ALL_TABLES_QUERY, CreateTableEntity);
+            return (TableEntityCollection)GetMany(ALL_TABLES_QUERY, CreateTableEntity);
         }
-
-        //public ObservableCollection<TableEntity> GetAllTablesWithColumns()
-        //{
-        //    ObservableCollection<TableEntity> tables = GetAllTables();
-        //    ColumnEntityDataAccess cda = new ColumnEntityDataAccess(_connectionString);
-        //    foreach (var item in tables)
-        //    {
-        //        item.Columns = cda.GetAllColumnsForTable(item);
-        //    }
-
-        //    return tables;
-        //}
 
         /// <summary>
         /// Delete all rows in the provided table...
