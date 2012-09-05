@@ -83,7 +83,7 @@ namespace SQLDataProducer.Entities.Generators
             paramss.Add(foreignParam);
             Generator gen = new Generator("Random FOREIGN KEY Value (EAGER)", (n, p) =>
             {
-                ObservableCollection<int> keys = (ObservableCollection<int>)GetParameterByName(p, "Keys");
+                ObservableCollection<string> keys = (ObservableCollection<string>)GetParameterByName(p, "Keys");
                 if (keys == null || keys.Count == 0)
                     throw new ArgumentException("There are no foreign keys in the table that this column references");
                 
@@ -107,7 +107,7 @@ namespace SQLDataProducer.Entities.Generators
 
             Generator gen = new Generator("Sequential FOREIGN KEY Value (EAGER)", (n, p) =>
             {
-                ObservableCollection<int> keys = (ObservableCollection<int>)GetParameterByName(p, "Keys");
+                ObservableCollection<string> keys = (ObservableCollection<string>)GetParameterByName(p, "Keys");
                 if (keys == null || keys.Count == 0)
                     throw new ArgumentException("There are no foreign keys in the table that this column references");
 

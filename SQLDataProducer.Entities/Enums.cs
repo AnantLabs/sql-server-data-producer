@@ -41,6 +41,24 @@ namespace SQLDataProducer.Entities
         ConstantN
     }
 
+    public enum DBDataType
+    {
+        INT,
+        TINYINT,
+        SMALLINT,
+        BIGINT,
+        BIT,
+        VARCHAR,
+        //NVARCHAR,
+        //CHAR,
+        //NCHAR,
+        DECIMAL,
+        //FLOAT,
+        DATETIME,
+        UNIQUEIDENTIFIER,
+        UNKNOWN
+    }
+
     public static class EnumExtensions
     {
         public static string ToCompareString(this ExecutionConditions cond, int conditionValue)
@@ -65,6 +83,55 @@ namespace SQLDataProducer.Entities
                     return string.Format("% {0} = 0",  conditionValue);
                 default:
                     throw new NotImplementedException();
+            }
+        }
+
+        public static DBDataType ToDBDataType(this string dataType)
+        {
+            if (dataType.StartsWith("int"))
+            {
+                return DBDataType.INT;
+            }
+            else if (dataType.StartsWith("tinyint"))
+            {
+                return DBDataType.TINYINT;
+            }
+            else if (dataType.StartsWith("smallint"))
+            {
+                return DBDataType.SMALLINT;
+            }
+            else if (dataType.StartsWith("bigint"))
+            {
+                return DBDataType.BIGINT;
+            }
+            else if (dataType.StartsWith("bit"))
+            {
+                return DBDataType.BIT;
+            }
+            else if (dataType.StartsWith("varchar")
+                || dataType.StartsWith("nvarchar")
+                || dataType.StartsWith("char")
+                || dataType.StartsWith("nchar"))
+            {
+
+                return DBDataType.VARCHAR;
+            }
+            else if (dataType.StartsWith("decimal")
+                || dataType.StartsWith("float"))
+            {
+                return DBDataType.DECIMAL;
+            }
+            else if (dataType.StartsWith("datetime"))
+            {
+                return DBDataType.DATETIME;
+            }
+            else if (dataType.StartsWith("uniqueidentifier"))
+            {
+                return DBDataType.UNIQUEIDENTIFIER;
+            }
+            else
+            {
+                return DBDataType.UNKNOWN;
             }
         }
     }

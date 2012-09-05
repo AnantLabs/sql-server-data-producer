@@ -113,6 +113,9 @@ namespace SQLDataProducer.Entities.Generators
             return gen;
         }
 
+ 
+
+
         protected void OnPropertyChanged(string propertyName)
         {
             if (PropertyChanged == null)

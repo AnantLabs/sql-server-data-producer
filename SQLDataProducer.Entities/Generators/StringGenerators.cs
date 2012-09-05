@@ -150,6 +150,16 @@ namespace SQLDataProducer.Entities.Generators
             return gen;
         }
 
+        public static Generator CreateNULLValueGenerator()
+        {
+            Generator gen = new Generator("NULL value", (n, p) =>
+            {
+                return "NULL";
+            }
+                , null);
+            return gen;
+        }
+
         private static List<string> _countries;
         static List<string> CountryList
         {

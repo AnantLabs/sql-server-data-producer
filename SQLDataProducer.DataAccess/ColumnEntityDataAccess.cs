@@ -22,6 +22,7 @@ using SQLDataProducer.DatabaseEntities.Entities;
 using SQLDataProducer.Entities.Generators;
 using SQLDataProducer.EntityQueryGenerator;
 using SQLDataProducer.Entities.DatabaseEntities.Collections;
+using SQLDataProducer.Entities.DatabaseEntities;
 
 namespace SQLDataProducer.DataAccess
 {
@@ -36,10 +37,12 @@ namespace SQLDataProducer.DataAccess
         /// </summary>
         private Func<SqlDataReader, ColumnEntity> CreateColumnEntity = reader =>
         {
-            ObservableCollection<Generator> possibleGenerators = GeneratorFactory.GetGeneratorsForDataType(reader.GetString(reader.GetOrdinal("DataType")));
+            ColumnDataTypeDefinition dbType = new ColumnDataTypeDefinition(reader.GetString(reader.GetOrdinal("DataType")), reader.GetBoolean(reader.GetOrdinal("IsNullable")));
+            
+            ObservableCollection<Generator> possibleGenerators = GeneratorFactory.GetGeneratorsForDataType(dbType);
             Generator defaultGenerator = possibleGenerators.FirstOrDefault();
-
-            return new ColumnEntity(reader.GetString(reader.GetOrdinal("ColumnName")), reader.GetString(reader.GetOrdinal("DataType")), (bool)reader["IsIdentity"], reader.GetInt32(reader.GetOrdinal("OrdinalPosition")), (bool)reader["IsForeignKey"], new ForeignKeyEntity
+            
+            return new ColumnEntity(reader.GetString(reader.GetOrdinal("ColumnName")), dbType, (bool)reader["IsIdentity"], reader.GetInt32(reader.GetOrdinal("OrdinalPosition")), (bool)reader["IsForeignKey"], new ForeignKeyEntity
                 {
                     ReferencingTable = new TableEntity(
                         reader.GetStringOrEmpty("ReferencedTableSchema"),
@@ -64,6 +67,7 @@ select
     END as DataType
     , column_id as OrdinalPosition
     , is_identity as IsIdentity 
+    , is_nullable as IsNullable
 	, IsForeignKey = cast(case when foreignInfo.ReferencedTable is null then 0 else 1 end as bit)
 	, ReferencedTableSchema = foreignInfo.ReferencedTableSchema
 	, ReferencedTable = foreignInfo.ReferencedTable

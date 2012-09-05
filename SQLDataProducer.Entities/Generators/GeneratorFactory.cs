@@ -1,72 +1,66 @@
-﻿using System.Collections.ObjectModel;
+﻿// Copyright 2012 Peter Henell
+
+//   Licensed under the Apache License, Version 2.0 (the "License");
+//   you may not use this file except in compliance with the License.
+//   You may obtain a copy of the License at
+
+//       http://www.apache.org/licenses/LICENSE-2.0
+
+//   Unless required by applicable law or agreed to in writing, software
+//   distributed under the License is distributed on an "AS IS" BASIS,
+//   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//   See the License for the specific language governing permissions and
+//   limitations under the License.
+
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
+using SQLDataProducer.Entities.DatabaseEntities;
+using System;
 //
 
 namespace SQLDataProducer.Entities.Generators
 {
     public class GeneratorFactory
     {
-        public static ObservableCollection<Generator> GetGeneratorsForDataType(string dataType)
+        public static ObservableCollection<Generator> GetGeneratorsForDataType(ColumnDataTypeDefinition dbataTypeDef)
         {
-            if (dataType.StartsWith("int"))
-            {
-                return Generators.Generator.GetGeneratorsForInt();
-            }
-            else if (dataType.StartsWith("tinyint"))
-            {
-                return Generators.Generator.GetGeneratorsForTinyInt();
-            }
-            else if (dataType.StartsWith("smallint"))
-            {
-                return Generators.Generator.GetGeneratorsForSmallInt();
-            }
-            else if (dataType.StartsWith("bigint"))
-            {
-                return Generators.Generator.GetGeneratorsForBigInt();
-            }
-            else if (dataType.StartsWith("bit"))
-            {
-                return Generators.Generator.GetGeneratorsForBit();
-            }
-            else if (dataType.StartsWith("varchar")
-                || dataType.StartsWith("nvarchar")
-                || dataType.StartsWith("char")
-                || dataType.StartsWith("nchar"))
-            {
-                // find the length from varchar(129) or varchar(max)
-                Regex r = new Regex(@"\((?<length>[0-9]*|max)\)", RegexOptions.Compiled);
-                int length;
-                var m = r.Match(dataType).Result("${length}");
-                if (m.ToLower() == "max")
-	            {
-                    length = int.MaxValue;
-                }
-                else if (!int.TryParse(m, out length))
-                {
-                    length = 0;
-                }
-                return Generators.Generator.GetStringGenerators(length);
-            }
-            else if (dataType.StartsWith("decimal")
-                || dataType.StartsWith("float"))
-            {
-                return Generators.Generator.GetDecimalGenerators();
-            }
-            else if (dataType.StartsWith("datetime"))
-            {
-                return Generators.Generator.GetDateTimeGenerators();
-            }
-            else if (dataType.StartsWith("uniqueidentifier"))
-            {
-                return Generators.Generator.GetGUIDGenerators();
-            }
+            ObservableCollection<Generator> gens = GetDefaultGeneratorsForDataType(dbataTypeDef);
 
-            else
-            {
-                return Generators.Generator.GetStringGenerators(1);
-            }
+            // If the column is nullable then the default generator should be the NULL generator. We insert it at the top so that it will be picked up as the default.
+            if (dbataTypeDef.IsNullable)
+                gens.Insert(0, Generator.CreateNULLValueGenerator());
+            
+            return gens;
+        }
 
+        private static ObservableCollection<Generator> GetDefaultGeneratorsForDataType(ColumnDataTypeDefinition dbataTypeDef)
+        {
+            switch (dbataTypeDef.DBType)
+            {
+                case DBDataType.INT:
+                    return Generators.Generator.GetGeneratorsForInt();
+                case DBDataType.TINYINT:
+                    return Generators.Generator.GetGeneratorsForTinyInt();
+                case DBDataType.SMALLINT:
+                    return Generators.Generator.GetGeneratorsForSmallInt();
+                case DBDataType.BIGINT:
+                    return Generators.Generator.GetGeneratorsForBigInt();
+                case DBDataType.BIT:
+                    return Generators.Generator.GetGeneratorsForBit();
+                case DBDataType.VARCHAR:
+                    return Generators.Generator.GetStringGenerators(dbataTypeDef.MaxLength);
+                case DBDataType.DECIMAL:
+                    return Generators.Generator.GetDecimalGenerators();
+                case DBDataType.DATETIME:
+                    return Generators.Generator.GetDateTimeGenerators();
+                case DBDataType.UNIQUEIDENTIFIER:
+                    return Generators.Generator.GetGUIDGenerators();
+                case DBDataType.UNKNOWN:
+                    return Generators.Generator.GetStringGenerators(1);
+                default:
+                    throw new NotImplementedException("Datatype not implemented");
+            }
         }
 
         public static System.Collections.Generic.IEnumerable<Generator> GetForeignKeyGenerators(ObservableCollection<string> fkKeys)
