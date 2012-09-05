@@ -36,6 +36,10 @@ namespace SQLDataProducer.ViewModels
         public DelegateCommand<ExecutionItem> CloneExecutionItemCommand { get; private set; }
 
         public DelegateCommand ClearSearchCriteraCommand { get; private set; }
+        public DelegateCommand MoveUpWithTheSelectorCommand { get; private set; }
+        public DelegateCommand MoveDownWithTheSelectorCommand { get; private set; }
+        
+
 
         SQLDataProducer.Model.ApplicationModel _model;
         public SQLDataProducer.Model.ApplicationModel Model
@@ -182,6 +186,14 @@ namespace SQLDataProducer.ViewModels
                 {
                     Model.SearchCriteria = string.Empty;
                 });
+            MoveUpWithTheSelectorCommand = new DelegateCommand(() =>
+                {
+                    Model.TablesView.MoveCurrentToPrevious();
+                });
+            MoveDownWithTheSelectorCommand = new DelegateCommand(() =>
+            {
+                Model.TablesView.MoveCurrentToNext();
+            });
 
         }
 

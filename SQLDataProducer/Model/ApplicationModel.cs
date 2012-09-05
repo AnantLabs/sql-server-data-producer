@@ -269,6 +269,7 @@ namespace SQLDataProducer.Model
                 {
                     _searchCriteria = value;
                     TablesView.Refresh();
+                    SelectedTable = (TableEntity)TablesView.CurrentItem;
                     OnPropertyChanged("SearchCriteria");
                 }
             }

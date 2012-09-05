@@ -19,6 +19,12 @@
              xmlns:me="clr-namespace:SQLDataProducer.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+        
+    <UserControl.InputBindings>
+        <KeyBinding Key="Up"   Command="{Binding MoveUpWithTheSelectorCommand}" />
+        <KeyBinding Key="Down" Command="{Binding MoveDownWithTheSelectorCommand}" />
+    </UserControl.InputBindings>    
+        
     <Grid x:Name="OrderRoot">
         <Grid.RowDefinitions>
             <RowDefinition Height="20" />
@@ -87,7 +93,7 @@
             <Button Content="UP" Command="{Binding MoveItemUpCommand}" IsEnabled="{Binding Model.HaveExecutionItemSelected}" />
 
             <Button Content="&lt;"  Command="{Binding MoveItemLeftCommand}" IsEnabled="{Binding Model.HaveExecutionItemSelected}" />
-            <Button Content="&gt;"  Command="{Binding MoveItemRightCommand}" IsEnabled="{Binding Model.IsTableSelected}" />
+            <Button Content="&gt;"  Command="{Binding MoveItemRightCommand}" IsDefault="True" IsEnabled="{Binding Model.IsTableSelected}" />
 
             <Button Content="DOWN"  Command="{Binding MoveItemDownCommand}" IsEnabled="{Binding Model.HaveExecutionItemSelected}" />
         </StackPanel>

@@ -23,7 +23,6 @@
              xmlns:enums="clr-namespace:SQLDataProducer.Entities;assembly=SQLDataProducer.Entities"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
-             
              >
     <UserControl.Resources>
         <conv:VisibilityConverter x:Key="visiConv" />
