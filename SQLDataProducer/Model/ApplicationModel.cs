@@ -17,6 +17,7 @@ using SQLDataProducer.DatabaseEntities.Entities;
 using SQLDataProducer.Entities.ExecutionEntities;
 using SQLDataProducer.Entities.OptionEntities;
 using SQLDataProducer.Entities.DatabaseEntities.Collections;
+using System;
 
 namespace SQLDataProducer.Model
 {
@@ -291,7 +292,27 @@ namespace SQLDataProducer.Model
                 }
             }
         }
-        
-        
+
+
+
+        internal void SetTablesView()
+        {
+            TablesView = System.Windows.Data.CollectionViewSource.GetDefaultView(Tables);
+
+            TablesView.Filter = delegate(object obj)
+            {
+                TableEntity t = obj as TableEntity;
+
+                if (String.IsNullOrEmpty(SearchCriteria))
+                    return true;
+
+                int index = t.TableName.IndexOf(
+                    SearchCriteria,
+                    0,
+                    StringComparison.InvariantCultureIgnoreCase);
+
+                return index > -1;
+            };
+        }
     }
 }

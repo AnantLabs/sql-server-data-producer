@@ -99,8 +99,8 @@ namespace SQLDataProducer.ViewModels
                     DispatcherPriority.Normal,
                     new ThreadStart(() =>
                     {
-                        //Model.ExecutionItems.Clear();
-                        SetTablesView();
+                        // Stuff to be done on the GUI thread when the fetching of data have completed.
+                        Model.SetTablesView();
                         Model.SelectedExecutionItem = Model.ExecutionItems.FirstOrDefault();
                         Model.IsQueryRunning = false;
                     })
@@ -109,25 +109,7 @@ namespace SQLDataProducer.ViewModels
 
         }
 
-        private void SetTablesView()
-        {
-            Model.TablesView = System.Windows.Data.CollectionViewSource.GetDefaultView(Model.Tables);
-
-            Model.TablesView.Filter = delegate(object obj)
-            {
-                TableEntity t = obj as TableEntity;
-
-                if (String.IsNullOrEmpty(Model.SearchCriteria))
-                    return true;
-
-                int index = t.TableName.IndexOf(
-                    Model.SearchCriteria,
-                    0,
-                    StringComparison.InvariantCultureIgnoreCase);
-
-                return index > -1;
-            };
-        }
+        
 
         public MainWindowViewModel(ExecutionTaskOptions options)
         {

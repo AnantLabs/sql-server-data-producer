@@ -20,11 +20,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
         
-    <UserControl.InputBindings>
-        <KeyBinding Key="Up"   Command="{Binding MoveUpWithTheSelectorCommand}" />
-        <KeyBinding Key="Down" Command="{Binding MoveDownWithTheSelectorCommand}" />
-    </UserControl.InputBindings>    
-        
     <Grid x:Name="OrderRoot">
         <Grid.RowDefinitions>
             <RowDefinition Height="20" />
@@ -42,7 +37,12 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="15"/>                
             </Grid.ColumnDefinitions>
-            <TextBox Grid.Row="0" Text="{Binding Model.SearchCriteria, UpdateSourceTrigger=PropertyChanged}"  />
+            <TextBox Grid.Row="0" Text="{Binding Model.SearchCriteria, UpdateSourceTrigger=PropertyChanged}"  >
+                <TextBox.InputBindings>
+                    <KeyBinding Key="Up"   Command="{Binding MoveUpWithTheSelectorCommand}" />
+                    <KeyBinding Key="Down" Command="{Binding MoveDownWithTheSelectorCommand}" />
+                </TextBox.InputBindings>
+            </TextBox>
             <Button Content="X" Grid.Column="1" Command="{Binding ClearSearchCriteraCommand}" />
         </Grid>
             

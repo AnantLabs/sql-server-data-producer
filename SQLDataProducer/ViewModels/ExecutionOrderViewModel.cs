@@ -189,10 +189,12 @@ namespace SQLDataProducer.ViewModels
             MoveUpWithTheSelectorCommand = new DelegateCommand(() =>
                 {
                     Model.TablesView.MoveCurrentToPrevious();
+                    Model.SelectedTable = Model.TablesView.CurrentItem as TableEntity;
                 });
             MoveDownWithTheSelectorCommand = new DelegateCommand(() =>
             {
                 Model.TablesView.MoveCurrentToNext();
+                Model.SelectedTable = Model.TablesView.CurrentItem as TableEntity;
             });
 
         }
