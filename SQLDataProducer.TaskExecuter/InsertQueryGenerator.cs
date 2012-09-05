@@ -90,10 +90,22 @@ namespace SQLDataProducer.TaskExecuter
             
             sb.AppendFormat("INSERT {0}.{1} (", item.TargetTable.TableSchema, item.TargetTable.TableName);
             sb.AppendLine();
-            foreach (var col in item.TargetTable.Columns.Where(x => x.IsIdentity == false))
+            //foreach (var col in item.TargetTable.Columns.Where(x => x.IsIdentity == false))
+            //{
+            //    sb.AppendFormat("\t{0}", col.ColumnName);
+            //    sb.Append(col.OrdinalPosition == item.TargetTable.Columns.Count ? string.Empty : ", ");
+            //    sb.AppendLine();
+            //}
+
+            for (int i = 0; i < item.TargetTable.Columns.Count; i++)
             {
+                var col = item.TargetTable.Columns[i];
+
+                if (col.IsIdentity)
+                    continue;
+
                 sb.AppendFormat("\t{0}", col.ColumnName);
-                sb.Append(col.OrdinalPosition == item.TargetTable.Columns.Count ? string.Empty : ", ");
+                sb.Append(i == item.TargetTable.Columns.Count - 1 ? string.Empty : ", ");
                 sb.AppendLine();
             }
 
@@ -132,11 +144,21 @@ namespace SQLDataProducer.TaskExecuter
                     int rowGenerationNumber = getN();
                     sb.Append("\t");
                     sb.Append("(");
-                    foreach (ColumnEntity col in item.TargetTable.Columns.Where(x => x.IsIdentity == false))
+                    //foreach (ColumnEntity col in item.TargetTable.Columns.Where(x => x.IsIdentity == false))
+                    //{
+                        
+                    //}
+                    for (int i = 0; i < item.TargetTable.Columns.Count; i++)
                     {
+                        var col = item.TargetTable.Columns[i];
+
+                        if (col.IsIdentity)
+                            continue;
+
                         sb.Append(col.Generator.GenerateValue(rowGenerationNumber));
-                        sb.Append(col.OrdinalPosition == item.TargetTable.Columns.Count ? string.Empty : ", ");
+                        sb.Append(i == item.TargetTable.Columns.Count - 1 ? string.Empty : ", ");
                     }
+
                     sb.Append(")");
                     sb.Append(item.RepeatCount == rep ? string.Empty : ", ");
                     sb.AppendLine();
