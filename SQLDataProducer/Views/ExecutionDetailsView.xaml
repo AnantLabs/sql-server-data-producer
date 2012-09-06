@@ -91,7 +91,7 @@
                     <DataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding ColumnName}" Header="Column Name" IsReadOnly="True"/>
                         <DataGridTextColumn Binding="{Binding ColumnDataType}" Header="Data Type" IsReadOnly="True" />
-
+                        <DataGridCheckBoxColumn IsReadOnly="True" Binding="{Binding ColumnDataType.IsNullable}" Header="Nullable?" />
                         <DataGridTemplateColumn Header="Data Generator">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>

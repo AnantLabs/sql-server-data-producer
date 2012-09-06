@@ -90,12 +90,6 @@ namespace SQLDataProducer.TaskExecuter
             
             sb.AppendFormat("INSERT {0}.{1} (", item.TargetTable.TableSchema, item.TargetTable.TableName);
             sb.AppendLine();
-            //foreach (var col in item.TargetTable.Columns.Where(x => x.IsIdentity == false))
-            //{
-            //    sb.AppendFormat("\t{0}", col.ColumnName);
-            //    sb.Append(col.OrdinalPosition == item.TargetTable.Columns.Count ? string.Empty : ", ");
-            //    sb.AppendLine();
-            //}
 
             for (int i = 0; i < item.TargetTable.Columns.Count; i++)
             {
@@ -144,10 +138,7 @@ namespace SQLDataProducer.TaskExecuter
                     int rowGenerationNumber = getN();
                     sb.Append("\t");
                     sb.Append("(");
-                    //foreach (ColumnEntity col in item.TargetTable.Columns.Where(x => x.IsIdentity == false))
-                    //{
-                        
-                    //}
+                  
                     for (int i = 0; i < item.TargetTable.Columns.Count; i++)
                     {
                         var col = item.TargetTable.Columns[i];

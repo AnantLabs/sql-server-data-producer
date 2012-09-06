@@ -16,7 +16,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:me="clr-namespace:SQLDataProducer.ViewModels"
         xmlns:conv="clr-namespace:SQLDataProducer.Converters"
-        Title="SQL Server Data Producer" Height="600" Width="800"
+        Title="SQL Server Data Producer"
         WindowState="Maximized"
         >
     <Window.Resources>
@@ -24,15 +24,14 @@
     </Window.Resources>    
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="79*" />
+            <ColumnDefinition Width="150" />
             <ColumnDefinition Width="424*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />
             <RowDefinition Height="2" />
             <RowDefinition Height="400" />
-            <RowDefinition Height="400" />
-            <RowDefinition Height="30" />
+            <RowDefinition Height="400*" />
         </Grid.RowDefinitions>
 
         <ToolBar Grid.Row="0" Grid.ColumnSpan="2">
