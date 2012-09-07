@@ -17,12 +17,121 @@ using System.Data.SqlClient;
 using System.Collections.ObjectModel;
 using SQLDataProducer.DatabaseEntities.Entities;
 using SQLDataProducer.Entities.DatabaseEntities.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SQLDataProducer.DataAccess
 {
     public partial class TableEntityDataAccess : DataAccessBase
     {
         readonly string ALL_TABLES_QUERY = "select Table_Name, Table_Schema from information_Schema.Tables order by table_Schema, table_name";
+
+        readonly string TABLES_IN_HIAERCHY = @"DECLARE    @RowOrder INT = 0
+			,@SchemaName sysname = '{0}'
+			,@TableName sysname = '{1}'
+			
+	DECLARE @fkeytbl TABLE
+    (
+      ReferencingObjectid		INT		NULL
+      ,ReferencingSchemaname	SYSNAME NULL
+      ,ReferencingTablename		SYSNAME NULL
+      ,ReferencingColumnname	SYSNAME NULL
+      ,PrimarykeyObjectid		INT		NULL
+      ,PrimarykeySchemaname		SYSNAME NULL
+      ,PrimarykeyTablename		SYSNAME NULL
+      ,PrimarykeyColumnname		SYSNAME NULL
+      ,Hierarchy				VARCHAR(MAX) NULL 
+      ,Generation				INT NULL
+      ,Ranking						VARCHAR(MAX) NULL
+      ,Processed				BIT DEFAULT 0  NULL
+    ) ; 
+ 
+ 
+	WITH fkey (ReferencingObjectid, ReferencingSchemaname, ReferencingTablename, ReferencingColumnname, PrimarykeyObjectid, PrimarykeySchemaname, PrimarykeyTablename, PrimarykeyColumnname, Hierarchy, Generation, Ranking )
+          AS ( SELECT   soc.object_id ,
+                        scc.name ,
+                        soc.name ,
+                        CONVERT(SYSNAME, NULL) ,
+                        CONVERT(INT, NULL) ,
+                        CONVERT(SYSNAME, NULL) ,
+                        CONVERT(SYSNAME, NULL) ,
+                        CONVERT(SYSNAME, NULL) ,
+                        CONVERT(VARCHAR(MAX), scc.name + '.' + soc.name) AS Hierarchy ,
+                        0 AS Generation,
+                        Ranking = CONVERT(VARCHAR(MAX), soc.object_id)
+               FROM     SYS.objects soc
+                        JOIN sys.schemas scc ON soc.schema_id = scc.schema_id
+               WHERE    scc.name = @Schemaname
+                        AND soc.name = @Tablename
+               UNION ALL
+               SELECT   sop.object_id ,
+                        scp.name ,
+                        sop.name ,
+                        socp.name ,
+                        soc.object_id ,
+                        scc.name ,
+                        soc.name ,
+                        socc.name ,
+                        CONVERT(VARCHAR(MAX), f.Hierarchy + ' --> ' + scp.name
+                        + '.' + sop.name) AS Hierarchy ,
+                        f.Generation + 1 AS Generation,
+                        Ranking = f.Ranking + '-'
+                        + CONVERT(VARCHAR(MAX), sop.object_id)
+               FROM     SYS.foreign_key_columns sfc
+                        JOIN sys.Objects sop ON sfc.parent_object_id = sop.object_id
+                        JOIN SYS.columns socp ON socp.object_id = sop.object_id
+                                                 AND socp.column_id = sfc.parent_column_id
+                        JOIN sys.schemas scp ON sop.schema_id = scp.schema_id
+                        JOIN sys.objects soc ON sfc.referenced_object_id = soc.object_id
+                        JOIN sys.columns socc ON socc.object_id = soc.object_id
+                                                 AND socc.column_id = sfc.referenced_column_id
+                        JOIN sys.schemas scc ON soc.schema_id = scc.schema_id
+                        JOIN fkey f ON f.ReferencingObjectid = sfc.referenced_object_id
+               WHERE    ISNULL(f.PrimarykeyObjectid, 0) <> f.ReferencingObjectid
+             )
+    INSERT  INTO @fkeytbl
+            ( ReferencingObjectid ,
+              ReferencingSchemaname ,
+              ReferencingTablename ,
+              ReferencingColumnname ,
+              PrimarykeyObjectid ,
+              PrimarykeySchemaname ,
+              PrimarykeyTablename ,
+              PrimarykeyColumnname ,
+              Hierarchy ,
+              Generation,
+              Ranking
+            )
+            SELECT  ReferencingObjectid ,
+                    ReferencingSchemaname ,
+                    ReferencingTablename ,
+                    ReferencingColumnname ,
+                    PrimarykeyObjectid ,
+                    PrimarykeySchemaname ,
+                    PrimarykeyTablename ,
+                    PrimarykeyColumnname ,
+                    Hierarchy ,
+                    Generation,
+                    Ranking
+            FROM    fkey 
+         
+	SELECT ROW_NUMBER() OVER (ORDER BY f.Ranking ASC) AS RowOrder
+		, f.SchemaName as Table_Schema
+		, f.TableName as Table_Name
+		, f.Generation
+		, f.ParentSchemaName
+		, f.ParentTableName
+	FROM (SELECT DISTINCT
+					ReferencingSchemaname as SchemaName
+                    , ReferencingTablename as TableName 
+                    ,Ranking 
+                    ,Generation
+                    ,PrimarykeySchemaname as ParentSchemaName
+                    
+                    ,PrimarykeyTablename AS ParentTableName
+          FROM      @fkeytbl
+        ) f
+ORDER BY RowOrder ASC ";
 
         public TableEntityDataAccess(string connectionString) 
             : base(connectionString)
@@ -54,6 +163,8 @@ namespace SQLDataProducer.DataAccess
 
             return table;
         }
+
+
 
         ///// <summary>
         ///// Get all tables, does not block the caller. The provided callback method will be called when the exection is done.
@@ -108,6 +219,46 @@ namespace SQLDataProducer.DataAccess
                 return reader.GetValue(0).ToString();
             };
             return GetMany(s, createKey);
+        }
+
+
+        public IEnumerable<TableEntity> GetTreeStructureFromTable(TableEntity tableAsRootForTree, TableEntityCollection tablesAvailAble)
+        {
+            string s = string.Format(TABLES_IN_HIAERCHY, tableAsRootForTree.TableSchema, tableAsRootForTree.TableName);
+
+            Func<SqlDataReader, TableEntity> getTreeStructure = reader =>
+                {
+
+                    var tableInTree =
+                                       new
+                                       {
+                                           TableSchema = reader.GetString(reader.GetOrdinal("Table_Schema")),
+                                           TableName = reader.GetString(reader.GetOrdinal("Table_Name"))
+                                       };
+
+                    return tablesAvailAble.Where(x => 
+                                        x.TableName == tableInTree.TableName 
+                                        && x.TableSchema == tableInTree.TableSchema
+                                    ).FirstOrDefault();
+                };
+            return GetMany(s, getTreeStructure);
+        }
+
+
+        public TableEntity CloneTable(TableEntity table)
+        {
+            return GetTableAndColumns(table.TableSchema, table.TableName);
+        }
+
+        public IEnumerable<TableEntity> CloneTables(IEnumerable<TableEntity> tables)
+        {
+            List<TableEntity> list = new List<TableEntity>();
+            foreach (var table in tables)
+            {
+                list.Add(CloneTable(table));
+            }
+
+            return list;
         }
     }
 }

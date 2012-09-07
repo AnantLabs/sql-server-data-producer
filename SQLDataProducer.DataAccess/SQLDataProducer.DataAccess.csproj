@@ -48,6 +48,7 @@
     <Compile Include="ForeignKeyManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TableEntityDataAccess.cs" />
+    <Compile Include="TableEntityManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SQLDataProducer.Entities\SQLDataProducer.Entities.csproj">

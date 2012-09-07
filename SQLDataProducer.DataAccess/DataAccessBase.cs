@@ -118,7 +118,11 @@ namespace SQLDataProducer.DataAccess
 
                     while (reader.Read())
                     {
-                        items.Add(itemBuilder(reader));
+                        T item = itemBuilder(reader);
+                        if (item == null)
+                            continue;
+
+                        items.Add(item);
                     }
 
                 }
