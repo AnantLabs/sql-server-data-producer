@@ -26,7 +26,7 @@ namespace SQLDataProducer.DataAccess
     {
         readonly string ALL_TABLES_QUERY = "select Table_Name, Table_Schema from information_Schema.Tables order by table_Schema, table_name";
 
-        readonly string TABLES_IN_HIAERCHY = @"DECLARE    @RowOrder INT = 0
+        readonly string TABLES_IN_HIERARCHY = @"DECLARE    @RowOrder INT = 0
 			,@SchemaName sysname = '{0}'
 			,@TableName sysname = '{1}'
 			
@@ -224,7 +224,7 @@ ORDER BY RowOrder ASC ";
 
         public IEnumerable<TableEntity> GetTreeStructureFromTable(TableEntity tableAsRootForTree, TableEntityCollection tablesAvailAble)
         {
-            string s = string.Format(TABLES_IN_HIAERCHY, tableAsRootForTree.TableSchema, tableAsRootForTree.TableName);
+            string s = string.Format(TABLES_IN_HIERARCHY, tableAsRootForTree.TableSchema, tableAsRootForTree.TableName);
 
             Func<SqlDataReader, TableEntity> getTreeStructure = reader =>
                 {

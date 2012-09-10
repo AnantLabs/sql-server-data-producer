@@ -89,7 +89,7 @@ namespace SQLDataProducer.TaskExecuter
                             switch (Options.NumberGeneratorMethod)
                             {
                                 case NumberGeneratorMethods.NewNForEachExecution:
-                                    return _insertCounter.Peek();
+                                    return _setCounter.Peek();
                                 case NumberGeneratorMethods.NewNForEachRow:
                                     return _insertCounter.GetNext();
                                 case NumberGeneratorMethods.ConstantN:
