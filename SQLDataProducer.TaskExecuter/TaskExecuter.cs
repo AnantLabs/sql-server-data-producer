@@ -29,7 +29,7 @@ namespace SQLDataProducer.TaskExecuter
     {
         private System.Threading.CancellationTokenSource _cancelTokenSource;
         
-        SetCounter _setCounter = new SetCounter();
+        SetCounter _NSetCounter = new SetCounter();
         SetCounter _insertCounter = new SetCounter();
         List<string> _errorMessages = new List<string>();
 
@@ -84,12 +84,12 @@ namespace SQLDataProducer.TaskExecuter
                     // Generate the final query.
                     // For each time this Action is called, generate the final query. This will create the "declaration" part of the script with the generated data.
                     // The "base" of the script will be kept from its original, we only generate the actual data here.
-                    string finalResult = GenerateFinalQuery(baseQuery, execItems, _setCounter.Peek(), () =>
+                    string finalResult = GenerateFinalQuery(baseQuery, execItems, _NSetCounter.Peek(), () =>
                         {
                             switch (Options.NumberGeneratorMethod)
                             {
                                 case NumberGeneratorMethods.NewNForEachExecution:
-                                    return _setCounter.Peek();
+                                    return _NSetCounter.Peek();
                                 case NumberGeneratorMethods.NewNForEachRow:
                                     return _insertCounter.GetNext();
                                 case NumberGeneratorMethods.ConstantN:
@@ -137,7 +137,7 @@ namespace SQLDataProducer.TaskExecuter
             if (Options.ScriptOutputFolder == null)
                 throw new ArgumentNullException("Options.ScriptOutputFolder");
 
-            long c = _setCounter.Peek();
+            long c = _NSetCounter.Peek();
             string dir = Options.ScriptOutputFolder;
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
@@ -168,10 +168,10 @@ namespace SQLDataProducer.TaskExecuter
                 switch (Options.ExecutionType)
                 {
                     case ExecutionTypes.DurationBased:
-                        RunTaskDurationBased(task, _setCounter);
+                        RunTaskDurationBased(task);
                         break;
                     case ExecutionTypes.ExecutionCountBased:
-                        RunTaskExecutionCountBased(task, _setCounter);
+                        RunTaskExecutionCountBased(task);
                         break;
                     default:
                         break;
@@ -185,7 +185,7 @@ namespace SQLDataProducer.TaskExecuter
             {
                 result.ErrorList.AddRange(_errorMessages);
                 result.InsertCount = _insertCounter.Peek();
-                result.ExecutedItemCount = _setCounter.Peek();
+                result.ExecutedItemCount = _NSetCounter.Peek();
                 _doneMyWork = true;
             }
             
@@ -199,7 +199,7 @@ namespace SQLDataProducer.TaskExecuter
         /// </summary>
         /// <param name="task">the task to run.</param>
         /// <returns>the action that will run the task</returns>
-        private void RunTaskExecutionCountBased(ExecutionTaskDelegate task, SetCounter counter)
+        private void RunTaskExecutionCountBased(ExecutionTaskDelegate task)
         {
             int numThreads = Options.MaxThreads;
             int targetNumExecutions = Options.FixedExecutions;
@@ -212,12 +212,12 @@ namespace SQLDataProducer.TaskExecuter
                 workers.Add(new BackgroundWorker());
                 workers[i].DoWork += (sender, e) =>
                 {
-                    while (counter.Peek() < targetNumExecutions && !CancelTokenSource.IsCancellationRequested)
+                    while (_NSetCounter.Peek() < targetNumExecutions && !CancelTokenSource.IsCancellationRequested)
                     {
-                        counter.Increment();
+                        _NSetCounter.Increment();
                         task();
                         _insertCounter.Peek();
-                        float percentDone = (float)counter.Peek() / (float)Options.FixedExecutions;
+                        float percentDone = (float)_NSetCounter.Peek() / (float)Options.FixedExecutions;
                         // TODO: Find out if this is eating to much performance (Sending many OnPropertyChanged events..
                         Options.PercentCompleted = (int)(percentDone * 100);
                     }
@@ -237,7 +237,7 @@ namespace SQLDataProducer.TaskExecuter
         /// <param name="task">the task to run</param>
         /// <returns>the action that will run the task</returns>
         /// <param name="counter"></param>
-        private void RunTaskDurationBased(ExecutionTaskDelegate task, SetCounter counter)
+        private void RunTaskDurationBased(ExecutionTaskDelegate task)
         {
             DateTime beginTime = new DateTime(DateTime.Now.Ticks);
             DateTime until = DateTime.Now.AddSeconds(Options.SecondsToRun);
@@ -256,7 +256,7 @@ namespace SQLDataProducer.TaskExecuter
                     {
                         task();
                         _insertCounter.Peek();
-                        counter.Increment();
+                        _NSetCounter.Increment();
                         float percentDone = ((float)(DateTime.Now.Ticks - beginTime.Ticks) / (float)(until.Ticks - beginTime.Ticks));
                         Options.PercentCompleted = (int)(percentDone * 100);
                     }
