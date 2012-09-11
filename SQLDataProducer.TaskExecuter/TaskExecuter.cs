@@ -89,8 +89,10 @@ namespace SQLDataProducer.TaskExecuter
                             switch (Options.NumberGeneratorMethod)
                             {
                                 case NumberGeneratorMethods.NewNForEachExecution:
+                                    // N Set Counter is incremented for each Execution, just resturn the current value.
                                     return _NSetCounter.Peek();
                                 case NumberGeneratorMethods.NewNForEachRow:
+                                    // Insert counter is used to generated per row, increment it and return the next value.
                                     return _insertCounter.GetNext();
                                 case NumberGeneratorMethods.ConstantN:
                                     return 1;
@@ -120,7 +122,7 @@ namespace SQLDataProducer.TaskExecuter
                     lock (_logFileLockObjs)
                     {
                         _errorMessages.Add(ex.ToString());
-                        System.IO.File.AppendAllText(@"c:\temp\repeater\log.txt", ex.ToString());
+                        System.IO.File.AppendAllText("log.txt", ex.ToString());
                     }
                 }
             });

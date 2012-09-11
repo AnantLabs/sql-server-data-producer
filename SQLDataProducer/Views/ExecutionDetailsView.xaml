@@ -18,14 +18,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:me="clr-namespace:SQLDataProducer.ViewModels"
-             xmlns:conv="clr-namespace:SQLDataProducer.Converters"
+           
              xmlns:System="clr-namespace:System;assembly=mscorlib"
              xmlns:enums="clr-namespace:SQLDataProducer.Entities;assembly=SQLDataProducer.Entities"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              >
     <UserControl.Resources>
-        <conv:VisibilityConverter x:Key="visiConv" />
+        <BooleanToVisibilityConverter x:Key="visiConv" />
         
         <ObjectDataProvider x:Key="executionConditionEnum"
                 MethodName="GetValues" ObjectType="{x:Type System:Enum}">
@@ -85,9 +85,15 @@
                 </Grid.ColumnDefinitions>
 
 
-                <DataGrid ItemsSource="{Binding Path=SelectedExecutionItem.TargetTable.Columns, Mode=OneWay}" Grid.Row="0" Grid.RowSpan="2" AutoGenerateColumns="false" IsReadOnly="True" 
-                    SelectionUnit="FullRow"
-                    SelectedItem="{Binding SelectedColumn, Mode=TwoWay}">
+                <DataGrid ItemsSource="{Binding Path=SelectedExecutionItem.TargetTable.Columns, Mode=OneWay}" 
+                            Grid.Row="0" 
+                            Grid.RowSpan="2" 
+                            AutoGenerateColumns="false" 
+                            IsReadOnly="True" 
+                            SelectionUnit="FullRow"
+                            SelectedItem="{Binding SelectedColumn, Mode=TwoWay}"
+                            Style="{DynamicResource ResourceKey=DataGridDemoStyle}"
+                          >
                     <DataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding ColumnName}" Header="Column Name" IsReadOnly="True"/>
                         <DataGridTextColumn Binding="{Binding ColumnDataType}" Header="Data Type" IsReadOnly="True" />

@@ -34,8 +34,8 @@
                 <x:Type TypeName="enums:NumberGeneratorMethods"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
-        
-        <conv:VisibilityConverter x:Key="visiConv" />
+
+        <BooleanToVisibilityConverter x:Key="visiConv" />
 
         <conv:InverseBooleanConverter x:Key="inverseBoolConvrt" />
         

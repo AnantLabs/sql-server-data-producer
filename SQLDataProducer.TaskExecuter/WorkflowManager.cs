@@ -32,9 +32,9 @@ namespace SQLDataProducer.TaskExecuter
         /// </summary>
         public void StopAsync()
         {
-            if (Executor != null)
+            if (_executor != null)
             {
-                Executor.EndExecute();
+                _executor.EndExecute();
             }
         }
 
@@ -86,7 +86,7 @@ namespace SQLDataProducer.TaskExecuter
         private ExecutionResult InternalRunWorkFlow(ExecutionTaskOptions options, string connectionString, ExecutionItemCollection executionItems, string preScript = null, string postScript = null)
         {
             DateTime startTime = DateTime.Now;
-            Executor = new TaskExecuter(options, connectionString);
+            _executor = new TaskExecuter(options, connectionString);
             RunTruncationOnExecutionItems(connectionString, executionItems);
 
             RunPrepare(connectionString, preScript);
@@ -133,7 +133,7 @@ namespace SQLDataProducer.TaskExecuter
             InsertQueryGenerator queryGenerator = new InsertQueryGenerator();
             
             string basequery = queryGenerator.GenerateQueryForExecutionItems(executionItems);
-            ExecutionTaskDelegate taskToExecute = Executor.CreateSQLTaskForExecutionItems(
+            ExecutionTaskDelegate taskToExecute = _executor.CreateSQLTaskForExecutionItems(
                 // The items to generate data for
                executionItems,
                 // The basequery containing all the insert statements
@@ -141,15 +141,15 @@ namespace SQLDataProducer.TaskExecuter
                 // The function to call to generate the final VALUES for the insertion
                queryGenerator.GenerateFinalQuery);
 
-            return Executor.Execute(taskToExecute);
+            return _executor.Execute(taskToExecute);
         }
 
         private TaskExecuter _executor;
-        private TaskExecuter Executor
-        {
-            get { return _executor; }
-            set { _executor = value; }
-        }
+        //private TaskExecuter Executor
+        //{
+        //    get { return _executor; }
+        //    set { _executor = value; }
+        //}
     }
 
     

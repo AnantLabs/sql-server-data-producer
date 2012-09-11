@@ -43,7 +43,7 @@ namespace SQLDataProducer.Entities.OptionEntities
             }
         }
 
-        string _scriptOutputFolder = @"c:\temp\repeater";
+        string _scriptOutputFolder = @"c:\";
         /// <summary>
         /// Get and Set the folder to where the sql script files should be stored when the <see cref="OnlyOutputToFile"/> option is set to True.
         /// </summary>
