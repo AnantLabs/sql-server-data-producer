@@ -383,17 +383,51 @@
         </Setter>
     </Style>
 
-    <DataTemplate x:Key="RowDetailsTemplate">
+    <!--<DataTemplate x:Key="RowDetailsTemplate">
         <Grid TextBlock.Foreground="White">
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <TextBlock Text="RowDetails Go here"  Grid.Row="0"/>
-            <TextBlock Text="{Binding }" Grid.Row="1"/>
-        </Grid>
+          
+            <GroupBox Header="Select Generator" Grid.Row="0">
+                <ComboBox  
+                        ItemsSource="{Binding PossibleGenerators}"
+                        SelectedItem="{Binding Generator, Mode=TwoWay}"
+                        IsEnabled="{Binding Path=IsNotIdentity}"
+                        Height="25" >
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding GeneratorName}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </GroupBox>
 
-    </DataTemplate>
+            <GroupBox Header="Configure the Parameters for the Generator" Grid.Row="1">
+                <ListBox
+                        ItemsSource="{Binding Path=Generator.GeneratorParameters}" 
+                        IsEnabled="{Binding Path=IsNotIdentity}"  
+                        VerticalAlignment="Stretch">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                          
+                            <Grid 
+                                
+                                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="150" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{Binding ParameterName}" Grid.Column="0" />
+                                <TextBox Text="{Binding Value}"  Grid.Column="1" MinWidth="150"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </GroupBox>
+        </Grid>
+    </DataTemplate>-->
 
     <!-- END CONFIRMED -->
 
@@ -431,7 +465,7 @@
         <Setter Property="RowHeight" Value="22" />
         <Setter Property="HorizontalGridLinesBrush" Value="{StaticResource DataGridHorizontalLinesBrush}" />
         <Setter Property="CellStyle" Value="{StaticResource DataGridCellStyle}" />
-        <Setter Property="RowDetailsTemplate" Value="{StaticResource RowDetailsTemplate}" />
+        <!--<Setter Property="RowDetailsTemplate" Value="{StaticResource RowDetailsTemplate}" />-->
         <!-- The below line did not work.. I ended up needing an Implicit Style -->
         <!-- <Setter Property="RowHeaderStyle" Value="{StaticResource DataGridRowHeaderWMaxHeightStyle}" /> -->
 
