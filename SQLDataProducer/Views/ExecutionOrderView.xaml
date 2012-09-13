@@ -109,7 +109,8 @@
 
             <Button Content="DOWN"  Command="{Binding MoveItemDownCommand}" IsEnabled="{Binding Model.HaveExecutionItemSelected}" />
 
-            <Button Content="Tree" Margin="0 15 0 0"  Command="{Binding CreateTreeFromTableCommand}" IsEnabled="{Binding Model.IsTableSelected}" />
+            <Button Content="Root" Margin="0 15 0 0"  Command="{Binding CreateTreeWithTableTableAsRootCommand}" IsEnabled="{Binding Model.IsTableSelected}" />
+            <Button Content="Leaf" Margin="0 15 0 0"  Command="{Binding CreateTreeWithTableAsLeafCommand}" IsEnabled="{Binding Model.IsTableSelected}" />
             
         </StackPanel>
         <StackPanel Grid.Column="1" VerticalAlignment="Bottom" Grid.Row="1">

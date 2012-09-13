@@ -26,7 +26,7 @@ namespace SQLDataProducer.DataAccess
     {
         readonly string ALL_TABLES_QUERY = "select Table_Name, Table_Schema from information_Schema.Tables order by table_Schema, table_name";
 
-        readonly string TABLES_IN_HIERARCHY = @"DECLARE    @RowOrder INT = 0
+        readonly string TABLES_IN_HIERARCHY_FROM_ROOT = @"DECLARE    @RowOrder INT = 0
 			,@SchemaName sysname = '{0}'
 			,@TableName sysname = '{1}'
 			
@@ -133,6 +133,71 @@ namespace SQLDataProducer.DataAccess
         ) f
 ORDER BY RowOrder ASC ";
 
+
+        readonly string TABLES_IN_HIERARCHY_WITH_TABLE_AS_LEAF = @"DECLARE  @RowOrder INT = 0
+		,@SchemaName sysname = '{0}'
+		,@TableName sysname = '{1}'
+			
+
+; WITH Rels (
+	 FKId
+	,FKName
+	,ChildId
+	,SchemaChildName
+	,ChildName
+	,ParentId
+	,SchemaParentName
+	,ParentName
+	,Hierarchy
+	,Generation
+	,Ranking 
+)
+AS ( 
+	SELECT CONVERT(INT, null)		 FKId
+		,CONVERT(sysname, '')	 FKName
+		,o.object_id ChildId
+		,SCHEMA_NAME(o.schema_id) SchemaChildName
+		,OBJECT_NAME(o.object_id) ChildName
+		,o.object_id ParentId
+		,SCHEMA_NAME(o.schema_id) SchemaParentName
+		,OBJECT_NAME(o.object_id) ParentName
+		,CONVERT(VARCHAR(MAX), schema_name(o.schema_id)+ '.' + o.name) AS Hierarchy
+		,0 AS Generation
+		,Ranking = CONVERT(VARCHAR(MAX), o.object_id)
+	FROM sys.objects o 
+	WHERE o.object_id = object_id(@SchemaName + '.' + @TableName)
+
+UNION ALL
+
+	SELECT fk.object_id FKId
+		,OBJECT_NAME(fk.object_id) FKName
+		,co.object_id ChildId
+		,SCHEMA_NAME(po.schema_id) SchemaChildName
+		,OBJECT_NAME(fk.parent_object_id) ChildName
+		,fk.referenced_object_id ParentId
+		,SCHEMA_NAME(co.schema_id) SchemaParentName
+		,OBJECT_NAME(fk.referenced_object_id) ParentName
+		,CONVERT(VARCHAR(MAX), Rels.Hierarchy + ' --> ' 
+			+ SCHEMA_NAME(co.schema_id)
+            + '.' + po.name) AS Hierarchy 
+        ,Rels.Generation + 1 AS Generation
+        ,Ranking = Rels.Ranking + '-'
+	FROM Rels
+		JOIN sys.foreign_keys fk ON fk.parent_object_id = Rels.ParentId
+		JOIN sys.objects co ON co.object_id = fk.parent_object_id
+		JOIN sys.objects po ON po.object_id = fk.referenced_object_id
+)
+SELECT ROW_NUMBER() OVER (ORDER BY Ranking ASC) AS RowNumber 
+	  --,SchemaChildName as Table_Schema
+	  --,ChildName  AS Table_Name
+	  ,SchemaChildName  as Table_Schema
+	  ,ParentName AS Table_Name
+	  ,Hierarchy
+	  ,Generation AS [Level]
+FROM Rels
+ORDER BY RowNumber desc
+";
+
         public TableEntityDataAccess(string connectionString) 
             : base(connectionString)
         {
@@ -222,9 +287,9 @@ ORDER BY RowOrder ASC ";
         }
 
 
-        public IEnumerable<TableEntity> GetTreeStructureFromTable(TableEntity tableAsRootForTree, TableEntityCollection tablesAvailAble)
+        public IEnumerable<TableEntity> GetTreeStructureFromRoot(TableEntity tableAsRootForTree, TableEntityCollection tablesAvailAble)
         {
-            string s = string.Format(TABLES_IN_HIERARCHY, tableAsRootForTree.TableSchema, tableAsRootForTree.TableName);
+            string s = string.Format(TABLES_IN_HIERARCHY_FROM_ROOT, tableAsRootForTree.TableSchema, tableAsRootForTree.TableName);
 
             Func<SqlDataReader, TableEntity> getTreeStructure = reader =>
                 {
@@ -259,6 +324,28 @@ ORDER BY RowOrder ASC ";
             }
 
             return list;
+        }
+
+        public IEnumerable<TableEntity> GetTreeStructureWithTableAsLeaf(TableEntity tableAsLeafOfTree, TableEntityCollection tablesAvailAble)
+        {
+            string s = string.Format(TABLES_IN_HIERARCHY_WITH_TABLE_AS_LEAF, tableAsLeafOfTree.TableSchema, tableAsLeafOfTree.TableName);
+
+            Func<SqlDataReader, TableEntity> getTreeStructure = reader =>
+            {
+
+                var tableInTree =
+                                   new
+                                   {
+                                       TableSchema = reader.GetString(reader.GetOrdinal("Table_Schema")),
+                                       TableName = reader.GetString(reader.GetOrdinal("Table_Name"))
+                                   };
+
+                return tablesAvailAble.Where(x =>
+                                    x.TableName == tableInTree.TableName
+                                    && x.TableSchema == tableInTree.TableSchema
+                                ).FirstOrDefault();
+            };
+            return GetMany(s, getTreeStructure);
         }
     }
 }
