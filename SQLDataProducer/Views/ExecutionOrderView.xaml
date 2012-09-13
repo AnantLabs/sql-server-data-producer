@@ -70,11 +70,6 @@
                  SelectedItem="{Binding Model.SelectedExecutionItem, Mode=TwoWay}" 
                  Grid.Column="2"
                  ScrollViewer.VerticalScrollBarVisibility="Visible" Grid.RowSpan="2">
-            <!--<ListBox.InputBindings>
-                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding MoveItemLeftCommand,
-                    RelativeSource={RelativeSource FindAncestor, 
-                                        AncestorType={x:Type ListBox}}}" />
-            </ListBox.InputBindings>-->
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid>
@@ -83,19 +78,44 @@
                             <ColumnDefinition Width="200" />
                             <ColumnDefinition Width="110" />
                             <ColumnDefinition Width="110" />
-                            <ColumnDefinition Width="40" />
+                            <ColumnDefinition Width="40*" />
+                            
                         </Grid.ColumnDefinitions>
 
                         <TextBlock Text="{Binding Order}" Grid.Column="0" />
                         <TextBlock Text="{Binding Path=TargetTable.TableName}" Grid.Column="1" />
                         <TextBlock Text="{Binding Path=Description}" Grid.Column="2" />
                         <TextBlock Text="{Binding Path=RepeatCount}" Grid.Column="3" />
-                        <Button Content="Clone" 
+                        
+                        <StackPanel Orientation="Horizontal" Grid.Column="4">
+                            <Button Content="Clone" 
                                 Command="{Binding Path=DataContext.CloneExecutionItemCommand, 
                                         RelativeSource={RelativeSource FindAncestor, 
                                         AncestorType={x:Type ListBox}}}" 
-                                CommandParameter="{Binding .}" Grid.Column="4"></Button>
-                        
+                                CommandParameter="{Binding .}" />
+
+                            <Button Content="As Root" 
+                                Command="{Binding Path=DataContext.CreateTreeWithTableTableAsRootCommand, 
+                                        RelativeSource={RelativeSource FindAncestor, 
+                                        AncestorType={x:Type ListBox}}}" 
+                                CommandParameter="{Binding .TargetTable}" >
+                                <!--<Button.CommandParameter>
+                                    <MultiBinding>
+                                        <Binding Path="TargetTable"/>
+                                        <Binding Path="TargetTable"e="MyCanvas"/>
+                                    </MultiBinding>
+                                </Button.CommandParameter>-->
+
+                            </Button>
+                            
+                            <Button Content="As Leaf" 
+                                Command="{Binding Path=DataContext.CreateTreeWithTableAsLeafCommand, 
+                                        RelativeSource={RelativeSource FindAncestor, 
+                                        AncestorType={x:Type ListBox}}}" 
+                                CommandParameter="{Binding .TargetTable}" />
+                            
+                            
+                        </StackPanel>
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
@@ -109,8 +129,8 @@
 
             <Button Content="DOWN"  Command="{Binding MoveItemDownCommand}" IsEnabled="{Binding Model.HaveExecutionItemSelected}" />
 
-            <Button Content="Root" Margin="0 15 0 0"  Command="{Binding CreateTreeWithTableTableAsRootCommand}" IsEnabled="{Binding Model.IsTableSelected}" />
-            <Button Content="Leaf" Margin="0 15 0 0"  Command="{Binding CreateTreeWithTableAsLeafCommand}" IsEnabled="{Binding Model.IsTableSelected}" />
+            <Button Content="> Root" Margin="0 15 0 0"  Command="{Binding CreateTreeWithTableTableAsRootCommand}" CommandParameter="{Binding Model.SelectedTable}" IsEnabled="{Binding Model.IsTableSelected}" />
+            <Button Content="> Leaf" Margin="0 15 0 0"  Command="{Binding CreateTreeWithTableAsLeafCommand}" CommandParameter="{Binding Model.SelectedTable}" IsEnabled="{Binding Model.IsTableSelected}" />
             
         </StackPanel>
         <StackPanel Grid.Column="1" VerticalAlignment="Bottom" Grid.Row="1">

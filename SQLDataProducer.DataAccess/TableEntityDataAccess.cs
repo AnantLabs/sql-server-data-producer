@@ -143,10 +143,10 @@ ORDER BY RowOrder ASC ";
 	 FKId
 	,FKName
 	,ChildId
-	,SchemaChildName
+	,ChildSchemaName
 	,ChildName
 	,ParentId
-	,SchemaParentName
+	,ParentSchemaName
 	,ParentName
 	,Hierarchy
 	,Generation
@@ -156,10 +156,10 @@ AS (
 	SELECT CONVERT(INT, null)		 FKId
 		,CONVERT(sysname, '')	 FKName
 		,o.object_id ChildId
-		,SCHEMA_NAME(o.schema_id) SchemaChildName
+		,SCHEMA_NAME(o.schema_id) ChildSchemaName
 		,OBJECT_NAME(o.object_id) ChildName
 		,o.object_id ParentId
-		,SCHEMA_NAME(o.schema_id) SchemaParentName
+		,SCHEMA_NAME(o.schema_id) ParentSchemaName
 		,OBJECT_NAME(o.object_id) ParentName
 		,CONVERT(VARCHAR(MAX), schema_name(o.schema_id)+ '.' + o.name) AS Hierarchy
 		,0 AS Generation
@@ -172,10 +172,10 @@ UNION ALL
 	SELECT fk.object_id FKId
 		,OBJECT_NAME(fk.object_id) FKName
 		,co.object_id ChildId
-		,SCHEMA_NAME(po.schema_id) SchemaChildName
+		,SCHEMA_NAME(po.schema_id) ChildSchemaName
 		,OBJECT_NAME(fk.parent_object_id) ChildName
 		,fk.referenced_object_id ParentId
-		,SCHEMA_NAME(co.schema_id) SchemaParentName
+		,SCHEMA_NAME(co.schema_id) ParentSchemaName
 		,OBJECT_NAME(fk.referenced_object_id) ParentName
 		,CONVERT(VARCHAR(MAX), Rels.Hierarchy + ' --> ' 
 			+ SCHEMA_NAME(co.schema_id)
@@ -186,11 +186,12 @@ UNION ALL
 		JOIN sys.foreign_keys fk ON fk.parent_object_id = Rels.ParentId
 		JOIN sys.objects co ON co.object_id = fk.parent_object_id
 		JOIN sys.objects po ON po.object_id = fk.referenced_object_id
+							AND po.object_id != co.object_id
 )
 SELECT ROW_NUMBER() OVER (ORDER BY Ranking ASC) AS RowNumber 
 	  --,SchemaChildName as Table_Schema
 	  --,ChildName  AS Table_Name
-	  ,SchemaChildName  as Table_Schema
+	  ,ChildSchemaName  as Table_Schema
 	  ,ParentName AS Table_Name
 	  ,Hierarchy
 	  ,Generation AS [Level]

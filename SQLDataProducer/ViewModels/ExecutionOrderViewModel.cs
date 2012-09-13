@@ -34,8 +34,8 @@ namespace SQLDataProducer.ViewModels
         public DelegateCommand MoveAllItemsLeftCommand { get; private set; }
         public DelegateCommand MoveItemDownCommand { get; private set; }
 
-        public DelegateCommand CreateTreeWithTableTableAsRootCommand { get; private set; }
-        public DelegateCommand CreateTreeWithTableAsLeafCommand { get; private set; }
+        public DelegateCommand<TableEntity> CreateTreeWithTableTableAsRootCommand { get; private set; }
+        public DelegateCommand<TableEntity> CreateTreeWithTableAsLeafCommand { get; private set; }
         
         public DelegateCommand<ExecutionItem> CloneExecutionItemCommand { get; private set; }
 
@@ -201,21 +201,21 @@ namespace SQLDataProducer.ViewModels
                 Model.SelectedTable = Model.TablesView.CurrentItem as TableEntity;
             });
 
-            CreateTreeWithTableTableAsRootCommand = new DelegateCommand(() =>
+            CreateTreeWithTableTableAsRootCommand = new DelegateCommand<TableEntity>( table =>
             {
                 TableEntityDataAccess tda = new TableEntityDataAccess(Model.ConnectionString);
 
-                IEnumerable<TableEntity> tables = tda.GetTreeStructureFromRoot(Model.SelectedTable, Model.Tables);
+                IEnumerable<TableEntity> tables = tda.GetTreeStructureFromRoot(table, Model.Tables);
 
                 AddExecutionItem(tables);
 
             });
 
-            CreateTreeWithTableAsLeafCommand = new DelegateCommand(() =>
+            CreateTreeWithTableAsLeafCommand = new DelegateCommand<TableEntity>(table =>
                 {
                     TableEntityDataAccess tda = new TableEntityDataAccess(Model.ConnectionString);
 
-                    IEnumerable<TableEntity> tables = tda.GetTreeStructureWithTableAsLeaf(Model.SelectedTable, Model.Tables);
+                    IEnumerable<TableEntity> tables = tda.GetTreeStructureWithTableAsLeaf(table, Model.Tables);
 
                     AddExecutionItem(tables);
                 });
