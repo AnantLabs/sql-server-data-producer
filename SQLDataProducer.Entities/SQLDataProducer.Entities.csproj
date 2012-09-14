@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DatabaseEntities\Collections\ColumnEntityCollection.cs" />
+    <Compile Include="DatabaseEntities\Collections\ForeignKeyCollection.cs" />
     <Compile Include="DatabaseEntities\Collections\GeneratorCollectionExtensions.cs" />
     <Compile Include="DatabaseEntities\Collections\TableEntityCollection.cs" />
     <Compile Include="DatabaseEntities\ColumnEntity.cs" />
@@ -49,16 +50,16 @@
     <Compile Include="ExecutionEntities\ExecutionItemCollection.cs" />
     <Compile Include="ExecutionEntities\ExecutionResult.cs" />
     <Compile Include="Extensions.cs" />
-    <Compile Include="ForeignKeyEntity.cs" />
+    <Compile Include="DatabaseEntities\ForeignKeyEntity.cs" />
     <Compile Include="GeneratorDelegate.cs" />
     <Compile Include="ExecutionEntities\ExecutionItem.cs" />
     <Compile Include="EntityBase.cs" />
     <Compile Include="Generators\Collections\GeneratorParameterCollection.cs" />
     <Compile Include="Generators\DateTimeGenerators.cs" />
     <Compile Include="Generators\DecimalGenerators.cs" />
-    <Compile Include="Generators\GenerationNumberSupplier.cs" />
+    <Compile Include="Generators\GeneratorMetaData.cs" />
+    <Compile Include="Generators\Tools\GenerationNumberSupplier.cs" />
     <Compile Include="Generators\Generator.cs" />
-    <Compile Include="Generators\GeneratorFactory.cs" />
     <Compile Include="Generators\GeneratorParameter.cs" />
     <Compile Include="Generators\IntGenerators.cs" />
     <Compile Include="Generators\RandomSupplier.cs" />

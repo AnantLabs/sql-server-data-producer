@@ -19,7 +19,7 @@ namespace SQLDataProducer.Entities.Generators
 {
     public partial class Generator
     {
-        internal static ObservableCollection<Generator> GetDecimalGenerators()
+        public static ObservableCollection<Generator> GetDecimalGenerators()
         {
             ObservableCollection<Generator> valueGenerators = new ObservableCollection<Generator>();
             valueGenerators.Add(CreateDecimalUpCounter());
@@ -33,6 +33,7 @@ namespace SQLDataProducer.Entities.Generators
             return valueGenerators;
         }
 
+        [GeneratorMetaData(Generators.GeneratorMetaDataAttribute.GeneratorType.Decimal)]
         private static Generator CreateRandomDecimalGenerator()
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
@@ -50,6 +51,7 @@ namespace SQLDataProducer.Entities.Generators
             return gen;
         }
 
+        [GeneratorMetaData(Generators.GeneratorMetaDataAttribute.GeneratorType.Decimal)]
         private static Generator CreateDecimalUpCounter()
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();

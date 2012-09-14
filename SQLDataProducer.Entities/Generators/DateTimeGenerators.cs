@@ -31,7 +31,7 @@ namespace SQLDataProducer.Entities.Generators
         }
 
 
-        internal static ObservableCollection<Generator> GetDateTimeGenerators()
+        public static ObservableCollection<Generator> GetDateTimeGenerators()
         {
             // TODO: Add edge case date generators. 1ms after midgnight, 1ms before midnight etc.
             ObservableCollection<Generator> valueGenerators = new ObservableCollection<Generator>();
@@ -59,6 +59,7 @@ namespace SQLDataProducer.Entities.Generators
             return gen;
         }
 
+        [GeneratorMetaData(Generators.GeneratorMetaDataAttribute.GeneratorType.DateTime)]
         private static Generator CreateStaticDateGenerator()
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
@@ -73,6 +74,7 @@ namespace SQLDataProducer.Entities.Generators
             return gen;
         }
 
+        [GeneratorMetaData(Generators.GeneratorMetaDataAttribute.GeneratorType.DateTime)]
         private static Generator CreateSQLGetDateGenerator()
         {
             Generator gen = new Generator("SQL GetDate()", (n, p) =>
@@ -84,6 +86,7 @@ namespace SQLDataProducer.Entities.Generators
         }
 
 
+        [GeneratorMetaData(Generators.GeneratorMetaDataAttribute.GeneratorType.DateTime)]
         private static Generator CreateRandomDateGenerator()
         {
             Generator gen = new Generator("Random Date", (n, p) =>
@@ -94,6 +97,7 @@ namespace SQLDataProducer.Entities.Generators
             return gen;
         }
 
+        [GeneratorMetaData(Generators.GeneratorMetaDataAttribute.GeneratorType.DateTime)]
         private static Generator CreateSecondSeriesGenerator()
         {
             Generator gen = new Generator("Seconds Series", (n, p) =>
@@ -104,6 +108,7 @@ namespace SQLDataProducer.Entities.Generators
             return gen;
         }
 
+        [GeneratorMetaData(Generators.GeneratorMetaDataAttribute.GeneratorType.DateTime)]
         private static Generator CreateMiliSecondSeriesGenerator()
         {
             Generator gen = new Generator("Miliseconds Series", (n, p) =>
@@ -114,6 +119,7 @@ namespace SQLDataProducer.Entities.Generators
             return gen;
         }
 
+        [GeneratorMetaData(Generators.GeneratorMetaDataAttribute.GeneratorType.DateTime)]
         private static Generator CreateMinutesSeriesGenerator()
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
@@ -128,6 +134,9 @@ namespace SQLDataProducer.Entities.Generators
                 , paramss);
             return gen;
         }
+
+
+        [GeneratorMetaData(Generators.GeneratorMetaDataAttribute.GeneratorType.DateTime)]
         private static Generator CreateHoursSeriesGenerator()
         {
             Generator gen = new Generator("Hours Series", (n, p) =>
@@ -137,6 +146,8 @@ namespace SQLDataProducer.Entities.Generators
                 , null);
             return gen;
         }
+
+        [GeneratorMetaData(Generators.GeneratorMetaDataAttribute.GeneratorType.DateTime)]
         private static Generator CreateDaysSeriesGenerator()
         {
             Generator gen = new Generator("Days Series", (n, p) =>

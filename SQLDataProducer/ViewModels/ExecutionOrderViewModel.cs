@@ -21,6 +21,7 @@ using System.Linq;
 using SQLDataProducer.Entities.DatabaseEntities.Collections;
 using System;
 using System.Collections.Generic;
+using SQLDataProducer.DataAccess.Factories;
 
 namespace SQLDataProducer.ViewModels
 {
@@ -98,12 +99,6 @@ namespace SQLDataProducer.ViewModels
         }
 
 
-        
-
-
-        
-        
-
         public ExecutionOrderViewModel(SQLDataProducer.Model.ApplicationModel model)
         {
             Model = model;
@@ -179,7 +174,7 @@ namespace SQLDataProducer.ViewModels
                     {
                         for (int i = 0; i < clones; i++)
                         {
-                            Model.ExecutionItems.Add(item.CloneWithOrderNumber(Model.ExecutionItems.Count + 1));
+                            Model.ExecutionItems.Add(item.Clone());
                         }
                     });
                     window.Show();
@@ -204,17 +199,14 @@ namespace SQLDataProducer.ViewModels
             CreateTreeWithTableTableAsRootCommand = new DelegateCommand<TableEntity>( table =>
             {
                 TableEntityDataAccess tda = new TableEntityDataAccess(Model.ConnectionString);
-
                 IEnumerable<TableEntity> tables = tda.GetTreeStructureFromRoot(table, Model.Tables);
 
                 AddExecutionItem(tables);
-
             });
 
             CreateTreeWithTableAsLeafCommand = new DelegateCommand<TableEntity>(table =>
                 {
                     TableEntityDataAccess tda = new TableEntityDataAccess(Model.ConnectionString);
-
                     IEnumerable<TableEntity> tables = tda.GetTreeStructureWithTableAsLeaf(table, Model.Tables);
 
                     AddExecutionItem(tables);
@@ -223,28 +215,20 @@ namespace SQLDataProducer.ViewModels
 
         private void AddExecutionItem(TableEntity table)
         {
-            TableEntityDataAccess tda = new TableEntityDataAccess(Model.ConnectionString);
             // Clone the selected table so that each generation of that table is configurable uniquely
-            TableEntity clonedTable = tda.CloneTable(table);
-            Model.ExecutionItems.Add(new ExecutionItem(clonedTable, Model.ExecutionItems.Count + 1));
+            ExecutionItemFactory factory = new ExecutionItemFactory(Model.ConnectionString);
+            Model.ExecutionItems.Add(factory.CloneFromTable(table));
         }
+        
         private void AddExecutionItem(IEnumerable<TableEntity> tables)
         {
-            TableEntityDataAccess tda = new TableEntityDataAccess(Model.ConnectionString);
-            // Clone the selected table so that each generation of that table is configurable uniquely
-            foreach (var table in tables)
-            {
-                TableEntity clonedTable = tda.CloneTable(table);
-                Model.ExecutionItems.Add(new ExecutionItem(clonedTable, Model.ExecutionItems.Count + 1));
-            }
+            ExecutionItemFactory factory = new ExecutionItemFactory(Model.ConnectionString);
+            Model.ExecutionItems.AddRange(factory.GetClones(tables));
         }
+
         private void AddExecutionItem(IEnumerable<ExecutionItem> eiItems)
         {
-            // Clone the selected table so that each generation of that table is configurable uniquely
-            foreach (var ei in eiItems)
-            {
-                Model.ExecutionItems.Add(ei);
-            }
+            Model.ExecutionItems.AddRange(eiItems);
         }
     }
 }

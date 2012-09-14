@@ -74,6 +74,7 @@ namespace SQLDataProducer.Entities.Generators
             return valueGenerators;
         }
 
+        [GeneratorMetaData(Generators.GeneratorMetaDataAttribute.GeneratorType.Integer)]
         public static Generator CreateRandomForeignKeyGenerator(ObservableCollection<string> fkkeys)
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
@@ -92,6 +93,8 @@ namespace SQLDataProducer.Entities.Generators
                 , paramss);
             return gen;
         }
+
+        [GeneratorMetaData(Generators.GeneratorMetaDataAttribute.GeneratorType.Integer)]
         public static Generator CreateSequentialForeignKeyGenerator(ObservableCollection<string> fkkeys)
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
@@ -136,11 +139,12 @@ namespace SQLDataProducer.Entities.Generators
         //    return gen;
         //}
 
+        [GeneratorMetaData(Generators.GeneratorMetaDataAttribute.GeneratorType.Integer)]
         private static Generator CreateRandomIntGenerator(long min, long max)
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
 
-            paramss.Add(new GeneratorParameter("MinValue", 1));
+            paramss.Add(new GeneratorParameter("MinValue", min));
             paramss.Add(new GeneratorParameter("MaxValue", max));
 
             Generator gen = new Generator("Random Int", (n, p) =>
@@ -154,6 +158,8 @@ namespace SQLDataProducer.Entities.Generators
             return gen;
         }
 
+
+        [GeneratorMetaData(Generators.GeneratorMetaDataAttribute.GeneratorType.Integer)]
         private static Generator CreateIntUpCounter(long min, long max)
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
@@ -171,6 +177,8 @@ namespace SQLDataProducer.Entities.Generators
             return gen;
         }
 
+
+        [GeneratorMetaData(Generators.GeneratorMetaDataAttribute.GeneratorType.Integer)]
         private static Generator CreateIdentityFromExecutionItem()
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
@@ -186,6 +194,7 @@ namespace SQLDataProducer.Entities.Generators
             return gen;
         }
 
+        [GeneratorMetaData(Generators.GeneratorMetaDataAttribute.GeneratorType.Integer)]
         private static Generator CreateStaticNumberGenerator()
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
@@ -206,6 +215,7 @@ namespace SQLDataProducer.Entities.Generators
         /// http://www.sqlservercentral.com/articles/SQL+Uniform+Random+Numbers/91103/
         /// </summary>
         /// <returns></returns>
+        [GeneratorMetaData(Generators.GeneratorMetaDataAttribute.GeneratorType.Integer)]
         private static Generator CreateNormallyDistributedRandomGenerator()
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
@@ -230,6 +240,7 @@ namespace SQLDataProducer.Entities.Generators
         /// http://www.sqlservercentral.com/articles/SQL+Uniform+Random+Numbers/91103/
         /// </summary>
         /// <returns></returns>
+        [GeneratorMetaData(Generators.GeneratorMetaDataAttribute.GeneratorType.Integer)]
         private static Generator CreateExponentialRandomNumbersGenerator()
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
@@ -252,6 +263,7 @@ namespace SQLDataProducer.Entities.Generators
         /// http://www.sqlservercentral.com/articles/SQL+Uniform+Random+Numbers/91103/
         /// </summary>
         /// <returns></returns>
+        [GeneratorMetaData(Generators.GeneratorMetaDataAttribute.GeneratorType.Integer)]
         private static Generator CreateWeibullRandomNumbersGenerator()
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
@@ -276,6 +288,7 @@ namespace SQLDataProducer.Entities.Generators
         /// http://www.sqlservercentral.com/articles/SQL+Uniform+Random+Numbers/91103/
         /// </summary>
         /// <returns></returns>
+        [GeneratorMetaData(Generators.GeneratorMetaDataAttribute.GeneratorType.Integer)]
         private static Generator CreateLaplaceRandomNumbersGenerator()
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();

@@ -18,9 +18,9 @@ using SQLDataProducer.Entities.Generators.Collections;
 
 namespace SQLDataProducer.Entities.Generators
 {
-   public partial class Generator
+    public partial class Generator
     {
-        internal static ObservableCollection<Generator> GetGUIDGenerators()
+        public static ObservableCollection<Generator> GetGUIDGenerators()
         {
             ObservableCollection<Generator> valueGenerators = new ObservableCollection<Generator>();
             valueGenerators.Add(CreateRandomGUIDGenerator());
@@ -30,6 +30,8 @@ namespace SQLDataProducer.Entities.Generators
             return valueGenerators;
         }
 
+
+        [GeneratorMetaData(Generators.GeneratorMetaDataAttribute.GeneratorType.UniqueIdentifier)]
         private static Generator CreateRandomGUIDGenerator()
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
@@ -42,6 +44,7 @@ namespace SQLDataProducer.Entities.Generators
             return gen;
         }
 
+        [GeneratorMetaData(Generators.GeneratorMetaDataAttribute.GeneratorType.UniqueIdentifier)]
         private static Generator StaticGUID()
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();

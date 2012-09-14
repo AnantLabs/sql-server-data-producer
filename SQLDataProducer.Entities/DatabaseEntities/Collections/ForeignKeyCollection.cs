@@ -12,32 +12,25 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-using System.Threading;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Collections.ObjectModel;
 
-namespace SQLDataProducer.Entities.Generators
+namespace SQLDataProducer.Entities.DatabaseEntities.Collections
 {
-    public static class GenerationNumberSupplier
+    public class ForeignKeyCollection : ObservableCollection<string>
     {
-        static int _number;
-
-        static GenerationNumberSupplier()
+        public ForeignKeyCollection()
+            : base()
         {
-            _number = 1;
+
         }
 
-        public static int GetNextNumber()
+        public ForeignKeyCollection(IEnumerable<string> keys)
+            : base (keys)
         {
-            return Interlocked.Increment(ref _number);
-        }
-
-        public static void Reset()
-        {
-            _number = 1;
-        }
-
-        public static int CurrentNumber()
-        {
-            return _number;
         }
     }
 }

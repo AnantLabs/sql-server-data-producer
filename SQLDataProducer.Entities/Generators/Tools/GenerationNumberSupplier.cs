@@ -12,21 +12,32 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SQLDataProducer.DatabaseEntities.Entities;
+using System.Threading;
 
-namespace SQLDataProducer.DataAccess
+namespace SQLDataProducer.Entities.Factories
 {
-    public class TableEntityManager
+    public static class GenerationNumberSupplier
     {
-        public TableEntityManager()
-        {
+        static int _number;
 
+        static GenerationNumberSupplier()
+        {
+            _number = 1;
         }
 
-        
+        public static int GetNextNumber()
+        {
+            return Interlocked.Increment(ref _number);
+        }
+
+        public static void Reset()
+        {
+            _number = 1;
+        }
+
+        public static int CurrentNumber()
+        {
+            return _number;
+        }
     }
 }

@@ -136,8 +136,7 @@ namespace SQLDataProducer.DatabaseEntities.Entities
 
             if (reader.ReadToDescendant("Columns"))
             {
-                //reader.ReadToDescendant("Column");
-                while (reader.Read() && reader.MoveToContent() == System.Xml.XmlNodeType.Element && reader.LocalName == "Column")//.ReadToNextSibling("Column"))
+                while (reader.Read() && reader.MoveToContent() == System.Xml.XmlNodeType.Element && reader.LocalName == "Column")
                 {
                     ColumnEntity col = new ColumnEntity();
                     col.ReadXml(reader);

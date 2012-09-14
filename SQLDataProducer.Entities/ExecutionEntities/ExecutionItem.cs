@@ -67,12 +67,13 @@ namespace SQLDataProducer.Entities.ExecutionEntities
         /// </summary>
         /// <param name="table">The table to generate data for</param>
         /// <param name="order">the order of the execution item. Is used to generate the name of variables so that other execution items can depend on this</param>
-        public ExecutionItem(TableEntity table, int order, string description = "")
+        public ExecutionItem(TableEntity table, string description = "")
         {
             TargetTable = table;
-            Order = order;
+            Order = int.MinValue;
             Description = description;
         }
+
         public ExecutionItem()
         {
 
@@ -143,15 +144,15 @@ namespace SQLDataProducer.Entities.ExecutionEntities
         }
 
 
-        public ExecutionItem CloneWithOrderNumber(int orderNr)
+        public ExecutionItem Clone()
         {
-            return ExecutionItem.Create(this.Description, this.RepeatCount, this.TargetTable.Clone(), this.TruncateBeforeExecution, orderNr);
+            return ExecutionItem.Create(this.Description, this.RepeatCount, this.TargetTable.Clone(), this.TruncateBeforeExecution);
         }
 
-        private static ExecutionItem Create(string description, int repeatCount, TableEntity table, bool truncateBeforeExecution, int orderNr)
+        private static ExecutionItem Create(string description, int repeatCount, TableEntity table, bool truncateBeforeExecution)
         {
             var tabl = new TableEntity(table.TableSchema, table.TableName);
-            var ei = new ExecutionItem(table, orderNr);
+            var ei = new ExecutionItem(table);
             ei.Description = description;
             ei.RepeatCount = repeatCount;
             ei.TruncateBeforeExecution = truncateBeforeExecution;

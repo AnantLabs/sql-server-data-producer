@@ -96,7 +96,7 @@ namespace SQLDataProducer.Entities.Generators
             return paramas.Where(x => x.ParameterName == name).First().Value;
         }
 
-
+        [GeneratorMetaData(Generators.GeneratorMetaDataAttribute.GeneratorType.General)]
         protected static Generator CreateQueryGenerator()
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
@@ -113,8 +113,16 @@ namespace SQLDataProducer.Entities.Generators
             return gen;
         }
 
- 
-
+        [GeneratorMetaData(Generators.GeneratorMetaDataAttribute.GeneratorType.General)]
+        public static Generator CreateNULLValueGenerator()
+        {
+            Generator gen = new Generator("NULL value", (n, p) =>
+            {
+                return "NULL";
+            }
+                , null);
+            return gen;
+        }
 
         protected void OnPropertyChanged(string propertyName)
         {

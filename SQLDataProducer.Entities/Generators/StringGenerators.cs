@@ -21,7 +21,7 @@ namespace SQLDataProducer.Entities.Generators
 {
     public partial class Generator
     {
-        internal static System.Collections.ObjectModel.ObservableCollection<Generator> GetStringGenerators(int length)
+        public static System.Collections.ObjectModel.ObservableCollection<Generator> GetStringGenerators(int length)
         {
             ObservableCollection<Generator> valueGenerators = new ObservableCollection<Generator>();
             valueGenerators.Add(CreateCountriesGenerator(length));
@@ -70,6 +70,7 @@ namespace SQLDataProducer.Entities.Generators
             return lines;
         }
 
+        [GeneratorMetaData(Generators.GeneratorMetaDataAttribute.GeneratorType.String)]
         private static Generator CreateStaticStringGeneratorBase(int length)
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
@@ -86,6 +87,7 @@ namespace SQLDataProducer.Entities.Generators
             return gen;
         }
 
+        [GeneratorMetaData(Generators.GeneratorMetaDataAttribute.GeneratorType.String)]
         private static Generator CreateCountriesGenerator(int length)
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
@@ -99,6 +101,7 @@ namespace SQLDataProducer.Entities.Generators
             return gen;
         }
 
+        [GeneratorMetaData(Generators.GeneratorMetaDataAttribute.GeneratorType.String)]
         private static Generator CreateFemaleNameGenerator(int length)
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
@@ -111,6 +114,8 @@ namespace SQLDataProducer.Entities.Generators
                 , paramss);
             return gen;
         }
+
+        [GeneratorMetaData(Generators.GeneratorMetaDataAttribute.GeneratorType.String)]
         private static Generator CreateMaleNameGenerator(int length)
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
@@ -124,6 +129,7 @@ namespace SQLDataProducer.Entities.Generators
             return gen;
         }
 
+        [GeneratorMetaData(Generators.GeneratorMetaDataAttribute.GeneratorType.String)]
         private static Generator CreateCityGenerator(int length)
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
@@ -137,6 +143,8 @@ namespace SQLDataProducer.Entities.Generators
             return gen;
         }
 
+
+        [GeneratorMetaData(Generators.GeneratorMetaDataAttribute.GeneratorType.String)]
         private static Generator CreateUserNameGenerator(int length)
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
@@ -150,15 +158,16 @@ namespace SQLDataProducer.Entities.Generators
             return gen;
         }
 
-        public static Generator CreateNULLValueGenerator()
-        {
-            Generator gen = new Generator("NULL value", (n, p) =>
-            {
-                return "NULL";
-            }
-                , null);
-            return gen;
-        }
+        //[GeneratorMetaData(Generators.GeneratorMetaDataAttribute.GeneratorType.String)]
+        //public static Generator CreateNULLValueGenerator()
+        //{
+        //    Generator gen = new Generator("NULL value", (n, p) =>
+        //    {
+        //        return "NULL";
+        //    }
+        //        , null);
+        //    return gen;
+        //}
 
         private static List<string> _countries;
         static List<string> CountryList

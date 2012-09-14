@@ -19,6 +19,7 @@ using SQLDataProducer.DataAccess;
 using SQLDataProducer.TaskExecuter;
 using SQLDataProducer.Entities;
 using SQLDataProducer.Entities.OptionEntities;
+using SQLDataProducer.DataAccess.Factories;
 
 namespace TestConsoleApplication
 {
@@ -43,10 +44,10 @@ namespace TestConsoleApplication
             string preScript = string.Empty;
             string postScript = string.Empty;
 
-            ExecutionItemCollectionManager m = new ExecutionItemCollectionManager();
+            ExecutionItemFactory m = new ExecutionItemFactory(Connection());
             m.Save(original, @"c:\temp\repeater.xml");
 
-            ExecutionItemCollection loaded = m.Load(@"c:\temp\repeater.xml", Connection());
+            ExecutionItemCollection loaded = m.Load(@"c:\temp\repeater.xml");
             //Console.WriteLine(loaded);
             TestIfEqual(original, loaded);
             //ExecutionResult res = manager.RunWorkFlow(options, Connection(), list);
@@ -113,10 +114,10 @@ namespace TestConsoleApplication
         private static ExecutionItemCollection SetupExecutionItems(TableEntity table)
         {
             ExecutionItemCollection list = new ExecutionItemCollection();
-            ExecutionItem item = new ExecutionItem(table, 1);
+            ExecutionItem item = new ExecutionItem(table);
             item.RepeatCount = 10;
             item.TruncateBeforeExecution = false;
-            ExecutionItem item2 = new ExecutionItem(table, 2);
+            ExecutionItem item2 = new ExecutionItem(table);
             item2.RepeatCount = 1;
             list.Add(item);
             list.Add(item2);

@@ -17,9 +17,13 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using SQLDataProducer.Entities.DatabaseEntities;
 using System;
+using SQLDataProducer.Entities.Generators;
+using Generators = SQLDataProducer.Entities.Generators;
+using SQLDataProducer.Entities;
+
 //
 
-namespace SQLDataProducer.Entities.Generators
+namespace SQLDataProducer.DataAccess.Factories
 {
     public class GeneratorFactory
     {
@@ -59,8 +63,26 @@ namespace SQLDataProducer.Entities.Generators
                 case DBDataType.UNKNOWN:
                     return Generators.Generator.GetStringGenerators(1);
                 default:
-                    throw new NotImplementedException("Datatype not implemented");
+                    throw new NotImplementedException(dbataTypeDef.ToString());
             }
+        }
+
+        private static ObservableCollection<Generator> GetDefaultGeneratorsForDataType2(ColumnDataTypeDefinition dbataTypeDef)
+        {
+            System.Reflection.MemberInfo inf = typeof(Generator);
+
+            object[] attributes;
+            attributes =
+               inf.GetCustomAttributes(
+                    typeof(GeneratorMetaDataAttribute), false);
+
+            foreach (Object attribute in attributes)
+            {
+                GeneratorMetaDataAttribute bfa = attribute as GeneratorMetaDataAttribute;
+                
+            }
+
+            return null;
         }
 
         public static System.Collections.Generic.IEnumerable<Generator> GetForeignKeyGenerators(ObservableCollection<string> fkKeys)

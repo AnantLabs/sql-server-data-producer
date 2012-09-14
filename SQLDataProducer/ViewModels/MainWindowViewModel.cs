@@ -21,6 +21,7 @@ using System.Windows.Threading;
 using System.Threading;
 using SQLDataProducer.Entities.OptionEntities;
 using SQLDataProducer.DatabaseEntities.Entities;
+using SQLDataProducer.DataAccess.Factories;
 
 
 namespace SQLDataProducer.ViewModels
@@ -84,6 +85,7 @@ namespace SQLDataProducer.ViewModels
             }
         }
 
+        
 
         private void LoadTables()
         {
@@ -119,8 +121,7 @@ namespace SQLDataProducer.ViewModels
             Model.Options = options;
             ExecutionOrderVM = new ExecutionOrderViewModel(Model);
             SidePanelVM = new SidePanelViewModel(Model);
-
-
+            
             OpenSqlConnectionBuilderCommand = new DelegateCommand(() =>
             {
                 ConnectionStringCreatorGUI.SqlConnectionString initialConnStr;
@@ -145,7 +146,8 @@ namespace SQLDataProducer.ViewModels
             
             LoadTablesCommand = new DelegateCommand(() =>
                 {
-                    LoadTables();                        
+                    Model.ExecutionItems.Clear();    
+                    LoadTables();
                 });
 
             SaveCommand = new DelegateCommand(() =>
@@ -161,7 +163,7 @@ namespace SQLDataProducer.ViewModels
                         if (diaResult != System.Windows.Forms.DialogResult.Cancel)
                         {
                             string fileName = dia.FileName;
-                            ExecutionItemCollectionManager m = new ExecutionItemCollectionManager();
+                            ExecutionItemFactory m = new ExecutionItemFactory(Model.ConnectionString);
                             m.Save(Model.ExecutionItems, fileName);
                         }
                     }
@@ -189,8 +191,8 @@ namespace SQLDataProducer.ViewModels
                     if (diaResult != System.Windows.Forms.DialogResult.Cancel)
                     {
                         string fileName = dia.FileName;
-                        ExecutionItemCollectionManager m = new ExecutionItemCollectionManager();
-                        var loaded = m.Load(fileName, Model.ConnectionString);
+                        ExecutionItemFactory m = new ExecutionItemFactory(Model.ConnectionString);
+                        var loaded = m.Load(fileName);
                         Model.ExecutionItems.Clear();
                         foreach (var item in loaded)
                         {

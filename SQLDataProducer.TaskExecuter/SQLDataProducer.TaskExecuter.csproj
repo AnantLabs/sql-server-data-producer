@@ -59,10 +59,6 @@
       <Project>{0D135CAD-55DB-4090-BB5F-2C493A1F0072}</Project>
       <Name>SQLDataProducer.Entities</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SQLDataProducer.EntityQueryGenerator\SQLDataProducer.EntityQueryGenerator.csproj">
-      <Project>{6B6065E1-934E-4B2C-9B34-50D15BACAC3A}</Project>
-      <Name>SQLDataProducer.EntityQueryGenerator</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

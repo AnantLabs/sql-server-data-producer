@@ -15,6 +15,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Xml.Serialization;
+using System.Collections.Generic;
 
 namespace SQLDataProducer.Entities.ExecutionEntities
 {
@@ -63,6 +64,22 @@ namespace SQLDataProducer.Entities.ExecutionEntities
             }
         }
 
+        public void Add(ExecutionItem item)
+        {
+            item.Order = this.Items.Count + 1;
+            base.Add(item);
+        }
+
+        public void AddRange(IEnumerable<ExecutionItem> items)
+        {
+            if (items == null)
+                return;
+
+            foreach (var item in items)
+            {
+                Add(item);
+            }
+        }
                
         public System.Xml.Schema.XmlSchema GetSchema()
         {

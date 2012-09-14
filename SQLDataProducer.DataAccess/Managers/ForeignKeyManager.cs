@@ -16,6 +16,9 @@ using System.Linq;
 using SQLDataProducer.DatabaseEntities.Entities;
 using System.Collections.ObjectModel;
 using SQLDataProducer.DataAccess;
+using SQLDataProducer.Entities.DatabaseEntities.Collections;
+using System;
+using SQLDataProducer.Entities.DatabaseEntities;
 
 namespace SQLDataProducer.EntityQueryGenerator
 {
@@ -41,9 +44,14 @@ namespace SQLDataProducer.EntityQueryGenerator
             ForeignKeyContainerCache = new ObservableCollection<ForeignKeyContainer>();
         }
 
-        public ObservableCollection<string> GetPrimaryKeysForTable(string connectionString, TableEntity table, string primaryKeyColumn)
+        public void AddKeyToTable(TableEntity table, string insertedKey)
         {
-            ObservableCollection<string> fkeys;
+
+        }
+
+        public ForeignKeyCollection GetPrimaryKeysForTable(string connectionString, TableEntity table, string primaryKeyColumn)
+        {
+            ForeignKeyCollection fkeys;
 
             ForeignKeyContainer cached = ForeignKeyContainerCache.Where(x => x.Table == table).FirstOrDefault();
             if (cached != null)
@@ -59,7 +67,7 @@ namespace SQLDataProducer.EntityQueryGenerator
             return fkeys;
         }
 
-        private ObservableCollection<string> GetKeysForColumnInTable(string connectionString, TableEntity table, string primaryKeyColumn)
+        private ForeignKeyCollection GetKeysForColumnInTable(string connectionString, TableEntity table, string primaryKeyColumn)
         {
             TableEntityDataAccess tda = new TableEntityDataAccess(connectionString);
             return tda.GetPrimaryKeysForColumnInTable(table, primaryKeyColumn);
@@ -70,6 +78,7 @@ namespace SQLDataProducer.EntityQueryGenerator
 
     class ForeignKeyContainer
     {
+
         private DatabaseEntities.Entities.TableEntity _table;
         public DatabaseEntities.Entities.TableEntity Table
         {
@@ -77,8 +86,8 @@ namespace SQLDataProducer.EntityQueryGenerator
             set { _table = value; }
         }
 
-        private ObservableCollection<string> _keyValues;
-        public ObservableCollection<string> KeyValues
+        private ForeignKeyCollection _keyValues;
+        public ForeignKeyCollection KeyValues
         {
             get { return _keyValues; }
             set { _keyValues = value; }
@@ -91,7 +100,7 @@ namespace SQLDataProducer.EntityQueryGenerator
             set { _keyColumnName = value; }
         }
 
-        public ForeignKeyContainer(DatabaseEntities.Entities.TableEntity table, string keyColumnName, ObservableCollection<string> keys)
+        public ForeignKeyContainer(DatabaseEntities.Entities.TableEntity table, string keyColumnName, ForeignKeyCollection keys)
         {
             this._table = table;
             this._keyValues = keys;

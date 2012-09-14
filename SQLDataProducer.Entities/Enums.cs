@@ -68,71 +68,54 @@ namespace SQLDataProducer.Entities
                 case ExecutionConditions.None:
                     return string.Empty;
                 case ExecutionConditions.LessThan:
-                    return string.Format("< {0}",  conditionValue);
+                    return string.Format("< {0}", conditionValue);
                 case ExecutionConditions.LessOrEqualTo:
-                    return string.Format("<= {0}",  conditionValue);
+                    return string.Format("<= {0}", conditionValue);
                 case ExecutionConditions.EqualTo:
-                    return string.Format("= {0}",  conditionValue);
+                    return string.Format("= {0}", conditionValue);
                 case ExecutionConditions.EqualOrGreaterThan:
-                    return string.Format(">= {0}",  conditionValue);
+                    return string.Format(">= {0}", conditionValue);
                 case ExecutionConditions.GreaterThan:
-                    return string.Format("> {0}",  conditionValue);
+                    return string.Format("> {0}", conditionValue);
                 case ExecutionConditions.NotEqualTo:
-                    return string.Format("<> {0}",  conditionValue);
+                    return string.Format("<> {0}", conditionValue);
                 case ExecutionConditions.EveryOtherX:
-                    return string.Format("% {0} = 0",  conditionValue);
+                    return string.Format("% {0} = 0", conditionValue);
                 default:
                     throw new NotImplementedException();
             }
         }
 
-        public static DBDataType ToDBDataType(this string dataType)
-        {
-            if (dataType.StartsWith("int"))
-            {
-                return DBDataType.INT;
-            }
-            else if (dataType.StartsWith("tinyint"))
-            {
-                return DBDataType.TINYINT;
-            }
-            else if (dataType.StartsWith("smallint"))
-            {
-                return DBDataType.SMALLINT;
-            }
-            else if (dataType.StartsWith("bigint"))
-            {
-                return DBDataType.BIGINT;
-            }
-            else if (dataType.StartsWith("bit"))
-            {
-                return DBDataType.BIT;
-            }
-            else if (dataType.StartsWith("varchar")
-                || dataType.StartsWith("nvarchar")
-                || dataType.StartsWith("char")
-                || dataType.StartsWith("nchar"))
-            {
-
-                return DBDataType.VARCHAR;
-            }
-            else if (dataType.StartsWith("decimal")
-                || dataType.StartsWith("float"))
-            {
-                return DBDataType.DECIMAL;
-            }
-            else if (dataType.StartsWith("datetime"))
-            {
-                return DBDataType.DATETIME;
-            }
-            else if (dataType.StartsWith("uniqueidentifier"))
-            {
-                return DBDataType.UNIQUEIDENTIFIER;
-            }
-            else
-            {
-                return DBDataType.UNKNOWN;
-            }
-        }
     }
+
+    //public class EnumConverter
+    //{
+    //    public static string ToDescriptionString(NumberGeneratorMethods method)
+    //    {
+    //        switch (method)
+    //        {
+    //            case NumberGeneratorMethods.NewNForEachExecution:
+    //                return "New N For Each Execution";
+    //            case NumberGeneratorMethods.NewNForEachRow:
+    //                return "New N For Each Inserted Row";
+    //            case NumberGeneratorMethods.ConstantN:
+    //                return "Constant N";
+    //            default:
+    //                throw new NotImplementedException(method.ToString());
+    //        }
+    //    }
+        
+    //    public static string ToDescriptionString(ExecutionTypes execType)
+    //    {
+    //        switch (execType)
+    //        {
+    //            case ExecutionTypes.DurationBased:
+    //                return "DurationBased Execution";
+    //            case ExecutionTypes.ExecutionCountBased:
+    //                return "Execution Count Based Execution";
+    //            default:
+    //                throw new NotImplementedException(execType.ToString());
+    //        }
+    //    }
+    //}
 }

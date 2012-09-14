@@ -55,10 +55,6 @@
       <Project>{0D135CAD-55DB-4090-BB5F-2C493A1F0072}</Project>
       <Name>SQLDataProducer.Entities</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SQLDataProducer.EntityQueryGenerator\SQLDataProducer.EntityQueryGenerator.csproj">
-      <Project>{6B6065E1-934E-4B2C-9B34-50D15BACAC3A}</Project>
-      <Name>SQLDataProducer.EntityQueryGenerator</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SQLDataProducer.TaskExecuter\SQLDataProducer.TaskExecuter.csproj">
       <Project>{AD47B9D0-0A49-49ED-9CF0-123809E266D4}</Project>
       <Name>SQLDataProducer.TaskExecuter</Name>

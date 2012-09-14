@@ -25,8 +25,7 @@ namespace SQLDataProducer.Entities.DatabaseEntities
 
         public ColumnDataTypeDefinition(string rawDataType, bool nullable)
         {
-
-            DBType = rawDataType.ToDBDataType();
+            DBType = StringToDBDataType(rawDataType);
             IsNullable = nullable;
 
             if (DBType == DBDataType.VARCHAR)
@@ -110,6 +109,62 @@ namespace SQLDataProducer.Entities.DatabaseEntities
         {
             return DBType.ToString();
         }
+
+
+        private DBDataType StringToDBDataType(string dataType)
+        {
+            dataType = dataType.ToLower();
+
+            if (dataType.StartsWith("int"))
+            {
+                return DBDataType.INT;
+            }
+            else if (dataType.StartsWith("tinyint"))
+            {
+                return DBDataType.TINYINT;
+            }
+            else if (dataType.StartsWith("smallint"))
+            {
+                return DBDataType.SMALLINT;
+            }
+            else if (dataType.StartsWith("bigint"))
+            {
+                return DBDataType.BIGINT;
+            }
+            else if (dataType.StartsWith("bit")
+                || dataType.StartsWith("flag"))
+            {
+                return DBDataType.BIT;
+            }
+            else if (dataType.StartsWith("varchar")
+                || dataType.StartsWith("nvarchar")
+                || dataType.StartsWith("char")
+                || dataType.StartsWith("nchar"))
+            {
+
+                return DBDataType.VARCHAR;
+            }
+            else if (dataType.StartsWith("decimal")
+                || dataType.StartsWith("float"))
+            {
+                return DBDataType.DECIMAL;
+            }
+            else if (dataType.StartsWith("datetime")
+                || dataType.StartsWith("date")
+                || dataType.StartsWith("time"))
+            {
+                return DBDataType.DATETIME;
+            }
+            else if (dataType.StartsWith("uniqueidentifier"))
+            {
+                return DBDataType.UNIQUEIDENTIFIER;
+            }
+            else
+            {
+                return DBDataType.UNKNOWN;
+            }
+        }
+    
 
         //int _precision;
         //public int Precision

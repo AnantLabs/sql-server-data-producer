@@ -12,16 +12,44 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-using System.Linq;
-using SQLDataProducer.Entities.ExecutionEntities;
-using System.Xml;
-using SQLDataProducer.DatabaseEntities.Entities;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using SQLDataProducer.Entities.ExecutionEntities;
+using SQLDataProducer.DatabaseEntities.Entities;
+using System.Xml;
 
-namespace SQLDataProducer.DataAccess
+namespace SQLDataProducer.DataAccess.Factories
 {
-    public class ExecutionItemCollectionManager
+    public class ExecutionItemFactory
     {
+        TableEntityDataAccess _tda;
+        public ExecutionItemFactory(string connectionString)
+        {
+            _tda  = new TableEntityDataAccess(connectionString);
+        }
+
+        public ExecutionItemFactory(TableEntityDataAccess _tda)
+        {
+            this._tda = _tda;
+        }
+
+        public IEnumerable<ExecutionItem> GetClones(IEnumerable<DatabaseEntities.Entities.TableEntity> tables)
+        {
+            // Clone the selected table so that each generation of that table is configurable uniquely
+            foreach (var table in tables)
+            {
+                yield return CloneFromTable(table);
+            }
+        }
+
+        public ExecutionItem CloneFromTable(TableEntity table)
+        {
+            TableEntity clonedTable = _tda.CloneTable(table);
+            return new ExecutionItem(clonedTable);
+        }
+
         public void Save(ExecutionItemCollection execItems, string fileName)
         {
             //System.Xml.Serialization.XmlSerializer ser = new System.Xml.Serialization.XmlSerializer(typeof(ExecutionItemCollection));
@@ -29,10 +57,10 @@ namespace SQLDataProducer.DataAccess
             {
                 execItems.WriteXml(xmlWriter);
             }
-            
+
         }
 
-        public ExecutionItemCollection Load(string fileName, string connectionString)
+        public ExecutionItemCollection Load(string fileName)
         {
             // The logic here is that we only load(and save) relevant configuration.
             // When we load, we will only load up 
@@ -48,11 +76,11 @@ namespace SQLDataProducer.DataAccess
             {
                 loadedExecCollection.ReadXml(reader);
             }
+
             
-            TableEntityDataAccess tda = new TableEntityDataAccess(connectionString);
             foreach (var item in loadedExecCollection)
             {
-                TableEntity table = tda.GetTableAndColumns(item.TargetTable.TableSchema, item.TargetTable.TableName);
+                TableEntity table = _tda.GetTableAndColumns(item.TargetTable.TableSchema, item.TargetTable.TableName);
                 foreach (var newColumn in table.Columns)
                 {
                     foreach (var c2 in item.TargetTable.Columns)
@@ -68,7 +96,7 @@ namespace SQLDataProducer.DataAccess
                         }
                     }
                 }
-                ExecutionItem ei = new ExecutionItem(table, item.Order, item.Description);
+                ExecutionItem ei = new ExecutionItem(table, item.Description);
                 completeExecCollection.Add(ei);
             }
 

@@ -14,15 +14,15 @@
 
 using SQLDataProducer.DatabaseEntities.Entities;
 using System.Collections.ObjectModel;
+using SQLDataProducer.Entities.DatabaseEntities.Collections;
 
-namespace SQLDataProducer.Entities
+namespace SQLDataProducer.Entities.DatabaseEntities
 {
-    
     public class ForeignKeyEntity : EntityBase
     {
         public ForeignKeyEntity()
         {
-            Keys = new ObservableCollection<string>();
+            Keys = new ForeignKeyCollection();
         }
 
         private TableEntity _referencingTable;
@@ -61,9 +61,9 @@ namespace SQLDataProducer.Entities
             }
         }
 
-        private ObservableCollection<string> _keys;
+        private ForeignKeyCollection _keys;
         [System.ComponentModel.ReadOnly(true)]
-        public ObservableCollection<string> Keys
+        public ForeignKeyCollection Keys
         {
             get
             {
@@ -85,27 +85,8 @@ namespace SQLDataProducer.Entities
             ForeignKeyEntity fk = new ForeignKeyEntity();
             fk.ReferencingColumn = this.ReferencingColumn;
             fk.ReferencingTable = this.ReferencingTable.Clone();
-            fk.Keys = new ObservableCollection<string>(this.Keys); ;
+            fk.Keys = new ForeignKeyCollection(this.Keys); ;
             return fk;
         }
-
-        //public System.Xml.Schema.XmlSchema GetSchema()
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public void ReadXml(System.Xml.XmlReader reader)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public void WriteXml(System.Xml.XmlWriter writer)
-        //{
-        //    writer.WriteStartElement("ForeignKey");
-        //    writer.WriteAttributeString("ReferencingColumn", this.ReferencingColumn);
-        //    writer.WriteAttributeString("ReferencingTable.TableName", this.ReferencingTable.TableName);
-        //    writer.WriteAttributeString("ReferencingTable.TableSchema", this.ReferencingTable.TableSchema);
-        //    writer.WriteEndElement();
-        //}
     }
 }
