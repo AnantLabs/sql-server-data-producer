@@ -32,4 +32,6 @@ namespace SQLDataProducer.Entities
 
     //Action<int>
     public delegate void ExecutionDoneCallbackDelegate(int n);
+
+    public delegate void TableWithForeignKeyInsertedRowEventHandler(string tableSchema, string tableName, int insertedFKId);
 }

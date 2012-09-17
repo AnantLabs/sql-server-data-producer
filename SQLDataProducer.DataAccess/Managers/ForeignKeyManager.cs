@@ -24,6 +24,7 @@ namespace SQLDataProducer.EntityQueryGenerator
 {
     public class ForeignKeyManager
     {
+        ObservableCollection<ForeignKeyContainer> ForeignKeyContainerCache { get; set; }
 
         static readonly ForeignKeyManager _instance = new ForeignKeyManager();
 
@@ -44,7 +45,7 @@ namespace SQLDataProducer.EntityQueryGenerator
             ForeignKeyContainerCache = new ObservableCollection<ForeignKeyContainer>();
         }
 
-        public void AddKeyToTable(TableEntity table, string insertedKey)
+        public void AddKeyToTable(TableEntity table, long insertedKey)
         {
 
         }
@@ -73,7 +74,7 @@ namespace SQLDataProducer.EntityQueryGenerator
             return tda.GetPrimaryKeysForColumnInTable(table, primaryKeyColumn);
         }
 
-        ObservableCollection<ForeignKeyContainer> ForeignKeyContainerCache { get; set; }
+       
     }
 
     class ForeignKeyContainer

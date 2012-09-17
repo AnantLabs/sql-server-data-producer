@@ -15,11 +15,14 @@
 using System;
 using SQLDataProducer.Entities.DatabaseEntities.Collections;
 using System.Xml.Serialization;
+using SQLDataProducer.Entities;
 
 namespace SQLDataProducer.DatabaseEntities.Entities
 {
     public class TableEntity : SQLDataProducer.Entities.EntityBase, IEquatable<TableEntity>, IXmlSerializable
     {
+
+        public static event TableWithForeignKeyInsertedRowEventHandler ForeignKeyGenerated = delegate { };
 
         public TableEntity(string tableSchema, string tableName)
         {
@@ -31,6 +34,7 @@ namespace SQLDataProducer.DatabaseEntities.Entities
         {
             Columns = new ColumnEntityCollection();
         }
+
         ColumnEntityCollection _columns;
         public ColumnEntityCollection Columns
         {

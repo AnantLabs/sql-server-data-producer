@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+# Visual C# Express 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQLDataProducer", "SQLDataProducer\SQLDataProducer.csproj", "{295AB733-D88A-46E2-A08F-3E8BAAEF1573}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConnectionStringCreatorGUI", "SQLConnectionStringBuilderGUI\ConnectionStringCreatorGUI\ConnectionStringCreatorGUI.csproj", "{7319917A-8A1B-41CA-99BC-6E14C324DC63}"
@@ -12,6 +12,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQLDataProducer.DataAccess", "SQLDataProducer.DataAccess\SQLDataProducer.DataAccess.csproj", "{DE7F05FA-0F0C-4779-82C0-389713EB68C7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsoleApplication", "ConsoleApplication1\TestConsoleApplication.csproj", "{4424FACB-FF8D-48A2-BAF7-F98594F34E3F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQLDataProducer.ContinuousInsertion", "SQLDataProducer.ContinuousInsertion\SQLDataProducer.ContinuousInsertion.csproj", "{4BB5B315-0C7C-44B7-BF79-4A52C8A12E0F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -83,6 +85,16 @@ Global
 		{4424FACB-FF8D-48A2-BAF7-F98594F34E3F}.Release|Mixed Platforms.Build.0 = Release|x86
 		{4424FACB-FF8D-48A2-BAF7-F98594F34E3F}.Release|x86.ActiveCfg = Release|x86
 		{4424FACB-FF8D-48A2-BAF7-F98594F34E3F}.Release|x86.Build.0 = Release|x86
+		{4BB5B315-0C7C-44B7-BF79-4A52C8A12E0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BB5B315-0C7C-44B7-BF79-4A52C8A12E0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BB5B315-0C7C-44B7-BF79-4A52C8A12E0F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{4BB5B315-0C7C-44B7-BF79-4A52C8A12E0F}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{4BB5B315-0C7C-44B7-BF79-4A52C8A12E0F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4BB5B315-0C7C-44B7-BF79-4A52C8A12E0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BB5B315-0C7C-44B7-BF79-4A52C8A12E0F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BB5B315-0C7C-44B7-BF79-4A52C8A12E0F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{4BB5B315-0C7C-44B7-BF79-4A52C8A12E0F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{4BB5B315-0C7C-44B7-BF79-4A52C8A12E0F}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

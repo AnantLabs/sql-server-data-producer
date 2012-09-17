@@ -71,14 +71,12 @@ namespace SQLDataProducer.DataAccess.Factories
         {
             System.Reflection.MemberInfo inf = typeof(Generator);
 
-            object[] attributes;
-            attributes =
+            object[] attributes =
                inf.GetCustomAttributes(
                     typeof(GeneratorMetaDataAttribute), false);
 
-            foreach (Object attribute in attributes)
+            foreach (GeneratorMetaDataAttribute attribute in attributes)
             {
-                GeneratorMetaDataAttribute bfa = attribute as GeneratorMetaDataAttribute;
                 
             }
 
