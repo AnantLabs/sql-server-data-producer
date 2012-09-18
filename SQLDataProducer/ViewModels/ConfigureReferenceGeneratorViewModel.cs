@@ -44,7 +44,7 @@ namespace SQLDataProducer.ViewModels
 
 
         ColumnEntity _selectedColumn;
-        public ColumnEntity SelectedColumn
+        public ColumnEntity ColumnToRefer
         {
             get
             {
@@ -55,14 +55,22 @@ namespace SQLDataProducer.ViewModels
                 if (_selectedColumn != value)
                 {
                     _selectedColumn = value;
-                    OnPropertyChanged("SelectedColumn");
+                    OnPropertyChanged("ColumnToRefer");
                 }
             }
         }
 
-        public ConfigureReferenceGeneratorViewModel(ApplicationModel model)
+        public ConfigureReferenceGeneratorViewModel(ApplicationModel model, SQLDataProducer.Entities.Generators.GeneratorParameter param)
         {
             Model = model;
+            OKAction = () =>
+                {
+                    param.Value = ColumnToRefer;
+                };
         }
+
+        public Action OKAction { get; set; }
+
+        public Action CancelAction { get; set; }
     }
 }

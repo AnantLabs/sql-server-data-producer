@@ -68,6 +68,24 @@ namespace SQLDataProducer.ViewModels
             }
         }
 
+        ExecutionDetailsViewModel _executionDetailsVM;
+        public ExecutionDetailsViewModel ExecutionDetailsVM
+        {
+            get
+            {
+                return _executionDetailsVM;
+            }
+            set
+            {
+                if (_executionDetailsVM != value)
+                {
+                    _executionDetailsVM = value;
+                    OnPropertyChanged("ExecutionDetailsVM");
+                }
+            }
+        }
+
+
         SidePanelViewModel _sidepanelVM;
         public SidePanelViewModel SidePanelVM
         {
@@ -90,6 +108,7 @@ namespace SQLDataProducer.ViewModels
         private void LoadTables()
         {
             TableEntityDataAccess tda = new TableEntityDataAccess(Model.ConnectionString);
+            
 
             Model.IsQueryRunning = true;
             tda.BeginGetAllTablesAndColumns(res =>
@@ -120,6 +139,7 @@ namespace SQLDataProducer.ViewModels
             Model.SelectedExecutionItem = Model.ExecutionItems.FirstOrDefault();
             Model.Options = options;
             ExecutionOrderVM = new ExecutionOrderViewModel(Model);
+            ExecutionDetailsVM = new ExecutionDetailsViewModel(Model);
             SidePanelVM = new SidePanelViewModel(Model);
             
             OpenSqlConnectionBuilderCommand = new DelegateCommand(() =>
@@ -171,12 +191,7 @@ namespace SQLDataProducer.ViewModels
                 });
 
             LoadCommand = new DelegateCommand(() =>
-                {
-                    ModalWindows.YesNoWindow win = new ModalWindows.YesNoWindow(null, null, null);
-                    win.DataContext = Model;
-                    win.Show();
-                    return;
-
+                {                   
                     if (string.IsNullOrEmpty(Model.ConnectionString))
                     {
                         MessageBox.Show("The connection string must be set before loading");
@@ -210,5 +225,7 @@ namespace SQLDataProducer.ViewModels
 
         }
 
+
+        
     }
 }

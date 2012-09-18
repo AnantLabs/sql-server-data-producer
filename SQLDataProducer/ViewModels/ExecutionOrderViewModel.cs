@@ -63,154 +63,113 @@ namespace SQLDataProducer.ViewModels
             }
         }
 
-        ExecutionDetailsViewModel _currentExecutionDetailVM;
-        public ExecutionDetailsViewModel SelectedExecutionDetailVM
-        {
-            get
-            {
-                return _currentExecutionDetailVM;
-            }
-            set
-            {
-                if (_currentExecutionDetailVM != value)
-                {
-                    _currentExecutionDetailVM = value;
-                    OnPropertyChanged("SelectedExecutionDetailVM");
-                }
-            }
-        }
-
-
-        ObservableCollection<ExecutionDetailsViewModel> _detailsVM;
-        public ObservableCollection<ExecutionDetailsViewModel> DetailsVM
-        {
-            get
-            {
-                return _detailsVM;
-            }
-            set
-            {
-                if (_detailsVM != value)
-                {
-                    _detailsVM = value;
-                    OnPropertyChanged("DetailsVM");
-                }
-            }
-        }
-
-
         public ExecutionOrderViewModel(SQLDataProducer.Model.ApplicationModel model)
         {
             Model = model;
 
-            MoveItemRightCommand = new DelegateCommand(() =>
-                {
-                    if (Model.SelectedTable != null)
-                    {
-                        AddExecutionItem(Model.SelectedTable);
-                    }
-                });
+            MoveItemRightCommand = new DelegateCommand(AddSelectedItemToExecutionItemList);
+            MoveAllItemsRightCommand = new DelegateCommand(AddAllTablesToExecutionItemList);
+            MoveAllItemsLeftCommand = new DelegateCommand(ClearExecutionItemList);
+            MoveItemUpCommand = new DelegateCommand(MoveSelectedExecutionItemUp);
+            MoveItemDownCommand = new DelegateCommand(MoveSelectedExecutionItemDown);
+            MoveItemLeftCommand = new DelegateCommand(RemoveSelectedExecutionItemFromExecutionItemList);
+            CloneExecutionItemCommand = new DelegateCommand<ExecutionItem>(CloneSelectedExecutionItem);
+            ClearSearchCriteraCommand = new DelegateCommand(ClearSearchCriteriaValue);
+            MoveUpWithTheSelectorCommand = new DelegateCommand(MoveTheTableSelectorUp);
+            MoveDownWithTheSelectorCommand = new DelegateCommand(MoveTheTableSelectorDown);
+            CreateTreeWithTableTableAsRootCommand = new DelegateCommand<TableEntity>(CreateTreeWithTableAsRoot);
+            CreateTreeWithTableAsLeafCommand = new DelegateCommand<TableEntity>(CreateTreeWithTableAsLeaf);
+        }
 
-            MoveAllItemsRightCommand = new DelegateCommand(() =>
-                {
-                    if (Model.Tables == null)
-                        return;
+        private void CreateTreeWithTableAsLeaf(TableEntity table)
+        {
+            TableEntityDataAccess tda = new TableEntityDataAccess(Model.ConnectionString);
+            IEnumerable<TableEntity> tables = tda.GetTreeStructureWithTableAsLeaf(table, Model.Tables);
 
-                    foreach (TableEntity tabl in Model.TablesView)
-                    {
-                        AddExecutionItem(tabl);
-                    }
-                });
+            AddExecutionItem(tables);
+        }
 
-            MoveAllItemsLeftCommand = new DelegateCommand(() =>
-                {
-                    Model.ExecutionItems.Clear();
-                });
+        private void CreateTreeWithTableAsRoot(TableEntity table)
+        {
+            TableEntityDataAccess tda = new TableEntityDataAccess(Model.ConnectionString);
+            IEnumerable<TableEntity> tables = tda.GetTreeStructureFromRoot(table, Model.Tables);
 
-            MoveItemUpCommand = new DelegateCommand(() =>
-                {
-                    int currentIndex = Model.ExecutionItems.IndexOf(Model.SelectedExecutionItem);
-                    int newIndex = Model.ExecutionItems.IndexOf(Model.SelectedExecutionItem) - 1;
-                    if (newIndex < 0)
-                        return;
+            AddExecutionItem(tables);
+        }
 
-                    Model.ExecutionItems[newIndex].Order++;
-                    Model.SelectedExecutionItem.Order--;
+        private void MoveTheTableSelectorDown()
+        {
+            Model.TablesView.MoveCurrentToNext();
+            Model.SelectedTable = Model.TablesView.CurrentItem as TableEntity;
+        }
 
-                    Model.ExecutionItems.Move(currentIndex, newIndex);
-                });
+        private void MoveTheTableSelectorUp()
+        {
+            Model.TablesView.MoveCurrentToPrevious();
+            Model.SelectedTable = Model.TablesView.CurrentItem as TableEntity;
+        }
 
-            MoveItemDownCommand = new DelegateCommand(() =>
-                {
-                    int currentIndex = Model.ExecutionItems.IndexOf(Model.SelectedExecutionItem);
-                    int newIndex = Model.ExecutionItems.IndexOf(Model.SelectedExecutionItem) + 1;
-                    if (newIndex >= Model.ExecutionItems.Count)
-                        return;
+        private void ClearSearchCriteriaValue()
+        {
+            Model.SearchCriteria = string.Empty;
+        }
 
-                    Model.ExecutionItems[newIndex].Order--;
-                    Model.SelectedExecutionItem.Order++;
+        private void CloneSelectedExecutionItem(ExecutionItem item)
+        {
+            if (item == null)
+                return;
 
-                    Model.ExecutionItems.Move(currentIndex, newIndex);
-                });
-
-            MoveItemLeftCommand = new DelegateCommand(() =>
-                {
-                    if (Model.SelectedExecutionItem != null)
-                    {
-                        Model.ExecutionItems.Remove(Model.SelectedExecutionItem);
-                        for (int i = 0; i < Model.ExecutionItems.Count; i++)
-                        {
-                            Model.ExecutionItems[i].Order = i + 1;
-                        }
-                    }
-                });
-
-            CloneExecutionItemCommand = new DelegateCommand<ExecutionItem>(item =>
-                {
-                    if (item == null)
-                        return;
-
-                    CloneExecutionItemWindow window = new CloneExecutionItemWindow(clones =>
-                    {
-                        for (int i = 0; i < clones; i++)
-                        {
-                            Model.ExecutionItems.Add(item.Clone());
-                        }
-                    });
-                    window.Show();
-                });
-
-
-            ClearSearchCriteraCommand = new DelegateCommand(() =>
-                {
-                    Model.SearchCriteria = string.Empty;
-                });
-            MoveUpWithTheSelectorCommand = new DelegateCommand(() =>
-                {
-                    Model.TablesView.MoveCurrentToPrevious();
-                    Model.SelectedTable = Model.TablesView.CurrentItem as TableEntity;
-                });
-            MoveDownWithTheSelectorCommand = new DelegateCommand(() =>
+            CloneExecutionItemWindow window = new CloneExecutionItemWindow(clones =>
             {
-                Model.TablesView.MoveCurrentToNext();
-                Model.SelectedTable = Model.TablesView.CurrentItem as TableEntity;
-            });
-
-            CreateTreeWithTableTableAsRootCommand = new DelegateCommand<TableEntity>( table =>
-            {
-                TableEntityDataAccess tda = new TableEntityDataAccess(Model.ConnectionString);
-                IEnumerable<TableEntity> tables = tda.GetTreeStructureFromRoot(table, Model.Tables);
-
-                AddExecutionItem(tables);
-            });
-
-            CreateTreeWithTableAsLeafCommand = new DelegateCommand<TableEntity>(table =>
+                for (int i = 0; i < clones; i++)
                 {
-                    TableEntityDataAccess tda = new TableEntityDataAccess(Model.ConnectionString);
-                    IEnumerable<TableEntity> tables = tda.GetTreeStructureWithTableAsLeaf(table, Model.Tables);
+                    Model.ExecutionItems.Add(item.Clone());
+                }
+            });
+            window.Show();
+        }
 
-                    AddExecutionItem(tables);
-                });
+        private void RemoveSelectedExecutionItemFromExecutionItemList()
+        {
+            if (Model.SelectedExecutionItem != null)
+            {
+                Model.ExecutionItems.Remove(Model.SelectedExecutionItem);
+                for (int i = 0; i < Model.ExecutionItems.Count; i++)
+                {
+                    Model.ExecutionItems[i].Order = i + 1;
+                }
+            }
+        }
+
+        private void MoveSelectedExecutionItemDown()
+        {
+            int currentIndex = Model.ExecutionItems.IndexOf(Model.SelectedExecutionItem);
+            int newIndex = Model.ExecutionItems.IndexOf(Model.SelectedExecutionItem) + 1;
+            if (newIndex >= Model.ExecutionItems.Count)
+                return;
+
+            Model.ExecutionItems[newIndex].Order--;
+            Model.SelectedExecutionItem.Order++;
+
+            Model.ExecutionItems.Move(currentIndex, newIndex);
+        }
+
+        private void MoveSelectedExecutionItemUp()
+        {
+            int currentIndex = Model.ExecutionItems.IndexOf(Model.SelectedExecutionItem);
+            int newIndex = Model.ExecutionItems.IndexOf(Model.SelectedExecutionItem) - 1;
+            if (newIndex < 0)
+                return;
+
+            Model.ExecutionItems[newIndex].Order++;
+            Model.SelectedExecutionItem.Order--;
+
+            Model.ExecutionItems.Move(currentIndex, newIndex);
+        }
+
+        private void ClearExecutionItemList()
+        {
+            Model.ExecutionItems.Clear();
         }
 
         private void AddExecutionItem(TableEntity table)
@@ -229,6 +188,25 @@ namespace SQLDataProducer.ViewModels
         private void AddExecutionItem(IEnumerable<ExecutionItem> eiItems)
         {
             Model.ExecutionItems.AddRange(eiItems);
+        }
+
+        private void AddSelectedItemToExecutionItemList()
+        {
+            if (Model.SelectedTable != null)
+            {
+                AddExecutionItem(Model.SelectedTable);
+            }
+        }
+
+        private void AddAllTablesToExecutionItemList()
+        {
+            if (Model.Tables == null)
+                return;
+
+            foreach (TableEntity tabl in Model.TablesView)
+            {
+                AddExecutionItem(tabl);
+            }
         }
     }
 }

@@ -19,9 +19,21 @@ namespace SQLDataProducer.Views
     /// </summary>
     public partial class ConfigureReferenceGeneratorView : UserControl
     {
-        public ConfigureReferenceGeneratorView()
+        private ViewModels.ConfigureReferenceGeneratorViewModel configureReferenceGeneratorViewModel;
+
+        public ConfigureReferenceGeneratorView(ViewModels.ConfigureReferenceGeneratorViewModel configureReferenceGeneratorViewModel)
         {
+            this.configureReferenceGeneratorViewModel = configureReferenceGeneratorViewModel;
+            
+            Loaded += new RoutedEventHandler(ConfigureReferenceGeneratorView_Loaded);
             InitializeComponent();
         }
+
+        void ConfigureReferenceGeneratorView_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.DataContext = configureReferenceGeneratorViewModel;
+        }
+
+
     }
 }

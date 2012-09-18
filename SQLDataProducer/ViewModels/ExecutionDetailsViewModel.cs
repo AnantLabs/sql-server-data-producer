@@ -13,11 +13,15 @@
 //   limitations under the License.
 
 using SQLDataProducer.Entities.ExecutionEntities;
+using SQLDataProducer.Entities.Generators;
+using SQLDataProducer.Model;
 
 namespace SQLDataProducer.ViewModels
 {
     public class ExecutionDetailsViewModel : ViewModelBase
     {
+
+        public DelegateCommand<GeneratorParameter> ConfigureReferenceParameterCommand { private set; get; }
 
         SQLDataProducer.Model.ApplicationModel _model;
         public SQLDataProducer.Model.ApplicationModel Model
@@ -36,22 +40,21 @@ namespace SQLDataProducer.ViewModels
             }
         }
 
-
-        ExecutionItem _execItem;
-        public ExecutionItem ExecutionItem
+        public ExecutionDetailsViewModel(ApplicationModel model)
         {
-            get
-            {
-                return _execItem;
-            }
-            set
-            {
-                if (_execItem != value)
-                {
-                    _execItem = value;
-                    OnPropertyChanged("ExecutionItem");
-                }
-            }
+            Model = model;
+            ConfigureReferenceParameterCommand = new DelegateCommand<GeneratorParameter>(ShowParameterReferenceConfigurationWindow);
+        }
+
+        private void ShowParameterReferenceConfigurationWindow(GeneratorParameter param)
+        {
+            ConfigureReferenceGeneratorViewModel configVM = new ConfigureReferenceGeneratorViewModel(Model, param);
+
+            ModalWindows.YesNoWindow win = new ModalWindows.YesNoWindow(
+                new SQLDataProducer.Views.ConfigureReferenceGeneratorView(configVM)
+                , configVM.OKAction
+                , configVM.CancelAction);
+            win.Show();
         }
 
         public ExecutionDetailsViewModel(SQLDataProducer.Model.ApplicationModel model, ExecutionItem execItem)

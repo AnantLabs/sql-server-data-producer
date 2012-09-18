@@ -35,9 +35,9 @@
         </ObjectDataProvider>
         
     </UserControl.Resources>
-    
-    
-    <Grid IsEnabled="{Binding HaveExecutionItemSelected}">
+
+
+    <Grid IsEnabled="{Binding Model.HaveExecutionItemSelected}">
         <Grid.RowDefinitions>
             <RowDefinition Height="100" />
             <RowDefinition Height="*" />
@@ -51,10 +51,10 @@
             <GroupBox Grid.Row="0" Grid.Column="0">
                 <StackPanel>
                     <Label Content="Execution Item Description:" FontSize="11" />
-                    <TextBox Text="{Binding SelectedExecutionItem.Description, Mode=TwoWay}" />
+                <TextBox Text="{Binding Model.SelectedExecutionItem.Description, Mode=TwoWay}" />
 
                     <Label Content="Number of insertions for this item:" FontSize="11" />
-                    <TextBox Text="{Binding SelectedExecutionItem.RepeatCount, Mode=TwoWay}" />
+                <TextBox Text="{Binding Model.SelectedExecutionItem.RepeatCount, Mode=TwoWay}" />
 
                 </StackPanel>
                                 
@@ -65,8 +65,8 @@
                 <GroupBox Header="Conditional Insert?">
                     <StackPanel>
                         <ComboBox ItemsSource="{Binding Source={StaticResource executionConditionEnum}}"
-                            SelectedItem="{Binding SelectedExecutionItem.ExecutionCondition, Mode=TwoWay}" />
-                        <TextBox Text="{Binding SelectedExecutionItem.ExecutionConditionValue, Mode= TwoWay}" />
+                            SelectedItem="{Binding Model.SelectedExecutionItem.ExecutionCondition, Mode=TwoWay}" />
+                        <TextBox Text="{Binding Model.SelectedExecutionItem.ExecutionConditionValue, Mode= TwoWay}" />
                     </StackPanel>
                 </GroupBox>
                 
@@ -85,13 +85,13 @@
                 </Grid.ColumnDefinitions>
 
 
-                <DataGrid ItemsSource="{Binding Path=SelectedExecutionItem.TargetTable.Columns, Mode=OneWay}" 
+                <DataGrid ItemsSource="{Binding Path=Model.SelectedExecutionItem.TargetTable.Columns, Mode=OneWay}" 
                             Grid.Row="0" 
                             Grid.RowSpan="2" 
                             AutoGenerateColumns="false" 
                             IsReadOnly="True" 
                             SelectionUnit="FullRow"
-                            SelectedItem="{Binding SelectedColumn, Mode=TwoWay}"
+                            SelectedItem="{Binding Model.SelectedColumn, Mode=TwoWay}"
                             Style="{DynamicResource ResourceKey=DataGridDemoStyle}"
                           >
                     <DataGrid.Columns>
@@ -117,9 +117,9 @@
                 </DataGrid>
                 <GroupBox Header="Select Generator" Grid.Column="1" Grid.Row="0">
                     <ComboBox  
-                    ItemsSource="{Binding SelectedColumn.PossibleGenerators}"
-                    SelectedItem="{Binding SelectedColumn.Generator, Mode=TwoWay}"
-                    IsEnabled="{Binding Path=SelectedColumn.IsNotIdentity}"
+                    ItemsSource="{Binding Model.SelectedColumn.PossibleGenerators}"
+                    SelectedItem="{Binding Model.SelectedColumn.Generator, Mode=TwoWay}"
+                    IsEnabled="{Binding Model.SelectedColumn.IsNotIdentity}"
                     Height="25" >
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
@@ -131,8 +131,8 @@
 
                 <GroupBox Header="Configure the Parameters for the Generator" Grid.Column="1" Grid.Row="1">
                     <ListBox
-                        ItemsSource="{Binding Path=SelectedColumn.Generator.GeneratorParameters}" 
-                        IsEnabled="{Binding Path=SelectedColumn.IsNotIdentity}"  VerticalAlignment="Stretch">
+                        ItemsSource="{Binding Model.SelectedColumn.Generator.GeneratorParameters}" 
+                        IsEnabled="{Binding Model.SelectedColumn.IsNotIdentity}"  VerticalAlignment="Stretch">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Grid Visibility="{Binding IsWriteEnabled, Converter={StaticResource ResourceKey=visiConv}}"
@@ -140,9 +140,17 @@
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="150" />
                                         <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Text="{Binding ParameterName}" Grid.Column="0" />
                                     <TextBox Text="{Binding Value}"  Grid.Column="1" MinWidth="150"/>
+
+                                    <Button Content="..." Grid.Column="2"
+                                        Command="{Binding Path=DataContext.ConfigureReferenceParameterCommand, 
+                                                RelativeSource={RelativeSource FindAncestor, 
+                                                AncestorType={x:Type ListBox}}}" 
+                                        CommandParameter="{Binding .}" />
+
                                 </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>

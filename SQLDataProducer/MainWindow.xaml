@@ -48,10 +48,10 @@
         <my:ExecutionOrderView DataContext="{Binding ExecutionOrderVM}"
                                Grid.Column="1" Grid.Row="2"
                                 IsEnabled="{Binding Model.IsExecutionIdle}" />
-        
-        <my:ExecutionDetailsView DataContext="{Binding Model}"
+
+        <my:ExecutionDetailsView DataContext="{Binding ExecutionDetailsVM}"
                                  Grid.Column="1" Grid.Row="3"
-                                 IsEnabled="{Binding IsExecutionIdle}" />
+                                 IsEnabled="{Binding Model.IsExecutionIdle}" />
         
 
         <my:SidePanelView DataContext="{Binding SidePanelVM}" Grid.Row="2" Grid.RowSpan="2" />
