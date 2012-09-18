@@ -33,7 +33,7 @@ namespace SQLDataProducer.ViewModels
         public DelegateCommand StopExecutionCommand { get; private set; }
         public DelegateCommand EditPreScriptCommand { get; private set; }
         public DelegateCommand EditPostScriptCommand { get; private set; }
-            
+
         SQLDataProducer.Model.ApplicationModel _model;
         public SQLDataProducer.Model.ApplicationModel Model
         {
@@ -87,7 +87,7 @@ namespace SQLDataProducer.ViewModels
             }
         }
 
-       
+
 
         private WorkflowManager _wfm;
 
@@ -97,52 +97,56 @@ namespace SQLDataProducer.ViewModels
             PostScriptViewModel = new ScriptEditViewModel();
             PreScriptViewModel = new ScriptEditViewModel();
 
-            RunSQLQueryCommand = new DelegateCommand(() =>
-            {
-                if (Model.ExecutionItems.Count == 0)
-                    return;
-                
-                if (string.IsNullOrEmpty(Model.ConnectionString))
-                    MessageBox.Show("The connection string must be set before executing");
-                
-
-                Model.IsQueryRunning = true;
-
-                _wfm = new WorkflowManager();
-                _wfm.RunWorkFlowAsync(Model.Options, Model.ConnectionString, Model.ExecutionItems, (setsInserted) =>
-                    {
-                        Model.IsQueryRunning = false;
-                        MessageBox.Show(setsInserted.ToString());
-                    }
-                    , PreScriptViewModel.ScriptText
-                    , PostScriptViewModel.ScriptText);
-            });
-
-            StopExecutionCommand = new DelegateCommand(() =>
-            {
-                if (_wfm != null)
-                {
-                    _wfm.StopAsync();
-                    Model.IsQueryRunning = false;
-                }
-            });
-
-            EditPostScriptCommand = new DelegateCommand(() =>
-            {
-                Window win = new Window();
-                win.Title = "Edit Post Script. Close window when done";
-                win.Content = new ScriptEditView(PostScriptViewModel);
-                win.Show();
-            });
-            EditPreScriptCommand = new DelegateCommand(() =>
-            {
-                Window win = new Window();
-                win.Title = "Edit Pre Script. Close window when done";
-                win.Content = new ScriptEditView(PreScriptViewModel);
-                win.Show();
-            });
+            RunSQLQueryCommand = new DelegateCommand(RunExecutionAccordingToSetup);
+            StopExecutionCommand = new DelegateCommand(StopRunningExecution);
+            EditPostScriptCommand = new DelegateCommand(ShowWindowToEditPostScript);
+            EditPreScriptCommand = new DelegateCommand(ShowWindoToEditPreScript);
         }
 
-      
+        private void ShowWindoToEditPreScript()
+        {
+            Window win = new Window();
+            win.Title = "Edit Pre Script. Close window when done";
+            win.Content = new ScriptEditView(PreScriptViewModel);
+            win.Show();
+        }
+
+        private void ShowWindowToEditPostScript()
+        {
+            Window win = new Window();
+            win.Title = "Edit Post Script. Close window when done";
+            win.Content = new ScriptEditView(PostScriptViewModel);
+            win.Show();
+        }
+
+        private void StopRunningExecution()
+        {
+            if (_wfm != null)
+            {
+                _wfm.StopAsync();
+                Model.IsQueryRunning = false;
+            }
+        }
+
+        private void RunExecutionAccordingToSetup()
+        {
+            if (Model.ExecutionItems.Count == 0)
+                return;
+
+            if (string.IsNullOrEmpty(Model.ConnectionString))
+                MessageBox.Show("The connection string must be set before executing");
+
+
+            Model.IsQueryRunning = true;
+
+            _wfm = new WorkflowManager();
+            _wfm.RunWorkFlowAsync(Model.Options, Model.ConnectionString, Model.ExecutionItems, (setsInserted) =>
+            {
+                Model.IsQueryRunning = false;
+                MessageBox.Show(setsInserted.ToString());
+            }
+                , PreScriptViewModel.ScriptText
+                , PostScriptViewModel.ScriptText);
+        }
     }
 }

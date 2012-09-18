@@ -33,7 +33,7 @@ namespace SQLDataProducer.ViewModels
         public DelegateCommand LoadTablesCommand { get; private set; }
         public DelegateCommand SaveCommand { get; private set; }
         public DelegateCommand LoadCommand { get; private set; }
-        
+
         SQLDataProducer.Model.ApplicationModel _model;
         public SQLDataProducer.Model.ApplicationModel Model
         {
@@ -103,13 +103,13 @@ namespace SQLDataProducer.ViewModels
             }
         }
 
-        
+
 
         private void LoadTables()
         {
             TableEntityDataAccess tda = new TableEntityDataAccess(Model.ConnectionString);
-            
 
+            Model.ExecutionItems.Clear();
             Model.IsQueryRunning = true;
             tda.BeginGetAllTablesAndColumns(res =>
             {
@@ -130,7 +130,7 @@ namespace SQLDataProducer.ViewModels
 
         }
 
-        
+
 
         public MainWindowViewModel(ExecutionTaskOptions options)
         {
@@ -141,91 +141,88 @@ namespace SQLDataProducer.ViewModels
             ExecutionOrderVM = new ExecutionOrderViewModel(Model);
             ExecutionDetailsVM = new ExecutionDetailsViewModel(Model);
             SidePanelVM = new SidePanelViewModel(Model);
-            
-            OpenSqlConnectionBuilderCommand = new DelegateCommand(() =>
-            {
-                ConnectionStringCreatorGUI.SqlConnectionString initialConnStr;
 
-                try
-                {
-                    initialConnStr = new ConnectionStringCreatorGUI.SqlConnectionString(Model.ConnectionString);
-                }
-                catch (Exception)
-                {
-                    initialConnStr = new ConnectionStringCreatorGUI.SqlConnectionString();
-                }
-
-                Window win = new ConnectionStringCreatorGUI.ConnectionStringBuilderWindow(initialConnStr, returnConnBuilder =>
-                {
-                    Model.ConnectionString = returnConnBuilder.ToString();
-                });
-
-                win.Show();
-
-            });
-            
-            LoadTablesCommand = new DelegateCommand(() =>
-                {
-                    Model.ExecutionItems.Clear();    
-                    LoadTables();
-                });
-
-            SaveCommand = new DelegateCommand(() =>
-                {
-                    if (Model.ExecutionItems.Count > 0)
-                    {
-                        System.Windows.Forms.SaveFileDialog dia = new System.Windows.Forms.SaveFileDialog();
-                        dia.Filter = "Saved Files (*.xml)|*.xml";
-                        dia.AddExtension = true;
-                        dia.DefaultExt = ".xml";
-
-                        System.Windows.Forms.DialogResult diaResult = dia.ShowDialog();
-                        if (diaResult != System.Windows.Forms.DialogResult.Cancel)
-                        {
-                            string fileName = dia.FileName;
-                            ExecutionItemFactory m = new ExecutionItemFactory(Model.ConnectionString);
-                            m.Save(Model.ExecutionItems, fileName);
-                        }
-                    }
-                    
-                });
-
-            LoadCommand = new DelegateCommand(() =>
-                {                   
-                    if (string.IsNullOrEmpty(Model.ConnectionString))
-                    {
-                        MessageBox.Show("The connection string must be set before loading");
-                        return;
-                    }
-                    
-
-                    System.Windows.Forms.OpenFileDialog dia = new System.Windows.Forms.OpenFileDialog();
-                    dia.Filter = "Saved Files (*.xml)|*.xml";
-                    dia.Multiselect = false;
-                    dia.AddExtension = true;
-                    dia.CheckFileExists = true;
-                    dia.DefaultExt = ".xml";
-                    //dia.InitialDirectory = ""; // TODO: Remember the last path
-
-                    System.Windows.Forms.DialogResult diaResult = dia.ShowDialog();
-                    if (diaResult != System.Windows.Forms.DialogResult.Cancel)
-                    {
-                        string fileName = dia.FileName;
-                        ExecutionItemFactory m = new ExecutionItemFactory(Model.ConnectionString);
-                        var loaded = m.Load(fileName);
-                        Model.ExecutionItems.Clear();
-                        foreach (var item in loaded)
-                        {
-                            Model.ExecutionItems.Add(item);
-                        }
-                        Model.SelectedExecutionItem = Model.ExecutionItems.FirstOrDefault();    
-                    }
-                    
-                });
+            OpenSqlConnectionBuilderCommand = new DelegateCommand(ShowSQLConnectionStringBuilder);
+            LoadTablesCommand = new DelegateCommand(LoadTables);
+            SaveCommand = new DelegateCommand(SaveExecutionListToFile);
+            LoadCommand = new DelegateCommand(LoadExecutionListFromFile);
 
         }
 
+        private void LoadExecutionListFromFile()
+        {
 
-        
+            if (string.IsNullOrEmpty(Model.ConnectionString))
+            {
+                MessageBox.Show("The connection string must be set before loading");
+                return;
+            }
+
+
+            System.Windows.Forms.OpenFileDialog dia = new System.Windows.Forms.OpenFileDialog();
+            dia.Filter = "Saved Files (*.xml)|*.xml";
+            dia.Multiselect = false;
+            dia.AddExtension = true;
+            dia.CheckFileExists = true;
+            dia.DefaultExt = ".xml";
+            //dia.InitialDirectory = ""; // TODO: Remember the last path
+
+            System.Windows.Forms.DialogResult diaResult = dia.ShowDialog();
+            if (diaResult != System.Windows.Forms.DialogResult.Cancel)
+            {
+                string fileName = dia.FileName;
+                ExecutionItemFactory m = new ExecutionItemFactory(Model.ConnectionString);
+                var loaded = m.Load(fileName);
+                Model.ExecutionItems.Clear();
+                foreach (var item in loaded)
+                {
+                    Model.ExecutionItems.Add(item);
+                }
+                Model.SelectedExecutionItem = Model.ExecutionItems.FirstOrDefault();
+            }
+        }
+
+        private void SaveExecutionListToFile()
+        {
+            if (Model.ExecutionItems.Count > 0)
+            {
+                System.Windows.Forms.SaveFileDialog dia = new System.Windows.Forms.SaveFileDialog();
+                dia.Filter = "Saved Files (*.xml)|*.xml";
+                dia.AddExtension = true;
+                dia.DefaultExt = ".xml";
+
+                System.Windows.Forms.DialogResult diaResult = dia.ShowDialog();
+                if (diaResult != System.Windows.Forms.DialogResult.Cancel)
+                {
+                    string fileName = dia.FileName;
+                    ExecutionItemFactory m = new ExecutionItemFactory(Model.ConnectionString);
+                    m.Save(Model.ExecutionItems, fileName);
+                }
+            }
+        }
+
+        private void ShowSQLConnectionStringBuilder()
+        {
+            ConnectionStringCreatorGUI.SqlConnectionString initialConnStr;
+
+            try
+            {
+                initialConnStr = new ConnectionStringCreatorGUI.SqlConnectionString(Model.ConnectionString);
+            }
+            catch (Exception)
+            {
+                initialConnStr = new ConnectionStringCreatorGUI.SqlConnectionString();
+            }
+
+            Window win = new ConnectionStringCreatorGUI.ConnectionStringBuilderWindow(initialConnStr, returnConnBuilder =>
+            {
+                Model.ConnectionString = returnConnBuilder.ToString();
+            });
+
+            win.Show();
+        }
+
+
+
     }
 }
