@@ -320,7 +320,28 @@ namespace SQLDataProducer.Entities.Generators
             return gen;
         }
 
-        
+        [GeneratorMetaData(Generators.GeneratorMetaDataAttribute.GeneratorType.Integer)]
+        private static Generator CreateValueFromOtherColumnGenerator()
+        {
+            GeneratorParameterCollection paramss = new GeneratorParameterCollection();
+
+            paramss.Add(new GeneratorParameter("Referenced Column", null));
+            paramss.Add(new GeneratorParameter("Referenced value plus", 0));
+
+            Generator gen = new Generator("Value from other Column", (n, p) =>
+            {
+                long plus = long.Parse(GetParameterByName(p, "Referenced value plus").ToString());
+                SQLDataProducer.DatabaseEntities.Entities.ColumnEntity otherColumn = GetParameterByName(p, "Referenced Column") as SQLDataProducer.DatabaseEntities.Entities.ColumnEntity;
+
+                if (otherColumn.PreviouslyGeneratedValue != null)
+                    return ((long)otherColumn.PreviouslyGeneratedValue) + plus;
+
+                throw new ArgumentNullException("otherColumn.PreviouslyGeneratedValue");
+            }
+                , paramss);
+            return gen;
+        }
+
 
         //public static object DownCounter(int n, object param)
         //{

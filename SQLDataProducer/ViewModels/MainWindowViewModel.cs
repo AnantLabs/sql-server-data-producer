@@ -172,6 +172,11 @@ namespace SQLDataProducer.ViewModels
 
             LoadCommand = new DelegateCommand(() =>
                 {
+                    ModalWindows.YesNoWindow win = new ModalWindows.YesNoWindow(null, null, null);
+                    win.DataContext = Model;
+                    win.Show();
+                    return;
+
                     if (string.IsNullOrEmpty(Model.ConnectionString))
                     {
                         MessageBox.Show("The connection string must be set before loading");

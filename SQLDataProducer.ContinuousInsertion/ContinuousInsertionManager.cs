@@ -22,50 +22,50 @@ using SQLDataProducer.DataAccess;
 
 namespace SQLDataProducer.ContinuousInsertion
 {
-    public class ContinuousInsertionManager
-    {
-        readonly string ConnectionString { get; set; }
+    //public class ContinuousInsertionManager
+    //{
+    //    readonly string ConnectionString { get; set; }
 
-        public ContinuousInsertionManager(string connectionString)
-        {
-            ConnectionString = connectionString;
-        }
+    //    public ContinuousInsertionManager(string connectionString)
+    //    {
+    //        ConnectionString = connectionString;
+    //    }
 
-        public void DoOneExecution(ExecutionItemCollection items, Func<int> getN)
-        {
-            var adhd = new AdhocDataAccess(ConnectionString);
-            foreach (var ei in items)
-            {
-                //if (ei.TargetTable.HasForeignKey)
-                for (int i = 0; i < ei.RepeatCount; i++)
-                {
-                    long n = getN();
-                    if (!ei.ShouldExecuteOnThisN(n))
-                        return;
+    //    public void DoOneExecution(ExecutionItemCollection items, Func<int> getN)
+    //    {
+    //        var adhd = new AdhocDataAccess(ConnectionString);
+    //        foreach (var ei in items)
+    //        {
+    //            //if (ei.TargetTable.HasForeignKey)
+    //            for (int i = 0; i < ei.RepeatCount; i++)
+    //            {
+    //                long n = getN();
+    //                if (!ei.ShouldExecuteOnThisN(n))
+    //                    return;
 
-                    string insertQuery = ei.GenerateInsertQuery(n, items);
+    //                string insertQuery = ei.GenerateInsertQuery(n, items);
 
-                    if (ei.TargetTable.HasIdentityColumn)
-                    {
-                        var fk = adhd.ExecuteIdentityQuery(insertQuery);
+    //                if (ei.TargetTable.HasIdentityColumn)
+    //                {
+    //                    var fk = adhd.ExecuteIdentityQuery(insertQuery);
 
-                        ei.TargetTable.LastInsertedIdentityValue = fk.IdentityValue;
+    //                    ei.TargetTable.LastInsertedIdentityValue = fk.IdentityValue;
 
                         
-                    }
-                    else
-                    {
-                        adhd.ExecuteNonQuery(insertQuery);
-                    }
+    //                }
+    //                else
+    //                {
+    //                    adhd.ExecuteNonQuery(insertQuery);
+    //                }
 
-                    if (items.IsTableReferenced(ei.TargetTable))
-                        ForeignKeyManager.Instance.AddKeyToTable(ei.TargetTable, fk.IdentityValue);
+    //                if (items.IsTableReferenced(ei.TargetTable))
+    //                    ForeignKeyManager.Instance.AddKeyToTable(ei.TargetTable, fk.IdentityValue);
                      
                     
-                }
+    //            }
                 
                     
-            }
-        }
-    }
+    //        }
+    //    }
+    //}
 }

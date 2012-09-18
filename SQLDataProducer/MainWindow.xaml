@@ -11,6 +11,7 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.-->
+    
     <Window xmlns:my="clr-namespace:SQLDataProducer.Views"  x:Class="SQLDataProducer.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -37,7 +38,7 @@
         <ToolBar Grid.Row="0" Grid.ColumnSpan="2">
             <Button Command="{Binding SaveCommand}" IsEnabled="{Binding Model.HavePendingChanges}">Save</Button>
             <Button Command="{Binding LoadCommand}">Load</Button>
-            
+
             <Button Content="Select Connection ..." Margin="3 3 3 3" Padding="5 0 5 0" Command="{Binding OpenSqlConnectionBuilderCommand}" />
             <Button Content="Analyze DB" Margin="3 3 3 3" Padding="5 0 5 0" Command="{Binding LoadTablesCommand}" />
             <TextBlock  Text="{Binding Model.ConnectionString, Mode=TwoWay}" Margin="5 3 5 3" MinWidth="50" Background="GhostWhite" />

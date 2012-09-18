@@ -76,7 +76,7 @@ namespace SQLDataProducer.Entities.Generators
             return GeneratorName;
         }
 
-        public object GenerateValue(int n)
+        internal object GenerateValue(int n)
         {
             return ValueGenerator(n, GeneratorParameters);
         }

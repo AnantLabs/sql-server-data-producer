@@ -225,5 +225,10 @@ namespace SQLDataProducer.Entities.ExecutionEntities
                 OnPropertyChanged("ExecutionConditionValue");
             }
         }
+
+        public override string ToString()
+        {
+            return string.Format("{0} : {1}", Order, TargetTable.ToString());
+        }
     }
 }

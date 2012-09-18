@@ -146,7 +146,7 @@ namespace SQLDataProducer.TaskExecuter
                         if (col.IsIdentity)
                             continue;
 
-                        sb.Append(col.Generator.GenerateValue(rowGenerationNumber));
+                        sb.Append(col.GenerateValue(rowGenerationNumber));
                         sb.Append(i == item.TargetTable.Columns.Count - 1 ? string.Empty : ", ");
                     }
 

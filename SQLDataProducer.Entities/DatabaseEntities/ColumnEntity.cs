@@ -246,5 +246,35 @@ namespace SQLDataProducer.DatabaseEntities.Entities
 
             writer.WriteEndElement();
         }
+
+        public object GenerateValue(int n)
+        {
+            var val = Generator.GenerateValue(n);
+            PreviouslyGeneratedValue = val;
+            return val;
+        }
+
+
+        object _previouslyGeneratedValue;
+        public object PreviouslyGeneratedValue
+        {
+            get
+            {
+                return _previouslyGeneratedValue;
+            }
+            set
+            {
+                if (_previouslyGeneratedValue != value)
+                {
+                    _previouslyGeneratedValue = value;
+                    OnPropertyChanged("PreviouslyGeneratedValue");
+                }
+            }
+        }
+
+        public override string ToString()
+        {
+            return ColumnName;
+        }
     }
 }
