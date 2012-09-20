@@ -57,8 +57,6 @@ namespace SQLDataProducer.ModalWindows
         void YesNoWindow_Loaded(object sender, RoutedEventArgs e)
         {
             contentPlaceHolder.Child = _content;
-            //contentPlaceHolder = _content;
-            
         }
 
         private void yesButton_Click(object sender, RoutedEventArgs e)
