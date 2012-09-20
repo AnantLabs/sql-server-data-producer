@@ -70,9 +70,6 @@
     <Compile Include="ModalWindows\YesNoWindow.xaml.cs">
       <DependentUpon>YesNoWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ModalWindows\ExecuteOptionsWindow.xaml.cs">
-      <DependentUpon>ExecuteOptionsWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ModalWindows\MassImportWindow.xaml.cs">
       <DependentUpon>MassImportWindow.xaml</DependentUpon>
     </Compile>
@@ -85,6 +82,7 @@
     </Compile>
     <Compile Include="ViewModels\ConfigureReferenceGeneratorViewModel.cs" />
     <Compile Include="ViewModels\ExecutionOptionsViewModel.cs" />
+    <Compile Include="ViewModels\IYesNoViewModel.cs" />
     <Compile Include="ViewModels\SidePanelViewModel.cs" />
     <Compile Include="Views\ConfigureReferenceGeneratorView.xaml.cs">
       <DependentUpon>ConfigureReferenceGeneratorView.xaml</DependentUpon>
@@ -95,7 +93,6 @@
     <Compile Include="Views\ScriptEditView.xaml.cs">
       <DependentUpon>ScriptEditView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\ScriptEditViewModel.cs" />
     <Compile Include="Views\SidePanelView.xaml.cs">
       <DependentUpon>SidePanelView.xaml</DependentUpon>
     </Compile>
@@ -126,10 +123,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ModalWindows\YesNoWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ModalWindows\ExecuteOptionsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -314,5 +314,40 @@ namespace SQLDataProducer.Model
                 return index > -1;
             };
         }
+
+
+        string _postScriptText;
+        public string PostScriptText
+        {
+            get
+            {
+                return _postScriptText;
+            }
+            set
+            {
+                if (_postScriptText != value)
+                {
+                    _postScriptText = value;
+                    OnPropertyChanged("PostScriptText");
+                }
+            }
+        }
+
+        string _preScriptText;
+        public string PreScriptText
+        {
+            get
+            {
+                return _preScriptText;
+            }
+            set
+            {
+                if (_preScriptText != value)
+                {
+                    _preScriptText = value;
+                    OnPropertyChanged("PreScriptText");
+                }
+            }
+        }
     }
 }

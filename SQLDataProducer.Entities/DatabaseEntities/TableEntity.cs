@@ -113,7 +113,6 @@ namespace SQLDataProducer.DatabaseEntities.Entities
         {
             // Get the hash code for the Textual field if it is not null.
             return ToString().GetHashCode();
-
         }
 
         internal TableEntity Clone()

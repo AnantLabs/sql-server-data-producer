@@ -15,6 +15,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using SQLDataProducer.ViewModels;
+using SQLDataProducer.Model;
 
 namespace SQLDataProducer.Views
 {
@@ -23,8 +24,8 @@ namespace SQLDataProducer.Views
     /// </summary>
     public partial class ScriptEditView : UserControl
     {
-        private ScriptEditViewModel _viewModel;
-        public ScriptEditView(ScriptEditViewModel vm)
+        private ApplicationModel _viewModel;
+        public ScriptEditView(ApplicationModel vm)
         {
             _viewModel = vm;
             Loaded += new RoutedEventHandler(ScriptEditView_Loaded);

@@ -17,11 +17,67 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using SQLDataProducer.Model;
+using System.Windows;
+using SQLDataProducer.TaskExecuter;
 
 namespace SQLDataProducer.ViewModels
 {
-    class ExecutionOptionsViewModel : ViewModelBase
+    class ExecutionOptionsViewModel : ViewModelBase, IYesNoViewModel
     {
 
+        ApplicationModel _model;
+        public ApplicationModel Model
+        {
+            get
+            {
+                return _model;
+            }
+            set
+            {
+                if (_model != value)
+                {
+                    _model = value;
+                    OnPropertyChanged("Model");
+                }
+            }
+        }
+
+        private WorkflowManager _wfm;
+
+        public ExecutionOptionsViewModel()
+        {
+
+        }
+
+        public void RunExecution()
+        {
+            if (Model.ExecutionItems.Count == 0)
+                return;
+
+            if (string.IsNullOrEmpty(Model.ConnectionString))
+                MessageBox.Show("The connection string must be set before executing");
+
+            Model.IsQueryRunning = true;
+
+            _wfm = new WorkflowManager();
+            _wfm.RunWorkFlowAsync(Model.Options, Model.ConnectionString, Model.ExecutionItems, (setsInserted) =>
+            {
+                Model.IsQueryRunning = false;
+                MessageBox.Show(setsInserted.ToString());
+            }
+                , string.Empty
+                , string.Empty);
+        }
+
+        public void OnYes()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnNo()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

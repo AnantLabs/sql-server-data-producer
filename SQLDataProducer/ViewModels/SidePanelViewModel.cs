@@ -24,12 +24,13 @@ using SQLDataProducer.Entities.OptionEntities;
 using SQLDataProducer.Entities;
 using SQLDataProducer.TaskExecuter;
 using SQLDataProducer.Views;
+using SQLDataProducer.ModalWindows;
 
 namespace SQLDataProducer.ViewModels
 {
     public class SidePanelViewModel : ViewModelBase
     {
-        public DelegateCommand RunSQLQueryCommand { get; private set; }
+        public DelegateCommand ConfigureAndRunExecutionCommand { get; private set; }
         public DelegateCommand StopExecutionCommand { get; private set; }
         public DelegateCommand EditPreScriptCommand { get; private set; }
         public DelegateCommand EditPostScriptCommand { get; private set; }
@@ -53,51 +54,12 @@ namespace SQLDataProducer.ViewModels
 
 
 
-        ScriptEditViewModel _postScriptVM;
-        public ScriptEditViewModel PostScriptViewModel
-        {
-            get
-            {
-                return _postScriptVM;
-            }
-            set
-            {
-                if (_postScriptVM != value)
-                {
-                    _postScriptVM = value;
-                    OnPropertyChanged("PostScriptViewModel");
-                }
-            }
-        }
-
-        ScriptEditViewModel _preScriptVM;
-        public ScriptEditViewModel PreScriptViewModel
-        {
-            get
-            {
-                return _preScriptVM;
-            }
-            set
-            {
-                if (_preScriptVM != value)
-                {
-                    _preScriptVM = value;
-                    OnPropertyChanged("PreScriptViewModel");
-                }
-            }
-        }
-
-
-
-        private WorkflowManager _wfm;
 
         public SidePanelViewModel(SQLDataProducer.Model.ApplicationModel model)
         {
             this.Model = model;
-            PostScriptViewModel = new ScriptEditViewModel();
-            PreScriptViewModel = new ScriptEditViewModel();
 
-            RunSQLQueryCommand = new DelegateCommand(RunExecutionAccordingToSetup);
+            ConfigureAndRunExecutionCommand = new DelegateCommand(ShowConfigureAndRunWindow);
             StopExecutionCommand = new DelegateCommand(StopRunningExecution);
             EditPostScriptCommand = new DelegateCommand(ShowWindowToEditPostScript);
             EditPreScriptCommand = new DelegateCommand(ShowWindoToEditPreScript);
@@ -107,7 +69,7 @@ namespace SQLDataProducer.ViewModels
         {
             Window win = new Window();
             win.Title = "Edit Pre Script. Close window when done";
-            win.Content = new ScriptEditView(PreScriptViewModel);
+            win.Content = new ScriptEditView(Model);
             win.Show();
         }
 
@@ -115,7 +77,7 @@ namespace SQLDataProducer.ViewModels
         {
             Window win = new Window();
             win.Title = "Edit Post Script. Close window when done";
-            win.Content = new ScriptEditView(PostScriptViewModel);
+            win.Content = new ScriptEditView(Model);
             win.Show();
         }
 
@@ -128,25 +90,11 @@ namespace SQLDataProducer.ViewModels
             }
         }
 
-        private void RunExecutionAccordingToSetup()
+        private void ShowConfigureAndRunWindow()
         {
-            if (Model.ExecutionItems.Count == 0)
-                return;
-
-            if (string.IsNullOrEmpty(Model.ConnectionString))
-                MessageBox.Show("The connection string must be set before executing");
-
-
-            Model.IsQueryRunning = true;
-
-            _wfm = new WorkflowManager();
-            _wfm.RunWorkFlowAsync(Model.Options, Model.ConnectionString, Model.ExecutionItems, (setsInserted) =>
-            {
-                Model.IsQueryRunning = false;
-                MessageBox.Show(setsInserted.ToString());
-            }
-                , PreScriptViewModel.ScriptText
-                , PostScriptViewModel.ScriptText);
+            ExecutionOptionsViewModel opVM = new ExecutionOptionsViewModel(Model);
+            ExecutionsOptionsView view = new ExecutionsOptionsView(opVM);
+            YesNoWindow win = new YesNoWindow(view, opVM);
         }
     }
 }

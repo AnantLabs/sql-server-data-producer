@@ -52,8 +52,7 @@ namespace SQLDataProducer.ViewModels
 
             ModalWindows.YesNoWindow win = new ModalWindows.YesNoWindow(
                 new SQLDataProducer.Views.ConfigureReferenceGeneratorView(configVM)
-                , configVM.OKAction
-                , configVM.CancelAction);
+                , configVM);
             win.Show();
         }
 

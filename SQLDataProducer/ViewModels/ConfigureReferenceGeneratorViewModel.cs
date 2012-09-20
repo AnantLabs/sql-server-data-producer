@@ -22,7 +22,7 @@ using SQLDataProducer.DatabaseEntities.Entities;
 
 namespace SQLDataProducer.ViewModels
 {
-    public class ConfigureReferenceGeneratorViewModel : ViewModelBase
+    public class ConfigureReferenceGeneratorViewModel : ViewModelBase, IYesNoViewModel
     {
 
         ApplicationModel _model;
@@ -71,6 +71,16 @@ namespace SQLDataProducer.ViewModels
 
         public Action OKAction { get; set; }
 
-        public Action CancelAction { get; set; }
+        //public Action CancelAction { get; set; }
+
+        public void OnYes()
+        {
+            OKAction();
+        }
+
+        public void OnNo()
+        {
+          //  CancelAction();
+        }
     }
 }

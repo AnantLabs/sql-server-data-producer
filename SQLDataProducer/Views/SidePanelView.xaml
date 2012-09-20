@@ -41,7 +41,7 @@
         
     </UserControl.Resources>
     <StackPanel>
-        <GroupBox Header="Select execution type"  IsEnabled="{Binding Model.IsExecutionIdle}">
+        <!--<GroupBox Header="Select execution type"  IsEnabled="{Binding Model.IsExecutionIdle}">
             <StackPanel>
                 <ComboBox 
                     ItemsSource="{Binding Source={StaticResource executionTypeEnum}}" 
@@ -94,13 +94,13 @@
                 <ComboBox SelectedItem="{Binding Model.Options.NumberGeneratorMethod, Mode=TwoWay}" 
                           ItemsSource="{Binding Source={StaticResource numberGeneratorMethodsEnum}}" />
             </StackPanel>
-        </GroupBox>
+        </GroupBox>-->
         
         
         
         <GroupBox Header="Run / Stop"  >
             <StackPanel>
-                <Button Content="Run!" Command="{Binding RunSQLQueryCommand}" IsEnabled="{Binding Model.IsExecutionIdle}"/>
+                <Button Content="Configure and Run..." Command="{Binding ConfigureAndRunExecutionCommand}" IsEnabled="{Binding Model.IsExecutionIdle}"/>
                 <Button Content="Stop!" Command="{Binding StopExecutionCommand}" IsEnabled="{Binding Model.IsQueryRunning}" />
                 <ProgressBar 
                     Visibility="{Binding Model.IsQueryRunning, Converter={StaticResource ResourceKey=visiConv}}" 
@@ -110,11 +110,11 @@
             </StackPanel>
         </GroupBox>
 
-        <GroupBox Header="Other Scripts" IsEnabled="{Binding Model.IsExecutionIdle}">
+        <!--<GroupBox Header="Other Scripts" IsEnabled="{Binding Model.IsExecutionIdle}">
             <StackPanel>
                 <Button Content="Edit PreScript (Will run before the generation)" Command="{Binding EditPreScriptCommand}" />
                 <Button Content="Edit PostScript (Will run after the generation)" Command="{Binding EditPostScriptCommand}" />
             </StackPanel>
-        </GroupBox>
+        </GroupBox>-->
     </StackPanel>
 </UserControl>

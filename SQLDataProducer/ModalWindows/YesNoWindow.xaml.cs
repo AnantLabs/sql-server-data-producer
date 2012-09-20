@@ -25,6 +25,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using SQLDataProducer.ViewModels;
 
 namespace SQLDataProducer.ModalWindows
 {
@@ -33,16 +34,13 @@ namespace SQLDataProducer.ModalWindows
     /// </summary>
     public partial class YesNoWindow : Window
     {
-
-        Action _yesCallback = delegate { };
-        Action _noCallback = delegate { };
+        IYesNoViewModel _vm;
         Control _content;
 
-        public YesNoWindow(Control content, Action yesCallBack, Action noCallback)
+        public YesNoWindow(Control content, IYesNoViewModel vm)
         {
             _content = content;
-            _yesCallback = yesCallBack ?? _yesCallback;
-            _noCallback = noCallback ?? _noCallback;
+            _vm = vm; ;
 
             Loaded += new RoutedEventHandler(YesNoWindow_Loaded);
             Closing += new System.ComponentModel.CancelEventHandler(YesNoWindow_Closing);
@@ -51,7 +49,7 @@ namespace SQLDataProducer.ModalWindows
 
         void YesNoWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            _noCallback();
+            _vm.OnYes();
         }
 
         void YesNoWindow_Loaded(object sender, RoutedEventArgs e)
@@ -61,13 +59,13 @@ namespace SQLDataProducer.ModalWindows
 
         private void yesButton_Click(object sender, RoutedEventArgs e)
         {
-            _yesCallback();
+            _vm.OnYes();
             this.Close();
         }
 
         private void noButton_Click(object sender, RoutedEventArgs e)
         {
-            _noCallback();
+            _vm.OnNo();
             this.Close();
         }
 
