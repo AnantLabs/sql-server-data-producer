@@ -19,7 +19,7 @@ using System.ComponentModel;
 namespace ConnectionStringCreatorGUI
 {
     
-    internal partial class SqlConnectionStringBuilder : INotifyPropertyChanged
+    public partial class SqlConnectionStringBuilder : INotifyPropertyChanged
     {
         private static readonly SqlConnectionString DefaultValue = new SqlConnectionString { IntegratedSecurity = true, Pooling = false };
 

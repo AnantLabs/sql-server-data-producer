@@ -20,6 +20,7 @@
              mc:Ignorable="d" 
              xmlns:behaviours="clr-namespace:SQLDataProducer.Behavior"
              xmlns:e="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:dt="clr-namespace:SQLDataProducer.DatabaseEntities.Entities;assembly=SQLDataProducer.Entities"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <TreeView ItemsSource="{Binding Model.ExecutionItems}">
@@ -41,9 +42,12 @@
             </TreeView.ItemContainerStyle>
 
             <TreeView.ItemTemplate>
-                <HierarchicalDataTemplate ItemsSource="{Binding TargetTable.Columns}">
+                <HierarchicalDataTemplate ItemsSource="{Binding TargetTable.Columns}" DataType="dt:ColumnEntity">
                     <TextBlock Text="{Binding .}" />
                 </HierarchicalDataTemplate>
+                <!--<HierarchicalDataTemplate DataType="dt:TableEntity">
+                    <TextBlock Text="{Binding .}" />
+                </HierarchicalDataTemplate>-->
             </TreeView.ItemTemplate>
             
 

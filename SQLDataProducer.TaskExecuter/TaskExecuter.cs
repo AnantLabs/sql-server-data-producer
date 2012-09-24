@@ -89,7 +89,7 @@ namespace SQLDataProducer.TaskExecuter
                             switch (Options.NumberGeneratorMethod)
                             {
                                 case NumberGeneratorMethods.NewNForEachExecution:
-                                    // N Set Counter is incremented for each Execution, just resturn the current value.
+                                    // N Set Counter is incremented for each Execution, just return the current value. It will be incremented in the big loop
                                     return _NSetCounter.Peek();
                                 case NumberGeneratorMethods.NewNForEachRow:
                                     // Insert counter is used to generated per row, increment it and return the next value.

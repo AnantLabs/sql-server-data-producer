@@ -90,6 +90,9 @@
     <Compile Include="Views\ExecutionsOptionsView.xaml.cs">
       <DependentUpon>ExecutionsOptionsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\LoadDatabaseMetadataView.xaml.cs">
+      <DependentUpon>LoadDatabaseMetadataView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ScriptEditView.xaml.cs">
       <DependentUpon>ScriptEditView.xaml</DependentUpon>
     </Compile>
@@ -139,6 +142,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ExecutionsOptionsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LoadDatabaseMetadataView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

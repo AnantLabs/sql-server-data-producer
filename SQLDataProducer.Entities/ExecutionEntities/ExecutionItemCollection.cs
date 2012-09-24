@@ -64,7 +64,7 @@ namespace SQLDataProducer.Entities.ExecutionEntities
             }
         }
 
-        public void Add(ExecutionItem item)
+        public new void Add(ExecutionItem item)
         {
             item.Order = this.Items.Count + 1;
             base.Add(item);
