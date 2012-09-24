@@ -36,6 +36,7 @@ namespace SQLDataProducer.ModalWindows
     {
         IYesNoViewModel _vm;
         Control _content;
+        bool _callBackRan = false;
 
         public YesNoWindow(Control content, IYesNoViewModel vm)
         {
@@ -49,7 +50,9 @@ namespace SQLDataProducer.ModalWindows
 
         void YesNoWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            _vm.OnYes();
+            if (!_callBackRan)
+                _vm.OnNo();
+            _callBackRan = true;
         }
 
         void YesNoWindow_Loaded(object sender, RoutedEventArgs e)
@@ -59,13 +62,17 @@ namespace SQLDataProducer.ModalWindows
 
         private void yesButton_Click(object sender, RoutedEventArgs e)
         {
-            _vm.OnYes();
+            if (!_callBackRan)
+                _vm.OnYes();
+            _callBackRan = true;
             this.Close();
         }
 
         private void noButton_Click(object sender, RoutedEventArgs e)
         {
-            _vm.OnNo();
+            if (!_callBackRan)
+                _vm.OnNo();
+            _callBackRan = true;
             this.Close();
         }
 

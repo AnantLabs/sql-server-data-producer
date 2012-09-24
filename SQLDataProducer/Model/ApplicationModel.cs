@@ -18,6 +18,7 @@ using SQLDataProducer.Entities.ExecutionEntities;
 using SQLDataProducer.Entities.OptionEntities;
 using SQLDataProducer.Entities.DatabaseEntities.Collections;
 using System;
+using SQLDataProducer.TaskExecuter;
 
 namespace SQLDataProducer.Model
 {
@@ -28,6 +29,7 @@ namespace SQLDataProducer.Model
         public ApplicationModel()
         {
             Tables = new TableEntityCollection();
+            WorkFlowManager = new WorkflowManager();
         }
 
         TableEntityCollection _tables;
@@ -346,6 +348,23 @@ namespace SQLDataProducer.Model
                 {
                     _preScriptText = value;
                     OnPropertyChanged("PreScriptText");
+                }
+            }
+        }
+
+        WorkflowManager _workFlowManager;
+        public WorkflowManager WorkFlowManager
+        {
+            get
+            {
+                return _workFlowManager;
+            }
+            set
+            {
+                if (_workFlowManager != value)
+                {
+                    _workFlowManager = value;
+                    OnPropertyChanged("WorkFlowManager");
                 }
             }
         }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SQLDataProducer.ViewModels
 {
-    interface IYesNoViewModel
+    public interface IYesNoViewModel
     {
         void OnYes();
         void OnNo();

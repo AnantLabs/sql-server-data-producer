@@ -23,7 +23,7 @@ using SQLDataProducer.TaskExecuter;
 
 namespace SQLDataProducer.ViewModels
 {
-    class ExecutionOptionsViewModel : ViewModelBase, IYesNoViewModel
+    public class ExecutionOptionsViewModel : ViewModelBase, IYesNoViewModel
     {
 
         ApplicationModel _model;
@@ -43,11 +43,9 @@ namespace SQLDataProducer.ViewModels
             }
         }
 
-        private WorkflowManager _wfm;
-
-        public ExecutionOptionsViewModel()
+        public ExecutionOptionsViewModel(ApplicationModel model)
         {
-
+            this.Model = model;
         }
 
         public void RunExecution()
@@ -60,8 +58,8 @@ namespace SQLDataProducer.ViewModels
 
             Model.IsQueryRunning = true;
 
-            _wfm = new WorkflowManager();
-            _wfm.RunWorkFlowAsync(Model.Options, Model.ConnectionString, Model.ExecutionItems, (setsInserted) =>
+            Model.WorkFlowManager = new WorkflowManager();
+            Model.WorkFlowManager.RunWorkFlowAsync(Model.Options, Model.ConnectionString, Model.ExecutionItems, (setsInserted) =>
             {
                 Model.IsQueryRunning = false;
                 MessageBox.Show(setsInserted.ToString());
@@ -72,12 +70,12 @@ namespace SQLDataProducer.ViewModels
 
         public void OnYes()
         {
-            throw new NotImplementedException();
+            RunExecution();
         }
 
         public void OnNo()
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

@@ -83,9 +83,9 @@ namespace SQLDataProducer.ViewModels
 
         private void StopRunningExecution()
         {
-            if (_wfm != null)
+            if (Model.WorkFlowManager != null)
             {
-                _wfm.StopAsync();
+                Model.WorkFlowManager.StopAsync();
                 Model.IsQueryRunning = false;
             }
         }
@@ -95,6 +95,7 @@ namespace SQLDataProducer.ViewModels
             ExecutionOptionsViewModel opVM = new ExecutionOptionsViewModel(Model);
             ExecutionsOptionsView view = new ExecutionsOptionsView(opVM);
             YesNoWindow win = new YesNoWindow(view, opVM);
+            win.ShowDialog();
         }
     }
 }

@@ -19,9 +19,18 @@ namespace SQLDataProducer.Views
     /// </summary>
     public partial class ExecutionsOptionsView : UserControl
     {
-        public ExecutionsOptionsView()
+        private ViewModels.ExecutionOptionsViewModel opVM;
+
+        public ExecutionsOptionsView(ViewModels.ExecutionOptionsViewModel opVM)
         {
+            this.opVM = opVM;
+            Loaded += new RoutedEventHandler(ExecutionsOptionsView_Loaded);
             InitializeComponent();
+        }
+
+        void ExecutionsOptionsView_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.DataContext = opVM;
         }
     }
 }

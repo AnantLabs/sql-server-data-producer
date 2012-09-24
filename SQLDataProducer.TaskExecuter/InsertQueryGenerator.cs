@@ -138,15 +138,18 @@ namespace SQLDataProducer.TaskExecuter
                     int rowGenerationNumber = getN();
                     sb.Append("\t");
                     sb.Append("(");
-                  
+                    
+                    // Generate all the values for all the columns using this generation number
+                    item.TargetTable.GenerateValuesForColumns(rowGenerationNumber);
+                    
                     for (int i = 0; i < item.TargetTable.Columns.Count; i++)
                     {
                         var col = item.TargetTable.Columns[i];
 
                         if (col.IsIdentity)
                             continue;
-
-                        sb.Append(col.GenerateValue(rowGenerationNumber));
+                        // Write the generated values to the script
+                        sb.Append(col.PreviouslyGeneratedValue);
                         sb.Append(i == item.TargetTable.Columns.Count - 1 ? string.Empty : ", ");
                     }
 

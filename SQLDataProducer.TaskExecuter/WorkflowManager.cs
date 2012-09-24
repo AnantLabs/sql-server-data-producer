@@ -145,11 +145,6 @@ namespace SQLDataProducer.TaskExecuter
         }
 
         private TaskExecuter _executor;
-        //private TaskExecuter Executor
-        //{
-        //    get { return _executor; }
-        //    set { _executor = value; }
-        //}
     }
 
     

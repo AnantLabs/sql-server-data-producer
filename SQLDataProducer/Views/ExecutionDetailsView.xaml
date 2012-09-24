@@ -33,7 +33,25 @@
                 <x:Type TypeName="enums:ExecutionConditions"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
-        
+
+
+        <Style TargetType="Button" x:Key="VisibleIfValueFromOtherColumnGenerator">
+            <Setter Property="Visibility" Value="Collapsed" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ParameterName}" Value="Referenced Column" >
+                    <Setter Property="Visibility" Value="Visible" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="TextBox" x:Key="NotVisibleIfValueFromOtherColumnGenerator">
+            <Setter Property="IsEnabled" Value="True" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ParameterName}" Value="Referenced Column" >
+                    <Setter Property="IsEnabled" Value="False" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
     </UserControl.Resources>
 
 
@@ -143,13 +161,17 @@
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Text="{Binding ParameterName}" Grid.Column="0" />
-                                    <TextBox Text="{Binding Value}"  Grid.Column="1" MinWidth="150"/>
+                                    <TextBox Text="{Binding Value}"  Grid.Column="1" MinWidth="150" Style="{StaticResource ResourceKey=NotVisibleIfValueFromOtherColumnGenerator}"/>
 
-                                    <Button Content="..." Grid.Column="2"
+                                    <Button Content="Pick Column" Grid.Column="2"
                                         Command="{Binding Path=DataContext.ConfigureReferenceParameterCommand, 
                                                 RelativeSource={RelativeSource FindAncestor, 
                                                 AncestorType={x:Type ListBox}}}" 
-                                        CommandParameter="{Binding .}" />
+                                        CommandParameter="{Binding .}" 
+                                            
+                                            Style="{StaticResource ResourceKey=VisibleIfValueFromOtherColumnGenerator}"
+                                            >
+                                    </Button>
 
                                 </Grid>
                             </DataTemplate>

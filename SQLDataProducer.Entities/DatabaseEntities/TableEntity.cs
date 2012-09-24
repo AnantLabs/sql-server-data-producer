@@ -127,6 +127,7 @@ namespace SQLDataProducer.DatabaseEntities.Entities
             return t;
         }
 
+        #region XML Serialize
         public System.Xml.Schema.XmlSchema GetSchema()
         {
             throw new NotImplementedException();
@@ -162,6 +163,15 @@ namespace SQLDataProducer.DatabaseEntities.Entities
             }
             writer.WriteEndElement();
             writer.WriteEndElement();
+        } 
+        #endregion
+
+        public void GenerateValuesForColumns(int n)
+        {
+            foreach (var col in Columns)
+            {
+                col.GenerateValue(n);
+            }
         }
     }
 }

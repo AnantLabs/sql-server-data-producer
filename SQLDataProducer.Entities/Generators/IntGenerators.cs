@@ -20,6 +20,8 @@ namespace SQLDataProducer.Entities.Generators
 {
     public partial class Generator
     {
+        public const string GEN_ValueFromOtherColumn = "Value from other Column";
+
         public static ObservableCollection<Generator> GetGeneratorsForInt()
         {
             int maxValue = int.MaxValue;
@@ -70,6 +72,7 @@ namespace SQLDataProducer.Entities.Generators
             valueGenerators.Add(CreateNormallyDistributedRandomGenerator());
             valueGenerators.Add(CreateWeibullRandomNumbersGenerator());
             valueGenerators.Add(CreateLaplaceRandomNumbersGenerator());
+            valueGenerators.Add(CreateValueFromOtherColumnGenerator());
 
             return valueGenerators;
         }
@@ -79,8 +82,7 @@ namespace SQLDataProducer.Entities.Generators
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
 
-            GeneratorParameter foreignParam = new GeneratorParameter("Keys", fkkeys);
-            foreignParam.IsWriteEnabled = false;
+            GeneratorParameter foreignParam = new GeneratorParameter("Keys", fkkeys, false);
             paramss.Add(foreignParam);
             Generator gen = new Generator("Random FOREIGN KEY Value (EAGER)", (n, p) =>
             {
@@ -99,8 +101,7 @@ namespace SQLDataProducer.Entities.Generators
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
 
-            GeneratorParameter foreignParam = new GeneratorParameter("Keys", fkkeys);
-            foreignParam.IsWriteEnabled = false;
+            GeneratorParameter foreignParam = new GeneratorParameter("Keys", fkkeys, false);
             GeneratorParameter startIndex = new GeneratorParameter("Start Index", 1);
             GeneratorParameter maxIndex = new GeneratorParameter("Max Index", 1000);
             
@@ -328,13 +329,20 @@ namespace SQLDataProducer.Entities.Generators
             paramss.Add(new GeneratorParameter("Referenced Column", null));
             paramss.Add(new GeneratorParameter("Referenced value plus", 0));
 
-            Generator gen = new Generator("Value from other Column", (n, p) =>
+            Generator gen = new Generator(GEN_ValueFromOtherColumn, (n, p) =>
             {
                 long plus = long.Parse(GetParameterByName(p, "Referenced value plus").ToString());
                 SQLDataProducer.DatabaseEntities.Entities.ColumnEntity otherColumn = GetParameterByName(p, "Referenced Column") as SQLDataProducer.DatabaseEntities.Entities.ColumnEntity;
 
                 if (otherColumn.PreviouslyGeneratedValue != null)
-                    return ((long)otherColumn.PreviouslyGeneratedValue) + plus;
+                {
+                    long a;
+                    if (long.TryParse(otherColumn.PreviouslyGeneratedValue.ToString(), out a))
+                        return a + plus;
+                    else
+                        return otherColumn.PreviouslyGeneratedValue;
+                }
+                 
 
                 throw new ArgumentNullException("otherColumn.PreviouslyGeneratedValue");
             }

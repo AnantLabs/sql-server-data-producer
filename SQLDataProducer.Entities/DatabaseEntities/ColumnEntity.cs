@@ -247,11 +247,12 @@ namespace SQLDataProducer.DatabaseEntities.Entities
             writer.WriteEndElement();
         }
 
-        public object GenerateValue(int n)
+        public void GenerateValue(int n)
         {
-            var val = Generator.GenerateValue(n);
-            PreviouslyGeneratedValue = val;
-            return val;
+            if (Generator.GEN_ValueFromOtherColumn == Generator.GeneratorName)
+                return;
+
+            PreviouslyGeneratedValue  = Generator.GenerateValue(n);
         }
 
 
@@ -260,6 +261,9 @@ namespace SQLDataProducer.DatabaseEntities.Entities
         {
             get
             {
+                if (Generator.GEN_ValueFromOtherColumn == Generator.GeneratorName)
+                    return Generator.GenerateValue(0);
+                
                 return _previouslyGeneratedValue;
             }
             set

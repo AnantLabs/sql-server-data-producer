@@ -130,9 +130,9 @@
             </GroupBox>
 
 
-            <GroupBox Header="Run"  >
+            <!--<GroupBox Header="Run"  >
                 <Button Content="Run Now" Height="50" />
-            </GroupBox>
+            </GroupBox>-->
 
         </StackPanel>
     </Grid>
