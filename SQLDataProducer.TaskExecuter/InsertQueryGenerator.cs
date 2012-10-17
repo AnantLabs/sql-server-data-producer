@@ -118,7 +118,7 @@ namespace SQLDataProducer.TaskExecuter
         /// <param name="n">The serial number to use when creating the values for the variables</param>
         /// <param name="execItems">the executionItems to be included in the variable declarations</param>
         /// <returns></returns>
-        public string GenerateFinalQuery(string baseQuery, ExecutionItemCollection execItems, int n, System.Func<int> getN)
+        public string GenerateFinalQuery(string baseQuery, ExecutionItemCollection execItems, long n, System.Func<long> getN)
         {
             string modified = baseQuery.Clone() as string;
 
@@ -135,7 +135,7 @@ namespace SQLDataProducer.TaskExecuter
                 sb.AppendLine("VALUES");
                 for (int rep = 1; rep <= item.RepeatCount; rep++)
                 {
-                    int rowGenerationNumber = getN();
+                    long rowGenerationNumber = getN();
                     sb.Append("\t");
                     sb.Append("(");
                     

@@ -247,7 +247,7 @@ namespace SQLDataProducer.DatabaseEntities.Entities
             writer.WriteEndElement();
         }
 
-        public void GenerateValue(int n)
+        public void GenerateValue(long n)
         {
             if (Generator.GEN_ValueFromOtherColumn == Generator.GeneratorName)
                 return;

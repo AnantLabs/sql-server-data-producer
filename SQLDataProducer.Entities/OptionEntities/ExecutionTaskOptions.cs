@@ -64,23 +64,23 @@ namespace SQLDataProducer.Entities.OptionEntities
         }
 
 
-        //long _startValue = 1;
-        
-        //public long StartValue
-        //{
-        //    get
-        //    {
-        //        return _startValue;
-        //    }
-        //    set
-        //    {
-        //        if (_startValue != value)
-        //        {
-        //            _startValue = value;
-        //            OnPropertyChanged("StartValue");
-        //        }
-        //    }
-        //}
+        long _startValue = 1;
+
+        public long StartValue
+        {
+            get
+            {
+                return _startValue;
+            }
+            set
+            {
+                if (_startValue != value)
+                {
+                    _startValue = value;
+                    OnPropertyChanged("StartValue");
+                }
+            }
+        }
 
         DateTime _dateTimeGenerationStartTime = DateTime.Now;
         /// <summary>

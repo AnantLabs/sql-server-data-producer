@@ -44,6 +44,17 @@ namespace SQLDataProducer.Entities
             return str.Substring(0, l);
         }
 
+        public static int LongToInt(this long value)
+        {
+            if (value < int.MinValue)
+                return int.MinValue;
+            
+            if (value > int.MaxValue)
+	            return int.MaxValue;
+
+            return Convert.ToInt32(value);
+        }
+
         //public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> coll)
         //{
         //    var c = new ObservableCollection<T>();

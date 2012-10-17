@@ -21,13 +21,19 @@ namespace SQLDataProducer.Entities.Generators
 {
     public partial class Generator
     {
-        private static DateTime _currentDate = DateTime.Now;
+        private static DateTime _currentDate = new DateTime(DateTime.Now.Year -1, 12, 31);
         private static DateTime StartDate
         {
             get
             {
                 return _currentDate;
             }
+            set 
+            {
+                if (_currentDate != value)
+                    _currentDate = value; 
+            }
+            
         }
 
 
@@ -152,7 +158,7 @@ namespace SQLDataProducer.Entities.Generators
         {
             Generator gen = new Generator("Days Series", (n, p) =>
             {
-                return Wrap(StartDate.AddHours(n));
+                return Wrap(StartDate.AddDays(n));
             }
                 , null);
             return gen;

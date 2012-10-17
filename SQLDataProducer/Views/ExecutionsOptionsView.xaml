@@ -108,8 +108,9 @@
             <GroupBox Header="Global Generator Options"  Margin="0 5 0 5">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="20"/>
-                        <!--<RowDefinition Height="20"/>
+                        <RowDefinition Height="27"/>
+                        <RowDefinition Height="27"/>
+                        <!--
                         <RowDefinition Height="20"/>
                         <RowDefinition Height="20"/>
                         <RowDefinition Height="20"/>-->
@@ -119,12 +120,15 @@
                         <ColumnDefinition Width="200"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    
-                    <TextBlock Text="Start Date for DateTime generators" Grid.Column="0" Grid.Row="0" />
-                    <TextBox Text="{Binding StartDateForDateTimeGenerators, Mode=TwoWay}" Grid.Column="1" Grid.Row="0"  />
 
-                    <!--<TextBlock Text="Start NUmber for Integer generators" Grid.Column="0" Grid.Row="0" />
-                    <TextBox Text="{Binding StartDateForDateTimeGenerators, Mode=TwoWay}" Grid.Column="1" Grid.Row="0"  />-->
+                    <TextBlock Text="Start Date for DateTime generators" Grid.Column="0" Grid.Row="0" Margin="2 2 2 2" />
+                    <!--<DatePickerTextBox Text="{Binding Model.Options.DateTimeGenerationStartTime, Mode=TwoWay}" Grid.Column="1" Grid.Row="0"  />-->
+                    <DatePicker Grid.Column="1" Grid.Row="0" Margin="2 2 2 2"
+                                DisplayDate="{Binding Model.Options.DateTimeGenerationStartTime, Mode=TwoWay}" 
+                                SelectedDate="{Binding Model.Options.DateTimeGenerationStartTime, Mode=TwoWay}"/>
+
+                    <TextBlock Text="Start Number for Integer generators" Grid.Column="0" Grid.Row="1" Margin="2 2 2 2" />
+                    <TextBox Text="{Binding Model.Options.StartValue, Mode=TwoWay}" IsEnabled="False" Grid.Column="1" Grid.Row="1" Margin="2 2 2 2"  />
 
                 </Grid>
             </GroupBox>

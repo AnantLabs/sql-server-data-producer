@@ -166,7 +166,7 @@ namespace SQLDataProducer.DatabaseEntities.Entities
         } 
         #endregion
 
-        public void GenerateValuesForColumns(int n)
+        public void GenerateValuesForColumns(long n)
         {
             foreach (var col in Columns)
             {

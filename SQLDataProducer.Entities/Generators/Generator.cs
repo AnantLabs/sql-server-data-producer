@@ -76,9 +76,9 @@ namespace SQLDataProducer.Entities.Generators
             return GeneratorName;
         }
 
-        internal object GenerateValue(int n)
+        internal object GenerateValue(long n)
         {
-            return ValueGenerator(n, GeneratorParameters);
+            return ValueGenerator(IntegerStartValue + n, GeneratorParameters);
         }
 
         /// <summary>
@@ -168,6 +168,12 @@ namespace SQLDataProducer.Entities.Generators
         public void SetGeneratorParameters(GeneratorParameterCollection generatorParameterCollection)
         {
             this.GeneratorParameters = generatorParameterCollection.Clone();
+        }
+
+        public static void InitGeneratorStartValues(OptionEntities.ExecutionTaskOptions options)
+        {
+            Generator.StartDate = options.DateTimeGenerationStartTime;
+            Generator.IntegerStartValue = options.StartValue;
         }
     }
 }

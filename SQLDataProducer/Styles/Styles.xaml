@@ -383,6 +383,10 @@
         </Setter>
     </Style>
 
+    <Style x:Key="MainGridStyle" TargetType="Grid">
+        
+    </Style>
+    
     <!--<DataTemplate x:Key="RowDetailsTemplate">
         <Grid TextBlock.Foreground="White">
             <Grid.RowDefinitions>

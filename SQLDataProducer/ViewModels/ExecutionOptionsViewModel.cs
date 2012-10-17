@@ -43,6 +43,24 @@ namespace SQLDataProducer.ViewModels
             }
         }
 
+
+        //string _startDateForDateTimeGenerators;
+        //public string StartDateForDateTimeGenerators
+        //{
+        //    get
+        //    {
+        //        return _startDateForDateTimeGenerators;
+        //    }
+        //    set
+        //    {
+        //        if (_startDateForDateTimeGenerators != value)
+        //        {
+        //            _startDateForDateTimeGenerators = value;
+        //            OnPropertyChanged("StartDateForDateTimeGenerators");
+        //        }
+        //    }
+        //}
+
         public ExecutionOptionsViewModel(ApplicationModel model)
         {
             this.Model = model;

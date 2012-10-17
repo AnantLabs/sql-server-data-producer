@@ -86,6 +86,9 @@ namespace SQLDataProducer.TaskExecuter
         private ExecutionResult InternalRunWorkFlow(ExecutionTaskOptions options, string connectionString, ExecutionItemCollection executionItems, string preScript = null, string postScript = null)
         {
             DateTime startTime = DateTime.Now;
+            // Initialize the start values for the generators
+            SQLDataProducer.Entities.Generators.Generator.InitGeneratorStartValues(options);
+
             _executor = new TaskExecuter(options, connectionString);
             RunTruncationOnExecutionItems(connectionString, executionItems);
 
@@ -96,9 +99,7 @@ namespace SQLDataProducer.TaskExecuter
 
             execResult.StartTime = startTime;
             execResult.EndTime = DateTime.Now;
-            // Calculate approximation of how many insertions we did
-            //execResult.InsertCount = executionItems.Sum(ei => ei.RepeatCount * execResult.ExecutedItemCount);
-
+            
             return execResult;
         }
 

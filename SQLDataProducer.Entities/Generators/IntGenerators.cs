@@ -22,6 +22,23 @@ namespace SQLDataProducer.Entities.Generators
     {
         public const string GEN_ValueFromOtherColumn = "Value from other Column";
 
+
+        static long _integerStartValue = 1;
+        public static long IntegerStartValue
+        {
+            get
+            {
+                return _integerStartValue;
+            }
+            set
+            {
+                if (_integerStartValue != value)
+                {
+                    _integerStartValue = value;
+                }
+            }
+        }
+
         public static ObservableCollection<Generator> GetGeneratorsForInt()
         {
             int maxValue = int.MaxValue;
@@ -121,7 +138,7 @@ namespace SQLDataProducer.Entities.Generators
                 {
                     mi = fkkeys.Count;
                 }
-                return keys[n % keys.Count];
+                return keys[n.LongToInt() % keys.Count];
             }
                 , paramss);
             return gen;

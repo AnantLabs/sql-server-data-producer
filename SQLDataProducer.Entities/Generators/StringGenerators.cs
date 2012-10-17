@@ -95,7 +95,7 @@ namespace SQLDataProducer.Entities.Generators
             Generator gen = new Generator("Countries", (n, p) =>
             {
                 int l = int.Parse(GetParameterByName(p, "Length").ToString());
-                return Wrap(CountryList[n % CountryList.Count].SubstringWithMaxLength(l));
+                return Wrap(CountryList[n.LongToInt() % CountryList.Count].SubstringWithMaxLength(l));
             }
                 , paramss);
             return gen;
@@ -109,7 +109,7 @@ namespace SQLDataProducer.Entities.Generators
             Generator gen = new Generator("Female names", (n, p) =>
             {
                 int l = int.Parse(GetParameterByName(p, "Length").ToString());
-                return Wrap(Females[n % Females.Count].SubstringWithMaxLength(l));
+                return Wrap(Females[n.LongToInt() % Females.Count].SubstringWithMaxLength(l));
             }
                 , paramss);
             return gen;
@@ -123,7 +123,7 @@ namespace SQLDataProducer.Entities.Generators
             Generator gen = new Generator("Male names", (n, p) =>
             {
                 int l = int.Parse(GetParameterByName(p, "Length").ToString());
-                return Wrap(Males[n % Males.Count].SubstringWithMaxLength(l));
+                return Wrap(Males[n.LongToInt() % Males.Count].SubstringWithMaxLength(l));
             }
                , paramss);
             return gen;
@@ -137,7 +137,7 @@ namespace SQLDataProducer.Entities.Generators
             Generator gen = new Generator("Cities", (n, p) =>
             {
                 int l = int.Parse(GetParameterByName(p, "Length").ToString());
-                return Wrap(Cities[n % Cities.Count].SubstringWithMaxLength(l));
+                return Wrap(Cities[n.LongToInt() % Cities.Count].SubstringWithMaxLength(l));
             }
                 , paramss);
             return gen;
@@ -152,7 +152,7 @@ namespace SQLDataProducer.Entities.Generators
             Generator gen = new Generator("User Names", (n, p) =>
             {
                 int l = int.Parse(GetParameterByName(p, "Length").ToString());
-                return Wrap(UserNames[n % UserNames.Count].SubstringWithMaxLength(l));
+                return Wrap(UserNames[n.LongToInt() % UserNames.Count].SubstringWithMaxLength(l));
             }
                 , paramss);
             return gen;
