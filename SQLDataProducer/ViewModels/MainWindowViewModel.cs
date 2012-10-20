@@ -20,7 +20,7 @@ using SQLDataProducer.Entities.ExecutionEntities;
 using System.Windows.Threading;
 using System.Threading;
 using SQLDataProducer.Entities.OptionEntities;
-using SQLDataProducer.DatabaseEntities.Entities;
+using SQLDataProducer.Entities.DatabaseEntities;
 using SQLDataProducer.DataAccess.Factories;
 
 

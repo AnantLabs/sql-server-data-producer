@@ -17,7 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SQLDataProducer.Entities.ExecutionEntities;
-using SQLDataProducer.DatabaseEntities.Entities;
+using SQLDataProducer.Entities.DatabaseEntities;
 using System.Xml;
 
 namespace SQLDataProducer.DataAccess.Factories
@@ -35,7 +35,7 @@ namespace SQLDataProducer.DataAccess.Factories
             this._tda = _tda;
         }
 
-        public IEnumerable<ExecutionItem> GetClones(IEnumerable<DatabaseEntities.Entities.TableEntity> tables)
+        public IEnumerable<ExecutionItem> GetClones(IEnumerable<TableEntity> tables)
         {
             // Clone the selected table so that each generation of that table is configurable uniquely
             foreach (var table in tables)
@@ -52,12 +52,10 @@ namespace SQLDataProducer.DataAccess.Factories
 
         public void Save(ExecutionItemCollection execItems, string fileName)
         {
-            //System.Xml.Serialization.XmlSerializer ser = new System.Xml.Serialization.XmlSerializer(typeof(ExecutionItemCollection));
             using (XmlWriter xmlWriter = XmlTextWriter.Create(fileName))
             {
                 execItems.WriteXml(xmlWriter);
             }
-
         }
 
         public ExecutionItemCollection Load(string fileName)

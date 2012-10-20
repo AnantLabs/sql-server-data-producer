@@ -20,7 +20,7 @@
              mc:Ignorable="d" 
              xmlns:behaviours="clr-namespace:SQLDataProducer.Behavior"
              xmlns:e="http://schemas.microsoft.com/expression/2010/interactivity"
-             xmlns:dt="clr-namespace:SQLDataProducer.DatabaseEntities.Entities;assembly=SQLDataProducer.Entities"
+             xmlns:dt="clr-namespace:SQLDataProducer.Entities.DatabaseEntities;assembly=SQLDataProducer.Entities"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <TreeView ItemsSource="{Binding Model.ExecutionItems}">

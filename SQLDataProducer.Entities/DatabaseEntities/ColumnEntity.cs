@@ -21,9 +21,9 @@ using System.Xml.Serialization;
 using SQLDataProducer.Entities.DatabaseEntities;
 
 
-namespace SQLDataProducer.DatabaseEntities.Entities
+namespace SQLDataProducer.Entities.DatabaseEntities
 {
-    public partial class ColumnEntity : SQLDataProducer.Entities.EntityBase, IXmlSerializable
+    public partial class ColumnEntity : EntityBase, IXmlSerializable
     {
         ColumnDataTypeDefinition _columnDataType;
         [System.ComponentModel.ReadOnly(true)]
@@ -249,7 +249,7 @@ namespace SQLDataProducer.DatabaseEntities.Entities
 
         public void GenerateValue(long n)
         {
-            if (Generator.GEN_ValueFromOtherColumn == Generator.GeneratorName)
+            if (Generator.GENERATOR_ValueFromOtherColumn == Generator.GeneratorName)
                 return;
 
             PreviouslyGeneratedValue  = Generator.GenerateValue(n);
@@ -261,7 +261,7 @@ namespace SQLDataProducer.DatabaseEntities.Entities
         {
             get
             {
-                if (Generator.GEN_ValueFromOtherColumn == Generator.GeneratorName)
+                if (Generator.GENERATOR_ValueFromOtherColumn == Generator.GeneratorName)
                     return Generator.GenerateValue(0);
                 
                 return _previouslyGeneratedValue;
@@ -279,6 +279,46 @@ namespace SQLDataProducer.DatabaseEntities.Entities
         public override string ToString()
         {
             return ColumnName;
+        }
+
+        private bool _hasWarning = false;
+        /// <summary>
+        /// This Item have some kind of warning that might cause problems during execution
+        /// </summary>
+        public bool HasWarning
+        {
+            get
+            {
+                return _hasWarning;
+            }
+            set
+            {
+                _hasWarning = value;
+                OnPropertyChanged("HasWarning");
+            }
+        }
+
+        private string _warningText = string.Empty;
+        /// <summary>
+        /// Contains warning text if the this item have a warning that might cause problems during execution.
+        /// </summary>
+        public string WarningText
+        {
+            get
+            {
+                return _warningText;
+            }
+            set
+            {
+                _warningText = value;
+                OnPropertyChanged("WarningText");
+            }
+        }
+
+        public bool Validate()
+        {
+            bool valid = false;
+            return valid;
         }
     }
 }

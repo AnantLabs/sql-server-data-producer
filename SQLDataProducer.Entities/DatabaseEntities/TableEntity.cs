@@ -16,10 +16,12 @@ using System;
 using SQLDataProducer.Entities.DatabaseEntities.Collections;
 using System.Xml.Serialization;
 using SQLDataProducer.Entities;
+using System.Linq;
 
-namespace SQLDataProducer.DatabaseEntities.Entities
+
+namespace SQLDataProducer.Entities.DatabaseEntities
 {
-    public class TableEntity : SQLDataProducer.Entities.EntityBase, IEquatable<TableEntity>, IXmlSerializable
+    public class TableEntity : EntityBase, IEquatable<TableEntity>, IXmlSerializable
     {
 
         public static event TableWithForeignKeyInsertedRowEventHandler ForeignKeyGenerated = delegate { };
@@ -172,6 +174,46 @@ namespace SQLDataProducer.DatabaseEntities.Entities
             {
                 col.GenerateValue(n);
             }
+        }
+
+        private bool _hasWarning = false;
+        /// <summary>
+        /// This Item have some kind of warning that might cause problems during execution
+        /// </summary>
+        public bool HasWarning
+        {
+            get
+            {
+                return _hasWarning;
+            }
+            set
+            {
+                _hasWarning = value;
+                OnPropertyChanged("HasWarning");
+            }
+        }
+
+        private string _warningText = string.Empty;
+        /// <summary>
+        /// Contains warning text if the this item have a warning that might cause problems during execution.
+        /// </summary>
+        public string WarningText
+        {
+            get
+            {
+                return _warningText;
+            }
+            set
+            {
+                _warningText = value;
+                OnPropertyChanged("WarningText");
+            }
+        }
+
+        public bool Validate()
+        {
+            bool valid = Columns.All(x => x.HasWarning == false);
+            return valid;
         }
     }
 }

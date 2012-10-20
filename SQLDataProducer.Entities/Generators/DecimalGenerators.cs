@@ -19,6 +19,8 @@ namespace SQLDataProducer.Entities.Generators
 {
     public partial class Generator
     {
+        public static readonly string GENERATOR_RandomDecimal = "Random Decimal";
+        public static readonly string GENERATOR_CountingUpDecimal = "Counting up Decimal";
         public static ObservableCollection<Generator> GetDecimalGenerators()
         {
             ObservableCollection<Generator> valueGenerators = new ObservableCollection<Generator>();
@@ -40,7 +42,7 @@ namespace SQLDataProducer.Entities.Generators
             paramss.Add(new GeneratorParameter("MinValue", 0.0));
             paramss.Add(new GeneratorParameter("MaxValue", 10000000.0));
 
-            Generator gen = new Generator("Random Decimal", (n, p) =>
+            Generator gen = new Generator(GENERATOR_RandomDecimal, (n, p) =>
             {
                 double maxValue = double.Parse(GetParameterByName(p, "MaxValue").ToString());
                 double minValue = double.Parse(GetParameterByName(p, "MinValue").ToString());
@@ -60,7 +62,7 @@ namespace SQLDataProducer.Entities.Generators
             paramss.Add(new GeneratorParameter("MaxValue", 10000000.0));
             paramss.Add(new GeneratorParameter("Step", 1.0));
 
-            Generator gen = new Generator("Counting up", (n, p) =>
+            Generator gen = new Generator(GENERATOR_CountingUpDecimal, (n, p) =>
             {
                 double maxValue = double.Parse(GetParameterByName(p, "MaxValue").ToString());
                 double minValue = double.Parse(GetParameterByName(p, "MinValue").ToString());

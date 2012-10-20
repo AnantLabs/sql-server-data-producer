@@ -21,6 +21,13 @@ namespace SQLDataProducer.Entities.Generators
 {
     public partial class Generator
     {
+        public static readonly string GENERATOR_StaticString = "Static String";
+        public static readonly string GENERATOR_Countries = "Countries";
+        public static readonly string GENERATOR_FemaleNames = "Female names";
+        public static readonly string GENERATOR_MaleNames = "Male names";
+        public static readonly string GENERATOR_Cities = "Cities";
+        public static readonly string GENERATOR_UserNames = "User Names";
+
         public static System.Collections.ObjectModel.ObservableCollection<Generator> GetStringGenerators(int length)
         {
             ObservableCollection<Generator> valueGenerators = new ObservableCollection<Generator>();
@@ -78,7 +85,7 @@ namespace SQLDataProducer.Entities.Generators
             paramss.Add(new GeneratorParameter("Value", ""));
             paramss.Add(new GeneratorParameter("Length", length, false));
 
-            Generator gen = new Generator("Static String", (n, p) =>
+            Generator gen = new Generator(GENERATOR_StaticString, (n, p) =>
             {
                 int l = int.Parse(GetParameterByName(p, "Length").ToString());
                 return Wrap(GetParameterByName(p, "Value").ToString().SubstringWithMaxLength(l));
@@ -92,7 +99,7 @@ namespace SQLDataProducer.Entities.Generators
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
             paramss.Add(new GeneratorParameter("Length", length, false));
-            Generator gen = new Generator("Countries", (n, p) =>
+            Generator gen = new Generator(GENERATOR_Countries, (n, p) =>
             {
                 int l = int.Parse(GetParameterByName(p, "Length").ToString());
                 return Wrap(CountryList[n.LongToInt() % CountryList.Count].SubstringWithMaxLength(l));
@@ -106,7 +113,7 @@ namespace SQLDataProducer.Entities.Generators
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
             paramss.Add(new GeneratorParameter("Length", length, false));
-            Generator gen = new Generator("Female names", (n, p) =>
+            Generator gen = new Generator(GENERATOR_FemaleNames, (n, p) =>
             {
                 int l = int.Parse(GetParameterByName(p, "Length").ToString());
                 return Wrap(Females[n.LongToInt() % Females.Count].SubstringWithMaxLength(l));
@@ -120,7 +127,7 @@ namespace SQLDataProducer.Entities.Generators
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
             paramss.Add(new GeneratorParameter("Length", length, false));
-            Generator gen = new Generator("Male names", (n, p) =>
+            Generator gen = new Generator(GENERATOR_MaleNames, (n, p) =>
             {
                 int l = int.Parse(GetParameterByName(p, "Length").ToString());
                 return Wrap(Males[n.LongToInt() % Males.Count].SubstringWithMaxLength(l));
@@ -134,7 +141,7 @@ namespace SQLDataProducer.Entities.Generators
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
             paramss.Add(new GeneratorParameter("Length", length, false));
-            Generator gen = new Generator("Cities", (n, p) =>
+            Generator gen = new Generator(GENERATOR_Cities, (n, p) =>
             {
                 int l = int.Parse(GetParameterByName(p, "Length").ToString());
                 return Wrap(Cities[n.LongToInt() % Cities.Count].SubstringWithMaxLength(l));
@@ -149,7 +156,7 @@ namespace SQLDataProducer.Entities.Generators
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
             paramss.Add(new GeneratorParameter("Length", length, false));
-            Generator gen = new Generator("User Names", (n, p) =>
+            Generator gen = new Generator(GENERATOR_UserNames, (n, p) =>
             {
                 int l = int.Parse(GetParameterByName(p, "Length").ToString());
                 return Wrap(UserNames[n.LongToInt() % UserNames.Count].SubstringWithMaxLength(l));
@@ -158,17 +165,7 @@ namespace SQLDataProducer.Entities.Generators
             return gen;
         }
 
-        //[GeneratorMetaData(Generators.GeneratorMetaDataAttribute.GeneratorType.String)]
-        //public static Generator CreateNULLValueGenerator()
-        //{
-        //    Generator gen = new Generator("NULL value", (n, p) =>
-        //    {
-        //        return "NULL";
-        //    }
-        //        , null);
-        //    return gen;
-        //}
-
+      
         private static List<string> _countries;
         static List<string> CountryList
         {

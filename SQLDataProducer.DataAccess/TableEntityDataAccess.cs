@@ -15,7 +15,7 @@
 using System;
 using System.Data.SqlClient;
 using System.Collections.ObjectModel;
-using SQLDataProducer.DatabaseEntities.Entities;
+using SQLDataProducer.Entities.DatabaseEntities;
 using SQLDataProducer.Entities.DatabaseEntities.Collections;
 using System.Collections.Generic;
 using System.Linq;

@@ -18,7 +18,7 @@ using System.Linq;
 using SQLDataProducer.Entities;
 using System.Data.SqlClient;
 using System.Collections.ObjectModel;
-using SQLDataProducer.DatabaseEntities.Entities;
+using SQLDataProducer.Entities.DatabaseEntities;
 using SQLDataProducer.Entities.Generators;
 using SQLDataProducer.EntityQueryGenerator;
 using SQLDataProducer.Entities.DatabaseEntities.Collections;

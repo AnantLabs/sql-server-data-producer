@@ -12,7 +12,7 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-using SQLDataProducer.DatabaseEntities.Entities;
+using SQLDataProducer.Entities.DatabaseEntities;
 using System.Collections.ObjectModel;
 using SQLDataProducer.Entities.DatabaseEntities.Collections;
 

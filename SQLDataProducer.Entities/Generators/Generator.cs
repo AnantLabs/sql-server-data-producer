@@ -17,11 +17,15 @@ using System.Linq;
 using System.ComponentModel;
 using SQLDataProducer.Entities.Generators.Collections;
 using System.Xml.Serialization;
+using System.Collections.Generic;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace SQLDataProducer.Entities.Generators
 {
     public partial class Generator : INotifyPropertyChanged, IXmlSerializable
     {
+       
         protected ValueCreatorDelegate ValueGenerator { get; set; }
 
         GeneratorParameterCollection _genParameters;
@@ -58,17 +62,74 @@ namespace SQLDataProducer.Entities.Generators
                 }
             }
         }
+        private string _generatorHelpText;
+        public string GeneratorHelpText
+        {
+            get
+            {
+                return _generatorHelpText;
+            }
+            set
+            {
+                _generatorHelpText = value;
+                OnPropertyChanged("GeneratorHelpText");
+            }
+        }
 
         protected Generator(string generatorName, ValueCreatorDelegate generator, GeneratorParameterCollection genParams)
         {
             ValueGenerator = generator;
             GeneratorParameters = genParams ?? new GeneratorParameterCollection();
             GeneratorName = generatorName;
+            GeneratorHelpText = GetGeneratorHelpText(generatorName);
         }
 
         public Generator()
         {
             GeneratorParameters = new GeneratorParameterCollection();
+        }
+
+        // cache to hold the generator texts to avoid reading the xml file multiple times.
+        private static Dictionary<string, string> generatorHelpTexts;
+
+        private static string GetGeneratorHelpText(string generatorName)
+        {
+            if (generatorHelpTexts == null)
+                generatorHelpTexts = LoadGeneratorHelpTexts();
+            
+            // If the generator name was not found in the dictionary just return empty string.
+            string ret = String.Empty;
+            if (generatorHelpTexts.ContainsKey(generatorName))
+                ret = generatorHelpTexts[generatorName];
+
+            return ret;
+        }
+
+        private static Dictionary<string, string> LoadGeneratorHelpTexts()
+        {
+            var dic = new Dictionary<string, string>();
+            
+            try
+            {
+                string helpTextFile = @".\Generators\resources\GeneratorHelpTexts.xml";
+
+                XDocument doc = XDocument.Load(helpTextFile);
+                var texts = from en in doc.Descendants("Text")
+                            select new
+                            {
+                                GenName = en.Attribute("generatorName").Value,
+                                Text = en.Value
+                            };
+
+                foreach (var kv in texts)
+                    dic.Add(kv.GenName, kv.Text);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+
+            return dic;
         }
 
         public override string ToString()
@@ -96,33 +157,7 @@ namespace SQLDataProducer.Entities.Generators
             return paramas.Where(x => x.ParameterName == name).First().Value;
         }
 
-        [GeneratorMetaData(Generators.GeneratorMetaDataAttribute.GeneratorType.General)]
-        protected static Generator CreateQueryGenerator()
-        {
-            GeneratorParameterCollection paramss = new GeneratorParameterCollection();
-
-            paramss.Add(new GeneratorParameter("Query", "select ..."));
-
-            Generator gen = new Generator("Custom SQL Query", (n, p) =>
-            {
-                string value = GetParameterByName(p, "Query").ToString();
-
-                return string.Format("({0})", value);
-            }
-                , paramss);
-            return gen;
-        }
-
-        [GeneratorMetaData(Generators.GeneratorMetaDataAttribute.GeneratorType.General)]
-        public static Generator CreateNULLValueGenerator()
-        {
-            Generator gen = new Generator("NULL value", (n, p) =>
-            {
-                return "NULL";
-            }
-                , null);
-            return gen;
-        }
+        
 
         protected void OnPropertyChanged(string propertyName)
         {

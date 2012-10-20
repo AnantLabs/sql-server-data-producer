@@ -16,7 +16,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SQLDataProducer.Entities;
-using SQLDataProducer.DatabaseEntities.Entities;
+using SQLDataProducer.Entities.DatabaseEntities;
 using SQLDataProducer.Entities.ExecutionEntities;
 
 namespace SQLDataProducer.TaskExecuter

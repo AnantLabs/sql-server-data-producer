@@ -14,7 +14,7 @@
 
 using System;
 using SQLDataProducer.Entities.ExecutionEntities;
-using SQLDataProducer.DatabaseEntities.Entities;
+using SQLDataProducer.Entities.DatabaseEntities;
 using SQLDataProducer.DataAccess;
 using SQLDataProducer.TaskExecuter;
 using SQLDataProducer.Entities;

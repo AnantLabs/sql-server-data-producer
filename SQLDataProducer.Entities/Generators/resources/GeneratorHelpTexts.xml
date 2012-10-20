@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<HelpTexts lang="en">
+  <Text generatorName="Static String">Any static string you configure, do not enclose in quoatation marks</Text>
+  <Text generatorName="Countries">A country from the Countries.txt file. Will get the N:th country from the file for each generation.</Text>
+  <Text generatorName="Female names">A female name from the FemaleNames.txt file. Will get the N:th name from the file for each generation.</Text>
+  <Text generatorName="Male names">A country from the MaleNames.txt file. Will get the N:th name from the file for each generation.</Text>
+  <Text generatorName="Cities">A country from the Cities.txt file. Will get the N:th city from the file for each generation.</Text>
+  <Text generatorName="User Names">A country from the UserNames.txt file. Will get the N:th username from the file for each generation.</Text>
+
+  <Text generatorName="Current Date">Current date of your computer</Text>
+  <Text generatorName="Static Date">Static date you configure, do not enclose in quatation marks</Text>
+  <Text generatorName="SQL GetDate()">Use GetDate() function for this column.</Text>
+  <Text generatorName="Random Date">A randomly generated date</Text>
+  <Text generatorName="Seconds Series">startdate + N seconds</Text>
+  <Text generatorName="Miliseconds Series">startdate + N milliseconds</Text>
+  <Text generatorName="Minutes Series">startdate + N minutes</Text>
+  <Text generatorName="Hours Series">startdate + N hours</Text>
+  <Text generatorName="Days Series">startdate + N days</Text>
+
+  <Text generatorName="Random Decimal">A random decimal within the limits of the configuration</Text>
+  <Text generatorName="Counting up Decimal">Decimal number counting up using N</Text>
+
+  <Text generatorName="Custom SQL Query">Any sql query you wish to use</Text>
+  <Text generatorName="NULL value">Will simply use NULL as value for this column</Text>
+
+  <Text generatorName="Value from other Column">Select a column to use the same value as it generated. The other column must be higher up in the Execution Item List (ie it must have generated it's value before this generator runs)</Text>
+  <Text generatorName="Random FOREIGN KEY Value (EAGER)">Random foreign key from the FK-Cache. Will not include rows inserted after the analyzes of the DB.</Text>
+  <Text generatorName="Sequential FOREIGN KEY Value (EAGER)">The N:th foreign key from the FK-Cache. Will not include rows inserted after the analyzes of the DB.</Text>
+  <Text generatorName="Random Int">A randomly generated integer within the configured limits</Text>
+  <Text generatorName="Counting up Integer">N, starting from the min value up to the max value and back to the min value</Text>
+  <Text generatorName="Identity from previous item">Will use the Identity value inserted by another item. Select the Item number that you wish to get identify from.</Text>
+  <Text generatorName="Static Number">Any static number you configure</Text>
+  <Text generatorName="Normally Distributed Random Numbers">Random integers (Normally distributed)</Text>
+  <Text generatorName="Exponential Random Numbers">Random integers (Exponential)</Text>
+  <Text generatorName="Weibull Random Numbers">Random integers (Weibull)</Text>
+  <Text generatorName="Laplace Random Numbers">Random integers (Laplace)</Text>
+</HelpTexts>
+
+<!--Static String
+Countries
+Female names
+Male names
+Cities
+User Names
+
+Current Date
+Static Date
+SQL GetDate()
+Random Date
+Seconds Series
+Miliseconds Series
+Minutes Series
+Hours Series
+Days Series
+
+Random Decimal
+Counting up Decimal
+
+Custom SQL Query
+NULL value
+
+Value from other Column
+Random FOREIGN KEY Value (EAGER)
+Sequential FOREIGN KEY Value (EAGER)
+Random Int
+Counting up Integer
+Identity from previous item
+Static Number
+Normally Distributed Random Numbers
+Exponential Random Numbers
+Weibull Random Numbers
+Laplace Random Numbers-->

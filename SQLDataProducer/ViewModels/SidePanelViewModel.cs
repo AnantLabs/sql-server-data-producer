@@ -17,7 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SQLDataProducer.DataAccess;
-using SQLDataProducer.DatabaseEntities.Entities;
+using SQLDataProducer.Entities.DatabaseEntities;
 using System.Windows;
 using SQLDataProducer.EntityQueryGenerator;
 using SQLDataProducer.Entities.OptionEntities;

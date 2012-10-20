@@ -148,6 +148,7 @@
                 </GroupBox>
 
                 <GroupBox Header="Configure the Parameters for the Generator" Grid.Column="1" Grid.Row="1">
+                    <StackPanel>
                     <ListBox
                         ItemsSource="{Binding Model.SelectedColumn.Generator.GeneratorParameters}" 
                         IsEnabled="{Binding Model.SelectedColumn.IsNotIdentity}"  VerticalAlignment="Stretch">
@@ -177,6 +178,10 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
+                        <GroupBox Header="Generator Tip!">
+                            <TextBlock Text="{Binding Model.SelectedColumn.Generator.GeneratorHelpText}" TextWrapping="Wrap" />
+                        </GroupBox>
+                    </StackPanel>
                 </GroupBox>
             </Grid>
         </GroupBox>

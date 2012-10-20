@@ -15,7 +15,7 @@
 using System.Windows.Controls;
 using SQLDataProducer.ViewModels;
 using System;
-using SQLDataProducer.DatabaseEntities.Entities;
+using SQLDataProducer.Entities.DatabaseEntities;
 
 namespace SQLDataProducer.Views
 {

@@ -13,8 +13,9 @@
 //   limitations under the License.
 
 using System;
-using SQLDataProducer.DatabaseEntities.Entities;
+using SQLDataProducer.Entities.DatabaseEntities;
 using System.Xml.Serialization;
+using System.Linq;
 
 namespace SQLDataProducer.Entities.ExecutionEntities
 {
@@ -72,6 +73,13 @@ namespace SQLDataProducer.Entities.ExecutionEntities
             TargetTable = table;
             Order = int.MinValue;
             Description = description;
+            bool tableValidationCorrect = table.Validate();
+            if (!tableValidationCorrect)
+            {
+                //WarningType = ExecutionItemWarningType.MissingForeignKeyWarning;
+                WarningText = "This tables have columns that references other tables with no rows. During insertion this will fail due with a foreign key Exception";
+            }
+            
         }
 
         public ExecutionItem()
@@ -146,16 +154,13 @@ namespace SQLDataProducer.Entities.ExecutionEntities
 
         public ExecutionItem Clone()
         {
-            return ExecutionItem.Create(this.Description, this.RepeatCount, this.TargetTable.Clone(), this.TruncateBeforeExecution);
-        }
+            TableEntity clonedTable = this.TargetTable.Clone();
 
-        private static ExecutionItem Create(string description, int repeatCount, TableEntity table, bool truncateBeforeExecution)
-        {
-            var tabl = new TableEntity(table.TableSchema, table.TableName);
-            var ei = new ExecutionItem(table);
-            ei.Description = description;
-            ei.RepeatCount = repeatCount;
-            ei.TruncateBeforeExecution = truncateBeforeExecution;
+            var tabl = new TableEntity(clonedTable.TableSchema, clonedTable.TableName);
+            var ei = new ExecutionItem(clonedTable);
+            ei.Description = this.Description;
+            ei.RepeatCount = this.RepeatCount;
+            ei.TruncateBeforeExecution = this.TruncateBeforeExecution;
             return ei;
         }
 
@@ -229,6 +234,40 @@ namespace SQLDataProducer.Entities.ExecutionEntities
         public override string ToString()
         {
             return string.Format("{0} : {1}", Order, TargetTable.ToString());
+        }
+
+        private bool _hasWarning = false;
+        /// <summary>
+        /// This Execution Item have some kind of warning that might cause problems during execution
+        /// </summary>
+        public bool HasWarning
+        {
+            get
+            {
+                return _hasWarning;
+            }
+            set
+            {
+                _hasWarning = value;
+                OnPropertyChanged("HasWarning");
+            }
+        }
+
+        private string _warningText = string.Empty;
+        /// <summary>
+        /// Contains warning text if the this execution item have a warning that might cause problems during execution.
+        /// </summary>
+        public string WarningText
+        {
+            get
+            {
+                return _warningText;
+            }
+            set
+            {
+                _warningText = value;
+                OnPropertyChanged("WarningText");
+            }
         }
     }
 }

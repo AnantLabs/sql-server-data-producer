@@ -13,7 +13,7 @@
 //   limitations under the License.
 
 using System.Linq;
-using SQLDataProducer.DatabaseEntities.Entities;
+using SQLDataProducer.Entities.DatabaseEntities;
 using System.Collections.ObjectModel;
 using SQLDataProducer.DataAccess;
 using SQLDataProducer.Entities.DatabaseEntities.Collections;
@@ -45,6 +45,11 @@ namespace SQLDataProducer.EntityQueryGenerator
             ForeignKeyContainerCache = new ObservableCollection<ForeignKeyContainer>();
         }
 
+        /// <summary>
+        /// When a new row is inserted in the table, add the key to the cache
+        /// </summary>
+        /// <param name="table"></param>
+        /// <param name="insertedKey"></param>
         public void AddKeyToTable(TableEntity table, long insertedKey)
         {
 
@@ -80,8 +85,8 @@ namespace SQLDataProducer.EntityQueryGenerator
     class ForeignKeyContainer
     {
 
-        private DatabaseEntities.Entities.TableEntity _table;
-        public DatabaseEntities.Entities.TableEntity Table
+        private TableEntity _table;
+        public TableEntity Table
         {
             get { return _table; }
             set { _table = value; }
@@ -101,7 +106,7 @@ namespace SQLDataProducer.EntityQueryGenerator
             set { _keyColumnName = value; }
         }
 
-        public ForeignKeyContainer(DatabaseEntities.Entities.TableEntity table, string keyColumnName, ForeignKeyCollection keys)
+        public ForeignKeyContainer(TableEntity table, string keyColumnName, ForeignKeyCollection keys)
         {
             this._table = table;
             this._keyValues = keys;

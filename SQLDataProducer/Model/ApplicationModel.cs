@@ -13,7 +13,7 @@
 //   limitations under the License.
 
 using System.Collections.ObjectModel;
-using SQLDataProducer.DatabaseEntities.Entities;
+using SQLDataProducer.Entities.DatabaseEntities;
 using SQLDataProducer.Entities.ExecutionEntities;
 using SQLDataProducer.Entities.OptionEntities;
 using SQLDataProducer.Entities.DatabaseEntities.Collections;
