@@ -27,14 +27,25 @@ namespace SQLDataProducer.Entities.DatabaseEntities
         public static event TableWithForeignKeyInsertedRowEventHandler ForeignKeyGenerated = delegate { };
 
         public TableEntity(string tableSchema, string tableName)
+            : this()
         {
-            Columns = new ColumnEntityCollection();
             TableName = tableName;
             TableSchema = tableSchema;
         }
         public TableEntity()
         {
             Columns = new ColumnEntityCollection();
+            Columns.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(Columns_CollectionChanged);
+
+        }
+
+        void Columns_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            foreach (ColumnEntity item in e.NewItems)
+            {
+                if (item.HasWarning)
+                    HasWarning = true;
+            }
         }
 
         ColumnEntityCollection _columns;
@@ -49,6 +60,7 @@ namespace SQLDataProducer.Entities.DatabaseEntities
                 if (_columns != value)
                 {
                     _columns = value;
+                    HasWarning = _columns.Any(c => c.HasWarning);
                     OnPropertyChanged("Columns");
                 }
             }
@@ -126,6 +138,7 @@ namespace SQLDataProducer.Entities.DatabaseEntities
         {
             var t = new TableEntity(tableSchema, tableName);
             t.Columns = cols;
+            
             return t;
         }
 
@@ -208,12 +221,6 @@ namespace SQLDataProducer.Entities.DatabaseEntities
                 _warningText = value;
                 OnPropertyChanged("WarningText");
             }
-        }
-
-        public bool Validate()
-        {
-            bool valid = Columns.All(x => x.HasWarning == false);
-            return valid;
         }
     }
 }

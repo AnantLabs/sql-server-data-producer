@@ -40,6 +40,7 @@ namespace SQLDataProducer.Entities.ExecutionEntities
                 if (_targetTable != value)
                 {
                     _targetTable = value;
+                    HasWarning = _targetTable.HasWarning;
                     OnPropertyChanged("TargetTable");
                 }
             }
@@ -69,22 +70,15 @@ namespace SQLDataProducer.Entities.ExecutionEntities
         /// <param name="table">The table to generate data for</param>
         /// <param name="order">the order of the execution item. Is used to generate the name of variables so that other execution items can depend on this</param>
         public ExecutionItem(TableEntity table, string description = "")
+            : this()
         {
             TargetTable = table;
-            Order = int.MinValue;
             Description = description;
-            bool tableValidationCorrect = table.Validate();
-            if (!tableValidationCorrect)
-            {
-                //WarningType = ExecutionItemWarningType.MissingForeignKeyWarning;
-                WarningText = "This tables have columns that references other tables with no rows. During insertion this will fail due with a foreign key Exception";
-            }
-            
         }
 
         public ExecutionItem()
         {
-
+            Order = int.MinValue;
         }
 
 

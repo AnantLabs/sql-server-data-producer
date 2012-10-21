@@ -177,8 +177,29 @@ namespace SQLDataProducer.Entities.DatabaseEntities
                 }
             }
         }
-        
-       
+
+
+
+        private ColumnEntity(string columnName, ColumnDataTypeDefinition columnDatatype, bool isIdentity, int ordinalPosition, bool isForeignKey, ForeignKeyEntity foreignKeyEntity, ObservableCollection<Generator> possibleGenerators)
+        {
+            this.ColumnName = columnName;
+            this.ColumnDataType = columnDatatype;
+            this.OrdinalPosition = ordinalPosition;
+            this.IsIdentity = isIdentity;
+
+            this.IsForeignKey = isForeignKey;
+            this.ForeignKey = foreignKeyEntity;
+            
+            this.PossibleGenerators = possibleGenerators;
+
+
+            if (IsForeignKey && ForeignKey.Keys.Count == 0)
+            {
+                HasWarning = true;
+                WarningText = "This column is referencing a table without foreign keys. Insertion will fail unless you use the Identity from item# generator.";
+            }
+
+        }
 
         /// <summary>
         /// Constructor of the ColumnEntity
@@ -190,33 +211,18 @@ namespace SQLDataProducer.Entities.DatabaseEntities
         /// <param name="isForeignKey">true if this table is referencing another table using foreign key</param>
         /// <param name="generator">the default generator for this column</param>
         /// <param name="possibleGenerators">the possible generators for this column</param>
-        public ColumnEntity(string columnName, ColumnDataTypeDefinition columnDatatype, bool isIdentity, int ordinalPosition, bool isForeignKey, ForeignKeyEntity foreignKeyEntity, ObservableCollection<Generator> possibleGenerators, Generator generator)
+        internal ColumnEntity(string columnName, ColumnDataTypeDefinition columnDatatype, bool isIdentity, int ordinalPosition, bool isForeignKey, ForeignKeyEntity foreignKeyEntity, ObservableCollection<Generator> possibleGenerators, Generator generator)
+            : this(columnName, columnDatatype, isIdentity, ordinalPosition, isForeignKey, foreignKeyEntity, possibleGenerators)
         {
-            this.ColumnName = columnName;
-            this.ColumnDataType = columnDatatype;
-            this.OrdinalPosition = ordinalPosition;
-            this.IsIdentity = isIdentity;
-
-            this.IsForeignKey = isForeignKey;
-            this.ForeignKey = foreignKeyEntity;
-
             this.Generator = generator ?? possibleGenerators.First();
-            this.PossibleGenerators = possibleGenerators;
-
         }
-        public ColumnEntity(string columnName, ColumnDataTypeDefinition columnDatatype, bool isIdentity, int ordinalPosition, bool isForeignKey, ForeignKeyEntity foreignKeyEntity, ObservableCollection<Generator> generators, string generatorName)
+
+        internal ColumnEntity(string columnName, ColumnDataTypeDefinition columnDatatype, bool isIdentity, int ordinalPosition, bool isForeignKey, ForeignKeyEntity foreignKeyEntity, ObservableCollection<Generator> possibleGenerators, string generatorName)
+            : this(columnName, columnDatatype, isIdentity, ordinalPosition, isForeignKey, foreignKeyEntity, possibleGenerators)
         {
-            this.ColumnName = columnName;
-            this.ColumnDataType = columnDatatype;
-            this.OrdinalPosition = ordinalPosition;
-            this.IsIdentity = isIdentity;
-
-            this.IsForeignKey = isForeignKey;
-            this.ForeignKey = foreignKeyEntity;
-
-            this.Generator = generators.Where(g => g.GeneratorName == generatorName).First();
-            this.PossibleGenerators = generators;
+            this.Generator = possibleGenerators.Where(g => g.GeneratorName == generatorName).First();
         }
+
         public ColumnEntity()
         {
 
@@ -302,7 +308,7 @@ namespace SQLDataProducer.Entities.DatabaseEntities
         /// <summary>
         /// Contains warning text if the this item have a warning that might cause problems during execution.
         /// </summary>
-        public string WarningText
+        public string WarningText 
         {
             get
             {
@@ -315,10 +321,6 @@ namespace SQLDataProducer.Entities.DatabaseEntities
             }
         }
 
-        public bool Validate()
-        {
-            bool valid = false;
-            return valid;
-        }
+      
     }
 }

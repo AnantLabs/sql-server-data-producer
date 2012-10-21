@@ -108,6 +108,7 @@
                             Grid.RowSpan="2" 
                             AutoGenerateColumns="false" 
                             IsReadOnly="True" 
+                            SelectionMode="Single"
                             SelectionUnit="FullRow"
                             SelectedItem="{Binding Model.SelectedColumn, Mode=TwoWay}"
                             Style="{DynamicResource ResourceKey=DataGridDemoStyle}"
@@ -116,6 +117,16 @@
                         <DataGridTextColumn Binding="{Binding ColumnName}" Header="Column Name" IsReadOnly="True"/>
                         <DataGridTextColumn Binding="{Binding ColumnDataType}" Header="Data Type" IsReadOnly="True" />
                         <DataGridCheckBoxColumn IsReadOnly="True" Binding="{Binding ColumnDataType.IsNullable}" Header="Nullable?" />
+                        
+                        <DataGridTemplateColumn>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Image 
+                                Source="/SQLDataProducer;component/Styles/Warning.png" ToolTip="{Binding WarningText}" Visibility="{Binding HasWarning, Converter={StaticResource ResourceKey=visiConv}}"  />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        
                         <DataGridTemplateColumn Header="Data Generator">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
@@ -178,7 +189,7 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                        <GroupBox Header="Generator Tip!">
+                        <GroupBox Header="Generator Description">
                             <TextBlock Text="{Binding Model.SelectedColumn.Generator.GeneratorHelpText}" TextWrapping="Wrap" />
                         </GroupBox>
                     </StackPanel>

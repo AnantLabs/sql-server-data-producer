@@ -362,7 +362,7 @@ namespace SQLDataProducer.Entities.Generators
                 long plus = long.Parse(GetParameterByName(p, "Referenced value plus").ToString());
                 ColumnEntity otherColumn = GetParameterByName(p, "Referenced Column") as ColumnEntity;
 
-                if (otherColumn.PreviouslyGeneratedValue != null)
+                if (otherColumn != null && otherColumn.PreviouslyGeneratedValue != null)
                 {
                     long a;
                     if (long.TryParse(otherColumn.PreviouslyGeneratedValue.ToString(), out a))
@@ -370,9 +370,9 @@ namespace SQLDataProducer.Entities.Generators
                     else
                         return otherColumn.PreviouslyGeneratedValue;
                 }
-                 
 
-                throw new ArgumentNullException("otherColumn.PreviouslyGeneratedValue");
+
+                return Wrap("NULL");
             }
                 , paramss);
             return gen;

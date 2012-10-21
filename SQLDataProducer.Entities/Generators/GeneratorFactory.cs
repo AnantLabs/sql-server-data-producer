@@ -23,7 +23,7 @@ using SQLDataProducer.Entities;
 
 //
 
-namespace SQLDataProducer.DataAccess.Factories
+namespace SQLDataProducer.Entities.Generators
 {
     public class GeneratorFactory
     {
@@ -67,21 +67,21 @@ namespace SQLDataProducer.DataAccess.Factories
             }
         }
 
-        private static ObservableCollection<Generator> GetDefaultGeneratorsForDataType2(ColumnDataTypeDefinition dbataTypeDef)
-        {
-            System.Reflection.MemberInfo inf = typeof(Generator);
+        //private static ObservableCollection<Generator> GetDefaultGeneratorsForDataType2(ColumnDataTypeDefinition dbataTypeDef)
+        //{
+        //    System.Reflection.MemberInfo inf = typeof(Generator);
 
-            object[] attributes =
-               inf.GetCustomAttributes(
-                    typeof(GeneratorMetaDataAttribute), false);
+        //    object[] attributes =
+        //       inf.GetCustomAttributes(
+        //            typeof(GeneratorMetaDataAttribute), false);
 
-            foreach (GeneratorMetaDataAttribute attribute in attributes)
-            {
+        //    foreach (GeneratorMetaDataAttribute attribute in attributes)
+        //    {
                 
-            }
+        //    }
 
-            return null;
-        }
+        //    return null;
+        //}
 
         public static System.Collections.Generic.IEnumerable<Generator> GetForeignKeyGenerators(ObservableCollection<string> fkKeys)
         {

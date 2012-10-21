@@ -17,23 +17,28 @@
   <Text generatorName="Hours Series">startdate + N hours</Text>
   <Text generatorName="Days Series">startdate + N days</Text>
 
-  <Text generatorName="Random Decimal">A random decimal within the limits of the configuration</Text>
-  <Text generatorName="Counting up Decimal">Decimal number counting up using N</Text>
+  <Text generatorName="Random Decimal">A random decimal within the limits of the configuration.</Text>
+  <Text generatorName="Counting up Decimal">Decimal number counting up using N.</Text>
 
-  <Text generatorName="Custom SQL Query">Any sql query you wish to use</Text>
-  <Text generatorName="NULL value">Will simply use NULL as value for this column</Text>
+  <Text generatorName="Custom SQL Query">Any sql query you wish to use.</Text>
+  <Text generatorName="NULL value">Will simply use NULL as value for this column.</Text>
 
-  <Text generatorName="Value from other Column">Select a column to use the same value as it generated. The other column must be higher up in the Execution Item List (ie it must have generated it's value before this generator runs)</Text>
+  <Text generatorName="Value from other Column">Select a column to use the same value as it generated. The other column must be higher up in the Execution Item List (ie it must have generated it's value before this generator runs).</Text>
   <Text generatorName="Random FOREIGN KEY Value (EAGER)">Random foreign key from the FK-Cache. Will not include rows inserted after the analyzes of the DB.</Text>
   <Text generatorName="Sequential FOREIGN KEY Value (EAGER)">The N:th foreign key from the FK-Cache. Will not include rows inserted after the analyzes of the DB.</Text>
-  <Text generatorName="Random Int">A randomly generated integer within the configured limits</Text>
-  <Text generatorName="Counting up Integer">N, starting from the min value up to the max value and back to the min value</Text>
+  <Text generatorName="Random Int">A randomly generated integer within the configured limits.</Text>
+  <Text generatorName="Counting up Integer">N, starting from the min value up to the max value and back to the min value.</Text>
   <Text generatorName="Identity from previous item">Will use the Identity value inserted by another item. Select the Item number that you wish to get identify from.</Text>
-  <Text generatorName="Static Number">Any static number you configure</Text>
-  <Text generatorName="Normally Distributed Random Numbers">Random integers (Normally distributed)</Text>
-  <Text generatorName="Exponential Random Numbers">Random integers (Exponential)</Text>
-  <Text generatorName="Weibull Random Numbers">Random integers (Weibull)</Text>
-  <Text generatorName="Laplace Random Numbers">Random integers (Laplace)</Text>
+  <Text generatorName="Static Number">Any static number you configure.</Text>
+  <Text generatorName="Normally Distributed Random Numbers">Random integers (Normally distributed).</Text>
+  <Text generatorName="Exponential Random Numbers">Random integers (Exponential).</Text>
+  <Text generatorName="Weibull Random Numbers">Random integers (Weibull).</Text>
+  <Text generatorName="Laplace Random Numbers">Random integers (Laplace).</Text>
+
+  <Text generatorName="Random GUID">Random GUID, generated from .Net.</Text>
+  <Text generatorName="Static GUID">Static GUID that you configure, do not enclose in qoutation marks.</Text>
+  
+  
 </HelpTexts>
 
 <!--Static String

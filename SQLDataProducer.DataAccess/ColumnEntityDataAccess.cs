@@ -24,6 +24,7 @@ using SQLDataProducer.EntityQueryGenerator;
 using SQLDataProducer.Entities.DatabaseEntities.Collections;
 using SQLDataProducer.Entities.DatabaseEntities;
 using SQLDataProducer.DataAccess.Factories;
+using SQLDataProducer.Entities.DatabaseEntities.Factories;
 
 namespace SQLDataProducer.DataAccess
 {
@@ -40,16 +41,16 @@ namespace SQLDataProducer.DataAccess
         {
             ColumnDataTypeDefinition dbType = new ColumnDataTypeDefinition(reader.GetString(reader.GetOrdinal("DataType")), reader.GetBoolean(reader.GetOrdinal("IsNullable")));
             
-            ObservableCollection<Generator> possibleGenerators = GeneratorFactory.GetGeneratorsForDataType(dbType);
-            Generator defaultGenerator = possibleGenerators.FirstOrDefault();
-            
-            return new ColumnEntity(reader.GetString(reader.GetOrdinal("ColumnName")), dbType, (bool)reader["IsIdentity"], reader.GetInt32(reader.GetOrdinal("OrdinalPosition")), (bool)reader["IsForeignKey"], new ForeignKeyEntity
+            //ObservableCollection<Generator> possibleGenerators = GeneratorFactory.GetGeneratorsForDataType(dbType);
+            //Generator defaultGenerator = possibleGenerators.FirstOrDefault();
+
+            return DatabaseEntityFactory.Instance.CreateColumnEntity(reader.GetString(reader.GetOrdinal("ColumnName")), dbType, (bool)reader["IsIdentity"], reader.GetInt32(reader.GetOrdinal("OrdinalPosition")), (bool)reader["IsForeignKey"], new ForeignKeyEntity
                 {
                     ReferencingTable = new TableEntity(
                         reader.GetStringOrEmpty("ReferencedTableSchema"),
                         reader.GetStringOrEmpty("ReferencedTable")),
                     ReferencingColumn = reader.GetStringOrEmpty("ReferencedColumn")
-                }, possibleGenerators, defaultGenerator);
+                });
         };
 
 

@@ -20,6 +20,8 @@ namespace SQLDataProducer.Entities.Generators
 {
     public partial class Generator
     {
+        private const string GENERATOR_RandomGUID = "Random GUID";
+        private const string GENERATOR_StaticGUID = "Static GUID";
         public static ObservableCollection<Generator> GetGUIDGenerators()
         {
             ObservableCollection<Generator> valueGenerators = new ObservableCollection<Generator>();
@@ -36,7 +38,7 @@ namespace SQLDataProducer.Entities.Generators
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
 
-            Generator gen = new Generator("Random GUID", (n, p) =>
+            Generator gen = new Generator(GENERATOR_RandomGUID, (n, p) =>
             {
                 return Wrap(Guid.NewGuid());
             }
@@ -51,7 +53,7 @@ namespace SQLDataProducer.Entities.Generators
 
             paramss.Add(new GeneratorParameter("GUID", new Guid()));
 
-            Generator gen = new Generator("Static GUID", (n, p) =>
+            Generator gen = new Generator(GENERATOR_StaticGUID, (n, p) =>
             {
                 string value = GetParameterByName(p, "GUID").ToString();
 
