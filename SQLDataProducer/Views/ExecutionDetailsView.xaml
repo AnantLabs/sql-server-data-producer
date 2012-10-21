@@ -55,19 +55,19 @@
         <Style TargetType="ContentControl" x:Key="ParameterConfigurationStyle">
             <Setter Property="Content">
                 <Setter.Value>
-                    <TextBox Text="{Binding Value, Mode=TwoWay}" />
+                    <TextBox Text="{Binding Path=Value, Mode=TwoWay}" Visibility="Visible" />
                 </Setter.Value>
             </Setter>
             <Setter Property="IsEnabled" Value="True" />
             
             <Style.Triggers>
-                <DataTrigger Binding="{Binding ParameterName}" Value="DATE">
+                <!--<DataTrigger Binding="{Binding ParameterName}" Value="DATE">
                     <Setter Property="Content">
                         <Setter.Value>
                             <DatePicker DisplayDate="{Binding Value, Mode=TwoWay}" />
                         </Setter.Value>
                     </Setter>
-                </DataTrigger>
+                </DataTrigger>-->
                 <DataTrigger Binding="{Binding ParameterName}" Value="Referenced Column" >
                     <Setter Property="IsEnabled" Value="False" />
                 </DataTrigger>
@@ -199,7 +199,11 @@
                                         <TextBlock Text="{Binding ParameterName}" Grid.Column="0" Margin="3 3 3 3" />
 
                                         <!--<TextBox Text="{Binding Value}"  Grid.Column="1" MinWidth="150" Style="{StaticResource ResourceKey=NotEnabledIfValueFromOtherColumnGenerator}"/>-->
-                                        <ContentControl DataContext="{Binding .}" Style="{StaticResource ResourceKey=ParameterConfigurationStyle}" Grid.Column="1" MinWidth="150" HorizontalAlignment="Left" />
+                                        <ContentControl 
+                                                        Style="{StaticResource ResourceKey=ParameterConfigurationStyle}" 
+                                                        Grid.Column="1" 
+                                                        MinWidth="150" 
+                                                        HorizontalAlignment="Left" />
 
                                         <Button Content="Pick Column" Grid.Column="2"
                                         Command="{Binding Path=DataContext.ConfigureReferenceParameterCommand, 
