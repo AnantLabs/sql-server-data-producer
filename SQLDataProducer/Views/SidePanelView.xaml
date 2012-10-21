@@ -22,7 +22,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
-        <ObjectDataProvider x:Key="executionTypeEnum"
+        <!--<ObjectDataProvider x:Key="executionTypeEnum"
                 MethodName="GetValues" ObjectType="{x:Type System:Enum}">
             <ObjectDataProvider.MethodParameters>
                 <x:Type TypeName="enums:ExecutionTypes"/>
@@ -35,75 +35,19 @@
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
 
-        <BooleanToVisibilityConverter x:Key="visiConv" />
+       
 
-        <conv:InverseBooleanConverter x:Key="inverseBoolConvrt" />
-        
+        <conv:InverseBooleanConverter x:Key="inverseBoolConvrt" />-->
+        <BooleanToVisibilityConverter x:Key="visiConv" />
     </UserControl.Resources>
     <StackPanel>
-        <!--<GroupBox Header="Select execution type"  IsEnabled="{Binding Model.IsExecutionIdle}">
-            <StackPanel>
-                <ComboBox 
-                    ItemsSource="{Binding Source={StaticResource executionTypeEnum}}" 
-                    SelectedItem="{Binding Path=Model.Options.ExecutionType, Mode=TwoWay}" />
-
-                <GroupBox Header="Time based execution:">
-                    <GroupBox.Style>
-                        <Style>
-                            <Setter Property="GroupBox.Visibility" Value="Collapsed" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding Model.Options.ExecutionType}" Value="DurationBased" >
-                                    <Setter Property="GroupBox.Visibility" Value="Visible" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </GroupBox.Style>
-
-                    <StackPanel>
-                        <Label Content="Seconds to run:" />
-                        <TextBox Margin="3 3 3 3" Text="{Binding Path=Model.Options.SecondsToRun, Mode=TwoWay}" />
-                        <Label Content="Number of threads:" />
-                        <TextBox Margin="3 3 3 3" Text="{Binding Path=Model.Options.MaxThreads}" />
-                    </StackPanel>
-                </GroupBox>
-
-                <GroupBox Header="Execution Count:">
-                    <GroupBox.Style>
-                        <Style>
-                            <Setter Property="GroupBox.Visibility" Value="Collapsed" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding Model.Options.ExecutionType}" Value="ExecutionCountBased" >
-                                    <Setter Property="GroupBox.Visibility" Value="Visible" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </GroupBox.Style>
-                    <StackPanel>
-                        <Label Content="Number of executions:" />
-                        <TextBox Margin="3 3 3 3" Text="{Binding Path=Model.Options.FixedExecutions, Mode=TwoWay}" />
-                        <Label Content="Number of threads:" />
-                        <TextBox Margin="3 3 3 3" Text="{Binding Path=Model.Options.MaxThreads}" />
-                    </StackPanel>
-                </GroupBox>
-            </StackPanel>
-        </GroupBox>
-        <GroupBox Header="Options" IsEnabled="{Binding Model.IsExecutionIdle}">
-            <StackPanel>
-                <CheckBox Content="Do not execute, save script(s) in this folder:" IsChecked="{Binding Model.Options.OnlyOutputToFile, Mode=TwoWay}"/>
-                <TextBox Text="{Binding Model.Options.ScriptOutputFolder, Mode=TwoWay}"/>
-                <ComboBox SelectedItem="{Binding Model.Options.NumberGeneratorMethod, Mode=TwoWay}" 
-                          ItemsSource="{Binding Source={StaticResource numberGeneratorMethodsEnum}}" />
-            </StackPanel>
-        </GroupBox>-->
-        
-        
-        
         <GroupBox Header="Run / Stop"  >
             <StackPanel>
                 <Button Content="Configure and Run..." Command="{Binding ConfigureAndRunExecutionCommand}" IsEnabled="{Binding Model.IsExecutionIdle}"/>
                 <Button Content="Stop!" Command="{Binding StopExecutionCommand}" IsEnabled="{Binding Model.IsQueryRunning}" />
                 <ProgressBar 
                     Visibility="{Binding Model.IsQueryRunning, Converter={StaticResource ResourceKey=visiConv}}" 
+                    
                     Height="50" Margin="0 5 0 5" 
                     Maximum="100" 
                     Value="{Binding Model.Options.PercentCompleted}"   />

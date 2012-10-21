@@ -172,7 +172,7 @@
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Text="{Binding ParameterName}" Grid.Column="0" />
+                                    <TextBlock Text="{Binding ParameterName}" Grid.Column="0" Margin="3 3 3 3" />
                                     <TextBox Text="{Binding Value}"  Grid.Column="1" MinWidth="150" Style="{StaticResource ResourceKey=NotVisibleIfValueFromOtherColumnGenerator}"/>
 
                                     <Button Content="Pick Column" Grid.Column="2"

@@ -192,13 +192,6 @@ namespace SQLDataProducer.Entities.DatabaseEntities
             
             this.PossibleGenerators = possibleGenerators;
 
-            //ForeignKey.Keys.CollectionChanged += (sender, e) =>
-            //    {
-            //        if (ForeignKey.Keys.Count > 0)
-            //        {
-            //            HasWarning = false;
-            //        }
-            //    };
             ForeignKey.PropertyChanged += (sender, e) =>
             {
                 if (e.PropertyName == "Keys")
