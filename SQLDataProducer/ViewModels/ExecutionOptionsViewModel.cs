@@ -20,6 +20,9 @@ using System.Text;
 using SQLDataProducer.Model;
 using System.Windows;
 using SQLDataProducer.TaskExecuter;
+using SQLDataProducer.ModalWindows;
+using System.Threading;
+using System.Windows.Threading;
 
 namespace SQLDataProducer.ViewModels
 {
@@ -43,24 +46,6 @@ namespace SQLDataProducer.ViewModels
             }
         }
 
-
-        //string _startDateForDateTimeGenerators;
-        //public string StartDateForDateTimeGenerators
-        //{
-        //    get
-        //    {
-        //        return _startDateForDateTimeGenerators;
-        //    }
-        //    set
-        //    {
-        //        if (_startDateForDateTimeGenerators != value)
-        //        {
-        //            _startDateForDateTimeGenerators = value;
-        //            OnPropertyChanged("StartDateForDateTimeGenerators");
-        //        }
-        //    }
-        //}
-
         public ExecutionOptionsViewModel(ApplicationModel model)
         {
             this.Model = model;
@@ -77,10 +62,21 @@ namespace SQLDataProducer.ViewModels
             Model.IsQueryRunning = true;
 
             Model.WorkFlowManager = new WorkflowManager();
-            Model.WorkFlowManager.RunWorkFlowAsync(Model.Options, Model.ConnectionString, Model.ExecutionItems, (setsInserted) =>
+            Model.WorkFlowManager.RunWorkFlowAsync(Model.Options, Model.ConnectionString, Model.ExecutionItems, (executionResult) =>
             {
                 Model.IsQueryRunning = false;
-                MessageBox.Show(setsInserted.ToString());
+                // Modal window need to be started from STA thread.
+                Application.Current.Dispatcher.Invoke(
+                    DispatcherPriority.Normal,
+                    new ThreadStart(() =>
+                    {
+                        // Show the Execution Summary window with results.
+                        ExecutionSummaryWindow win = new ExecutionSummaryWindow();
+                        win.DataContext = executionResult;
+                        win.ShowDialog();
+                    })
+                    );
+                
             }
                 , string.Empty
                 , string.Empty);

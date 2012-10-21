@@ -67,6 +67,9 @@
     <Compile Include="ModalWindows\CloneExecutionItemWindow.xaml.cs">
       <DependentUpon>CloneExecutionItemWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ModalWindows\ExecutionSummaryWindow.xaml.cs">
+      <DependentUpon>ExecutionSummaryWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ModalWindows\YesNoWindow.xaml.cs">
       <DependentUpon>YesNoWindow.xaml</DependentUpon>
     </Compile>
@@ -122,6 +125,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="ModalWindows\CloneExecutionItemWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ModalWindows\ExecutionSummaryWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
