@@ -26,13 +26,13 @@
         <Grid x:Name="OrderRoot">
         <Grid.RowDefinitions>
             <RowDefinition Height="20" />
-            <RowDefinition Height="282*" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="148*" />
+            <ColumnDefinition Width="*" />
             <ColumnDefinition Width="44" />
-            <ColumnDefinition Width="148*" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
         <Grid>
@@ -49,36 +49,48 @@
             <Button Content="X" Grid.Column="1" Command="{Binding ClearSearchCriteraCommand}" />
         </Grid>
 
-        <ListBox 
+        <DataGrid 
                 ItemsSource="{Binding Model.TablesView}" 
                 SelectedItem="{Binding Model.SelectedTable, Mode=TwoWay}" 
                 ScrollViewer.VerticalScrollBarVisibility="Visible" 
+                ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+            
                 Grid.Row="1" 
+                AutoGenerateColumns="False"          
+                IsReadOnly="True"
+                SelectionMode="Single"
+                SelectionUnit="FullRow"
+            
+                Style="{DynamicResource ResourceKey=DataGridDemoStyle}"
                 >
-
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding Path=.}" >
-                            <TextBlock.InputBindings>
-                                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding DataContext.MoveItemRightCommand,
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Available Tables" Width="*" >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=.}" >
+                                <TextBlock.InputBindings>
+                                    <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding DataContext.MoveItemRightCommand,
                                         RelativeSource={RelativeSource FindAncestor, 
                                         AncestorType={x:Type UserControl}}}" />
-                    </TextBlock.InputBindings>
-                    </TextBlock>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+                                </TextBlock.InputBindings>
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+           
+        </DataGrid>
 
 
         <DataGrid ItemsSource="{Binding Model.ExecutionItems}" 
-                            AutoGenerateColumns="False"
-                            SelectedItem="{Binding Model.SelectedExecutionItem, Mode=TwoWay}" 
-                            Grid.Column="2"
-                            IsReadOnly="True"
-                            SelectionMode="Single"
-                            SelectionUnit="FullRow"
-                            ScrollViewer.VerticalScrollBarVisibility="Visible" Grid.RowSpan="2"
-                            Style="{DynamicResource ResourceKey=DataGridDemoStyle}"
+                    SelectedItem="{Binding Model.SelectedExecutionItem, Mode=TwoWay}" 
+                    Grid.Column="2"
+                    AutoGenerateColumns="False"          
+                    IsReadOnly="True"
+                    SelectionMode="Single"
+                    SelectionUnit="FullRow"
+                    ScrollViewer.VerticalScrollBarVisibility="Visible" Grid.RowSpan="2"
+                    Style="{DynamicResource ResourceKey=DataGridDemoStyle}"
                   >
 
             <DataGrid.Columns>
@@ -95,8 +107,8 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                
-                <DataGridTemplateColumn Header="Commands">
+
+                <DataGridTemplateColumn Header="Commands"  Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal" Grid.Column="4">
@@ -149,48 +161,3 @@
         </StackPanel>
     </Grid>
 </UserControl>
-
-
-
-<!--
-     <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="20" />
-                            <ColumnDefinition Width="200" />
-                            <ColumnDefinition Width="110" />
-                            <ColumnDefinition Width="110" />
-                            <ColumnDefinition Width="40*" />
-                            
-                        </Grid.ColumnDefinitions>
-
-                        <TextBlock Text="{Binding Order}" Grid.Column="0" />
-                        <TextBlock Text="{Binding Path=TargetTable.TableName}" Grid.Column="1" />
-                        <TextBlock Text="{Binding Path=Description}" Grid.Column="2" />
-                        <TextBlock Text="{Binding Path=RepeatCount}" Grid.Column="3" />
-                        
-                        <StackPanel Orientation="Horizontal" Grid.Column="4">
-                            <Button Content="Clone" 
-                                Command="{Binding Path=DataContext.CloneExecutionItemCommand, 
-                                        RelativeSource={RelativeSource FindAncestor, 
-                                        AncestorType={x:Type ListBox}}}" 
-                                CommandParameter="{Binding .}" />
-
-                            <Button Content="As Root" 
-                                Command="{Binding Path=DataContext.CreateTreeWithTableTableAsRootCommand, 
-                                        RelativeSource={RelativeSource FindAncestor, 
-                                        AncestorType={x:Type ListBox}}}" 
-                                CommandParameter="{Binding .TargetTable}" >
-                            </Button>
-                            
-                            <Button Content="As Leaf" 
-                                Command="{Binding Path=DataContext.CreateTreeWithTableAsLeafCommand, 
-                                        RelativeSource={RelativeSource FindAncestor, 
-                                        AncestorType={x:Type ListBox}}}" 
-                                CommandParameter="{Binding .TargetTable}" />
-                            
-                            
-                        </StackPanel>
-                    </Grid>
-    
-    -->
-    

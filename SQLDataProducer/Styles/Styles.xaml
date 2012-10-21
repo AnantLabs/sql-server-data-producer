@@ -465,7 +465,7 @@
         <Setter Property="AlternationCount" Value="4" />
         <Setter Property="RowStyle" Value="{StaticResource DataGridDemoRowStyle}" />
 
-        <Setter Property="RowHeaderWidth" Value="50" />
+        <Setter Property="RowHeaderWidth" Value="0" />
         <Setter Property="RowHeight" Value="22" />
         <Setter Property="HorizontalGridLinesBrush" Value="{StaticResource DataGridHorizontalLinesBrush}" />
         <Setter Property="CellStyle" Value="{StaticResource DataGridCellStyle}" />

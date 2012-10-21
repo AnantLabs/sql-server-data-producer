@@ -139,7 +139,7 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTextColumn Binding="{Binding Generator.GeneratorParameters.NiceString}" 
+                        <DataGridTextColumn Binding="{Binding Generator.GeneratorParameters.NiceString}" Width="*"
                                             Header="Parameters" IsReadOnly="True"/>
 
                     </DataGrid.Columns>
