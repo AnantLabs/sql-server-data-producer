@@ -34,22 +34,6 @@ namespace SQLDataProducer.Entities.Generators
         public static readonly string GENERATOR_LaplaceRandomNumbers = "Laplace Random Numbers";
 
 
-        static long _integerStartValue = 1;
-        public static long IntegerStartValue
-        {
-            get
-            {
-                return _integerStartValue;
-            }
-            set
-            {
-                if (_integerStartValue != value)
-                {
-                    _integerStartValue = value;
-                }
-            }
-        }
-
         public static ObservableCollection<Generator> GetGeneratorsForInt()
         {
             int maxValue = int.MaxValue;

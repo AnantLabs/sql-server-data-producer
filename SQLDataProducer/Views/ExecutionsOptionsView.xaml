@@ -109,8 +109,8 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="27"/>
-                        <RowDefinition Height="27"/>
                         <!--
+                        <RowDefinition Height="27"/>
                         <RowDefinition Height="20"/>
                         <RowDefinition Height="20"/>
                         <RowDefinition Height="20"/>-->
@@ -127,8 +127,8 @@
                                 DisplayDate="{Binding Model.Options.DateTimeGenerationStartTime, Mode=TwoWay}" 
                                 SelectedDate="{Binding Model.Options.DateTimeGenerationStartTime, Mode=TwoWay}"/>
 
-                    <TextBlock Text="Start Number for Integer generators" Grid.Column="0" Grid.Row="1" Margin="2 2 2 2" />
-                    <TextBox Text="{Binding Model.Options.StartValue, Mode=TwoWay}" IsEnabled="False" Grid.Column="1" Grid.Row="1" Margin="2 2 2 2"  />
+                    <!--<TextBlock Text="Start Number for Integer generators" Grid.Column="0" Grid.Row="1" Margin="2 2 2 2" />
+                    <TextBox Text="{Binding Model.Options.StartValue, Mode=TwoWay}" IsEnabled="False" Grid.Column="1" Grid.Row="1" Margin="2 2 2 2"  />-->
 
                 </Grid>
             </GroupBox>
