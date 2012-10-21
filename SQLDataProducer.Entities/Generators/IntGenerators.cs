@@ -118,7 +118,7 @@ namespace SQLDataProducer.Entities.Generators
                 if (keys == null || keys.Count == 0)
                     throw new ArgumentException("There are no foreign keys in the table that this column references");
                 
-                return keys[RandomSupplier.Instance.GetNextInt() % keys.Count];
+                return Wrap(keys[RandomSupplier.Instance.GetNextInt() % keys.Count]);
             }
                 , paramss);
             return gen;
@@ -149,7 +149,7 @@ namespace SQLDataProducer.Entities.Generators
                 {
                     mi = fkkeys.Count;
                 }
-                return keys[n.LongToInt() % keys.Count];
+                return Wrap(keys[n.LongToInt() % keys.Count]);
             }
                 , paramss);
             return gen;

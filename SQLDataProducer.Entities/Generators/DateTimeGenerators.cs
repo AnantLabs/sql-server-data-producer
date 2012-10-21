@@ -15,6 +15,7 @@
 using System;
 using System.Collections.ObjectModel;
 using SQLDataProducer.Entities.Generators.Collections;
+using SQLDataProducer.Entities.DatabaseEntities;
 
 
 namespace SQLDataProducer.Entities.Generators
@@ -30,6 +31,7 @@ namespace SQLDataProducer.Entities.Generators
         public static readonly string GENERATOR_MinutesSeries = "Minutes Series";
         public static readonly string GENERATOR_HoursSeries = "Hours Series";
         public static readonly string GENERATOR_DaysSeries = "Days Series";
+        public static readonly string GENERATOR_ValueFromOtherDateTimeColumn = "Value from other Column";
 
         private static DateTime _currentDate = new DateTime(DateTime.Now.Year -1, 12, 31);
         private static DateTime StartDate
@@ -61,6 +63,7 @@ namespace SQLDataProducer.Entities.Generators
             valueGenerators.Add(CreateRandomDateGenerator());
             valueGenerators.Add(CreateSecondSeriesGenerator());
             valueGenerators.Add(CreateSQLGetDateGenerator());
+            valueGenerators.Add(CreateValueFromOtherDateTimeColumnGenerator());
             
             return valueGenerators;
         }
@@ -235,9 +238,45 @@ namespace SQLDataProducer.Entities.Generators
                 , paramss);
             return gen;
         }
-       
 
 
+        [GeneratorMetaData(Generators.GeneratorMetaDataAttribute.GeneratorType.DateTime)]
+        private static Generator CreateValueFromOtherDateTimeColumnGenerator()
+        {
+            GeneratorParameterCollection paramss = new GeneratorParameterCollection();
+
+            paramss.Add(new GeneratorParameter("Referenced Column", null));
+            
+            paramss.Add(new GeneratorParameter("Shift Hours", 0));
+            paramss.Add(new GeneratorParameter("Shift Minutes", 0));
+            paramss.Add(new GeneratorParameter("Shift Seconds", 0));
+            paramss.Add(new GeneratorParameter("Shift Milliseconds", 0));
+            
+
+            Generator gen = new Generator(GENERATOR_ValueFromOtherDateTimeColumn, (n, p) =>
+            {
+                ColumnEntity otherColumn = GetParameterByName(p, "Referenced Column") as ColumnEntity;
+
+                if (otherColumn != null && otherColumn.PreviouslyGeneratedValue != null)
+                {
+                    DateTime a;
+                    if (!DateTime.TryParse(otherColumn.PreviouslyGeneratedValue.ToString().Replace("'", ""), out a))
+                        return Wrap("NULL"); // TODO: What to do if it fails? Exception? Logg?
+
+                    int h = int.Parse(GetParameterByName(p, "Shift Hours").ToString());
+                    int min = int.Parse(GetParameterByName(p, "Shift Minutes").ToString());
+                    int s = int.Parse(GetParameterByName(p, "Shift Seconds").ToString());
+                    int ms = int.Parse(GetParameterByName(p, "Shift Milliseconds").ToString());
+
+                    return Wrap(a.AddDays(n).AddHours(h).AddMinutes(min).AddSeconds(s).AddMilliseconds(ms));
+                }
+
+
+                return Wrap("NULL");
+            }
+                , paramss);
+            return gen;
+        }
 
     }
 }
