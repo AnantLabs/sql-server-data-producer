@@ -173,6 +173,21 @@ namespace SQLDataProducer.Entities.DatabaseEntities
                 if (_foreignKey != value)
                 {
                     _foreignKey = value;
+
+                    if (_foreignKey != null)
+                    {
+                        _foreignKey.PropertyChanged += (sender, e) =>
+                        {
+                            if (e.PropertyName == "Keys")
+                            {
+                                if (ForeignKey.Keys.Count > 0)
+                                {
+                                    HasWarning = false;
+                                }
+                            }
+                        };
+                    }
+                   
                     OnPropertyChanged("ForeignKey");
                 }
             }
@@ -192,21 +207,12 @@ namespace SQLDataProducer.Entities.DatabaseEntities
             
             this.PossibleGenerators = possibleGenerators;
 
-            ForeignKey.PropertyChanged += (sender, e) =>
-            {
-                if (e.PropertyName == "Keys")
-                {
-                    if (ForeignKey.Keys.Count > 0)
-                    {
-                        HasWarning = false;
-                    }
-                }
-            };
+            
 
             if (IsForeignKey && ForeignKey.Keys.Count == 0)
             {
                 HasWarning = true;
-                WarningText = "This column is referencing a table without foreign keys. Insertion will fail unless you use the Identity from item# generator.";
+                WarningText = "This column is referencing a table without foreign keys. Insertion might fail unless you use the Identity from item# generator.";
             }
 
         }

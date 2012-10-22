@@ -198,12 +198,12 @@
                                         </Grid.ColumnDefinitions>
                                         <TextBlock Text="{Binding ParameterName}" Grid.Column="0" Margin="3 3 3 3" />
 
-                                        <!--<TextBox Text="{Binding Value}"  Grid.Column="1" MinWidth="150" Style="{StaticResource ResourceKey=NotEnabledIfValueFromOtherColumnGenerator}"/>-->
-                                        <ContentControl 
+                                        <TextBox Text="{Binding Value}"  Grid.Column="1" MinWidth="150" Style="{StaticResource ResourceKey=NotEnabledIfValueFromOtherColumnGenerator}"/>
+                                        <!--<ContentControl 
                                                         Style="{StaticResource ResourceKey=ParameterConfigurationStyle}" 
                                                         Grid.Column="1" 
                                                         MinWidth="150" 
-                                                        HorizontalAlignment="Left" />
+                                                        HorizontalAlignment="Left" />-->
 
                                         <Button Content="Pick Column" Grid.Column="2"
                                         Command="{Binding Path=DataContext.ConfigureReferenceParameterCommand, 

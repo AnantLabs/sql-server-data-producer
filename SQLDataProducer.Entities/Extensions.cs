@@ -55,6 +55,8 @@ namespace SQLDataProducer.Entities
             return Convert.ToInt32(value);
         }
 
+       //public static int ParseWithFallback(this int
+
         //public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> coll)
         //{
         //    var c = new ObservableCollection<T>();

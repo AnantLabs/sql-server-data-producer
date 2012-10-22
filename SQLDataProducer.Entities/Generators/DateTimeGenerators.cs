@@ -133,17 +133,17 @@ namespace SQLDataProducer.Entities.Generators
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
             paramss.Add(new GeneratorParameter("Shift Hours", 0));
             paramss.Add(new GeneratorParameter("Shift Minutes", 0));
-            paramss.Add(new GeneratorParameter("Shift Seconds", 0));
+            //paramss.Add(new GeneratorParameter("Shift Seconds", 0));
             paramss.Add(new GeneratorParameter("Shift Milliseconds", 0));
 
             Generator gen = new Generator(GENERATOR_SecondsSeries, (n, p) =>
             {
                 int h = int.Parse(GetParameterByName(p, "Shift Hours").ToString());
                 int min = int.Parse(GetParameterByName(p, "Shift Minutes").ToString());
-                int s = int.Parse(GetParameterByName(p, "Shift Seconds").ToString());
+                //int s = int.Parse(GetParameterByName(p, "Shift Seconds").ToString());
                 int ms = int.Parse(GetParameterByName(p, "Shift Milliseconds").ToString());
 
-                return Wrap(StartDate.AddDays(n).AddHours(h).AddMinutes(min).AddSeconds(s).AddMilliseconds(ms));
+                return Wrap(StartDate.AddHours(h).AddMinutes(min).AddSeconds(n).AddMilliseconds(ms));
             }
                 , paramss);
             return gen;
@@ -156,16 +156,16 @@ namespace SQLDataProducer.Entities.Generators
             paramss.Add(new GeneratorParameter("Shift Hours", 0));
             paramss.Add(new GeneratorParameter("Shift Minutes", 0));
             paramss.Add(new GeneratorParameter("Shift Seconds", 0));
-            paramss.Add(new GeneratorParameter("Shift Milliseconds", 0));
+            //paramss.Add(new GeneratorParameter("Shift Milliseconds", 0));
 
             Generator gen = new Generator(GENERATOR_MilisecondsSeries, (n, p) =>
             {
                 int h = int.Parse(GetParameterByName(p, "Shift Hours").ToString());
                 int min = int.Parse(GetParameterByName(p, "Shift Minutes").ToString());
                 int s = int.Parse(GetParameterByName(p, "Shift Seconds").ToString());
-                int ms = int.Parse(GetParameterByName(p, "Shift Milliseconds").ToString());
+                //int ms = int.Parse(GetParameterByName(p, "Shift Milliseconds").ToString());
 
-                return Wrap(StartDate.AddDays(n).AddHours(h).AddMinutes(min).AddSeconds(s).AddMilliseconds(ms));
+                return Wrap(StartDate.AddHours(h).AddMinutes(min).AddSeconds(s).AddMilliseconds(n));
             }
                 , paramss);
             return gen;
@@ -176,7 +176,7 @@ namespace SQLDataProducer.Entities.Generators
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
             paramss.Add(new GeneratorParameter("Shift Hours", 0));
-            paramss.Add(new GeneratorParameter("Shift Minutes", 0));
+            //paramss.Add(new GeneratorParameter("Shift Minutes", 0));
             paramss.Add(new GeneratorParameter("Shift Seconds", 0));
             paramss.Add(new GeneratorParameter("Shift Milliseconds", 0)); ;
             
@@ -184,11 +184,11 @@ namespace SQLDataProducer.Entities.Generators
             Generator gen = new Generator(GENERATOR_MinutesSeries, (n, p) =>
             {
                 int h = int.Parse(GetParameterByName(p, "Shift Hours").ToString());
-                int min = int.Parse(GetParameterByName(p, "Shift Minutes").ToString());
+               // int min = int.Parse(GetParameterByName(p, "Shift Minutes").ToString());
                 int s = int.Parse(GetParameterByName(p, "Shift Seconds").ToString());
                 int ms = int.Parse(GetParameterByName(p, "Shift Milliseconds").ToString());
 
-                return Wrap(StartDate.AddDays(n).AddHours(h).AddMinutes(min).AddSeconds(s).AddMilliseconds(ms));
+                return Wrap(StartDate.AddHours(h).AddMinutes(n).AddSeconds(s).AddMilliseconds(ms));
             }
                 , paramss);
             return gen;
@@ -199,19 +199,19 @@ namespace SQLDataProducer.Entities.Generators
         private static Generator CreateHoursSeriesGenerator()
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
-            paramss.Add(new GeneratorParameter("Shift Hours", 0));
+            //paramss.Add(new GeneratorParameter("Shift Hours", 0));
             paramss.Add(new GeneratorParameter("Shift Minutes", 0));
             paramss.Add(new GeneratorParameter("Shift Seconds", 0));
             paramss.Add(new GeneratorParameter("Shift Milliseconds", 0));
 
             Generator gen = new Generator(GENERATOR_HoursSeries, (n, p) =>
             {
-                int h = int.Parse(GetParameterByName(p, "Shift Hours").ToString());
+                //int h = int.Parse(GetParameterByName(p, "Shift Hours").ToString());
                 int min = int.Parse(GetParameterByName(p, "Shift Minutes").ToString());
                 int s = int.Parse(GetParameterByName(p, "Shift Seconds").ToString());
                 int ms = int.Parse(GetParameterByName(p, "Shift Milliseconds").ToString());
 
-                return Wrap(StartDate.AddDays(n).AddHours(h).AddMinutes(min).AddSeconds(s).AddMilliseconds(ms));
+                return Wrap(StartDate.AddHours(n).AddMinutes(min).AddSeconds(s).AddMilliseconds(ms));
             }
                 , paramss);
             return gen;
@@ -268,7 +268,7 @@ namespace SQLDataProducer.Entities.Generators
                     int s = int.Parse(GetParameterByName(p, "Shift Seconds").ToString());
                     int ms = int.Parse(GetParameterByName(p, "Shift Milliseconds").ToString());
 
-                    return Wrap(a.AddDays(n).AddHours(h).AddMinutes(min).AddSeconds(s).AddMilliseconds(ms));
+                    return Wrap(a.AddHours(h).AddMinutes(min).AddSeconds(s).AddMilliseconds(ms));
                 }
 
 

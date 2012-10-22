@@ -51,6 +51,11 @@ namespace SQLDataProducer.Entities.Generators
                 if (_value != value)
                 {
                     _value = value;
+                    if (string.IsNullOrEmpty(_value.ToString()) )
+                    {
+                        // If value is empty then resort to default value.
+                        _value = DefaultValue;
+                    }
                     OnPropertyChanged("Value");
                 }
             }
@@ -97,6 +102,7 @@ namespace SQLDataProducer.Entities.Generators
         {
             ParameterName = name;
             Value = value;
+            DefaultValue = value;
             IsWriteEnabled = isWriteEnabled;
         }
         public GeneratorParameter()
