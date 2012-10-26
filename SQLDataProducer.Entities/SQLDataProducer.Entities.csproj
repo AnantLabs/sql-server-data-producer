@@ -75,6 +75,7 @@
     <Compile Include="DatabaseEntities\TableEntity.cs" />
     <Compile Include="SetCounter.cs" />
     <Compile Include="Tests\DatabaseEntitityTests.cs" />
+    <Compile Include="Tests\GeneratorTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Generators\resources\Countries.txt">

@@ -152,7 +152,7 @@ namespace SQLDataProducer.Entities.Generators
             return string.Format("'{0}'", s);
         }
 
-        protected static object GetParameterByName(GeneratorParameterCollection paramas, string name)
+        internal static object GetParameterByName(GeneratorParameterCollection paramas, string name)
         {
             return paramas.Where(x => x.ParameterName == name).First().Value;
         }

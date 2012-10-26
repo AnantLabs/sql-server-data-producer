@@ -101,8 +101,8 @@ namespace SQLDataProducer.Entities.Generators
         public GeneratorParameter(string name, object value, bool isWriteEnabled = true)
         {
             ParameterName = name;
-            Value = value;
             DefaultValue = value;
+            Value = value;
             IsWriteEnabled = isWriteEnabled;
         }
         public GeneratorParameter()
