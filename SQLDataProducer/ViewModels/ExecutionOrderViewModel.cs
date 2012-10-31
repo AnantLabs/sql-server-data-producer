@@ -182,7 +182,7 @@ namespace SQLDataProducer.ViewModels
         private void AddExecutionItem(IEnumerable<TableEntity> tables)
         {
             ExecutionItemFactory factory = new ExecutionItemFactory(Model.ConnectionString);
-            Model.ExecutionItems.AddRange(factory.GetClones(tables));
+            Model.ExecutionItems.AddRange(factory.GetExecutionItemsFromTables(tables));
         }
 
         private void AddExecutionItem(IEnumerable<ExecutionItem> eiItems)

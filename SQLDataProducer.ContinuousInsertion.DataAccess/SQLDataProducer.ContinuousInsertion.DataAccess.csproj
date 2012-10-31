@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{4BB5B315-0C7C-44B7-BF79-4A52C8A12E0F}</ProjectGuid>
+    <ProjectGuid>{64D8ED9B-A2D6-45F7-8702-73E387A9E368}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SQLDataProducer.ContinuousInsertion</RootNamespace>
-    <AssemblyName>SQLDataProducer.ContinuousInsertion</AssemblyName>
+    <RootNamespace>SQLDataProducer.ContinuousInsertion.DataAccess</RootNamespace>
+    <AssemblyName>SQLDataProducer.ContinuousInsertion.DataAccess</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -32,6 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -40,23 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ContinuousInsertionManager.cs" />
+    <Compile Include="DbCommandExecutor.cs" />
+    <Compile Include="DbCommandExecutorFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Builders\TableEntityInsertStatementBuilder.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SQLDataProducer.ContinuousInsertion.DataAccess\SQLDataProducer.ContinuousInsertion.DataAccess.csproj">
-      <Project>{64D8ED9B-A2D6-45F7-8702-73E387A9E368}</Project>
-      <Name>SQLDataProducer.ContinuousInsertion.DataAccess</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SQLDataProducer.DataAccess\SQLDataProducer.DataAccess.csproj">
-      <Project>{DE7F05FA-0F0C-4779-82C0-389713EB68C7}</Project>
-      <Name>SQLDataProducer.DataAccess</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SQLDataProducer.Entities\SQLDataProducer.Entities.csproj">
-      <Project>{0D135CAD-55DB-4090-BB5F-2C493A1F0072}</Project>
-      <Name>SQLDataProducer.Entities</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

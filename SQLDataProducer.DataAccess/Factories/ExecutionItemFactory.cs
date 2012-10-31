@@ -35,7 +35,7 @@ namespace SQLDataProducer.DataAccess.Factories
             this._tda = _tda;
         }
 
-        public IEnumerable<ExecutionItem> GetClones(IEnumerable<TableEntity> tables)
+        public IEnumerable<ExecutionItem> GetExecutionItemsFromTables(IEnumerable<TableEntity> tables)
         {
             // Clone the selected table so that each generation of that table is configurable uniquely
             foreach (var table in tables)

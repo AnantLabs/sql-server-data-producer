@@ -25,6 +25,7 @@ namespace SQLDataProducer.Entities.DatabaseEntities
 
         public ColumnDataTypeDefinition(string rawDataType, bool nullable)
         {
+            Raw = rawDataType;
             DBType = StringToDBDataType(rawDataType);
             IsNullable = nullable;
 
@@ -37,16 +38,28 @@ namespace SQLDataProducer.Entities.DatabaseEntities
 
         private static int GetLengthOfStringDataType(string rawDataType)
         {
+            // find the LENGTH part of the string datatype(LENGTH)
             Regex r = new Regex(@"\((?<length>[0-9]*|max)\)", RegexOptions.Compiled);
             int length;
-            var m = r.Match(rawDataType).Result("${length}");
-            if (m.ToLower() == "max")
+
+            if (r.Matches(rawDataType).Count > 0)
             {
-                length = int.MaxValue;
+                // a length was found in the string between the paranteses
+                var m = r.Match(rawDataType).Result("${length}");
+
+                if (m.ToLower() == "max")
+                {
+                    length = int.MaxValue;
+                }
+                else if (!int.TryParse(m, out length))
+                {
+                    length = 0;
+                }
             }
-            else if (!int.TryParse(m, out length))
+            else
             {
-                length = 0;
+                // no length in the string, this is probably a sysname column
+                length = 50;
             }
             return length;
         }
@@ -105,6 +118,24 @@ namespace SQLDataProducer.Entities.DatabaseEntities
         }
 
 
+        string _raw;
+        public string Raw
+        {
+            get
+            {
+                return _raw;
+            }
+            set
+            {
+                if (_raw != value)
+                {
+                    _raw = value;
+                    OnPropertyChanged("Raw");
+                }
+            }
+        }
+
+
         public override string ToString()
         {
             return DBType.ToString();
@@ -139,13 +170,16 @@ namespace SQLDataProducer.Entities.DatabaseEntities
             else if (dataType.StartsWith("varchar")
                 || dataType.StartsWith("nvarchar")
                 || dataType.StartsWith("char")
-                || dataType.StartsWith("nchar"))
+                || dataType.StartsWith("nchar")
+                || dataType.StartsWith("sysname"))
             {
 
                 return DBDataType.VARCHAR;
             }
             else if (dataType.StartsWith("decimal")
-                || dataType.StartsWith("float"))
+                || dataType.StartsWith("float")
+                || dataType.StartsWith("money")
+                || dataType.StartsWith("smallmoney"))
             {
                 return DBDataType.DECIMAL;
             }

@@ -24,7 +24,7 @@ namespace SQLDataProducer.DataAccess
 {
     public partial class TableEntityDataAccess : DataAccessBase
     {
-        readonly string ALL_TABLES_QUERY = "select Table_Name, Table_Schema from information_Schema.Tables order by table_Schema, table_name";
+        readonly string ALL_TABLES_QUERY = "select Table_Name, Table_Schema from information_Schema.Tables where TABLE_TYPE = 'BASE TABLE' order by table_Schema, table_name";
 
         readonly string TABLES_IN_HIERARCHY_FROM_ROOT = @"DECLARE    @RowOrder INT = 0
 			,@SchemaName sysname = '{0}'
@@ -263,7 +263,18 @@ ORDER BY RowNumber desc
         /// <returns></returns>
         public TableEntityCollection GetAllTables()
         {
-            return (TableEntityCollection)GetMany(ALL_TABLES_QUERY, CreateTableEntity);
+            return new TableEntityCollection(GetMany(ALL_TABLES_QUERY, CreateTableEntity));
+        }
+
+        public TableEntityCollection GetAllTablesAndColumns()
+        {
+            var tables = GetAllTables();
+            ColumnEntityDataAccess colDa = new ColumnEntityDataAccess(this._connectionString);
+            foreach (var tabl in tables)
+            {
+                tabl.Columns = colDa.GetAllColumnsForTable(tabl);
+            }
+            return tables;
         }
 
         /// <summary>

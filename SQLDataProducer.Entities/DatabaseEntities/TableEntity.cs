@@ -17,6 +17,7 @@ using SQLDataProducer.Entities.DatabaseEntities.Collections;
 using System.Xml.Serialization;
 using SQLDataProducer.Entities;
 using System.Linq;
+using System.Text;
 
 
 namespace SQLDataProducer.Entities.DatabaseEntities
@@ -222,5 +223,8 @@ namespace SQLDataProducer.Entities.DatabaseEntities
                 OnPropertyChanged("WarningText");
             }
         }
+
+
+       
     }
 }

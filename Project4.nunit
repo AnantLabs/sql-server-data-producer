@@ -1,0 +1,11 @@
+﻿<NUnitProject>
+  <Settings activeconfig="Release" />
+  <Config name="Debug" binpathtype="Auto">
+    <assembly path="SQLDataProducer.Entities\bin\Debug\SQLDataProducer.Entities.dll" />
+    <assembly path="SQLDataProducer.Tests\bin\Debug\SQLDataProducer.Tests.dll" />
+  </Config>
+  <Config name="Release" binpathtype="Auto">
+    <assembly path="SQLDataProducer.Entities\bin\Release\SQLDataProducer.Entities.dll" />
+    <assembly path="SQLDataProducer.Tests\bin\Release\SQLDataProducer.Tests.dll" />
+  </Config>
+</NUnitProject>

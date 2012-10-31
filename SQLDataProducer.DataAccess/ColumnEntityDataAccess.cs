@@ -22,7 +22,6 @@ using SQLDataProducer.Entities.DatabaseEntities;
 using SQLDataProducer.Entities.Generators;
 using SQLDataProducer.EntityQueryGenerator;
 using SQLDataProducer.Entities.DatabaseEntities.Collections;
-using SQLDataProducer.Entities.DatabaseEntities;
 using SQLDataProducer.DataAccess.Factories;
 using SQLDataProducer.Entities.DatabaseEntities.Factories;
 
@@ -59,9 +58,9 @@ select
     name As ColumnName, 
     CASE TYPE_NAME(cols.user_type_id)
         WHEN 'varchar' THEN TYPE_NAME(cols.system_type_id) + '(' + case cols.max_length when -1 then 'max' else CAST(cols.max_length AS VARCHAR(100)) end + ')'
-        WHEN 'nvarchar' THEN TYPE_NAME(cols.system_type_id) + '(' + case cols.max_length when -1 then 'max' else CAST(cols.max_length AS VARCHAR(100)) end + ')'
+        WHEN 'nvarchar' THEN TYPE_NAME(cols.system_type_id) + '(' + case cols.max_length when -1 then 'max' else CAST(cols.max_length / 2 AS VARCHAR(100)) end + ')'
         WHEN 'char' THEN TYPE_NAME(cols.system_type_id) + '(' + CAST(cols.max_length AS VARCHAR(100)) + ')'
-        WHEN 'nchar' THEN TYPE_NAME(cols.system_type_id) + '(' + CAST(cols.max_length AS VARCHAR(100)) + ')'
+        WHEN 'nchar' THEN TYPE_NAME(cols.system_type_id) + '(' + CAST(cols.max_length / 2 AS VARCHAR(100)) + ')'
         WHEN 'decimal' THEN TYPE_NAME(cols.system_type_id) + '(' + CAST(cols.precision AS VARCHAR(100)) + ', ' + CAST(cols.scale AS VARCHAR(100)) +')'
         WHEN 'varbinary' THEN TYPE_NAME(cols.system_type_id) + '(' + case cols.max_length when -1 then 'max' else CAST(cols.max_length AS VARCHAR(100)) end + ')'
         WHEN 'datetime2' THEN TYPE_NAME(cols.system_type_id) + '(' + CAST(cols.scale AS VARCHAR(100)) + ')'

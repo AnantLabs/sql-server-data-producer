@@ -229,6 +229,39 @@
   <ItemGroup>
     <Resource Include="Styles\Warning.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Styles\icons\1351611892_20.png" />
+    <Resource Include="Styles\icons\1351611895_2.png" />
+    <Resource Include="Styles\icons\1351611896_35.png" />
+    <Resource Include="Styles\icons\1351611898_11.png" />
+    <Resource Include="Styles\icons\1351611899_5.png" />
+    <Resource Include="Styles\icons\1351611901_13.png" />
+    <Resource Include="Styles\icons\1351611902_22.png" />
+    <Resource Include="Styles\icons\1351611904_29.png" />
+    <Resource Include="Styles\icons\1351611906_14.png" />
+    <Resource Include="Styles\icons\1351611908_27.png" />
+    <Resource Include="Styles\icons\1351611910_18.png" />
+    <Resource Include="Styles\icons\1351611911_3.png" />
+    <Resource Include="Styles\icons\1351611913_31.png" />
+    <Resource Include="Styles\icons\1351611915_10.png" />
+    <Resource Include="Styles\icons\1351611917_21.png" />
+    <Resource Include="Styles\icons\1351611919_16.png" />
+    <Resource Include="Styles\icons\1351611921_24.png" />
+    <Resource Include="Styles\icons\1351611924_15.png" />
+    <Resource Include="Styles\icons\1351611925_34.png" />
+    <Resource Include="Styles\icons\1351611927_33.png" />
+    <Resource Include="Styles\icons\1351611928_7.png" />
+    <Resource Include="Styles\icons\1351612468_4.png" />
+    <Resource Include="Styles\icons\1351612470_23.png" />
+    <Resource Include="Styles\icons\1351612471_19.png" />
+    <Resource Include="Styles\icons\1351612473_30.png" />
+    <Resource Include="Styles\icons\1351612474_28.png" />
+    <Resource Include="Styles\icons\1351612475_1.png" />
+    <Resource Include="Styles\icons\1351612476_6.png" />
+    <Resource Include="Styles\icons\1351612478_9.png" />
+    <Resource Include="Styles\icons\1351612479_25.png" />
+    <Resource Include="Styles\icons\source.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

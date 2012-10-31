@@ -53,9 +53,11 @@ namespace SQLDataProducer.Entities.Tests
             var ms = Generators.Generator.GetParameterByName(hs.GeneratorParameters, paramKey);
             Assert.IsNotNull(min, string.Format("The {0} parameters was not found in the generator", paramKey));
 
-            DateTime firstGenerated = DateTime.Parse(hs.GenerateValue(1).ToString());
-            DateTime secondGenerated = DateTime.Parse(hs.GenerateValue(2).ToString());
+            DateTime firstGenerated = DateTime.Parse(hs.GenerateValue(1).ToString().Replace("'", ""));
+            DateTime secondGenerated = DateTime.Parse(hs.GenerateValue(2).ToString().Replace("'", ""));
 
+            Assert.IsTrue(secondGenerated > firstGenerated, "Second was not bigger than first");
+            Assert.IsTrue(secondGenerated.Equals(firstGenerated.AddHours(1)), string.Format("Expected second being 1 hour bigger than first. First: {0} - Second: {1}:", firstGenerated, secondGenerated));
 
             
         }

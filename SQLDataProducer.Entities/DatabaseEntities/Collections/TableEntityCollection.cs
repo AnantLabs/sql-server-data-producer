@@ -19,7 +19,7 @@ using SQLDataProducer.Entities.DatabaseEntities;
 
 namespace SQLDataProducer.Entities.DatabaseEntities.Collections
 {
-    public class TableEntityCollection : ObservableCollection<TableEntity>
+    public class TableEntityCollection : ObservableCollection<TableEntity>, IEnumerable<TableEntity>
     {
         public TableEntityCollection()
             : base()
@@ -45,6 +45,5 @@ namespace SQLDataProducer.Entities.DatabaseEntities.Collections
                 return base.Items.Count > 0;
             }
         }
-
     }
 }
