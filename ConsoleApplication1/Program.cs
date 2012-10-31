@@ -32,8 +32,9 @@ namespace TestConsoleApplication
             TableEntityDataAccess tda = new TableEntityDataAccess(Connection());
 
             TableEntity table = tda.GetTableAndColumns("Person", "Address");
-
-            TableEntityInsertStatementBuilder builder = new TableEntityInsertStatementBuilder(table, 2);
+            ExecutionItem ei = new ExecutionItem(table);
+            ei.RepeatCount = 2;
+            TableEntityInsertStatementBuilder builder = new TableEntityInsertStatementBuilder(ei);
             int i = 1;
             builder.GenerateValues(() => i++);
 

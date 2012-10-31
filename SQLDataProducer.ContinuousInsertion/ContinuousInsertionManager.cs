@@ -21,12 +21,13 @@ using SQLDataProducer.EntityQueryGenerator;
 using SQLDataProducer.DataAccess;
 using SQLDataProducer.ContinuousInsertion.Builders;
 using System.Collections.ObjectModel;
+using SQLDataProducer.ContinuousInsertion.DataAccess;
 
 namespace SQLDataProducer.ContinuousInsertion
 {
     public class ContinuousInsertionManager
     {
-        readonly string ConnectionString { get; set; }
+        private string ConnectionString { get; set; }
 
         public ContinuousInsertionManager(string connectionString)
         {
@@ -35,11 +36,12 @@ namespace SQLDataProducer.ContinuousInsertion
 
         public void DoOneExecution(ExecutionItemCollection items, Func<long> getN)
         {
+            var adhd = new QueryExecutor(ConnectionString);
             var builders = Prepare(items);
             foreach (var b in builders)
             {
                 b.GenerateValues(getN);
-                b.Execute();
+                adhd.ExecuteNonQuery(b.InsertStatement, b.Parameters);
             }
             //var adhd = new AdhocDataAccess(ConnectionString);
             //foreach (var ei in items)
@@ -78,7 +80,13 @@ namespace SQLDataProducer.ContinuousInsertion
 
         private ObservableCollection<TableEntityInsertStatementBuilder> Prepare(ExecutionItemCollection items)
         {
+            ObservableCollection<TableEntityInsertStatementBuilder> builders = new ObservableCollection<TableEntityInsertStatementBuilder>();
+            foreach (var item in items)
+            {
+                builders.Add(new TableEntityInsertStatementBuilder(item));
+            }
 
+            return builders;
         }
     }
 }

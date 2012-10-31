@@ -78,10 +78,15 @@ namespace SQLDataProducer.Entities.Tests
         public void ExecutionManagerDoOneExecution()
         {
             TableEntityDataAccess tda = new TableEntityDataAccess(Connection());
-            TableEntityCollection tables = tda.GetAllTablesAndColumns();
+            //TableEntityCollection tables = tda.GetAllTablesAndColumns();
+            TableEntity table = tda.GetTableAndColumns("Person", "Address");
             ContinuousInsertionManager manager = new ContinuousInsertionManager(Connection());
             ExecutionItemCollection items = new ExecutionItemCollection();
-            items.AddRange(new ExecutionItemFactory(Connection()).GetExecutionItemsFromTables(tables));
+            //items.AddRange(new ExecutionItemFactory(Connection()).GetExecutionItemsFromTables(tables));
+            var ei = new ExecutionItem(table);
+            ei.RepeatCount = 3;
+
+            items.Add(ei);
             
             int i = 1;
             manager.DoOneExecution(items, () => i++);

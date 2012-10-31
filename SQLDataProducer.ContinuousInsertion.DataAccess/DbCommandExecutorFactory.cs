@@ -4,36 +4,26 @@ using System.Data.Common;
 
 namespace SQLDataProducer.ContinuousInsertion.DataAccess
 {
-
     public static class CommandFactory
     {
-
-        /// <summary>
-        /// Create DbCommand using the configured DbFactory, the commandType will be CommandType.Text
-        /// </summary>
-        /// <param name="sqlQuery">the query to use in the command</param>
-        /// <param name="connStr">the connection string to use in the connection of the command</param>
-        /// <returns>A DbCommand with a closed connection</returns>
-        public static DbCommand Create(string connectionString)
-        {
-            return Create(connectionString);
-        }
-
         ///// <summary>
-        ///// Create DbCommand using the configured DbFactory
+        ///// Create DbCommand using the configured DbFactory, the commandType will be CommandType.Text
         ///// </summary>
         ///// <param name="sqlQuery">the query to use in the command</param>
         ///// <param name="connStr">the connection string to use in the connection of the command</param>
-        ///// <param name="commandType">the type of command this should be</param>
         ///// <returns>A DbCommand with a closed connection</returns>
-        //public static DbCommand Create(string sqlQuery, string connStr, CommandType commandType)
+        //public static DbCommand Create(string query)
         //{
-        //    DbConnection conn = ConnectionFactory.Create(connStr);
-        //    DbCommand cmd = conn.CreateCommand();
-        //    cmd.CommandText = sqlQuery;
-        //    cmd.CommandType = commandType;
-        //    return cmd;
+        //    return Create(connectionString);
         //}
+
+        public static DbCommand CreateCommand(string sqlQuery, DbConnection conn, CommandType commandType)
+        {
+            DbCommand cmd = conn.CreateCommand();
+            cmd.CommandText = sqlQuery;
+            cmd.CommandType = commandType;
+            return cmd;
+        }
 
         /// <summary>
         /// Create DbParameter using the configured DbFactory
@@ -48,6 +38,11 @@ namespace SQLDataProducer.ContinuousInsertion.DataAccess
             param.ParameterName = name;
 
             return param;
+        }
+
+        public static DbConnection CreateDbConnection(string connectionString)
+        {
+            return ConnectionFactory.Create(connectionString);
         }
 
         /// <summary>
