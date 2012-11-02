@@ -160,12 +160,14 @@ namespace SQLDataProducer.ContinuousInsertion.Builders
             for (int rep = 1; rep <= ExecuteItem.RepeatCount; rep++)
             {
                 long N = getN();
-
-                ExecuteItem.TargetTable.GenerateValuesForColumns(N);
-                foreach (var col in ExecuteItem.TargetTable.Columns.Where(x => x.IsNotIdentity))
+                if (ExecuteItem.ShouldExecuteForThisN(N))
                 {
-                    string paramName = GetParamName(rep, col);
-                    Parameters[paramName].Value = col.PreviouslyGeneratedValue;
+                    ExecuteItem.TargetTable.GenerateValuesForColumns(N);
+                    foreach (var col in ExecuteItem.TargetTable.Columns.Where(x => x.IsNotIdentity))
+                    {
+                        string paramName = GetParamName(rep, col);
+                        Parameters[paramName].Value = col.PreviouslyGeneratedValue;
+                    }
                 }
             }
         }

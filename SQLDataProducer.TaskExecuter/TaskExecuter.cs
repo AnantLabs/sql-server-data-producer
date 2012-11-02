@@ -22,6 +22,7 @@ using SQLDataProducer.Entities;
 using System.ComponentModel;
 using System.Threading;
 using System.IO;
+using SQLDataProducer.ContinuousInsertion;
 
 namespace SQLDataProducer.TaskExecuter
 {
@@ -46,8 +47,8 @@ namespace SQLDataProducer.TaskExecuter
         public TaskExecuter(ExecutionTaskOptions options, string connectionString)
         {
             _doneMyWork = false;
-            this._connectionString = connectionString;
-            this.Options = options;
+            _connectionString = connectionString;
+            Options = options;
             _cancelTokenSource = new CancellationTokenSource();
         }
 
@@ -75,16 +76,13 @@ namespace SQLDataProducer.TaskExecuter
         /// <param name="baseQuery">The query containing insert statements for all the items and a placeholder for the variables and their values</param>
         /// <param name="GenerateFinalQuery">The FinalQueryGeneratorDelegate that will be run to create the final query. The final query will include the actuall values</param>
         /// <returns></returns>
-        public ExecutionTaskDelegate CreateSQLTaskForExecutionItems(ExecutionItemCollection execItems, string baseQuery, FinalQueryGeneratorDelegate GenerateFinalQuery)
+        public ExecutionTaskDelegate CreateSQLTaskForExecutionItems(ExecutionItemCollection execItems)
         {
             return new ExecutionTaskDelegate(() =>
             {
                 try
                 {
-                    // Generate the final query.
-                    // For each time this Action is called, generate the final query. This will create the "declaration" part of the script with the generated data.
-                    // The "base" of the script will be kept from its original, we only generate the actual data here.
-                    string finalResult = GenerateFinalQuery(baseQuery, execItems, _NSetCounter.Peek(), () =>
+                    Func<long> nGenerationFunction = delegate
                         {
                             switch (Options.NumberGeneratorMethod)
                             {
@@ -99,21 +97,19 @@ namespace SQLDataProducer.TaskExecuter
                                 default:
                                     return 1;
                             }
-                        });
+                        };
+
+                    ContinuousInsertionManager manager = new ContinuousInsertionManager(_connectionString);
 
                     if (!Options.OnlyOutputToFile)
                     {
-                        using (SqlConnection con = new SqlConnection(_connectionString))
-                        {
-                            using (SqlCommand cmd = new SqlCommand(finalResult, con))
-                            {
-                                cmd.Connection.Open();
-                                cmd.ExecuteNonQuery();
-                            }
-                        }
+                        manager.DoOneExecution(execItems, nGenerationFunction);
                     }
                     else
+                    {
+                        string finalResult = manager.OneExecutionToString(execItems, nGenerationFunction);
                         WriteScriptToFile(finalResult);
+                    }
                     
                 }
                 catch (Exception ex)

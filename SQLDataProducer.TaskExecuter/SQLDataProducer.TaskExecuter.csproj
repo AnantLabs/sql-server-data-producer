@@ -41,7 +41,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Enums.cs" />
     <Compile Include="InsertQueryGenerator.cs" />
     <Compile Include="TaskExecuter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -51,6 +50,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SQLDataProducer.ContinuousInsertion\SQLDataProducer.ContinuousInsertion.csproj">
+      <Project>{4BB5B315-0C7C-44B7-BF79-4A52C8A12E0F}</Project>
+      <Name>SQLDataProducer.ContinuousInsertion</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SQLDataProducer.DataAccess\SQLDataProducer.DataAccess.csproj">
       <Project>{DE7F05FA-0F0C-4779-82C0-389713EB68C7}</Project>
       <Name>SQLDataProducer.DataAccess</Name>

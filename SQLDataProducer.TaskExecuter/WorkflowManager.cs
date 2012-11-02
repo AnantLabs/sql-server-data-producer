@@ -131,16 +131,7 @@ namespace SQLDataProducer.TaskExecuter
 
         private ExecutionResult Execute(string connectionString, ExecutionItemCollection executionItems)
         {
-            InsertQueryGenerator queryGenerator = new InsertQueryGenerator();
-            
-            string basequery = queryGenerator.GenerateQueryForExecutionItems(executionItems);
-            ExecutionTaskDelegate taskToExecute = _executor.CreateSQLTaskForExecutionItems(
-                // The items to generate data for
-               executionItems,
-                // The basequery containing all the insert statements
-               basequery,
-                // The function to call to generate the final VALUES for the insertion
-               queryGenerator.GenerateFinalQuery);
+            ExecutionTaskDelegate taskToExecute = _executor.CreateSQLTaskForExecutionItems(executionItems);
 
             return _executor.Execute(taskToExecute);
         }

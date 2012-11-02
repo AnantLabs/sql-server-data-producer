@@ -22,6 +22,7 @@ using SQLDataProducer.DataAccess;
 using SQLDataProducer.ContinuousInsertion.Builders;
 using System.Collections.ObjectModel;
 using SQLDataProducer.ContinuousInsertion.DataAccess;
+using SQLDataProducer.Entities;
 
 namespace SQLDataProducer.ContinuousInsertion
 {
@@ -87,6 +88,19 @@ namespace SQLDataProducer.ContinuousInsertion
             }
 
             return builders;
+        }
+
+        public string OneExecutionToString(ExecutionItemCollection execItems, Func<long> getN)
+        {
+            StringBuilder sb = new StringBuilder();
+            var builders = Prepare(execItems);
+            foreach (var b in builders)
+            {
+                b.GenerateValues(getN);
+                sb.AppendLine(b.GenerateFullStatement());
+            }
+
+            return sb.ToString();
         }
     }
 }

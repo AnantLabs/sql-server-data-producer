@@ -147,9 +147,9 @@ namespace SQLDataProducer.Entities.Generators
         /// </summary>
         /// <param name="s"></param>
         /// <returns></returns>
-        protected static string Wrap(object s)
+        protected static object Wrap(object s)
         {
-            return string.Format("'{0}'", s);
+            return s;// string.Format("'{0}'", s);
         }
 
         internal static object GetParameterByName(GeneratorParameterCollection paramas, string name)

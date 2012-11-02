@@ -211,8 +211,8 @@ namespace SQLDataProducer.Entities.ExecutionEntities
             }
         }
         
-        private int _executionConditionValue;
-        public int ExecutionConditionValue
+        private long _executionConditionValue;
+        public long ExecutionConditionValue
         {
             get
             {
@@ -261,6 +261,32 @@ namespace SQLDataProducer.Entities.ExecutionEntities
             {
                 _warningText = value;
                 OnPropertyChanged("WarningText");
+            }
+        }
+
+        public bool ShouldExecuteForThisN(long N)
+        {
+            // TODO: cache the calculated value, would it save any performance?
+            switch (ExecutionCondition)
+            {
+                case ExecutionConditions.None:
+                    return true;
+                case ExecutionConditions.LessThan:
+                    return ExecutionConditionValue < N;
+                case ExecutionConditions.LessOrEqualTo:
+                    return ExecutionConditionValue <= N;
+                case ExecutionConditions.EqualTo:
+                    return ExecutionConditionValue == N;
+                case ExecutionConditions.EqualOrGreaterThan:
+                    return ExecutionConditionValue >= N;
+                case ExecutionConditions.GreaterThan:
+                    return ExecutionConditionValue > N;
+                case ExecutionConditions.NotEqualTo:
+                    return ExecutionConditionValue != N;
+                case ExecutionConditions.EveryOtherX:
+                    return ExecutionConditionValue % N == 0;
+                default:
+                    throw new NotSupportedException("ExecutionConditions not supported");
             }
         }
     }
