@@ -139,7 +139,7 @@ namespace SQLDataProducer.ContinuousInsertion.Builders
                     string paramName = GetParamName(rep, col);
                     sb.Append(paramName);
                     // Add the parameter with no value, values will be added in the GenerateValues method
-                    var par = CommandFactory.CreateParameter(paramName, null);
+                    var par = CommandFactory.CreateParameter(paramName, null, col.ColumnDataType.DBType);
                     Parameters.Add(paramName, par);
 
                     sb.Append(i == ExecuteItem.TargetTable.Columns.Count - 1 ? string.Empty : ", ");
@@ -160,15 +160,15 @@ namespace SQLDataProducer.ContinuousInsertion.Builders
             for (int rep = 1; rep <= ExecuteItem.RepeatCount; rep++)
             {
                 long N = getN();
-                if (ExecuteItem.ShouldExecuteForThisN(N))
-                {
+                //if (ExecuteItem.ShouldExecuteForThisN(N))
+                //{
                     ExecuteItem.TargetTable.GenerateValuesForColumns(N);
                     foreach (var col in ExecuteItem.TargetTable.Columns.Where(x => x.IsNotIdentity))
                     {
                         string paramName = GetParamName(rep, col);
                         Parameters[paramName].Value = col.PreviouslyGeneratedValue;
                     }
-                }
+                //}
             }
         }
 

@@ -18,7 +18,6 @@ using System.Collections.ObjectModel;
 using SQLDataProducer.DataAccess;
 using SQLDataProducer.Entities.DatabaseEntities.Collections;
 using System;
-using SQLDataProducer.Entities.DatabaseEntities;
 
 namespace SQLDataProducer.EntityQueryGenerator
 {

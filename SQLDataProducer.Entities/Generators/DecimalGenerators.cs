@@ -74,12 +74,6 @@ namespace SQLDataProducer.Entities.Generators
             return gen;
         }
 
-        //public static object DownCounter(int n, object param)
-        //{
-        //    return Wrap(new Decimal(0 - n));
-        //}
-
-
-        
+                
     }
 }

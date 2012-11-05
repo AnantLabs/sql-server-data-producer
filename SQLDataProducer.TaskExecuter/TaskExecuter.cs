@@ -30,11 +30,16 @@ namespace SQLDataProducer.TaskExecuter
     {
         private System.Threading.CancellationTokenSource _cancelTokenSource;
         
-        SetCounter _NSetCounter = new SetCounter();
-        SetCounter _insertCounter = new SetCounter();
+        //SetCounter _NSetCounter = new SetCounter();
+        //SetCounter _insertCounter = new SetCounter();
         List<string> _errorMessages = new List<string>();
 
-        public ExecutionTaskOptions Options { get; private set; }
+        SetCounter _executionCounter = new SetCounter();
+        SetCounter _rowInsertCounter = new SetCounter();
+        Func<long> _nGenerator;
+
+        ExecutionTaskOptions Options { get; set; }
+
         private string _connectionString;
 
         /// <summary>
@@ -42,7 +47,7 @@ namespace SQLDataProducer.TaskExecuter
         /// </summary>
         private object _logFileLockObjs = new object();
 
-        private bool _doneMyWork;
+        private bool _doneMyWork = false;
 
         public TaskExecuter(ExecutionTaskOptions options, string connectionString)
         {
@@ -50,6 +55,24 @@ namespace SQLDataProducer.TaskExecuter
             _connectionString = connectionString;
             Options = options;
             _cancelTokenSource = new CancellationTokenSource();
+            
+            // Create the method to be used to generate the N values.
+            _nGenerator = delegate
+            {
+                switch (Options.NumberGeneratorMethod)
+                {
+                    case NumberGeneratorMethods.NewNForEachExecution:
+                        // The executionCounter is incremented for each Execution, just return the current value. It will be incremented in the big loop
+                        return _executionCounter.Peek();
+                    case NumberGeneratorMethods.NewNForEachRow:
+                        // Insert counter is used to generated per row, it should be incremented by "something else" for each row that is inserted
+                        return _rowInsertCounter.Peek();
+                    case NumberGeneratorMethods.ConstantN:
+                        return 1;
+                    default:
+                        return 1;
+                }
+            };
         }
 
       
@@ -78,36 +101,22 @@ namespace SQLDataProducer.TaskExecuter
         /// <returns></returns>
         public ExecutionTaskDelegate CreateSQLTaskForExecutionItems(ExecutionItemCollection execItems)
         {
+            ContinuousInsertionManager manager = new ContinuousInsertionManager(_connectionString);
+
             return new ExecutionTaskDelegate(() =>
             {
                 try
                 {
-                    Func<long> nGenerationFunction = delegate
-                        {
-                            switch (Options.NumberGeneratorMethod)
-                            {
-                                case NumberGeneratorMethods.NewNForEachExecution:
-                                    // N Set Counter is incremented for each Execution, just return the current value. It will be incremented in the big loop
-                                    return _NSetCounter.Peek();
-                                case NumberGeneratorMethods.NewNForEachRow:
-                                    // Insert counter is used to generated per row, increment it and return the next value.
-                                    return _insertCounter.GetNext();
-                                case NumberGeneratorMethods.ConstantN:
-                                    return 1;
-                                default:
-                                    return 1;
-                            }
-                        };
-
-                    ContinuousInsertionManager manager = new ContinuousInsertionManager(_connectionString);
+                    
 
                     if (!Options.OnlyOutputToFile)
                     {
-                        manager.DoOneExecution(execItems, nGenerationFunction);
+                        manager.DoOneExecution(execItems, _nGenerator, _rowInsertCounter, _executionCounter.Peek());
+                        
                     }
                     else
                     {
-                        string finalResult = manager.OneExecutionToString(execItems, nGenerationFunction);
+                        string finalResult = manager.OneExecutionToString(execItems, _nGenerator, _rowInsertCounter);
                         WriteScriptToFile(finalResult);
                     }
                     
@@ -135,7 +144,7 @@ namespace SQLDataProducer.TaskExecuter
             if (Options.ScriptOutputFolder == null)
                 throw new ArgumentNullException("Options.ScriptOutputFolder");
 
-            long c = _NSetCounter.Peek();
+            long c = _executionCounter.Peek();
             string dir = Options.ScriptOutputFolder;
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
@@ -157,6 +166,7 @@ namespace SQLDataProducer.TaskExecuter
         /// <param name="onCompletedCallback">the callback that will be called when execution is done or stopped</param>
         public ExecutionResult Execute(ExecutionTaskDelegate task)
         {
+            // Lazy fix to avoid having to clean up and reset everything.
             if (_doneMyWork)
                 throw new NotSupportedException("This TaskExecuter have already been used. It may not be used again. Create a new one and try again");
             
@@ -182,8 +192,8 @@ namespace SQLDataProducer.TaskExecuter
             finally
             {
                 result.ErrorList.AddRange(_errorMessages);
-                result.InsertCount = _insertCounter.Peek();
-                result.ExecutedItemCount = _NSetCounter.Peek();
+                result.InsertCount = _rowInsertCounter.Peek();
+                result.ExecutedItemCount = _executionCounter.Peek();
                 _doneMyWork = true;
             }
             
@@ -210,18 +220,19 @@ namespace SQLDataProducer.TaskExecuter
                 workers.Add(new BackgroundWorker());
                 workers[i].DoWork += (sender, e) =>
                 {
-                    while (_NSetCounter.Peek() < targetNumExecutions && !CancelTokenSource.IsCancellationRequested)
+                    while (_executionCounter.Peek() < targetNumExecutions && !CancelTokenSource.IsCancellationRequested)
                     {
-                        _NSetCounter.Increment();
+                        _executionCounter.Increment();
                         task();
-                        _insertCounter.Peek();
-                        float percentDone = (float)_NSetCounter.Peek() / (float)Options.FixedExecutions;
+                        //_insertCounter.Peek();
+                        float percentDone = (float)_executionCounter.Peek() / (float)Options.FixedExecutions;
                         // TODO: Find out if this is eating to much performance (Sending many OnPropertyChanged events..
                         Options.PercentCompleted = (int)(percentDone * 100);
                     }
                 };
                 workers[i].RunWorkerAsync();
             }
+            // TODO: This does not feel optimal
             while (workers.Any(x => x.IsBusy))
             {
                 Thread.Sleep(100);
@@ -253,14 +264,16 @@ namespace SQLDataProducer.TaskExecuter
                     while (DateTime.Now < until && !CancelTokenSource.IsCancellationRequested)
                     {
                         task();
-                        _insertCounter.Peek();
-                        _NSetCounter.Increment();
+                        //_insertCounter.Peek();
+                        _executionCounter.Increment();
                         float percentDone = ((float)(DateTime.Now.Ticks - beginTime.Ticks) / (float)(until.Ticks - beginTime.Ticks));
                         Options.PercentCompleted = (int)(percentDone * 100);
                     }
                 };
                 workers[i].RunWorkerAsync();
             }
+            
+            // TODO: This does not feel optimal
             while (workers.Any(x => x.IsBusy))
             {
                 Thread.Sleep(100);

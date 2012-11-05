@@ -42,7 +42,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="QueryExecutor.cs" />
-    <Compile Include="DbCommandExecutor.cs" />
     <Compile Include="DbCommandExecutorFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

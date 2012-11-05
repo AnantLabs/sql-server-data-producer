@@ -33,7 +33,7 @@ namespace SQLDataProducer.Entities.Generators
         {
             Generator gen = new Generator(GENERATOR_NULLValue, (n, p) =>
             {
-                return "NULL";
+                return DBNull.Value; // "NULL";
             }
                 , null);
             return gen;

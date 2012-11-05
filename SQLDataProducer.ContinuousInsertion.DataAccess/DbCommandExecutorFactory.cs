@@ -31,11 +31,12 @@ namespace SQLDataProducer.ContinuousInsertion.DataAccess
         /// <param name="name"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static DbParameter CreateParameter(string name, object value)
+        public static DbParameter CreateParameter(string name, object value, DbType dbType)
         {
             DbParameter param = DbProviderFactoryFactory.GetInstance().CreateParameter();
             param.Value = value;
             param.ParameterName = name;
+            param.DbType = dbType;
 
             return param;
         }

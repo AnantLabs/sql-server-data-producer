@@ -13,14 +13,8 @@
 //   limitations under the License.
 
 using System;
-using SQLDataProducer.Entities.ExecutionEntities;
-using SQLDataProducer.Entities.DatabaseEntities;
-using SQLDataProducer.DataAccess;
-using SQLDataProducer.TaskExecuter;
-using SQLDataProducer.Entities;
-using SQLDataProducer.Entities.OptionEntities;
-using SQLDataProducer.DataAccess.Factories;
-using SQLDataProducer.ContinuousInsertion.Builders;
+using SQLDataProducer.RandomTestsnStuff;
+
 
 namespace TestConsoleApplication
 {
@@ -29,23 +23,29 @@ namespace TestConsoleApplication
 
         static void Main(string[] args)
         {
-            TableEntityDataAccess tda = new TableEntityDataAccess(Connection());
+            //TableEntityDataAccess tda = new TableEntityDataAccess(Connection());
 
-            TableEntity table = tda.GetTableAndColumns("Person", "Address");
-            ExecutionItem ei = new ExecutionItem(table);
-            ei.RepeatCount = 2;
-            TableEntityInsertStatementBuilder builder = new TableEntityInsertStatementBuilder(ei);
-            int i = 1;
-            builder.GenerateValues(() => i++);
+            //TableEntity table = tda.GetTableAndColumns("Person", "Address");
+            //ExecutionItem ei = new ExecutionItem(table);
+            //ei.RepeatCount = 2;
+            //TableEntityInsertStatementBuilder builder = new TableEntityInsertStatementBuilder(ei);
+            //int i = 1;
+            //builder.GenerateValues(() => i++);
 
-            foreach (var p in builder.Parameters)
-            {
-                Console.WriteLine(p.Value + ":" + p.Value.Value);
-            }
-            Console.WriteLine(builder.InsertStatement);
+            //foreach (var p in builder.Parameters)
+            //{
+            //    Console.WriteLine(p.Value + ":" + p.Value.Value);
+            //}
+            //Console.WriteLine(builder.InsertStatement);
 
-            Console.WriteLine();
-            Console.WriteLine(builder.GenerateFullStatement());
+            //Console.WriteLine();
+            //Console.WriteLine(builder.GenerateFullStatement());
+
+            RandomTests t = new  RandomTests();
+            t.ShouldExecuteWithNewNForEachRow();
+            t.ShouldGenerateValuesAndInsertStatementsForAllTables();
+            t.ShouldExecuteOnlyOnCondition_EqualOrGreaterThan();
+
             Console.WriteLine("Done");
             Console.ReadKey();
 

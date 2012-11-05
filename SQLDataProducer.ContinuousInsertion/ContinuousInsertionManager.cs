@@ -35,14 +35,18 @@ namespace SQLDataProducer.ContinuousInsertion
             ConnectionString = connectionString;
         }
 
-        public void DoOneExecution(ExecutionItemCollection items, Func<long> getN)
+        public void DoOneExecution(ExecutionItemCollection items, Func<long> getN, SetCounter _rowInsertCounter, long executionCount)
         {
             var adhd = new QueryExecutor(ConnectionString);
             var builders = Prepare(items);
             foreach (var b in builders)
             {
-                b.GenerateValues(getN);
-                adhd.ExecuteNonQuery(b.InsertStatement, b.Parameters);
+                if (b.ExecuteItem.ShouldExecuteForThisN(executionCount))
+                {
+                    b.GenerateValues(getN);
+                    adhd.ExecuteNonQuery(b.InsertStatement, b.Parameters);
+                    _rowInsertCounter.Add(b.ExecuteItem.RepeatCount);
+                }
             }
             //var adhd = new AdhocDataAccess(ConnectionString);
             //foreach (var ei in items)
@@ -90,17 +94,21 @@ namespace SQLDataProducer.ContinuousInsertion
             return builders;
         }
 
-        public string OneExecutionToString(ExecutionItemCollection execItems, Func<long> getN)
+        public string OneExecutionToString(ExecutionItemCollection execItems, Func<long> getN, SetCounter _rowInsertCounter)
         {
-            StringBuilder sb = new StringBuilder();
-            var builders = Prepare(execItems);
-            foreach (var b in builders)
-            {
-                b.GenerateValues(getN);
-                sb.AppendLine(b.GenerateFullStatement());
-            }
+            throw new NotImplementedException("This should be handled smarter so that it uses the same code as the other execution");
+            //StringBuilder sb = new StringBuilder();
+            //var builders = Prepare(execItems);
+            //foreach (var b in builders)
+            //{
+            //    b.GenerateValues(getN);
+            //    sb.AppendLine(b.GenerateFullStatement());
+            //    _rowInsertCounter.Add(b.ExecuteItem.RepeatCount);
+            //}
 
-            return sb.ToString();
+            //return sb.ToString();
         }
+
+       
     }
 }

@@ -40,7 +40,7 @@ namespace SQLDataProducer.Entities.Generators
 
             Generator gen = new Generator(GENERATOR_RandomGUID, (n, p) =>
             {
-                return Wrap(Guid.NewGuid());
+                return Guid.NewGuid();
             }
                 , paramss);
             return gen;
@@ -57,7 +57,7 @@ namespace SQLDataProducer.Entities.Generators
             {
                 string value = GetParameterByName(p, "GUID").ToString();
 
-                return Wrap(value);
+                return value;
             }
                 , paramss);
             return gen;

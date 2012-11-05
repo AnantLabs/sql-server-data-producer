@@ -23,7 +23,7 @@ namespace SQLDataProducer.Entities.OptionEntities
 
         }
 
-        bool _onlyOutputToFile = true;
+        bool _onlyOutputToFile = false;
         /// <summary>
         /// Get and set wether this execution should only write the scripts to disk instead of running them on the sql server.
         /// </summary>

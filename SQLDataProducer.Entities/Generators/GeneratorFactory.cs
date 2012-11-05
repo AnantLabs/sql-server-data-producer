@@ -42,26 +42,57 @@ namespace SQLDataProducer.Entities.Generators
         {
             switch (dbataTypeDef.DBType)
             {
-                case DBDataType.INT:
-                    return Generators.Generator.GetGeneratorsForInt();
-                case DBDataType.TINYINT:
-                    return Generators.Generator.GetGeneratorsForTinyInt();
-                case DBDataType.SMALLINT:
-                    return Generators.Generator.GetGeneratorsForSmallInt();
-                case DBDataType.BIGINT:
-                    return Generators.Generator.GetGeneratorsForBigInt();
-                case DBDataType.BIT:
+                case System.Data.DbType.Boolean:
                     return Generators.Generator.GetGeneratorsForBit();
-                case DBDataType.VARCHAR:
-                    return Generators.Generator.GetStringGenerators(dbataTypeDef.MaxLength);
-                case DBDataType.DECIMAL:
+
+                case System.Data.DbType.Byte:
+                case System.Data.DbType.SByte:
+                    return Generators.Generator.GetGeneratorsForTinyInt();
+                
+                case System.Data.DbType.Date:
+                case System.Data.DbType.DateTime:
+                case System.Data.DbType.Time:
+                case System.Data.DbType.DateTime2:
+                case System.Data.DbType.DateTimeOffset:
+                    return Generators.Generator.GetDateTimeGenerators();    
+                
+                case System.Data.DbType.Decimal:
+                case System.Data.DbType.Double:
+                case System.Data.DbType.Single:
+                case System.Data.DbType.Currency:
+                case System.Data.DbType.VarNumeric:
                     return Generators.Generator.GetDecimalGenerators();
-                case DBDataType.DATETIME:
-                    return Generators.Generator.GetDateTimeGenerators();
-                case DBDataType.UNIQUEIDENTIFIER:
+                    
+                case System.Data.DbType.Guid:
                     return Generators.Generator.GetGUIDGenerators();
-                case DBDataType.UNKNOWN:
-                    return Generators.Generator.GetStringGenerators(1);
+
+                case System.Data.DbType.Int16:
+                    return Generators.Generator.GetGeneratorsForSmallInt();
+
+                case System.Data.DbType.Int32:
+                case System.Data.DbType.UInt16:
+                case System.Data.DbType.UInt32:
+                case System.Data.DbType.UInt64:
+                    return Generators.Generator.GetGeneratorsForInt();
+                    
+                case System.Data.DbType.Int64:
+                    return Generators.Generator.GetGeneratorsForBigInt();
+                
+                case System.Data.DbType.String:
+                case System.Data.DbType.StringFixedLength:
+                case System.Data.DbType.AnsiStringFixedLength:
+                case System.Data.DbType.AnsiString:
+                    return Generators.Generator.GetStringGenerators(dbataTypeDef.MaxLength);
+                
+                    
+                case System.Data.DbType.Xml:
+                    return Generators.Generator.GetXMLGenerators();
+
+                case System.Data.DbType.Binary:
+                case System.Data.DbType.Object:
+                    return Generators.Generator.GetStringGenerators(1);    
+
+
                 default:
                     throw new NotImplementedException(dbataTypeDef.ToString());
             }

@@ -63,6 +63,10 @@
       <Project>{AD47B9D0-0A49-49ED-9CF0-123809E266D4}</Project>
       <Name>SQLDataProducer.TaskExecuter</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SQLDataProducer.Tests\SQLDataProducer.Tests.csproj">
+      <Project>{D10899F6-29F6-4CF2-A4C6-A30FAE065245}</Project>
+      <Name>SQLDataProducer.Tests</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

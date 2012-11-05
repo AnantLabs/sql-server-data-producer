@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("SQLDataProducer.Tests")]
+[assembly: AssemblyTitle("SQLDataProducer.RandomTests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Net Entertainment NE, AB")]
-[assembly: AssemblyProduct("SQLDataProducer.Tests")]
-[assembly: AssemblyCopyright("Copyright © Net Entertainment NE, AB 2012")]
+[assembly: AssemblyCompany("Peter Henell")]
+[assembly: AssemblyProduct("SQLDataProducer.RandomTests")]
+[assembly: AssemblyCopyright("Copyright © Peter Henell 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

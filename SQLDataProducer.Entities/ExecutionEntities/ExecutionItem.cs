@@ -266,7 +266,6 @@ namespace SQLDataProducer.Entities.ExecutionEntities
 
         public bool ShouldExecuteForThisN(long N)
         {
-            // TODO: cache the calculated value, would it save any performance?
             switch (ExecutionCondition)
             {
                 case ExecutionConditions.None:

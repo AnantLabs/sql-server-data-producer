@@ -83,7 +83,7 @@ namespace SQLDataProducer.Entities.Generators
                 int s = int.Parse(GetParameterByName(p, "Shift Seconds").ToString());
                 int ms = int.Parse(GetParameterByName(p, "Shift Milliseconds").ToString());
 
-                return Wrap(DateTime.Now.AddDays(n).AddHours(h).AddMinutes(min).AddSeconds(s).AddMilliseconds(ms));
+                return DateTime.Now.AddDays(n).AddHours(h).AddMinutes(min).AddSeconds(s).AddMilliseconds(ms);
             }
                 , paramss);
             return gen;
@@ -98,7 +98,7 @@ namespace SQLDataProducer.Entities.Generators
 
             Generator gen = new Generator(GENERATOR_StaticDate, (n, p) =>
             {
-                return Wrap(GetParameterByName(p, "DATE").ToString());
+                return GetParameterByName(p, "DATE").ToString();
             }
                 , paramss);
             return gen;
@@ -121,7 +121,7 @@ namespace SQLDataProducer.Entities.Generators
         {
             Generator gen = new Generator(GENERATOR_RandomDate, (n, p) =>
             {
-                return Wrap(StartDate.AddDays(RandomSupplier.Instance.GetNextInt() % 30));
+                return StartDate.AddDays(RandomSupplier.Instance.GetNextInt() % 30);
             }
                 , null);
             return gen;
@@ -143,7 +143,7 @@ namespace SQLDataProducer.Entities.Generators
                 //int s = int.Parse(GetParameterByName(p, "Shift Seconds").ToString());
                 int ms = int.Parse(GetParameterByName(p, "Shift Milliseconds").ToString());
 
-                return Wrap(StartDate.AddHours(h).AddMinutes(min).AddSeconds(n).AddMilliseconds(ms));
+                return StartDate.AddHours(h).AddMinutes(min).AddSeconds(n).AddMilliseconds(ms);
             }
                 , paramss);
             return gen;
@@ -165,7 +165,7 @@ namespace SQLDataProducer.Entities.Generators
                 int s = int.Parse(GetParameterByName(p, "Shift Seconds").ToString());
                 //int ms = int.Parse(GetParameterByName(p, "Shift Milliseconds").ToString());
 
-                return Wrap(StartDate.AddHours(h).AddMinutes(min).AddSeconds(s).AddMilliseconds(n));
+                return StartDate.AddHours(h).AddMinutes(min).AddSeconds(s).AddMilliseconds(n);
             }
                 , paramss);
             return gen;
@@ -188,7 +188,7 @@ namespace SQLDataProducer.Entities.Generators
                 int s = int.Parse(GetParameterByName(p, "Shift Seconds").ToString());
                 int ms = int.Parse(GetParameterByName(p, "Shift Milliseconds").ToString());
 
-                return Wrap(StartDate.AddHours(h).AddMinutes(n).AddSeconds(s).AddMilliseconds(ms));
+                return StartDate.AddHours(h).AddMinutes(n).AddSeconds(s).AddMilliseconds(ms);
             }
                 , paramss);
             return gen;
@@ -211,7 +211,7 @@ namespace SQLDataProducer.Entities.Generators
                 int s = int.Parse(GetParameterByName(p, "Shift Seconds").ToString());
                 int ms = int.Parse(GetParameterByName(p, "Shift Milliseconds").ToString());
 
-                return Wrap(StartDate.AddHours(n).AddMinutes(min).AddSeconds(s).AddMilliseconds(ms));
+                return StartDate.AddHours(n).AddMinutes(min).AddSeconds(s).AddMilliseconds(ms);
             }
                 , paramss);
             return gen;
@@ -233,7 +233,7 @@ namespace SQLDataProducer.Entities.Generators
                 int s = int.Parse(GetParameterByName(p, "Shift Seconds").ToString());
                 int ms = int.Parse(GetParameterByName(p, "Shift Milliseconds").ToString());
                 
-                return Wrap(StartDate.AddDays(n).AddHours(h).AddMinutes(min).AddSeconds(s).AddMilliseconds(ms));
+                return StartDate.AddDays(n).AddHours(h).AddMinutes(min).AddSeconds(s).AddMilliseconds(ms);
             }
                 , paramss);
             return gen;
@@ -261,18 +261,18 @@ namespace SQLDataProducer.Entities.Generators
                 {
                     DateTime a;
                     if (!DateTime.TryParse(otherColumn.PreviouslyGeneratedValue.ToString().Replace("'", ""), out a))
-                        return Wrap("NULL"); // TODO: What to do if it fails? Exception? Logg?
+                        return DBNull.Value; // TODO: What to do if it fails? Exception? Logg?
 
                     int h = int.Parse(GetParameterByName(p, "Shift Hours").ToString());
                     int min = int.Parse(GetParameterByName(p, "Shift Minutes").ToString());
                     int s = int.Parse(GetParameterByName(p, "Shift Seconds").ToString());
                     int ms = int.Parse(GetParameterByName(p, "Shift Milliseconds").ToString());
 
-                    return Wrap(a.AddHours(h).AddMinutes(min).AddSeconds(s).AddMilliseconds(ms));
+                    return a.AddHours(h).AddMinutes(min).AddSeconds(s).AddMilliseconds(ms);
                 }
 
 
-                return Wrap("NULL");
+                return DBNull.Value;
             }
                 , paramss);
             return gen;

@@ -32,6 +32,7 @@ namespace SQLDataProducer.Entities.Generators
         public static readonly string GENERATOR_ExponentialRandomNumbers = "Exponential Random Numbers";
         public static readonly string GENERATOR_WeibullRandomNumbers = "Weibull Random Numbers";
         public static readonly string GENERATOR_LaplaceRandomNumbers = "Laplace Random Numbers";
+        public static readonly string GENERATOR_RandomBit = "Random Bit";
 
 
         public static ObservableCollection<Generator> GetGeneratorsForInt()
@@ -64,10 +65,9 @@ namespace SQLDataProducer.Entities.Generators
         }
         public static ObservableCollection<Generator> GetGeneratorsForBit()
         {
-            long maxValue = 1;
-            long minValue = 0;
-
-            return CreateIntGeneratorsWithSettings(maxValue, minValue);
+            ObservableCollection<Generator> valueGenerators = new ObservableCollection<Generator>();
+            valueGenerators.Add(CreateRandomBit());
+            return valueGenerators;
         }
 
 
@@ -102,7 +102,7 @@ namespace SQLDataProducer.Entities.Generators
                 if (keys == null || keys.Count == 0)
                     throw new ArgumentException("There are no foreign keys in the table that this column references");
                 
-                return Wrap(keys[RandomSupplier.Instance.GetNextInt() % keys.Count]);
+                return keys[RandomSupplier.Instance.GetNextInt() % keys.Count];
             }
                 , paramss);
             return gen;
@@ -133,7 +133,7 @@ namespace SQLDataProducer.Entities.Generators
                 {
                     mi = fkkeys.Count;
                 }
-                return Wrap(keys[n.LongToInt() % keys.Count]);
+                return keys[n.LongToInt() % keys.Count];
             }
                 , paramss);
             return gen;
@@ -168,6 +168,19 @@ namespace SQLDataProducer.Entities.Generators
                     return (RandomSupplier.Instance.GetNextInt() % maxValue) + minValue;;
                 }
                 , paramss);
+            return gen;
+        }
+
+        
+        private static Generator CreateRandomBit()
+        {
+            GeneratorParameterCollection paramss = new GeneratorParameterCollection();
+
+            Generator gen = new Generator(GENERATOR_RandomBit, (n, p) =>
+            {
+                return RandomSupplier.Instance.GetNextInt() % 2 == 0;
+            }
+                , null);
             return gen;
         }
 
@@ -356,7 +369,7 @@ namespace SQLDataProducer.Entities.Generators
                 }
 
 
-                return Wrap("NULL");
+                return DBNull.Value;
             }
                 , paramss);
             return gen;

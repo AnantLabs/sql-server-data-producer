@@ -41,52 +41,52 @@ namespace SQLDataProducer.Entities
         ConstantN
     }
 
-    public enum DBDataType
-    {
-        INT,
-        TINYINT,
-        SMALLINT,
-        BIGINT,
-        BIT,
-        VARCHAR,
-        //NVARCHAR,
-        //CHAR,
-        //NCHAR,
-        DECIMAL,
-        //FLOAT,
-        DATETIME,
-        UNIQUEIDENTIFIER,
-        UNKNOWN
-    }
+    //public enum DBDataType
+    //{
+    //    INT,
+    //    TINYINT,
+    //    SMALLINT,
+    //    BIGINT,
+    //    BIT,
+    //    VARCHAR,
+    //    //NVARCHAR,
+    //    //CHAR,
+    //    //NCHAR,
+    //    DECIMAL,
+    //    //FLOAT,
+    //    DATETIME,
+    //    UNIQUEIDENTIFIER,
+    //    UNKNOWN
+    //}
 
-    public static class EnumExtensions
-    {
-        public static string ToCompareString(this ExecutionConditions cond, int conditionValue)
-        {
-            switch (cond)
-            {
-                case ExecutionConditions.None:
-                    return string.Empty;
-                case ExecutionConditions.LessThan:
-                    return string.Format("< {0}", conditionValue);
-                case ExecutionConditions.LessOrEqualTo:
-                    return string.Format("<= {0}", conditionValue);
-                case ExecutionConditions.EqualTo:
-                    return string.Format("= {0}", conditionValue);
-                case ExecutionConditions.EqualOrGreaterThan:
-                    return string.Format(">= {0}", conditionValue);
-                case ExecutionConditions.GreaterThan:
-                    return string.Format("> {0}", conditionValue);
-                case ExecutionConditions.NotEqualTo:
-                    return string.Format("<> {0}", conditionValue);
-                case ExecutionConditions.EveryOtherX:
-                    return string.Format("% {0} = 0", conditionValue);
-                default:
-                    throw new NotImplementedException();
-            }
-        }
+    //public static class EnumExtensions
+    //{
+    //    public static string ToCompareString(this ExecutionConditions cond, int conditionValue)
+    //    {
+    //        switch (cond)
+    //        {
+    //            case ExecutionConditions.None:
+    //                return string.Empty;
+    //            case ExecutionConditions.LessThan:
+    //                return string.Format("< {0}", conditionValue);
+    //            case ExecutionConditions.LessOrEqualTo:
+    //                return string.Format("<= {0}", conditionValue);
+    //            case ExecutionConditions.EqualTo:
+    //                return string.Format("= {0}", conditionValue);
+    //            case ExecutionConditions.EqualOrGreaterThan:
+    //                return string.Format(">= {0}", conditionValue);
+    //            case ExecutionConditions.GreaterThan:
+    //                return string.Format("> {0}", conditionValue);
+    //            case ExecutionConditions.NotEqualTo:
+    //                return string.Format("<> {0}", conditionValue);
+    //            case ExecutionConditions.EveryOtherX:
+    //                return string.Format("% {0} = 0", conditionValue);
+    //            default:
+    //                throw new NotImplementedException();
+    //        }
+    //    }
 
-    }
+    //}
 
     //public class EnumConverter
     //{

@@ -8,8 +8,8 @@
     <ProjectGuid>{D10899F6-29F6-4CF2-A4C6-A30FAE065245}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SQLDataProducer.Tests</RootNamespace>
-    <AssemblyName>SQLDataProducer.Tests</AssemblyName>
+    <RootNamespace>SQLDataProducer.RandomTests</RootNamespace>
+    <AssemblyName>SQLDataProducer.RandomTests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -41,8 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GeneratorTests.cs" />
+    <Compile Include="RandomTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="OtherTests\DatabaseEntitityTests.cs" />
+    <Compile Include="OtherTests\GeneratorTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SQLDataProducer.ContinuousInsertion.DataAccess\SQLDataProducer.ContinuousInsertion.DataAccess.csproj">

@@ -18,14 +18,14 @@ namespace SQLDataProducer.Entities
 {
     public class SetCounter
     {
-        int _counter;
-        int Counter { get { return _counter; } }
+        long _counter;
+        long Counter { get { return _counter; } }
         public SetCounter()
         {
             _counter = 0;
         }
 
-        public int GetNext()
+        public long GetNext()
         {
             return Interlocked.Increment(ref _counter);
         }
@@ -33,21 +33,27 @@ namespace SQLDataProducer.Entities
         {
             Interlocked.Increment(ref _counter);
         }
-        public int Peek()
+        public long Peek()
         {
             return _counter;
         }
-        public bool IsEqual(int c)
+        public bool IsEqual(long c)
         {
             return Interlocked.Equals(_counter, c);
         }
+
+        public long Add(long n)
+        {
+            return Interlocked.Add(ref _counter, n);
+        }
+
         object _lock = new object();
-         
-        internal bool IncrementIfLessThan(int targetNumExecutions)
+
+        internal bool IncrementIfLessThan(long targetNumExecutions)
         {
             lock (_lock)
             {
-                int next = Peek() + 1;
+                long next = Peek() + 1;
                 if (next < targetNumExecutions)
                 {
                     Increment();

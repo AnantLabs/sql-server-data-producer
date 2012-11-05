@@ -142,15 +142,6 @@ namespace SQLDataProducer.Entities.Generators
             return ValueGenerator(n, GeneratorParameters);
         }
 
-        /// <summary>
-        /// For wrapping values in single quoutation marks (to make sql server happy)
-        /// </summary>
-        /// <param name="s"></param>
-        /// <returns></returns>
-        protected static object Wrap(object s)
-        {
-            return s;// string.Format("'{0}'", s);
-        }
 
         internal static object GetParameterByName(GeneratorParameterCollection paramas, string name)
         {

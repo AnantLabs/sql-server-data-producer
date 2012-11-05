@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Data;
 
 namespace SQLDataProducer.Entities.DatabaseEntities
 {
@@ -29,7 +30,7 @@ namespace SQLDataProducer.Entities.DatabaseEntities
             DBType = StringToDBDataType(rawDataType);
             IsNullable = nullable;
 
-            if (DBType == DBDataType.VARCHAR)
+            if (DBType == DbType.String)
             {
                 int length = GetLengthOfStringDataType(rawDataType);
                 MaxLength = length;
@@ -64,8 +65,8 @@ namespace SQLDataProducer.Entities.DatabaseEntities
             return length;
         }
 
-        DBDataType _dbType;
-        public DBDataType DBType
+        DbType _dbType;
+        public DbType DBType
         {
             get
             {
@@ -80,6 +81,23 @@ namespace SQLDataProducer.Entities.DatabaseEntities
                 }
             }
         }
+
+        //        DBDataType _dbType;
+        //public DBDataType DBType
+        //{
+        //    get
+        //    {
+        //        return _dbType;
+        //    }
+        //    set
+        //    {
+        //        if (_dbType != value)
+        //        {
+        //            _dbType = value;
+        //            OnPropertyChanged("DBType");
+        //        }
+        //    }
+        
 
 
         bool _isNullable;
@@ -141,31 +159,31 @@ namespace SQLDataProducer.Entities.DatabaseEntities
             return DBType.ToString();
         }
 
-
-        private DBDataType StringToDBDataType(string dataType)
+        
+        private DbType StringToDBDataType(string dataType)
         {
             dataType = dataType.ToLower();
 
             if (dataType.StartsWith("int"))
             {
-                return DBDataType.INT;
+                return DbType.Int32;// DBDataType.INT;
             }
             else if (dataType.StartsWith("tinyint"))
             {
-                return DBDataType.TINYINT;
+                return DbType.Byte;// DBDataType.TINYINT;
             }
             else if (dataType.StartsWith("smallint"))
             {
-                return DBDataType.SMALLINT;
+                return DbType.Int16;// DBDataType.SMALLINT;
             }
             else if (dataType.StartsWith("bigint"))
             {
-                return DBDataType.BIGINT;
+                return DbType.Int64;// DBDataType.BIGINT;
             }
             else if (dataType.StartsWith("bit")
                 || dataType.StartsWith("flag"))
             {
-                return DBDataType.BIT;
+                return DbType.Boolean;// DBDataType.BIT;
             }
             else if (dataType.StartsWith("varchar")
                 || dataType.StartsWith("nvarchar")
@@ -174,28 +192,32 @@ namespace SQLDataProducer.Entities.DatabaseEntities
                 || dataType.StartsWith("sysname"))
             {
 
-                return DBDataType.VARCHAR;
+                return DbType.String;// DBDataType.VARCHAR;
             }
             else if (dataType.StartsWith("decimal")
                 || dataType.StartsWith("float")
                 || dataType.StartsWith("money")
                 || dataType.StartsWith("smallmoney"))
             {
-                return DBDataType.DECIMAL;
+                return DbType.Decimal;// DBDataType.DECIMAL;
             }
             else if (dataType.StartsWith("datetime")
                 || dataType.StartsWith("date")
-                || dataType.StartsWith("time"))
+                || dataType.StartsWith("time")
+                || dataType.StartsWith("smalldatetime"))
             {
-                return DBDataType.DATETIME;
+                return DbType.DateTime;// DBDataType.DATETIME;
             }
             else if (dataType.StartsWith("uniqueidentifier"))
             {
-                return DBDataType.UNIQUEIDENTIFIER;
+                return DbType.Guid;// DBDataType.UNIQUEIDENTIFIER;
             }
+            else if (dataType.StartsWith("xml"))
+                return DbType.Xml;
+
             else
             {
-                return DBDataType.UNKNOWN;
+                return DbType.Object;// DBDataType.UNKNOWN;
             }
         }
     
