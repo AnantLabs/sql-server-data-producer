@@ -107,6 +107,7 @@ namespace SQLDataProducer.DataAccess
 
         protected IEnumerable<T> GetMany<T>(string sql, Func<SqlDataReader, T> itemBuilder)
         {
+            var list = new List<T>();
             using (SqlConnection con = new SqlConnection(_connectionString))
             {
                 using (SqlCommand cmd = new SqlCommand(sql, con))
@@ -120,11 +121,12 @@ namespace SQLDataProducer.DataAccess
                         if (item == null)
                             continue;
 
-                        yield return item;
+                        list.Add(item);
                     }
 
                 }
             }
+            return list;
         }
     }
 }

@@ -19,6 +19,11 @@ namespace SQLDataProducer.RandomTests
         {
         }
 
+        [Test]
+        public void ShouldHaveForeignKeysFor()
+        {
+
+        }
 
         [Test]
         public void ShouldGetIdentityFromPreviousItem()

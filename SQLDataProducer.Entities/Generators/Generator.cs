@@ -98,7 +98,7 @@ namespace SQLDataProducer.Entities.Generators
             }
         }
 
-        protected Generator(string generatorName, ValueCreatorDelegate generator, GeneratorParameterCollection genParams)
+        public Generator(string generatorName, ValueCreatorDelegate generator, GeneratorParameterCollection genParams)
         {
             ValueGenerator = generator;
             GeneratorParameters = genParams ?? new GeneratorParameterCollection();

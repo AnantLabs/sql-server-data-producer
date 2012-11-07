@@ -157,21 +157,21 @@ where object_id=object_id('{1}.{0}')  and cols.is_computed = 0";
             return cols;
         }
 
-        private void GetForeignKeyGeneratorsForColumn(ColumnEntity item)
+        private void GetForeignKeyGeneratorsForColumn(ColumnEntity column)
         {
-            item.ForeignKey.Keys = ForeignKeyManager.Instance.GetPrimaryKeysForTable(this._connectionString, item.ForeignKey.ReferencingTable, item.ForeignKey.ReferencingColumn);
+            column.ForeignKey.Keys = ForeignKeyManager.Instance.GetPrimaryKeysForTable(this._connectionString, column.ForeignKey.ReferencingTable, column.ForeignKey.ReferencingColumn);
             
             // If we found any keys in the foreign table, add the generators.
             // TODO: When the lazy implementation is done, this need to be adjusted
-            if (item.ForeignKey.Keys.Count > 0)
+            if (column.ForeignKey.Keys.Count > 0)
             {
-                IEnumerable<Generator> fkGenerators = GeneratorFactory.GetForeignKeyGenerators(item.ForeignKey.Keys);
+                IEnumerable<Generator> fkGenerators = GeneratorFactory.GetForeignKeyGenerators(column.ForeignKey.Keys);
                 foreach (var fkgen in fkGenerators)
                 {
-                    item.PossibleGenerators.Add(fkgen);
+                    column.PossibleGenerators.Add(fkgen);
                 }
 
-                item.Generator = fkGenerators.First();
+                column.Generator = fkGenerators.First();
             }
             
         }

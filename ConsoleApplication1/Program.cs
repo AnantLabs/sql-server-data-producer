@@ -42,11 +42,17 @@ namespace TestConsoleApplication
             //Console.WriteLine();
             //Console.WriteLine(builder.GenerateFullStatement());
 
-            RandomTests t = new  RandomTests();
-            //t.ShouldExecute_100000_Executions_Threaded();
-            //ForeignKeyTests t = new ForeignKeyTests();
-            t.ShouldExecuteWithNewNForEachExecution();
-            //t.ShouldGetIdentityFromPreviousItem();
+
+            {
+                RandomTests t = new  RandomTests();
+                //t.ShouldExecute_100000_Executions_Threaded();
+                t.ShouldExecuteWithNewNForEachExecution();
+            }
+            {
+                ForeignKeyTests t = new ForeignKeyTests();
+
+                t.ShouldGetIdentityFromPreviousItem();
+            }
 
 
             Console.WriteLine("Done");
