@@ -225,7 +225,7 @@ ORDER BY RowNumber desc
         {
             ColumnEntityDataAccess colDa = new ColumnEntityDataAccess(this._connectionString);
             TableEntity table = GetOne(string.Format("select Table_Name, Table_Schema from information_Schema.Tables where table_schema = '{0}' and table_name = '{1}'", tableSchema, tableName), CreateTableEntity);
-            table.Columns = colDa.GetAllColumnsForTable(table);
+            table.Columns.AddRange(colDa.GetAllColumnsForTable(table));
 
             return table;
         }
@@ -251,7 +251,7 @@ ORDER BY RowNumber desc
                     ColumnEntityDataAccess colDa = new ColumnEntityDataAccess(this._connectionString);
                     foreach (var tabl in tables)
                     {
-                        tabl.Columns = colDa.GetAllColumnsForTable(tabl);
+                        tabl.Columns.AddRange(colDa.GetAllColumnsForTable(tabl));
                     }
                     callback(new TableEntityCollection(tables));
                 });
@@ -272,7 +272,7 @@ ORDER BY RowNumber desc
             ColumnEntityDataAccess colDa = new ColumnEntityDataAccess(this._connectionString);
             foreach (var tabl in tables)
             {
-                tabl.Columns = colDa.GetAllColumnsForTable(tabl);
+                tabl.Columns.AddRange(colDa.GetAllColumnsForTable(tabl));
             }
             return tables;
         }

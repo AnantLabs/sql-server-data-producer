@@ -89,11 +89,11 @@ namespace SQLDataProducer.TaskExecuter
             // Initialize the start values for the generators
             SQLDataProducer.Entities.Generators.Generator.InitGeneratorStartValues(options);
 
-            _executor = new TaskExecuter(options, connectionString);
+            _executor = new TaskExecuter(options, connectionString, executionItems);
             RunTruncationOnExecutionItems(connectionString, executionItems);
 
             RunPrepare(connectionString, preScript);
-            ExecutionResult execResult = Execute(connectionString, executionItems);
+            ExecutionResult execResult = _executor.Execute();
 
             RunPostScript(connectionString, postScript);
 
@@ -129,12 +129,12 @@ namespace SQLDataProducer.TaskExecuter
             adhd.ExecuteNonQuery(preScript);
         }
 
-        private ExecutionResult Execute(string connectionString, ExecutionItemCollection executionItems)
-        {
-            ExecutionTaskDelegate taskToExecute = _executor.CreateSQLTaskForExecutionItems(executionItems);
+        //private ExecutionResult Execute(string connectionString, ExecutionItemCollection executionItems)
+        //{
+        //    //ExecutionTaskDelegate taskToExecute = _executor.CreateSQLTaskForExecutionItems(executionItems);
 
-            return _executor.Execute(taskToExecute);
-        }
+        //    return _executor.Execute();
+        //}
 
         private TaskExecuter _executor;
     }

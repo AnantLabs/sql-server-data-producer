@@ -16,6 +16,7 @@ using System;
 using System.Collections.ObjectModel;
 using SQLDataProducer.Entities.Generators.Collections;
 using SQLDataProducer.Entities.DatabaseEntities;
+using System.Linq;
 
 namespace SQLDataProducer.Entities.Generators
 {
@@ -205,7 +206,7 @@ namespace SQLDataProducer.Entities.Generators
 
 
         [GeneratorMetaData(Generators.GeneratorMetaDataAttribute.GeneratorType.Integer)]
-        private static Generator CreateIdentityFromExecutionItem()
+        private Generator CreateIdentityFromExecutionItem()
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
             paramss.Add(new GeneratorParameter("Item Number#", 1));
@@ -214,7 +215,19 @@ namespace SQLDataProducer.Entities.Generators
             {
                 long value = long.Parse(GetParameterByName(p, "Item Number#").ToString());
 
-                return string.Format("@i{0}_identity", value);
+                return this
+                    .ParentColumn
+                    .ParentTable
+                    .ParentExecutionItem
+                    .ParentCollection
+                    .Where
+                        (e => e.Order == value)
+                        .First()
+                        .TargetTable
+                        .Columns
+                        .Where
+                            (c => c.IsIdentity)
+                            .First().PreviouslyGeneratedValue;
             }
                 , paramss);
             return gen;

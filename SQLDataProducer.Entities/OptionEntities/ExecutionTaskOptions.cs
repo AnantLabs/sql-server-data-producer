@@ -102,7 +102,7 @@ namespace SQLDataProducer.Entities.OptionEntities
             }
         }
 
-        int _fixedExecutions = 10;
+        int _fixedExecutions = 1;
         /// <summary>
         /// Get and Set the number of executions to run when using the Count based execution type.
         /// </summary>
@@ -122,7 +122,7 @@ namespace SQLDataProducer.Entities.OptionEntities
             }
         }
 
-        ExecutionTypes _executionType = ExecutionTypes.DurationBased;
+        ExecutionTypes _executionType = ExecutionTypes.ExecutionCountBased;
         public ExecutionTypes ExecutionType
         {
             get

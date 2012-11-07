@@ -41,16 +41,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ForeignKeyTests.cs" />
+    <Compile Include="LongRunningTests.cs" />
     <Compile Include="RandomTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="OtherTests\DatabaseEntitityTests.cs" />
     <Compile Include="OtherTests\GeneratorTests.cs" />
+    <Compile Include="TestBase.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SQLDataProducer.ContinuousInsertion.DataAccess\SQLDataProducer.ContinuousInsertion.DataAccess.csproj">
-      <Project>{64D8ED9B-A2D6-45F7-8702-73E387A9E368}</Project>
-      <Name>SQLDataProducer.ContinuousInsertion.DataAccess</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SQLDataProducer.ContinuousInsertion\SQLDataProducer.ContinuousInsertion.csproj">
       <Project>{4BB5B315-0C7C-44B7-BF79-4A52C8A12E0F}</Project>
       <Name>SQLDataProducer.ContinuousInsertion</Name>

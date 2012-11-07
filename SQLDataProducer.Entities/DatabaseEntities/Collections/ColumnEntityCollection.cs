@@ -31,6 +31,14 @@ namespace SQLDataProducer.Entities.DatabaseEntities.Collections
         {
         }
 
+        public void AddRange(IEnumerable<ColumnEntity> columns)
+        {
+            foreach (var c in columns)
+            {
+                base.Add(c);
+            }
+        }
+
         /// <summary>
         /// Clones the collection of ColumnEntities.
         /// </summary>

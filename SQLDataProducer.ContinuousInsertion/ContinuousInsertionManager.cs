@@ -29,70 +29,36 @@ namespace SQLDataProducer.ContinuousInsertion
     public class ContinuousInsertionManager
     {
         private string ConnectionString { get; set; }
+        QueryExecutor _queryExecutor;
+        ObservableCollection<TableEntityInsertStatementBuilder> _builders;
 
-        public ContinuousInsertionManager(string connectionString)
+        public ContinuousInsertionManager(string connectionString, ExecutionItemCollection items)
         {
             ConnectionString = connectionString;
+            _queryExecutor = new QueryExecutor(ConnectionString);
+            _builders = TableEntityInsertStatementBuilder.CreateBuilders(items);
         }
 
-        public void DoOneExecution(ExecutionItemCollection items, Func<long> getN, SetCounter _rowInsertCounter, long executionCount)
+        public void DoOneExecution(Func<long> getN, SetCounter _rowInsertCounter, long executionCount)
         {
-            var adhd = new QueryExecutor(ConnectionString);
-            var builders = Prepare(items);
-            foreach (var b in builders)
+            foreach (var b in _builders)
             {
                 if (b.ExecuteItem.ShouldExecuteForThisN(executionCount))
                 {
                     b.GenerateValues(getN);
-                    adhd.ExecuteNonQuery(b.InsertStatement, b.Parameters);
+                    if (!b.ExecuteItem.TargetTable.HasIdentityColumn)
+                        _queryExecutor.ExecuteNonQuery(b.InsertStatement, b.Parameters);
+                    else
+                        b.ExecuteItem.TargetTable.Columns.Where( c => c.IsIdentity)
+                            .First()
+                            .PreviouslyGeneratedValue = _queryExecutor.ExecuteIdentity(b.InsertStatement, b.Parameters);
+                    
                     _rowInsertCounter.Add(b.ExecuteItem.RepeatCount);
                 }
             }
-            //var adhd = new AdhocDataAccess(ConnectionString);
-            //foreach (var ei in items)
-            //{
-            //    //if (ei.TargetTable.HasForeignKey)
-            //    for (int i = 0; i < ei.RepeatCount; i++)
-            //    {
-            //        long n = getN();
-            //        if (!ei.ShouldExecuteOnThisN(n))
-            //            return;
-
-            //        string insertQuery = ei.GenerateInsertQuery(n, items);
-
-            //        if (ei.TargetTable.HasIdentityColumn)
-            //        {
-            //            var fk = adhd.ExecuteIdentityQuery(insertQuery);
-
-            //            ei.TargetTable.LastInsertedIdentityValue = fk.IdentityValue;
-
-
-            //        }
-            //        else
-            //        {
-            //            adhd.ExecuteNonQuery(insertQuery);
-            //        }
-
-            //        if (items.IsTableReferenced(ei.TargetTable))
-            //            ForeignKeyManager.Instance.AddKeyToTable(ei.TargetTable, fk.IdentityValue);
-
-
-            //    }
-
-
-            //}
         }
 
-        private ObservableCollection<TableEntityInsertStatementBuilder> Prepare(ExecutionItemCollection items)
-        {
-            ObservableCollection<TableEntityInsertStatementBuilder> builders = new ObservableCollection<TableEntityInsertStatementBuilder>();
-            foreach (var item in items)
-            {
-                builders.Add(new TableEntityInsertStatementBuilder(item));
-            }
-
-            return builders;
-        }
+        
 
         public string OneExecutionToString(ExecutionItemCollection execItems, Func<long> getN, SetCounter _rowInsertCounter)
         {

@@ -14,6 +14,7 @@
 
 using System;
 using SQLDataProducer.RandomTestsnStuff;
+using SQLDataProducer.RandomTests;
 
 
 namespace TestConsoleApplication
@@ -42,9 +43,11 @@ namespace TestConsoleApplication
             //Console.WriteLine(builder.GenerateFullStatement());
 
             RandomTests t = new  RandomTests();
-            t.ShouldExecuteWithNewNForEachRow();
-            t.ShouldGenerateValuesAndInsertStatementsForAllTables();
-            t.ShouldExecuteOnlyOnCondition_EqualOrGreaterThan();
+            //t.ShouldExecute_100000_Executions_Threaded();
+            //ForeignKeyTests t = new ForeignKeyTests();
+            t.ShouldExecuteWithNewNForEachExecution();
+            //t.ShouldGetIdentityFromPreviousItem();
+
 
             Console.WriteLine("Done");
             Console.ReadKey();

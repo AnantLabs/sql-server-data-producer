@@ -140,22 +140,21 @@ where object_id=object_id('{1}.{0}')  and cols.is_computed = 0";
         /// </summary>
         /// <param name="table">the table to get all columns for</param>
         /// <returns></returns>
-        public ColumnEntityCollection GetAllColumnsForTable(TableEntity table)
+        public IEnumerable<ColumnEntity> GetAllColumnsForTable(TableEntity table)
         {
-            ColumnEntityCollection cols = new ColumnEntityCollection(GetMany(
+            var cols = GetMany(
                             string.Format(GET_COLUMNS_FOR_TABLE_QUERY
                                     , table.TableName
                                     , table.TableSchema)
-                            , CreateColumnEntity));
+                            , CreateColumnEntity);
 
+            // TODO: Dont add these foreign key generators here. Should be handled more central
             foreach (var item in cols.Where(x => x.IsForeignKey))
             {
                 GetForeignKeyGeneratorsForColumn(item);
             }
 
             return cols;
-
-
         }
 
         private void GetForeignKeyGeneratorsForColumn(ColumnEntity item)

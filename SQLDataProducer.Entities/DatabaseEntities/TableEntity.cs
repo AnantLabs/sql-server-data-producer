@@ -18,6 +18,7 @@ using System.Xml.Serialization;
 using SQLDataProducer.Entities;
 using System.Linq;
 using System.Text;
+using SQLDataProducer.Entities.ExecutionEntities;
 
 
 namespace SQLDataProducer.Entities.DatabaseEntities
@@ -33,21 +34,45 @@ namespace SQLDataProducer.Entities.DatabaseEntities
             TableName = tableName;
             TableSchema = tableSchema;
         }
+
         public TableEntity()
         {
             Columns = new ColumnEntityCollection();
             Columns.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(Columns_CollectionChanged);
-
         }
 
+        // Columns added event handler
         void Columns_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             foreach (ColumnEntity item in e.NewItems)
             {
                 if (item.HasWarning)
                     HasWarning = true;
+
+                item.ParentTable = this;
+            }
+
+            HasIdentityColumn = Columns.Any(c => c.IsIdentity);
+        }
+
+
+        bool _hasIdentityColumn = false;
+        public bool HasIdentityColumn
+        {
+            get
+            {
+                return _hasIdentityColumn;
+            }
+            private set
+            {
+                if (_hasIdentityColumn != value)
+                {
+                    _hasIdentityColumn = value;
+                    OnPropertyChanged("HasIdentityColumn");
+                }
             }
         }
+
 
         ColumnEntityCollection _columns;
         public ColumnEntityCollection Columns
@@ -56,7 +81,7 @@ namespace SQLDataProducer.Entities.DatabaseEntities
             {
                 return _columns;
             }
-            set
+            private set
             {
                 if (_columns != value)
                 {
@@ -225,6 +250,25 @@ namespace SQLDataProducer.Entities.DatabaseEntities
         }
 
 
+        /// <summary>
+        ///  Execution item where this table is used.
+        /// </summary>
+        ExecutionItem _parentExecutionItem;
+        public ExecutionItem ParentExecutionItem
+        {
+            get
+            {
+                return _parentExecutionItem;
+            }
+            set
+            {
+                if (_parentExecutionItem != value)
+                {
+                    _parentExecutionItem = value;
+                    OnPropertyChanged("ParentExecutionItem");
+                }
+            }
+        }
        
     }
 }

@@ -20,6 +20,7 @@ using System.Xml.Serialization;
 using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Linq;
+using SQLDataProducer.Entities.DatabaseEntities;
 
 namespace SQLDataProducer.Entities.Generators
 {
@@ -73,6 +74,27 @@ namespace SQLDataProducer.Entities.Generators
             {
                 _generatorHelpText = value;
                 OnPropertyChanged("GeneratorHelpText");
+            }
+        }
+
+
+        /// <summary>
+        /// Column where this generator is attached.
+        /// </summary>
+        ColumnEntity _parentColumn;
+        public ColumnEntity ParentColumn
+        {
+            get
+            {
+                return _parentColumn;
+            }
+            set
+            {
+                if (_parentColumn != value)
+                {
+                    _parentColumn = value;
+                    OnPropertyChanged("ParentColumn");
+                }
             }
         }
 

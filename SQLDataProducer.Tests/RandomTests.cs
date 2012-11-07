@@ -42,6 +42,8 @@ namespace SQLDataProducer.RandomTestsnStuff
                 int i = 1;
                 builder.GenerateValues(() => i++);
 
+                Assert.Greater(table.Columns.Count, 0);
+
                 Console.WriteLine();
                 Console.WriteLine("We dont really care about the errors, we just want to generate data for all the tables and columns.");
                 Console.WriteLine(builder.GenerateFullStatement());
@@ -262,6 +264,7 @@ namespace SQLDataProducer.RandomTestsnStuff
             }
         }
 
+       
         
 
 
@@ -320,22 +323,23 @@ if exists (select 1 from INFORMATION_SCHEMA.tables where TABLE_NAME = 'NewPerson
 	drop table Person.NewPerson;
 	
 	
+
 create table Person.NewPerson(
 	NewPersonId int identity(1, 1) primary key,
 	Name varchar(500) not null,
-	BitColumn bit, 
-	DecimalColumn decimal(10, 4),
-	BigintColumn bigint, 
-	VarcharMaxColumn varchar(max) null,
-	FloatColumn float,
-	DateTime2Column datetime2,
-	DateTimeColumn datetime,
-	NCharFiveColumn nchar(5),
-	DateColumn date, 
-	TimeColumn time,
-	SmallIntColumn smallint,
-	SmallDateTimeColumn smalldatetime,
-	SmallMoneyColumn smallmoney 
+	BitColumn bit not null, 
+	DecimalColumn decimal(10, 4) not null,
+	BigintColumn bigint not null, 
+	VarcharMaxColumn varchar(max)  not null,
+	FloatColumn float not null,
+	DateTime2Column datetime2 not null,
+	DateTimeColumn datetime not null,
+	NCharFiveColumn nchar(5) not null,
+	DateColumn date not null, 
+	TimeColumn time not null,
+	SmallIntColumn smallint not null,
+	SmallDateTimeColumn smalldatetime not null,
+	SmallMoneyColumn smallmoney  not null
 );
 
 create table Person.AnotherTable(

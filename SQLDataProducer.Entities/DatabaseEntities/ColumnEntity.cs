@@ -120,6 +120,7 @@ namespace SQLDataProducer.Entities.DatabaseEntities
                 if (_generator != value)
                 {
                     _generator = value;
+                    _generator.ParentColumn = this;
                     OnPropertyChanged("Generator");
                 }
             }
@@ -334,6 +335,24 @@ namespace SQLDataProducer.Entities.DatabaseEntities
             {
                 _warningText = value;
                 OnPropertyChanged("WarningText");
+            }
+        }
+
+
+        TableEntity _parentTable;
+        public TableEntity ParentTable
+        {
+            get
+            {
+                return _parentTable;
+            }
+            set
+            {
+                if (_parentTable != value)
+                {
+                    _parentTable = value;
+                    OnPropertyChanged("ParentTable");
+                }
             }
         }
 

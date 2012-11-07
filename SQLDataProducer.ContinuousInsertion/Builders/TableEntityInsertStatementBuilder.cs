@@ -27,7 +27,6 @@ using SQLDataProducer.Entities.ExecutionEntities;
 namespace SQLDataProducer.ContinuousInsertion.Builders
 {
 
-    // TODO: Dont inherit from another project
     public class TableEntityInsertStatementBuilder 
     {
         Dictionary<string, DbParameter> _paramCollection;
@@ -117,6 +116,8 @@ namespace SQLDataProducer.ContinuousInsertion.Builders
             }
 
             sb.Append(")");
+            
+            
             sb.AppendLine();
         }
 
@@ -146,9 +147,12 @@ namespace SQLDataProducer.ContinuousInsertion.Builders
                 }
 
                 sb.Append(")");
-                sb.Append(ExecuteItem.RepeatCount == rep ? string.Empty : ", ");
+                sb.Append(ExecuteItem.RepeatCount == rep ? ";" : ", ");
                 sb.AppendLine();
             }
+            // If the table have idenitity column then we shuold select that to get it back to the application
+            if (ExecuteItem.TargetTable.HasIdentityColumn)
+                sb.AppendLine("SELECT SCOPE_IDENTITY();");
         }
 
         /// <summary>
@@ -160,15 +164,14 @@ namespace SQLDataProducer.ContinuousInsertion.Builders
             for (int rep = 1; rep <= ExecuteItem.RepeatCount; rep++)
             {
                 long N = getN();
-                //if (ExecuteItem.ShouldExecuteForThisN(N))
-                //{
-                    ExecuteItem.TargetTable.GenerateValuesForColumns(N);
-                    foreach (var col in ExecuteItem.TargetTable.Columns.Where(x => x.IsNotIdentity))
-                    {
-                        string paramName = GetParamName(rep, col);
-                        Parameters[paramName].Value = col.PreviouslyGeneratedValue;
-                    }
-                //}
+
+                ExecuteItem.TargetTable.GenerateValuesForColumns(N);
+                foreach (var col in ExecuteItem.TargetTable.Columns.Where(x => x.IsNotIdentity))
+                {
+                    string paramName = GetParamName(rep, col);
+                    Parameters[paramName].Value = col.PreviouslyGeneratedValue;
+                }
+
             }
         }
 
@@ -185,7 +188,7 @@ namespace SQLDataProducer.ContinuousInsertion.Builders
                         continue;
 
                     string paramName = GetParamName(rep, col);
-                    sb.AppendFormat("\t DECLARE {0} {1} = {2};", paramName, col.ColumnDataType.Raw, col.PreviouslyGeneratedValue);
+                    sb.AppendFormat("\t DECLARE {0} {1} = '{2}';", paramName, col.ColumnDataType.Raw, col.PreviouslyGeneratedValue);
                     sb.AppendLine();
                 }
             }
@@ -198,6 +201,17 @@ namespace SQLDataProducer.ContinuousInsertion.Builders
         private static string GetParamName(int rep, ColumnEntity col)
         {
             return string.Format("@{0}_{1}", col.ColumnName.Replace(" ", "").Replace(".", ""), rep);
+        }
+
+        public static ObservableCollection<TableEntityInsertStatementBuilder> CreateBuilders(ExecutionItemCollection items)
+        {
+            var builders = new ObservableCollection<TableEntityInsertStatementBuilder>();
+            foreach (var item in items)
+            {
+                builders.Add(new TableEntityInsertStatementBuilder(item));
+            }
+
+            return builders;
         }
     }
 }

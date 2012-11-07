@@ -30,8 +30,6 @@ namespace SQLDataProducer.TaskExecuter
     {
         private System.Threading.CancellationTokenSource _cancelTokenSource;
         
-        //SetCounter _NSetCounter = new SetCounter();
-        //SetCounter _insertCounter = new SetCounter();
         List<string> _errorMessages = new List<string>();
 
         SetCounter _executionCounter = new SetCounter();
@@ -48,13 +46,15 @@ namespace SQLDataProducer.TaskExecuter
         private object _logFileLockObjs = new object();
 
         private bool _doneMyWork = false;
+        ExecutionItemCollection _execItems;
 
-        public TaskExecuter(ExecutionTaskOptions options, string connectionString)
+        public TaskExecuter(ExecutionTaskOptions options, string connectionString, ExecutionItemCollection execItems)
         {
             _doneMyWork = false;
             _connectionString = connectionString;
             Options = options;
             _cancelTokenSource = new CancellationTokenSource();
+            _execItems = execItems;
             
             // Create the method to be used to generate the N values.
             _nGenerator = delegate
@@ -99,24 +99,22 @@ namespace SQLDataProducer.TaskExecuter
         /// <param name="baseQuery">The query containing insert statements for all the items and a placeholder for the variables and their values</param>
         /// <param name="GenerateFinalQuery">The FinalQueryGeneratorDelegate that will be run to create the final query. The final query will include the actuall values</param>
         /// <returns></returns>
-        public ExecutionTaskDelegate CreateSQLTaskForExecutionItems(ExecutionItemCollection execItems)
+        private ExecutionTaskDelegate CreateSQLTaskForExecutionItems()
         {
-            ContinuousInsertionManager manager = new ContinuousInsertionManager(_connectionString);
+            ContinuousInsertionManager manager = new ContinuousInsertionManager(_connectionString, _execItems);
 
             return new ExecutionTaskDelegate(() =>
             {
                 try
                 {
-                    
-
                     if (!Options.OnlyOutputToFile)
                     {
-                        manager.DoOneExecution(execItems, _nGenerator, _rowInsertCounter, _executionCounter.Peek());
+                        manager.DoOneExecution(_nGenerator, _rowInsertCounter, _executionCounter.Peek());
                         
                     }
                     else
                     {
-                        string finalResult = manager.OneExecutionToString(execItems, _nGenerator, _rowInsertCounter);
+                        string finalResult = manager.OneExecutionToString(_execItems, _nGenerator, _rowInsertCounter);
                         WriteScriptToFile(finalResult);
                     }
                     
@@ -164,7 +162,7 @@ namespace SQLDataProducer.TaskExecuter
         /// <param name="until">datetime when the execution should stop</param>
         /// <param name="numThreads">maximum number of threads to use, not guaranteed to use these many treads </param>
         /// <param name="onCompletedCallback">the callback that will be called when execution is done or stopped</param>
-        public ExecutionResult Execute(ExecutionTaskDelegate task)
+        public ExecutionResult Execute()
         {
             // Lazy fix to avoid having to clean up and reset everything.
             if (_doneMyWork)
@@ -176,10 +174,10 @@ namespace SQLDataProducer.TaskExecuter
                 switch (Options.ExecutionType)
                 {
                     case ExecutionTypes.DurationBased:
-                        RunTaskDurationBased(task);
+                        RunTaskDurationBased();
                         break;
                     case ExecutionTypes.ExecutionCountBased:
-                        RunTaskExecutionCountBased(task);
+                        RunTaskExecutionCountBased();
                         break;
                     default:
                         break;
@@ -207,7 +205,7 @@ namespace SQLDataProducer.TaskExecuter
         /// </summary>
         /// <param name="task">the task to run.</param>
         /// <returns>the action that will run the task</returns>
-        private void RunTaskExecutionCountBased(ExecutionTaskDelegate task)
+        private void RunTaskExecutionCountBased()
         {
             int numThreads = Options.MaxThreads;
             int targetNumExecutions = Options.FixedExecutions;
@@ -217,12 +215,15 @@ namespace SQLDataProducer.TaskExecuter
             List<BackgroundWorker> workers = new List<BackgroundWorker>();
             for (int i = 0; i < numThreads; i++)
             {
+                
                 workers.Add(new BackgroundWorker());
                 workers[i].DoWork += (sender, e) =>
                 {
+                    var task = CreateSQLTaskForExecutionItems();
                     while (_executionCounter.Peek() < targetNumExecutions && !CancelTokenSource.IsCancellationRequested)
                     {
                         _executionCounter.Increment();
+                        
                         task();
                         //_insertCounter.Peek();
                         float percentDone = (float)_executionCounter.Peek() / (float)Options.FixedExecutions;
@@ -246,7 +247,7 @@ namespace SQLDataProducer.TaskExecuter
         /// <param name="task">the task to run</param>
         /// <returns>the action that will run the task</returns>
         /// <param name="counter"></param>
-        private void RunTaskDurationBased(ExecutionTaskDelegate task)
+        private void RunTaskDurationBased()
         {
             DateTime beginTime = new DateTime(DateTime.Now.Ticks);
             DateTime until = DateTime.Now.AddSeconds(Options.SecondsToRun);
@@ -261,6 +262,7 @@ namespace SQLDataProducer.TaskExecuter
                 workers.Add(new BackgroundWorker());
                 workers[i].DoWork += (sender, e) =>
                 {
+                    var task = CreateSQLTaskForExecutionItems();
                     while (DateTime.Now < until && !CancelTokenSource.IsCancellationRequested)
                     {
                         task();

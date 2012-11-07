@@ -32,6 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -40,15 +41,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContinuousInserter.cs" />
     <Compile Include="ContinuousInsertionManager.cs" />
+    <Compile Include="DataAccess\DbCommandExecutorFactory.cs" />
+    <Compile Include="DataAccess\QueryExecutor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Builders\TableEntityInsertStatementBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SQLDataProducer.ContinuousInsertion.DataAccess\SQLDataProducer.ContinuousInsertion.DataAccess.csproj">
-      <Project>{64D8ED9B-A2D6-45F7-8702-73E387A9E368}</Project>
-      <Name>SQLDataProducer.ContinuousInsertion.DataAccess</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SQLDataProducer.DataAccess\SQLDataProducer.DataAccess.csproj">
       <Project>{DE7F05FA-0F0C-4779-82C0-389713EB68C7}</Project>
       <Name>SQLDataProducer.DataAccess</Name>

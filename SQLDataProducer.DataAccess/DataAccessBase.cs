@@ -14,13 +14,13 @@
 
 using System;
 using System.Data.SqlClient;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 
 namespace SQLDataProducer.DataAccess
 {
     public abstract class DataAccessBase
     {
-        protected string _connectionString = string.Empty;
+        protected string _connectionString;
 
         public DataAccessBase(string connectionString)
         {
@@ -74,11 +74,11 @@ namespace SQLDataProducer.DataAccess
         /// <param name="itemBuilder">supply the Func that will be used to create one T by reading the fields from a SqlDataReader. The Func should return the created entity.</param>
         /// <param name="completedCallback">The Action which will be called when the retreiving of the entities is done. 
         /// The parameter to <paramref name="completedCallback"/> action will be the populated observerable collection of T</param>
-        protected void BeginGetMany<T>(string sql, Func<SqlDataReader, T> itemBuilder, Action<ObservableCollection<T>> completedCallback)
+        protected void BeginGetMany<T>(string sql, Func<SqlDataReader, T> itemBuilder, Action<IEnumerable<T>> completedCallback)
         {
             Action a = new Action(() =>
             {
-                ObservableCollection<T> items = GetMany(sql, itemBuilder);
+                IEnumerable<T> items = GetMany(sql, itemBuilder);
                 completedCallback(items);
             });
 
@@ -105,10 +105,8 @@ namespace SQLDataProducer.DataAccess
             return default(T);
         }
 
-        protected ObservableCollection<T> GetMany<T>(string sql, Func<SqlDataReader, T> itemBuilder)
+        protected IEnumerable<T> GetMany<T>(string sql, Func<SqlDataReader, T> itemBuilder)
         {
-            ObservableCollection<T> items = new ObservableCollection<T>();
-
             using (SqlConnection con = new SqlConnection(_connectionString))
             {
                 using (SqlCommand cmd = new SqlCommand(sql, con))
@@ -122,13 +120,11 @@ namespace SQLDataProducer.DataAccess
                         if (item == null)
                             continue;
 
-                        items.Add(item);
+                        yield return item;
                     }
 
                 }
             }
-            return items;
         }
-
     }
 }

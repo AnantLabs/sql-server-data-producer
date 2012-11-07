@@ -41,6 +41,7 @@ namespace SQLDataProducer.Entities.ExecutionEntities
                 {
                     _targetTable = value;
                     HasWarning = _targetTable.HasWarning;
+                    _targetTable.ParentExecutionItem = this;
                     OnPropertyChanged("TargetTable");
                 }
             }
@@ -261,6 +262,27 @@ namespace SQLDataProducer.Entities.ExecutionEntities
             {
                 _warningText = value;
                 OnPropertyChanged("WarningText");
+            }
+        }
+
+
+        /// <summary>
+        /// ExecutionItemCollection where this execution item is located.
+        /// </summary>
+        ExecutionItemCollection _parentCollection;
+        public ExecutionItemCollection ParentCollection
+        {
+            get
+            {
+                return _parentCollection;
+            }
+            set
+            {
+                if (_parentCollection != value)
+                {
+                    _parentCollection = value;
+                    OnPropertyChanged("ParentCollection");
+                }
             }
         }
 
