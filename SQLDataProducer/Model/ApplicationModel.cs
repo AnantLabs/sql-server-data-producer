@@ -19,6 +19,10 @@ using SQLDataProducer.Entities.OptionEntities;
 using SQLDataProducer.Entities.DatabaseEntities.Collections;
 using System;
 using SQLDataProducer.TaskExecuter;
+using System.Windows;
+using System.Windows.Threading;
+using System.Threading;
+using SQLDataProducer.ModalWindows;
 
 namespace SQLDataProducer.Model
 {
@@ -367,6 +371,37 @@ namespace SQLDataProducer.Model
                     OnPropertyChanged("WorkFlowManager");
                 }
             }
+        }
+
+        public void RunExecution()
+        {
+            if (ExecutionItems.Count == 0)
+                return;
+
+            if (string.IsNullOrEmpty(ConnectionString))
+                MessageBox.Show("The connection string must be set before executing");
+
+            IsQueryRunning = true;
+
+            WorkFlowManager = new WorkflowManager();
+            WorkFlowManager.RunWorkFlowAsync(Options, ConnectionString, ExecutionItems, (executionResult) =>
+            {
+                IsQueryRunning = false;
+                // Modal window need to be started from STA thread.
+                Application.Current.Dispatcher.Invoke(
+                    DispatcherPriority.Normal,
+                    new ThreadStart(() =>
+                    {
+                        // Show the Execution Summary window with results.
+                        ExecutionSummaryWindow win = new ExecutionSummaryWindow();
+                        win.DataContext = executionResult;
+                        win.ShowDialog();
+                    })
+                    );
+
+            }
+                , string.Empty
+                , string.Empty);
         }
     }
 }

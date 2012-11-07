@@ -51,40 +51,11 @@ namespace SQLDataProducer.ViewModels
             this.Model = model;
         }
 
-        public void RunExecution()
-        {
-            if (Model.ExecutionItems.Count == 0)
-                return;
-
-            if (string.IsNullOrEmpty(Model.ConnectionString))
-                MessageBox.Show("The connection string must be set before executing");
-
-            Model.IsQueryRunning = true;
-
-            Model.WorkFlowManager = new WorkflowManager();
-            Model.WorkFlowManager.RunWorkFlowAsync(Model.Options, Model.ConnectionString, Model.ExecutionItems, (executionResult) =>
-            {
-                Model.IsQueryRunning = false;
-                // Modal window need to be started from STA thread.
-                Application.Current.Dispatcher.Invoke(
-                    DispatcherPriority.Normal,
-                    new ThreadStart(() =>
-                    {
-                        // Show the Execution Summary window with results.
-                        ExecutionSummaryWindow win = new ExecutionSummaryWindow();
-                        win.DataContext = executionResult;
-                        win.ShowDialog();
-                    })
-                    );
-                
-            }
-                , string.Empty
-                , string.Empty);
-        }
+        
 
         public void OnYes()
         {
-            RunExecution();
+            Model.RunExecution();
         }
 
         public void OnNo()

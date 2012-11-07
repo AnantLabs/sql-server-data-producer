@@ -33,6 +33,7 @@ namespace SQLDataProducer.ViewModels
         public DelegateCommand LoadTablesCommand { get; private set; }
         public DelegateCommand SaveCommand { get; private set; }
         public DelegateCommand LoadCommand { get; private set; }
+        public DelegateCommand RunCommand { get; private set; }
 
         SQLDataProducer.Model.ApplicationModel _model;
         public SQLDataProducer.Model.ApplicationModel Model
@@ -147,6 +148,13 @@ namespace SQLDataProducer.ViewModels
             SaveCommand = new DelegateCommand(SaveExecutionListToFile);
             LoadCommand = new DelegateCommand(LoadExecutionListFromFile);
 
+            RunCommand = new DelegateCommand(RunExecution);
+        }
+
+
+        private void RunExecution()
+        {
+            Model.RunExecution();
         }
 
         private void LoadExecutionListFromFile()

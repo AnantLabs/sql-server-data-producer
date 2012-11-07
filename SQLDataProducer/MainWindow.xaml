@@ -44,7 +44,15 @@
             <TextBlock  Text="{Binding Model.ConnectionString, Mode=TwoWay}" Margin="5 3 5 3" MinWidth="50" Background="GhostWhite" />
 
             <Button DataContext="{Binding SidePanelVM}" Content="Configure and Run..." Command="{Binding ConfigureAndRunExecutionCommand}" Padding="5 0 5 0" IsEnabled="{Binding Model.IsExecutionIdle}"/>
-            <Button DataContext="{Binding SidePanelVM}" Content="Stop!" Command="{Binding StopExecutionCommand}" IsEnabled="{Binding Model.IsQueryRunning}" Padding="5 0 5 0" />
+            <Button Command="{Binding RunCommand, Mode=OneWay}">
+                <Image Source="/SQLDataProducer;component/Styles/icons/1351612468_4.png" Width="20" Height="20" />
+            </Button>
+            <Button DataContext="{Binding SidePanelVM}" Command="{Binding StopExecutionCommand}" IsEnabled="{Binding Model.IsQueryRunning}" Padding="5 0 5 0" >
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/SQLDataProducer;component/Styles/icons/1351611927_33.png" Width="20" Height="20" Margin="3 0 3 0" />
+                    <TextBlock Text="Stop" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
             <ProgressBar
                  DataContext="{Binding SidePanelVM}"
                     Visibility="{Binding Model.IsQueryRunning, Converter={StaticResource ResourceKey=visiConv}}" 
