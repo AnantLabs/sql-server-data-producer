@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections.Generic;
+using SQLDataProducer.Entities.DatabaseEntities.Collections;
 
 namespace SQLDataProducer.Entities.ExecutionEntities
 {
@@ -23,7 +24,7 @@ namespace SQLDataProducer.Entities.ExecutionEntities
         public ExecutionResult()
         {
             //StartTime = startTime;
-            ErrorList = new List<string>();
+            ErrorList = new ErrorList();
             InsertCount = 0;
             //EndTime = startTime;
         }
@@ -57,8 +58,8 @@ Errors:                          {5}
             }
         }
 
-        List<string> _errorList;
-        public List<string> ErrorList
+        ErrorList _errorList;
+        public ErrorList ErrorList
         {
             get
             {

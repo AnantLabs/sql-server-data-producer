@@ -45,7 +45,9 @@
 
             <Button DataContext="{Binding SidePanelVM}" Content="Configure and Run..." Command="{Binding ConfigureAndRunExecutionCommand}" Padding="5 0 5 0" IsEnabled="{Binding Model.IsExecutionIdle}"/>
             <Button Command="{Binding RunCommand, Mode=OneWay}">
-                <Image Source="/SQLDataProducer;component/Styles/icons/1351612468_4.png" Width="20" Height="20" />
+                <StackPanel Orientation="Horizontal">
+                <Image Source="/SQLDataProducer;component/Styles/icons/1351612468_4.png" Height="20" />
+                </StackPanel>
             </Button>
             <Button DataContext="{Binding SidePanelVM}" Command="{Binding StopExecutionCommand}" IsEnabled="{Binding Model.IsQueryRunning}" Padding="5 0 5 0" >
                 <StackPanel Orientation="Horizontal">

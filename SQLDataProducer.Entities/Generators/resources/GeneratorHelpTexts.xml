@@ -37,7 +37,8 @@
 
   <Text generatorName="Random GUID">Random GUID, generated from .Net.</Text>
   <Text generatorName="Static GUID">Static GUID that you configure, do not enclose in qoutation marks.</Text>
-  
+
+  <Text generatorName="Random Bit">Random bit genration, 0 or 1 randomly</Text>
   
 </HelpTexts>
 

@@ -45,7 +45,6 @@ namespace TestConsoleApplication
 
             {
                 RandomTests t = new  RandomTests();
-                //t.ShouldExecute_100000_Executions_Threaded();
                 t.ShouldExecuteWithNewNForEachExecution();
             }
             {
@@ -53,7 +52,10 @@ namespace TestConsoleApplication
 
                 t.ShouldGetIdentityFromPreviousItem();
             }
-
+            {
+                LongRunningTests t = new LongRunningTests();
+                t.ShouldExecute_50000_Executions();
+            }
 
             Console.WriteLine("Done");
             Console.ReadKey();

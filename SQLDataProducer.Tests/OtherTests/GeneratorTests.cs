@@ -7,25 +7,32 @@ using SQLDataProducer.Entities.DatabaseEntities;
 using SQLDataProducer.Entities.DatabaseEntities.Factories;
 using SQLDataProducer.Entities.ExecutionEntities;
 using Generators = SQLDataProducer.Entities.Generators;
+using SQLDataProducer.RandomTests;
+using SQLDataProducer.Entities;
+using SQLDataProducer.DataAccess;
+using SQLDataProducer.TaskExecuter;
+using SQLDataProducer.Entities.OptionEntities;
 
 
-namespace SQLDataProducer.Tests
+namespace SQLDataProducer.OtherTests
 {
-    public class GeneratorTests
+    public class GeneratorTests : TestBase
     {
-        [TestFixture]
-        public class DatabaseEntitityTests
+
+        IEnumerable<Generators.Generator> allGens = Generators.Generator.GetDateTimeGenerators()
+                                            .Concat(Generators.Generator.GetDecimalGenerators())
+                                            .Concat(Generators.Generator.GetGeneratorsForBigInt())
+                                            .Concat(Generators.Generator.GetGeneratorsForBit())
+                                            .Concat(Generators.Generator.GetGeneratorsForInt())
+                                            .Concat(Generators.Generator.GetGeneratorsForSmallInt())
+                                            .Concat(Generators.Generator.GetGeneratorsForTinyInt())
+                                            .Concat(Generators.Generator.GetGUIDGenerators())
+                                            .Concat(Generators.Generator.GetStringGenerators(1))
+                                            .Concat(new Generators.Generator[] { Generators.Generator.CreateNULLValueGenerator() });
+
+        public GeneratorTests()
+            : base()
         {
-            IEnumerable<Generators.Generator> allGens = Generators.Generator.GetDateTimeGenerators()
-                                                .Concat(Generators.Generator.GetDecimalGenerators())
-                                                .Concat(Generators.Generator.GetGeneratorsForBigInt())
-                                                .Concat(Generators.Generator.GetGeneratorsForBit())
-                                                .Concat(Generators.Generator.GetGeneratorsForInt())
-                                                .Concat(Generators.Generator.GetGeneratorsForSmallInt())
-                                                .Concat(Generators.Generator.GetGeneratorsForTinyInt())
-                                                .Concat(Generators.Generator.GetGUIDGenerators())
-                                                .Concat(Generators.Generator.GetStringGenerators(1))
-                                                .Concat(new Generators.Generator[] { Generators.Generator.CreateNULLValueGenerator() });
 
         }
 
@@ -62,5 +69,34 @@ namespace SQLDataProducer.Tests
 
 
         //}
+        [Test]
+        public void ShouldGenerateNewValuesForEachRow()
+        {
+            var wfm = new WorkflowManager();
+            var tda = new TableEntityDataAccess(Connection());
+            var adressTable = tda.GetTableAndColumns("Person", "NewPerson");
+            var i1 = new ExecutionItem(adressTable);
+            i1.ExecutionCondition = ExecutionConditions.None;
+            i1.RepeatCount = 10;
+            
+
+            {
+                var options = new ExecutionTaskOptions();
+                options.ExecutionType = ExecutionTypes.ExecutionCountBased;
+                options.FixedExecutions = 1;
+                options.NumberGeneratorMethod = NumberGeneratorMethods.NewNForEachRow;
+                ExecutionItemCollection items = new ExecutionItemCollection();
+                items.Add(i1);
+                // new N for each row
+                var res = wfm.RunWorkFlow(options, Connection(), items);
+
+                Console.WriteLine(res.ToString());
+                Assert.AreEqual(10, res.InsertCount, "InsertCount should be 10");
+                Assert.AreEqual(0, res.ErrorList.Count, "InsertCount should be 0");
+                Assert.AreEqual(1, res.ExecutedItemCount, "ExecutedItemCount should be 1");
+                Assert.Greater(res.Duration, TimeSpan.Zero, "Duration should > 0");
+            }
+        }
     }
 }
+

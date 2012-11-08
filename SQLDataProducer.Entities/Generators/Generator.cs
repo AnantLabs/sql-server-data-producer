@@ -59,6 +59,8 @@ namespace SQLDataProducer.Entities.Generators
                 if (_generatorName != value)
                 {
                     _generatorName = value;
+                    if(string.IsNullOrEmpty(GeneratorHelpText))
+                        GeneratorHelpText = GetGeneratorHelpText(_generatorName);
                     OnPropertyChanged("GeneratorName");
                 }
             }

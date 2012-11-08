@@ -62,7 +62,7 @@ namespace SQLDataProducer.Entities.Generators
             valueGenerators.Add(CreateMinutesSeriesGenerator());
             valueGenerators.Add(CreateRandomDateGenerator());
             valueGenerators.Add(CreateSecondSeriesGenerator());
-            valueGenerators.Add(CreateSQLGetDateGenerator());
+            //valueGenerators.Add(CreateSQLGetDateGenerator());
             valueGenerators.Add(CreateValueFromOtherDateTimeColumnGenerator());
             
             return valueGenerators;
@@ -104,16 +104,16 @@ namespace SQLDataProducer.Entities.Generators
             return gen;
         }
 
-        [GeneratorMetaData(Generators.GeneratorMetaDataAttribute.GeneratorType.DateTime)]
-        private static Generator CreateSQLGetDateGenerator()
-        {
-            Generator gen = new Generator(GENERATOR_SQLGetDate, (n, p) =>
-            {
-                return "Getdate()";
-            }
-                , null);
-            return gen;
-        }
+        //[GeneratorMetaData(Generators.GeneratorMetaDataAttribute.GeneratorType.DateTime)]
+        //private static Generator CreateSQLGetDateGenerator()
+        //{
+        //    Generator gen = new Generator(GENERATOR_SQLGetDate, (n, p) =>
+        //    {
+        //        return "Getdate()";
+        //    }
+        //        , null);
+        //    return gen;
+        //}
 
 
         [GeneratorMetaData(Generators.GeneratorMetaDataAttribute.GeneratorType.DateTime)]

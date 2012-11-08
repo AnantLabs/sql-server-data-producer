@@ -27,5 +27,10 @@ namespace SQLDataProducer.DataAccess
         {
             base.ExecuteNoResult(query);
         }
+
+        public void TestConnection()
+        {
+            ExecuteNonQuery("select 1");
+        }
     }
 }

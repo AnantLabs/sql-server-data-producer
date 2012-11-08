@@ -225,6 +225,16 @@ namespace SQLDataProducer.ViewModels
             Window win = new ConnectionStringCreatorGUI.ConnectionStringBuilderWindow(initialConnStr, returnConnBuilder =>
             {
                 Model.ConnectionString = returnConnBuilder.ToString();
+                try
+                {
+                    AdhocDataAccess adhd = new AdhocDataAccess(Model.ConnectionString);
+                    
+                    adhd.TestConnection();
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("The connection is not valid, Check Server, Database and credentials: " + Environment.NewLine + Environment.NewLine + e.Message);
+                }
             });
 
             win.Show();
