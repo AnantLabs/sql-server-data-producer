@@ -96,11 +96,11 @@ namespace SQLDataProducer.Entities.Generators
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
             
-            paramss.Add(new GeneratorParameter("DATE", DateTime.Now.ToString()));
+            paramss.Add(new GeneratorParameter("DATE", DateTime.Now));
 
             Generator gen = new Generator(GENERATOR_StaticDate, (n, p) =>
             {
-                return GetParameterByName(p, "DATE").ToString();
+                return GetParameterByName(p, "DATE");
             }
                 , paramss);
             return gen;
