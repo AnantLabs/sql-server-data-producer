@@ -98,6 +98,37 @@ namespace SQLDataProducer.OtherTests
 
         }
 
+        [Test]
+        public void IdentityColumnsShouldHaveTheIdentityGeneratorSelected()
+        {
+            var tda = new TableEntityDataAccess(Connection());
+            var table = tda.GetTableAndColumns("Person", "NewPerson");
+            var options = new ExecutionTaskOptions();
+            var execItems = new ExecutionItemCollection();
+
+
+            var ei = new ExecutionItem(table);
+            ei.RepeatCount = 10;
+            execItems.Add(ei);
+
+            var col = table.Columns.Where(x => x.IsIdentity).FirstOrDefault();
+            Assert.IsNotNull(col);
+            Assert.IsNotNull(col.Generator);
+            Assert.AreEqual(Generators.Generator.GENERATOR_IdentityFromSqlServerGenerator, col.Generator.GeneratorName);
+
+
+            var wfm = new WorkflowManager();
+            var res = wfm.RunWorkFlow(options, Connection(), execItems);
+            foreach (var er in res.ErrorList)
+            {
+                Console.WriteLine(er);
+            }
+            Assert.AreEqual(0, res.ErrorList.Count);
+
+        }
+
+
+
 
         [Test]
         public void ShouldGenerate_DateTime_CurrentDateAllways()

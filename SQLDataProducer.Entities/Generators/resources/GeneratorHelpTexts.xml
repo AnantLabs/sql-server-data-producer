@@ -43,6 +43,9 @@
   <Text generatorName="Static Binary Value">Static binary value</Text>
 
   <Text generatorName="Default XML Generator">Simple XML generator</Text>
+
+  <Text generatorName="Identity From SQL Server">This column is IDENTITY and will get it's value generated automatically by SQL Server</Text>
+  <Text generatorName="Sequential Identity Insert">Inserted Identity will have N as value.</Text>
   
 </HelpTexts>
 

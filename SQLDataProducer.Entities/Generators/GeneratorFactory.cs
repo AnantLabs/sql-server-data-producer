@@ -27,14 +27,35 @@ namespace SQLDataProducer.Entities.Generators
 {
     public class GeneratorFactory
     {
-        public static ObservableCollection<Generator> GetGeneratorsForDataType(ColumnDataTypeDefinition dbataTypeDef)
+
+        public static ObservableCollection<Generator> GetGeneratorsForColumn(ColumnEntity column)
+        {
+            ObservableCollection<Generator> gens = GetGeneratorsForDataType(column.ColumnDataType);
+
+            if (column.IsIdentity)
+            {
+                foreach (var g in Generators.Generator.GetGeneratorsForIdentity())
+                {
+                    gens.Insert(0, g);
+                }
+            }
+
+            //if (column.IsForeignKey)
+            //{
+            //    column.ForeignKey.Keys
+            //}
+
+            return gens;
+        }
+
+        private static ObservableCollection<Generator> GetGeneratorsForDataType(ColumnDataTypeDefinition dbataTypeDef)
         {
             ObservableCollection<Generator> gens = GetDefaultGeneratorsForDataType(dbataTypeDef);
 
             // If the column is nullable then the default generator should be the NULL generator. We insert it at the top so that it will be picked up as the default.
             if (dbataTypeDef.IsNullable)
                 gens.Insert(0, Generator.CreateNULLValueGenerator());
-            
+
             return gens;
         }
 

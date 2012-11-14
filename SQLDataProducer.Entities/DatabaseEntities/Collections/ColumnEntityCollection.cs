@@ -45,10 +45,13 @@ namespace SQLDataProducer.Entities.DatabaseEntities.Collections
         /// <returns></returns>
         internal ColumnEntityCollection Clone()
         {
-            var cols = from c in Items
-                       select new ColumnEntity(c.ColumnName, c.ColumnDataType, c.IsIdentity, c.OrdinalPosition, c.IsForeignKey, c.ForeignKey.Clone()
-                           , c.PossibleGenerators.Clone(), c.Generator.GeneratorName);
-                           
+            ColumnEntityCollection cols = new ColumnEntityCollection();
+            foreach (var c in Items)
+            {
+                var col = Factories.DatabaseEntityFactory.CloneColumn(c);
+
+                cols.Add(col);
+            }
 
             return new ColumnEntityCollection(cols);
         }

@@ -34,6 +34,9 @@ namespace SQLDataProducer.Entities.Generators
         public static readonly string GENERATOR_WeibullRandomNumbers = "Weibull Random Numbers";
         public static readonly string GENERATOR_LaplaceRandomNumbers = "Laplace Random Numbers";
         public static readonly string GENERATOR_RandomBit = "Random Bit";
+        public static readonly string GENERATOR_IdentityFromSqlServerGenerator = "Identity From SQL Server";
+        
+        public static readonly string GENERATOR_IdentityInsertSequentialGenerator = "Sequential Identity Insert";
 
 
         public static ObservableCollection<Generator> GetGeneratorsForInt()
@@ -71,6 +74,13 @@ namespace SQLDataProducer.Entities.Generators
             return valueGenerators;
         }
 
+        public static ObservableCollection<Generator> GetGeneratorsForIdentity()
+        {
+            ObservableCollection<Generator> valueGenerators = new ObservableCollection<Generator>();
+            valueGenerators.Add(CreateIdentityInsertGenerator());
+            valueGenerators.Add(CreateSqlServerIdentityGenerator());
+            return valueGenerators;
+        }
 
 
         private static ObservableCollection<Generator> CreateIntGeneratorsWithSettings(long maxValue, long minValue)
@@ -175,8 +185,6 @@ namespace SQLDataProducer.Entities.Generators
 
         private static Generator CreateRandomBit()
         {
-            GeneratorParameterCollection paramss = new GeneratorParameterCollection();
-
             Generator gen = new Generator(GENERATOR_RandomBit, (n, p) =>
             {
                 return RandomSupplier.Instance.GetNextInt() % 2 == 0;
@@ -184,6 +192,27 @@ namespace SQLDataProducer.Entities.Generators
                 , null);
             return gen;
         }
+
+        private static Generator CreateIdentityInsertGenerator()
+        {
+            Generator gen = new Generator(GENERATOR_IdentityInsertSequentialGenerator, (n, p) =>
+            {
+                return n;
+            }
+                , null);
+            return gen;
+        }
+
+        private static Generator CreateSqlServerIdentityGenerator()
+        {
+            Generator gen = new Generator(GENERATOR_IdentityFromSqlServerGenerator, (n, p) =>
+            {
+                return "identity";
+            }
+                , null);
+            return gen;
+        }
+        
 
 
         [GeneratorMetaData(Generators.GeneratorMetaDataAttribute.GeneratorType.Integer)]

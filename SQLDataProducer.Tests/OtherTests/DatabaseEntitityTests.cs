@@ -25,6 +25,7 @@ namespace SQLDataProducer.Tests
                                             .Concat(Generators.Generator.GetStringGenerators(1))
                                             .Concat(Generators.Generator.GetBinaryGenerators(1))
                                             .Concat(Generators.Generator.GetXMLGenerators())
+                                            .Concat(Generators.Generator.GetGeneratorsForIdentity())
                                             .Concat(new Generators.Generator[] { Generators.Generator.CreateNULLValueGenerator() });
 
 
@@ -152,6 +153,12 @@ namespace SQLDataProducer.Tests
             }
 
 
+        }
+
+        [Test]
+        public void ShouldBeAbleToCloneColumnEntityCollection()
+        {
+            Assert.IsNotNull(null);
         }
     }
 }

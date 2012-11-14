@@ -133,7 +133,7 @@ namespace SQLDataProducer.Entities.DatabaseEntities
             {
                 return _valueGenerators;
             }
-            private set
+            set
             {
                 if (_valueGenerators != value)
                 {
@@ -196,7 +196,7 @@ namespace SQLDataProducer.Entities.DatabaseEntities
 
 
 
-        private ColumnEntity(string columnName, ColumnDataTypeDefinition columnDatatype, bool isIdentity, int ordinalPosition, bool isForeignKey, ForeignKeyEntity foreignKeyEntity, ObservableCollection<Generator> possibleGenerators)
+        internal ColumnEntity(string columnName, ColumnDataTypeDefinition columnDatatype, bool isIdentity, int ordinalPosition, bool isForeignKey, ForeignKeyEntity foreignKeyEntity)
         {
             this.ColumnName = columnName;
             this.ColumnDataType = columnDatatype;
@@ -206,7 +206,7 @@ namespace SQLDataProducer.Entities.DatabaseEntities
             this.IsForeignKey = isForeignKey;
             this.ForeignKey = foreignKeyEntity;
             
-            this.PossibleGenerators = possibleGenerators;
+            //this.PossibleGenerators = possibleGenerators;
 
             
 
@@ -218,27 +218,27 @@ namespace SQLDataProducer.Entities.DatabaseEntities
 
         }
 
-        /// <summary>
-        /// Constructor of the ColumnEntity
-        /// </summary>
-        /// <param name="columnName">name of the column</param>
-        /// <param name="columnDatatype">string name of the SQL datatype of the column</param>
-        /// <param name="isIdentity">true if the column is identity, otherwise false</param>
-        /// <param name="ordinalPosition">the ordinal position of the column</param>
-        /// <param name="isForeignKey">true if this table is referencing another table using foreign key</param>
-        /// <param name="generator">the default generator for this column</param>
-        /// <param name="possibleGenerators">the possible generators for this column</param>
-        internal ColumnEntity(string columnName, ColumnDataTypeDefinition columnDatatype, bool isIdentity, int ordinalPosition, bool isForeignKey, ForeignKeyEntity foreignKeyEntity, ObservableCollection<Generator> possibleGenerators, Generator generator)
-            : this(columnName, columnDatatype, isIdentity, ordinalPosition, isForeignKey, foreignKeyEntity, possibleGenerators)
-        {
-            this.Generator = generator ?? possibleGenerators.First();
-        }
+        ///// <summary>
+        ///// Constructor of the ColumnEntity
+        ///// </summary>
+        ///// <param name="columnName">name of the column</param>
+        ///// <param name="columnDatatype">string name of the SQL datatype of the column</param>
+        ///// <param name="isIdentity">true if the column is identity, otherwise false</param>
+        ///// <param name="ordinalPosition">the ordinal position of the column</param>
+        ///// <param name="isForeignKey">true if this table is referencing another table using foreign key</param>
+        ///// <param name="generator">the default generator for this column</param>
+        ///// <param name="possibleGenerators">the possible generators for this column</param>
+        //internal ColumnEntity(string columnName, ColumnDataTypeDefinition columnDatatype, bool isIdentity, int ordinalPosition, bool isForeignKey, ForeignKeyEntity foreignKeyEntity)
+        //    : this(columnName, columnDatatype, isIdentity, ordinalPosition, isForeignKey, foreignKeyEntity)
+        //{
+        //    //this.Generator = generator ?? possibleGenerators.First();
+        //}
 
-        internal ColumnEntity(string columnName, ColumnDataTypeDefinition columnDatatype, bool isIdentity, int ordinalPosition, bool isForeignKey, ForeignKeyEntity foreignKeyEntity, ObservableCollection<Generator> possibleGenerators, string generatorName)
-            : this(columnName, columnDatatype, isIdentity, ordinalPosition, isForeignKey, foreignKeyEntity, possibleGenerators)
-        {
-            this.Generator = possibleGenerators.Where(g => g.GeneratorName == generatorName).First();
-        }
+        //internal ColumnEntity(string columnName, ColumnDataTypeDefinition columnDatatype, bool isIdentity, int ordinalPosition, bool isForeignKey, ForeignKeyEntity foreignKeyEntity)
+        //    : this(columnName, columnDatatype, isIdentity, ordinalPosition, isForeignKey, foreignKeyEntity)
+        //{
+        //    //this.Generator = possibleGenerators.Where(g => g.GeneratorName == generatorName).First();
+        //}
 
         public ColumnEntity()
         {
