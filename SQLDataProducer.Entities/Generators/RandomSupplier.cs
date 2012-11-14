@@ -34,7 +34,7 @@ namespace SQLDataProducer.Entities.Generators
 
         RandomSupplier()
         {
-            _random = new Random(DateTime.Now.Millisecond);
+            _random = new Random((int)System.DateTime.Now.Ticks % System.Int32.MaxValue);
         }
 
         public int GetNextInt()

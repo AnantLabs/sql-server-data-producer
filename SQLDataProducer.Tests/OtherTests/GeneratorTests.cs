@@ -254,10 +254,7 @@ namespace SQLDataProducer.OtherTests
                     col.GenerateValue(i);
                     Assert.IsNotNull(col.PreviouslyGeneratedValue);
                 }
-                
             }
-            
-
         }
 
         private static List<T> Create10000FromColumn<T>(ColumnEntity col)
@@ -268,7 +265,6 @@ namespace SQLDataProducer.OtherTests
             {
                 col.GenerateValue(i);
                 longs.Add((T)col.PreviouslyGeneratedValue);
-
             }
             return longs;
         }
@@ -299,7 +295,6 @@ namespace SQLDataProducer.OtherTests
             i1.ExecutionCondition = ExecutionConditions.None;
             i1.RepeatCount = 10;
             
-
             {
                 var options = new ExecutionTaskOptions();
                 options.ExecutionType = ExecutionTypes.ExecutionCountBased;
