@@ -40,9 +40,6 @@ namespace SQLDataProducer.DataAccess
         {
             ColumnDataTypeDefinition dbType = new ColumnDataTypeDefinition(reader.GetString(reader.GetOrdinal("DataType")), reader.GetBoolean(reader.GetOrdinal("IsNullable")));
             
-            //ObservableCollection<Generator> possibleGenerators = GeneratorFactory.GetGeneratorsForDataType(dbType);
-            //Generator defaultGenerator = possibleGenerators.FirstOrDefault();
-
             return DatabaseEntityFactory.CreateColumnEntity(reader.GetString(reader.GetOrdinal("ColumnName")), dbType, (bool)reader["IsIdentity"], reader.GetInt32(reader.GetOrdinal("OrdinalPosition")), (bool)reader["IsForeignKey"], new ForeignKeyEntity
                 {
                     ReferencingTable = new TableEntity(
@@ -56,15 +53,15 @@ namespace SQLDataProducer.DataAccess
         readonly string GET_COLUMNS_FOR_TABLE_QUERY = @"
 select 
     name As ColumnName, 
-    CASE TYPE_NAME(cols.user_type_id)
-        WHEN 'varchar' THEN TYPE_NAME(cols.system_type_id) + '(' + case cols.max_length when -1 then 'max' else CAST(cols.max_length AS VARCHAR(100)) end + ')'
-        WHEN 'nvarchar' THEN TYPE_NAME(cols.system_type_id) + '(' + case cols.max_length when -1 then 'max' else CAST(cols.max_length / 2 AS VARCHAR(100)) end + ')'
-        WHEN 'char' THEN TYPE_NAME(cols.system_type_id) + '(' + CAST(cols.max_length AS VARCHAR(100)) + ')'
-        WHEN 'nchar' THEN TYPE_NAME(cols.system_type_id) + '(' + CAST(cols.max_length / 2 AS VARCHAR(100)) + ')'
-        WHEN 'decimal' THEN TYPE_NAME(cols.system_type_id) + '(' + CAST(cols.precision AS VARCHAR(100)) + ', ' + CAST(cols.scale AS VARCHAR(100)) +')'
-        WHEN 'varbinary' THEN TYPE_NAME(cols.system_type_id) + '(' + case cols.max_length when -1 then 'max' else CAST(cols.max_length AS VARCHAR(100)) end + ')'
-        WHEN 'datetime2' THEN TYPE_NAME(cols.system_type_id) + '(' + CAST(cols.scale AS VARCHAR(100)) + ')'
-        ELSE TYPE_NAME(cols.user_type_id)
+    CASE datatyp.datatypen
+        WHEN 'varchar' THEN datatyp.datatypen + '(' + case cols.max_length when -1 then 'max' else CAST(cols.max_length AS VARCHAR(100)) end + ')'
+        WHEN 'nvarchar' THEN datatyp.datatypen + '(' + case cols.max_length when -1 then 'max' else CAST(cols.max_length / 2 AS VARCHAR(100)) end + ')'
+        WHEN 'char' THEN datatyp.datatypen + '(' + CAST(cols.max_length AS VARCHAR(100)) + ')'
+        WHEN 'nchar' THEN datatyp.datatypen + '(' + CAST(cols.max_length / 2 AS VARCHAR(100)) + ')'
+        WHEN 'decimal' THEN datatyp.datatypen + '(' + CAST(cols.precision AS VARCHAR(100)) + ', ' + CAST(cols.scale AS VARCHAR(100)) +')'
+        WHEN 'varbinary' THEN datatyp.datatypen + '(' + case cols.max_length when -1 then 'max' else CAST(cols.max_length AS VARCHAR(100)) end + ')'
+        WHEN 'datetime2' THEN datatyp.datatypen + '(' + CAST(cols.scale AS VARCHAR(100)) + ')'
+        ELSE datatyp.datatypen
     END as DataType
     , column_id as OrdinalPosition
     , is_identity as IsIdentity 
@@ -76,6 +73,26 @@ select
 
 from 
     sys.columns cols
+
+cross apply
+(
+	select 	
+		COALESCE(bt.name, t.name) as DataTypen,
+		t.precision, 
+		t.scale, 
+		t.max_length
+	from
+		sys.types AS t
+		--ON c.user_type_id = t.user_type_id
+	LEFT OUTER JOIN 
+		sys.types AS bt
+		ON t.is_user_defined = 1
+		AND bt.is_user_defined = 0
+		AND t.system_type_id = bt.system_type_id
+		AND t.user_type_id <> bt.user_type_id
+		
+		where t.system_type_id = cols.system_type_id and  cols.user_type_id = t.user_type_id
+) datatyp(datatypen, precision, scale, max_length)
 
 outer apply(
 	select 

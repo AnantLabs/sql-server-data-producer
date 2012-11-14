@@ -206,10 +206,6 @@ namespace SQLDataProducer.Entities.DatabaseEntities
             this.IsForeignKey = isForeignKey;
             this.ForeignKey = foreignKeyEntity;
             
-            //this.PossibleGenerators = possibleGenerators;
-
-            
-
             if (IsForeignKey && ForeignKey.Keys.Count == 0)
             {
                 HasWarning = true;
