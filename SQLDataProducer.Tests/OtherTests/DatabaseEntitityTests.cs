@@ -57,7 +57,7 @@ namespace SQLDataProducer.Tests
         {
             TableEntity table = new TableEntity("dbo", "Customer");
 
-            table.Columns.Add(DatabaseEntityFactory.Instance.CreateColumnEntity(
+            table.Columns.Add(DatabaseEntityFactory.CreateColumnEntity(
                                 "CustomerName",
                                 new ColumnDataTypeDefinition("varchar(500)", true),
                                 false,
@@ -74,7 +74,7 @@ namespace SQLDataProducer.Tests
             Assert.IsTrue(firstCol.PossibleGenerators.Count > 0);
             Assert.IsTrue(firstCol.HasWarning == false);
 
-            table.Columns.Add(DatabaseEntityFactory.Instance.CreateColumnEntity(
+            table.Columns.Add(DatabaseEntityFactory.CreateColumnEntity(
                                "CustomerID",
                                new ColumnDataTypeDefinition("int", false),
                                true,
@@ -111,7 +111,7 @@ namespace SQLDataProducer.Tests
                 fk.ReferencingTable = new TableEntity("dbo", "Company");
                 fk.ReferencingColumn = "CompanyID";
 
-                var warnedColumn = DatabaseEntityFactory.Instance.CreateColumnEntity(
+                var warnedColumn = DatabaseEntityFactory.CreateColumnEntity(
                                   "CompanyID",
                                   new ColumnDataTypeDefinition("int", false),
                                   true,
@@ -131,7 +131,7 @@ namespace SQLDataProducer.Tests
             {
                 // Item with with no foreign key should not have warning
                 var fk = new ForeignKeyEntity();
-                var notWarnedColumn = DatabaseEntityFactory.Instance.CreateColumnEntity(
+                var notWarnedColumn = DatabaseEntityFactory.CreateColumnEntity(
                                   "CompanyID",
                                   new ColumnDataTypeDefinition("int", false),
                                   true,

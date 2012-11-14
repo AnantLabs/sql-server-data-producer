@@ -43,7 +43,7 @@ namespace SQLDataProducer.DataAccess
             //ObservableCollection<Generator> possibleGenerators = GeneratorFactory.GetGeneratorsForDataType(dbType);
             //Generator defaultGenerator = possibleGenerators.FirstOrDefault();
 
-            return DatabaseEntityFactory.Instance.CreateColumnEntity(reader.GetString(reader.GetOrdinal("ColumnName")), dbType, (bool)reader["IsIdentity"], reader.GetInt32(reader.GetOrdinal("OrdinalPosition")), (bool)reader["IsForeignKey"], new ForeignKeyEntity
+            return DatabaseEntityFactory.CreateColumnEntity(reader.GetString(reader.GetOrdinal("ColumnName")), dbType, (bool)reader["IsIdentity"], reader.GetInt32(reader.GetOrdinal("OrdinalPosition")), (bool)reader["IsForeignKey"], new ForeignKeyEntity
                 {
                     ReferencingTable = new TableEntity(
                         reader.GetStringOrEmpty("ReferencedTableSchema"),

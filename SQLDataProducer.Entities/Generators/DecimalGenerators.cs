@@ -47,7 +47,7 @@ namespace SQLDataProducer.Entities.Generators
                 double maxValue = double.Parse(GetParameterByName(p, "MaxValue").ToString());
                 double minValue = double.Parse(GetParameterByName(p, "MinValue").ToString());
 
-                return (((RandomSupplier.Instance.GetNextDouble() * double.MaxValue) % maxValue) + minValue).ToString().Replace(",", ".");
+                return (((RandomSupplier.Instance.GetNextDouble() * double.MaxValue) % maxValue) + minValue);
             }
                 , paramss);
             return gen;
@@ -68,7 +68,7 @@ namespace SQLDataProducer.Entities.Generators
                 double minValue = double.Parse(GetParameterByName(p, "MinValue").ToString());
                 double step = double.Parse(GetParameterByName(p, "Step").ToString());
 
-                return ((minValue + (step * (n - 1))) % maxValue).ToString().Replace(",", ".");
+                return ((minValue + (step * (n - 1))) % maxValue);
             }
                 , paramss);
             return gen;
