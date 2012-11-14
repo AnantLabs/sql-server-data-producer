@@ -51,7 +51,18 @@ namespace SQLDataProducer.RandomTests
                 ExecutionItemCollection items = new ExecutionItemCollection();
                 items.Add(i1);
                 // new N for each row
+                foreach (var c in i1.TargetTable.Columns)
+                {
+                    Console.WriteLine(c.Generator.GeneratorName);
+                }
+
                 var res = wfm.RunWorkFlow(options, Connection(), items);
+
+                foreach (var s in res.ErrorList)
+                {
+                    Console.WriteLine(s);
+                }
+                
 
                 Console.WriteLine(res.ToString());
                 Assert.AreEqual(500000, res.InsertCount, "InsertCount should be 500000");
@@ -95,8 +106,19 @@ namespace SQLDataProducer.RandomTests
                 options.NumberGeneratorMethod = NumberGeneratorMethods.NewNForEachRow;
                 ExecutionItemCollection items = new ExecutionItemCollection();
                 items.Add(i1);
+
+                foreach (var c in i1.TargetTable.Columns)
+                {
+                    Console.WriteLine(c.Generator.GeneratorName);
+                }
+
                 // new N for each row
                 var res = wfm.RunWorkFlow(options, Connection(), items);
+
+                foreach (var s in res.ErrorList)
+                {
+                    Console.WriteLine(s);
+                }
 
                 Console.WriteLine(res.ToString());
                 Assert.AreEqual(500000, res.InsertCount, "InsertCount should be 500000");

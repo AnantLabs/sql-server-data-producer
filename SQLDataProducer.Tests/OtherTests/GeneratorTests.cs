@@ -69,6 +69,73 @@ namespace SQLDataProducer.OtherTests
 
 
         //}
+
+        [Test]
+        public void ShouldGenerateCurrentDateAllways()
+        {
+            var genName = Generators.Generator.GENERATOR_CurrentDate;
+            ColumnEntity col = CreateColumnOfDatatype("datetime", genName);
+           
+            List<DateTime> dates = new List<DateTime>();
+
+            for (int i = 0; i < 10000; i++)
+            {
+                col.GenerateValue(i);
+                dates.Add((DateTime)col.PreviouslyGeneratedValue);
+                
+            }
+            for (int i = 0; i < 10000; i++)
+            {
+                if (i > 0 && i < 1000)
+                {
+                    // Accepting that the get dates can be different, but not much
+                    Assert.Less(dates[i] - dates[i - 1], new TimeSpan(0, 0, 0, 0, 2));
+                }
+            }
+
+        }
+
+        [Test]
+        public void ShouldGenerateStaticInt()
+        {
+            var genName = Generators.Generator.GENERATOR_StaticNumber;
+            ColumnEntity col = CreateColumnOfDatatype("int", genName);
+
+            List<int> dates = new List<int>();
+
+            for (int i = 0; i < 10000; i++)
+            {
+                col.GenerateValue(i);
+                dates.Add((int)col.PreviouslyGeneratedValue);
+
+            }
+            for (int i = 0; i < 10000; i++)
+            {
+                if (i > 0 && i < 1000)
+                {
+                    Assert.AreEqual(dates[i], dates[i - 1]);
+                }
+            }
+
+        }
+
+        
+
+        private static ColumnEntity CreateColumnOfDatatype(string dataType, string genName)
+        {
+            ColumnEntity col = DatabaseEntityFactory.Instance.CreateColumnEntity("someCol", new ColumnDataTypeDefinition(dataType, false), false, 1, false, null);
+            
+            Assert.IsNotNull(col.PossibleGenerators);
+            Assert.IsNotNull(col.Generator);
+            Assert.Greater(col.PossibleGenerators.Count, 0);
+
+            col.Generator = col.PossibleGenerators.Where(x => x.GeneratorName == genName).FirstOrDefault();
+            Assert.IsNotNull(col.Generator);
+            Assert.AreEqual(genName, col.Generator.GeneratorName);
+            
+            return col;
+        }
+
         [Test]
         public void ShouldGenerateNewValuesForEachRow()
         {

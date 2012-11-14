@@ -71,6 +71,7 @@ namespace SQLDataProducer.Entities.Generators
         private static Generator CreateCurrentDateGenerator()
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
+            paramss.Add(new GeneratorParameter("Shift Days", 0));
             paramss.Add(new GeneratorParameter("Shift Hours", 0));
             paramss.Add(new GeneratorParameter("Shift Minutes", 0));
             paramss.Add(new GeneratorParameter("Shift Seconds", 0));
@@ -78,12 +79,13 @@ namespace SQLDataProducer.Entities.Generators
 
             Generator gen = new Generator(GENERATOR_CurrentDate, (n, p) =>
             {
+                int d = int.Parse(GetParameterByName(p, "Shift Days").ToString());
                 int h = int.Parse(GetParameterByName(p, "Shift Hours").ToString());
                 int min = int.Parse(GetParameterByName(p, "Shift Minutes").ToString());
                 int s = int.Parse(GetParameterByName(p, "Shift Seconds").ToString());
                 int ms = int.Parse(GetParameterByName(p, "Shift Milliseconds").ToString());
 
-                return DateTime.Now.AddDays(n).AddHours(h).AddMinutes(min).AddSeconds(s).AddMilliseconds(ms);
+                return DateTime.Now.AddDays(d).AddHours(h).AddMinutes(min).AddSeconds(s).AddMilliseconds(ms);
             }
                 , paramss);
             return gen;
