@@ -90,9 +90,36 @@ namespace SQLDataProducer.ContinuousInsertion.Builders
         private void Init()
         {
             StringBuilder sb = new StringBuilder();
+            GenerateSqlScriptPartOfStatement(sb);
             GenerateInsertPartOfStatement(sb);
             GenerateValuePartOfInsertStatement(sb);
             InsertStatement = sb.ToString();
+        }
+
+        private void GenerateSqlScriptPartOfStatement(StringBuilder sb)
+        {
+//            string example = @"declare @c_DateTimeColumn_1 datetime = getdate();
+//                         declare @c_Name_1 varchar(500) = (select ''peter e så god'');
+//                    ";
+            sb.AppendLine();
+            foreach (var c in ExecuteItem.TargetTable.Columns.Where( c => c.Generator.IsSqlQueryGenerator ))
+            {
+                var variableName = GetSqlQueryParameterName(c);
+                c.GenerateValue(1);
+                var query = c.PreviouslyGeneratedValue;
+                sb.AppendLine(string.Format("DECLARE {0} {1} = ({2});", variableName, c.ColumnDataType.Raw, query));
+            }
+            sb.AppendLine();
+        }
+
+        /// <summary>
+        /// Create the parameter name used when the generator is Sql Query generator
+        /// </summary>
+        /// <param name="c"></param>
+        /// <returns></returns>
+        private static string GetSqlQueryParameterName(ColumnEntity c)
+        {
+            return GetParamName(1, c).Replace("@", "@c_");
         }
 
         private void GenerateInsertPartOfStatement(StringBuilder sb)
@@ -137,11 +164,19 @@ namespace SQLDataProducer.ContinuousInsertion.Builders
                     if (col.IsIdentity)
                         continue;
 
+
+
                     string paramName = GetParamName(rep, col);
-                    sb.Append(paramName);
                     // Add the parameter with no value, values will be added in the GenerateValues method
                     var par = CommandFactory.CreateParameter(paramName, null, col.ColumnDataType.DBType);
                     Parameters.Add(paramName, par);
+
+                    // Get the parameter name to use, if the generator is sql query generator then the generated variable should be used instead of the parameter.
+                    if (!col.Generator.IsSqlQueryGenerator)
+                        sb.Append(paramName);
+                    else
+                        sb.Append(GetSqlQueryParameterName(col));
+
 
                     sb.Append(i == ExecuteItem.TargetTable.Columns.Count - 1 ? string.Empty : ", ");
                 }

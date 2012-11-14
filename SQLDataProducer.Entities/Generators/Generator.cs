@@ -80,6 +80,18 @@ namespace SQLDataProducer.Entities.Generators
         }
 
 
+        bool _isSqlQueryGenerator = false;
+        // Gets whether this generator is generating pure sql queries
+        public bool IsSqlQueryGenerator
+        {
+            get
+            {
+                return _isSqlQueryGenerator;
+            }
+        }
+
+
+
         /// <summary>
         /// Column where this generator is attached.
         /// </summary>
@@ -100,12 +112,13 @@ namespace SQLDataProducer.Entities.Generators
             }
         }
 
-        public Generator(string generatorName, ValueCreatorDelegate generator, GeneratorParameterCollection genParams)
+        public Generator(string generatorName, ValueCreatorDelegate generator, GeneratorParameterCollection genParams, bool isSqlQueryGenerator = false)
         {
             ValueGenerator = generator;
             GeneratorParameters = genParams ?? new GeneratorParameterCollection();
             GeneratorName = generatorName;
             GeneratorHelpText = GetGeneratorHelpText(generatorName);
+            _isSqlQueryGenerator = isSqlQueryGenerator;
         }
 
         public Generator()

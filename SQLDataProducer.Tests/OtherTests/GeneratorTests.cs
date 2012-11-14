@@ -25,6 +25,81 @@ namespace SQLDataProducer.OtherTests
         }
 
         [Test]
+        public void ShouldBeAbleToInsertUsingSQLGetDate()
+        {
+            var tda = new TableEntityDataAccess(Connection());
+            var table = tda.GetTableAndColumns("Person", "NewPerson");
+            var options = new ExecutionTaskOptions();
+            var execItems = new ExecutionItemCollection();
+
+
+            var ei = new ExecutionItem(table);
+            ei.RepeatCount = 10;
+            execItems.Add(ei);
+
+            var col = table.Columns.Where(x => x.ColumnDataType.Raw == "datetime").FirstOrDefault();
+            Assert.IsNotNull(col);
+
+            col.Generator = col.PossibleGenerators.Where(g => g.GeneratorName == Generators.Generator.GENERATOR_SQLGetDate).FirstOrDefault();
+            Assert.IsNotNull(col.Generator);
+            Assert.AreEqual(Generators.Generator.GENERATOR_SQLGetDate, col.Generator.GeneratorName);
+
+            for (int i = 0; i < 1000; i++)
+            {
+                col.GenerateValue(i);
+                Assert.IsNotNull(col.PreviouslyGeneratedValue);
+            }
+
+            var wfm = new WorkflowManager();
+            var res = wfm.RunWorkFlow(options, Connection(), execItems);
+            foreach (var er in res.ErrorList)
+            {
+                Console.WriteLine(er);
+            }
+            Assert.AreEqual(0, res.ErrorList.Count);
+
+        }
+        [Test]
+        public void ShouldBeAbleToInsertUsingSQLQuery()
+        {
+            var tda = new TableEntityDataAccess(Connection());
+            var table = tda.GetTableAndColumns("Person", "NewPerson");
+            var options = new ExecutionTaskOptions();
+            var execItems = new ExecutionItemCollection();
+
+
+            var ei = new ExecutionItem(table);
+            ei.RepeatCount = 10;
+            execItems.Add(ei);
+
+            var col = table.Columns.Where(x => x.ColumnDataType.Raw == "datetime").FirstOrDefault();
+            Assert.IsNotNull(col);
+
+            col.Generator = col.PossibleGenerators.Where(g => g.GeneratorName == Generators.Generator.GENERATOR_CustomSQLQuery).FirstOrDefault();
+            Assert.IsNotNull(col.Generator);
+            Assert.AreEqual(Generators.Generator.GENERATOR_CustomSQLQuery, col.Generator.GeneratorName);
+
+            var queryParam = col.Generator.GeneratorParameters[0];
+            queryParam.Value = "Select getdate() -5";
+
+            for (int i = 0; i < 1000; i++)
+            {
+                col.GenerateValue(i);
+                Assert.IsNotNull(col.PreviouslyGeneratedValue);
+            }
+
+            var wfm = new WorkflowManager();
+            var res = wfm.RunWorkFlow(options, Connection(), execItems);
+            foreach (var er in res.ErrorList)
+            {
+                Console.WriteLine(er);
+            }
+            Assert.AreEqual(0, res.ErrorList.Count);
+
+        }
+
+
+        [Test]
         public void ShouldGenerate_DateTime_CurrentDateAllways()
         {
             var genName = Generators.Generator.GENERATOR_CurrentDate;

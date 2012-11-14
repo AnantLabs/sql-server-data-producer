@@ -24,7 +24,7 @@ namespace SQLDataProducer.Entities.Generators
 
                 return string.Format("({0})", value);
             }
-                , paramss);
+                , paramss, true);
             return gen;
         }
 
