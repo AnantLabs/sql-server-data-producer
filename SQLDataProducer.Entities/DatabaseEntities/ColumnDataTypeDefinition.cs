@@ -30,7 +30,7 @@ namespace SQLDataProducer.Entities.DatabaseEntities
             DBType = StringToDBDataType(rawDataType);
             IsNullable = nullable;
 
-            if (DBType == DbType.String)
+            if (DBType == SqlDbType.VarChar)
             {
                 int length = GetLengthOfStringDataType(rawDataType);
                 MaxLength = length;
@@ -65,8 +65,8 @@ namespace SQLDataProducer.Entities.DatabaseEntities
             return length;
         }
 
-        DbType _dbType;
-        public DbType DBType
+        SqlDbType _dbType;
+        public SqlDbType DBType
         {
             get
             {
@@ -81,23 +81,6 @@ namespace SQLDataProducer.Entities.DatabaseEntities
                 }
             }
         }
-
-        //        DBDataType _dbType;
-        //public DBDataType DBType
-        //{
-        //    get
-        //    {
-        //        return _dbType;
-        //    }
-        //    set
-        //    {
-        //        if (_dbType != value)
-        //        {
-        //            _dbType = value;
-        //            OnPropertyChanged("DBType");
-        //        }
-        //    }
-        
 
 
         bool _isNullable;
@@ -159,85 +142,21 @@ namespace SQLDataProducer.Entities.DatabaseEntities
             return DBType.ToString();
         }
 
-        
-        private DbType StringToDBDataType(string dataType)
+        /// <summary>
+        /// Convert raw sql datatype string to SqlDbType enum
+        /// </summary>
+        /// <param name="dataType">raw sql datatype string</param>
+        /// <returns>converted value, SqlDbType.Varchar if conversion failed.</returns>
+        private SqlDbType StringToDBDataType(string dataType)
         {
-            dataType = dataType.ToLower();
+            SqlDbType sqlType;
+            if (!Enum.TryParse(dataType.Substring(0, dataType.IndexOf('(') > 0 ? dataType.IndexOf('(') : dataType.Length), true, out sqlType))
+            {
+                sqlType = SqlDbType.VarChar;
+            }
 
-            if (dataType.StartsWith("int"))
-            {
-                return DbType.Int32;// DBDataType.INT;
-            }
-            else if (dataType.StartsWith("tinyint"))
-            {
-                return DbType.Byte;// DBDataType.TINYINT;
-            }
-            else if (dataType.StartsWith("smallint"))
-            {
-                return DbType.Int16;// DBDataType.SMALLINT;
-            }
-            else if (dataType.StartsWith("bigint"))
-            {
-                return DbType.Int64;// DBDataType.BIGINT;
-            }
-            else if (dataType.StartsWith("bit")
-                || dataType.StartsWith("flag"))
-            {
-                return DbType.Boolean;// DBDataType.BIT;
-            }
-            else if (dataType.StartsWith("varchar")
-                || dataType.StartsWith("nvarchar")
-                || dataType.StartsWith("char")
-                || dataType.StartsWith("nchar")
-                || dataType.StartsWith("sysname"))
-            {
-
-                return DbType.String;// DBDataType.VARCHAR;
-            }
-            else if (dataType.StartsWith("decimal")
-                || dataType.StartsWith("float")
-                || dataType.StartsWith("money")
-                || dataType.StartsWith("smallmoney"))
-            {
-                return DbType.Decimal;// DBDataType.DECIMAL;
-            }
-            else if (dataType.StartsWith("datetime")
-                || dataType.StartsWith("date")
-                || dataType.StartsWith("time")
-                || dataType.StartsWith("smalldatetime"))
-            {
-                return DbType.DateTime;// DBDataType.DATETIME;
-            }
-            else if (dataType.StartsWith("uniqueidentifier"))
-            {
-                return DbType.Guid;// DBDataType.UNIQUEIDENTIFIER;
-            }
-            else if (dataType.StartsWith("xml"))
-                return DbType.Xml;
-
-            else
-            {
-                return DbType.Object;// DBDataType.UNKNOWN;
-            }
+            return sqlType;
         }
-    
-
-        //int _precision;
-        //public int Precision
-        //{
-        //    get
-        //    {
-        //        return _precision;
-        //    }
-        //    set
-        //    {
-        //        if (_precision != value)
-        //        {
-        //            _precision = value;
-        //            OnPropertyChanged("Precision");
-        //        }
-        //    }
-        //}
     }
 
    

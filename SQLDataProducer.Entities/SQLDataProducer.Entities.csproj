@@ -57,6 +57,7 @@
     <Compile Include="GeneratorDelegate.cs" />
     <Compile Include="ExecutionEntities\ExecutionItem.cs" />
     <Compile Include="EntityBase.cs" />
+    <Compile Include="Generators\BinaryGenerators.cs" />
     <Compile Include="Generators\Collections\GeneratorParameterCollection.cs" />
     <Compile Include="Generators\DateTimeGenerators.cs" />
     <Compile Include="Generators\DecimalGenerators.cs" />

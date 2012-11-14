@@ -42,60 +42,74 @@ namespace SQLDataProducer.Entities.Generators
         {
             switch (dbataTypeDef.DBType)
             {
-                case System.Data.DbType.Boolean:
-                    return Generators.Generator.GetGeneratorsForBit();
-
-                case System.Data.DbType.Byte:
-                case System.Data.DbType.SByte:
-                    return Generators.Generator.GetGeneratorsForTinyInt();
-                
-                case System.Data.DbType.Date:
-                case System.Data.DbType.DateTime:
-                case System.Data.DbType.Time:
-                case System.Data.DbType.DateTime2:
-                case System.Data.DbType.DateTimeOffset:
-                    return Generators.Generator.GetDateTimeGenerators();    
-                
-                case System.Data.DbType.Decimal:
-                case System.Data.DbType.Double:
-                case System.Data.DbType.Single:
-                case System.Data.DbType.Currency:
-                case System.Data.DbType.VarNumeric:
-                    return Generators.Generator.GetDecimalGenerators();
-                    
-                case System.Data.DbType.Guid:
-                    return Generators.Generator.GetGUIDGenerators();
-
-                case System.Data.DbType.Int16:
-                    return Generators.Generator.GetGeneratorsForSmallInt();
-
-                case System.Data.DbType.Int32:
-                case System.Data.DbType.UInt16:
-                case System.Data.DbType.UInt32:
-                case System.Data.DbType.UInt64:
-                    return Generators.Generator.GetGeneratorsForInt();
-                    
-                case System.Data.DbType.Int64:
+                case System.Data.SqlDbType.BigInt:
                     return Generators.Generator.GetGeneratorsForBigInt();
                 
-                case System.Data.DbType.String:
-                case System.Data.DbType.StringFixedLength:
-                case System.Data.DbType.AnsiStringFixedLength:
-                case System.Data.DbType.AnsiString:
+                case System.Data.SqlDbType.Bit:
+                    return Generators.Generator.GetGeneratorsForBit();
+                case System.Data.SqlDbType.Char:
                     return Generators.Generator.GetStringGenerators(dbataTypeDef.MaxLength);
                 
+                case System.Data.SqlDbType.Date:
+                case System.Data.SqlDbType.DateTime:
+                case System.Data.SqlDbType.DateTime2:
+                case System.Data.SqlDbType.SmallDateTime:
+                case System.Data.SqlDbType.Time:
+                case System.Data.SqlDbType.DateTimeOffset:
+                    return Generators.Generator.GetDateTimeGenerators();
+
+                case System.Data.SqlDbType.Decimal:
+                    return Generators.Generator.GetDecimalGenerators(100000000000000000);
+                case System.Data.SqlDbType.Float:
+                    return Generators.Generator.GetDecimalGenerators(100000000000000000);
+                case System.Data.SqlDbType.Real:
+                    return Generators.Generator.GetDecimalGenerators(100000000000000000);
+                case System.Data.SqlDbType.Money:
+                    return Generators.Generator.GetDecimalGenerators(922337203685470);
+                case System.Data.SqlDbType.SmallMoney:
+                    return Generators.Generator.GetDecimalGenerators(214740);
                     
-                case System.Data.DbType.Xml:
+
+                case System.Data.SqlDbType.Binary:
+                case System.Data.SqlDbType.Image:
+                case System.Data.SqlDbType.Timestamp:
+                case System.Data.SqlDbType.VarBinary:
+                    return Generators.Generator.GetBinaryGenerators(1);
+
+                case System.Data.SqlDbType.Int:
+                    return Generators.Generator.GetGeneratorsForInt();
+                    
+                case System.Data.SqlDbType.NChar:
+                case System.Data.SqlDbType.NText:
+                case System.Data.SqlDbType.NVarChar:
+                case System.Data.SqlDbType.Text:
+                case System.Data.SqlDbType.VarChar:
+                    return Generators.Generator.GetStringGenerators(dbataTypeDef.MaxLength);
+                
+                case System.Data.SqlDbType.SmallInt:
+                    return Generators.Generator.GetGeneratorsForSmallInt();
+                
+                case System.Data.SqlDbType.Structured:
+                    break;
+                case System.Data.SqlDbType.TinyInt:
+                    return Generators.Generator.GetGeneratorsForTinyInt();
+                case System.Data.SqlDbType.Udt:
+                    break;
+                case System.Data.SqlDbType.UniqueIdentifier:
+                    return Generators.Generator.GetGUIDGenerators();
+
+                case System.Data.SqlDbType.Variant:
+                    return Generators.Generator.GetGeneratorsForInt();
+
+                case System.Data.SqlDbType.Xml:
                     return Generators.Generator.GetXMLGenerators();
 
-                case System.Data.DbType.Binary:
-                case System.Data.DbType.Object:
-                    return Generators.Generator.GetStringGenerators(1);    
-
-
                 default:
-                    throw new NotImplementedException(dbataTypeDef.ToString());
+                    break;
             }
+
+            throw new NotImplementedException(dbataTypeDef.Raw);
+
         }
 
         //private static ObservableCollection<Generator> GetDefaultGeneratorsForDataType2(ColumnDataTypeDefinition dbataTypeDef)

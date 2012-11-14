@@ -14,6 +14,7 @@
 
 using System.Data;
 using System.Data.Common;
+using System.Data.SqlClient;
 
 
 namespace SQLDataProducer.ContinuousInsertion.DataAccess
@@ -45,12 +46,12 @@ namespace SQLDataProducer.ContinuousInsertion.DataAccess
         /// <param name="name"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static DbParameter CreateParameter(string name, object value, DbType dbType)
+        public static DbParameter CreateParameter(string name, object value, SqlDbType dbType)
         {
             DbParameter param = DbProviderFactoryFactory.GetInstance().CreateParameter();
             param.Value = value;
             param.ParameterName = name;
-            param.DbType = dbType;
+            //param.DbType = (DbType)dbType;
 
             return param;
         }

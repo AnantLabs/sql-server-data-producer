@@ -40,39 +40,9 @@
 
   <Text generatorName="Random Bit">Random bit genration, 0 or 1 randomly</Text>
   
+  <Text generatorName="Static Binary Value">Static binary value</Text>
+
+  <Text generatorName="Default XML Generator">Simple XML generator</Text>
+  
 </HelpTexts>
 
-<!--Static String
-Countries
-Female names
-Male names
-Cities
-User Names
-
-Current Date
-Static Date
-SQL GetDate()
-Random Date
-Seconds Series
-Miliseconds Series
-Minutes Series
-Hours Series
-Days Series
-
-Random Decimal
-Counting up Decimal
-
-Custom SQL Query
-NULL value
-
-Value from other Column
-Random FOREIGN KEY Value (EAGER)
-Sequential FOREIGN KEY Value (EAGER)
-Random Int
-Counting up Integer
-Identity from previous item
-Static Number
-Normally Distributed Random Numbers
-Exponential Random Numbers
-Weibull Random Numbers
-Laplace Random Numbers-->

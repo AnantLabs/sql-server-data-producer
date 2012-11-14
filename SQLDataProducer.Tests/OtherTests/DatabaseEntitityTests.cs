@@ -15,7 +15,7 @@ namespace SQLDataProducer.Tests
     public class DatabaseEntitityTests
     {
         IEnumerable<Generators.Generator> gens = Generators.Generator.GetDateTimeGenerators()
-                                            .Concat(Generators.Generator.GetDecimalGenerators())
+                                            .Concat(Generators.Generator.GetDecimalGenerators(5000))
                                             .Concat(Generators.Generator.GetGeneratorsForBigInt())
                                             .Concat(Generators.Generator.GetGeneratorsForBit())
                                             .Concat(Generators.Generator.GetGeneratorsForInt())
@@ -23,6 +23,8 @@ namespace SQLDataProducer.Tests
                                             .Concat(Generators.Generator.GetGeneratorsForTinyInt())
                                             .Concat(Generators.Generator.GetGUIDGenerators())
                                             .Concat(Generators.Generator.GetStringGenerators(1))
+                                            .Concat(Generators.Generator.GetBinaryGenerators(1))
+                                            .Concat(Generators.Generator.GetXMLGenerators())
                                             .Concat(new Generators.Generator[] { Generators.Generator.CreateNULLValueGenerator() });
 
 

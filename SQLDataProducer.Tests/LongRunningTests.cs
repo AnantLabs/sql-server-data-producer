@@ -53,7 +53,7 @@ namespace SQLDataProducer.RandomTests
                 // new N for each row
                 foreach (var c in i1.TargetTable.Columns)
                 {
-                    Console.WriteLine(c.Generator.GeneratorName);
+                    Console.WriteLine("Generator: {0} - DataType: {1}", c.Generator.GeneratorName, c.ColumnDataType.DBType.ToString());
                 }
 
                 var res = wfm.RunWorkFlow(options, Connection(), items);
@@ -109,7 +109,7 @@ namespace SQLDataProducer.RandomTests
 
                 foreach (var c in i1.TargetTable.Columns)
                 {
-                    Console.WriteLine(c.Generator.GeneratorName);
+                    Console.WriteLine("Generator: {0} - DataType: {1}", c.Generator.GeneratorName, c.ColumnDataType.DBType.ToString());
                 }
 
                 // new N for each row

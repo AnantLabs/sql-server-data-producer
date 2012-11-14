@@ -7,25 +7,6 @@ namespace SQLDataProducer.Entities.DatabaseEntities.Factories
 {
     public static class DatabaseEntityFactory
     {
-
-        //static readonly DatabaseEntityFactory _instance = new DatabaseEntityFactory();
-
-        //public static DatabaseEntityFactory Instance
-        //{
-        //    get
-        //    {
-        //        return _instance;
-        //    }
-        //}
-
-        //static DatabaseEntityFactory()
-        //{
-        //}
-
-        //DatabaseEntityFactory()
-        //{
-        //}
-
         public static ColumnEntity CreateColumnEntity(string columnName, ColumnDataTypeDefinition columnDatatype, bool isIdentity, int ordinalPosition, bool isForeignKey, ForeignKeyEntity foreignKeyEntity)
         {
             var gens = Generators.GeneratorFactory.GetGeneratorsForDataType(columnDatatype);
