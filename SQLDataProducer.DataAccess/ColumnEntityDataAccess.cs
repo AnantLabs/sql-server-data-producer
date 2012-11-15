@@ -76,11 +76,8 @@ from
 
 cross apply
 (
-	select 	
-		COALESCE(bt.name, t.name) as DataTypen,
-		t.precision, 
-		t.scale, 
-		t.max_length
+	select 	 	top 1
+		COALESCE(bt.name, t.name) as DataTypen
 	from
 		sys.types AS t
 		--ON c.user_type_id = t.user_type_id
@@ -92,7 +89,7 @@ cross apply
 		AND t.user_type_id <> bt.user_type_id
 		
 		where t.system_type_id = cols.system_type_id and  cols.user_type_id = t.user_type_id
-) datatyp(datatypen, precision, scale, max_length)
+) datatyp(datatypen)
 
 outer apply(
 	select 

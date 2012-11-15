@@ -14,7 +14,7 @@ using SQLDataProducer.TaskExecuter;
 using SQLDataProducer.Entities.OptionEntities;
 
 
-namespace SQLDataProducer.OtherTests
+namespace SQLDataProducer.RandomTests
 {
     public class GeneratorTests : TestBase
     {

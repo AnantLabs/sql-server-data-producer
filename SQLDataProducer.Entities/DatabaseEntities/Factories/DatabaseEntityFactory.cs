@@ -33,7 +33,7 @@ namespace SQLDataProducer.Entities.DatabaseEntities.Factories
 
         internal static ColumnEntity CloneColumn(ColumnEntity c)
         {
-            var col = new ColumnEntity(c.ColumnName, c.ColumnDataType, c.IsIdentity, c.OrdinalPosition, c.IsForeignKey, c.ForeignKey.Clone());
+            var col = new ColumnEntity(c.ColumnName, c.ColumnDataType, c.IsIdentity, c.OrdinalPosition, c.IsForeignKey, c.ForeignKey == null ? null : c.ForeignKey.Clone() );
             col.PossibleGenerators = c.PossibleGenerators.Clone();
             col.Generator = col.PossibleGenerators.Where(x => x.GeneratorName == c.Generator.GeneratorName).FirstOrDefault();
             return col;

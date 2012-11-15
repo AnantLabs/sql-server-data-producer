@@ -7,9 +7,10 @@ using SQLDataProducer.Entities.DatabaseEntities;
 using SQLDataProducer.Entities.DatabaseEntities.Factories;
 using SQLDataProducer.Entities.ExecutionEntities;
 using Generators = SQLDataProducer.Entities.Generators;
+using System.Data;
 
 
-namespace SQLDataProducer.Tests
+namespace SQLDataProducer.RandomTests
 {
     [TestFixture]
     public class DatabaseEntitityTests
@@ -156,9 +157,94 @@ namespace SQLDataProducer.Tests
         }
 
         [Test]
-        public void ShouldBeAbleToCloneColumnEntityCollection()
+        public void ShouldBeAbleToCreateColumnEntityFromFactory()
         {
-            Assert.IsNotNull(null);
+            var c1 = DatabaseEntityFactory.CreateColumnEntity("id", new ColumnDataTypeDefinition("int", false), true, 1, false, null);
+            Assert.AreEqual("id", c1.ColumnName);
+            Assert.AreEqual("int", c1.ColumnDataType.Raw);
+            Assert.AreEqual(SqlDbType.Int, c1.ColumnDataType.DBType);
+            Assert.AreEqual(true, c1.IsIdentity);
+            Assert.AreEqual(false, c1.ColumnDataType.IsNullable);
+            Assert.AreEqual(1, c1.OrdinalPosition);
+
+
+            var c2 = DatabaseEntityFactory.CreateColumnEntity("name", new ColumnDataTypeDefinition("nvarchar(988)", true), false, 2, false, null);
+            Assert.AreEqual("name", c2.ColumnName);
+            Assert.AreEqual("nvarchar(988)", c2.ColumnDataType.Raw);
+            Assert.AreEqual(SqlDbType.NVarChar, c2.ColumnDataType.DBType);
+            Assert.AreEqual(false, c2.IsIdentity);
+            Assert.AreEqual(true, c2.ColumnDataType.IsNullable);
+            Assert.AreEqual(2, c2.OrdinalPosition);
+        }
+
+        [Test]
+        public void ShouldBeAbletoCloneExecutionItem()
+        {
+            var t = new TableEntity("dbo", "peter");
+            var c1 = DatabaseEntityFactory.CreateColumnEntity("id", new ColumnDataTypeDefinition("int", false), true, 1, false, null);
+            var c2 = DatabaseEntityFactory.CreateColumnEntity("name", new ColumnDataTypeDefinition("varchar(500)", false), false, 2, false, null);
+            var c3 = DatabaseEntityFactory.CreateColumnEntity("created", new ColumnDataTypeDefinition("datetime", false), false, 3, false, null);
+            var c4 = DatabaseEntityFactory.CreateColumnEntity("enabled", new ColumnDataTypeDefinition("bit", false), false, 4, false, null);
+
+            Assert.AreEqual("id", c1.ColumnName);
+            Assert.AreEqual("name", c2.ColumnName);
+            Assert.AreEqual("created", c3.ColumnName);
+            Assert.AreEqual("enabled", c4.ColumnName);
+
+            t.Columns.Add(c1);
+            t.Columns.Add(c2);
+            t.Columns.Add(c3);
+            t.Columns.Add(c4);
+
+            Assert.AreEqual(4, t.Columns.Count);
+
+            var ei = new ExecutionItem(t, "orginal");
+            var clonedEI = ei.Clone();
+
+            {
+                Assert.AreEqual(ei.Description, clonedEI.Description);
+                Assert.AreEqual(ei.RepeatCount, clonedEI.RepeatCount);
+                Assert.AreEqual(ei.Order, clonedEI.Order);
+                Assert.AreEqual(ei.ExecutionCondition, clonedEI.ExecutionCondition);
+                Assert.AreEqual(ei.ExecutionConditionValue, clonedEI.ExecutionConditionValue);
+                Assert.AreEqual(ei.HasWarning, clonedEI.HasWarning);
+                Assert.AreEqual(ei.TargetTable, clonedEI.TargetTable);
+                Assert.AreEqual(ei.TruncateBeforeExecution, clonedEI.TruncateBeforeExecution);
+                Assert.AreEqual(ei.WarningText, clonedEI.WarningText);
+                
+                var ct = clonedEI.TargetTable;
+                
+
+                Assert.AreEqual("peter", ct.TableName);
+                Assert.AreEqual("dbo", ct.TableSchema);
+                Assert.AreEqual(4, ct.Columns.Count);
+                var cc1 = ct.Columns[0];
+                var cc2 = ct.Columns[1];
+                var cc3 = ct.Columns[2];
+                var cc4 = ct.Columns[3];
+                
+                AssertColumn(cc1, c1);
+                AssertColumn(cc2, c2);
+                AssertColumn(cc3, c3);
+                AssertColumn(cc4, c4);
+            }
+        }
+
+        private void AssertColumn(ColumnEntity expectedColumn, ColumnEntity newColumn)
+        {
+            Assert.AreEqual(expectedColumn.ColumnDataType.DBType, newColumn.ColumnDataType.DBType);
+            Assert.AreEqual(expectedColumn.ColumnDataType.Raw, newColumn.ColumnDataType.Raw);
+            Assert.AreEqual(expectedColumn.ColumnDataType.IsNullable, newColumn.ColumnDataType.IsNullable);
+            Assert.AreEqual(expectedColumn.ColumnDataType.MaxLength, newColumn.ColumnDataType.MaxLength);
+
+            Assert.AreEqual(expectedColumn.ColumnName, newColumn.ColumnName);
+            Assert.AreEqual(expectedColumn.Generator.GeneratorName, newColumn.Generator.GeneratorName);
+            Assert.AreEqual(expectedColumn.Generator.GeneratorParameters.Count, newColumn.Generator.GeneratorParameters.Count);
+            Assert.AreEqual(expectedColumn.HasWarning, newColumn.HasWarning);
+            Assert.AreEqual(expectedColumn.IsIdentity, newColumn.IsIdentity);
+            Assert.AreEqual(expectedColumn.OrdinalPosition, newColumn.OrdinalPosition);
+            Assert.AreEqual(expectedColumn.PossibleGenerators.Count, newColumn.PossibleGenerators.Count);
+            Assert.AreEqual(expectedColumn.WarningText, newColumn.WarningText);
         }
     }
 }

@@ -23,7 +23,7 @@ using SQLDataProducer.TaskExecuter;
 using SQLDataProducer.Entities;
 using SQLDataProducer.Entities.OptionEntities;
 
-namespace SQLDataProducer.RandomTestsnStuff
+namespace SQLDataProducer.RandomTests
 {
     public class RandomTests
     {
