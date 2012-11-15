@@ -280,7 +280,7 @@ namespace SQLDataProducer.RandomTests
             var genName = Generators.Generator.GENERATOR_RandomDecimal;
             ColumnEntity col = CreateColumnOfDatatype("decimal(19,6)", genName);
 
-            List<double> longs = Create10000FromColumn<double>(col);
+            List<decimal> longs = Create10000FromColumn<decimal>(col);
 
             for (int i = 0; i < 10000; i++)
             {
@@ -296,7 +296,7 @@ namespace SQLDataProducer.RandomTests
             var genName = Generators.Generator.GENERATOR_CountingUpDecimal;
             ColumnEntity col = CreateColumnOfDatatype("decimal(19,6)", genName);
 
-            List<double> longs = Create10000FromColumn<double>(col);
+            List<decimal> longs = Create10000FromColumn<decimal>(col);
 
             for (int i = 0; i < 10000; i++)
             {

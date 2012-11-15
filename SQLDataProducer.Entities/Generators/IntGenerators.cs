@@ -298,8 +298,8 @@ namespace SQLDataProducer.Entities.Generators
             {
                 double Mean = double.Parse(Generator.GetParameterByName(p, "Mean").ToString());
                 double StDev = double.Parse(Generator.GetParameterByName(p, "StDev").ToString());
-                double URN1 = RandomSupplier.Instance.GetNextDouble();
-                double URN2 = RandomSupplier.Instance.GetNextDouble();
+                double URN1 = (double)RandomSupplier.Instance.GetNextDouble();
+                double URN2 = (double)RandomSupplier.Instance.GetNextDouble();
 
                 return (StDev * Math.Sqrt(-2 * Math.Log(URN1)) * Math.Cos(2 * Math.Acos(-1.0) * URN2)) + Mean;
             }
@@ -321,7 +321,7 @@ namespace SQLDataProducer.Entities.Generators
             Generator gen = new Generator(GENERATOR_ExponentialRandomNumbers, (n, p) =>
             {
                 double Lambda = double.Parse(Generator.GetParameterByName(p, "Lambda").ToString());
-                double URN1 = RandomSupplier.Instance.GetNextDouble();
+                double URN1 = (double)RandomSupplier.Instance.GetNextDouble();
 
                  //-LOG(@URN)/@Lambda
                 return -1.0 * (Math.Log(URN1) / Lambda);
@@ -346,7 +346,7 @@ namespace SQLDataProducer.Entities.Generators
             {
                 double Alpha = double.Parse(Generator.GetParameterByName(p, "Alpha").ToString());
                 double Beta = double.Parse(Generator.GetParameterByName(p, "Beta").ToString());
-                double URN1 = RandomSupplier.Instance.GetNextDouble();
+                double URN1 = (double)RandomSupplier.Instance.GetNextDouble();
 
                 //RETURN POWER((-1. / @Alpha) * LOG(1. - @URN), 1./@Beta)
                 return Math.Pow((-1.0 / Alpha) * Math.Log(1.0 - URN1), 1.0 / Beta);
@@ -371,7 +371,7 @@ namespace SQLDataProducer.Entities.Generators
             {
                 double u = double.Parse(Generator.GetParameterByName(p, "u").ToString());
                 double b = double.Parse(Generator.GetParameterByName(p, "b").ToString());
-                double URN1 = RandomSupplier.Instance.GetNextDouble();
+                double URN1 = (double)RandomSupplier.Instance.GetNextDouble();
 
                 int s = 0;
                 if (0 < URN1 - 0.5)
