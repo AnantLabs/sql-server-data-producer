@@ -27,6 +27,9 @@ using SQLDataProducer.Entities.ExecutionEntities;
 namespace SQLDataProducer.ContinuousInsertion.Builders
 {
 
+    /// <summary>
+    /// Provides functionality to generate queries based on an ExecutionItem
+    /// </summary>
     public class TableEntityInsertStatementBuilder 
     {
         Dictionary<string, DbParameter> _paramCollection;
@@ -35,14 +38,6 @@ namespace SQLDataProducer.ContinuousInsertion.Builders
             get
             {
                 return _paramCollection;
-            }
-            set
-            {
-                if (_paramCollection != value)
-                {
-                    _paramCollection = value;
-                  
-                }
             }
         }
 
@@ -54,19 +49,12 @@ namespace SQLDataProducer.ContinuousInsertion.Builders
             {
                 return _execItem;
             }
-            set
-            {
-                if (_execItem != value)
-                {
-                    _execItem = value;
-                }
-            }
         }
 
         public TableEntityInsertStatementBuilder(ExecutionItem ie)
         {
-            ExecuteItem = ie;
-            Parameters = new Dictionary<string, DbParameter>();
+            _execItem = ie;
+            _paramCollection = new Dictionary<string, DbParameter>();
             Init();
         }
 
@@ -77,30 +65,24 @@ namespace SQLDataProducer.ContinuousInsertion.Builders
             {
                 return _insertStatement;
             }
-            set
-            {
-                if (_insertStatement != value)
-                {
-                    _insertStatement = value;
-                   
-                }
-            }
         }
-
+        /// <summary>
+        /// Initializes the insertstatement and DbParameters required.
+        /// </summary>
         private void Init()
         {
             StringBuilder sb = new StringBuilder();
             GenerateSqlScriptPartOfStatement(sb);
             GenerateInsertPartOfStatement(sb);
             GenerateValuePartOfInsertStatement(sb);
-            InsertStatement = sb.ToString();
+            _insertStatement = sb.ToString();
         }
-
+        /// <summary>
+        /// Generate the custom sql script part of the final statement. <example>declare @c_DateTimeColumn_1 datetime = getdate();</example>
+        /// </summary>
+        /// <param name="sb">the stringbuilder to append the sql script part to</param>
         private void GenerateSqlScriptPartOfStatement(StringBuilder sb)
         {
-//            string example = @"declare @c_DateTimeColumn_1 datetime = getdate();
-//                         declare @c_Name_1 varchar(500) = (select ''peter e så god'');
-//                    ";
             sb.AppendLine();
             foreach (var c in ExecuteItem.TargetTable.Columns.Where( c => c.Generator.IsSqlQueryGenerator ))
             {
@@ -122,6 +104,10 @@ namespace SQLDataProducer.ContinuousInsertion.Builders
             return GetParamName(1, c).Replace("@", "@c_");
         }
 
+        /// <summary>
+        /// Generate the INSERT-part of the statement, example <example>INSERT schemaName.TableName(c1, c2)</example>
+        /// </summary>
+        /// <param name="sb">the stringbuilder to append the insert statement to</param>
         private void GenerateInsertPartOfStatement(StringBuilder sb)
         {
             sb.AppendLine();
@@ -143,8 +129,6 @@ namespace SQLDataProducer.ContinuousInsertion.Builders
             }
 
             sb.Append(")");
-            
-            
             sb.AppendLine();
         }
 
@@ -164,8 +148,6 @@ namespace SQLDataProducer.ContinuousInsertion.Builders
                     if (col.IsIdentity)
                         continue;
 
-
-
                     string paramName = GetParamName(rep, col);
                     // Add the parameter with no value, values will be added in the GenerateValues method
                     var par = CommandFactory.CreateParameter(paramName, null, col.ColumnDataType.DBType);
@@ -176,7 +158,6 @@ namespace SQLDataProducer.ContinuousInsertion.Builders
                         sb.Append(paramName);
                     else
                         sb.Append(GetSqlQueryParameterName(col));
-
 
                     sb.Append(i == ExecuteItem.TargetTable.Columns.Count - 1 ? string.Empty : ", ");
                 }
@@ -206,32 +187,10 @@ namespace SQLDataProducer.ContinuousInsertion.Builders
                     string paramName = GetParamName(rep, col);
                     Parameters[paramName].Value = col.PreviouslyGeneratedValue;
                 }
-
             }
         }
 
-        public string GenerateFullStatement()
-        {
-            StringBuilder sb = new StringBuilder();
-            for (int rep = 1; rep <= ExecuteItem.RepeatCount; rep++)
-            {
-                for (int i = 0; i < ExecuteItem.TargetTable.Columns.Count; i++)
-                {
-                    var col = ExecuteItem.TargetTable.Columns[i];
-
-                    if (col.IsIdentity)
-                        continue;
-
-                    string paramName = GetParamName(rep, col);
-                    sb.AppendFormat("\t DECLARE {0} {1} = '{2}';", paramName, col.ColumnDataType.Raw, col.PreviouslyGeneratedValue);
-                    sb.AppendLine();
-                }
-            }
-            
-            sb.AppendLine();
-            sb.Append(InsertStatement);
-            return sb.ToString();
-        }
+       
 
         private static string GetParamName(int rep, ColumnEntity col)
         {

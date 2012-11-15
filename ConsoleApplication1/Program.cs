@@ -13,9 +13,14 @@
 //   limitations under the License.
 
 using System;
-using SQLDataProducer.RandomTestsnStuff;
 using SQLDataProducer.RandomTests;
-
+using SQLDataProducer.ContinuousInsertion.Builders;
+using SQLDataProducer.Entities.ExecutionEntities;
+using SQLDataProducer.DataAccess;
+using SQLDataProducer.Entities.DatabaseEntities;
+using System.IO;
+using System.Linq;
+using Generators = SQLDataProducer.Entities.Generators;
 
 namespace TestConsoleApplication
 {
@@ -24,112 +29,47 @@ namespace TestConsoleApplication
 
         static void Main(string[] args)
         {
-            //TableEntityDataAccess tda = new TableEntityDataAccess(Connection());
+            TableEntityDataAccess tda = new TableEntityDataAccess(Connection());
 
-            //TableEntity table = tda.GetTableAndColumns("Person", "Address");
-            //ExecutionItem ei = new ExecutionItem(table);
-            //ei.RepeatCount = 2;
-            //TableEntityInsertStatementBuilder builder = new TableEntityInsertStatementBuilder(ei);
-            //int i = 1;
-            //builder.GenerateValues(() => i++);
+            TableEntity table = tda.GetTableAndColumns("Person", "Address");
+            TableEntity table2 = tda.GetTableAndColumns("Person", "NewPerson");
+            ExecutionItem ei = new ExecutionItem(table);
+            ExecutionItem ei2 = new ExecutionItem(table2);
+            ei.RepeatCount = 10;
+            var items = new ExecutionItemCollection();
+            items.Add(ei);
+            items.Add(ei2);
+            items.Add(GetSQLGetDateExecutionItem());
 
-            //foreach (var p in builder.Parameters)
-            //{
-            //    Console.WriteLine(p.Value + ":" + p.Value.Value);
-            //}
-            //Console.WriteLine(builder.InsertStatement);
-
-            //Console.WriteLine();
-            //Console.WriteLine(builder.GenerateFullStatement());
-
-
+            long j = 0;
+            var fileName = @"c:\temp\repeater\test.sql";
+            File.Delete(fileName);
+            using (StreamWriter writer = new StreamWriter(fileName))
             {
-                RandomTests t = new  RandomTests();
-                t.ShouldExecuteWithNewNForEachExecution();
+                var b = new FullQueryInsertStatementBuilder(items);
+                //for (int i = 0; i < 5; i++)
+                //{
+                    writer.Write(b.GenerateFullStatement(() => { return j++; }));
+                //}
             }
-            {
-                ForeignKeyTests t = new ForeignKeyTests();
-
-                t.ShouldGetIdentityFromPreviousItem();
-            }
-            {
-                LongRunningTests t = new LongRunningTests();
-                t.ShouldExecute_50000_Executions();
-            }
-
-            Console.WriteLine("Done");
-            Console.ReadKey();
+            //Console.WriteLine("Done");
+            //Console.ReadKey();
 
         }
 
-        //private static void TestIfEqual(ExecutionItemCollection original, ExecutionItemCollection loaded)
-        //{
-        //    if (Assert(original.Count == loaded.Count, "Not same amount of exec items"))
-        //    {
-        //        for (int i = 0; i < original.Count; i++)
-        //        {
-        //            Assert(original[i].Description == loaded[i].Description, "description does not match");
-        //            Assert(original[i].Order == loaded[i].Order, "Order does not match");
-
-        //            Assert(original[i].TargetTable.TableName == loaded[i].TargetTable.TableName, "Target table does not match");
-        //            Assert(original[i].TargetTable.TableSchema == loaded[i].TargetTable.TableSchema, "Target table TableSchema does not match");
-        //            if (Assert(original[i].TargetTable.Columns.Count == loaded[i].TargetTable.Columns.Count, "Column count does not match"))
-        //            {
-        //                for (int j = 0; j < original[i].TargetTable.Columns.Count; j++)
-        //                {
-        //                    ColumnEntity loadedColumn = loaded[i].TargetTable.Columns[j];
-        //                    ColumnEntity originalColumn = original[i].TargetTable.Columns[j];
-
-        //                    Assert(originalColumn.ColumnName == loadedColumn.ColumnName, "Column names does not match");
-        //                    Assert(originalColumn.ColumnDataType == loadedColumn.ColumnDataType, "ColumnDataType does not match");
-        //                    Assert(originalColumn.IsForeignKey == loadedColumn.IsForeignKey, "IsForeignKey does not match");
-
-        //                    Assert(originalColumn.IsIdentity == loadedColumn.IsIdentity, "IsIdentity does not match");
-        //                    Assert(originalColumn.IsNotIdentity == loadedColumn.IsNotIdentity, "IsNotIdentity does not match");
-        //                    Assert(originalColumn.OrdinalPosition == loadedColumn.OrdinalPosition, "OrdinalPosition does not match");
-
-        //                    //Assert(list[i].TargetTable.Columns[j].PossibleGenerators == loaded[i].TargetTable.Columns[j].PossibleGenerators, "PossibleGenerators does not match");
-        //                    Assert(originalColumn.PossibleGenerators.Count == loadedColumn.PossibleGenerators.Count, "PossibleGenerators count is not equal");
-
-
-        //                    Assert(originalColumn.Generator.GeneratorName == loadedColumn.Generator.GeneratorName, "Generator does not matchdoes");
-        //                    Assert(originalColumn.Generator.GeneratorParameters.Count == loadedColumn.Generator.GeneratorParameters.Count, "GeneratorParameters does not match");
-        //                    for (int ii = 0; ii < originalColumn.Generator.GeneratorParameters.Count; ii++)
-        //                    {
-        //                        Assert(originalColumn.Generator.GeneratorParameters[ii].ParameterName == loadedColumn.Generator.GeneratorParameters[ii].ParameterName, "Parameter name not equal");
-        //                        if(!Assert(originalColumn.Generator.GeneratorParameters[ii].Value.ToString() == loadedColumn.Generator.GeneratorParameters[ii].Value.ToString(), "Value not equal"))
-        //                            Console.WriteLine("{0} - {1}", originalColumn.Generator.GeneratorParameters[ii].Value, loadedColumn.Generator.GeneratorParameters[ii].Value);
-                                
-        //                        Assert(originalColumn.Generator.GeneratorParameters[ii].IsWriteEnabled == loadedColumn.Generator.GeneratorParameters[ii].IsWriteEnabled, "IsWriteEnabled not equal");
-        //                    }
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
-
-        private static bool Assert(bool p, string message)
+        private static ExecutionItem GetSQLGetDateExecutionItem()
         {
-            if (!p)
-                Console.WriteLine(message);
-            return p;
+            var tda = new TableEntityDataAccess(Connection());
+            var table = tda.GetTableAndColumns("Person", "NewPerson");
+            
+            var ei = new ExecutionItem(table);
+            ei.RepeatCount = 3;
+            
+
+            var col = table.Columns.Where(x => x.ColumnDataType.Raw == "datetime").FirstOrDefault();
+            col.Generator = col.PossibleGenerators.Where(g => g.GeneratorName == Generators.Generator.GENERATOR_SQLGetDate).FirstOrDefault();
+            return ei;
         }
-
-        //private static ExecutionItemCollection SetupExecutionItems(TableEntity table)
-        //{
-        //    ExecutionItemCollection list = new ExecutionItemCollection();
-        //    ExecutionItem item = new ExecutionItem(table);
-        //    item.RepeatCount = 10;
-        //    item.TruncateBeforeExecution = false;
-        //    ExecutionItem item2 = new ExecutionItem(table);
-        //    item2.RepeatCount = 1;
-        //    list.Add(item);
-        //    list.Add(item2);
-        //    //list.Save(@"c:\temp\test.xml");
-        //    return list;
-        //}
-
-      
 
         private static string Connection()
         {

@@ -258,6 +258,20 @@ namespace SQLDataProducer.RandomTests
         }
 
         [Test]
+        public void ShouldGenerate_String_FemaleNames()
+        {
+            var genName = Generators.Generator.GENERATOR_FemaleNames;
+            ColumnEntity col = CreateColumnOfDatatype("nvarchar(900)", genName);
+
+            List<string> longs = Create10000FromColumn<string>(col);
+
+            for (int i = 0; i < 10000; i++)
+            {
+                Assert.Greater(longs[i].Length, 0);
+            }
+        }
+
+        [Test]
         public void ShouldGenerate_Long_RandomInt()
         {
             var genName = Generators.Generator.GENERATOR_RandomInt;

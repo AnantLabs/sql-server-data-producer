@@ -46,7 +46,7 @@ namespace SQLDataProducer.RandomTests
 
                 Console.WriteLine();
                 Console.WriteLine("We dont really care about the errors, we just want to generate data for all the tables and columns.");
-                Console.WriteLine(builder.GenerateFullStatement());
+                Console.WriteLine(builder.InsertStatement);//.GenerateFullStatement());
                 Console.WriteLine("GO");
             }
         }
