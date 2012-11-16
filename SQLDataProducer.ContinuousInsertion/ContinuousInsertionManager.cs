@@ -62,17 +62,8 @@ namespace SQLDataProducer.ContinuousInsertion
 
         public string OneExecutionToString(ExecutionItemCollection execItems, Func<long> getN, SetCounter _rowInsertCounter)
         {
-            throw new NotImplementedException("This should be handled smarter so that it uses the same code as the other execution");
-            //StringBuilder sb = new StringBuilder();
-            //var builders = Prepare(execItems);
-            //foreach (var b in builders)
-            //{
-            //    b.GenerateValues(getN);
-            //    sb.AppendLine(b.GenerateFullStatement());
-            //    _rowInsertCounter.Add(b.ExecuteItem.RepeatCount);
-            //}
-
-            //return sb.ToString();
+            FullQueryInsertStatementBuilder builder = new FullQueryInsertStatementBuilder(execItems);
+            return builder.GenerateFullStatement(getN);
         }
 
        

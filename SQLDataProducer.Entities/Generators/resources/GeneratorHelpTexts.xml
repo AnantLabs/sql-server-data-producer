@@ -7,7 +7,7 @@
   <Text generatorName="Cities">A country from the Cities.txt file. Will get the N:th city from the file for each generation.</Text>
   <Text generatorName="User Names">A country from the UserNames.txt file. Will get the N:th username from the file for each generation.</Text>
 
-  <Text generatorName="Current Date">Current date of your computer</Text>
+  <Text generatorName="Current Date">Current date of your computer. You can shift the created date by the parameters. For example: To insert a row for tomorrow simply shift 1 day.</Text>
   <Text generatorName="Static Date">Static date you configure, do not enclose in quatation marks</Text>
   <Text generatorName="SQL GetDate()">Use GetDate() function for this column.</Text>
   <Text generatorName="Random Date">A randomly generated date</Text>

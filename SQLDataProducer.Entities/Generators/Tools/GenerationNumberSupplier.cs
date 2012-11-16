@@ -12,32 +12,32 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-using System.Threading;
+//using System.Threading;
 
-namespace SQLDataProducer.Entities.Factories
-{
-    public static class GenerationNumberSupplier
-    {
-        static int _number;
+//namespace SQLDataProducer.Entities.Factories
+//{
+//    public static class GenerationNumberSupplier
+//    {
+//        static int _number;
 
-        static GenerationNumberSupplier()
-        {
-            _number = 1;
-        }
+//        static GenerationNumberSupplier()
+//        {
+//            _number = 1;
+//        }
 
-        public static int GetNextNumber()
-        {
-            return Interlocked.Increment(ref _number);
-        }
+//        public static int GetNextNumber()
+//        {
+//            return Interlocked.Increment(ref _number);
+//        }
 
-        public static void Reset()
-        {
-            _number = 1;
-        }
+//        public static void Reset()
+//        {
+//            _number = 1;
+//        }
 
-        public static int CurrentNumber()
-        {
-            return _number;
-        }
-    }
-}
+//        public static int CurrentNumber()
+//        {
+//            return _number;
+//        }
+//    }
+//}

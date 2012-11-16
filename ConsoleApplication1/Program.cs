@@ -29,31 +29,55 @@ namespace TestConsoleApplication
 
         static void Main(string[] args)
         {
-            TableEntityDataAccess tda = new TableEntityDataAccess(Connection());
+            var t = new GeneratorTests();
+            t.ShouldGenerate_Long_RandomInt();
 
-            TableEntity table = tda.GetTableAndColumns("Person", "Address");
-            TableEntity table2 = tda.GetTableAndColumns("Person", "NewPerson");
-            ExecutionItem ei = new ExecutionItem(table);
-            ExecutionItem ei2 = new ExecutionItem(table2);
-            ei.RepeatCount = 10;
-            var items = new ExecutionItemCollection();
-            items.Add(ei);
-            items.Add(ei2);
-            items.Add(GetSQLGetDateExecutionItem());
+            //TableEntityDataAccess tda = new TableEntityDataAccess(Connection());
+
+            //TableEntity table = tda.GetTableAndColumns("Person", "Address");
+            //TableEntity table2 = tda.GetTableAndColumns("Person", "NewPerson");
+            //ExecutionItem ei = new ExecutionItem(table);
+            //ExecutionItem ei2 = new ExecutionItem(table2);
+            //ei.RepeatCount = 10;
+            //var items = new ExecutionItemCollection();
+            //items.Add(ei);
+            //items.Add(ei2);
+            //items.Add(GetSQLGetDateExecutionItem());
+
+            //long j = 0;
+            //var fileName = @"c:\temp\repeater\test.sql";
+            //File.Delete(fileName);
+            //using (StreamWriter writer = new StreamWriter(fileName))
+            //{
+            //    var b = new FullQueryInsertStatementBuilder(items);
+            //    writer.Write(b.GenerateFullStatement(() => { return j++; }));
+            //}
+
+            //GetAllTablesEI();
+
+            Console.WriteLine("Done");
+            Console.ReadKey();
+
+        }
+
+        private static void GetAllTablesEI()
+        {
+            var tda = new TableEntityDataAccess(Connection());
+            var tables = tda.GetAllTablesAndColumns();
+            ExecutionItemCollection col = new ExecutionItemCollection();
+            foreach (var t in tables)
+            {
+                col.Add(new ExecutionItem(t));
+            }
 
             long j = 0;
-            var fileName = @"c:\temp\repeater\test.sql";
+            var fileName = @"c:\temp\repeater\testBig.sql";
             File.Delete(fileName);
             using (StreamWriter writer = new StreamWriter(fileName))
             {
-                var b = new FullQueryInsertStatementBuilder(items);
-                //for (int i = 0; i < 5; i++)
-                //{
-                    writer.Write(b.GenerateFullStatement(() => { return j++; }));
-                //}
+                var b = new FullQueryInsertStatementBuilder(col);
+                writer.Write(b.GenerateFullStatement(() => { return j++; }));
             }
-            //Console.WriteLine("Done");
-            //Console.ReadKey();
 
         }
 

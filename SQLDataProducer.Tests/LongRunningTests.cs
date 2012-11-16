@@ -49,6 +49,7 @@ namespace SQLDataProducer.RandomTests
                 options.FixedExecutions = 50000;
                 options.NumberGeneratorMethod = NumberGeneratorMethods.NewNForEachRow;
                 ExecutionItemCollection items = new ExecutionItemCollection();
+                
                 items.Add(i1);
                 // new N for each row
                 foreach (var c in i1.TargetTable.Columns)
