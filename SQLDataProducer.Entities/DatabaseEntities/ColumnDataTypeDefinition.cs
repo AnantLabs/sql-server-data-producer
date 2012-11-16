@@ -30,7 +30,10 @@ namespace SQLDataProducer.Entities.DatabaseEntities
             DBType = StringToDBDataType(rawDataType);
             IsNullable = nullable;
 
-            if (DBType == SqlDbType.VarChar)
+            if (DBType == SqlDbType.VarChar 
+                || DBType == SqlDbType.NVarChar 
+                ||DBType == SqlDbType.Char 
+                ||DBType == SqlDbType.NChar)
             {
                 int length = GetLengthOfStringDataType(rawDataType);
                 MaxLength = length;
