@@ -130,9 +130,15 @@ namespace SQLDataProducer.ContinuousInsertion.Builders
                 sb.Append(ei.RepeatCount == rep ? ";" : ", ");
                 sb.AppendLine();
             }
-            // If the table have idenitity column then we shuold select that to get it back to the application
+            // If the table have idenitity column then we shuold store that in a variable
+
             if (ei.TargetTable.HasIdentityColumn)
-                sb.AppendLine("SELECT SCOPE_IDENTITY();");
+            {
+                var identityVariableName = string.Format("@Identity_i{0}", ei.Order);
+                sb.AppendFormat("DECLARE {0} {1} = SCOPE_IDENTITY();", identityVariableName, "int");
+                //sb.AppendFormat("SELECT {0} = SCOPE_IDENTITY();", identityVariableName);
+                sb.AppendLine();
+            }
             sb.AppendLine();
         }
 
@@ -142,6 +148,7 @@ namespace SQLDataProducer.ContinuousInsertion.Builders
         /// <param name="getN">will be called once per row</param>
         private void GenerateVariables(ExecutionItem ei, StringBuilder sb, Func<long> getN)
         {
+            sb.AppendLine();
             for (int rep = 1; rep <= ei.RepeatCount; rep++)
             {
                 long N = getN();
@@ -149,8 +156,27 @@ namespace SQLDataProducer.ContinuousInsertion.Builders
                 ei.TargetTable.GenerateValuesForColumns(N);
                 foreach (var col in ei.TargetTable.Columns.Where(x => x.IsNotIdentity))
                 {
+                    if (col.Generator.IsSqlQueryGenerator)
+                        continue;
+
                     string paramName = GetParamName(rep, col);
-                    sb.AppendLine(string.Format("DECLARE {0} {1} = {2};", paramName, col.ColumnDataType.Raw, col.PreviouslyGeneratedValue.ToString()));
+                    if (col.Generator.GeneratorName != SQLDataProducer.Entities.Generators.Generator.GENERATOR_IdentityFromPreviousItem)
+                    {
+                        var value = col.PreviouslyGeneratedValue == DBNull.Value ? "NULL" : string.Format(col.ColumnDataType.StringFormatter, col.PreviouslyGeneratedValue);
+                        sb.AppendLine(string.Format("DECLARE {0} {1} = {2}; -- {3}",
+                            paramName,
+                            col.ColumnDataType.Raw,
+                            value,
+                            col.Generator.GeneratorName));
+                    }
+                    else
+                    {
+                        sb.AppendLine(string.Format("DECLARE {0} {1} = {2}; -- {3}",
+                            paramName,
+                            col.ColumnDataType.Raw,
+                            string.Format("@Identity_i{0}", col.Generator.GeneratorParameters[0].Value),
+                            col.Generator.GeneratorName));
+                    }
                 }
             }
         }

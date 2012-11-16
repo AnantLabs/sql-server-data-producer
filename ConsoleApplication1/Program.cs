@@ -63,11 +63,17 @@ namespace TestConsoleApplication
             var table = tda.GetTableAndColumns("Person", "NewPerson");
             
             var ei = new ExecutionItem(table);
-            ei.RepeatCount = 3;
+            ei.RepeatCount = 1;
             
 
             var col = table.Columns.Where(x => x.ColumnDataType.Raw == "datetime").FirstOrDefault();
             col.Generator = col.PossibleGenerators.Where(g => g.GeneratorName == Generators.Generator.GENERATOR_SQLGetDate).FirstOrDefault();
+
+
+            var bigintCol = table.Columns.Where(x => x.ColumnDataType.DBType == System.Data.SqlDbType.BigInt).FirstOrDefault();
+            bigintCol.Generator = bigintCol.PossibleGenerators.Where(g => g.GeneratorName == Generators.Generator.GENERATOR_IdentityFromPreviousItem).FirstOrDefault();
+            bigintCol.Generator.GeneratorParameters[0].Value = 1;
+
             return ei;
         }
 

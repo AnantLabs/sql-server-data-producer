@@ -29,6 +29,7 @@ namespace SQLDataProducer.Entities.DatabaseEntities
             Raw = rawDataType;
             DBType = StringToDBDataType(rawDataType);
             IsNullable = nullable;
+            _stringFormatter = GetStringFormatter();
 
             if (DBType == SqlDbType.VarChar 
                 || DBType == SqlDbType.NVarChar 
@@ -37,6 +38,52 @@ namespace SQLDataProducer.Entities.DatabaseEntities
             {
                 int length = GetLengthOfStringDataType(rawDataType);
                 MaxLength = length;
+            }
+        }
+
+        private string GetStringFormatter()
+        {
+            switch (DBType)
+            {
+                case SqlDbType.BigInt:
+                case SqlDbType.Binary:
+               
+                case SqlDbType.Decimal:
+                case SqlDbType.Float:
+                case SqlDbType.Image:
+                case SqlDbType.Int:
+                case SqlDbType.Money:
+                case SqlDbType.Real:
+                case SqlDbType.SmallInt:
+                case SqlDbType.SmallMoney:
+                case SqlDbType.Structured:
+                case SqlDbType.Timestamp:
+                case SqlDbType.TinyInt:
+                case SqlDbType.Udt:
+
+                case SqlDbType.VarBinary:
+                    return "{0}";
+
+                case SqlDbType.Char:
+                case SqlDbType.Date:
+                case SqlDbType.DateTime:
+                case SqlDbType.DateTime2:
+                case SqlDbType.DateTimeOffset:
+                case SqlDbType.NChar:
+                case SqlDbType.NText:
+                case SqlDbType.NVarChar:
+                case SqlDbType.SmallDateTime:
+                case SqlDbType.Text:
+                case SqlDbType.Time:
+                case SqlDbType.UniqueIdentifier:
+                case SqlDbType.VarChar:
+                case SqlDbType.Variant:
+                case SqlDbType.Xml:
+                case SqlDbType.Bit:
+                    return "'{0}'";
+                    
+                default:
+                    return "'{0}'";
             }
         }
 
@@ -85,6 +132,15 @@ namespace SQLDataProducer.Entities.DatabaseEntities
             }
         }
 
+
+        string _stringFormatter;
+        public string StringFormatter
+        {
+            get
+            {
+                return _stringFormatter;
+            }
+        }
 
         bool _isNullable;
         public bool IsNullable

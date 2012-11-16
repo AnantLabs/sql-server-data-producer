@@ -262,6 +262,8 @@ namespace SQLDataProducer.Entities.Generators
             };
               
             gen.GeneratorParameters = paramss;
+            //gen._isSqlQueryGenerator = true;
+            
             return gen;
         }
 
