@@ -70,6 +70,9 @@
     <Compile Include="ModalWindows\ExecutionSummaryWindow.xaml.cs">
       <DependentUpon>ExecutionSummaryWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ModalWindows\ShowPreviewWindow.xaml.cs">
+      <DependentUpon>ShowPreviewWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ModalWindows\YesNoWindow.xaml.cs">
       <DependentUpon>YesNoWindow.xaml</DependentUpon>
     </Compile>
@@ -129,6 +132,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ModalWindows\ExecutionSummaryWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ModalWindows\ShowPreviewWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

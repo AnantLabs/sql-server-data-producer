@@ -112,6 +112,12 @@
 
             </StackPanel>
         </GroupBox>
+        
+        <GroupBox Grid.Column="2" Header="Commands">
+            <StackPanel>
+                <Button Content="Show Preview" Command="{Binding ShowPreviewCommand, Mode=OneWay}" CommandParameter="{Binding Model.SelectedExecutionItem, Mode=TwoWay}" />
+            </StackPanel>
+        </GroupBox>
 
         <GroupBox Grid.Row="1" Grid.ColumnSpan="3">
             <Grid >

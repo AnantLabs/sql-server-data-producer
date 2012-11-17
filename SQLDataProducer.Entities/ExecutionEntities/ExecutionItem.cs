@@ -16,6 +16,7 @@ using System;
 using SQLDataProducer.Entities.DatabaseEntities;
 using System.Xml.Serialization;
 using System.Linq;
+using System.Data;
 
 namespace SQLDataProducer.Entities.ExecutionEntities
 {
@@ -309,6 +310,31 @@ namespace SQLDataProducer.Entities.ExecutionEntities
                 default:
                     throw new NotSupportedException("ExecutionConditions not supported");
             }
+        }
+
+        public static DataTable CreatePreview(ExecutionItem ei)
+        {
+
+            DataTable table = new DataTable(ei.TargetTable.TableName, ei.TargetTable.TableSchema);
+            foreach (var c in ei.TargetTable.Columns)
+            {
+                table.Columns.Add(new DataColumn(c.ColumnName, typeof(object)));
+            }
+
+            for (int i = 1; i < 100; i++)
+            {
+                ei.TargetTable.GenerateValuesForColumns(i);
+                var row = table.NewRow();
+                table.Rows.Add(row);
+                for (int k = 0; k < table.Columns.Count; k++)
+                {
+                    var value = ei.TargetTable.Columns[k].PreviouslyGeneratedValue;
+                    row.SetField(table.Columns[k], value);
+                }
+                   
+            }
+
+            return table;
         }
     }
 }

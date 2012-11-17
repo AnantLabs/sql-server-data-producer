@@ -22,6 +22,8 @@ namespace SQLDataProducer.ViewModels
     {
 
         public DelegateCommand<GeneratorParameter> ConfigureReferenceParameterCommand { private set; get; }
+        public DelegateCommand<ExecutionItem> ShowPreviewCommand { private set; get; }
+        
 
         SQLDataProducer.Model.ApplicationModel _model;
         public SQLDataProducer.Model.ApplicationModel Model
@@ -44,6 +46,13 @@ namespace SQLDataProducer.ViewModels
         {
             Model = model;
             ConfigureReferenceParameterCommand = new DelegateCommand<GeneratorParameter>(ShowParameterReferenceConfigurationWindow);
+
+            ShowPreviewCommand = new DelegateCommand<ExecutionItem>(ei =>
+                {
+                    var dt = ExecutionItem.CreatePreview(ei);
+                    ModalWindows.ShowPreviewWindow win = new ModalWindows.ShowPreviewWindow(dt);
+                    win.Show();
+                });
         }
 
         private void ShowParameterReferenceConfigurationWindow(GeneratorParameter param)
