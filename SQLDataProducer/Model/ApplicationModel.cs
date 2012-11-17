@@ -34,6 +34,7 @@ namespace SQLDataProducer.Model
         {
             Tables = new TableEntityCollection();
             WorkFlowManager = new WorkflowManager();
+           
         }
 
         TableEntityCollection _tables;
@@ -113,6 +114,15 @@ namespace SQLDataProducer.Model
                 if (_executionItems != value)
                 {
                     _executionItems = value;
+
+                    ExecutionItemsWithWarningsView = System.Windows.Data.CollectionViewSource.GetDefaultView(ExecutionItems);
+                    ExecutionItemsWithWarningsView.Filter = delegate(object obj)
+                    {
+                        ExecutionItem t = obj as ExecutionItem;
+
+                        return t.HasWarning;
+                    };
+
                     OnPropertyChanged("ExecutionItems");
                 }
                 if (value != null)
@@ -298,8 +308,24 @@ namespace SQLDataProducer.Model
                 }
             }
         }
-
-
+        
+        System.ComponentModel.ICollectionView _executionItemWithWarningsView;
+        public System.ComponentModel.ICollectionView ExecutionItemsWithWarningsView
+        {
+            get
+            {
+                return _executionItemWithWarningsView;
+            }
+            set
+            {
+                if (_executionItemWithWarningsView != value)
+                {
+                    _executionItemWithWarningsView = value;
+                    OnPropertyChanged("ExecutionItemsWithWarningsView");
+                }
+            }
+        }
+        
 
         internal void SetTablesView()
         {
