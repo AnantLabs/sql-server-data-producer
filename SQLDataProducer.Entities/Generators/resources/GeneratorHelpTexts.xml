@@ -20,7 +20,7 @@
   <Text generatorName="Random Decimal">A random decimal within the limits of the configuration.</Text>
   <Text generatorName="Counting up Decimal">Decimal number counting up using N.</Text>
 
-  <Text generatorName="Custom SQL Query">Any sql query you wish to use.</Text>
+  <Text generatorName="Custom SQL Query">Any sql query you wish to use. The query should return only one row and should result in the correct datatype.</Text>
   <Text generatorName="NULL value">Will simply use NULL as value for this column.</Text>
 
   <Text generatorName="Value from other Column">Select a column to use the same value as it generated. The other column must be higher up in the Execution Item List (ie it must have generated it's value before this generator runs).</Text>
