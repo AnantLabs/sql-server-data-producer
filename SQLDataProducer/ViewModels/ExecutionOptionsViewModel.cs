@@ -49,6 +49,7 @@ namespace SQLDataProducer.ViewModels
         public ExecutionOptionsViewModel(ApplicationModel model)
         {
             this.Model = model;
+            model.ExecutionItemsWithWarningsView.Refresh();
         }
 
         

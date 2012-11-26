@@ -136,8 +136,7 @@ namespace SQLDataProducer.ViewModels
         public MainWindowViewModel(ExecutionTaskOptions options)
         {
             Model = new SQLDataProducer.Model.ApplicationModel();
-            Model.ExecutionItems = new ExecutionItemCollection();
-            Model.SelectedExecutionItem = Model.ExecutionItems.FirstOrDefault();
+            
             Model.Options = options;
             ExecutionOrderVM = new ExecutionOrderViewModel(Model);
             ExecutionDetailsVM = new ExecutionDetailsViewModel(Model);

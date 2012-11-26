@@ -23,10 +23,13 @@ using System.Windows;
 using System.Windows.Threading;
 using System.Threading;
 using SQLDataProducer.ModalWindows;
+using System.Linq;
+using System.Windows.Data;
+using System.ComponentModel;
 
 namespace SQLDataProducer.Model
 {
-    public class ApplicationModel : Entities.EntityBase
+    public class ApplicationModel : INotifyPropertyChanged
     {
 
 
@@ -34,8 +37,27 @@ namespace SQLDataProducer.Model
         {
             Tables = new TableEntityCollection();
             WorkFlowManager = new WorkflowManager();
-           
+
+            ExecutionItems = new ExecutionItemCollection();
+            SelectedExecutionItem = ExecutionItems.FirstOrDefault();
+
+            //ExecutionItemsWithWarningsView = System.Windows.Data.CollectionViewSource.GetDefaultView(ExecutionItems);
+
+            _executionItemsWithWarningsSource = new CollectionViewSource { Source = ExecutionItems };
+            ExecutionItemsWithWarningsView = _executionItemsWithWarningsSource.View;
+            ExecutionItemsWithWarningsView.Filter = new Predicate<object>( obj  =>
+            {
+                ExecutionItem t = obj as ExecutionItem;
+                if (t != null)
+                {
+                    return t.HasWarning;
+                }
+                return true;
+            });
         }
+
+        CollectionViewSource _executionItemsWithWarningsSource;
+
 
         TableEntityCollection _tables;
         /// <summary>
@@ -107,24 +129,16 @@ namespace SQLDataProducer.Model
             get
             {
                 return _executionItems;
-                
             }
-            set
+            private set
             {
                 if (_executionItems != value)
                 {
                     _executionItems = value;
 
-                    ExecutionItemsWithWarningsView = System.Windows.Data.CollectionViewSource.GetDefaultView(ExecutionItems);
-                    ExecutionItemsWithWarningsView.Filter = delegate(object obj)
-                    {
-                        ExecutionItem t = obj as ExecutionItem;
-
-                        return t.HasWarning;
-                    };
-
                     OnPropertyChanged("ExecutionItems");
                 }
+
                 if (value != null)
                 {
                     _executionItems.CollectionChanged += (sender, e) =>
@@ -405,7 +419,10 @@ namespace SQLDataProducer.Model
                 return;
 
             if (string.IsNullOrEmpty(ConnectionString))
+            {
                 MessageBox.Show("The connection string must be set before executing");
+                return;
+            }
 
             IsQueryRunning = true;
 
@@ -429,5 +446,16 @@ namespace SQLDataProducer.Model
                 , string.Empty
                 , string.Empty);
         }
+
+
+        protected void OnPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged == null)
+                return;
+
+            PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }
