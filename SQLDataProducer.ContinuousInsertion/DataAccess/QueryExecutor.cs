@@ -48,15 +48,13 @@ namespace SQLDataProducer.ContinuousInsertion.DataAccess
         public long ExecuteIdentity(string query, Dictionary<string, DbParameter> parameters)
         {
             PrepareCommand(query, parameters);
+            var outputParam = CommandFactory.CreateParameter("@Identity_output", 0, System.Data.SqlDbType.BigInt);
+            outputParam.Direction = System.Data.ParameterDirection.Output;
+            _cmd.Parameters.Add(outputParam);
+            
+            _cmd.ExecuteNonQuery();
 
-            using (var reader = _cmd.ExecuteReader())
-            {
-                if (reader.Read())
-                    return long.Parse(reader.GetValue(0).ToString());
-
-                // TODO: How to handle failed idenitity reads? Would never happen?
-                return 0;
-            }
+            return long.Parse(outputParam.Value.ToString());
         }
 
         //public void ExecuteNonQuery(string query)

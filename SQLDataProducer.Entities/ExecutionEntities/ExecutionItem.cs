@@ -287,6 +287,24 @@ namespace SQLDataProducer.Entities.ExecutionEntities
             }
         }
 
+
+        bool _useIdenityInsert = false;
+        public bool UseIdentityInsert
+        {
+            get
+            {
+                return _useIdenityInsert;
+            }
+            set
+            {
+                if (_useIdenityInsert != value)
+                {
+                    _useIdenityInsert = value;
+                    OnPropertyChanged("UseIdentityInsert");
+                }
+            }
+        }
+
         public bool ShouldExecuteForThisN(long N)
         {
             switch (ExecutionCondition)

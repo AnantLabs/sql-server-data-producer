@@ -41,7 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Builders\EntityBuilders\ExecutionItemQueryBuilder.cs" />
+    <Compile Include="Builders\EntityBuilders\TableQueryBuilder.cs" />
     <Compile Include="Builders\FullQueryInsertStatementBuilder.cs" />
+    <Compile Include="Builders\QueryBuilderHelper.cs" />
     <Compile Include="ContinuousInserter.cs" />
     <Compile Include="ContinuousInsertionManager.cs" />
     <Compile Include="DataAccess\DbCommandExecutorFactory.cs" />

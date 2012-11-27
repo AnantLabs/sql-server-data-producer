@@ -90,12 +90,13 @@
 
         <GroupBox Grid.Row="0" Grid.Column="0">
             <StackPanel>
-                <Label Content="Execution Item Description:" FontSize="11" />
-                <TextBox Text="{Binding Model.SelectedExecutionItem.Description, Mode=TwoWay}" />
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Execution Item Description:" FontSize="11" />
+                    <TextBox Text="{Binding Model.SelectedExecutionItem.Description, Mode=TwoWay}" />
 
-                <Label Content="Number of insertions for this item:" FontSize="11" />
-                <TextBox Text="{Binding Model.SelectedExecutionItem.RepeatCount, Mode=TwoWay}" />
-
+                    <Label Content="Number of insertions for this item:" FontSize="11" />
+                    <TextBox Text="{Binding Model.SelectedExecutionItem.RepeatCount, Mode=TwoWay}" />
+                </StackPanel>
             </StackPanel>
 
         </GroupBox>
@@ -110,12 +111,20 @@
                     </StackPanel>
                 </GroupBox>
 
+
+                <CheckBox Content="Use Identity Insert on this table" 
+                          IsChecked="{Binding Model.SelectedExecutionItem.UseIdentityInsert, Mode=TwoWay}" 
+                          IsEnabled="{Binding Model.SelectedExecutionItem.TargetTable.HasIdentityColumn}" />
+                
+                
             </StackPanel>
         </GroupBox>
         
         <GroupBox Grid.Column="2" Header="Commands">
             <StackPanel>
-                <Button Content="Show Preview" Command="{Binding ShowPreviewCommand, Mode=OneWay}" CommandParameter="{Binding Model.SelectedExecutionItem, Mode=TwoWay}" />
+                <Button Content="Show Preview" 
+                        Command="{Binding ShowPreviewCommand, Mode=OneWay}" 
+                        CommandParameter="{Binding Model.SelectedExecutionItem, Mode=TwoWay}" />
             </StackPanel>
         </GroupBox>
 

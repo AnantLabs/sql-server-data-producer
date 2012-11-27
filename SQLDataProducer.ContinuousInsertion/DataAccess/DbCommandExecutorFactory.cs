@@ -55,6 +55,15 @@ namespace SQLDataProducer.ContinuousInsertion.DataAccess
 
             return param;
         }
+        /// <summary>
+        /// Create DbParameter using the configured DbFactory with null as value
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static DbParameter CreateParameter(string name, SqlDbType dbType)
+        {
+            return CreateParameter(name, System.DBNull.Value, dbType);
+        }
 
         public static DbConnection CreateDbConnection(string connectionString)
         {
