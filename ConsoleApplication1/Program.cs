@@ -29,8 +29,11 @@ namespace TestConsoleApplication
 
         static void Main(string[] args)
         {
-            var t = new GeneratorTests();
-            t.ShouldGenerate_Long_RandomInt();
+            //var t = new GeneratorTests();
+            //t.ShouldGenerate_Long_RandomInt();
+
+            var t = new RandomTests();
+            t.ShouldExecuteOnlyOnCondition_EQUALTO();
 
             //TableEntityDataAccess tda = new TableEntityDataAccess(Connection());
 
@@ -60,50 +63,50 @@ namespace TestConsoleApplication
 
         }
 
-        private static void GetAllTablesEI()
-        {
-            var tda = new TableEntityDataAccess(Connection());
-            var tables = tda.GetAllTablesAndColumns();
-            ExecutionItemCollection col = new ExecutionItemCollection();
-            foreach (var t in tables)
-            {
-                col.Add(new ExecutionItem(t));
-            }
+        //private static void GetAllTablesEI()
+        //{
+        //    var tda = new TableEntityDataAccess(Connection());
+        //    var tables = tda.GetAllTablesAndColumns();
+        //    ExecutionItemCollection col = new ExecutionItemCollection();
+        //    foreach (var t in tables)
+        //    {
+        //        col.Add(new ExecutionItem(t));
+        //    }
 
-            long j = 0;
-            var fileName = @"c:\temp\repeater\testBig.sql";
-            File.Delete(fileName);
-            using (StreamWriter writer = new StreamWriter(fileName))
-            {
-                var b = new FullQueryInsertStatementBuilder(col);
-                writer.Write(b.GenerateFullStatement(() => { return j++; }));
-            }
+        //    long j = 0;
+        //    var fileName = @"c:\temp\repeater\testBig.sql";
+        //    File.Delete(fileName);
+        //    using (StreamWriter writer = new StreamWriter(fileName))
+        //    {
+        //        //var b = new FullQueryInsertStatementBuilder(col);
+        //        writer.Write(FullQueryInsertStatementBuilder.GenerateFullStatement(() => { return j++; }, col));
+        //    }
 
-        }
+        //}
 
-        private static ExecutionItem GetSQLGetDateExecutionItem()
-        {
-            var tda = new TableEntityDataAccess(Connection());
-            var table = tda.GetTableAndColumns("Person", "NewPerson");
+        //private static ExecutionItem GetSQLGetDateExecutionItem()
+        //{
+        //    var tda = new TableEntityDataAccess(Connection());
+        //    var table = tda.GetTableAndColumns("Person", "NewPerson");
             
-            var ei = new ExecutionItem(table);
-            ei.RepeatCount = 1;
+        //    var ei = new ExecutionItem(table);
+        //    ei.RepeatCount = 1;
             
 
-            var col = table.Columns.Where(x => x.ColumnDataType.Raw == "datetime").FirstOrDefault();
-            col.Generator = col.PossibleGenerators.Where(g => g.GeneratorName == Generators.Generator.GENERATOR_SQLGetDate).FirstOrDefault();
+        //    var col = table.Columns.Where(x => x.ColumnDataType.Raw == "datetime").FirstOrDefault();
+        //    col.Generator = col.PossibleGenerators.Where(g => g.GeneratorName == Generators.Generator.GENERATOR_SQLGetDate).FirstOrDefault();
 
 
-            var bigintCol = table.Columns.Where(x => x.ColumnDataType.DBType == System.Data.SqlDbType.BigInt).FirstOrDefault();
-            bigintCol.Generator = bigintCol.PossibleGenerators.Where(g => g.GeneratorName == Generators.Generator.GENERATOR_IdentityFromPreviousItem).FirstOrDefault();
-            bigintCol.Generator.GeneratorParameters[0].Value = 1;
+        //    var bigintCol = table.Columns.Where(x => x.ColumnDataType.DBType == System.Data.SqlDbType.BigInt).FirstOrDefault();
+        //    bigintCol.Generator = bigintCol.PossibleGenerators.Where(g => g.GeneratorName == Generators.Generator.GENERATOR_IdentityFromPreviousItem).FirstOrDefault();
+        //    bigintCol.Generator.GeneratorParameters[0].Value = 1;
 
-            return ei;
-        }
+        //    return ei;
+        //}
 
-        private static string Connection()
-        {
-            return "Data Source=localhost;Initial Catalog=AdventureWorks;Integrated Security=True";
-        }
+        //private static string Connection()
+        //{
+        //    return "Data Source=localhost;Initial Catalog=AdventureWorks;Integrated Security=True";
+        //}
     }
 }

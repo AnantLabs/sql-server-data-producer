@@ -83,18 +83,22 @@ namespace SQLDataProducer.ViewModels
 
         private void CreateTreeWithTableAsLeaf(TableEntity table)
         {
-            TableEntityDataAccess tda = new TableEntityDataAccess(Model.ConnectionString);
-            IEnumerable<TableEntity> tables = tda.GetTreeStructureWithTableAsLeaf(table, Model.Tables);
+            using (TableEntityDataAccess tda = new TableEntityDataAccess(Model.ConnectionString))
+            {
+                IEnumerable<TableEntity> tables = tda.GetTreeStructureWithTableAsLeaf(table, Model.Tables);
 
-            AddExecutionItem(tables);
+                AddExecutionItem(tables);
+            }
         }
 
         private void CreateTreeWithTableAsRoot(TableEntity table)
         {
-            TableEntityDataAccess tda = new TableEntityDataAccess(Model.ConnectionString);
-            IEnumerable<TableEntity> tables = tda.GetTreeStructureFromRoot(table, Model.Tables);
+            using (TableEntityDataAccess tda = new TableEntityDataAccess(Model.ConnectionString))
+            {
+                IEnumerable<TableEntity> tables = tda.GetTreeStructureFromRoot(table, Model.Tables);
 
-            AddExecutionItem(tables);
+                AddExecutionItem(tables);
+            }
         }
 
         private void MoveTheTableSelectorDown()

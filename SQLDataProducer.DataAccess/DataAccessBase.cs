@@ -18,13 +18,16 @@ using System.Collections.Generic;
 
 namespace SQLDataProducer.DataAccess
 {
-    public abstract class DataAccessBase
+    public abstract class DataAccessBase : IDisposable
     {
         protected string _connectionString;
+        SqlConnection _connection;
 
         public DataAccessBase(string connectionString)
         {
             _connectionString = connectionString;
+            _connection = new SqlConnection(_connectionString);
+            _connection.Open();
         }
 
         /// <summary>
@@ -56,14 +59,10 @@ namespace SQLDataProducer.DataAccess
 
         protected void ExecuteNoResult(string sql)
         {
-            using (SqlConnection con = new SqlConnection(_connectionString))
-            {
-                using (SqlCommand cmd = new SqlCommand(sql, con))
+                using (SqlCommand cmd = new SqlCommand(sql, _connection))
                 {
-                    cmd.Connection.Open();
                     cmd.ExecuteReader();
                 }
-            }
         }
 
         /// <summary>
@@ -88,18 +87,15 @@ namespace SQLDataProducer.DataAccess
 
         protected T GetOne<T>(string sql, Func<SqlDataReader, T> itemBuilder)
         {
-            using (SqlConnection con = new SqlConnection(_connectionString))
+            using (SqlCommand cmd = new SqlCommand(sql, _connection))
             {
-                using (SqlCommand cmd = new SqlCommand(sql, con))
+                using (SqlDataReader reader = cmd.ExecuteReader())
                 {
-                    cmd.Connection.Open();
-                    SqlDataReader reader = cmd.ExecuteReader();
 
                     if (reader.Read())
                     {
                         return itemBuilder(reader);
                     }
-
                 }
             }
             return default(T);
@@ -108,12 +104,10 @@ namespace SQLDataProducer.DataAccess
         protected IEnumerable<T> GetMany<T>(string sql, Func<SqlDataReader, T> itemBuilder)
         {
             var list = new List<T>();
-            using (SqlConnection con = new SqlConnection(_connectionString))
+            using (SqlCommand cmd = new SqlCommand(sql, _connection))
             {
-                using (SqlCommand cmd = new SqlCommand(sql, con))
+                using (SqlDataReader reader = cmd.ExecuteReader())
                 {
-                    cmd.Connection.Open();
-                    SqlDataReader reader = cmd.ExecuteReader();
 
                     while (reader.Read())
                     {
@@ -123,10 +117,18 @@ namespace SQLDataProducer.DataAccess
 
                         list.Add(item);
                     }
-
                 }
             }
             return list;
+        }
+
+        public void Dispose()
+        {
+            if (_connection != null)
+            {
+                _connection.Dispose();
+                _connection = null;
+            }
         }
     }
 }

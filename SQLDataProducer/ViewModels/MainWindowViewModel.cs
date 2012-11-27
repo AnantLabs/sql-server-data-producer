@@ -109,26 +109,28 @@ namespace SQLDataProducer.ViewModels
         private void LoadTables()
         {
             TableEntityDataAccess tda = new TableEntityDataAccess(Model.ConnectionString);
-
-            Model.ExecutionItems.Clear();
-            Model.IsQueryRunning = true;
-            tda.BeginGetAllTablesAndColumns(res =>
-            {
-                Model.Tables = res;
-                Model.SelectedTable = Model.Tables.FirstOrDefault();
-                Model.SelectedColumn = Model.SelectedTable.Columns.FirstOrDefault();
-                Application.Current.Dispatcher.Invoke(
-                    DispatcherPriority.Normal,
-                    new ThreadStart(() =>
-                    {
-                        // Stuff to be done on the GUI thread when the fetching of data have completed.
-                        Model.SetTablesView();
-                        Model.SelectedExecutionItem = Model.ExecutionItems.FirstOrDefault();
-                        Model.IsQueryRunning = false;
-                    })
-                    );
-            });
-
+            //{
+                Model.ExecutionItems.Clear();
+                Model.IsQueryRunning = true;
+                tda.BeginGetAllTablesAndColumns(res =>
+                {
+                    Model.Tables = res;
+                    Model.SelectedTable = Model.Tables.FirstOrDefault();
+                    Model.SelectedColumn = Model.SelectedTable.Columns.FirstOrDefault();
+                    Application.Current.Dispatcher.Invoke(
+                        DispatcherPriority.Normal,
+                        new ThreadStart(() =>
+                        {
+                            // Stuff to be done on the GUI thread when the fetching of data have completed.
+                            Model.SetTablesView();
+                            Model.SelectedExecutionItem = Model.ExecutionItems.FirstOrDefault();
+                            Model.IsQueryRunning = false;
+                            
+                        })
+                        );
+                    tda.Dispose();
+                });
+            
         }
 
 

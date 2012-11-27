@@ -27,7 +27,7 @@ using SQLDataProducer.Entities.DatabaseEntities.Factories;
 
 namespace SQLDataProducer.DataAccess
 {
-    public class ColumnEntityDataAccess : DataAccessBase
+    class ColumnEntityDataAccess : DataAccessBase
     {
         public ColumnEntityDataAccess(string connectionString)
             : base(connectionString)
@@ -127,27 +127,27 @@ outer apply(
 where object_id=object_id('{1}.{0}')  and cols.is_computed = 0";
 
 
-        /// <summary>
-        /// Begin get all columns for a table, does not block the caller. Provided callback method will be called when the execution is done.
-        /// </summary>
-        /// <param name="table">the table to get all columns for</param>
-        /// <param name="callback">the callback method that will be called once the execution is done</param>
-        public void BeginGetAllColumnsForTable(TableEntity table, Action<ColumnEntityCollection> callback)
-        {
-            BeginGetMany(
-                string.Format(GET_COLUMNS_FOR_TABLE_QUERY
-                        , table.TableName
-                        , table.TableSchema)
-                , CreateColumnEntity
-                , cols =>
-                {
-                    foreach (var item in cols.Where(x => x.IsForeignKey))
-                    {
-                        GetForeignKeyGeneratorsForColumn(item);
-                    }
-                    callback((ColumnEntityCollection)cols);
-                });
-        }
+        ///// <summary>
+        ///// Begin get all columns for a table, does not block the caller. Provided callback method will be called when the execution is done.
+        ///// </summary>
+        ///// <param name="table">the table to get all columns for</param>
+        ///// <param name="callback">the callback method that will be called once the execution is done</param>
+        //public void BeginGetAllColumnsForTable(TableEntity table, Action<ColumnEntityCollection> callback)
+        //{
+        //    BeginGetMany(
+        //        string.Format(GET_COLUMNS_FOR_TABLE_QUERY
+        //                , table.TableName
+        //                , table.TableSchema)
+        //        , CreateColumnEntity
+        //        , cols =>
+        //        {
+        //            foreach (var item in cols.Where(x => x.IsForeignKey))
+        //            {
+        //                GetForeignKeyGeneratorsForColumn(item);
+        //            }
+        //            callback((ColumnEntityCollection)cols);
+        //        });
+        //}
 
         /// <summary>
         /// Get all columns for the provided table.
@@ -161,33 +161,9 @@ where object_id=object_id('{1}.{0}')  and cols.is_computed = 0";
                                     , table.TableName
                                     , table.TableSchema)
                             , CreateColumnEntity);
-
-            // TODO: Dont add these foreign key generators here. Should be handled more central
-            foreach (var item in cols.Where(x => x.IsForeignKey))
-            {
-                GetForeignKeyGeneratorsForColumn(item);
-            }
-
             return cols;
         }
 
-        private void GetForeignKeyGeneratorsForColumn(ColumnEntity column)
-        {
-            column.ForeignKey.Keys = ForeignKeyManager.Instance.GetPrimaryKeysForTable(this._connectionString, column.ForeignKey.ReferencingTable, column.ForeignKey.ReferencingColumn);
-            
-            // If we found any keys in the foreign table, add the generators.
-            // TODO: When the lazy implementation is done, this need to be adjusted
-            if (column.ForeignKey.Keys.Count > 0)
-            {
-                IEnumerable<Generator> fkGenerators = GeneratorFactory.GetForeignKeyGenerators(column.ForeignKey.Keys);
-                foreach (var fkgen in fkGenerators)
-                {
-                    column.PossibleGenerators.Add(fkgen);
-                }
-
-                column.Generator = fkGenerators.First();
-            }
-            
-        }
+        
     }
 }

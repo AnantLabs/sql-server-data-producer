@@ -43,7 +43,6 @@
     <Compile Include="AdhocDataAccess.cs" />
     <Compile Include="ColumnEntityDataAccess.cs" />
     <Compile Include="DataAccessBase.cs" />
-    <Compile Include="DatabaseDataAccess.cs" />
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Factories\ExecutionItemFactory.cs" />
     <Compile Include="Managers\ForeignKeyManager.cs" />

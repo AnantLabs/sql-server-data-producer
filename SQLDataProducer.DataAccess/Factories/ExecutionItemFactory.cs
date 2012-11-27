@@ -22,6 +22,7 @@ using System.Xml;
 
 namespace SQLDataProducer.DataAccess.Factories
 {
+    // TODO: Refactor into static factory class
     public class ExecutionItemFactory
     {
         TableEntityDataAccess _tda;

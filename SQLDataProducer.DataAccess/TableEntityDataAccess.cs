@@ -19,6 +19,8 @@ using SQLDataProducer.Entities.DatabaseEntities;
 using SQLDataProducer.Entities.DatabaseEntities.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using SQLDataProducer.EntityQueryGenerator;
+using SQLDataProducer.Entities.Generators;
 
 namespace SQLDataProducer.DataAccess
 {
@@ -223,11 +225,13 @@ ORDER BY RowNumber desc
         /// <returns></returns>
         public TableEntity GetTableAndColumns(string tableSchema, string tableName)
         {
-            ColumnEntityDataAccess colDa = new ColumnEntityDataAccess(this._connectionString);
-            TableEntity table = GetOne(string.Format("select Table_Name, Table_Schema from information_Schema.Tables where table_schema = '{0}' and table_name = '{1}'", tableSchema, tableName), CreateTableEntity);
-            table.Columns.AddRange(colDa.GetAllColumnsForTable(table));
+            using (ColumnEntityDataAccess colDa = new ColumnEntityDataAccess(this._connectionString))
+            {
+                TableEntity table = GetOne(string.Format("select Table_Name, Table_Schema from information_Schema.Tables where table_schema = '{0}' and table_name = '{1}'", tableSchema, tableName), CreateTableEntity);
+                table.Columns.AddRange(colDa.GetAllColumnsForTable(table));
 
-            return table;
+                return table;
+            }
         }
 
 
@@ -248,10 +252,17 @@ ORDER BY RowNumber desc
         {
             BeginGetMany(ALL_TABLES_QUERY, CreateTableEntity, tables =>
                 {
-                    ColumnEntityDataAccess colDa = new ColumnEntityDataAccess(this._connectionString);
-                    foreach (var tabl in tables)
+                    using (ColumnEntityDataAccess colDa = new ColumnEntityDataAccess(this._connectionString))
                     {
-                        tabl.Columns.AddRange(colDa.GetAllColumnsForTable(tabl));
+                        foreach (var tabl in tables)
+                        {
+                            tabl.Columns.AddRange(colDa.GetAllColumnsForTable(tabl));
+                            // TODO: Dont add these foreign key generators here. Should be handled more central
+                            foreach (var item in tabl.Columns.Where(x => x.IsForeignKey))
+                            {
+                                GetForeignKeyGeneratorsForColumn(item);
+                            }
+                        }
                     }
                     callback(new TableEntityCollection(tables));
                 });
@@ -261,7 +272,7 @@ ORDER BY RowNumber desc
         /// Get TableEntitites for every table in the database.
         /// </summary>
         /// <returns></returns>
-        public TableEntityCollection GetAllTables()
+        private TableEntityCollection GetAllTables()
         {
             return new TableEntityCollection(GetMany(ALL_TABLES_QUERY, CreateTableEntity));
         }
@@ -269,12 +280,38 @@ ORDER BY RowNumber desc
         public TableEntityCollection GetAllTablesAndColumns()
         {
             var tables = GetAllTables();
-            ColumnEntityDataAccess colDa = new ColumnEntityDataAccess(this._connectionString);
-            foreach (var tabl in tables)
+            using (ColumnEntityDataAccess colDa = new ColumnEntityDataAccess(this._connectionString))
             {
-                tabl.Columns.AddRange(colDa.GetAllColumnsForTable(tabl));
+                foreach (var tabl in tables)
+                {
+                    tabl.Columns.AddRange(colDa.GetAllColumnsForTable(tabl));
+                    // TODO: Dont add these foreign key generators here. Should be handled more central
+                    foreach (var item in tabl.Columns.Where(x => x.IsForeignKey))
+                    {
+                        GetForeignKeyGeneratorsForColumn(item);
+                    }
+                }
+                return tables;
             }
-            return tables;
+        }
+
+        private void GetForeignKeyGeneratorsForColumn(ColumnEntity column)
+        {
+            column.ForeignKey.Keys = ForeignKeyManager.Instance.GetPrimaryKeysForTable(this, column.ForeignKey.ReferencingTable, column.ForeignKey.ReferencingColumn);
+
+            // If we found any keys in the foreign table, add the generators.
+            // TODO: When the lazy implementation is done, this need to be adjusted
+            if (column.ForeignKey.Keys.Count > 0)
+            {
+                IEnumerable<Generator> fkGenerators = GeneratorFactory.GetForeignKeyGenerators(column.ForeignKey.Keys);
+                foreach (var fkgen in fkGenerators)
+                {
+                    column.PossibleGenerators.Add(fkgen);
+                }
+
+                column.Generator = fkGenerators.First();
+            }
+
         }
 
         /// <summary>

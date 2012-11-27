@@ -108,7 +108,8 @@
             <GroupBox Header="Global Generator Options"  Margin="0 5 0 5">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="27"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
                         <!--
                         <RowDefinition Height="27"/>
                         <RowDefinition Height="20"/>
@@ -117,13 +118,13 @@
                     </Grid.RowDefinitions>
                     
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="200"/>
+                        <!--<ColumnDefinition Width="Auto"/>-->
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Text="Start Date for DateTime generators" Grid.Column="0" Grid.Row="0" Margin="2 2 2 2" />
                     <!--<DatePickerTextBox Text="{Binding Model.Options.DateTimeGenerationStartTime, Mode=TwoWay}" Grid.Column="1" Grid.Row="0"  />-->
-                    <DatePicker Grid.Column="1" Grid.Row="0" Margin="2 2 2 2"
+                    <DatePicker Grid.Column="0" Grid.Row="1" Margin="2 2 2 2"
                                 DisplayDate="{Binding Model.Options.DateTimeGenerationStartTime, Mode=TwoWay}" 
                                 SelectedDate="{Binding Model.Options.DateTimeGenerationStartTime, Mode=TwoWay}"/>
 

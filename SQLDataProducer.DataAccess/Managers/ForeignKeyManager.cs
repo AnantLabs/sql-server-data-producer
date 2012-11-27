@@ -51,34 +51,33 @@ namespace SQLDataProducer.EntityQueryGenerator
         /// <param name="insertedKey"></param>
         public void AddKeyToTable(TableEntity table, long insertedKey)
         {
-
+            throw new NotImplementedException();
         }
 
-        public ForeignKeyCollection GetPrimaryKeysForTable(string connectionString, TableEntity table, string primaryKeyColumn)
+        /// <summary>
+        /// Get available foreign keys in the table for the target column
+        /// </summary>
+        /// <param name="tda">the tableEntityDataAccess to use to fetch the foreign keys from database</param>
+        /// <param name="table">the table from wich to get the keys</param>
+        /// <param name="primaryKeyColumn">the key column to get keys for</param>
+        /// <returns>a foreignKeyCollection with the keys for the table</returns>
+        /// <remarks>keys will be cached for next time they are requested.</remarks>
+        public ForeignKeyCollection GetPrimaryKeysForTable(TableEntityDataAccess tda, TableEntity table, string primaryKeyColumn)
         {
             ForeignKeyCollection fkeys;
 
-            ForeignKeyContainer cached = ForeignKeyContainerCache.Where(x => x.Table == table).FirstOrDefault();
+            ForeignKeyContainer cached = ForeignKeyContainerCache.Where(x => x.Table.ToString() == table.ToString()).FirstOrDefault();
             if (cached != null)
             {
                 fkeys = cached.KeyValues;
             }
             else
             {
-                fkeys = GetKeysForColumnInTable(connectionString, table, primaryKeyColumn);
+                fkeys = tda.GetPrimaryKeysForColumnInTable(table, primaryKeyColumn);
                 ForeignKeyContainerCache.Add(new ForeignKeyContainer(table, primaryKeyColumn, fkeys));
             }
-
             return fkeys;
         }
-
-        private ForeignKeyCollection GetKeysForColumnInTable(string connectionString, TableEntity table, string primaryKeyColumn)
-        {
-            TableEntityDataAccess tda = new TableEntityDataAccess(connectionString);
-            return tda.GetPrimaryKeysForColumnInTable(table, primaryKeyColumn);
-        }
-
-       
     }
 
     class ForeignKeyContainer
