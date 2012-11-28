@@ -35,10 +35,10 @@ namespace SQLDataProducer.ContinuousInsertion.Builders
             // set the values
             foreach (var ei in items)
             {
-                ExecutionItemQueryBuilder.GenerateVariables(ei, sb, getN);
-                ExecutionItemQueryBuilder.GenerateSqlScriptPartOfStatement(ei, sb);
-                ExecutionItemQueryBuilder.GenerateInsertPartOfStatement(ei, sb);
-                ExecutionItemQueryBuilder.GenerateValuePartOfInsertStatement(ei, sb);
+                ExecutionItemQueryBuilder.AppendVariables(ei, sb, getN);
+                TableQueryBuilder.AppendSqlScriptPartOfStatement(ei.TargetTable, sb);
+                ExecutionItemQueryBuilder.AppendInsertPartOfStatement(ei, sb);
+                ExecutionItemQueryBuilder.AppendValuePartOfInsertStatement(ei, sb);
             }
             
             return sb.ToString();

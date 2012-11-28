@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using SQLDataProducer.Entities.DatabaseEntities;
 
-namespace SQLDataProducer.ContinuousInsertion.Builders
+namespace SQLDataProducer.ContinuousInsertion.Builders.Helpers
 {
     static class QueryBuilderHelper
     {

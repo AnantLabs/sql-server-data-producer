@@ -24,6 +24,7 @@ using SQLDataProducer.ContinuousInsertion.DataAccess;
 using SQLDataProducer.Entities;
 using SQLDataProducer.Entities.ExecutionEntities;
 using SQLDataProducer.ContinuousInsertion.Builders.EntityBuilders;
+using SQLDataProducer.ContinuousInsertion.Builders.Helpers;
 
 namespace SQLDataProducer.ContinuousInsertion.Builders
 {
@@ -76,9 +77,9 @@ namespace SQLDataProducer.ContinuousInsertion.Builders
             FillParameterCollection();
 
             StringBuilder sb = new StringBuilder();
-            ExecutionItemQueryBuilder.GenerateSqlScriptPartOfStatement(ExecuteItem, sb);
-            ExecutionItemQueryBuilder.GenerateInsertPartOfStatement(ExecuteItem, sb);
-            ExecutionItemQueryBuilder.GenerateValuePartOfInsertStatement(ExecuteItem, sb);
+            TableQueryBuilder.AppendSqlScriptPartOfStatement(ExecuteItem.TargetTable, sb);
+            ExecutionItemQueryBuilder.AppendInsertPartOfStatement(ExecuteItem, sb);
+            ExecutionItemQueryBuilder.AppendValuePartOfInsertStatement(ExecuteItem, sb);
             _insertStatement = sb.ToString();
          
         }
