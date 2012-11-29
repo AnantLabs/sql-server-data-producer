@@ -1,4 +1,18 @@
-﻿using System;
+﻿// Copyright 2012 Peter Henell
+
+//   Licensed under the Apache License, Version 2.0 (the "License");
+//   you may not use this file except in compliance with the License.
+//   You may obtain a copy of the License at
+
+//       http://www.apache.org/licenses/LICENSE-2.0
+
+//   Unless required by applicable law or agreed to in writing, software
+//   distributed under the License is distributed on an "AS IS" BASIS,
+//   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//   See the License for the specific language governing permissions and
+//   limitations under the License.
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -233,6 +247,28 @@ namespace SQLDataProducer.RandomTests
                 AssertColumn(cc3, c3);
                 AssertColumn(cc4, c4);
             }
+        }
+
+        [Test]
+        public void ShouldBeAbleToCompareTables()
+        {
+            //Assert.AreEqual("implemented", "not implemented");
+            TableEntity t1 = new TableEntity(); 
+            TableEntity t2 = new TableEntity(); 
+            Assert.IsTrue(t1 == t1);
+            Assert.IsTrue(t1 == t2);
+            Assert.IsTrue(t2 == t1);
+        }
+
+        [Test]
+        public void ShouldBeAbleToCompareExecutionItems()
+        {
+            //Assert.AreEqual("implemented", "not implemented");
+            ExecutionItem t1 = new ExecutionItem();
+            ExecutionItem t2 = new ExecutionItem();
+            Assert.IsTrue(t1 == t1);
+            Assert.IsTrue(t1 == t2);
+            Assert.IsTrue(t2 == t1);
         }
 
         private void AssertColumn(ColumnEntity expectedColumn, ColumnEntity newColumn)

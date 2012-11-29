@@ -134,26 +134,26 @@ namespace SQLDataProducer.Entities.DatabaseEntities
 
 
 
-        public bool Equals(TableEntity other)
-        {
-            // Check whether the compared object is null.
-            if (Object.ReferenceEquals(other, null)) return false;
+        //public bool Equals(TableEntity other)
+        //{
+        //    // Check whether the compared object is null.
+        //    if (Object.ReferenceEquals(other, null)) return false;
 
-            // Check whether the compared object references the same data.
-            if (Object.ReferenceEquals(this, other)) return true;
+        //    // Check whether the compared object references the same data.
+        //    if (Object.ReferenceEquals(this, other)) return true;
 
-            // Check whether the objects’ properties are equal.
-            return this.ToString().Equals(other.ToString());
-        }
+        //    // Check whether the objects’ properties are equal.
+        //    return this.ToString().Equals(other.ToString());
+        //}
 
-        // If Equals returns true for a pair of objects,
-        // GetHashCode must return the same value for these objects.
+        //// If Equals returns true for a pair of objects,
+        //// GetHashCode must return the same value for these objects.
 
-        public override int GetHashCode()
-        {
-            // Get the hash code for the Textual field if it is not null.
-            return ToString().GetHashCode();
-        }
+        //public override int GetHashCode()
+        //{
+        //    // Get the hash code for the Textual field if it is not null.
+        //    return ToString().GetHashCode();
+        //}
 
         internal TableEntity Clone()
         {
@@ -269,6 +269,80 @@ namespace SQLDataProducer.Entities.DatabaseEntities
                 }
             }
         }
-       
+
+
+
+
+
+
+
+
+
+
+        public override bool Equals(System.Object obj)
+        {
+            // If parameter cannot be casted return false:
+            TableEntity p = obj as TableEntity;
+            if ((object)p == null)
+                return false;
+
+            // Return true if the fields match:
+            return base.Equals(obj) && GetHashCode() == p.GetHashCode();
+        }
+
+        public bool Equals(TableEntity b)
+        {
+            // Return true if the fields match:
+            return base.Equals(b) &&
+                // this.Columns == b.Columns &&
+                 this.HasIdentityColumn == b.HasIdentityColumn &&
+                 this.HasWarning == b.HasWarning &&
+                 //this.ParentExecutionItem == b.ParentExecutionItem &&
+                 this.TableName == b.TableName &&
+                 this.TableSchema == b.TableSchema &&
+                 this.WarningText == b.WarningText;
+                 
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode() ^
+                // this.Columns.GetHashCode() ^
+                 this.HasIdentityColumn.GetHashCode() ^
+                 this.HasWarning.GetHashCode() ^
+                 //this.ParentExecutionItem.GetHashCode() ^
+                 this.TableName.GetHashCode() ^
+                 this.TableSchema.GetHashCode() ^
+                 this.WarningText.GetHashCode();
+        }
+        public static bool operator ==(TableEntity a, TableEntity b)
+        {
+            // If both are null, or both are same instance, return true.
+            if (System.Object.ReferenceEquals(a, b))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (((object)a == null) || ((object)b == null))
+                return false;
+
+            // Return true if the fields match:
+            return
+                 //a.Columns == b.Columns &&
+                 a.HasIdentityColumn == b.HasIdentityColumn &&
+                 a.HasWarning == b.HasWarning &&
+                 //a.ParentExecutionItem == b.ParentExecutionItem &&
+                 a.TableName == b.TableName &&
+                 a.TableSchema == b.TableSchema &&
+                 a.WarningText == b.WarningText;
+
+        }
+        public static bool operator !=(TableEntity a, TableEntity b)
+        {
+            return !(a == b);
+        }
+
+
     }
+
+
 }

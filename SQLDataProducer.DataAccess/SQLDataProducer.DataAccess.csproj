@@ -44,7 +44,7 @@
     <Compile Include="ColumnEntityDataAccess.cs" />
     <Compile Include="DataAccessBase.cs" />
     <Compile Include="Extensions\Extensions.cs" />
-    <Compile Include="Factories\ExecutionItemFactory.cs" />
+    <Compile Include="Managers\ExecutionItemManager.cs" />
     <Compile Include="Managers\ForeignKeyManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TableEntityDataAccess.cs" />
@@ -54,6 +54,9 @@
       <Project>{0D135CAD-55DB-4090-BB5F-2C493A1F0072}</Project>
       <Name>SQLDataProducer.Entities</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Factories\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

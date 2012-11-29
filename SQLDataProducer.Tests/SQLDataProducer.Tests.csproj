@@ -42,11 +42,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ForeignKeyTests.cs" />
+    <Compile Include="Helpers\ExecutionItemHelper.cs" />
     <Compile Include="LongRunningTests.cs" />
     <Compile Include="RandomTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="OtherTests\DatabaseEntitityTests.cs" />
     <Compile Include="OtherTests\GeneratorTests.cs" />
+    <Compile Include="SerializationTests\SaveLoadTests.cs" />
     <Compile Include="TestBase.cs" />
   </ItemGroup>
   <ItemGroup>

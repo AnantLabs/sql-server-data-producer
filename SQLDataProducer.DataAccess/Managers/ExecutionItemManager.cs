@@ -23,15 +23,15 @@ using System.Xml;
 namespace SQLDataProducer.DataAccess.Factories
 {
     // TODO: Refactor into static factory class
-    public class ExecutionItemFactory
+    public class ExecutionItemManager
     {
         TableEntityDataAccess _tda;
-        public ExecutionItemFactory(string connectionString)
+        public ExecutionItemManager(string connectionString)
         {
             _tda  = new TableEntityDataAccess(connectionString);
         }
 
-        public ExecutionItemFactory(TableEntityDataAccess _tda)
+        public ExecutionItemManager(TableEntityDataAccess _tda)
         {
             this._tda = _tda;
         }

@@ -179,13 +179,13 @@ namespace SQLDataProducer.ViewModels
         private void AddExecutionItem(TableEntity table)
         {
             // Clone the selected table so that each generation of that table is configurable uniquely
-            ExecutionItemFactory factory = new ExecutionItemFactory(Model.ConnectionString);
+            ExecutionItemManager factory = new ExecutionItemManager(Model.ConnectionString);
             Model.ExecutionItems.Add(factory.CloneFromTable(table));
         }
         
         private void AddExecutionItem(IEnumerable<TableEntity> tables)
         {
-            ExecutionItemFactory factory = new ExecutionItemFactory(Model.ConnectionString);
+            ExecutionItemManager factory = new ExecutionItemManager(Model.ConnectionString);
             Model.ExecutionItems.AddRange(factory.GetExecutionItemsFromTables(tables));
         }
 
