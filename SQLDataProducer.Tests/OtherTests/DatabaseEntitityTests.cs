@@ -252,12 +252,83 @@ namespace SQLDataProducer.RandomTests
         [Test]
         public void ShouldBeAbleToCompareTables()
         {
-            //Assert.AreEqual("implemented", "not implemented");
-            TableEntity t1 = new TableEntity(); 
-            TableEntity t2 = new TableEntity(); 
-            Assert.IsTrue(t1 == t1);
-            Assert.IsTrue(t1 == t2);
-            Assert.IsTrue(t2 == t1);
+            //http://msdn.microsoft.com/en-us/library/ms173147(v=vs.80).aspx
+            {
+                TableEntity x = new TableEntity("dbo", "Person");
+                TableEntity z = new TableEntity("dbo", "Person");
+                TableEntity y = new TableEntity("dbo", "Person");
+
+                // All are the same
+                AssertEqualsDefaultBehaviour(x, z, y);
+
+                Assert.IsTrue(x.Equals(y) && x.Equals(z));
+                Assert.IsTrue(z.Equals(x) && z.Equals(y));
+                Assert.IsTrue(y.Equals(x) && y.Equals(z));
+
+            }
+            {
+                TableEntity x = new TableEntity("Person", "Person");
+                TableEntity z = new TableEntity("Person", "Contact");
+                TableEntity y = new TableEntity("Person", "Customer");
+
+                // All are the same
+                AssertEqualsDefaultBehaviour(x, z, y);
+
+                Assert.IsFalse(x.Equals(y) && x.Equals(z));
+                Assert.IsFalse(z.Equals(x) && z.Equals(y));
+                Assert.IsFalse(y.Equals(x) && y.Equals(z));
+            }
+
+
+        }
+
+        private static void AssertEqualsDefaultBehaviour(TableEntity x, TableEntity z, TableEntity y)
+        {
+            //x.Equals(x) returns true.
+            Assert.IsTrue(x.Equals(x));
+
+            //x.Equals(y) returns the same value as y.Equals(x).
+            var a = x.Equals(y);
+            var b = y.Equals(x);
+            Assert.AreEqual(a, b);
+
+            // if (x.Equals(y) && y.Equals(z)) returns true, then x.Equals(z) returns true.
+            if (x.Equals(y) && y.Equals(z))
+                Assert.IsTrue(x.Equals(z));
+
+            // Successive invocations of x.Equals(y) return the same value as long as the objects referenced by x and y are not modified.
+            var before = x.Equals(y);
+            for (int i = 0; i < 199; i++)
+                Assert.AreEqual(before, x.Equals(y));
+
+            // x.Equals(null) returns false.
+            Assert.IsFalse(x.Equals(null));
+            Assert.IsFalse(y.Equals(null));
+            Assert.IsFalse(z.Equals(null));
+        }
+        private static void AssertEquals(ExecutionItem x, ExecutionItem z, ExecutionItem y)
+        {
+            //x.Equals(x) returns true.
+            Assert.IsTrue(x.Equals(x));
+
+            //x.Equals(y) returns the same value as y.Equals(x).
+            var a = x.Equals(y);
+            var b = y.Equals(x);
+            Assert.AreEqual(a, b);
+
+            // if (x.Equals(y) && y.Equals(z)) returns true, then x.Equals(z) returns true.
+            if (x.Equals(y) && y.Equals(z))
+                Assert.IsTrue(x.Equals(z));
+
+            // Successive invocations of x.Equals(y) return the same value as long as the objects referenced by x and y are not modified.
+            var before = x.Equals(y);
+            for (int i = 0; i < 199; i++)
+                Assert.AreEqual(before, x.Equals(y));
+
+            // x.Equals(null) returns false.
+            Assert.IsFalse(x.Equals(null));
+            Assert.IsFalse(y.Equals(null));
+            Assert.IsFalse(z.Equals(null));
         }
 
         [Test]
@@ -266,9 +337,7 @@ namespace SQLDataProducer.RandomTests
             //Assert.AreEqual("implemented", "not implemented");
             ExecutionItem t1 = new ExecutionItem();
             ExecutionItem t2 = new ExecutionItem();
-            Assert.IsTrue(t1 == t1);
-            Assert.IsTrue(t1 == t2);
-            Assert.IsTrue(t2 == t1);
+          
         }
 
         private void AssertColumn(ColumnEntity expectedColumn, ColumnEntity newColumn)
@@ -286,6 +355,12 @@ namespace SQLDataProducer.RandomTests
             Assert.AreEqual(expectedColumn.OrdinalPosition, newColumn.OrdinalPosition);
             Assert.AreEqual(expectedColumn.PossibleGenerators.Count, newColumn.PossibleGenerators.Count);
             Assert.AreEqual(expectedColumn.WarningText, newColumn.WarningText);
+
+            Assert.IsTrue(expectedColumn.Equals(newColumn));
+            Assert.IsTrue(expectedColumn.Equals(expectedColumn));
+            Assert.IsTrue(newColumn.Equals(expectedColumn));
+            Assert.IsTrue(newColumn.Equals(newColumn));
+
         }
     }
 }

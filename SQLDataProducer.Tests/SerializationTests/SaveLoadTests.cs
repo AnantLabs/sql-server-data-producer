@@ -51,9 +51,9 @@ namespace SQLDataProducer.RandomTests.SerializationTests
 
                 foreach (var item in execItems)
                 {
-                    var loadedItem = loadedList.Where(x => x.TargetTable.ToString() == item.TargetTable.ToString() && x.Order == item.Order).First(); // TODO replace with table == table when equals is implemented or executionItem == executionItem is implemented.
+                    ExecutionItem loadedItem = loadedList.Where(x => x.TargetTable.ToString() == item.TargetTable.ToString() && x.Order == item.Order).First(); // TODO replace with table == table when equals is implemented or executionItem == executionItem is implemented.
                     Assert.IsNotNull(loadedItem, string.Format("expected {0} to be loaded but was not found in loaded collection", item.TargetTable.ToString()));
-                    Assert.IsTrue(item == loadedItem);
+                    Assert.IsTrue(item.Equals(loadedItem));
                 }
             }
         }

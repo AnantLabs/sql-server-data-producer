@@ -287,13 +287,16 @@ namespace SQLDataProducer.Entities.DatabaseEntities
                 return false;
 
             // Return true if the fields match:
-            return base.Equals(obj) && GetHashCode() == p.GetHashCode();
+            return GetHashCode() == p.GetHashCode();
         }
 
         public bool Equals(TableEntity b)
         {
+            if ((object)b == null)
+                return false;
+
             // Return true if the fields match:
-            return base.Equals(b) &&
+            return 
                 // this.Columns == b.Columns &&
                  this.HasIdentityColumn == b.HasIdentityColumn &&
                  this.HasWarning == b.HasWarning &&
@@ -315,31 +318,31 @@ namespace SQLDataProducer.Entities.DatabaseEntities
                  this.TableSchema.GetHashCode() ^
                  this.WarningText.GetHashCode();
         }
-        public static bool operator ==(TableEntity a, TableEntity b)
-        {
-            // If both are null, or both are same instance, return true.
-            if (System.Object.ReferenceEquals(a, b))
-                return true;
+        //public static bool operator ==(TableEntity a, TableEntity b)
+        //{
+        //    // If both are null, or both are same instance, return true.
+        //    if (System.Object.ReferenceEquals(a, b))
+        //        return true;
 
-            // If one is null, but not both, return false.
-            if (((object)a == null) || ((object)b == null))
-                return false;
+        //    // If one is null, but not both, return false.
+        //    if (((object)a == null) || ((object)b == null))
+        //        return false;
 
-            // Return true if the fields match:
-            return
-                 //a.Columns == b.Columns &&
-                 a.HasIdentityColumn == b.HasIdentityColumn &&
-                 a.HasWarning == b.HasWarning &&
-                 //a.ParentExecutionItem == b.ParentExecutionItem &&
-                 a.TableName == b.TableName &&
-                 a.TableSchema == b.TableSchema &&
-                 a.WarningText == b.WarningText;
+        //    // Return true if the fields match:
+        //    return
+        //         //a.Columns == b.Columns &&
+        //         a.HasIdentityColumn == b.HasIdentityColumn &&
+        //         a.HasWarning == b.HasWarning &&
+        //         //a.ParentExecutionItem == b.ParentExecutionItem &&
+        //         a.TableName == b.TableName &&
+        //         a.TableSchema == b.TableSchema &&
+        //         a.WarningText == b.WarningText;
 
-        }
-        public static bool operator !=(TableEntity a, TableEntity b)
-        {
-            return !(a == b);
-        }
+        //}
+        //public static bool operator !=(TableEntity a, TableEntity b)
+        //{
+        //    return !(a == b);
+        //}
 
 
     }

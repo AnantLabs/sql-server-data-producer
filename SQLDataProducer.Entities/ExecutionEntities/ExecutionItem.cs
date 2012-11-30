@@ -369,13 +369,13 @@ namespace SQLDataProducer.Entities.ExecutionEntities
                 return false;
 
             // Return true if the fields match:
-            return base.Equals(obj) && GetHashCode() == p.GetHashCode();
+            return GetHashCode() == p.GetHashCode();
         }
 
         public bool Equals(ExecutionItem b)
         {
             // Return true if the fields match:
-            return base.Equals(b) && 
+            return
                     Description == b.Description &&
                     ExecutionCondition == b.ExecutionCondition &&
                     ExecutionConditionValue == b.ExecutionConditionValue &&
@@ -402,34 +402,34 @@ namespace SQLDataProducer.Entities.ExecutionEntities
                     UseIdentityInsert.GetHashCode() ^
                     WarningText.GetHashCode();
         }
-        public static bool operator ==(ExecutionItem a, ExecutionItem b)
-        {
-            // If both are null, or both are same instance, return true.
-            if (System.Object.ReferenceEquals(a, b))
-                return true;
+        //public static bool operator ==(ExecutionItem a, ExecutionItem b)
+        //{
+        //    // If both are null, or both are same instance, return true.
+        //    if (System.Object.ReferenceEquals(a, b))
+        //        return true;
 
-            // If one is null, but not both, return false.
-            if (((object)a == null) || ((object)b == null))
-                return false;
+        //    // If one is null, but not both, return false.
+        //    if (((object)a == null) || ((object)b == null))
+        //        return false;
 
-            // Return true if the fields match:
-            return                   
-                    a.Description == b.Description &&
-                    a.ExecutionCondition == b.ExecutionCondition &&
-                    a.ExecutionConditionValue == b.ExecutionConditionValue &&
-                    a.HasWarning == b.HasWarning &&
-                    a.Order == b.Order &&
-                    a.RepeatCount == b.RepeatCount &&
-                    //a.TargetTable == b.TargetTable &&
-                    a.TruncateBeforeExecution == b.TruncateBeforeExecution &&
-                    a.UseIdentityInsert == b.UseIdentityInsert &&
-                    a.WarningText == b.WarningText;
+        //    // Return true if the fields match:
+        //    return                   
+        //            a.Description == b.Description &&
+        //            a.ExecutionCondition == b.ExecutionCondition &&
+        //            a.ExecutionConditionValue == b.ExecutionConditionValue &&
+        //            a.HasWarning == b.HasWarning &&
+        //            a.Order == b.Order &&
+        //            a.RepeatCount == b.RepeatCount &&
+        //            //a.TargetTable == b.TargetTable &&
+        //            a.TruncateBeforeExecution == b.TruncateBeforeExecution &&
+        //            a.UseIdentityInsert == b.UseIdentityInsert &&
+        //            a.WarningText == b.WarningText;
         
-        }
-        public static bool operator !=(ExecutionItem a, ExecutionItem b)
-        {
-            return !(a == b);
-        }
+        //}
+        //public static bool operator !=(ExecutionItem a, ExecutionItem b)
+        //{
+        //    return !(a == b);
+        //}
         
     }
 }
