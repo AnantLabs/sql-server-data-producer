@@ -309,11 +309,12 @@ namespace SQLDataProducer.Entities.DatabaseEntities
 
         public override int GetHashCode()
         {
-            return base.GetHashCode() ^
+            return
                 // this.Columns.GetHashCode() ^
                  this.HasIdentityColumn.GetHashCode() ^
                  this.HasWarning.GetHashCode() ^
                  //this.ParentExecutionItem.GetHashCode() ^
+                 //this.Columns.GetHashCode() ^
                  this.TableName.GetHashCode() ^
                  this.TableSchema.GetHashCode() ^
                  this.WarningText.GetHashCode();

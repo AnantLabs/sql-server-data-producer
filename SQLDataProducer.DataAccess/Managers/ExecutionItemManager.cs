@@ -22,36 +22,24 @@ using System.Xml;
 
 namespace SQLDataProducer.DataAccess.Factories
 {
-    // TODO: Refactor into static factory class
-    public class ExecutionItemManager
+    public static class ExecutionItemManager
     {
-        TableEntityDataAccess _tda;
-        public ExecutionItemManager(string connectionString)
-        {
-            _tda  = new TableEntityDataAccess(connectionString);
-        }
-
-        public ExecutionItemManager(TableEntityDataAccess _tda)
-        {
-            this._tda = _tda;
-        }
-
-        public IEnumerable<ExecutionItem> GetExecutionItemsFromTables(IEnumerable<TableEntity> tables)
+        public static IEnumerable<ExecutionItem> GetExecutionItemsFromTables(IEnumerable<TableEntity> tables, TableEntityDataAccess tda)
         {
             // Clone the selected table so that each generation of that table is configurable uniquely
             foreach (var table in tables)
             {
-                yield return CloneFromTable(table);
+                yield return CloneFromTable(table, tda);
             }
         }
 
-        public ExecutionItem CloneFromTable(TableEntity table)
+        public static ExecutionItem CloneFromTable(TableEntity table, TableEntityDataAccess tda)
         {
-            TableEntity clonedTable = _tda.CloneTable(table);
+            TableEntity clonedTable = tda.CloneTable(table);
             return new ExecutionItem(clonedTable);
         }
 
-        public void Save(ExecutionItemCollection execItems, string fileName)
+        public static void Save(ExecutionItemCollection execItems, string fileName)
         {
             using (XmlWriter xmlWriter = XmlTextWriter.Create(fileName))
             {
@@ -59,7 +47,7 @@ namespace SQLDataProducer.DataAccess.Factories
             }
         }
 
-        public ExecutionItemCollection Load(string fileName)
+        public static ExecutionItemCollection Load(string fileName, TableEntityDataAccess tda)
         {
             // The logic here is that we only load(and save) relevant configuration.
             // When we load, we will only load up 
@@ -75,11 +63,10 @@ namespace SQLDataProducer.DataAccess.Factories
             {
                 loadedExecCollection.ReadXml(reader);
             }
-
             
             foreach (var item in loadedExecCollection)
             {
-                TableEntity table = _tda.GetTableAndColumns(item.TargetTable.TableSchema, item.TargetTable.TableName);
+                TableEntity table = tda.GetTableAndColumns(item.TargetTable.TableSchema, item.TargetTable.TableName);
                 foreach (var newColumn in table.Columns)
                 {
                     foreach (var c2 in item.TargetTable.Columns)
@@ -96,6 +83,11 @@ namespace SQLDataProducer.DataAccess.Factories
                     }
                 }
                 ExecutionItem ei = new ExecutionItem(table, item.Description);
+                ei.RepeatCount = item.RepeatCount;
+                ei.ExecutionCondition = item.ExecutionCondition;
+                ei.ExecutionConditionValue = item.ExecutionConditionValue;
+                ei.TruncateBeforeExecution = item.TruncateBeforeExecution;
+                ei.UseIdentityInsert = item.UseIdentityInsert;
                 completeExecCollection.Add(ei);
             }
 

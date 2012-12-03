@@ -21,6 +21,7 @@ using SQLDataProducer.Entities.DatabaseEntities;
 using System.IO;
 using System.Linq;
 using Generators = SQLDataProducer.Entities.Generators;
+using SQLDataProducer.RandomTests.SerializationTests;
 
 namespace TestConsoleApplication
 {
@@ -32,8 +33,14 @@ namespace TestConsoleApplication
             //var t = new GeneratorTests();
             //t.ShouldGenerate_Long_RandomInt();
 
-            var t = new RandomTests();
-            t.ShouldExecuteOnlyOnCondition_EQUALTO();
+            //var t = new RandomTests();
+            //t.ShouldExecuteOnlyOnCondition_EQUALTO();
+            var et = new DatabaseEntitityTests();
+            et.ShouldBeAbleToCompareExecutionItems();
+            et.ShouldBeAbleToCompareTables();
+
+            var t = new SaveLoadTests();
+            t.ShouldBeAbleToSaveAndLoadExecutionItemCollectionUsingManager();
 
             //TableEntityDataAccess tda = new TableEntityDataAccess(Connection());
 

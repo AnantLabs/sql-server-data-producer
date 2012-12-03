@@ -24,7 +24,7 @@ namespace SQLDataProducer.Entities.ExecutionEntities
     /// <summary>
     /// An execution item is a table that have been configured to get data generated.
     /// </summary>
-    public sealed class ExecutionItem : EntityBase, IXmlSerializable//--, IComparable<ExecutionItem>
+    public sealed class ExecutionItem : EntityBase, IXmlSerializable, IEquatable<ExecutionItem>
     {
         TableEntity _targetTable;
         /// <summary>
@@ -168,12 +168,13 @@ namespace SQLDataProducer.Entities.ExecutionEntities
         public void ReadXml(System.Xml.XmlReader reader)
         {
             this.Description = reader.GetAttribute("Description");
-            this.Order = reader.TryGetIntAttribute("Order", 1);
-            this.RepeatCount = reader.TryGetIntAttribute("RepeatCount", 1);
+            this.Order = reader.TryGetIntAttribute("Order", -1);
+            this.RepeatCount = reader.TryGetIntAttribute("RepeatCount", -1);
             this.TruncateBeforeExecution = reader.TryGetBoolAttribute("TruncateBeforeExecution", false);
+            this.UseIdentityInsert = reader.TryGetBoolAttribute("UseIdentityInsert", false);
 
-            this.ExecutionCondition = (ExecutionConditions)reader.TryGetIntAttribute("ExecutionCondition", 0);
-            this.ExecutionConditionValue = reader.TryGetIntAttribute("ExecutionConditionValue", 0);
+            this.ExecutionCondition = (ExecutionConditions)Enum.Parse(typeof(ExecutionConditions), reader.GetAttribute("ExecutionCondition").ToString());
+            this.ExecutionConditionValue = reader.TryGetIntAttribute("ExecutionConditionValue", -1);
             
 
             if (reader.ReadToDescendant("Table"))
@@ -192,6 +193,7 @@ namespace SQLDataProducer.Entities.ExecutionEntities
             writer.WriteAttributeString("Order", this.Order.ToString());
             writer.WriteAttributeString("RepeatCount", this.RepeatCount.ToString());
             writer.WriteAttributeString("TruncateBeforeExecution", this.TruncateBeforeExecution.ToString());
+            writer.WriteAttributeString("UseIdentityInsert", this.TruncateBeforeExecution.ToString());
             writer.WriteAttributeString("ExecutionCondition", this.ExecutionCondition.ToString());
             writer.WriteAttributeString("ExecutionConditionValue", this.ExecutionConditionValue.ToString());
             this.TargetTable.WriteXml(writer);
@@ -382,7 +384,7 @@ namespace SQLDataProducer.Entities.ExecutionEntities
                     HasWarning == b.HasWarning &&
                     Order == b.Order &&
                     RepeatCount == b.RepeatCount &&
-                    TargetTable == b.TargetTable &&
+                    //object.Equals(TargetTable, b.TargetTable) && 
                     TruncateBeforeExecution == b.TruncateBeforeExecution &&
                     UseIdentityInsert == b.UseIdentityInsert &&
                     WarningText == b.WarningText;

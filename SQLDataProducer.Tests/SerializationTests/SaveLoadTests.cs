@@ -20,6 +20,7 @@ using NUnit.Framework;
 using SQLDataProducer.RandomTests.Helpers;
 using SQLDataProducer.Entities.ExecutionEntities;
 using System.Xml;
+using SQLDataProducer.DataAccess.Factories;
 
 namespace SQLDataProducer.RandomTests.SerializationTests
 {
@@ -32,37 +33,49 @@ namespace SQLDataProducer.RandomTests.SerializationTests
         }
 
         [Test]
-        public void ShouldBeAbleToSerializeAndDeserializeExecutionItemCollection()
-        {
-            var execItems = ExecutionItemHelper.GetExecutionItemCollection();
-            System.Xml.Serialization.XmlSerializer seri = new System.Xml.Serialization.XmlSerializer(typeof(ExecutionItemCollection));
-            using (var writer = XmlWriter.Create(@"c:\temp\repeater\saved.xml"))
-            {
-                seri.Serialize(writer, execItems);
-            }
-            using (var reader = XmlReader.Create(@"c:\temp\repeater\saved.xml"))
-            {
-                ExecutionItemCollection loadedList =
-                    seri.Deserialize(reader) as ExecutionItemCollection;
-
-                Assert.IsNotNull(loadedList);
-                Assert.AreEqual(execItems.Count, loadedList.Count);
-                Assert.AreEqual(execItems.IsContainingData, loadedList.IsContainingData);
-
-                foreach (var item in execItems)
-                {
-                    ExecutionItem loadedItem = loadedList.Where(x => x.TargetTable.ToString() == item.TargetTable.ToString() && x.Order == item.Order).First(); // TODO replace with table == table when equals is implemented or executionItem == executionItem is implemented.
-                    Assert.IsNotNull(loadedItem, string.Format("expected {0} to be loaded but was not found in loaded collection", item.TargetTable.ToString()));
-                    Assert.IsTrue(item.Equals(loadedItem));
-                }
-            }
-        }
-
-        
-        [Test]
         public void ShouldBeAbleToSaveAndLoadExecutionItemCollectionUsingManager()
         {
-            Assert.AreEqual("implemented", "not implemented");
+            var execItems = ExecutionItemHelper.GetRealExecutionItemCollection(Connection());
+            var fileName = @"c:\temp\repeater\saved.xml";
+
+            // Sanity check
+            foreach (var item in execItems)
+            {
+                Assert.IsTrue(item.Equals(item));
+            }
+
+            var tda = new DataAccess.TableEntityDataAccess(Connection());
+            ExecutionItemManager.Save(execItems, fileName);
+
+            var loadedList = ExecutionItemManager.Load(fileName, tda);
+
+            
+
+            Assert.IsNotNull(loadedList);
+            Assert.AreEqual(execItems.Count, loadedList.Count);
+            Assert.AreEqual(execItems.IsContainingData, loadedList.IsContainingData);
+
+            foreach (var item in execItems)
+            {
+                ExecutionItem loadedItem = loadedList.Where(x => x.TargetTable.Equals(item.TargetTable) && x.Order == item.Order).First();
+                Assert.IsNotNull(loadedItem, string.Format("expected {0} to be loaded but was not found in loaded collection", item.TargetTable.ToString()));
+                
+
+                Assert.IsTrue(item.Description == loadedItem.Description);
+                Assert.IsTrue(item.ExecutionCondition == loadedItem.ExecutionCondition);
+                Assert.IsTrue(item.ExecutionConditionValue == loadedItem.ExecutionConditionValue);
+                Assert.IsTrue(item.HasWarning == loadedItem.HasWarning);
+                Assert.IsTrue(item.Order == loadedItem.Order);
+                Assert.IsTrue(item.RepeatCount == loadedItem.RepeatCount);
+                
+                Assert.IsTrue(item.TruncateBeforeExecution == loadedItem.TruncateBeforeExecution);
+                Assert.IsTrue(item.UseIdentityInsert == loadedItem.UseIdentityInsert);
+                Assert.IsTrue(item.WarningText == loadedItem.WarningText);
+
+
+                Assert.IsTrue(object.Equals(item.TargetTable, loadedItem.TargetTable));
+                Assert.IsTrue(item.Equals(loadedItem));
+            }
         }
     }
 }

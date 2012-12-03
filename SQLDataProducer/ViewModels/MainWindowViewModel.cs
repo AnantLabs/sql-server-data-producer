@@ -180,8 +180,8 @@ namespace SQLDataProducer.ViewModels
             if (diaResult != System.Windows.Forms.DialogResult.Cancel)
             {
                 string fileName = dia.FileName;
-                ExecutionItemManager m = new ExecutionItemManager(Model.ConnectionString);
-                var loaded = m.Load(fileName);
+                //ExecutionItemManager m = new ExecutionItemManager(Model.ConnectionString);
+                var loaded = ExecutionItemManager.Load(fileName, new TableEntityDataAccess(Model.ConnectionString));
                 Model.ExecutionItems.Clear();
                 foreach (var item in loaded)
                 {
@@ -204,8 +204,7 @@ namespace SQLDataProducer.ViewModels
                 if (diaResult != System.Windows.Forms.DialogResult.Cancel)
                 {
                     string fileName = dia.FileName;
-                    ExecutionItemManager m = new ExecutionItemManager(Model.ConnectionString);
-                    m.Save(Model.ExecutionItems, fileName);
+                    ExecutionItemManager.Save(Model.ExecutionItems, fileName);
                 }
             }
         }

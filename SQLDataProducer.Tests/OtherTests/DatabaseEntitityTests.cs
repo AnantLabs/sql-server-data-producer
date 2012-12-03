@@ -252,7 +252,7 @@ namespace SQLDataProducer.RandomTests
         [Test]
         public void ShouldBeAbleToCompareTables()
         {
-            //http://msdn.microsoft.com/en-us/library/ms173147(v=vs.80).aspx
+            
             {
                 TableEntity x = new TableEntity("dbo", "Person");
                 TableEntity z = new TableEntity("dbo", "Person");
@@ -282,32 +282,18 @@ namespace SQLDataProducer.RandomTests
 
         }
 
-        private static void AssertEqualsDefaultBehaviour(TableEntity x, TableEntity z, TableEntity y)
+        /// <summary>
+        /// Check that the provided objects comply with the default Equals behaviour specified by Microsoft.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="x"></param>
+        /// <param name="z"></param>
+        /// <param name="y"></param>
+        /// <remarks>http://msdn.microsoft.com/en-us/library/ms173147(v=vs.80).aspx</remarks>
+        private static void AssertEqualsDefaultBehaviour<T>(T x, T z, T y)  where T : IEquatable<T>
         {
-            //x.Equals(x) returns true.
-            Assert.IsTrue(x.Equals(x));
+            //http://msdn.microsoft.com/en-us/library/ms173147(v=vs.80).aspx
 
-            //x.Equals(y) returns the same value as y.Equals(x).
-            var a = x.Equals(y);
-            var b = y.Equals(x);
-            Assert.AreEqual(a, b);
-
-            // if (x.Equals(y) && y.Equals(z)) returns true, then x.Equals(z) returns true.
-            if (x.Equals(y) && y.Equals(z))
-                Assert.IsTrue(x.Equals(z));
-
-            // Successive invocations of x.Equals(y) return the same value as long as the objects referenced by x and y are not modified.
-            var before = x.Equals(y);
-            for (int i = 0; i < 199; i++)
-                Assert.AreEqual(before, x.Equals(y));
-
-            // x.Equals(null) returns false.
-            Assert.IsFalse(x.Equals(null));
-            Assert.IsFalse(y.Equals(null));
-            Assert.IsFalse(z.Equals(null));
-        }
-        private static void AssertEquals(ExecutionItem x, ExecutionItem z, ExecutionItem y)
-        {
             //x.Equals(x) returns true.
             Assert.IsTrue(x.Equals(x));
 
@@ -335,9 +321,12 @@ namespace SQLDataProducer.RandomTests
         public void ShouldBeAbleToCompareExecutionItems()
         {
             //Assert.AreEqual("implemented", "not implemented");
-            ExecutionItem t1 = new ExecutionItem();
-            ExecutionItem t2 = new ExecutionItem();
-          
+            ExecutionItem x = new ExecutionItem();
+            ExecutionItem y = new ExecutionItem();
+            ExecutionItem z = new ExecutionItem();
+
+            AssertEqualsDefaultBehaviour(x, y, z);
+
         }
 
         private void AssertColumn(ColumnEntity expectedColumn, ColumnEntity newColumn)
