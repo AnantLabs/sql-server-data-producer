@@ -40,13 +40,20 @@ namespace SQLDataProducer.DataAccess
         {
             ColumnDataTypeDefinition dbType = new ColumnDataTypeDefinition(reader.GetString(reader.GetOrdinal("DataType")), reader.GetBoolean(reader.GetOrdinal("IsNullable")));
             
-            return DatabaseEntityFactory.CreateColumnEntity(reader.GetString(reader.GetOrdinal("ColumnName")), dbType, (bool)reader["IsIdentity"], reader.GetInt32(reader.GetOrdinal("OrdinalPosition")), (bool)reader["IsForeignKey"], new ForeignKeyEntity
-                {
-                    ReferencingTable = new TableEntity(
-                        reader.GetStringOrEmpty("ReferencedTableSchema"),
-                        reader.GetStringOrEmpty("ReferencedTable")),
-                    ReferencingColumn = reader.GetStringOrEmpty("ReferencedColumn")
-                });
+            return DatabaseEntityFactory.CreateColumnEntity(
+                    reader.GetString(reader.GetOrdinal("ColumnName")), 
+                    dbType, 
+                    (bool)reader["IsIdentity"], 
+                    reader.GetInt32(reader.GetOrdinal("OrdinalPosition")), 
+                    (bool)reader["IsForeignKey"], 
+                    reader.GetStringOrEmpty("ConstraintDefinition"),
+                    new ForeignKeyEntity
+                        {
+                            ReferencingTable = new TableEntity(
+                                reader.GetStringOrEmpty("ReferencedTableSchema"),
+                                reader.GetStringOrEmpty("ReferencedTable")),
+                            ReferencingColumn = reader.GetStringOrEmpty("ReferencedColumn")
+                        });
         };
 
 
@@ -70,7 +77,7 @@ select
 	, ReferencedTableSchema = foreignInfo.ReferencedTableSchema
 	, ReferencedTable = foreignInfo.ReferencedTable
 	, ReferencedColumn = foreignInfo.ReferencedColumn
-
+    , ConstraintDefinition = constraintDef 
 from 
     sys.columns cols
 
@@ -124,30 +131,23 @@ outer apply(
 
 ) foreignInfo( ReferencedTableSchema,ReferencedTable, ReferencedColumn)
 
+
+OUTER APPLY
+		(
+		SELECT '{{' + c.CHECK_CLAUSE + '}}'  AS [text()] 
+		FROM
+			INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE cu  
+		INNER JOIN
+			INFORMATION_SCHEMA.CHECK_CONSTRAINTS c 
+			ON cu.CONSTRAINT_NAME = c.CONSTRAINT_NAME
+		WHERE
+			cu.CONSTRAINT_NAME = c.CONSTRAINT_NAME
+			AND cu.COLUMN_NAME = cols.name AND object_name(cols.object_id) = cu.TABLE_NAME
+		FOR XML PATH('')
+				
+        ) AS  constr(constraintDef)   
+
 where object_id=object_id('{1}.{0}')  and cols.is_computed = 0";
-
-
-        ///// <summary>
-        ///// Begin get all columns for a table, does not block the caller. Provided callback method will be called when the execution is done.
-        ///// </summary>
-        ///// <param name="table">the table to get all columns for</param>
-        ///// <param name="callback">the callback method that will be called once the execution is done</param>
-        //public void BeginGetAllColumnsForTable(TableEntity table, Action<ColumnEntityCollection> callback)
-        //{
-        //    BeginGetMany(
-        //        string.Format(GET_COLUMNS_FOR_TABLE_QUERY
-        //                , table.TableName
-        //                , table.TableSchema)
-        //        , CreateColumnEntity
-        //        , cols =>
-        //        {
-        //            foreach (var item in cols.Where(x => x.IsForeignKey))
-        //            {
-        //                GetForeignKeyGeneratorsForColumn(item);
-        //            }
-        //            callback((ColumnEntityCollection)cols);
-        //        });
-        //}
 
         /// <summary>
         /// Get all columns for the provided table.

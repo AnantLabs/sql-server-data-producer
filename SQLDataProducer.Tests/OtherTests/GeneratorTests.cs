@@ -377,7 +377,7 @@ namespace SQLDataProducer.RandomTests
             List<ColumnEntity> cols = new List<ColumnEntity>();
             foreach (var s in dataTypes)
             {
-                ColumnEntity col = DatabaseEntityFactory.CreateColumnEntity(s, new ColumnDataTypeDefinition(s, false), false, 1, false, null);
+                ColumnEntity col = DatabaseEntityFactory.CreateColumnEntity(s, new ColumnDataTypeDefinition(s, false), false, 1, false, string.Empty, null);
                 cols.Add(col);
                 Assert.IsNotNull(col.Generator);
                 
@@ -406,7 +406,7 @@ namespace SQLDataProducer.RandomTests
 
         private static ColumnEntity CreateColumnOfDatatype(string dataType, string genName)
         {
-            ColumnEntity col = DatabaseEntityFactory.CreateColumnEntity("someCol", new ColumnDataTypeDefinition(dataType, false), false, 1, false, null);
+            ColumnEntity col = DatabaseEntityFactory.CreateColumnEntity("someCol", new ColumnDataTypeDefinition(dataType, false), false, 1, false, string.Empty, null);
             
             Assert.IsNotNull(col.PossibleGenerators);
             Assert.IsNotNull(col.Generator);

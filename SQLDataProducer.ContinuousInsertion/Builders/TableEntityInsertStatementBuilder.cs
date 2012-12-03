@@ -103,96 +103,6 @@ namespace SQLDataProducer.ContinuousInsertion.Builders
 
         }
         
-        ///// <summary>
-        ///// Generate the custom sql script part of the final statement. <example>declare @c_DateTimeColumn_1 datetime = getdate();</example>
-        ///// </summary>
-        ///// <param name="sb">the stringbuilder to append the sql script part to</param>
-        //private void GenerateSqlScriptPartOfStatement(StringBuilder sb)
-        //{
-        //    sb.AppendLine();
-        //    foreach (var c in ExecuteItem.TargetTable.Columns.Where( c => c.Generator.IsSqlQueryGenerator ))
-        //    {
-        //        var variableName = QueryBuilderHelper.GetSqlQueryParameterName(c);
-        //        c.GenerateValue(1);
-        //        var query = c.PreviouslyGeneratedValue;
-        //        sb.AppendLine(string.Format("DECLARE {0} {1} = ({2});", variableName, c.ColumnDataType.Raw, query));
-        //    }
-        //    sb.AppendLine();
-        //}
-
-
-        ///// <summary>
-        ///// Generate the INSERT-part of the statement, example <example>INSERT schemaName.TableName(c1, c2)</example>
-        ///// </summary>
-        ///// <param name="sb">the stringbuilder to append the insert statement to</param>
-        //private void GenerateInsertPartOfStatement(StringBuilder sb)
-        //{
-        //    sb.AppendLine();
-
-        //    sb.AppendFormat("INSERT {0}.{1} (", ExecuteItem.TargetTable.TableSchema, ExecuteItem.TargetTable.TableName);
-        //    sb.AppendLine();
-
-        //    for (int i = 0; i < ExecuteItem.TargetTable.Columns.Count; i++)
-        //    {
-        //        var col = ExecuteItem.TargetTable.Columns[i];
-
-        //        if (col.IsIdentity)
-        //            continue;
-
-        //        sb.AppendFormat("\t[{0}]", col.ColumnName);
-        //        sb.Append(i == ExecuteItem.TargetTable.Columns.Count - 1 ? string.Empty : ", ");
-        //        sb.AppendLine();
-
-        //    }
-
-        //    sb.Append(")");
-        //    sb.AppendLine();
-        //}
-
-        //private void GenerateValuePartOfInsertStatement(StringBuilder sb)
-        //{
-        //    sb.AppendLine();
-        //    sb.AppendLine("VALUES");
-        //    for (int rep = 1; rep <= ExecuteItem.RepeatCount; rep++)
-        //    {
-        //        sb.Append("\t");
-        //        sb.Append("(");
-
-        //        CreateValuesPartForTable(ExecuteItem.TargetTable, sb, rep);
-
-        //        sb.Append(")");
-        //        sb.Append(ExecuteItem.RepeatCount == rep ? ";" : ", ");
-        //        sb.AppendLine();
-        //    }
-        //    // If the table have idenitity column then we shuold select that to get it back to the application
-        //    if (ExecuteItem.TargetTable.HasIdentityColumn)
-        //        sb.AppendLine("SELECT SCOPE_IDENTITY();");
-        //}
-
-        //private void CreateValuesPartForTable(TableEntity table, StringBuilder sb, int rep)
-        //{
-        //    for (int i = 0; i < table.Columns.Count; i++)
-        //    {
-        //        var col = table.Columns[i];
-
-        //        if (col.IsIdentity)
-        //            continue;
-
-        //        string paramName = QueryBuilderHelper.GetParamName(rep, col);
-        //        // Add the parameter with no value, values will be added in the GenerateValues method
-        //        var par = CommandFactory.CreateParameter(paramName, null, col.ColumnDataType.DBType);
-        //        Parameters.Add(paramName, par);
-
-        //        // Get the parameter name to use, if the generator is sql query generator then the generated variable should be used instead of the parameter.
-        //        if (!col.Generator.IsSqlQueryGenerator)
-        //            sb.Append(paramName);
-        //        else
-        //            sb.Append(QueryBuilderHelper.GetSqlQueryParameterName(col));
-
-        //        sb.Append(i == table.Columns.Count - 1 ? string.Empty : ", ");
-        //    }
-        //}
-
         /// <summary>
         /// Set values for the parameters. The parameters must already be generated and should have been in the init() function
         /// </summary>
@@ -216,9 +126,7 @@ namespace SQLDataProducer.ContinuousInsertion.Builders
         {
             var builders = new ObservableCollection<TableEntityInsertStatementBuilder>();
             foreach (var item in items)
-            {
                 builders.Add(new TableEntityInsertStatementBuilder(item));
-            }
 
             return builders;
         }

@@ -157,6 +157,7 @@ namespace SQLDataProducer.Entities.ExecutionEntities
             ei.Description = this.Description;
             ei.RepeatCount = this.RepeatCount;
             ei.TruncateBeforeExecution = this.TruncateBeforeExecution;
+            ei.UseIdentityInsert = this.UseIdentityInsert;
             return ei;
         }
 

@@ -23,7 +23,7 @@ using SQLDataProducer.Entities.DatabaseEntities;
 
 namespace SQLDataProducer.Entities.DatabaseEntities
 {
-    public partial class ColumnEntity : EntityBase, IXmlSerializable
+    public partial class ColumnEntity : EntityBase, IXmlSerializable, IEquatable<ColumnEntity>
     {
         ColumnDataTypeDefinition _columnDataType;
         [System.ComponentModel.ReadOnly(true)]
@@ -195,8 +195,25 @@ namespace SQLDataProducer.Entities.DatabaseEntities
         }
 
 
+        string _constraints;
+        public string Constraints
+        {
+            get
+            {
+                return _constraints;
+            }
+            set
+            {
+                if (_constraints != value)
+                {
+                    _constraints = value;
+                    OnPropertyChanged("Constraints");
+                }
+            }
+        }
 
-        internal ColumnEntity(string columnName, ColumnDataTypeDefinition columnDatatype, bool isIdentity, int ordinalPosition, bool isForeignKey, ForeignKeyEntity foreignKeyEntity)
+
+        internal ColumnEntity(string columnName, ColumnDataTypeDefinition columnDatatype, bool isIdentity, int ordinalPosition, bool isForeignKey, string constraintDefinition, ForeignKeyEntity foreignKeyEntity)
         {
             this.ColumnName = columnName;
             this.ColumnDataType = columnDatatype;
@@ -205,6 +222,8 @@ namespace SQLDataProducer.Entities.DatabaseEntities
 
             this.IsForeignKey = isForeignKey;
             this.ForeignKey = foreignKeyEntity;
+
+            this.Constraints = constraintDefinition;
             
             if (IsForeignKey && ForeignKey.Keys.Count == 0)
             {
@@ -352,6 +371,46 @@ namespace SQLDataProducer.Entities.DatabaseEntities
             }
         }
 
-      
+
+        public override bool Equals(System.Object obj)
+        {
+            // If parameter cannot be casted return false:
+            ColumnEntity p = obj as ColumnEntity;
+            if ((object)p == null)
+                return false;
+
+            // Return true if the fields match:
+            return GetHashCode() == p.GetHashCode();
+        }
+
+        public bool Equals(ColumnEntity other)
+        {
+            return 
+                this.ColumnDataType == other.ColumnDataType &&
+                this.ColumnName == other.ColumnName &&
+                this.Constraints == other.Constraints &&
+               // this.Generator == other.Generator &&
+                this.HasWarning == other.HasWarning &&
+                this.IsForeignKey == other.IsForeignKey &&
+                this.IsIdentity == other.IsIdentity &&
+                this.OrdinalPosition == other.OrdinalPosition &&
+               // this.PossibleGenerators == other.PossibleGenerators &&
+                this.WarningText == other.WarningText;
+        }
+
+        public override int GetHashCode()
+        {
+            return
+                this.ColumnDataType.GetHashCode() ^
+                this.ColumnName.GetHashCode() ^
+                this.Constraints.GetHashCode() ^
+                this.Generator.GetHashCode() ^
+                this.HasWarning.GetHashCode() ^
+                this.IsForeignKey.GetHashCode() ^
+                this.IsIdentity.GetHashCode() ^
+                this.OrdinalPosition.GetHashCode() ^
+                this.PossibleGenerators.GetHashCode() ^
+                this.WarningText.GetHashCode();
+        }
     }
 }

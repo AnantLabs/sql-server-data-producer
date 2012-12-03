@@ -86,6 +86,7 @@ namespace SQLDataProducer.RandomTests
                                 false,
                                 2,
                                 false,
+                                string.Empty,
                                 null));
 
             ColumnEntity firstCol = table.Columns[0];
@@ -103,6 +104,7 @@ namespace SQLDataProducer.RandomTests
                                true,
                                1,
                                false,
+                               string.Empty,
                                null));
 
             ColumnEntity secondCol = table.Columns[1];
@@ -140,6 +142,7 @@ namespace SQLDataProducer.RandomTests
                                   true,
                                   1,
                                   true, // yes, it references another table
+                                  string.Empty,
                                   fk);
 
 
@@ -160,6 +163,7 @@ namespace SQLDataProducer.RandomTests
                                   true,
                                   1,
                                   false, // not foreign key
+                                  string.Empty,
                                   fk);
 
 
@@ -178,7 +182,7 @@ namespace SQLDataProducer.RandomTests
         [Test]
         public void ShouldBeAbleToCreateColumnEntityFromFactory()
         {
-            var c1 = DatabaseEntityFactory.CreateColumnEntity("id", new ColumnDataTypeDefinition("int", false), true, 1, false, null);
+            var c1 = DatabaseEntityFactory.CreateColumnEntity("id", new ColumnDataTypeDefinition("int", false), true, 1, false, string.Empty, null);
             Assert.AreEqual("id", c1.ColumnName);
             Assert.AreEqual("int", c1.ColumnDataType.Raw);
             Assert.AreEqual(SqlDbType.Int, c1.ColumnDataType.DBType);
@@ -187,7 +191,7 @@ namespace SQLDataProducer.RandomTests
             Assert.AreEqual(1, c1.OrdinalPosition);
 
 
-            var c2 = DatabaseEntityFactory.CreateColumnEntity("name", new ColumnDataTypeDefinition("nvarchar(988)", true), false, 2, false, null);
+            var c2 = DatabaseEntityFactory.CreateColumnEntity("name", new ColumnDataTypeDefinition("nvarchar(988)", true), false, 2, false, string.Empty, null);
             Assert.AreEqual("name", c2.ColumnName);
             Assert.AreEqual("nvarchar(988)", c2.ColumnDataType.Raw);
             Assert.AreEqual(SqlDbType.NVarChar, c2.ColumnDataType.DBType);
@@ -200,10 +204,10 @@ namespace SQLDataProducer.RandomTests
         public void ShouldBeAbletoCloneExecutionItem()
         {
             var t = new TableEntity("dbo", "peter");
-            var c1 = DatabaseEntityFactory.CreateColumnEntity("id", new ColumnDataTypeDefinition("int", false), true, 1, false, null);
-            var c2 = DatabaseEntityFactory.CreateColumnEntity("name", new ColumnDataTypeDefinition("varchar(500)", false), false, 2, false, null);
-            var c3 = DatabaseEntityFactory.CreateColumnEntity("created", new ColumnDataTypeDefinition("datetime", false), false, 3, false, null);
-            var c4 = DatabaseEntityFactory.CreateColumnEntity("enabled", new ColumnDataTypeDefinition("bit", false), false, 4, false, null);
+            var c1 = DatabaseEntityFactory.CreateColumnEntity("id", new ColumnDataTypeDefinition("int", false), true, 1, false, string.Empty, null);
+            var c2 = DatabaseEntityFactory.CreateColumnEntity("name", new ColumnDataTypeDefinition("varchar(500)", false), false, 2, false, string.Empty ,null);
+            var c3 = DatabaseEntityFactory.CreateColumnEntity("created", new ColumnDataTypeDefinition("datetime", false), false, 3, false, string.Empty, null);
+            var c4 = DatabaseEntityFactory.CreateColumnEntity("enabled", new ColumnDataTypeDefinition("bit", false), false, 4, false, string.Empty, null);
 
             Assert.AreEqual("id", c1.ColumnName);
             Assert.AreEqual("name", c2.ColumnName);

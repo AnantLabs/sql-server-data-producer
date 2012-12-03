@@ -157,7 +157,9 @@ namespace SQLDataProducer.Entities.DatabaseEntities
 
         internal TableEntity Clone()
         {
-            return TableEntity.Create(this.TableSchema, this.TableName, this.Columns.Clone());
+            var t = TableEntity.Create(this.TableSchema, this.TableName, this.Columns.Clone());
+            t.HasIdentityColumn = this.HasIdentityColumn;
+            return t;
         }
 
         private static TableEntity Create(string tableSchema, string tableName, ColumnEntityCollection cols)
