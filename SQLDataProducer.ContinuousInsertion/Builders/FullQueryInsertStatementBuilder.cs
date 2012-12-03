@@ -31,7 +31,7 @@ namespace SQLDataProducer.ContinuousInsertion.Builders
         public static string GenerateFullStatement(Func<long> getN, ExecutionItemCollection items)
         {
             StringBuilder sb = new StringBuilder();
-
+            sb.AppendLine("declare @Identity_output bigint");
             // set the values
             foreach (var ei in items)
             {
@@ -40,7 +40,8 @@ namespace SQLDataProducer.ContinuousInsertion.Builders
                 ExecutionItemQueryBuilder.AppendInsertPartOfStatement(ei, sb);
                 ExecutionItemQueryBuilder.AppendValuePartOfInsertStatement(ei, sb);
             }
-            
+
+            sb.AppendLine("GO");
             return sb.ToString();
         }
     }

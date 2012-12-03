@@ -175,7 +175,6 @@ namespace SQLDataProducer.Entities.ExecutionEntities
 
             this.ExecutionCondition = (ExecutionConditions)Enum.Parse(typeof(ExecutionConditions), reader.GetAttribute("ExecutionCondition").ToString());
             this.ExecutionConditionValue = reader.TryGetIntAttribute("ExecutionConditionValue", -1);
-            
 
             if (reader.ReadToDescendant("Table"))
             {

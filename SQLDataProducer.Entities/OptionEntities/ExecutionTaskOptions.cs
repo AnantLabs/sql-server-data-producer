@@ -20,7 +20,7 @@ namespace SQLDataProducer.Entities.OptionEntities
     {
         public ExecutionTaskOptions()
         {
-
+            _scriptOutputFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\output.sql";
         }
 
         bool _onlyOutputToFile = false;
@@ -43,11 +43,11 @@ namespace SQLDataProducer.Entities.OptionEntities
             }
         }
 
-        string _scriptOutputFolder = @"c:\";
+        string _scriptOutputFolder;// = Environment.SpecialFolder.Personal;
         /// <summary>
-        /// Get and Set the folder to where the sql script files should be stored when the <see cref="OnlyOutputToFile"/> option is set to True.
+        /// Get and Set the script name for which to save the generated script <see cref="OnlyOutputToFile"/> option is set to True.
         /// </summary>
-        public string ScriptOutputFolder
+        public string ScriptOutputScriptName
         {
             get
             {
@@ -58,7 +58,7 @@ namespace SQLDataProducer.Entities.OptionEntities
                 if (_scriptOutputFolder != value)
                 {
                     _scriptOutputFolder = value;
-                    OnPropertyChanged("ScriptOutputFolder");
+                    OnPropertyChanged("ScriptOutputScriptName");
                 }
             }
         }

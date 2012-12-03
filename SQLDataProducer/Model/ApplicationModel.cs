@@ -436,8 +436,8 @@ namespace SQLDataProducer.Model
                     new ThreadStart(() =>
                     {
                         // Show the Execution Summary window with results.
-                        ExecutionSummaryWindow win = new ExecutionSummaryWindow();
-                        win.DataContext = executionResult;
+                        ExecutionSummaryWindow win = new ExecutionSummaryWindow(executionResult, this);
+                        //win.DataContext = ;
                         win.ShowDialog();
                     })
                     );

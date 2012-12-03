@@ -55,6 +55,8 @@ namespace SQLDataProducer.TaskExecuter
             Options = options;
             _cancelTokenSource = new CancellationTokenSource();
             _execItems = execItems;
+
+           
             
             // Create the method to be used to generate the N values.
             _nGenerator = delegate
@@ -139,19 +141,11 @@ namespace SQLDataProducer.TaskExecuter
         /// <exception cref="ArgumentNullException">When the Options.ScriptOutputFolder have not been set</exception>
         private void WriteScriptToFile(string baseQuery)
         {
-            if (Options.ScriptOutputFolder == null)
+            if (Options.ScriptOutputScriptName == null)
                 throw new ArgumentNullException("Options.ScriptOutputFolder");
+            
 
-            long c = _executionCounter.Peek();
-            string dir = Options.ScriptOutputFolder;
-            if (!Directory.Exists(dir))
-                Directory.CreateDirectory(dir);
-
-            if (!dir.EndsWith("\\"))
-            {
-                dir = dir + "\\";
-            }
-            System.IO.File.WriteAllText(string.Format("{1}GeneratedScript_{0}.sql", c, dir), baseQuery);
+            System.IO.File.AppendAllText(Options.ScriptOutputScriptName, baseQuery);
         }
 
 
@@ -167,7 +161,10 @@ namespace SQLDataProducer.TaskExecuter
             // Lazy fix to avoid having to clean up and reset everything.
             if (_doneMyWork)
                 throw new NotSupportedException("This TaskExecuter have already been used. It may not be used again. Create a new one and try again");
-            
+
+            if (Options.OnlyOutputToFile && File.Exists(Options.ScriptOutputScriptName))
+                File.Delete(Options.ScriptOutputScriptName);
+
             ExecutionResult result = new ExecutionResult();
             try
             {

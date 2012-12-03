@@ -30,19 +30,19 @@
 
 
     <SolidColorBrush x:Key="DataGridBackgroundBrush" Color="#FFFFFFFF" />
-    <SolidColorBrush x:Key="DataGridSelectedBrush" Color="#3E4955" />
+    <SolidColorBrush x:Key="DataGridSelectedBrush" Color="#FF8CAFDB" />
 
     <SolidColorBrush x:Key="DataGridSelectedForegroundBrush" Color="#FFFFFF" />
 
     <SolidColorBrush x:Key="DataGridValidationForegroundBrush" Color="Red" />
     <SolidColorBrush x:Key="DataGridValidationBackgroundBrush" Color="Transparent" />
 
-    <SolidColorBrush x:Key="RowBackgroundBrush" Color="#44FFFF00" />
-    <SolidColorBrush x:Key="RowBackgroundAlternateBrush" Color="#443D7EC5" />
-    <SolidColorBrush x:Key="RowBackgroundAlternationIndex2Brush" Color="#44FF0000" />
-    <SolidColorBrush x:Key="RowBackgroundAlternationIndex3Brush" Color="#44CCCCCC" />
+    <SolidColorBrush x:Key="RowBackgroundBrush"                  Color="#fFEFF3" />
+    <SolidColorBrush x:Key="RowBackgroundAlternateBrush"         Color="#EEEFF3" />
+    <SolidColorBrush x:Key="RowBackgroundAlternationIndex2Brush" Color="#DDEFF3" />
+    <SolidColorBrush x:Key="RowBackgroundAlternationIndex3Brush" Color="#CCEFF3" />
 
-    <SolidColorBrush x:Key="DataGridHorizontalLinesBrush" Color="Black" />
+    <SolidColorBrush x:Key="DataGridHorizontalLinesBrush" Color="LightGray" />
 
     <SolidColorBrush x:Key="RowHeaderIsMouseOverBrush" Color="#3E4955" />
     <LinearGradientBrush x:Key="XXXDataGridHeaderSortedBorderBrush" StartPoint="0,0" EndPoint="0,1">
@@ -52,9 +52,9 @@
 
 
     <LinearGradientBrush x:Key="RowBackgroundSelectedBrush" StartPoint="0,0" EndPoint="0,1">
-        <GradientStop Color="#4F8CC7" Offset="0" />
-        <GradientStop Color="#1C4B7C" Offset="0.7" />
-        <GradientStop Color="#042D5B" Offset="1" />
+        <GradientStop Color="#e64F8CC7" Offset="0" />
+        <GradientStop Color="#e61C4B7C" Offset="0.7" />
+        <GradientStop Color="#e6042D5B" Offset="1" />
     </LinearGradientBrush>
 
     <SolidColorBrush x:Key="RowHeaderBackgroundBrush" Color="AliceBlue" />
@@ -63,6 +63,8 @@
 
     <Style x:Key="DataGridRowStyle" TargetType="{x:Type DataGridRow}">
         <Setter Property="SnapsToDevicePixels" Value="true"/>
+       
+        
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type DataGridRow}">
@@ -86,7 +88,6 @@
                             <Setter Property="BorderBrush" Value="Red" />
                             <Setter Property="Foreground" Value="Blue" />
                             <Setter Property="FontSize" Value="16" />
-
                         </Trigger>
 
 
@@ -102,9 +103,7 @@
     <!-- Have this style inherit from BasedOn="{StaticResource DataGridRowStyle}" 
     to get some more agressive Error notification  (bright, ugly reds :) 
     -->
-    <Style x:Key="DataGridDemoRowStyle" 
-              
-   TargetType="{x:Type DataGridRow}">
+    <Style x:Key="DataGridDemoRowStyle" TargetType="{x:Type DataGridRow}">
         <Style.Triggers>
             <Trigger Property="AlternationIndex" Value="2" >
                 <Setter Property="Background" Value="{StaticResource RowBackgroundAlternationIndex2Brush}" />
@@ -387,68 +386,6 @@
         
     </Style>
     
-    <!--<DataTemplate x:Key="RowDetailsTemplate">
-        <Grid TextBlock.Foreground="White">
-            <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-            </Grid.RowDefinitions>
-          
-            <GroupBox Header="Select Generator" Grid.Row="0">
-                <ComboBox  
-                        ItemsSource="{Binding PossibleGenerators}"
-                        SelectedItem="{Binding Generator, Mode=TwoWay}"
-                        IsEnabled="{Binding Path=IsNotIdentity}"
-                        Height="25" >
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding GeneratorName}" />
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-            </GroupBox>
-
-            <GroupBox Header="Configure the Parameters for the Generator" Grid.Row="1">
-                <ListBox
-                        ItemsSource="{Binding Path=Generator.GeneratorParameters}" 
-                        IsEnabled="{Binding Path=IsNotIdentity}"  
-                        VerticalAlignment="Stretch">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                          
-                            <Grid 
-                                
-                                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="150" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="{Binding ParameterName}" Grid.Column="0" />
-                                <TextBox Text="{Binding Value}"  Grid.Column="1" MinWidth="150"/>
-                            </Grid>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </GroupBox>
-        </Grid>
-    </DataTemplate>-->
-
-    <!-- END CONFIRMED -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
 
 
 

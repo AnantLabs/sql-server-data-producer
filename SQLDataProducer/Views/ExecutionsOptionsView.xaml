@@ -98,8 +98,8 @@
 
             <GroupBox Header="Options" IsEnabled="{Binding Model.IsExecutionIdle}" Margin="0 5 0 5">
                 <StackPanel>
-                    <CheckBox Content="Do not execute, save script(s) in this folder:" IsChecked="{Binding Model.Options.OnlyOutputToFile, Mode=TwoWay}"  Margin="0 2 0 2" />
-                    <TextBox Text="{Binding Model.Options.ScriptOutputFolder, Mode=TwoWay}"  Margin="0 2 0 2" />
+                    <CheckBox Content="Do not execute, save in script:" IsChecked="{Binding Model.Options.OnlyOutputToFile, Mode=TwoWay}"  Margin="0 2 0 2" />
+                    <TextBox Text="{Binding Model.Options.ScriptOutputScriptName, Mode=TwoWay}"  Margin="0 2 0 2" />
                     <ComboBox SelectedItem="{Binding Model.Options.NumberGeneratorMethod, Mode=TwoWay}"  Margin="0 2 0 2" 
                           ItemsSource="{Binding Source={StaticResource numberGeneratorMethodsEnum}}" />
                 </StackPanel>

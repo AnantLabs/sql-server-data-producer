@@ -64,6 +64,7 @@
     <Compile Include="Behavior\BindableSelectedItemBehavior.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Converters\VisibilityConverter.cs" />
+    <Compile Include="Helpers\NotepadHelper.cs" />
     <Compile Include="ModalWindows\CloneExecutionItemWindow.xaml.cs">
       <DependentUpon>CloneExecutionItemWindow.xaml</DependentUpon>
     </Compile>
