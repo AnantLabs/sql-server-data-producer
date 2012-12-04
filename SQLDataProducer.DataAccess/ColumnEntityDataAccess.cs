@@ -39,21 +39,35 @@ namespace SQLDataProducer.DataAccess
         private Func<SqlDataReader, ColumnEntity> CreateColumnEntity = reader =>
         {
             ColumnDataTypeDefinition dbType = new ColumnDataTypeDefinition(reader.GetString(reader.GetOrdinal("DataType")), reader.GetBoolean(reader.GetOrdinal("IsNullable")));
-            
+
+            var col = new
+                      {
+                          ColumnName = reader.GetString(reader.GetOrdinal("ColumnName")),
+                          IsIdentity = (bool)reader["IsIdentity"],
+                          OrdinalPosition = reader.GetInt32(reader.GetOrdinal("OrdinalPosition")),
+                          IsForeignKey = (bool)reader["IsForeignKey"],
+                          ConstraintDefinition = reader.GetStringOrEmpty("ConstraintDefinition").Replace(@"\n", Environment.NewLine),
+                          ReferencedTableSchema = reader.GetStringOrEmpty("ReferencedTableSchema"),
+                          ReferencedTable = reader.GetStringOrEmpty("ReferencedTable"),
+                          ReferencedColumn = reader.GetStringOrEmpty("ReferencedColumn")
+                      };
+
             return DatabaseEntityFactory.CreateColumnEntity(
-                    reader.GetString(reader.GetOrdinal("ColumnName")), 
+                    col.ColumnName, 
                     dbType, 
-                    (bool)reader["IsIdentity"], 
-                    reader.GetInt32(reader.GetOrdinal("OrdinalPosition")), 
-                    (bool)reader["IsForeignKey"], 
-                    reader.GetStringOrEmpty("ConstraintDefinition"),
+                    col.IsIdentity, 
+                    col.OrdinalPosition, 
+                    col.IsForeignKey, 
+                    col.ConstraintDefinition,
                     new ForeignKeyEntity
                         {
                             ReferencingTable = new TableEntity(
-                                reader.GetStringOrEmpty("ReferencedTableSchema"),
-                                reader.GetStringOrEmpty("ReferencedTable")),
-                            ReferencingColumn = reader.GetStringOrEmpty("ReferencedColumn")
-                        });
+                                col.ReferencedTableSchema,
+                                col.ReferencedTable)
+                            ,
+                            ReferencingColumn =  col.ReferencedColumn
+                        }
+                    );
         };
 
 
@@ -134,7 +148,7 @@ outer apply(
 
 OUTER APPLY
 		(
-		SELECT '{{' + c.CHECK_CLAUSE + '}}'  AS [text()] 
+		SELECT '\n' + c.CHECK_CLAUSE + '\n'  AS [text()] 
 		FROM
 			INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE cu  
 		INNER JOIN

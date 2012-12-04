@@ -38,6 +38,7 @@ namespace TestConsoleApplication
             var et = new DatabaseEntitityTests();
             et.ShouldBeAbleToCompareExecutionItems();
             et.ShouldBeAbleToCompareTables();
+            et.ShouldBeAbletoCloneExecutionItem();
 
             var t = new SaveLoadTests();
             t.ShouldBeAbleToSaveAndLoadExecutionItemCollectionUsingManager();

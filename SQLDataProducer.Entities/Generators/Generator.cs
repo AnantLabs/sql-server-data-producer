@@ -24,7 +24,7 @@ using SQLDataProducer.Entities.DatabaseEntities;
 
 namespace SQLDataProducer.Entities.Generators
 {
-    public partial class Generator : INotifyPropertyChanged, IXmlSerializable
+    public partial class Generator : INotifyPropertyChanged, IXmlSerializable, IEquatable<Generator>
     {
        
         protected ValueCreatorDelegate ValueGenerator { get; set; }
@@ -236,6 +236,35 @@ namespace SQLDataProducer.Entities.Generators
         public static void InitGeneratorStartValues(OptionEntities.ExecutionTaskOptions options)
         {
             Generator.StartDate = options.DateTimeGenerationStartTime;
+        }
+
+        public override bool Equals(System.Object obj)
+        {
+            // If parameter cannot be casted return false:
+            Generator p = obj as Generator;
+            if ((object)p == null)
+                return false;
+
+            // Return true if the fields match:
+            return GetHashCode() == p.GetHashCode();
+        }
+
+        public bool Equals(Generator other)
+        {
+            // TODO: Implament equals on the generator parameter collection
+            return
+                //                this.GeneratorParameters.GetHashCode() ^
+                this.IsSqlQueryGenerator == other.IsSqlQueryGenerator &&
+                this.GeneratorName == other.GeneratorName;
+        }
+
+        public override int GetHashCode()
+        {
+            return
+//                this.GeneratorParameters.GetHashCode() ^
+                this.IsSqlQueryGenerator.GetHashCode() ^
+                this.GeneratorName.GetHashCode() 
+                ;
         }
     }
 }

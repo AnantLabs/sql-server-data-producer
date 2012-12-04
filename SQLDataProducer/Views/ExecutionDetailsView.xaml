@@ -112,9 +112,9 @@
                 </GroupBox>
 
 
-                <CheckBox Content="Use Identity Insert on this table" 
+                <!--<CheckBox Content="Use Identity Insert on this table" 
                           IsChecked="{Binding Model.SelectedExecutionItem.UseIdentityInsert, Mode=TwoWay}" 
-                          IsEnabled="{Binding Model.SelectedExecutionItem.TargetTable.HasIdentityColumn}" />
+                          IsEnabled="{Binding Model.SelectedExecutionItem.TargetTable.HasIdentityColumn}" />-->
                 
                 
             </StackPanel>
@@ -176,8 +176,11 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
+                        <DataGridCheckBoxColumn Binding="{Binding HasConstraints, Mode=OneWay}" Width="110"
+                                            Header="Has Constraints?" IsReadOnly="True"/>
                         <DataGridTextColumn Binding="{Binding Generator.GeneratorParameters.NiceString}" Width="*"
                                             Header="Parameters" IsReadOnly="True"/>
+                        
 
                     </DataGrid.Columns>
                 </DataGrid>
@@ -234,8 +237,11 @@
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>
-                        <GroupBox Header="Generator Description">
+                        <GroupBox Header="Generator Description" Margin="0 5 0 0">
                             <TextBlock Text="{Binding Model.SelectedColumn.Generator.GeneratorHelpText}" TextWrapping="Wrap" />
+                        </GroupBox>
+                        <GroupBox Header="Column Constraints" Margin="0 5 0 0">
+                            <TextBlock Text="{Binding Model.SelectedColumn.Constraints, Mode=OneWay}" TextWrapping="Wrap"  />
                         </GroupBox>
                     </StackPanel>
                 </GroupBox>

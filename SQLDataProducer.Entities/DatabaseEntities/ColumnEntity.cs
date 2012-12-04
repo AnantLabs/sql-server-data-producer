@@ -196,19 +196,32 @@ namespace SQLDataProducer.Entities.DatabaseEntities
 
 
         string _constraints;
+        [System.ComponentModel.ReadOnly(true)]
         public string Constraints
         {
             get
             {
                 return _constraints;
             }
-            set
+            private set
             {
                 if (_constraints != value)
                 {
                     _constraints = value;
+                    _hasConstraints = !string.IsNullOrEmpty(_constraints);
                     OnPropertyChanged("Constraints");
+                    OnPropertyChanged("HasConstraints");
                 }
+            }
+        }
+
+        bool _hasConstraints;
+        [System.ComponentModel.ReadOnly(true)]
+        public bool HasConstraints
+        {
+            get
+            {
+                return _hasConstraints;
             }
         }
 
