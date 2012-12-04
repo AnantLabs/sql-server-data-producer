@@ -36,8 +36,7 @@ namespace SQLDataProducer.Entities.Generators
         public static readonly string GENERATOR_RandomBit = "Random Bit";
         public static readonly string GENERATOR_IdentityFromSqlServerGenerator = "Identity From SQL Server";
         
-        public static readonly string GENERATOR_IdentityInsertSequentialGenerator = "Sequential Identity Insert";
-
+        
 
         public static ObservableCollection<Generator> GetGeneratorsForInt()
         {
@@ -77,7 +76,7 @@ namespace SQLDataProducer.Entities.Generators
         public static ObservableCollection<Generator> GetGeneratorsForIdentity()
         {
             ObservableCollection<Generator> valueGenerators = new ObservableCollection<Generator>();
-            valueGenerators.Add(CreateIdentityInsertGenerator());
+            //valueGenerators.Add(CreateIdentityInsertGenerator());
             valueGenerators.Add(CreateSqlServerIdentityGenerator());
             return valueGenerators;
         }
@@ -193,15 +192,15 @@ namespace SQLDataProducer.Entities.Generators
             return gen;
         }
 
-        private static Generator CreateIdentityInsertGenerator()
-        {
-            Generator gen = new Generator(GENERATOR_IdentityInsertSequentialGenerator, (n, p) =>
-            {
-                return n;
-            }
-                , null);
-            return gen;
-        }
+        //private static Generator CreateIdentityInsertGenerator()
+        //{
+        //    Generator gen = new Generator(GENERATOR_IdentityInsertSequentialGenerator, (n, p) =>
+        //    {
+        //        return n;
+        //    }
+        //        , null);
+        //    return gen;
+        //}
 
         private static Generator CreateSqlServerIdentityGenerator()
         {

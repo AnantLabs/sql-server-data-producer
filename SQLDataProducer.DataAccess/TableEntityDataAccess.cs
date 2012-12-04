@@ -201,6 +201,115 @@ FROM Rels
 ORDER BY RowNumber desc
 ";
 
+        private readonly string ALL_Tables_And_All_Columns_SQL_Query = @"select 
+	Table_Schema = obj.table_schema,
+	Table_Name = object_name(cols.object_id),
+    ColumnName = name, 
+    DataType = 
+		CASE datatyp.datatypen
+			WHEN 'varchar' THEN datatyp.datatypen + '(' + case cols.max_length when -1 then 'max' else CAST(cols.max_length AS VARCHAR(100)) end + ')'
+			WHEN 'nvarchar' THEN datatyp.datatypen + '(' + case cols.max_length when -1 then 'max' else CAST(cols.max_length / 2 AS VARCHAR(100)) end + ')'
+			WHEN 'char' THEN datatyp.datatypen + '(' + CAST(cols.max_length AS VARCHAR(100)) + ')'
+			WHEN 'nchar' THEN datatyp.datatypen + '(' + CAST(cols.max_length / 2 AS VARCHAR(100)) + ')'
+			WHEN 'decimal' THEN datatyp.datatypen + '(' + CAST(cols.precision AS VARCHAR(100)) + ', ' + CAST(cols.scale AS VARCHAR(100)) +')'
+			WHEN 'varbinary' THEN datatyp.datatypen + '(' + case cols.max_length when -1 then 'max' else CAST(cols.max_length AS VARCHAR(100)) end + ')'
+			WHEN 'datetime2' THEN datatyp.datatypen + '(' + CAST(cols.scale AS VARCHAR(100)) + ')'
+			ELSE datatyp.datatypen
+		END
+    , OrdinalPosition = column_id
+    , IsIdentity = is_identity
+    , IsNullable = is_nullable
+	, IsForeignKey = cast(case when foreignInfo.ReferencedTable is null then 0 else 1 end as bit)
+	, ReferencedTableSchema = foreignInfo.ReferencedTableSchema
+	, ReferencedTable = foreignInfo.ReferencedTable
+	, ReferencedColumn = foreignInfo.ReferencedColumn
+    , ConstraintDefinition = constraintDef 
+from 
+    sys.columns cols
+cross apply
+(
+	SELECT schema_name(o.schema_id) 
+	FROM sys.objects o 
+	where o.object_id = cols.object_id
+) obj(table_schema)
+
+cross apply
+(
+	select 	 	top 1
+		COALESCE(bt.name, t.name) as DataTypen
+	from
+		sys.types AS t
+		--ON c.user_type_id = t.user_type_id
+	LEFT OUTER JOIN 
+		sys.types AS bt
+		ON t.is_user_defined = 1
+		AND bt.is_user_defined = 0
+		AND t.system_type_id = bt.system_type_id
+		AND t.user_type_id <> bt.user_type_id
+		
+		where t.system_type_id = cols.system_type_id and  cols.user_type_id = t.user_type_id
+) datatyp(datatypen)
+
+outer apply(
+	select 
+		schema_name(referencedTable.schema_id)
+		,  referencedTable.name as ReferencedTable
+		, crk.name ReferencedColumn
+	FROM 
+		sys.tables AS tbl
+	LEFT JOIN 
+		sys.foreign_keys AS fkeys
+		ON fkeys.parent_object_id = tbl.object_id
+	LEFT JOIN 
+		sys.foreign_key_columns AS fkcols
+		ON fkcols.constraint_object_id = fkeys.object_id
+
+	LEFT JOIN 
+		sys.columns AS referencedCols
+		ON fkcols.parent_column_id = referencedCols.column_id
+		AND fkcols.parent_object_id = referencedCols.object_id
+
+	left join 
+		sys.tables as referencedTable
+		on referencedTable.object_id = fkeys.referenced_object_id
+	LEFT JOIN 
+		sys.columns AS crk
+		ON fkcols.referenced_column_id = crk.column_id
+		AND fkcols.referenced_object_id = crk.object_id
+
+		where 
+			referencedCols.column_id = cols.column_id
+			and cols.object_id = tbl.object_id
+
+) foreignInfo( ReferencedTableSchema,ReferencedTable, ReferencedColumn)
+
+
+OUTER APPLY
+		(
+		SELECT '\n' + c.CHECK_CLAUSE + '\n'  AS [text()] 
+		FROM
+			INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE cu  
+		INNER JOIN
+			INFORMATION_SCHEMA.CHECK_CONSTRAINTS c 
+			ON cu.CONSTRAINT_NAME = c.CONSTRAINT_NAME
+		WHERE
+			cu.CONSTRAINT_NAME = c.CONSTRAINT_NAME
+			AND cu.COLUMN_NAME = cols.name AND object_name(cols.object_id) = cu.TABLE_NAME
+		FOR XML PATH('')
+				
+        ) AS  constr(constraintDef)   
+
+where 
+	object_id in (SELECT object_id(TABLE_SCHEMA + '.' + TABLE_NAME) FROM INFORMATION_SCHEMA.tables where table_type = 'base table' ) 
+
+and cols.is_computed = 0
+
+order by table_schema, table_name
+
+
+";
+
+
         public TableEntityDataAccess(string connectionString) 
             : base(connectionString)
         {
@@ -209,12 +318,35 @@ ORDER BY RowNumber desc
         /// <summary>
         /// function that will create a TableEntity from a sqldatareader
         /// </summary>
-        private Func<SqlDataReader, TableEntity> CreateTableEntity = reader =>
+        private static Func<SqlDataReader, TableEntity> CreateTableEntity = reader =>
         {
             return new TableEntity(
                 reader.GetString(reader.GetOrdinal("Table_Schema")),
                 reader.GetString(reader.GetOrdinal("Table_Name"))
                 );
+        };
+
+        /// <summary>
+        /// function that will create a TableEntity from a sqldatareader
+        /// </summary>
+        private static Func<SqlDataReader, TableEntity> CreateTableAndColumnsEntity = reader =>
+        {
+            var t = new {
+                TableName =reader.GetString(reader.GetOrdinal("Table_Name")), 
+                TableSchema =  reader.GetString(reader.GetOrdinal("Table_Schema")) 
+            };
+
+            var table = new TableEntity(t.TableSchema, t.TableName);
+            do
+            {
+                table.Columns.Add(ColumnEntityDataAccess.CreateColumn(reader));
+
+            } while (reader.Read() && (
+                reader.GetString(reader.GetOrdinal("Table_Name")) == t.TableName &&
+                t.TableSchema == reader.GetString(reader.GetOrdinal("Table_Schema"))));
+	    
+            
+            return table;
         };
 
         /// <summary>
@@ -234,65 +366,35 @@ ORDER BY RowNumber desc
             }
         }
 
-
-
-        ///// <summary>
-        ///// Get all tables, does not block the caller. The provided callback method will be called when the exection is done.
-        ///// </summary>
-        ///// <param name="callback">the callback method to be called when the execution is done.</param>
-        //public void BeginGetAllTables(Action<TableEntityCollection> callback)
-        //{
-        //    BeginGetMany(ALL_TABLES_QUERY, CreateTableEntity, callback);
-        //}
+       
         /// <summary>
         /// Begin get all tables and their columns, does not block the caller. The provided callback method will be called when the exection is done.
         /// </summary>
         /// <param name="callback">the callback method to be called when the execution is done.</param>
         public void BeginGetAllTablesAndColumns(Action<TableEntityCollection> callback)
         {
-            BeginGetMany(ALL_TABLES_QUERY, CreateTableEntity, tables =>
+            Action a = new Action( () =>
                 {
-                    using (ColumnEntityDataAccess colDa = new ColumnEntityDataAccess(this._connectionString))
-                    {
-                        foreach (var tabl in tables)
-                        {
-                            tabl.Columns.AddRange(colDa.GetAllColumnsForTable(tabl));
-                            // TODO: Dont add these foreign key generators here. Should be handled more central
-                            foreach (var item in tabl.Columns.Where(x => x.IsForeignKey))
-                            {
-                                GetForeignKeyGeneratorsForColumn(item);
-                            }
-                        }
-                    }
-                    callback(new TableEntityCollection(tables));
+                    callback(GetAllTablesAndColumns());
                 });
+            a.BeginInvoke(null, null);
         }
 
-        /// <summary>
-        /// Get TableEntitites for every table in the database.
-        /// </summary>
-        /// <returns></returns>
-        private TableEntityCollection GetAllTables()
-        {
-            return new TableEntityCollection(GetMany(ALL_TABLES_QUERY, CreateTableEntity));
-        }
 
         public TableEntityCollection GetAllTablesAndColumns()
         {
-            var tables = GetAllTables();
-            using (ColumnEntityDataAccess colDa = new ColumnEntityDataAccess(this._connectionString))
+            TableEntityCollection tables = new TableEntityCollection(GetMany(ALL_Tables_And_All_Columns_SQL_Query, CreateTableAndColumnsEntity));
+
+            foreach (var tabl in tables)
             {
-                foreach (var tabl in tables)
+                //    // TODO: Dont add these foreign key generators here. Should be handled more central
+                foreach (var item in tabl.Columns.Where(x => x.IsForeignKey))
                 {
-                    tabl.Columns.AddRange(colDa.GetAllColumnsForTable(tabl));
-                    // TODO: Dont add these foreign key generators here. Should be handled more central
-                    foreach (var item in tabl.Columns.Where(x => x.IsForeignKey))
-                    {
-                        GetForeignKeyGeneratorsForColumn(item);
-                    }
+                    GetForeignKeyGeneratorsForColumn(item);
                 }
-                return tables;
             }
+            return tables;
+
         }
 
         private void GetForeignKeyGeneratorsForColumn(ColumnEntity column)

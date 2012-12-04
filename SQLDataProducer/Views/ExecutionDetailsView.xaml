@@ -168,10 +168,10 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel>
-                                        <TextBlock Visibility="{Binding Path=IsNotIdentity,ConverterParameter=IsNotIdentity, Converter={StaticResource ResourceKey=visiConv}}" 
-                                           Text="{Binding Generator.GeneratorName}" Height="25" />
-                                        <TextBlock Visibility="{Binding Path=IsIdentity,ConverterParameter=IsIdentity, Converter={StaticResource ResourceKey=visiConv}}" 
-                                           Text="Identity" Height="25" />
+                                        <TextBlock Text="{Binding Generator.GeneratorName}" Height="25" />
+                                        <!--Visibility="{Binding Path=IsNotIdentity,ConverterParameter=IsNotIdentity, Converter={StaticResource ResourceKey=visiConv}}"-->
+                                        <!--<TextBlock Visibility="{Binding Path=IsIdentity,ConverterParameter=IsIdentity, Converter={StaticResource ResourceKey=visiConv}}" 
+                                           Text="Identity" Height="25" />-->
                                     </StackPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
@@ -188,7 +188,7 @@
                     <ComboBox  
                     ItemsSource="{Binding Model.SelectedColumn.PossibleGenerators}"
                     SelectedItem="{Binding Model.SelectedColumn.Generator, Mode=TwoWay}"
-                    IsEnabled="{Binding Model.SelectedColumn.IsNotIdentity}"
+                    
                     Height="25" >
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
@@ -197,12 +197,13 @@
                         </ComboBox.ItemTemplate>
                     </ComboBox>
                 </GroupBox>
+                <!--IsEnabled="{Binding Model.SelectedColumn.IsNotIdentity}"-->
 
                 <GroupBox Header="Configure the Parameters for the Generator" Grid.Column="1" Grid.Row="1">
                     <StackPanel>
                         <ListBox
                         ItemsSource="{Binding Model.SelectedColumn.Generator.GeneratorParameters}" 
-                        IsEnabled="{Binding Model.SelectedColumn.IsNotIdentity}"  VerticalAlignment="Stretch">
+                          VerticalAlignment="Stretch">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <Grid 
@@ -237,6 +238,7 @@
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>
+                        <!--IsEnabled="{Binding Model.SelectedColumn.IsNotIdentity}"-->
                         <GroupBox Header="Generator Description" Margin="0 5 0 0">
                             <TextBlock Text="{Binding Model.SelectedColumn.Generator.GeneratorHelpText}" TextWrapping="Wrap" />
                         </GroupBox>

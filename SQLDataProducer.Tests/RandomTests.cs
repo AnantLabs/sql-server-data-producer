@@ -33,7 +33,7 @@ namespace SQLDataProducer.RandomTests
             TableEntityDataAccess tda = new TableEntityDataAccess(Connection());
 
             TableEntityCollection tables = tda.GetAllTablesAndColumns();
-
+            Assert.Greater(tables.Count, 0);
             foreach (TableEntity table in tables)
             {
                 ExecutionItem ie = new ExecutionItem(table);

@@ -36,7 +36,7 @@ namespace SQLDataProducer.DataAccess
         /// <summary>
         /// Function to generate one ColumnEntity from a sqldatareader
         /// </summary>
-        private Func<SqlDataReader, ColumnEntity> CreateColumnEntity = reader =>
+        private static Func<SqlDataReader, ColumnEntity> CreateColumnEntity = reader =>
         {
             ColumnDataTypeDefinition dbType = new ColumnDataTypeDefinition(reader.GetString(reader.GetOrdinal("DataType")), reader.GetBoolean(reader.GetOrdinal("IsNullable")));
 
@@ -178,6 +178,10 @@ where object_id=object_id('{1}.{0}')  and cols.is_computed = 0";
             return cols;
         }
 
+        public static ColumnEntity CreateColumn(SqlDataReader reader)
+        {
+            return CreateColumnEntity(reader);
+        }
         
     }
 }
