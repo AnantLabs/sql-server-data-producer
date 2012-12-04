@@ -179,12 +179,12 @@ namespace SQLDataProducer.Entities.OptionEntities
             }
         }
 
-        int _percentCompleted = 0;
+        float _percentCompleted = 0;
         /// <summary>
         /// The percentage of how far the task have been executed. 
         /// Changing this manually will not change the remaining amount of work in the task and the manual change will be overwritten.
         /// </summary>
-        public int PercentCompleted
+        public float PercentCompleted
         {
             get
             {
@@ -201,7 +201,7 @@ namespace SQLDataProducer.Entities.OptionEntities
         }
 
 
-        private NumberGeneratorMethods _numberGeneratorMethod = NumberGeneratorMethods.NewNForEachExecution;
+        private NumberGeneratorMethods _numberGeneratorMethod = NumberGeneratorMethods.NewNForEachRow;
         /// <summary>
         /// Get set the method to use when generating N for the insertions.
         /// </summary>

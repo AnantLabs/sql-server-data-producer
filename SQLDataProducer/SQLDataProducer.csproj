@@ -63,6 +63,7 @@
     </ApplicationDefinition>
     <Compile Include="Behavior\BindableSelectedItemBehavior.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
+    <Compile Include="Converters\ProgressConverter.cs" />
     <Compile Include="Converters\VisibilityConverter.cs" />
     <Compile Include="Helpers\NotepadHelper.cs" />
     <Compile Include="ModalWindows\CloneExecutionItemWindow.xaml.cs">
@@ -102,9 +103,6 @@
     </Compile>
     <Compile Include="Views\ScriptEditView.xaml.cs">
       <DependentUpon>ScriptEditView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\SidePanelView.xaml.cs">
-      <DependentUpon>SidePanelView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\ExecutionDetailsViewModel.cs" />
     <Compile Include="ViewModels\ExecutionOrderViewModel.cs" />
@@ -165,10 +163,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ScriptEditView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\SidePanelView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

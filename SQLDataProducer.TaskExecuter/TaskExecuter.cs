@@ -222,10 +222,9 @@ namespace SQLDataProducer.TaskExecuter
                         _executionCounter.Increment();
                         
                         task();
-                        //_insertCounter.Peek();
                         float percentDone = (float)_executionCounter.Peek() / (float)Options.FixedExecutions;
                         // TODO: Find out if this is eating to much performance (Sending many OnPropertyChanged events..
-                        Options.PercentCompleted = (int)(percentDone * 100);
+                        Options.PercentCompleted = percentDone;
                     }
                 };
                 workers[i].RunWorkerAsync();
@@ -263,10 +262,9 @@ namespace SQLDataProducer.TaskExecuter
                     while (DateTime.Now < until && !CancelTokenSource.IsCancellationRequested)
                     {
                         task();
-                        //_insertCounter.Peek();
                         _executionCounter.Increment();
                         float percentDone = ((float)(DateTime.Now.Ticks - beginTime.Ticks) / (float)(until.Ticks - beginTime.Ticks));
-                        Options.PercentCompleted = (int)(percentDone * 100);
+                        Options.PercentCompleted = percentDone;
                     }
                 };
                 workers[i].RunWorkerAsync();
