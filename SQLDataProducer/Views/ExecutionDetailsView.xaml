@@ -92,10 +92,10 @@
             <StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <Label Content="Execution Item Description:" FontSize="11" />
-                    <TextBox Text="{Binding Model.SelectedExecutionItem.Description, Mode=TwoWay}" />
+                    <TextBox Text="{Binding Model.SelectedExecutionItem.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                     <Label Content="Number of insertions for this item:" FontSize="11" />
-                    <TextBox Text="{Binding Model.SelectedExecutionItem.RepeatCount, Mode=TwoWay}" />
+                    <TextBox Text="{Binding Model.SelectedExecutionItem.RepeatCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
             </StackPanel>
 
@@ -187,7 +187,7 @@
                 <GroupBox Header="Select Generator" Grid.Column="1" Grid.Row="0">
                     <ComboBox  
                     ItemsSource="{Binding Model.SelectedColumn.PossibleGenerators}"
-                    SelectedItem="{Binding Model.SelectedColumn.Generator, Mode=TwoWay}"
+                    SelectedItem="{Binding Model.SelectedColumn.Generator, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     
                     Height="25" >
                         <ComboBox.ItemTemplate>
@@ -217,7 +217,7 @@
                                         </Grid.ColumnDefinitions>
                                         <TextBlock Text="{Binding ParameterName}" Grid.Column="0" Margin="3 3 3 3" />
 
-                                        <TextBox Text="{Binding Value}"  Grid.Column="1" MinWidth="150" Style="{StaticResource ResourceKey=NotEnabledIfValueFromOtherColumnGenerator}"/>
+                                        <TextBox Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"  Grid.Column="1" MinWidth="150" Style="{StaticResource ResourceKey=NotEnabledIfValueFromOtherColumnGenerator}"/>
                                         <!--<ContentControl 
                                                         Style="{StaticResource ResourceKey=ParameterConfigurationStyle}" 
                                                         Grid.Column="1" 
