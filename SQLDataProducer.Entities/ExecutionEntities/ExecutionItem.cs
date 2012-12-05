@@ -384,7 +384,7 @@ namespace SQLDataProducer.Entities.ExecutionEntities
                     HasWarning == b.HasWarning &&
                     Order == b.Order &&
                     RepeatCount == b.RepeatCount &&
-                    //object.Equals(TargetTable, b.TargetTable) && 
+                    object.Equals(TargetTable, b.TargetTable) && 
                     TruncateBeforeExecution == b.TruncateBeforeExecution &&
                     UseIdentityInsert == b.UseIdentityInsert &&
                     WarningText == b.WarningText;

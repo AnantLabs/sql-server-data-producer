@@ -26,7 +26,7 @@ namespace SQLDataProducer.DataAccess
 {
     public partial class TableEntityDataAccess : DataAccessBase
     {
-        readonly string ALL_TABLES_QUERY = "select Table_Name, Table_Schema from information_Schema.Tables where TABLE_TYPE = 'BASE TABLE' order by table_Schema, table_name";
+        //readonly string ALL_TABLES_QUERY = "select Table_Name, Table_Schema from information_Schema.Tables where TABLE_TYPE = 'BASE TABLE' order by table_Schema, table_name";
 
         readonly string TABLES_IN_HIERARCHY_FROM_ROOT = @"DECLARE    @RowOrder INT = 0
 			,@SchemaName sysname = '{0}'
@@ -327,13 +327,14 @@ order by table_schema, table_name
         };
 
         /// <summary>
-        /// function that will create a TableEntity from a sqldatareader
+        /// function that will create a TableEntity with all the columns from a sqldatareader
         /// </summary>
         private static Func<SqlDataReader, TableEntity> CreateTableAndColumnsEntity = reader =>
         {
-            var t = new {
-                TableName =reader.GetString(reader.GetOrdinal("Table_Name")), 
-                TableSchema =  reader.GetString(reader.GetOrdinal("Table_Schema")) 
+            var t = new
+            {
+                TableName = reader.GetString(reader.GetOrdinal("Table_Name")),
+                TableSchema = reader.GetString(reader.GetOrdinal("Table_Schema"))
             };
 
             var table = new TableEntity(t.TableSchema, t.TableName);
