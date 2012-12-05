@@ -205,7 +205,7 @@ namespace SQLDataProducer.RandomTests
         {
             var t = new TableEntity("dbo", "peter");
             var c1 = DatabaseEntityFactory.CreateColumnEntity("id", new ColumnDataTypeDefinition("int", false), true, 1, false, string.Empty, null);
-            var c2 = DatabaseEntityFactory.CreateColumnEntity("name", new ColumnDataTypeDefinition("varchar(500)", false), false, 2, false, string.Empty ,null);
+            var c2 = DatabaseEntityFactory.CreateColumnEntity("name", new ColumnDataTypeDefinition("varchar(500)", false), false, 2, false, string.Empty, null);
             var c3 = DatabaseEntityFactory.CreateColumnEntity("created", new ColumnDataTypeDefinition("datetime", false), false, 3, false, string.Empty, null);
             var c4 = DatabaseEntityFactory.CreateColumnEntity("enabled", new ColumnDataTypeDefinition("bit", false), false, 4, false, string.Empty, null);
 
@@ -224,33 +224,35 @@ namespace SQLDataProducer.RandomTests
             var ei = new ExecutionItem(t, "orginal");
             var clonedEI = ei.Clone();
 
-            {
-                Assert.AreEqual(ei.Description, clonedEI.Description);
-                Assert.AreEqual(ei.RepeatCount, clonedEI.RepeatCount);
-                Assert.AreEqual(ei.Order, clonedEI.Order);
-                Assert.AreEqual(ei.ExecutionCondition, clonedEI.ExecutionCondition);
-                Assert.AreEqual(ei.ExecutionConditionValue, clonedEI.ExecutionConditionValue);
-                Assert.AreEqual(ei.HasWarning, clonedEI.HasWarning);
-                Assert.AreEqual(ei.TargetTable, clonedEI.TargetTable);
-                Assert.AreEqual(ei.TruncateBeforeExecution, clonedEI.TruncateBeforeExecution);
-                Assert.AreEqual(ei.WarningText, clonedEI.WarningText);
-                
-                var ct = clonedEI.TargetTable;
-                
+            Assert.IsTrue(ei.Equals(clonedEI));
+            Assert.IsTrue(ei.TargetTable.Equals(clonedEI.TargetTable));
 
-                Assert.AreEqual("peter", ct.TableName);
-                Assert.AreEqual("dbo", ct.TableSchema);
-                Assert.AreEqual(4, ct.Columns.Count);
-                var cc1 = ct.Columns[0];
-                var cc2 = ct.Columns[1];
-                var cc3 = ct.Columns[2];
-                var cc4 = ct.Columns[3];
-                
-                AssertColumn(cc1, c1);
-                AssertColumn(cc2, c2);
-                AssertColumn(cc3, c3);
-                AssertColumn(cc4, c4);
-            }
+            Assert.AreEqual(ei.Description, clonedEI.Description);
+            Assert.AreEqual(ei.RepeatCount, clonedEI.RepeatCount);
+            Assert.AreEqual(ei.Order, clonedEI.Order);
+            Assert.AreEqual(ei.ExecutionCondition, clonedEI.ExecutionCondition);
+            Assert.AreEqual(ei.ExecutionConditionValue, clonedEI.ExecutionConditionValue);
+            Assert.AreEqual(ei.HasWarning, clonedEI.HasWarning);
+            Assert.AreEqual(ei.TargetTable, clonedEI.TargetTable);
+            Assert.AreEqual(ei.TruncateBeforeExecution, clonedEI.TruncateBeforeExecution);
+            Assert.AreEqual(ei.WarningText, clonedEI.WarningText);
+
+            var ct = clonedEI.TargetTable;
+
+
+            Assert.AreEqual("peter", ct.TableName);
+            Assert.AreEqual("dbo", ct.TableSchema);
+            Assert.AreEqual(4, ct.Columns.Count);
+            var cc1 = ct.Columns[0];
+            var cc2 = ct.Columns[1];
+            var cc3 = ct.Columns[2];
+            var cc4 = ct.Columns[3];
+
+            AssertColumn(cc1, c1);
+            AssertColumn(cc2, c2);
+            AssertColumn(cc3, c3);
+            AssertColumn(cc4, c4);
+
         }
 
         [Test]
@@ -275,7 +277,7 @@ namespace SQLDataProducer.RandomTests
                 TableEntity z = new TableEntity("Person", "Contact");
                 TableEntity y = new TableEntity("Person", "Customer");
 
-                // All are the same
+                // All are different
                 AssertEqualsDefaultBehaviour(x, z, y);
 
                 Assert.IsFalse(x.Equals(y) && x.Equals(z));
@@ -321,16 +323,82 @@ namespace SQLDataProducer.RandomTests
             Assert.IsFalse(z.Equals(null));
         }
 
+
+
         [Test]
         public void ShouldBeAbleToCompareExecutionItems()
         {
             //Assert.AreEqual("implemented", "not implemented");
-            ExecutionItem x = new ExecutionItem();
-            ExecutionItem y = new ExecutionItem();
-            ExecutionItem z = new ExecutionItem();
 
-            AssertEqualsDefaultBehaviour(x, y, z);
+            {
+                // Equal
+                ExecutionItem x = new ExecutionItem(new TableEntity("dbo", "peter"));
+                ExecutionItem y = new ExecutionItem(new TableEntity("dbo", "peter"));
+                ExecutionItem z = new ExecutionItem(new TableEntity("dbo", "peter"));
+                AssertEqualsDefaultBehaviour(x, y, z);
 
+                Assert.IsTrue(x.Equals(y));
+                Assert.IsTrue(x.Equals(z));
+                Assert.IsTrue(y.Equals(x));
+                Assert.IsTrue(y.Equals(z));
+                Assert.IsTrue(z.Equals(x));
+                Assert.IsTrue(z.Equals(y));
+            }
+
+            {
+                // Not equal
+                ExecutionItem x = new ExecutionItem(new TableEntity("dbo", "peter"));
+                ExecutionItem y = new ExecutionItem(new TableEntity("dbo", "henell"));
+                ExecutionItem z = new ExecutionItem(new TableEntity("dbo", "data producer"));
+                AssertEqualsDefaultBehaviour(x, y, z);
+
+                Assert.IsFalse(x.Equals(y));
+                Assert.IsFalse(x.Equals(z));
+                Assert.IsFalse(y.Equals(x));
+                Assert.IsFalse(y.Equals(z));
+                Assert.IsFalse(z.Equals(x));
+                Assert.IsFalse(z.Equals(y));
+            }
+            {
+                // Not equal even if same table
+                ExecutionItem x = new ExecutionItem(new TableEntity("dbo", "peter"));
+                ExecutionItem y = new ExecutionItem(new TableEntity("dbo", "peter"));
+                ExecutionItem z = new ExecutionItem(new TableEntity("dbo", "peter"));
+                x.Order = 1;
+                y.Order = 2;
+                z.Order = 3;
+
+                AssertEqualsDefaultBehaviour(x, y, z);
+
+                Assert.IsFalse(x.Equals(y));
+                Assert.IsFalse(x.Equals(z));
+                Assert.IsFalse(y.Equals(x));
+                Assert.IsFalse(y.Equals(z));
+                Assert.IsFalse(z.Equals(x));
+                Assert.IsFalse(z.Equals(y));
+            }
+            {
+                // Not equal even if same table
+                ExecutionItem x = new ExecutionItem(new TableEntity("dbo", "peter"));
+                ExecutionItem y = new ExecutionItem(new TableEntity("dbo", "peter"));
+                ExecutionItem z = new ExecutionItem(new TableEntity("dbo", "peter"));
+                // When items are added to the list they should get the Order property set, and then be unique
+                ExecutionItemCollection col = new ExecutionItemCollection();
+                col.Add(x);
+                col.Add(y);
+                col.Add(z);
+                var tested = 0;
+                for (int i = 0; i < col.Count-1; i++)
+                {
+                    for (int j = i + 1; j < col.Count; j++)
+                    {
+                        Assert.IsFalse(col[i].Equals(col[j]));
+                        tested++;
+                    }
+                }
+                Assert.Greater(tested, 0);
+                
+            }
         }
 
         private void AssertColumn(ColumnEntity expectedColumn, ColumnEntity newColumn)

@@ -316,7 +316,6 @@ namespace SQLDataProducer.Entities.DatabaseEntities
                  this.HasIdentityColumn.GetHashCode() ^
                  this.HasWarning.GetHashCode() ^
                  //this.ParentExecutionItem.GetHashCode() ^
-                 //this.Columns.GetHashCode() ^
                  this.TableName.GetHashCode() ^
                  this.TableSchema.GetHashCode() ^
                  this.WarningText.GetHashCode();
