@@ -27,7 +27,8 @@ namespace SQLDataProducer.ContinuousInsertion.Builders.EntityBuilders
         public static void AppendVariablesForTable(TableEntity table, StringBuilder sb, int rep, long N)
         {
             table.GenerateValuesForColumns(N);
-            foreach (var col in table.Columns.Where(x => x.IsNotIdentity))
+            
+            foreach (var col in table.Columns)//.Where(x => x.IsNotIdentity)
             {
                 if (col.Generator.IsSqlQueryGenerator)
                     continue;
@@ -58,8 +59,8 @@ namespace SQLDataProducer.ContinuousInsertion.Builders.EntityBuilders
             for (int i = 0; i < table.Columns.Count; i++)
             {
                 var col = table.Columns[i];
-
-                if (col.IsIdentity)
+                // If he column is identity and the generator is set to use SQL Server identity generation, then dont generate this value part
+                if (col.IsIdentity && col.Generator.GeneratorName == SQLDataProducer.Entities.Generators.Generator.GENERATOR_IdentityFromSqlServerGenerator)
                     continue;
 
                 //// Get the parameter name to use, if the generator is sql query generator then the generated variable should be used instead of the parameter.
@@ -91,14 +92,17 @@ namespace SQLDataProducer.ContinuousInsertion.Builders.EntityBuilders
 
         public static void AppendInsertPartForTable(ExecutionItem ei, StringBuilder sb)
         {
+            if (ei.TargetTable.Columns.Any(col => col.IsIdentity && col.Generator.GeneratorName != SQLDataProducer.Entities.Generators.Generator.GENERATOR_IdentityFromSqlServerGenerator))
+                sb.AppendLine(string.Format("SET IDENTITY_INSERT {0} ON;", ei.TargetTable.ToString()));
+
             sb.AppendFormat("INSERT {0}.{1} (", ei.TargetTable.TableSchema, ei.TargetTable.TableName);
             sb.AppendLine();
 
             for (int i = 0; i < ei.TargetTable.Columns.Count; i++)
             {
                 var col = ei.TargetTable.Columns[i];
-
-                if (col.IsIdentity)
+                
+                if (col.IsIdentity && col.Generator.GeneratorName == SQLDataProducer.Entities.Generators.Generator.GENERATOR_IdentityFromSqlServerGenerator)
                     continue;
 
                 sb.AppendFormat("\t[{0}]", col.ColumnName);
@@ -108,6 +112,9 @@ namespace SQLDataProducer.ContinuousInsertion.Builders.EntityBuilders
             }
 
             sb.Append(")");
+            if (ei.TargetTable.Columns.Any(col => col.IsIdentity && col.Generator.GeneratorName != SQLDataProducer.Entities.Generators.Generator.GENERATOR_IdentityFromSqlServerGenerator))
+                sb.AppendLine(string.Format("SET IDENTITY_INSERT {0} OFF;", ei.TargetTable.ToString()));
+
         }
     }
 }

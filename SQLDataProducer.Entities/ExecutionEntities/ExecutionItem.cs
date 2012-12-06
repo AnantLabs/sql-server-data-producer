@@ -74,6 +74,9 @@ namespace SQLDataProducer.Entities.ExecutionEntities
         public ExecutionItem(TableEntity table, string description = "")
             : this()
         {
+            if (table != null && table.ParentExecutionItem != null)
+                throw new InvalidOperationException("this table already belong to another execution item");
+            
             TargetTable = table;
             Description = description;
         }

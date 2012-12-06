@@ -79,7 +79,6 @@ namespace SQLDataProducer.Entities.DatabaseEntities
             }
         }
 
-
         internal ForeignKeyEntity Clone()
         {
             ForeignKeyEntity fk = new ForeignKeyEntity();

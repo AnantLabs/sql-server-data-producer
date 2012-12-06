@@ -26,7 +26,7 @@ namespace SQLDataProducer.Entities.DatabaseEntities
     public class TableEntity : EntityBase, IEquatable<TableEntity>, IXmlSerializable
     {
 
-        public static event TableWithForeignKeyInsertedRowEventHandler ForeignKeyGenerated = delegate { };
+        //public static event TableWithForeignKeyInsertedRowEventHandler ForeignKeyGenerated = delegate { };
 
         public TableEntity(string tableSchema, string tableName)
             : this()
@@ -132,43 +132,16 @@ namespace SQLDataProducer.Entities.DatabaseEntities
             return string.Format("{0}.{1}", TableSchema, TableName);
         }
 
-
-
-        //public bool Equals(TableEntity other)
-        //{
-        //    // Check whether the compared object is null.
-        //    if (Object.ReferenceEquals(other, null)) return false;
-
-        //    // Check whether the compared object references the same data.
-        //    if (Object.ReferenceEquals(this, other)) return true;
-
-        //    // Check whether the objects’ properties are equal.
-        //    return this.ToString().Equals(other.ToString());
-        //}
-
-        //// If Equals returns true for a pair of objects,
-        //// GetHashCode must return the same value for these objects.
-
-        //public override int GetHashCode()
-        //{
-        //    // Get the hash code for the Textual field if it is not null.
-        //    return ToString().GetHashCode();
-        //}
-
+       
         internal TableEntity Clone()
         {
-            var t = TableEntity.Create(this.TableSchema, this.TableName, this.Columns.Clone());
-            t.HasIdentityColumn = this.HasIdentityColumn;
+            var t = new TableEntity(this.TableSchema, this.TableName);
+            t.Columns = this.Columns.Clone();
+            t.RefreshWarnings();
             return t;
         }
 
-        private static TableEntity Create(string tableSchema, string tableName, ColumnEntityCollection cols)
-        {
-            var t = new TableEntity(tableSchema, tableName);
-            t.Columns = cols;
-            
-            return t;
-        }
+       
 
         #region XML Serialize
         public System.Xml.Schema.XmlSchema GetSchema()
@@ -320,33 +293,16 @@ namespace SQLDataProducer.Entities.DatabaseEntities
                  this.TableSchema.GetHashCode() ^
                  this.WarningText.GetHashCode();
         }
-        //public static bool operator ==(TableEntity a, TableEntity b)
-        //{
-        //    // If both are null, or both are same instance, return true.
-        //    if (System.Object.ReferenceEquals(a, b))
-        //        return true;
 
-        //    // If one is null, but not both, return false.
-        //    if (((object)a == null) || ((object)b == null))
-        //        return false;
-
-        //    // Return true if the fields match:
-        //    return
-        //         //a.Columns == b.Columns &&
-        //         a.HasIdentityColumn == b.HasIdentityColumn &&
-        //         a.HasWarning == b.HasWarning &&
-        //         //a.ParentExecutionItem == b.ParentExecutionItem &&
-        //         a.TableName == b.TableName &&
-        //         a.TableSchema == b.TableSchema &&
-        //         a.WarningText == b.WarningText;
-
-        //}
-        //public static bool operator !=(TableEntity a, TableEntity b)
-        //{
-        //    return !(a == b);
-        //}
-
-
+        public void RefreshWarnings()
+        {
+            foreach (var col in Columns)
+            {
+                col.RefreshWarningStatus();
+            }
+            HasWarning = Columns.Any(col => col.HasWarning);
+            WarningText = HasWarning ? "One of the columns have a warning" : string.Empty;
+        }
     }
 
 

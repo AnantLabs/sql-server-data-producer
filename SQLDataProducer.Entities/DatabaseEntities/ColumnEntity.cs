@@ -175,20 +175,19 @@ namespace SQLDataProducer.Entities.DatabaseEntities
                 {
                     _foreignKey = value;
 
-                    if (_foreignKey != null)
-                    {
-                        _foreignKey.PropertyChanged += (sender, e) =>
-                        {
-                            if (e.PropertyName == "Keys")
-                            {
-                                if (ForeignKey.Keys.Count > 0)
-                                {
-                                    HasWarning = false;
-                                }
-                            }
-                        };
-                    }
-                   
+                    //if (_foreignKey != null)
+                    //{
+                    //    _foreignKey.PropertyChanged += (sender, e) =>
+                    //    {
+                    //        if (e.PropertyName == "Keys")
+                    //        {
+                    //            if (ForeignKey.Keys.Count > 0)
+                    //            {
+                    //                HasWarning = false;
+                    //            }
+                    //        }
+                    //    };
+                    //}
                     OnPropertyChanged("ForeignKey");
                 }
             }
@@ -237,12 +236,8 @@ namespace SQLDataProducer.Entities.DatabaseEntities
             this.ForeignKey = foreignKeyEntity;
 
             this.Constraints = constraintDefinition;
-            
-            if (IsForeignKey && ForeignKey.Keys.Count == 0)
-            {
-                HasWarning = true;
-                WarningText = "This column is referencing a table without foreign keys. Insertion might fail unless you use the Identity from item# generator.";
-            }
+
+            RefreshWarningStatus();
 
         }
 
@@ -424,6 +419,20 @@ namespace SQLDataProducer.Entities.DatabaseEntities
                 this.OrdinalPosition.GetHashCode() ^
                 this.PossibleGenerators.GetHashCode() ^
                 this.WarningText.GetHashCode();
+        }
+
+        internal void RefreshWarningStatus()
+        {
+            if (IsForeignKey && ForeignKey.Keys.Count == 0)
+            {
+                HasWarning = true;
+                WarningText = "This column is referencing a table without foreign keys. Insertion might fail unless you use the Identity from item# generator.";
+            }
+            else
+            {
+                HasWarning = false;
+                WarningText = string.Empty;
+            }
         }
     }
 }

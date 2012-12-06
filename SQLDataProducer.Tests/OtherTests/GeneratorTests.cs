@@ -446,6 +446,30 @@ namespace SQLDataProducer.RandomTests
                 Assert.Greater(res.Duration, TimeSpan.Zero, "Duration should > 0");
             }
         }
+
+        [Test]
+        public void ShouldUseIdentityInsertIfRegularGeneratorSelected()
+        {
+            var wfm = new WorkflowManager();
+            var tda = new TableEntityDataAccess(Connection());
+            var options = new ExecutionTaskOptions();
+            var newPerson = tda.GetTableAndColumns("Person", "NewPerson");
+            var another = tda.GetTableAndColumns("Person", "AnotherTable");
+            var i1 = new ExecutionItem(newPerson);
+            var i2 = new ExecutionItem(another);
+            ExecutionItemCollection items = new ExecutionItemCollection();
+            items.Add(i1);
+            items.Add(i2);
+
+            var idCol = newPerson.Columns.First();
+            Assert.IsTrue(idCol.IsIdentity);
+
+            idCol.Generator = idCol.PossibleGenerators.Where(gen => gen.GeneratorName == Generators.Generator.GENERATOR_RandomInt).FirstOrDefault() ;
+            Assert.IsNotNull(idCol.Generator);
+
+            wfm.RunWorkFlow(options, Connection(), items);
+
+        }
     }
 }
 

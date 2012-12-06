@@ -91,8 +91,9 @@ namespace SQLDataProducer.ContinuousInsertion.Builders
                 for (int i = 0; i < ExecuteItem.TargetTable.Columns.Count; i++)
                 {
                     var col = ExecuteItem.TargetTable.Columns[i];
-                    if (col.IsIdentity)
-                        continue;
+                    
+                    //if (col.IsIdentity)
+                    //    continue;
 
                     string paramName = QueryBuilderHelper.GetParamName(rep, col);
                     // Add the parameter with no value, values will be added in the GenerateValues method
@@ -114,7 +115,8 @@ namespace SQLDataProducer.ContinuousInsertion.Builders
                 long N = getN();
 
                 ExecuteItem.TargetTable.GenerateValuesForColumns(N);
-                foreach (var col in ExecuteItem.TargetTable.Columns.Where(x => x.IsNotIdentity))
+                
+                foreach (var col in ExecuteItem.TargetTable.Columns)//.Where(x => x.IsNotIdentity))
                 {
                     string paramName = QueryBuilderHelper.GetParamName(rep, col);
                     Parameters[paramName].Value = col.PreviouslyGeneratedValue;

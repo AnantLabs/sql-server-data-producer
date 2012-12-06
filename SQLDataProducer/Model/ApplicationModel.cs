@@ -41,7 +41,7 @@ namespace SQLDataProducer.Model
             ExecutionItems = new ExecutionItemCollection();
             SelectedExecutionItem = ExecutionItems.FirstOrDefault();
 
-            //ExecutionItemsWithWarningsView = System.Windows.Data.CollectionViewSource.GetDefaultView(ExecutionItems);
+            ConnectionString = SQLDataProducerSettings.Default.ConnectionString;
 
             _executionItemsWithWarningsSource = new CollectionViewSource { Source = ExecutionItems };
             ExecutionItemsWithWarningsView = _executionItemsWithWarningsSource.View;
@@ -166,9 +166,9 @@ namespace SQLDataProducer.Model
                     HaveExecutionItemSelected = value != null;
                     
                     _currentExecutionItem = value;
-                    SelectedColumn = _currentExecutionItem.TargetTable.Columns.FirstOrDefault();
+                    if(_currentExecutionItem != null)
+                        SelectedColumn = _currentExecutionItem.TargetTable.Columns.FirstOrDefault();
                     OnPropertyChanged("SelectedExecutionItem");
-                    OnPropertyChanged("SelectedColumn");
                 }
             }
         }
@@ -203,10 +203,6 @@ namespace SQLDataProducer.Model
         {
             get
             {
-                if (string.IsNullOrEmpty(_connectionString))
-                {
-                    _connectionString = SQLDataProducerSettings.Default.ConnectionString;
-                }
                 return _connectionString;
             }
             set
