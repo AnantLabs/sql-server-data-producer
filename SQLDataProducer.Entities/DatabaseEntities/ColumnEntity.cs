@@ -412,12 +412,12 @@ namespace SQLDataProducer.Entities.DatabaseEntities
                 this.ColumnDataType.GetHashCode() ^
                 this.ColumnName.GetHashCode() ^
                 this.Constraints.GetHashCode() ^
-                this.Generator.GetHashCode() ^
+                //this.Generator.GetHashCode() ^
                 this.HasWarning.GetHashCode() ^
                 this.IsForeignKey.GetHashCode() ^
                 this.IsIdentity.GetHashCode() ^
                 this.OrdinalPosition.GetHashCode() ^
-                this.PossibleGenerators.GetHashCode() ^
+                //this.PossibleGenerators.GetHashCode() ^
                 this.WarningText.GetHashCode();
         }
 

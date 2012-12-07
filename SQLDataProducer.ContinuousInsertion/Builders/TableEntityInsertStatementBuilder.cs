@@ -77,9 +77,19 @@ namespace SQLDataProducer.ContinuousInsertion.Builders
             FillParameterCollection();
 
             StringBuilder sb = new StringBuilder();
+
+            if (ExecuteItem.TargetTable.Columns.Any(col => col.IsIdentity && col.Generator.GeneratorName != SQLDataProducer.Entities.Generators.Generator.GENERATOR_IdentityFromSqlServerGenerator))
+                sb.AppendLine(string.Format("SET IDENTITY_INSERT {0} ON;", ExecuteItem.TargetTable.ToString()));
+
             TableQueryBuilder.AppendSqlScriptPartOfStatement(ExecuteItem.TargetTable, sb);
             ExecutionItemQueryBuilder.AppendInsertPartOfStatement(ExecuteItem, sb);
             ExecutionItemQueryBuilder.AppendValuePartOfInsertStatement(ExecuteItem, sb);
+
+
+            if (ExecuteItem.TargetTable.Columns.Any(col => col.IsIdentity && col.Generator.GeneratorName != SQLDataProducer.Entities.Generators.Generator.GENERATOR_IdentityFromSqlServerGenerator))
+                sb.AppendLine(string.Format("SET IDENTITY_INSERT {0} OFF;", ExecuteItem.TargetTable.ToString()));
+
+            
             _insertStatement = sb.ToString();
          
         }

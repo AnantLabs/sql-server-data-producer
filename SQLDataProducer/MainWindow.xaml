@@ -17,71 +17,54 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:me="clr-namespace:SQLDataProducer.ViewModels"
         xmlns:conv="clr-namespace:SQLDataProducer.Converters"
+            xmlns:uc="clr-namespace:SQLDataProducer.Controls"
         Title="SQL Server Data Producer"
         WindowState="Maximized"
         >
     <Window.Resources>
         <conv:VisibilityConverter x:Key="visiConv" />
         <conv:ProgressConverter x:Key="progStateConv" />
+        
     </Window.Resources>
+    <Window.InputBindings>
+        <KeyBinding 
+             Command="{Binding SidePanelVM.ConfigureAndRunExecutionCommand}" 
+             Gesture="F5" />
+        <KeyBinding 
+             Command="{Binding SidePanelVM.StopExecutionCommand}" 
+             Gesture="ESC" />
+        <KeyBinding 
+             Command="{Binding ShowHelpWindoCommand}" 
+             Gesture="F1" />
+    </Window.InputBindings>
     <Window.TaskbarItemInfo>
-        <TaskbarItemInfo Description="An app with a taskbar info description"
+        <TaskbarItemInfo Description="SQL Data Producer"
                      ProgressValue="{Binding Model.Options.PercentCompleted}" ProgressState="{Binding Model.IsQueryRunning, Converter={StaticResource ResourceKey=progStateConv}}"/>
     </Window.TaskbarItemInfo>
     <Grid>
         <Grid.ColumnDefinitions>
-            
+            <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="30" />
-            <RowDefinition Height="2" />
-            <RowDefinition Height="400" />
-            <RowDefinition Height="400*" />
+            <RowDefinition Height="40" />
+            <RowDefinition Height="*" />
+            <!--<RowDefinition Height="400" />
+            <RowDefinition Height="400*" />-->
         </Grid.RowDefinitions>
 
-        <ToolBar Grid.Row="0" Grid.ColumnSpan="2">
-            <Button Command="{Binding SaveCommand}" IsEnabled="{Binding Model.HavePendingChanges}">Save</Button>
-            <Button Command="{Binding LoadCommand}">Load</Button>
-
-            <Button Content="Select Connection ..." Margin="3 3 3 3" Padding="5 0 5 0" Command="{Binding OpenSqlConnectionBuilderCommand}" />
-            <Button Content="Analyze DB" Margin="3 3 3 3" Padding="5 0 5 0" Command="{Binding LoadTablesCommand}" />
-            <TextBlock  Text="{Binding Model.ConnectionString, Mode=TwoWay}" Margin="5 3 5 3" MinWidth="50" Background="GhostWhite" />
-
-            <Button DataContext="{Binding SidePanelVM}" Content="Configure and Run..." Command="{Binding ConfigureAndRunExecutionCommand}" Padding="5 0 5 0" IsEnabled="{Binding Model.IsExecutionIdle}"/>
-            <Button Command="{Binding RunCommand, Mode=OneWay}">
-                <StackPanel Orientation="Horizontal">
-                <Image Source="/SQLDataProducer;component/Styles/icons/1351612468_4.png" Height="20" />
-                </StackPanel>
-            </Button>
-            <Button DataContext="{Binding SidePanelVM}" Command="{Binding StopExecutionCommand}" IsEnabled="{Binding Model.IsQueryRunning}" Padding="5 0 5 0" >
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="/SQLDataProducer;component/Styles/icons/1351611927_33.png" Width="20" Height="20" Margin="3 0 3 0" />
-                    <TextBlock Text="Stop" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </StackPanel>
-            </Button>
-            <ProgressBar
-                 DataContext="{Binding SidePanelVM}"
-                    Visibility="{Binding Model.IsQueryRunning, Converter={StaticResource ResourceKey=visiConv}}" 
-                    Height="22"
-                    Width="100"
-                    Padding="5 0 5 0" 
-                   
-                    Maximum="1" 
-                    Minimum="0"
-                    LargeChange="0.1"
-                    SmallChange="0.01"
-                    Value="{Binding Model.Options.PercentCompleted}" 
-                />
-
-        </ToolBar>
+        <uc:MainMenuControl DataContext="{Binding .}"  
+                            Grid.Row="0" 
+                            Grid.ColumnSpan="2" />
         
         <my:ExecutionOrderView DataContext="{Binding ExecutionOrderVM}"
-                                Grid.Row="2"
-                                IsEnabled="{Binding Model.IsExecutionIdle}" />
+                               Grid.Row="1"
+                               Grid.Column="0"
+                               IsEnabled="{Binding Model.IsExecutionIdle}" />
 
         <my:ExecutionDetailsView DataContext="{Binding ExecutionDetailsVM}"
-                                  Grid.Row="3"
+                                 Grid.Row="1"
+                                 Grid.Column="1"
                                  IsEnabled="{Binding Model.IsExecutionIdle}" />
      
     </Grid>

@@ -136,6 +136,7 @@ namespace SQLDataProducer.Entities.DatabaseEntities
         internal TableEntity Clone()
         {
             var t = new TableEntity(this.TableSchema, this.TableName);
+            t.HasIdentityColumn = this.HasIdentityColumn;
             t.Columns = this.Columns.Clone();
             t.RefreshWarnings();
             return t;
@@ -284,7 +285,7 @@ namespace SQLDataProducer.Entities.DatabaseEntities
 
         public override int GetHashCode()
         {
-            return
+            return 
                 // this.Columns.GetHashCode() ^
                  this.HasIdentityColumn.GetHashCode() ^
                  this.HasWarning.GetHashCode() ^

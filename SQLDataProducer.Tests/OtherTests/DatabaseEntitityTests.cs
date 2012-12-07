@@ -271,12 +271,39 @@ namespace SQLDataProducer.RandomTests
                 Assert.IsTrue(z.Equals(x) && z.Equals(y));
                 Assert.IsTrue(y.Equals(x) && y.Equals(z));
 
+                Assert.IsTrue(object.Equals(x, y));
+                Assert.IsTrue(object.Equals(x, z));
+
+                Assert.IsTrue(object.Equals(y, x));
+                Assert.IsTrue(object.Equals(y, z));
+
+                Assert.IsTrue(object.Equals(z, y));
+                Assert.IsTrue(object.Equals(z, x));
+
             }
             {
                 TableEntity x = new TableEntity("Person", "Person");
                 TableEntity z = new TableEntity("Person", "Contact");
                 TableEntity y = new TableEntity("Person", "Customer");
 
+                // All are different
+                AssertEqualsDefaultBehaviour(x, z, y);
+
+                Assert.IsFalse(x.Equals(y) && x.Equals(z));
+                Assert.IsFalse(z.Equals(x) && z.Equals(y));
+                Assert.IsFalse(y.Equals(x) && y.Equals(z));
+            }
+            {
+                TableEntity x = new TableEntity("Person", "Person");
+                TableEntity z = new TableEntity("Person", "Person");
+                TableEntity y = new TableEntity("Person", "Person");
+
+                x.Columns.Add(DatabaseEntityFactory.CreateColumnEntity("id", new ColumnDataTypeDefinition("int", false), true, 1, false, "", null));
+                
+                z.Columns.Add(DatabaseEntityFactory.CreateColumnEntity("id", new ColumnDataTypeDefinition("int", false), true, 1, true, "", new ForeignKeyEntity()));
+                
+                y.Columns.Add(DatabaseEntityFactory.CreateColumnEntity("id", new ColumnDataTypeDefinition("int", false), false, 1, false, "", null));
+                
                 // All are different
                 AssertEqualsDefaultBehaviour(x, z, y);
 

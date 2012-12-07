@@ -18,11 +18,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:me="clr-namespace:SQLDataProducer.ViewModels"
-           
+             
              xmlns:System="clr-namespace:System;assembly=mscorlib"
              xmlns:enums="clr-namespace:SQLDataProducer.Entities;assembly=SQLDataProducer.Entities"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300"
+             d:DesignHeight="300" d:DesignWidth="800"
              >
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="visiConv" />
@@ -59,7 +59,7 @@
                 </Setter.Value>
             </Setter>
             <Setter Property="IsEnabled" Value="True" />
-            
+
             <Style.Triggers>
                 <!--<DataTrigger Binding="{Binding ParameterName}" Value="DATE">
                     <Setter Property="Content">
@@ -90,33 +90,24 @@
 
         <GroupBox Grid.Row="0" Grid.Column="0">
             <StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <Label Content="Execution Item Description:" FontSize="11" />
+                <GroupBox Header="Execution Item Description:" FontSize="11" >
                     <TextBox Text="{Binding Model.SelectedExecutionItem.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-
-                    <Label Content="Number of insertions for this item:" FontSize="11" />
+                </GroupBox>
+                <GroupBox Header="Number of insertions for this item:" FontSize="11" >
                     <TextBox Text="{Binding Model.SelectedExecutionItem.RepeatCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                </StackPanel>
+                </GroupBox>
             </StackPanel>
 
         </GroupBox>
-        <GroupBox Header="Options" Grid.Column="1">
+  
+        <GroupBox Header="Conditional Insert?" Grid.Column="1">
             <StackPanel>
-                <!--<CheckBox Content="Truncate Table before execution" IsChecked="{Binding SelectedExecutionItem.TruncateBeforeExecution, Mode=TwoWay}" />-->
-                <GroupBox Header="Conditional Insert?">
-                    <StackPanel>
-                        <ComboBox ItemsSource="{Binding Source={StaticResource executionConditionEnum}}"
+                <ComboBox ItemsSource="{Binding Source={StaticResource executionConditionEnum}}"
                             SelectedItem="{Binding Model.SelectedExecutionItem.ExecutionCondition, Mode=TwoWay}" />
-                        <TextBox Text="{Binding Model.SelectedExecutionItem.ExecutionConditionValue, Mode= TwoWay}" />
-                    </StackPanel>
-                </GroupBox>
+                <TextBox Text="{Binding Model.SelectedExecutionItem.ExecutionConditionValue, Mode= TwoWay}" />
 
-
-                <!--<CheckBox Content="Use Identity Insert on this table" 
-                          IsChecked="{Binding Model.SelectedExecutionItem.UseIdentityInsert, Mode=TwoWay}" 
-                          IsEnabled="{Binding Model.SelectedExecutionItem.TargetTable.HasIdentityColumn}" />-->
-                
-                
+                <CheckBox Content="Disable Constraints" IsChecked="{Binding Model.SelectedExecutionItem.DisableConstraints, Mode=TwoWay}" IsEnabled="False" />
+                <CheckBox Content="Truncate Table before execution" IsChecked="{Binding Model.SelectedExecutionItem.TruncateBeforeExecution, Mode=TwoWay}" IsEnabled="False" />
             </StackPanel>
         </GroupBox>
         
@@ -139,7 +130,6 @@
                     <ColumnDefinition Width="50*" />
                 </Grid.ColumnDefinitions>
 
-
                 <DataGrid ItemsSource="{Binding Path=Model.SelectedExecutionItem.TargetTable.Columns, Mode=OneWay}" 
                             Grid.Row="0" 
                             Grid.RowSpan="2" 
@@ -155,7 +145,7 @@
                         <DataGridTextColumn Binding="{Binding ColumnDataType}" Header="Data Type" IsReadOnly="True" />
                         <DataGridCheckBoxColumn IsReadOnly="True" Binding="{Binding ColumnDataType.IsNullable}" Header="Nullable?" />
 
-                        <DataGridTemplateColumn>
+                        <DataGridTemplateColumn CanUserResize="False">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Image 
@@ -169,9 +159,6 @@
                                 <DataTemplate>
                                     <StackPanel>
                                         <TextBlock Text="{Binding Generator.GeneratorName}" Height="25" />
-                                        <!--Visibility="{Binding Path=IsNotIdentity,ConverterParameter=IsNotIdentity, Converter={StaticResource ResourceKey=visiConv}}"-->
-                                        <!--<TextBlock Visibility="{Binding Path=IsIdentity,ConverterParameter=IsIdentity, Converter={StaticResource ResourceKey=visiConv}}" 
-                                           Text="Identity" Height="25" />-->
                                     </StackPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
@@ -180,16 +167,15 @@
                                             Header="Has Constraints?" IsReadOnly="True"/>
                         <DataGridTextColumn Binding="{Binding Generator.GeneratorParameters.NiceString}" Width="*"
                                             Header="Parameters" IsReadOnly="True"/>
-                        
+
 
                     </DataGrid.Columns>
                 </DataGrid>
                 <GroupBox Header="Select Generator" Grid.Column="1" Grid.Row="0">
                     <ComboBox  
-                    ItemsSource="{Binding Model.SelectedColumn.PossibleGenerators}"
-                    SelectedItem="{Binding Model.SelectedColumn.Generator, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    
-                    Height="25" >
+                        ItemsSource="{Binding Model.SelectedColumn.PossibleGenerators}"
+                        SelectedItem="{Binding Model.SelectedColumn.Generator, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Height="25" >
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding GeneratorName}" />
@@ -197,7 +183,6 @@
                         </ComboBox.ItemTemplate>
                     </ComboBox>
                 </GroupBox>
-                <!--IsEnabled="{Binding Model.SelectedColumn.IsNotIdentity}"-->
 
                 <GroupBox Header="Configure the Parameters for the Generator" Grid.Column="1" Grid.Row="1">
                     <StackPanel>
@@ -225,12 +210,11 @@
                                                         HorizontalAlignment="Left" />-->
 
                                         <Button Content="Pick Column" Grid.Column="2"
-                                        Command="{Binding Path=DataContext.ConfigureReferenceParameterCommand, 
+                                                Command="{Binding Path=DataContext.ConfigureReferenceParameterCommand, 
                                                 RelativeSource={RelativeSource FindAncestor, 
                                                 AncestorType={x:Type ListBox}}}" 
-                                        CommandParameter="{Binding .}" 
-                                            
-                                            Style="{StaticResource ResourceKey=VisibleIfValueFromOtherColumnGenerator}"
+                                                CommandParameter="{Binding .}" 
+                                                Style="{StaticResource ResourceKey=VisibleIfValueFromOtherColumnGenerator}"
                                             >
                                         </Button>
 
@@ -238,7 +222,7 @@
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>
-                        <!--IsEnabled="{Binding Model.SelectedColumn.IsNotIdentity}"-->
+
                         <GroupBox Header="Generator Description" Margin="0 5 0 0">
                             <TextBlock Text="{Binding Model.SelectedColumn.Generator.GeneratorHelpText}" TextWrapping="Wrap" />
                         </GroupBox>

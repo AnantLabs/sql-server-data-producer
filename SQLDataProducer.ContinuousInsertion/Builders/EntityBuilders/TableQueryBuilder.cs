@@ -92,9 +92,7 @@ namespace SQLDataProducer.ContinuousInsertion.Builders.EntityBuilders
 
         public static void AppendInsertPartForTable(ExecutionItem ei, StringBuilder sb)
         {
-            if (ei.TargetTable.Columns.Any(col => col.IsIdentity && col.Generator.GeneratorName != SQLDataProducer.Entities.Generators.Generator.GENERATOR_IdentityFromSqlServerGenerator))
-                sb.AppendLine(string.Format("SET IDENTITY_INSERT {0} ON;", ei.TargetTable.ToString()));
-
+            
             sb.AppendFormat("INSERT {0}.{1} (", ei.TargetTable.TableSchema, ei.TargetTable.TableName);
             sb.AppendLine();
 
@@ -112,8 +110,7 @@ namespace SQLDataProducer.ContinuousInsertion.Builders.EntityBuilders
             }
 
             sb.Append(")");
-            if (ei.TargetTable.Columns.Any(col => col.IsIdentity && col.Generator.GeneratorName != SQLDataProducer.Entities.Generators.Generator.GENERATOR_IdentityFromSqlServerGenerator))
-                sb.AppendLine(string.Format("SET IDENTITY_INSERT {0} OFF;", ei.TargetTable.ToString()));
+            
 
         }
     }

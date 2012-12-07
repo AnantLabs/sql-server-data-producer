@@ -155,7 +155,7 @@ namespace SQLDataProducer.Entities.ExecutionEntities
         {
             TableEntity clonedTable = this.TargetTable.Clone();
 
-            var tabl = new TableEntity(clonedTable.TableSchema, clonedTable.TableName);
+            //var tabl = new TableEntity(clonedTable.TableSchema, clonedTable.TableName);
             var ei = new ExecutionItem(clonedTable);
             ei.Description = this.Description;
             ei.RepeatCount = this.RepeatCount;

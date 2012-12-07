@@ -192,27 +192,15 @@ namespace SQLDataProducer.Entities.Generators
             return gen;
         }
 
-        //private static Generator CreateIdentityInsertGenerator()
-        //{
-        //    Generator gen = new Generator(GENERATOR_IdentityInsertSequentialGenerator, (n, p) =>
-        //    {
-        //        return n;
-        //    }
-        //        , null);
-        //    return gen;
-        //}
-
         private static Generator CreateSqlServerIdentityGenerator()
         {
             Generator gen = new Generator(GENERATOR_IdentityFromSqlServerGenerator, (n, p) =>
             {
-                return "identity";
+                return "123467890";
             }
                 , null);
             return gen;
         }
-        
-
 
         [GeneratorMetaData(Generators.GeneratorMetaDataAttribute.GeneratorType.Integer)]
         private static Generator CreateIntUpCounter(long min, long max)
@@ -261,8 +249,6 @@ namespace SQLDataProducer.Entities.Generators
             };
               
             gen.GeneratorParameters = paramss;
-            //gen._isSqlQueryGenerator = true;
-            
             return gen;
         }
 

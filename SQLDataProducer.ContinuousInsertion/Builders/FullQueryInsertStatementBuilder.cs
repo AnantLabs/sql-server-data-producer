@@ -32,6 +32,11 @@ namespace SQLDataProducer.ContinuousInsertion.Builders
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("DECLARE @Identity_output bigint");
+            sb.AppendLine(@"SET NOCOUNT ON
+SET XACT_ABORT ON
+
+BEGIN TRANSACTION");
+
             // set the values
             foreach (var ei in items)
             {
@@ -41,7 +46,9 @@ namespace SQLDataProducer.ContinuousInsertion.Builders
                 ExecutionItemQueryBuilder.AppendValuePartOfInsertStatement(ei, sb);
             }
 
-            sb.AppendLine("GO");
+            sb.AppendLine(@"
+COMMIT
+GO");
             return sb.ToString();
         }
     }

@@ -23,6 +23,7 @@ using SQLDataProducer.ContinuousInsertion.Builders;
 using System.Collections.ObjectModel;
 using SQLDataProducer.ContinuousInsertion.DataAccess;
 using SQLDataProducer.Entities;
+using System.Transactions;
 
 namespace SQLDataProducer.ContinuousInsertion
 {
@@ -41,20 +42,24 @@ namespace SQLDataProducer.ContinuousInsertion
 
         public void DoOneExecution(Func<long> getN, SetCounter _rowInsertCounter, long executionCount)
         {
-            foreach (var b in _builders)
+            using (var tran = new TransactionScope())
             {
-                if (b.ExecuteItem.ShouldExecuteForThisN(executionCount))
+                foreach (var b in _builders)
                 {
-                    b.GenerateValues(getN);
-                    if (!b.ExecuteItem.TargetTable.HasIdentityColumn)
-                        _queryExecutor.ExecuteNonQuery(b.InsertStatement, b.Parameters);
-                    else
-                        b.ExecuteItem.TargetTable.Columns.Where( c => c.IsIdentity)
-                            .First()
-                            .PreviouslyGeneratedValue = _queryExecutor.ExecuteIdentity(b.InsertStatement, b.Parameters);
-                    
-                    _rowInsertCounter.Add(b.ExecuteItem.RepeatCount);
+                    if (b.ExecuteItem.ShouldExecuteForThisN(executionCount))
+                    {
+                        b.GenerateValues(getN);
+                        if (!b.ExecuteItem.TargetTable.HasIdentityColumn)
+                            _queryExecutor.ExecuteNonQuery(b.InsertStatement, b.Parameters);
+                        else
+                            b.ExecuteItem.TargetTable.Columns.Where(c => c.IsIdentity)
+                                .First()
+                                .PreviouslyGeneratedValue = _queryExecutor.ExecuteIdentity(b.InsertStatement, b.Parameters);
+
+                        _rowInsertCounter.Add(b.ExecuteItem.RepeatCount);
+                    }
                 }
+                tran.Complete();
             }
         }
 
