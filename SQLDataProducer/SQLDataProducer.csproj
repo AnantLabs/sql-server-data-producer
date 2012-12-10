@@ -98,6 +98,12 @@
     <Compile Include="Views\ConfigureReferenceGeneratorView.xaml.cs">
       <DependentUpon>ConfigureReferenceGeneratorView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ExecutionItemListView.xaml.cs">
+      <DependentUpon>ExecutionItemListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ExecutionItemOptionsView.xaml.cs">
+      <DependentUpon>ExecutionItemOptionsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ExecutionsOptionsView.xaml.cs">
       <DependentUpon>ExecutionsOptionsView.xaml</DependentUpon>
     </Compile>
@@ -158,6 +164,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ConfigureReferenceGeneratorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ExecutionItemListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ExecutionItemOptionsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

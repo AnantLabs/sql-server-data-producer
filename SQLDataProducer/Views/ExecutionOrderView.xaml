@@ -19,19 +19,18 @@
              xmlns:me="clr-namespace:SQLDataProducer.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="visiConv" />
     </UserControl.Resources>
-    
-        <Grid x:Name="OrderRoot">
+
+    <Grid x:Name="OrderRoot">
         <Grid.RowDefinitions>
             <RowDefinition Height="20" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="44" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
@@ -78,86 +77,10 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
-           
-        </DataGrid>
-
-
-        <DataGrid ItemsSource="{Binding Model.ExecutionItems}" 
-                    SelectedItem="{Binding Model.SelectedExecutionItem, Mode=TwoWay}" 
-                    Grid.Column="2"
-                    AutoGenerateColumns="False"          
-                    IsReadOnly="True"
-                    SelectionMode="Single"
-                    SelectionUnit="FullRow"
-                    ScrollViewer.VerticalScrollBarVisibility="Visible" Grid.RowSpan="2"
-                    Style="{DynamicResource ResourceKey=DataGridDemoStyle}"
-                  >
-
-            <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Path=Order}" Header="#"/>
-                <DataGridTextColumn Binding="{Binding Path=TargetTable.TableName}" Header="Table"/>
-                <DataGridTextColumn Binding="{Binding Path=Description}" Header="Description"/>
-                <DataGridTextColumn Binding="{Binding Path=RepeatCount}" Header="Insertsions"/>
-
-                <DataGridTemplateColumn>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Image 
-                                Source="/SQLDataProducer;component/Styles/Warning.png" Visibility="{Binding HasWarning, Converter={StaticResource ResourceKey=visiConv}}"  />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-
-                <DataGridTemplateColumn Header="Commands"  Width="*">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal" Grid.Column="4">
-                                <Button Content="Clone" 
-                                        Command="{Binding Path=DataContext.CloneExecutionItemCommand, 
-                                                RelativeSource={RelativeSource FindAncestor, 
-                                                AncestorType={x:Type DataGrid}}}" 
-                                        CommandParameter="{Binding .}" />
-
-                                <Button Content="As Root" 
-                                        Command="{Binding Path=DataContext.CreateTreeWithTableTableAsRootCommand, 
-                                                RelativeSource={RelativeSource FindAncestor, 
-                                                AncestorType={x:Type DataGrid}}}" 
-                                        CommandParameter="{Binding .TargetTable}" >
-                                </Button>
-
-                                <Button Content="As Leaf" 
-                                        Command="{Binding Path=DataContext.CreateTreeWithTableAsLeafCommand, 
-                                                RelativeSource={RelativeSource FindAncestor, 
-                                                AncestorType={x:Type DataGrid}}}" 
-                                        CommandParameter="{Binding .TargetTable}" />
-
-
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
-
-            
 
         </DataGrid>
 
 
-        <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="0,88,0,106" Grid.Row="1">
-            <Button Content="UP" Command="{Binding MoveItemUpCommand}" IsEnabled="{Binding Model.HaveExecutionItemSelected}" />
 
-            <Button Content="&lt;"  Command="{Binding MoveItemLeftCommand}" IsEnabled="{Binding Model.HaveExecutionItemSelected}" />
-            <Button Content="&gt;"  Command="{Binding MoveItemRightCommand}" IsDefault="True" IsEnabled="{Binding Model.IsTableSelected}" />
-
-            <Button Content="DOWN"  Command="{Binding MoveItemDownCommand}" IsEnabled="{Binding Model.HaveExecutionItemSelected}" />
-
-            <Button Content="> Root" Margin="0 15 0 0"  Command="{Binding CreateTreeWithTableTableAsRootCommand}" CommandParameter="{Binding Model.SelectedTable}" IsEnabled="{Binding Model.IsTableSelected}" />
-            <Button Content="> Leaf" Margin="0 15 0 0"  Command="{Binding CreateTreeWithTableAsLeafCommand}" CommandParameter="{Binding Model.SelectedTable}" IsEnabled="{Binding Model.IsTableSelected}" />
-
-        </StackPanel>
-        <StackPanel Grid.Column="1" VerticalAlignment="Bottom" Grid.Row="1">
-            <Button Content="Add all" Command="{Binding MoveAllItemsRightCommand}" IsEnabled="{Binding Model.Tables.IsContainingData}"  />
-            <Button Content="Clear!"  Command="{Binding MoveAllItemsLeftCommand}"  IsEnabled="{Binding Model.ExecutionItems.IsContainingData}" />
-        </StackPanel>
     </Grid>
 </UserControl>

@@ -79,7 +79,6 @@
 
     <Grid IsEnabled="{Binding Model.HaveExecutionItemSelected}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="100" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -88,36 +87,7 @@
             <ColumnDefinition Width="50*" />
         </Grid.ColumnDefinitions>
 
-        <GroupBox Grid.Row="0" Grid.Column="0">
-            <StackPanel>
-                <GroupBox Header="Execution Item Description:" FontSize="11" >
-                    <TextBox Text="{Binding Model.SelectedExecutionItem.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                </GroupBox>
-                <GroupBox Header="Number of insertions for this item:" FontSize="11" >
-                    <TextBox Text="{Binding Model.SelectedExecutionItem.RepeatCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                </GroupBox>
-            </StackPanel>
-
-        </GroupBox>
-  
-        <GroupBox Header="Conditional Insert?" Grid.Column="1">
-            <StackPanel>
-                <ComboBox ItemsSource="{Binding Source={StaticResource executionConditionEnum}}"
-                            SelectedItem="{Binding Model.SelectedExecutionItem.ExecutionCondition, Mode=TwoWay}" />
-                <TextBox Text="{Binding Model.SelectedExecutionItem.ExecutionConditionValue, Mode= TwoWay}" />
-
-                <CheckBox Content="Disable Constraints" IsChecked="{Binding Model.SelectedExecutionItem.DisableConstraints, Mode=TwoWay}" IsEnabled="False" />
-                <CheckBox Content="Truncate Table before execution" IsChecked="{Binding Model.SelectedExecutionItem.TruncateBeforeExecution, Mode=TwoWay}" IsEnabled="False" />
-            </StackPanel>
-        </GroupBox>
-        
-        <GroupBox Grid.Column="2" Header="Commands">
-            <StackPanel>
-                <Button Content="Show Preview" 
-                        Command="{Binding ShowPreviewCommand, Mode=OneWay}" 
-                        CommandParameter="{Binding Model.SelectedExecutionItem, Mode=TwoWay}" />
-            </StackPanel>
-        </GroupBox>
+       
 
         <GroupBox Grid.Row="1" Grid.ColumnSpan="3">
             <Grid >

@@ -1,4 +1,4 @@
-﻿China[7]
+﻿China
 India
 United States
 Indonesia
@@ -17,7 +17,7 @@ Egypt
 Iran
 Turkey
 Democratic Republic of the Congo
-France[8]
+France
 Thailand
 United Kingdom
 Italy
@@ -47,7 +47,7 @@ Yemen
 Afghanistan
 Ghana
 North Korea
-Taiwan[9]
+Taiwan
 Mozambique
 Australia
 Syria
@@ -85,7 +85,7 @@ Hungary
 Sweden
 Belarus
 Dominican Republic
-Somalia[10]
+Somalia
 Azerbaijan
 Benin
 Austria
@@ -98,7 +98,7 @@ Israel
 Tajikistan
 Bulgaria
 Serbia
-Hong Kong (China)[11]
+Hong Kong
 Papua New Guinea
 Laos
 Libya
@@ -121,7 +121,7 @@ Central African Republic
 Georgia
 New Zealand
 Costa Rica
-Palestinian territories[12]
+Palestinian territories
 Croatia
 Lebanon
 Republic of the Congo
@@ -164,7 +164,7 @@ Bhutan
 Equatorial Guinea
 Comoros
 Montenegro
-Macau (China)[13]
+Macau (China)
 Solomon Islands
 Western Sahara
 Suriname
@@ -217,7 +217,7 @@ Saint Martin (France)
 Liechtenstein
 Monaco
 San Marino
-Gibraltar (UK)[14]
+Gibraltar (UK)
 Åland Islands (Finland)
 British Virgin Islands (UK)
 Caribbean Netherlands (the Netherlands)
