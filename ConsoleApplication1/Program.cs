@@ -33,10 +33,10 @@ namespace TestConsoleApplication
             //var t = new GeneratorTests();
             //t.ShouldGenerate_Long_RandomInt();
 
-            var t = new RandomTests();
-            t.ShouldGenerateValuesAndInsertStatementsForAllTables();
-            //var et = new DatabaseEntitityTests();
-            //et.ShouldBeAbleToCompareExecutionItems();
+            //var t = new RandomTests();
+            //t.ShouldGenerateValuesAndInsertStatementsForAllTables();
+            var et = new DatabaseEntitityTests();
+            et.ShouldBeAbletoCloneExecutionItem();
             //et.ShouldBeAbleToCompareTables();
             //et.ShouldBeAbletoCloneExecutionItem();
 
