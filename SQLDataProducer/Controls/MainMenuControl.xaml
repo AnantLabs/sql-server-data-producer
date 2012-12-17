@@ -64,38 +64,6 @@
                 <MenuItem Header="About..." />
             </MenuItem>
         </Menu>
-        <ToolBar Height="25">
-            <Button Command="{Binding SaveCommand}" IsEnabled="{Binding Model.HavePendingChanges}">Save</Button>
-            <Button Command="{Binding LoadCommand}">Load</Button>
-
-            <Button Content="Select Connection ..." Command="{Binding OpenSqlConnectionBuilderCommand}" />
-            <Button Content="Analyze DB" Command="{Binding LoadTablesCommand}" />
-            <TextBlock  Text="{Binding Model.ConnectionString, Mode=TwoWay}" MinWidth="50" Background="GhostWhite" />
-
-            <Button DataContext="{Binding SidePanelVM}" Content="Configure and Run..." Command="{Binding ConfigureAndRunExecutionCommand}" IsEnabled="{Binding Model.IsExecutionIdle}"/>
-            <Button Command="{Binding RunCommand, Mode=OneWay}">
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="/SQLDataProducer;component/Styles/icons/1351612468_4.png"  />
-                </StackPanel>
-            </Button>
-            <Button DataContext="{Binding SidePanelVM}" Command="{Binding StopExecutionCommand}" IsEnabled="{Binding Model.IsQueryRunning}" >
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="/SQLDataProducer;component/Styles/icons/1351611927_33.png" Width="20"  />
-                    <TextBlock Text="Stop" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </StackPanel>
-            </Button>
-            <ProgressBar
-                 DataContext="{Binding SidePanelVM}"
-                    Visibility="{Binding Model.IsQueryRunning, Converter={StaticResource ResourceKey=visiConv}}" 
-                    Height="Auto"
-                    Width="100"                  
-                    Maximum="1" 
-                    Minimum="0"
-                    LargeChange="0.1"
-                    SmallChange="0.01"
-                    Value="{Binding Model.Options.PercentCompleted}" 
-                />
-
-        </ToolBar>
+        
     </StackPanel>
 </UserControl>

@@ -73,7 +73,7 @@
         </Style>
 
     </UserControl.Resources>
-    <Grid>
+    <Grid  IsEnabled="{Binding Model.HaveExecutionItemSelected}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="25*" />
             <ColumnDefinition Width="25*" />

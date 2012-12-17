@@ -65,6 +65,9 @@
     <Compile Include="Controls\MainMenuControl.xaml.cs">
       <DependentUpon>MainMenuControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ProjectMenuControl.xaml.cs">
+      <DependentUpon>ProjectMenuControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Converters\ProgressConverter.cs" />
     <Compile Include="Converters\VisibilityConverter.cs" />
@@ -123,6 +126,10 @@
       <DependentUpon>ExecutionOrderView.xaml</DependentUpon>
     </Compile>
     <Page Include="Controls\MainMenuControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ProjectMenuControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

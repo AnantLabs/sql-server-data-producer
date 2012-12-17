@@ -11,21 +11,21 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.-->
-    
-    <Window 
+
+<Window 
         xmlns:my="clr-namespace:SQLDataProducer.Views"  x:Class="SQLDataProducer.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:me="clr-namespace:SQLDataProducer.ViewModels"
         xmlns:conv="clr-namespace:SQLDataProducer.Converters"
-            xmlns:uc="clr-namespace:SQLDataProducer.Controls"
+        xmlns:uc="clr-namespace:SQLDataProducer.Controls"
         Title="SQL Server Data Producer"
         WindowState="Maximized"
         >
     <Window.Resources>
         <conv:VisibilityConverter x:Key="visiConv" />
         <conv:ProgressConverter x:Key="progStateConv" />
-        
+
     </Window.Resources>
     <Window.InputBindings>
         <KeyBinding 
@@ -38,50 +38,70 @@
              Command="{Binding ShowHelpWindoCommand}" 
              Gesture="F1" />
     </Window.InputBindings>
+
     <Window.TaskbarItemInfo>
         <TaskbarItemInfo Description="SQL Data Producer"
-                     ProgressValue="{Binding Model.Options.PercentCompleted}" ProgressState="{Binding Model.IsQueryRunning, Converter={StaticResource ResourceKey=progStateConv}}"/>
+                         ProgressValue="{Binding Model.Options.PercentCompleted}" 
+                         ProgressState="{Binding Model.IsQueryRunning, Converter={StaticResource ResourceKey=progStateConv}}"/>
     </Window.TaskbarItemInfo>
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="40" />
-            <RowDefinition Height="30*" />
-            <RowDefinition Height="50*" />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <uc:MainMenuControl DataContext="{Binding .}"  
-                            Grid.Row="0" 
+                            Grid.Row="0"
+                            />
+
+        <TabControl Grid.Row="1">
+            <TabItem Header="Project 1">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="30*" />
+                        <RowDefinition Height="50*" />
+                    </Grid.RowDefinitions>
+
+                    <uc:ProjectMenuControl DataContext="{Binding .}"  
+                            Grid.Row="0"
                             Grid.ColumnSpan="4"
                             />
-        
-        <my:ExecutionOrderView DataContext="{Binding ExecutionOrderVM}"
+
+                    <my:ExecutionOrderView DataContext="{Binding ExecutionOrderVM}"
                                Grid.Row="1"
                                Grid.Column="0"
                                Grid.RowSpan="2"
                                IsEnabled="{Binding Model.IsExecutionIdle}" />
-        
-        <my:ExecutionItemListView DataContext="{Binding ExecutionOrderVM}"
+
+                    <my:ExecutionItemListView DataContext="{Binding ExecutionOrderVM}"
                                   Grid.Row="1"
                                   Grid.Column="1"
                                   IsEnabled="{Binding Model.IsExecutionIdle}" />
 
-        <my:ExecutionDetailsView DataContext="{Binding ExecutionDetailsVM}"
+                    <my:ExecutionDetailsView DataContext="{Binding ExecutionDetailsVM}"
                                  Grid.Row="2"
                                  Grid.Column="1"
                                  Grid.ColumnSpan="3"
                                  IsEnabled="{Binding Model.IsExecutionIdle}" />
 
-        <my:ExecutionItemOptionsView DataContext="{Binding ExecutionDetailsVM}"
+                    <my:ExecutionItemOptionsView DataContext="{Binding ExecutionDetailsVM}"
                                      Grid.Column="2"
                                      Grid.ColumnSpan="2"
                                      Grid.Row="1"
                                      IsEnabled="{Binding Model.IsExecutionIdle}" />
-     
+
+                </Grid>
+            </TabItem>
+            <TabItem Header="Project 2">
+                <TextBlock>Tbd</TextBlock>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>

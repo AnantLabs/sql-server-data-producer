@@ -29,11 +29,11 @@ using System.Windows.Shapes;
 namespace SQLDataProducer.Controls
 {
     /// <summary>
-    /// Interaction logic for MainMenuControl.xaml
+    /// Interaction logic for ProjectMenuControl.xaml
     /// </summary>
-    public partial class MainMenuControl : UserControl
+    public partial class ProjectMenuControl : UserControl
     {
-        public MainMenuControl()
+        public ProjectMenuControl()
         {
             InitializeComponent();
         }

@@ -24,7 +24,7 @@
         <BooleanToVisibilityConverter x:Key="visiConv" />
     </UserControl.Resources>
     
-    <Grid x:Name="OrderRoot">
+    <Grid x:Name="OrderRoot" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="20" />
                 <RowDefinition Height="*" />
@@ -97,7 +97,7 @@
         </DataGrid>
 
 
-        <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="0,88,0,106" Grid.Row="1">
+        <StackPanel Grid.Column="1" VerticalAlignment="Center" Grid.Row="1">
             <Button Content="UP" Command="{Binding MoveItemUpCommand}" IsEnabled="{Binding Model.HaveExecutionItemSelected}" />
 
             <Button Content="&lt;"  Command="{Binding MoveItemLeftCommand}" IsEnabled="{Binding Model.HaveExecutionItemSelected}" />
