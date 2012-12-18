@@ -46,6 +46,9 @@
 
   <Text generatorName="Identity From SQL Server">This column is IDENTITY and will get it's value generated automatically by SQL Server</Text>
   <Text generatorName="Sequential Identity Insert">Inserted Identity will have N as value.</Text>
+  <Text generatorName="Static Decimal Number">Static decimal number that you specify.</Text>
   
+
+
 </HelpTexts>
 

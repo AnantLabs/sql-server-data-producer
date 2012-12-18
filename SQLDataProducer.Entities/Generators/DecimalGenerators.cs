@@ -22,9 +22,12 @@ namespace SQLDataProducer.Entities.Generators
     {
         public static readonly string GENERATOR_RandomDecimal = "Random Decimal";
         public static readonly string GENERATOR_CountingUpDecimal = "Counting up Decimal";
+        public static readonly string GENERATOR_StaticNumberDecimal = "Static Decimal Number";
+
         public static ObservableCollection<Generator> GetDecimalGenerators(decimal maxValue)
         {
             ObservableCollection<Generator> valueGenerators = new ObservableCollection<Generator>();
+            valueGenerators.Add(CreateStaticDecimalNumberGenerator());
             valueGenerators.Add(CreateDecimalUpCounter(maxValue));
             valueGenerators.Add(CreateQueryGenerator());
             valueGenerators.Add(CreateRandomDecimalGenerator(maxValue));
@@ -75,7 +78,23 @@ namespace SQLDataProducer.Entities.Generators
                 , paramss);
             return gen;
         }
-
+        
+        [GeneratorMetaData(Generators.GeneratorMetaDataAttribute.GeneratorType.Decimal)]
+        private static Generator CreateStaticDecimalNumberGenerator()
+        {
+            GeneratorParameterCollection paramss = new GeneratorParameterCollection();
+            paramss.Add(new GeneratorParameter("Static Decimal Value", 0.0));
+            
+            Generator gen = new Generator(GENERATOR_StaticNumberDecimal, (n, p) =>
+            {
+                decimal value = decimal.Parse(GetParameterByName(p, "Static Decimal Value").ToString().Replace(".", ","));
+                
+                return value;
+            }
+                , paramss);
+            return gen;
+        }
+        
                 
     }
 }
