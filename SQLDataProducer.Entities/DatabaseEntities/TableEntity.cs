@@ -19,11 +19,12 @@ using SQLDataProducer.Entities;
 using System.Linq;
 using System.Text;
 using SQLDataProducer.Entities.ExecutionEntities;
+using System.Xml.Linq;
 
 
 namespace SQLDataProducer.Entities.DatabaseEntities
 {
-    public class TableEntity : EntityBase, IEquatable<TableEntity>, IXmlSerializable
+    public class TableEntity : EntityBase, IEquatable<TableEntity> 
     {
 
         //public static event TableWithForeignKeyInsertedRowEventHandler ForeignKeyGenerated = delegate { };
@@ -145,25 +146,12 @@ namespace SQLDataProducer.Entities.DatabaseEntities
        
 
         #region XML Serialize
-        public System.Xml.Schema.XmlSchema GetSchema()
-        {
-            throw new NotImplementedException();
-        }
 
-        public void ReadXml(System.Xml.XmlReader reader)
+        public void ReadXml(XElement xe)
         {
-            this.TableSchema = reader.GetAttribute("TableSchema");
-            this.TableName = reader.GetAttribute("TableName");
-
-            if (reader.ReadToDescendant("Columns"))
-            {
-                while (reader.Read() && reader.MoveToContent() == System.Xml.XmlNodeType.Element && reader.LocalName == "Column")
-                {
-                    ColumnEntity col = new ColumnEntity();
-                    col.ReadXml(reader);
-                    this.Columns.Add(col);
-                }
-            }
+            this.TableSchema = xe.Attribute("TableSchema").Value;
+            this.TableName = xe.Attribute("TableName").Value;
+            this.Columns.ReadXml(xe.Element("Columns"));
         }
 
         public void WriteXml(System.Xml.XmlWriter writer)

@@ -16,13 +16,14 @@ using System;
 using System.Collections.ObjectModel;
 using System.Xml.Serialization;
 using System.Collections.Generic;
+using System.Xml.Linq;
 
 namespace SQLDataProducer.Entities.ExecutionEntities
 {
     /// <summary>
     /// Collection of Execution Items. To be used to group the execution of ExecutionItems. The collection can have options that each execution should use.
     /// </summary>
-    public class ExecutionItemCollection : ObservableCollection<ExecutionItem>, IXmlSerializable
+    public class ExecutionItemCollection : ObservableCollection<ExecutionItem> 
     {
 
         public ExecutionItemCollection()
@@ -81,24 +82,14 @@ namespace SQLDataProducer.Entities.ExecutionEntities
                 Add(item);
             }
         }
-               
-        public System.Xml.Schema.XmlSchema GetSchema()
-        {
-            throw new NotImplementedException();
-        }
 
-        public void ReadXml(System.Xml.XmlReader reader)
+        public void ReadXml(XDocument doc)
         {
-            if (reader.MoveToContent() == System.Xml.XmlNodeType.Element && reader.LocalName == "ExecutionItemCollection")
+            foreach (var ei in doc.Descendants("ExecutionItem"))
             {
-                while (reader.ReadToFollowing("ExecutionItem"))
-                {
-                    ExecutionItem i = new ExecutionItem();
-                    i.ReadXml(reader);
-                    Items.Add(i);
-
-                }
-
+                ExecutionItem i = new ExecutionItem();
+                i.ReadXml(ei);
+                Items.Add(i);
             }
         }
 

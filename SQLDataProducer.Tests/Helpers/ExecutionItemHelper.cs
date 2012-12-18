@@ -81,8 +81,19 @@ namespace SQLDataProducer.RandomTests.Helpers
             ei.Description = "Peters exec item with none default values";
             ei.ExecutionCondition = Entities.ExecutionConditions.GreaterThan;
             ei.ExecutionConditionValue = 7;
+            ei.RepeatCount = 66;
             ei.TruncateBeforeExecution = true;
             ei.UseIdentityInsert = true;
+        }
+
+        internal static void SetSomeParameters(ExecutionItemCollection execItems)
+        {
+            var generatorParameters = execItems.SelectMany(x => x.TargetTable.Columns).SelectMany(y => y.PossibleGenerators).SelectMany(z => z.GeneratorParameters);
+
+            foreach (var parr in generatorParameters) 
+            {
+                parr.Value = "12345678901234567890";
+            }
         }
     }
 }

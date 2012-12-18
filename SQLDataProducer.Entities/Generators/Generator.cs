@@ -24,7 +24,7 @@ using SQLDataProducer.Entities.DatabaseEntities;
 
 namespace SQLDataProducer.Entities.Generators
 {
-    public partial class Generator : INotifyPropertyChanged, IXmlSerializable, IEquatable<Generator>
+    public partial class Generator : INotifyPropertyChanged , IEquatable<Generator>
     {
        
         protected ValueCreatorDelegate ValueGenerator { get; set; }
@@ -202,20 +202,12 @@ namespace SQLDataProducer.Entities.Generators
             return new Generator(this.GeneratorName, this.ValueGenerator, this.GeneratorParameters.Clone());
         }
 
-        public System.Xml.Schema.XmlSchema GetSchema()
-        {
-            throw new NotImplementedException();
-        }
 
-        public void ReadXml(System.Xml.XmlReader reader)
-        {
-            if (reader.ReadToDescendant("Generator"))
-            {
-                this.GeneratorName = reader.GetAttribute("GeneratorName");
-                this.GeneratorParameters.ReadXml(reader);
-                reader.ReadEndElement();
-            }
 
+        public void ReadXml(XElement xe)
+        {
+            this.GeneratorName = xe.Attribute("GeneratorName").Value;
+            this.GeneratorParameters.ReadXml(xe);
         }
 
         public void WriteXml(System.Xml.XmlWriter writer)
@@ -253,7 +245,7 @@ namespace SQLDataProducer.Entities.Generators
         {
             // TODO: Implament equals on the generator parameter collection
             return
-                //                this.GeneratorParameters.GetHashCode() ^
+                object.Equals(this.GeneratorParameters, other.GeneratorParameters) &&
                 this.IsSqlQueryGenerator == other.IsSqlQueryGenerator &&
                 this.GeneratorName == other.GeneratorName;
         }
@@ -261,7 +253,7 @@ namespace SQLDataProducer.Entities.Generators
         public override int GetHashCode()
         {
             return
-//                this.GeneratorParameters.GetHashCode() ^
+                this.GeneratorParameters.GetHashCode() ^
                 this.IsSqlQueryGenerator.GetHashCode() ^
                 this.GeneratorName.GetHashCode() 
                 ;

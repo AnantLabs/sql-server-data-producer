@@ -17,6 +17,7 @@ using SQLDataProducer.Entities.DatabaseEntities;
 using System.Xml.Serialization;
 using System.Linq;
 using System.Data;
+using System.Xml.Linq;
 
 namespace SQLDataProducer.Entities.ExecutionEntities
 {
@@ -24,7 +25,7 @@ namespace SQLDataProducer.Entities.ExecutionEntities
     /// <summary>
     /// An execution item is a table that have been configured to get data generated.
     /// </summary>
-    public sealed class ExecutionItem : EntityBase, IXmlSerializable, IEquatable<ExecutionItem>
+    public sealed class ExecutionItem : EntityBase , IEquatable<ExecutionItem>
     {
         TableEntity _targetTable;
         /// <summary>
@@ -164,29 +165,20 @@ namespace SQLDataProducer.Entities.ExecutionEntities
             return ei;
         }
 
-        public System.Xml.Schema.XmlSchema GetSchema()
+        public void ReadXml(XElement xe)
         {
-            throw new NotImplementedException();
-        }
+            this.Description = xe.Attribute("Description").Value;
+            this.Order = int.Parse(xe.Attribute("Order").Value);
+            this.RepeatCount = int.Parse(xe.Attribute("RepeatCount").Value);
+            this.TruncateBeforeExecution = bool.Parse(xe.Attribute("TruncateBeforeExecution").Value);
+            this.UseIdentityInsert = bool.Parse(xe.Attribute("UseIdentityInsert").Value);
 
-        public void ReadXml(System.Xml.XmlReader reader)
-        {
-            this.Description = reader.GetAttribute("Description");
-            this.Order = reader.TryGetIntAttribute("Order", -1);
-            this.RepeatCount = reader.TryGetIntAttribute("RepeatCount", -1);
-            this.TruncateBeforeExecution = reader.TryGetBoolAttribute("TruncateBeforeExecution", false);
-            this.UseIdentityInsert = reader.TryGetBoolAttribute("UseIdentityInsert", false);
+            this.ExecutionCondition = (ExecutionConditions)Enum.Parse(typeof(ExecutionConditions), xe.Attribute("ExecutionCondition").Value);
+            this.ExecutionConditionValue = int.Parse(xe.Attribute("ExecutionConditionValue").Value);
 
-            this.ExecutionCondition = (ExecutionConditions)Enum.Parse(typeof(ExecutionConditions), reader.GetAttribute("ExecutionCondition").ToString());
-            this.ExecutionConditionValue = reader.TryGetIntAttribute("ExecutionConditionValue", -1);
-
-            if (reader.ReadToDescendant("Table"))
-            {
-                TableEntity table = new TableEntity();
-                table.ReadXml(reader);
-                this.TargetTable = table;
-            }
-
+            TableEntity table = new TableEntity();
+            table.ReadXml(xe.Element("Table"));
+            this.TargetTable = table;
         }
 
         public void WriteXml(System.Xml.XmlWriter writer)

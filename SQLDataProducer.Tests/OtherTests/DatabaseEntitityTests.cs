@@ -450,5 +450,12 @@ namespace SQLDataProducer.RandomTests
             Assert.IsTrue(newColumn.Equals(newColumn));
 
         }
+
+        [Test]
+        public void ShouldCompareParameterCollections()
+        {
+            
+            //Assert.AreEqual(originCol.PossibleGenerators, loadedCol.PossibleGenerators);
+        }
     }
 }

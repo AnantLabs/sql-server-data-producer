@@ -14,10 +14,11 @@
 
 using System;
 using System.Xml.Serialization;
+using System.Xml.Linq;
 
 namespace SQLDataProducer.Entities.Generators
 {
-    public class GeneratorParameter : EntityBase, IXmlSerializable
+    public class GeneratorParameter : EntityBase , IEquatable<GeneratorParameter>
     {
         string _paramName;
         [System.ComponentModel.ReadOnly(true)]
@@ -110,22 +111,13 @@ namespace SQLDataProducer.Entities.Generators
 
         }
 
-        //private Type ParamType { get; set; }
 
-
-
-        public System.Xml.Schema.XmlSchema GetSchema()
+        public void ReadXml(XElement xe)
         {
-            throw new NotImplementedException();
-        }
-
-        public void ReadXml(System.Xml.XmlReader reader)
-        {
-            reader.MoveToContent();
-            this.ParameterName = reader.GetAttribute("ParameterName");
-            this.Value = reader.GetAttribute("Value");
-            this.IsWriteEnabled = reader.TryGetBoolAttribute("IsWriteEnabled", true);
-            //reader.ReadEndElement();
+            this.ParameterName = xe.Attribute("ParameterName").Value;
+         // TODO: how to handle datatypes?
+            this.Value = xe.Attribute("Value").Value;
+            this.IsWriteEnabled = bool.Parse(xe.Attribute("IsWriteEnabled").Value);
         }
 
         public void WriteXml(System.Xml.XmlWriter writer)
@@ -135,6 +127,41 @@ namespace SQLDataProducer.Entities.Generators
             writer.WriteAttributeString("Value", this.Value.ToString());
             writer.WriteAttributeString("IsWriteEnabled", this.IsWriteEnabled.ToString());
             writer.WriteEndElement();
+        }
+
+
+        public override bool Equals(System.Object obj)
+        {
+            // If parameter cannot be casted return false:
+            GeneratorParameter p = obj as GeneratorParameter;
+            if ((object)p == null)
+                return false;
+
+            // Return true if the fields match:
+            return GetHashCode() == p.GetHashCode();
+        }
+
+        public bool Equals(GeneratorParameter other)
+        {
+            return
+                this.IsWriteEnabled == other.IsWriteEnabled &&
+                this.ParameterName == other.ParameterName;
+        }
+
+        public override int GetHashCode()
+        {
+            return
+                this.IsWriteEnabled.GetHashCode() ^
+                this.ParameterName.GetHashCode();
+        }
+
+        internal GeneratorParameter Clone()
+        {
+            var para = new GeneratorParameter(this.ParameterName, this.Value);
+            para.IsWriteEnabled = this.IsWriteEnabled;
+            para.DefaultValue = this.DefaultValue;
+
+            return para;
         }
     }
 }

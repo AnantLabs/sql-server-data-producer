@@ -19,11 +19,12 @@ using System.Collections.ObjectModel;
 using SQLDataProducer.Entities;
 using System.Xml.Serialization;
 using SQLDataProducer.Entities.DatabaseEntities;
+using System.Xml.Linq;
 
 
 namespace SQLDataProducer.Entities.DatabaseEntities
 {
-    public partial class ColumnEntity : EntityBase, IXmlSerializable, IEquatable<ColumnEntity>
+    public partial class ColumnEntity : EntityBase, IEquatable<ColumnEntity>
     {
         ColumnDataTypeDefinition _columnDataType;
         [System.ComponentModel.ReadOnly(true)]
@@ -268,18 +269,11 @@ namespace SQLDataProducer.Entities.DatabaseEntities
 
         }
 
-        public System.Xml.Schema.XmlSchema GetSchema()
+        public void ReadXml(XElement xe)
         {
-            throw new NotImplementedException();
-        }
-
-        public void ReadXml(System.Xml.XmlReader reader)
-        {
-            reader.MoveToContent();
-            this.ColumnName = reader.GetAttribute("ColumnName");
-            
+            this.ColumnName = xe.Attribute("ColumnName").Value;
             Generator g = new Generator();
-            g.ReadXml(reader);
+            g.ReadXml(xe.Descendants("Generator").FirstOrDefault());
             this.Generator = g;
         }
 

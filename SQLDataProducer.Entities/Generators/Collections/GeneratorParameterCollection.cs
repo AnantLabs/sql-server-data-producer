@@ -16,13 +16,14 @@ using System;
 using System.Text;
 using System.Collections.ObjectModel;
 using System.Xml.Serialization;
+using System.Xml.Linq;
 
 namespace SQLDataProducer.Entities.Generators.Collections
 {
     /// <summary>
     /// To enable binding to the NiceString property to the DataGrid.
     /// </summary>
-    public class GeneratorParameterCollection : ObservableCollection<GeneratorParameter>, IXmlSerializable
+    public class GeneratorParameterCollection : ObservableCollection<GeneratorParameter>// //, IEquatable<GeneratorParameterCollection>
     {
 
         /// <summary>
@@ -113,30 +114,18 @@ namespace SQLDataProducer.Entities.Generators.Collections
         {
             var paramCollection = new GeneratorParameterCollection();
             foreach (var c in this.Items)
-            {
-                GeneratorParameter para = new GeneratorParameter(c.ParameterName, c.Value);
-                para.IsWriteEnabled = c.IsWriteEnabled;
-                paramCollection.Add(para);
-            }
+                paramCollection.Add(c.Clone());
             return paramCollection;
         }
 
-        public System.Xml.Schema.XmlSchema GetSchema()
+   
+        public void ReadXml(XElement xe)
         {
-            throw new NotImplementedException();
-        }
-
-        public void ReadXml(System.Xml.XmlReader reader)
-        {
-            if (reader.ReadToDescendant("GeneratorParameters"))
+            foreach (var genElement in xe.Descendants("GeneratorParameter"))
             {
-                while (reader.Read() && reader.MoveToContent() == System.Xml.XmlNodeType.Element && reader.LocalName == "GeneratorParameter")
-                {
-                    GeneratorParameter p2 = new GeneratorParameter();
-                    p2.ReadXml(reader);
-                    Items.Add(p2);
-                }
-                reader.ReadEndElement();
+                GeneratorParameter p2 = new GeneratorParameter();
+                p2.ReadXml(genElement);
+                Items.Add(p2);
             }
         }
 
@@ -146,10 +135,34 @@ namespace SQLDataProducer.Entities.Generators.Collections
             foreach (var item in Items)
             {
                 item.WriteXml(writer);
-
             }
 
             writer.WriteEndElement();
+        }
+
+        public override bool Equals(System.Object obj)
+        {
+            // If parameter cannot be casted return false:
+            GeneratorParameterCollection p = obj as GeneratorParameterCollection;
+            if (p == null)
+                return false;
+
+            // Return true if the fields match:
+            return GetHashCode() == p.GetHashCode();
+        }
+
+        public bool Equals(GeneratorParameterCollection other)
+        {
+            return object.Equals(this, other);
+        }
+
+        public override int GetHashCode()
+        {
+            int hc = 0;
+            if (Items != null)
+                foreach (var p in Items)
+                    hc ^= p.GetHashCode();
+            return hc;
         }
     }
 }

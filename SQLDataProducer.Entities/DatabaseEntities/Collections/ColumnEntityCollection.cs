@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Collections.ObjectModel;
 using SQLDataProducer.Entities.DatabaseEntities;
+using System.Xml.Linq;
 
 namespace SQLDataProducer.Entities.DatabaseEntities.Collections
 {
@@ -56,6 +57,15 @@ namespace SQLDataProducer.Entities.DatabaseEntities.Collections
             return new ColumnEntityCollection(cols);
         }
 
+        public void ReadXml(XElement xe)
+        {
+            foreach (var columnElement in xe.Descendants("Column"))
+            {
+                ColumnEntity col = new ColumnEntity();
+                col.ReadXml(columnElement);
+                Items.Add(col);
+            }
+        }
         
     }
 }

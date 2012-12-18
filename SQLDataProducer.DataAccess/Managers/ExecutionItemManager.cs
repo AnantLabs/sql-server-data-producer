@@ -19,6 +19,7 @@ using System.Text;
 using SQLDataProducer.Entities.ExecutionEntities;
 using SQLDataProducer.Entities.DatabaseEntities;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace SQLDataProducer.DataAccess.Factories
 {
@@ -46,8 +47,11 @@ namespace SQLDataProducer.DataAccess.Factories
                 execItems.WriteXml(xmlWriter);
             }
         }
-
         public static ExecutionItemCollection Load(string fileName, TableEntityDataAccess tda)
+        {
+            return Load(XDocument.Load(fileName), tda);
+        }
+        public static ExecutionItemCollection Load(XDocument doc, TableEntityDataAccess tda)
         {
             // The logic here is that we only load(and save) relevant configuration.
             // When we load, we will only load up 
@@ -59,35 +63,33 @@ namespace SQLDataProducer.DataAccess.Factories
             ExecutionItemCollection loadedExecCollection = new ExecutionItemCollection();
 
             ExecutionItemCollection completeExecCollection = new ExecutionItemCollection();
-            using (XmlReader reader = XmlReader.Create(fileName))
-            {
-                loadedExecCollection.ReadXml(reader);
-            }
+            loadedExecCollection.ReadXml(doc);
             
-            foreach (var item in loadedExecCollection)
+            foreach (var loadedExec in loadedExecCollection)
             {
-                TableEntity table = tda.GetTableAndColumns(item.TargetTable.TableSchema, item.TargetTable.TableName);
+                TableEntity table = tda.GetTableAndColumns(loadedExec.TargetTable.TableSchema, loadedExec.TargetTable.TableName);
                 foreach (var newColumn in table.Columns)
                 {
-                    foreach (var c2 in item.TargetTable.Columns)
+                    foreach (var col in loadedExec.TargetTable.Columns)
                     {
-                        if (newColumn.ColumnName == c2.ColumnName)
+                        if (newColumn.ColumnName == col.ColumnName)
                         {
-                            newColumn.Generator = newColumn.PossibleGenerators.Where(gen => gen.GeneratorName == c2.Generator.GeneratorName).Single();
+                            newColumn.Generator = newColumn.PossibleGenerators.Where(gen => gen.GeneratorName == col.Generator.GeneratorName).Single();
                             // If this column is foreign key generator then use the foreign keys we just read from the DB
                             if (newColumn.Generator.GeneratorName.ToLower().Contains("foreign"))
                                 continue;
 
-                            newColumn.Generator.SetGeneratorParameters(c2.Generator.GeneratorParameters);
+                            newColumn.Generator.SetGeneratorParameters(col.Generator.GeneratorParameters);
                         }
                     }
                 }
-                ExecutionItem ei = new ExecutionItem(table, item.Description);
-                ei.RepeatCount = item.RepeatCount;
-                ei.ExecutionCondition = item.ExecutionCondition;
-                ei.ExecutionConditionValue = item.ExecutionConditionValue;
-                ei.TruncateBeforeExecution = item.TruncateBeforeExecution;
-                ei.UseIdentityInsert = item.UseIdentityInsert;
+
+                ExecutionItem ei = new ExecutionItem(table, loadedExec.Description);
+                ei.RepeatCount = loadedExec.RepeatCount;
+                ei.ExecutionCondition = loadedExec.ExecutionCondition;
+                ei.ExecutionConditionValue = loadedExec.ExecutionConditionValue;
+                ei.TruncateBeforeExecution = loadedExec.TruncateBeforeExecution;
+                ei.UseIdentityInsert = loadedExec.UseIdentityInsert;
                 completeExecCollection.Add(ei);
             }
 

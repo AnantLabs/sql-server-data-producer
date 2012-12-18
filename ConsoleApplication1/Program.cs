@@ -35,13 +35,14 @@ namespace TestConsoleApplication
 
             //var t = new RandomTests();
             //t.ShouldGenerateValuesAndInsertStatementsForAllTables();
-            var et = new DatabaseEntitityTests();
-            et.ShouldBeAbletoCloneExecutionItem();
+            //var et = new DatabaseEntitityTests();
+            //et.ShouldBeAbletoCloneExecutionItem();
             //et.ShouldBeAbleToCompareTables();
             //et.ShouldBeAbletoCloneExecutionItem();
 
-            //var t = new SaveLoadTests();
+            var t = new SaveLoadTests();
             //t.ShouldBeAbleToSaveAndLoadExecutionItemCollectionUsingManager();
+            t.ShouldBeAbleToCreateExecutionItemCollectionUsingExecutionManager();
 
             //TableEntityDataAccess tda = new TableEntityDataAccess(Connection());
 
