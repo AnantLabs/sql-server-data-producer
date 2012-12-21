@@ -27,8 +27,6 @@ namespace SQLDataProducer.Entities.DatabaseEntities
     public class TableEntity : EntityBase, IEquatable<TableEntity> 
     {
 
-        //public static event TableWithForeignKeyInsertedRowEventHandler ForeignKeyGenerated = delegate { };
-
         public TableEntity(string tableSchema, string tableName)
             : this()
         {
@@ -88,7 +86,7 @@ namespace SQLDataProducer.Entities.DatabaseEntities
                 {
                     _columns = value;
                     HasWarning = _columns.Any(c => c.HasWarning);
-                    OnPropertyChanged("Columns");
+                    //OnPropertyChanged("Columns");
                 }
             }
         }
@@ -105,7 +103,7 @@ namespace SQLDataProducer.Entities.DatabaseEntities
                 if (_tableSchema != value)
                 {
                     _tableSchema = value;
-                    OnPropertyChanged("TableSchema");
+                    //OnPropertyChanged("TableSchema");
                 }
             }
         }
@@ -122,7 +120,7 @@ namespace SQLDataProducer.Entities.DatabaseEntities
                 if (_tableName != value)
                 {
                     _tableName = value;
-                    OnPropertyChanged("TableName");
+                    //OnPropertyChanged("TableName");
                 }
             }
         }
@@ -229,12 +227,10 @@ namespace SQLDataProducer.Entities.DatabaseEntities
                 if (_parentExecutionItem != value)
                 {
                     _parentExecutionItem = value;
-                    OnPropertyChanged("ParentExecutionItem");
+                    //OnPropertyChanged("ParentExecutionItem");
                 }
             }
         }
-
-
 
 
 

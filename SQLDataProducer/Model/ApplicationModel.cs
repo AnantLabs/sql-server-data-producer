@@ -401,12 +401,12 @@ namespace SQLDataProducer.Model
             {
                 return _workFlowManager;
             }
-            set
+            private set
             {
                 if (_workFlowManager != value)
                 {
                     _workFlowManager = value;
-                    OnPropertyChanged("WorkFlowManager");
+                    //OnPropertyChanged("WorkFlowManager");
                 }
             }
         }
