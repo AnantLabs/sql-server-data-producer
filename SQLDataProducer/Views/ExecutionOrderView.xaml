@@ -19,7 +19,7 @@
              xmlns:me="clr-namespace:SQLDataProducer.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    
+
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="visiConv" />
     </UserControl.Resources>
@@ -59,20 +59,22 @@
                 IsReadOnly="True"
                 SelectionMode="Single"
                 SelectionUnit="FullRow"
-            
                 Style="{DynamicResource ResourceKey=DataGridDemoStyle}"
                 >
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Available Tables" Width="*" >
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Path=.}" >
-                                <TextBlock.InputBindings>
-                                    <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding DataContext.MoveItemRightCommand,
-                                        RelativeSource={RelativeSource FindAncestor, 
-                                        AncestorType={x:Type UserControl}}}" />
-                                </TextBlock.InputBindings>
-                            </TextBlock>
+                                <TextBlock Text="{Binding Path=.}" 
+                                           Width="{Binding Path=ActualWidth, 
+                                                    RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}" >
+                                    <TextBlock.InputBindings>
+                                        <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding DataContext.MoveItemRightCommand,
+                                                        RelativeSource={RelativeSource FindAncestor, 
+                                                        AncestorType={x:Type UserControl}}}" 
+                                                      CommandParameter="{Binding .}" />
+                                    </TextBlock.InputBindings>
+                                </TextBlock>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

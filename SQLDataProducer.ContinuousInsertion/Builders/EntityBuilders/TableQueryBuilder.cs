@@ -26,6 +26,7 @@ namespace SQLDataProducer.ContinuousInsertion.Builders.EntityBuilders
     {
         public static void AppendVariablesForTable(TableEntity table, StringBuilder sb, int rep, long N)
         {
+            // TODO: This line is eating a lot of performance. Replace-fix
             table.GenerateValuesForColumns(N);
             
             foreach (var col in table.Columns)//.Where(x => x.IsNotIdentity)
@@ -37,6 +38,7 @@ namespace SQLDataProducer.ContinuousInsertion.Builders.EntityBuilders
                 if (col.Generator.GeneratorName != SQLDataProducer.Entities.Generators.Generator.GENERATOR_IdentityFromPreviousItem)
                 {
                     var value = col.PreviouslyGeneratedValue == DBNull.Value ? "NULL" : string.Format(col.ColumnDataType.StringFormatter, col.PreviouslyGeneratedValue);
+                    // TODO: This line is eating a lot of performance. Replace-fix
                     sb.AppendLine(string.Format("DECLARE {0} {1} = {2}; -- {3}",
                         paramName,
                         col.ColumnDataType.Raw,

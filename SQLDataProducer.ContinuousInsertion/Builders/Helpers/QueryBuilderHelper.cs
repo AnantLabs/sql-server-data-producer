@@ -21,6 +21,8 @@ namespace SQLDataProducer.ContinuousInsertion.Builders.Helpers
         public static string GetParamName(int rep, ColumnEntity col)
         {
             var ei = col.ParentTable.ParentExecutionItem;
+            // TODO: string.Format is eating a lot of performance. Replace-fix
+            // TODO: Replace is eating alot of performance, Replace-fix
             return string.Format("@{0}_{1}_{2}", col.ColumnName.Replace(" ", "").Replace(".", ""), ei.Order, rep);
         }
     }

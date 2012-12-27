@@ -101,7 +101,7 @@
             <Button Content="UP" Command="{Binding MoveItemUpCommand}" IsEnabled="{Binding Model.HaveExecutionItemSelected}" />
 
             <Button Content="&lt;"  Command="{Binding MoveItemLeftCommand}" IsEnabled="{Binding Model.HaveExecutionItemSelected}" />
-            <Button Content="&gt;"  Command="{Binding MoveItemRightCommand}" IsDefault="True" IsEnabled="{Binding Model.IsTableSelected}" />
+            <Button Content="&gt;"  Command="{Binding MoveItemRightCommand}" CommandParameter="{Binding Model.SelectedTable}" IsDefault="True" IsEnabled="{Binding Model.IsTableSelected}" />
 
             <Button Content="DOWN"  Command="{Binding MoveItemDownCommand}" IsEnabled="{Binding Model.HaveExecutionItemSelected}" />
 

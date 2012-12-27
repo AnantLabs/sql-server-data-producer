@@ -30,7 +30,7 @@ namespace SQLDataProducer.ViewModels
 
         public DelegateCommand MoveItemUpCommand { get; private set; }
         public DelegateCommand MoveItemLeftCommand { get; private set; }
-        public DelegateCommand MoveItemRightCommand { get; private set; }
+        public DelegateCommand<TableEntity> MoveItemRightCommand { get; private set; }
         public DelegateCommand MoveAllItemsRightCommand { get; private set; }
         public DelegateCommand MoveAllItemsLeftCommand { get; private set; }
         public DelegateCommand MoveItemDownCommand { get; private set; }
@@ -67,7 +67,7 @@ namespace SQLDataProducer.ViewModels
         {
             Model = model;
 
-            MoveItemRightCommand = new DelegateCommand(AddSelectedItemToExecutionItemList);
+            MoveItemRightCommand = new DelegateCommand<TableEntity>(AddSelectedItemToExecutionItemList);
             MoveAllItemsRightCommand = new DelegateCommand(AddAllTablesToExecutionItemList);
             MoveAllItemsLeftCommand = new DelegateCommand(ClearExecutionItemList);
             MoveItemUpCommand = new DelegateCommand(MoveSelectedExecutionItemUp);
@@ -179,13 +179,11 @@ namespace SQLDataProducer.ViewModels
         private void AddExecutionItem(TableEntity table)
         {
             // Clone the selected table so that each generation of that table is configurable uniquely
-            //ExecutionItemManager factory = new ExecutionItemManager(Model.ConnectionString);
             Model.ExecutionItems.Add(ExecutionItemManager.CloneFromTable(table, new TableEntityDataAccess(Model.ConnectionString)));
         }
         
         private void AddExecutionItem(IEnumerable<TableEntity> tables)
         {
-            //ExecutionItemManager factory = new ExecutionItemManager(Model.ConnectionString);
             Model.ExecutionItems.AddRange(ExecutionItemManager.GetExecutionItemsFromTables(tables, new TableEntityDataAccess(Model.ConnectionString)));
         }
 
@@ -194,11 +192,11 @@ namespace SQLDataProducer.ViewModels
             Model.ExecutionItems.AddRange(eiItems);
         }
 
-        private void AddSelectedItemToExecutionItemList()
+        private void AddSelectedItemToExecutionItemList(TableEntity table)
         {
-            if (Model.SelectedTable != null)
+            if (table != null)
             {
-                AddExecutionItem(Model.SelectedTable);
+                AddExecutionItem(table);
             }
         }
 
