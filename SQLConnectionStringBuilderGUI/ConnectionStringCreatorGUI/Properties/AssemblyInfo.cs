@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Peter Henell")]
 [assembly: AssemblyProduct("ConnectionStringCreatorGUI")]
-[assembly: AssemblyCopyright("Copyright © Peter Henell 2012")]
+[assembly: AssemblyCopyright("Copyright © Peter Henell 2012-2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("SQLDataProducer.ContinuousInsertion")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Peter Henell 2012")]
+[assembly: AssemblyCompany("Peter Henell 2012-2013")]
 [assembly: AssemblyProduct("SQLDataProducer.ContinuousInsertion")]
-[assembly: AssemblyCopyright("Copyright © Peter Henell 2012")]
+[assembly: AssemblyCopyright("Copyright © Peter Henell 2012-2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

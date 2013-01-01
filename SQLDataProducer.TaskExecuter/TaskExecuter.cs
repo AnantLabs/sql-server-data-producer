@@ -1,4 +1,4 @@
-﻿// Copyright 2012 Peter Henell
+﻿// Copyright 2012-2013 Peter Henell
 
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -166,15 +166,16 @@ namespace SQLDataProducer.TaskExecuter
                 File.Delete(Options.ScriptOutputScriptName);
 
             ExecutionResult result = new ExecutionResult();
+            ExecutionTaskDelegate task = CreateSQLTaskForExecutionItems();
             try
             {
                 switch (Options.ExecutionType)
                 {
                     case ExecutionTypes.DurationBased:
-                        RunTaskDurationBased();
+                        RunTaskDurationBased(task);
                         break;
                     case ExecutionTypes.ExecutionCountBased:
-                        RunTaskExecutionCountBased();
+                        RunTaskExecutionCountBased(task);
                         break;
                     default:
                         break;
@@ -202,22 +203,18 @@ namespace SQLDataProducer.TaskExecuter
         /// </summary>
         /// <param name="task">the task to run.</param>
         /// <returns>the action that will run the task</returns>
-        private void RunTaskExecutionCountBased()
+        private void RunTaskExecutionCountBased(ExecutionTaskDelegate task)
         {
-            int numThreads = Options.MaxThreads;
-            int targetNumExecutions = Options.FixedExecutions;
-
             // Reset percent done to zero before starting
             Options.PercentCompleted = 0;
             List<BackgroundWorker> workers = new List<BackgroundWorker>();
-            for (int i = 0; i < numThreads; i++)
+            for (int i = 0; i < Options.MaxThreads; i++)
             {
                 
                 workers.Add(new BackgroundWorker());
                 workers[i].DoWork += (sender, e) =>
                 {
-                    var task = CreateSQLTaskForExecutionItems();
-                    while (_executionCounter.Peek() < targetNumExecutions && !CancelTokenSource.IsCancellationRequested)
+                    while (_executionCounter.Peek() < Options.FixedExecutions && !CancelTokenSource.IsCancellationRequested)
                     {
                         _executionCounter.Increment();
                         
@@ -243,7 +240,7 @@ namespace SQLDataProducer.TaskExecuter
         /// <param name="task">the task to run</param>
         /// <returns>the action that will run the task</returns>
         /// <param name="counter"></param>
-        private void RunTaskDurationBased()
+        private void RunTaskDurationBased(ExecutionTaskDelegate task)
         {
             DateTime beginTime = new DateTime(DateTime.Now.Ticks);
             DateTime until = DateTime.Now.AddSeconds(Options.SecondsToRun);
@@ -258,7 +255,6 @@ namespace SQLDataProducer.TaskExecuter
                 workers.Add(new BackgroundWorker());
                 workers[i].DoWork += (sender, e) =>
                 {
-                    var task = CreateSQLTaskForExecutionItems();
                     while (DateTime.Now < until && !CancelTokenSource.IsCancellationRequested)
                     {
                         task();
@@ -267,6 +263,7 @@ namespace SQLDataProducer.TaskExecuter
                         Options.PercentCompleted = percentDone;
                     }
                 };
+                
                 workers[i].RunWorkerAsync();
             }
             
@@ -275,6 +272,7 @@ namespace SQLDataProducer.TaskExecuter
             {
                 Thread.Sleep(100);
             }
+            
         }
 
     }
