@@ -15,9 +15,10 @@
 
 using System.Data.Common;
 using System.Collections.Generic;
+using System;
 namespace SQLDataProducer.ContinuousInsertion.DataAccess
 {
-    public class QueryExecutor 
+    public class QueryExecutor : IDisposable
     {
         private DbConnection _connection;
         DbCommand _cmd;
@@ -80,5 +81,13 @@ namespace SQLDataProducer.ContinuousInsertion.DataAccess
         //    cmd.ExecuteNonQuery();
         //    cmd.Connection = null;
         //}
+
+        public void Dispose()
+        {
+            if (_cmd != null)
+                _cmd.Dispose();
+            if(_connection != null)
+                _connection.Dispose();
+        }
     }
 }

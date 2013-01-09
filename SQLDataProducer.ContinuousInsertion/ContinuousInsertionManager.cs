@@ -27,7 +27,7 @@ using System.Transactions;
 
 namespace SQLDataProducer.ContinuousInsertion
 {
-    public class ContinuousInsertionManager
+    public class ContinuousInsertionManager : IDisposable
     {
         private string ConnectionString { get; set; }
         QueryExecutor _queryExecutor;
@@ -71,6 +71,13 @@ namespace SQLDataProducer.ContinuousInsertion
             return FullQueryInsertStatementBuilder.GenerateFullStatement(getN, execItems);
         }
 
-       
+
+
+        public void Dispose()
+        {
+            _builders.Clear();
+            _queryExecutor.Dispose();
+            
+        }
     }
 }

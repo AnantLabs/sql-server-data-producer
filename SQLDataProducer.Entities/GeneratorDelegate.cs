@@ -28,7 +28,7 @@ namespace SQLDataProducer.Entities
     public delegate string FinalQueryGeneratorDelegate(string baseQUery, ExecutionItemCollection executionItems, long n, System.Func<long> numberGenerator);
 
     // Action<>
-    public delegate void ExecutionTaskDelegate();
+    
 
     //Action<int>
     public delegate void ExecutionDoneCallbackDelegate(int n);

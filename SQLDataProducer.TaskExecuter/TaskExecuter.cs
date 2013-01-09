@@ -103,23 +103,19 @@ namespace SQLDataProducer.TaskExecuter
         /// <returns></returns>
         private ExecutionTaskDelegate CreateSQLTaskForExecutionItems()
         {
-            ContinuousInsertionManager manager = new ContinuousInsertionManager(_connectionString, _execItems);
-
-            return new ExecutionTaskDelegate(() =>
+            return new ExecutionTaskDelegate( manager =>
             {
                 try
                 {
                     if (!Options.OnlyOutputToFile)
                     {
                         manager.DoOneExecution(_nGenerator, _rowInsertCounter, _executionCounter.Peek());
-                        
                     }
                     else
                     {
                         string finalResult = manager.OneExecutionToString(_execItems, _nGenerator, _rowInsertCounter);
                         WriteScriptToFile(finalResult);
                     }
-                    
                 }
                 catch (Exception ex)
                 {
@@ -214,14 +210,17 @@ namespace SQLDataProducer.TaskExecuter
                 workers.Add(new BackgroundWorker());
                 workers[i].DoWork += (sender, e) =>
                 {
-                    while (_executionCounter.Peek() < Options.FixedExecutions && !CancelTokenSource.IsCancellationRequested)
+                    using (ContinuousInsertionManager manager = new ContinuousInsertionManager(_connectionString, _execItems))
                     {
-                        _executionCounter.Increment();
-                        
-                        task();
-                        float percentDone = (float)_executionCounter.Peek() / (float)Options.FixedExecutions;
-                        // TODO: Find out if this is eating to much performance (Sending many OnPropertyChanged events..
-                        Options.PercentCompleted = percentDone;
+                        while (_executionCounter.Peek() < Options.FixedExecutions && !CancelTokenSource.IsCancellationRequested)
+                        {
+                            _executionCounter.Increment();
+
+                            task(manager);
+                            float percentDone = (float)_executionCounter.Peek() / (float)Options.FixedExecutions;
+                            // TODO: Find out if this is eating to much performance (Sending many OnPropertyChanged events..
+                            Options.PercentCompleted = percentDone;
+                        }
                     }
                 };
                 workers[i].RunWorkerAsync();
@@ -255,12 +254,15 @@ namespace SQLDataProducer.TaskExecuter
                 workers.Add(new BackgroundWorker());
                 workers[i].DoWork += (sender, e) =>
                 {
-                    while (DateTime.Now < until && !CancelTokenSource.IsCancellationRequested)
+                    using (ContinuousInsertionManager manager = new ContinuousInsertionManager(_connectionString, _execItems))
                     {
-                        task();
-                        _executionCounter.Increment();
-                        float percentDone = ((float)(DateTime.Now.Ticks - beginTime.Ticks) / (float)(until.Ticks - beginTime.Ticks));
-                        Options.PercentCompleted = percentDone;
+                        while (DateTime.Now < until && !CancelTokenSource.IsCancellationRequested)
+                        {
+                            task(manager);
+                            _executionCounter.Increment();
+                            float percentDone = ((float)(DateTime.Now.Ticks - beginTime.Ticks) / (float)(until.Ticks - beginTime.Ticks));
+                            Options.PercentCompleted = percentDone;
+                        }
                     }
                 };
                 
