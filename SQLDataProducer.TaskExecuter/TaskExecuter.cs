@@ -113,7 +113,7 @@ namespace SQLDataProducer.TaskExecuter
                     }
                     else
                     {
-                        string finalResult = manager.OneExecutionToString(_execItems, _nGenerator, _rowInsertCounter);
+                        string finalResult = ContinuousInsertionManager.OneExecutionToString(_execItems, _nGenerator, _rowInsertCounter);
                         WriteScriptToFile(finalResult);
                     }
                 }

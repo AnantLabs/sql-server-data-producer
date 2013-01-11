@@ -63,21 +63,16 @@ namespace SQLDataProducer.ContinuousInsertion
             }
         }
 
-        
-
-        public string OneExecutionToString(ExecutionItemCollection execItems, Func<long> getN, SetCounter _rowInsertCounter)
+        public static string OneExecutionToString(ExecutionItemCollection execItems, Func<long> getN, SetCounter _rowInsertCounter)
         {
             //FullQueryInsertStatementBuilder builder = new FullQueryInsertStatementBuilder(execItems);
             return FullQueryInsertStatementBuilder.GenerateFullStatement(getN, execItems);
         }
 
-
-
         public void Dispose()
         {
             _builders.Clear();
             _queryExecutor.Dispose();
-            
         }
     }
 }
