@@ -466,7 +466,7 @@ order by table_schema, table_name
             return GetTableAndColumns(table.TableSchema, table.TableName);
         }
 
-        public IEnumerable<TableEntity> CloneTables(IEnumerable<TableEntity> tables)
+        public List<TableEntity> CloneTables(IEnumerable<TableEntity> tables)
         {
             List<TableEntity> list = new List<TableEntity>();
             foreach (var table in tables)
@@ -477,7 +477,7 @@ order by table_schema, table_name
             return list;
         }
 
-        public IEnumerable<TableEntity> GetTreeStructureWithTableAsLeaf(TableEntity tableAsLeafOfTree, TableEntityCollection tablesAvailAble)
+        public List<TableEntity> GetTreeStructureWithTableAsLeaf(TableEntity tableAsLeafOfTree, TableEntityCollection tablesAvailAble)
         {
             string s = string.Format(TABLES_IN_HIERARCHY_WITH_TABLE_AS_LEAF, tableAsLeafOfTree.TableSchema, tableAsLeafOfTree.TableName);
 

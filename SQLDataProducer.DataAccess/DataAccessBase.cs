@@ -101,7 +101,7 @@ namespace SQLDataProducer.DataAccess
             return default(T);
         }
 
-        protected IEnumerable<T> GetMany<T>(string sql, Func<SqlDataReader, T> itemBuilder)
+        protected List<T> GetMany<T>(string sql, Func<SqlDataReader, T> itemBuilder)
         {
             var list = new List<T>();
             using (SqlCommand cmd = new SqlCommand(sql, _connection))

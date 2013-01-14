@@ -168,7 +168,7 @@ where object_id=object_id('{1}.{0}')  and cols.is_computed = 0";
         /// </summary>
         /// <param name="table">the table to get all columns for</param>
         /// <returns></returns>
-        public IEnumerable<ColumnEntity> GetAllColumnsForTable(TableEntity table)
+        public List<ColumnEntity> GetAllColumnsForTable(TableEntity table)
         {
             var cols = GetMany(
                             string.Format(GET_COLUMNS_FOR_TABLE_QUERY
