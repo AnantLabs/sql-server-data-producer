@@ -20,6 +20,9 @@ namespace SQLDataProducer.Entities.Generators
 {
     public class GeneratorParameter : EntityBase , IEquatable<GeneratorParameter>
     {
+
+        
+
         string _paramName;
         [System.ComponentModel.ReadOnly(true)]
         public string ParameterName
@@ -51,8 +54,18 @@ namespace SQLDataProducer.Entities.Generators
             {
                 if (_value != value)
                 {
-                    _value = value;
-                    if (string.IsNullOrEmpty(_value.ToString()) )
+                    // Parse the incomming value to the requested value type
+                    try
+                    {
+                        _value = ValueParser.ParseValue(value);
+                    }
+                    catch (Exception)
+                    { 
+                        /* If the user inputs the wrong format */
+                        return;
+                    }
+                    
+                    if (string.IsNullOrEmpty(_value.ToString()))
                     {
                         // If value is empty then resort to default value.
                         _value = DefaultValue;
@@ -99,13 +112,20 @@ namespace SQLDataProducer.Entities.Generators
             }
         }
 
-        public GeneratorParameter(string name, object value, bool isWriteEnabled = true)
+        /// <summary>
+        /// Provided function to parse the value set by the user to the requested datatype
+        /// </summary>
+        GeneratorParameterParser ValueParser = GeneratorParameterParser.ObjectParser;
+
+        public GeneratorParameter(string name, object value, GeneratorParameterParser parser, bool isWriteEnabled = true)
         {
+            ValueParser = parser;
             ParameterName = name;
             DefaultValue = value;
             Value = value;
             IsWriteEnabled = isWriteEnabled;
         }
+
         public GeneratorParameter()
         {
 
@@ -115,17 +135,19 @@ namespace SQLDataProducer.Entities.Generators
         public void ReadXml(XElement xe)
         {
             this.ParameterName = xe.Attribute("ParameterName").Value;
-         // TODO: how to handle datatypes?
+            this.ValueParser = GeneratorParameterParser.FromName(xe.Attribute("ValueParser").Value);
             this.Value = xe.Attribute("Value").Value;
             this.IsWriteEnabled = bool.Parse(xe.Attribute("IsWriteEnabled").Value);
+            
         }
 
         public void WriteXml(System.Xml.XmlWriter writer)
         {
             writer.WriteStartElement("GeneratorParameter");
             writer.WriteAttributeString("ParameterName", this.ParameterName);
-            writer.WriteAttributeString("Value", this.Value.ToString());
+            writer.WriteAttributeString("Value", this.ValueParser.FormatToString(this.Value));
             writer.WriteAttributeString("IsWriteEnabled", this.IsWriteEnabled.ToString());
+            writer.WriteAttributeString("ValueParser", this.ValueParser.ParserName);
             writer.WriteEndElement();
         }
 
@@ -157,7 +179,7 @@ namespace SQLDataProducer.Entities.Generators
 
         internal GeneratorParameter Clone()
         {
-            var para = new GeneratorParameter(this.ParameterName, this.Value);
+            var para = new GeneratorParameter(this.ParameterName, this.Value, this.ValueParser);
             para.IsWriteEnabled = this.IsWriteEnabled;
             para.DefaultValue = this.DefaultValue;
 

@@ -41,8 +41,8 @@ namespace TestConsoleApplication
             //et.ShouldBeAbletoCloneExecutionItem();
 
             var t = new SaveLoadTests();
-            //t.ShouldBeAbleToSaveAndLoadExecutionItemCollectionUsingManager();
-            t.ShouldBeAbleToCreateExecutionItemCollectionUsingExecutionManager();
+            t.ShouldSaveAndLoadDateTimeWithFullPrecision();
+            //t.EveryGeneratorShouldBeRunnableWithDefaultConfiguration();
 
             //TableEntityDataAccess tda = new TableEntityDataAccess(Connection());
 

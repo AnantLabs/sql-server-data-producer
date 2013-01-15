@@ -64,6 +64,7 @@
     <Compile Include="Generators\GeneralGenerators.cs" />
     <Compile Include="Generators\GeneratorFactory.cs" />
     <Compile Include="Generators\GeneratorMetaData.cs" />
+    <Compile Include="Generators\GeneratorParameterParser.cs" />
     <Compile Include="Generators\Tools\GenerationNumberSupplier.cs" />
     <Compile Include="Generators\Generator.cs" />
     <Compile Include="Generators\GeneratorParameter.cs" />

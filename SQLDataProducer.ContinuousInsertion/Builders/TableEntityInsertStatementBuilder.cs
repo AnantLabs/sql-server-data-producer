@@ -16,15 +16,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SQLDataProducer.Entities.DatabaseEntities;
 using System.Collections.ObjectModel;
-using System.Data;
 using System.Data.Common;
-using SQLDataProducer.ContinuousInsertion.DataAccess;
-using SQLDataProducer.Entities;
 using SQLDataProducer.Entities.ExecutionEntities;
 using SQLDataProducer.ContinuousInsertion.Builders.EntityBuilders;
 using SQLDataProducer.ContinuousInsertion.Builders.Helpers;
+using SQLDataProducer.DataAccess.Factories;
 
 namespace SQLDataProducer.ContinuousInsertion.Builders
 {

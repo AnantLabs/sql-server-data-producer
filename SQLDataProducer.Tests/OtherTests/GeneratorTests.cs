@@ -26,6 +26,7 @@ using SQLDataProducer.Entities;
 using SQLDataProducer.DataAccess;
 using SQLDataProducer.TaskExecuter;
 using SQLDataProducer.Entities.OptionEntities;
+using System.Diagnostics;
 
 
 namespace SQLDataProducer.RandomTests
@@ -468,6 +469,59 @@ namespace SQLDataProducer.RandomTests
             Assert.IsNotNull(idCol.Generator);
 
             wfm.RunWorkFlow(options, Connection(), items);
+
+        }
+
+        [Test]
+        public void GeneratorsShouldBeAsFastAsOtherGenerators()
+        {
+            Stopwatch sw = new Stopwatch();
+            var currDateGeneratorCol = CreateColumnOfDatatype("datetime", Generators.Generator.GENERATOR_CurrentDate);
+            var msDateGeneratorCol = CreateColumnOfDatatype("datetime", Generators.Generator.GENERATOR_MilisecondsSeries);
+
+
+            // warm up
+            for (int i = 0; i < 1000; i++)
+            {
+                currDateGeneratorCol.GenerateValue(i);
+                msDateGeneratorCol.GenerateValue(i);
+            }
+
+            for (int j = 0; j < 20; j++)
+            {
+
+                sw.Start();
+                for (int i = 0; i < 100000; i++)
+                {
+                    currDateGeneratorCol.GenerateValue(i);
+                }
+                sw.Stop();
+                var currDateGeneratorElapsedTime = sw.Elapsed;
+
+
+
+                sw.Reset();
+
+
+
+                sw.Start();
+                for (int i = 0; i < 100000; i++)
+                {
+                    msDateGeneratorCol.GenerateValue(i);
+                }
+
+                sw.Stop();
+                var msDateGeneratorElapsedTime = sw.Elapsed;
+                sw.Reset();
+                Console.WriteLine("Current Date generation elapsed time: {0}", currDateGeneratorElapsedTime);
+                Console.WriteLine("Milliseconds generation elapsed time: {0}", msDateGeneratorElapsedTime);
+                Console.WriteLine("Diff {0}", msDateGeneratorElapsedTime-currDateGeneratorElapsedTime);
+                Console.WriteLine();
+//Current Date generation elapsed time: 00:00:00.2576633
+//Milliseconds generation elapsed time: 00:00:00.1483403
+//Diff -00:00:00.1093230
+            }
+
 
         }
     }

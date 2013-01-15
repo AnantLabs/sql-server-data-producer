@@ -13,15 +13,11 @@
 //   limitations under the License.
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using SQLDataProducer.Entities.ExecutionEntities;
-using SQLDataProducer.EntityQueryGenerator;
 using SQLDataProducer.DataAccess;
 using SQLDataProducer.ContinuousInsertion.Builders;
 using System.Collections.ObjectModel;
-using SQLDataProducer.ContinuousInsertion.DataAccess;
 using SQLDataProducer.Entities;
 using System.Transactions;
 

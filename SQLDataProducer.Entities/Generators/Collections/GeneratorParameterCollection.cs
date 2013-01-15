@@ -23,7 +23,7 @@ namespace SQLDataProducer.Entities.Generators.Collections
     /// <summary>
     /// To enable binding to the NiceString property to the DataGrid.
     /// </summary>
-    public class GeneratorParameterCollection : ObservableCollection<GeneratorParameter>// //, IEquatable<GeneratorParameterCollection>
+    public class GeneratorParameterCollection : ObservableCollection<GeneratorParameter>
     {
 
         /// <summary>

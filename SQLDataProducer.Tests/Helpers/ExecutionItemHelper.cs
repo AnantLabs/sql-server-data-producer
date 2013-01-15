@@ -48,6 +48,14 @@ namespace SQLDataProducer.RandomTests.Helpers
 
             return table;
         }
+        public static TableEntity CreateTableAnd1DateTimeColumn(string schemaName, string tableName)
+        {
+            var table = new TableEntity(schemaName, tableName);
+            table.Columns.Add(Entities.DatabaseEntities.Factories.DatabaseEntityFactory.CreateColumnEntity("created", new ColumnDataTypeDefinition("datetime", false), true, 1, false, string.Empty, null));
+            
+            return table;
+        }
+
 
         public static ExecutionItemCollection GetRealExecutionItemCollection(string connection)
         {
@@ -92,7 +100,7 @@ namespace SQLDataProducer.RandomTests.Helpers
 
             foreach (var parr in generatorParameters) 
             {
-                parr.Value = "12345678901234567890";
+                parr.Value = "123987456";
             }
         }
     }

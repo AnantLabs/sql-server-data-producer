@@ -104,7 +104,7 @@ namespace SQLDataProducer.Entities.Generators
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
 
-            GeneratorParameter foreignParam = new GeneratorParameter("Keys", fkkeys, false);
+            GeneratorParameter foreignParam = new GeneratorParameter("Keys", fkkeys, GeneratorParameterParser.ObjectParser, false);
             paramss.Add(foreignParam);
             Generator gen = new Generator(GENERATOR_RandomFOREIGNKEYValueEAGER, (n, p) =>
             {
@@ -123,9 +123,9 @@ namespace SQLDataProducer.Entities.Generators
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
 
-            GeneratorParameter foreignParam = new GeneratorParameter("Keys", fkkeys, false);
-            GeneratorParameter startIndex = new GeneratorParameter("Start Index", 1);
-            GeneratorParameter maxIndex = new GeneratorParameter("Max Index", 1000);
+            GeneratorParameter foreignParam = new GeneratorParameter("Keys", fkkeys, GeneratorParameterParser.ObjectParser, false);
+            GeneratorParameter startIndex = new GeneratorParameter("Start Index", 1, GeneratorParameterParser.LonglParser);
+            GeneratorParameter maxIndex = new GeneratorParameter("Max Index", 1000, GeneratorParameterParser.LonglParser);
             
             paramss.Add(foreignParam);
             paramss.Add(startIndex);
@@ -137,8 +137,8 @@ namespace SQLDataProducer.Entities.Generators
                 if (keys == null || keys.Count == 0)
                     throw new ArgumentException("There are no foreign keys in the table that this column references");
 
-                int si = int.Parse(Generator.GetParameterByName(p, "Start Index").ToString());
-                int mi = int.Parse(Generator.GetParameterByName(p, "Max Index").ToString());
+                int si = (int)Generator.GetParameterByName(p, "Start Index");
+                int mi = (int)Generator.GetParameterByName(p, "Max Index");
                 if (mi > fkkeys.Count)
                 {
                     mi = fkkeys.Count;
@@ -167,13 +167,13 @@ namespace SQLDataProducer.Entities.Generators
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
 
-            paramss.Add(new GeneratorParameter("MinValue", min));
-            paramss.Add(new GeneratorParameter("MaxValue", max));
+            paramss.Add(new GeneratorParameter("MinValue", min, GeneratorParameterParser.LonglParser));
+            paramss.Add(new GeneratorParameter("MaxValue", max, GeneratorParameterParser.LonglParser));
 
             Generator gen = new Generator(GENERATOR_RandomInt, (n, p) =>
                 {
-                    long maxValue = long.Parse(Generator.GetParameterByName(p, "MaxValue").ToString());
-                    long minValue = long.Parse(Generator.GetParameterByName(p, "MinValue").ToString());
+                    long maxValue = (long)Generator.GetParameterByName(p, "MaxValue");
+                    long minValue = (long)Generator.GetParameterByName(p, "MinValue");
                    
                     return (RandomSupplier.Instance.GetNextInt() % maxValue) + minValue;;
                 }
@@ -207,13 +207,13 @@ namespace SQLDataProducer.Entities.Generators
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
 
-            paramss.Add(new GeneratorParameter("MinValue", min));
-            paramss.Add(new GeneratorParameter("MaxValue", max));
+            paramss.Add(new GeneratorParameter("MinValue", min, GeneratorParameterParser.LonglParser));
+            paramss.Add(new GeneratorParameter("MaxValue", max, GeneratorParameterParser.LonglParser));
 
             Generator gen = new Generator(GENERATOR_CountingUpInteger, (n, p) =>
             {
-                long maxValue = long.Parse(Generator.GetParameterByName(p, "MaxValue").ToString());
-                long minValue = long.Parse(Generator.GetParameterByName(p, "MinValue").ToString());
+                long maxValue = (long)Generator.GetParameterByName(p, "MaxValue");
+                long minValue = (long)Generator.GetParameterByName(p, "MinValue");
                 return (n - 1 + minValue) % maxValue;
             }
                 , paramss);
@@ -225,13 +225,13 @@ namespace SQLDataProducer.Entities.Generators
         private static Generator CreateIdentityFromExecutionItem()
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
-            paramss.Add(new GeneratorParameter("Item Number#", 1));
+            paramss.Add(new GeneratorParameter("Item Number#", 1, GeneratorParameterParser.LonglParser));
 
             Generator gen = new Generator();
             gen.GeneratorName = GENERATOR_IdentityFromPreviousItem;
             gen.ValueGenerator = (n, p) =>
             {
-                long value = long.Parse(Generator.GetParameterByName(p, "Item Number#").ToString());
+                long value = (long)Generator.GetParameterByName(p, "Item Number#");
                 // TODO: Error handling in this generator. So many places where it can fail
                 return gen
                     .ParentColumn
@@ -257,11 +257,11 @@ namespace SQLDataProducer.Entities.Generators
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
 
-            paramss.Add(new GeneratorParameter("Number", 0));
+            paramss.Add(new GeneratorParameter("Number", 0, GeneratorParameterParser.LonglParser));
 
             Generator gen = new Generator(GENERATOR_StaticNumber, (n, p) =>
             {
-                long value = long.Parse(Generator.GetParameterByName(p, "Number").ToString());
+                long value = (long)Generator.GetParameterByName(p, "Number");
 
                 return value;
             }
@@ -278,13 +278,13 @@ namespace SQLDataProducer.Entities.Generators
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
 
-            paramss.Add(new GeneratorParameter("Mean", 1.1));
-            paramss.Add(new GeneratorParameter("StDev", 1.1));
+            paramss.Add(new GeneratorParameter("Mean", 1.1, GeneratorParameterParser.DecimalParser));
+            paramss.Add(new GeneratorParameter("StDev", 1.1, GeneratorParameterParser.DecimalParser));
 
             Generator gen = new Generator(GENERATOR_NormallyDistributedRandomNumbers, (n, p) =>
             {
-                double Mean = double.Parse(Generator.GetParameterByName(p, "Mean").ToString());
-                double StDev = double.Parse(Generator.GetParameterByName(p, "StDev").ToString());
+                double Mean = (double)Generator.GetParameterByName(p, "Mean");
+                double StDev = (double)Generator.GetParameterByName(p, "StDev");
                 double URN1 = (double)RandomSupplier.Instance.GetNextDouble();
                 double URN2 = (double)RandomSupplier.Instance.GetNextDouble();
 
@@ -303,11 +303,11 @@ namespace SQLDataProducer.Entities.Generators
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
 
-            paramss.Add(new GeneratorParameter("Lambda", 1.1));
+            paramss.Add(new GeneratorParameter("Lambda", 1.1, GeneratorParameterParser.DecimalParser));
 
             Generator gen = new Generator(GENERATOR_ExponentialRandomNumbers, (n, p) =>
             {
-                double Lambda = double.Parse(Generator.GetParameterByName(p, "Lambda").ToString());
+                double Lambda = (double)Generator.GetParameterByName(p, "Lambda");
                 double URN1 = (double)RandomSupplier.Instance.GetNextDouble();
 
                  //-LOG(@URN)/@Lambda
@@ -326,13 +326,13 @@ namespace SQLDataProducer.Entities.Generators
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
 
-            paramss.Add(new GeneratorParameter("Alpha", 1.1));
-            paramss.Add(new GeneratorParameter("Beta", 1.1));
+            paramss.Add(new GeneratorParameter("Alpha", 1.1, GeneratorParameterParser.DecimalParser));
+            paramss.Add(new GeneratorParameter("Beta", 1.1, GeneratorParameterParser.DecimalParser));
 
             Generator gen = new Generator(GENERATOR_WeibullRandomNumbers, (n, p) =>
             {
-                double Alpha = double.Parse(Generator.GetParameterByName(p, "Alpha").ToString());
-                double Beta = double.Parse(Generator.GetParameterByName(p, "Beta").ToString());
+                double Alpha = (double)Generator.GetParameterByName(p, "Alpha");
+                double Beta = (double)Generator.GetParameterByName(p, "Beta");
                 double URN1 = (double)RandomSupplier.Instance.GetNextDouble();
 
                 //RETURN POWER((-1. / @Alpha) * LOG(1. - @URN), 1./@Beta)
@@ -351,13 +351,13 @@ namespace SQLDataProducer.Entities.Generators
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
 
-            paramss.Add(new GeneratorParameter("u", 1.1));
-            paramss.Add(new GeneratorParameter("b", 1.1));
+            paramss.Add(new GeneratorParameter("u", 1.1, GeneratorParameterParser.DecimalParser));
+            paramss.Add(new GeneratorParameter("b", 1.1, GeneratorParameterParser.DecimalParser));
 
             Generator gen = new Generator(GENERATOR_LaplaceRandomNumbers, (n, p) =>
             {
-                double u = double.Parse(Generator.GetParameterByName(p, "u").ToString());
-                double b = double.Parse(Generator.GetParameterByName(p, "b").ToString());
+                double u = (double)Generator.GetParameterByName(p, "u");
+                double b = (double)Generator.GetParameterByName(p, "b");
                 double URN1 = (double)RandomSupplier.Instance.GetNextDouble();
 
                 int s = 0;
@@ -383,12 +383,12 @@ namespace SQLDataProducer.Entities.Generators
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
 
-            paramss.Add(new GeneratorParameter("Referenced Column", null));
-            paramss.Add(new GeneratorParameter("Referenced value plus", 0));
+            paramss.Add(new GeneratorParameter("Referenced Column", null, GeneratorParameterParser.ObjectParser));
+            paramss.Add(new GeneratorParameter("Referenced value plus", 0, GeneratorParameterParser.LonglParser));
 
             Generator gen = new Generator(GENERATOR_ValueFromOtherColumn, (n, p) =>
             {
-                long plus = long.Parse(Generator.GetParameterByName(p, "Referenced value plus").ToString());
+                long plus = (long)Generator.GetParameterByName(p, "Referenced value plus");
                 ColumnEntity otherColumn = Generator.GetParameterByName(p, "Referenced Column") as ColumnEntity;
 
                 if (otherColumn != null && otherColumn.PreviouslyGeneratedValue != null)

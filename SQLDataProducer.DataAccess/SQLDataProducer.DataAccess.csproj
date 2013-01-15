@@ -32,6 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -44,9 +45,11 @@
     <Compile Include="ColumnEntityDataAccess.cs" />
     <Compile Include="DataAccessBase.cs" />
     <Compile Include="Extensions\Extensions.cs" />
+    <Compile Include="Factories\DbCommandExecutorFactory.cs" />
     <Compile Include="Managers\ExecutionItemManager.cs" />
     <Compile Include="Managers\ForeignKeyManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueryExecutor.cs" />
     <Compile Include="TableEntityDataAccess.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -55,9 +58,7 @@
       <Name>SQLDataProducer.Entities</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Factories\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

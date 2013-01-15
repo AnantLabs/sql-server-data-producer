@@ -51,7 +51,7 @@ namespace SQLDataProducer.Entities.Generators
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
 
-            paramss.Add(new GeneratorParameter("GUID", new Guid()));
+            paramss.Add(new GeneratorParameter("GUID", new Guid(), GeneratorParameterParser.StringParser));
 
             Generator gen = new Generator(GENERATOR_StaticGUID, (n, p) =>
             {
