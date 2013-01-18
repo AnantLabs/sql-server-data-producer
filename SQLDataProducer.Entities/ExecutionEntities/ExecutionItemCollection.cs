@@ -23,7 +23,7 @@ namespace SQLDataProducer.Entities.ExecutionEntities
     /// <summary>
     /// Collection of Execution Items. To be used to group the execution of ExecutionItems. The collection can have options that each execution should use.
     /// </summary>
-    public class ExecutionItemCollection : ObservableCollection<ExecutionItem> 
+    public class ExecutionItemCollection : ObservableCollection<ExecutionItem>
     {
 
         public ExecutionItemCollection()
@@ -33,14 +33,14 @@ namespace SQLDataProducer.Entities.ExecutionEntities
                 OnPropertyChanged(new System.ComponentModel.PropertyChangedEventArgs("IsContainingData"));
         }
 
-        
+
         public bool IsContainingData
         {
             get
             {
                 if (base.Items == null)
                     return false;
-                
+
                 return base.Items.Count > 0;
             }
         }
@@ -65,11 +65,17 @@ namespace SQLDataProducer.Entities.ExecutionEntities
             }
         }
 
-        public new void Add(ExecutionItem item)
+        protected override void InsertItem(int index, ExecutionItem item)
         {
-            item.Order = this.Items.Count + 1;
-            item.ParentCollection = this;
-            base.Add(item);
+            base.InsertItem(index, item);
+            this.Items[index].Order = index + 1;
+            this.Items[index].ParentCollection = this;
+        }
+        protected override void MoveItem(int oldIndex, int newIndex)
+        {
+            base.MoveItem(oldIndex, newIndex);
+            this.Items[oldIndex].Order = oldIndex + 1;
+            this.Items[newIndex].Order = newIndex + 1;
         }
 
         public void AddRange(IEnumerable<ExecutionItem> items)

@@ -387,22 +387,24 @@ namespace SQLDataProducer.Entities.DatabaseEntities
 
         public bool Equals(ColumnEntity other)
         {
-            return 
-                this.ColumnDataType == other.ColumnDataType &&
-                this.ColumnName == other.ColumnName &&
-                this.Constraints == other.Constraints &&
-               // this.Generator == other.Generator &&
-                this.HasWarning == other.HasWarning &&
-                this.IsForeignKey == other.IsForeignKey &&
-                this.IsIdentity == other.IsIdentity &&
-                this.OrdinalPosition == other.OrdinalPosition &&
-               // this.PossibleGenerators == other.PossibleGenerators &&
-                this.WarningText == other.WarningText;
+            return
+                this.ColumnDataType.Equals(other.ColumnDataType) &&
+                this.ColumnName.Equals(other.ColumnName) &&
+                this.Constraints.Equals(other.Constraints) &&
+                // this.Generator == other.Generator &&
+                this.HasWarning.Equals(other.HasWarning) &&
+                this.IsForeignKey.Equals(other.IsForeignKey) &&
+                this.IsIdentity.Equals(other.IsIdentity) &&
+                this.OrdinalPosition.Equals(other.OrdinalPosition) &&
+                // this.PossibleGenerators == other.PossibleGenerators &&
+                this.WarningText.Equals(other.WarningText);
         }
 
+        private static int _someCounter = 1;
         public override int GetHashCode()
         {
             return
+                _someCounter++ ^
                 this.ColumnDataType.GetHashCode() ^
                 this.ColumnName.GetHashCode() ^
                 this.Constraints.GetHashCode() ^

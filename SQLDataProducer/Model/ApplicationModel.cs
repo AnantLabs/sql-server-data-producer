@@ -166,7 +166,7 @@ namespace SQLDataProducer.Model
                     HaveExecutionItemSelected = value != null;
                     
                     _currentExecutionItem = value;
-                    if(_currentExecutionItem != null)
+                    if (_currentExecutionItem != null)
                         SelectedColumn = _currentExecutionItem.TargetTable.Columns.FirstOrDefault();
                     OnPropertyChanged("SelectedExecutionItem");
                 }

@@ -44,6 +44,7 @@
     <Compile Include="ForeignKeyTests.cs" />
     <Compile Include="Helpers\ExecutionItemHelper.cs" />
     <Compile Include="LongRunningTests.cs" />
+    <Compile Include="OtherTests\DataTableGenerationTests.cs" />
     <Compile Include="RandomTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="OtherTests\DatabaseEntitityTests.cs" />

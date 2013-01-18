@@ -256,24 +256,25 @@ namespace SQLDataProducer.Entities.DatabaseEntities
                 return false;
 
             // Return true if the fields match:
-            return 
+            return
                 // this.Columns == b.Columns &&
                  this.HasIdentityColumn == b.HasIdentityColumn &&
                  this.HasWarning == b.HasWarning &&
-                 //this.ParentExecutionItem == b.ParentExecutionItem &&
+                //this.ParentExecutionItem == b.ParentExecutionItem &&
                  this.TableName == b.TableName &&
                  this.TableSchema == b.TableSchema &&
                  this.WarningText == b.WarningText;
-                 
-        }
 
+        }
+        private static int _someCounter = 1;
         public override int GetHashCode()
         {
-            return 
+            return
                 // this.Columns.GetHashCode() ^
+                _someCounter++ ^
                  this.HasIdentityColumn.GetHashCode() ^
                  this.HasWarning.GetHashCode() ^
-                 //this.ParentExecutionItem.GetHashCode() ^
+                //this.ParentExecutionItem.GetHashCode() ^
                  this.TableName.GetHashCode() ^
                  this.TableSchema.GetHashCode() ^
                  this.WarningText.GetHashCode();
@@ -288,6 +289,8 @@ namespace SQLDataProducer.Entities.DatabaseEntities
             HasWarning = Columns.Any(col => col.HasWarning);
             WarningText = HasWarning ? "One of the columns have a warning" : string.Empty;
         }
+
+        
     }
 
 

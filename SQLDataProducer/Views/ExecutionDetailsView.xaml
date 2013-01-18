@@ -100,10 +100,11 @@
                     <ColumnDefinition Width="50*" />
                 </Grid.ColumnDefinitions>
 
-                <DataGrid ItemsSource="{Binding Path=Model.SelectedExecutionItem.TargetTable.Columns, Mode=OneWay}" 
+                <DataGrid ItemsSource="{Binding Path=Model.SelectedExecutionItem.TargetTable.Columns, Mode=OneWay, UpdateSourceTrigger=Explicit}" 
                             Grid.Row="0" 
                             Grid.RowSpan="2" 
                             AutoGenerateColumns="false" 
+                          
                             IsReadOnly="True" 
                             SelectionMode="Single"
                             SelectionUnit="FullRow"

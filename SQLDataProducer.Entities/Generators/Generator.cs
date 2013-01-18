@@ -24,7 +24,7 @@ using SQLDataProducer.Entities.DatabaseEntities;
 
 namespace SQLDataProducer.Entities.Generators
 {
-    public partial class Generator : INotifyPropertyChanged , IEquatable<Generator>
+    public partial class Generator : INotifyPropertyChanged, IEquatable<Generator>
     {
        
         protected ValueCreatorDelegate ValueGenerator { get; set; }
@@ -255,7 +255,7 @@ namespace SQLDataProducer.Entities.Generators
             return
                 this.GeneratorParameters.GetHashCode() ^
                 this.IsSqlQueryGenerator.GetHashCode() ^
-                this.GeneratorName.GetHashCode() 
+                this.GeneratorName.GetHashCode()
                 ;
         }
     }

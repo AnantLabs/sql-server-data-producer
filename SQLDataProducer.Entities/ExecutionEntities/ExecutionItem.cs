@@ -25,7 +25,7 @@ namespace SQLDataProducer.Entities.ExecutionEntities
     /// <summary>
     /// An execution item is a table that have been configured to get data generated.
     /// </summary>
-    public sealed class ExecutionItem : EntityBase , IEquatable<ExecutionItem>
+    public sealed class ExecutionItem : EntityBase, IEquatable<ExecutionItem>
     {
         TableEntity _targetTable;
         /// <summary>
@@ -155,8 +155,6 @@ namespace SQLDataProducer.Entities.ExecutionEntities
         public ExecutionItem Clone()
         {
             TableEntity clonedTable = this.TargetTable.Clone();
-
-            //var tabl = new TableEntity(clonedTable.TableSchema, clonedTable.TableName);
             var ei = new ExecutionItem(clonedTable);
             ei.Description = this.Description;
             ei.RepeatCount = this.RepeatCount;
@@ -379,15 +377,18 @@ namespace SQLDataProducer.Entities.ExecutionEntities
                     HasWarning == b.HasWarning &&
                     Order == b.Order &&
                     RepeatCount == b.RepeatCount &&
-                    object.Equals(TargetTable, b.TargetTable) && 
+                    object.Equals(TargetTable, b.TargetTable) &&
                     TruncateBeforeExecution == b.TruncateBeforeExecution &&
                     UseIdentityInsert == b.UseIdentityInsert &&
                     WarningText == b.WarningText;
         }
 
+        private static int _someCounter = 1;
+
         public override int GetHashCode()
         {
             return base.GetHashCode() ^
+                    _someCounter++ ^
                     Description.GetHashCode() ^
                     ExecutionCondition.GetHashCode() ^
                     ExecutionConditionValue.GetHashCode() ^
@@ -399,34 +400,11 @@ namespace SQLDataProducer.Entities.ExecutionEntities
                     UseIdentityInsert.GetHashCode() ^
                     WarningText.GetHashCode();
         }
-        //public static bool operator ==(ExecutionItem a, ExecutionItem b)
-        //{
-        //    // If both are null, or both are same instance, return true.
-        //    if (System.Object.ReferenceEquals(a, b))
-        //        return true;
+     
 
-        //    // If one is null, but not both, return false.
-        //    if (((object)a == null) || ((object)b == null))
-        //        return false;
-
-        //    // Return true if the fields match:
-        //    return                   
-        //            a.Description == b.Description &&
-        //            a.ExecutionCondition == b.ExecutionCondition &&
-        //            a.ExecutionConditionValue == b.ExecutionConditionValue &&
-        //            a.HasWarning == b.HasWarning &&
-        //            a.Order == b.Order &&
-        //            a.RepeatCount == b.RepeatCount &&
-        //            //a.TargetTable == b.TargetTable &&
-        //            a.TruncateBeforeExecution == b.TruncateBeforeExecution &&
-        //            a.UseIdentityInsert == b.UseIdentityInsert &&
-        //            a.WarningText == b.WarningText;
-        
-        //}
-        //public static bool operator !=(ExecutionItem a, ExecutionItem b)
-        //{
-        //    return !(a == b);
-        //}
-        
+        internal DataTable GenerateDataTable(Func<long> getN)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

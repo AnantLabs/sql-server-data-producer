@@ -18,7 +18,7 @@ using System.Xml.Linq;
 
 namespace SQLDataProducer.Entities.Generators
 {
-    public class GeneratorParameter : EntityBase , IEquatable<GeneratorParameter>
+    public class GeneratorParameter : EntityBase, IEquatable<GeneratorParameter>
     {
 
         

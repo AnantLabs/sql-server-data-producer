@@ -37,7 +37,7 @@ namespace SQLDataProducer.RandomTests.Helpers
             return items;
         }
 
-        private static TableEntity CreateTableAnd5Columns(string schemaName, string tableName)
+        public static TableEntity CreateTableAnd5Columns(string schemaName, string tableName)
         {
             var table = new TableEntity(schemaName, tableName);
             table.Columns.Add(Entities.DatabaseEntities.Factories.DatabaseEntityFactory.CreateColumnEntity("id", new ColumnDataTypeDefinition("int", false), true, 1, false, string.Empty, null));

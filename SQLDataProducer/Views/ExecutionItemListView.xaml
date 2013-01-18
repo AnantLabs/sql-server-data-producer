@@ -36,24 +36,27 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <DataGrid ItemsSource="{Binding Model.ExecutionItems}" 
+            <DataGrid ItemsSource="{Binding Model.ExecutionItems, Mode=OneWay}" 
                     SelectedItem="{Binding Model.SelectedExecutionItem, Mode=TwoWay}" 
                     Grid.Column="2"
                     AutoGenerateColumns="False"          
                     IsReadOnly="True"
+                    AllowDrop="False"
                     SelectionMode="Single"
                     SelectionUnit="FullRow"
                     ScrollViewer.VerticalScrollBarVisibility="Visible" Grid.RowSpan="2"
-                    Style="{DynamicResource ResourceKey=DataGridDemoStyle}"
+                 IsManipulationEnabled="True"
+                      IsSynchronizedWithCurrentItem="True"
+                          CurrentItem="{Binding Model.SelectedExecutionItem, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                   >
-
+            <!--Style="{DynamicResource ResourceKey=DataGridDemoStyle}"-->
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Path=Order}" Header="#"/>
-                <DataGridTextColumn Binding="{Binding Path=TargetTable.TableName}" Header="Table"/>
-                <DataGridTextColumn Binding="{Binding Path=Description}" Header="Description"/>
-                <DataGridTextColumn Binding="{Binding Path=RepeatCount}" Header="Insertsions"/>
+                <DataGridTextColumn Binding="{Binding Path=Order}" Header="#" IsReadOnly="True"/>
+                <DataGridTextColumn Binding="{Binding Path=TargetTable.TableName}" Header="Table" IsReadOnly="True"/>
+                <DataGridTextColumn Binding="{Binding Path=Description}" Header="Description" IsReadOnly="True"/>
+                <DataGridTextColumn Binding="{Binding Path=RepeatCount}" Header="Insertsions" IsReadOnly="True"/>
 
-                <DataGridTemplateColumn>
+                <DataGridTemplateColumn IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Image 
@@ -62,7 +65,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn Header="Commands"  Width="*">
+                <DataGridTemplateColumn Header="Commands"  Width="*" IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal" Grid.Column="4">
