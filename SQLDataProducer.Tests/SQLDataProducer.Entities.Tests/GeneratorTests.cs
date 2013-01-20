@@ -40,6 +40,35 @@ namespace SQLDataProducer.RandomTests
         }
 
         [Test]
+        public void GeneratorsShouldHaveHelpTexts()
+        {
+            Assert.IsTrue(gens.Count() > 0, "No generators found");
+            foreach (var g in gens)
+            {
+                Assert.IsNotNullOrEmpty(g.GeneratorHelpText, string.Format("{0} does not have helptext", g.GeneratorName));
+            }
+        }
+
+        [Test]
+        public void EveryGeneratorShouldBeRunnableWithDefaultConfiguration()
+        {
+            Assert.IsTrue(gens.Count() > 0, "No generators found");
+
+            // Ignore some generators that we know cannot work
+            List<Generators.Generator> runThese = new List<Generators.Generator>(gens.Where(x => x.GeneratorName != Generators.Generator.GENERATOR_IdentityFromPreviousItem));
+
+            foreach (var g in runThese)
+            {
+                for (long i = 0; i < 50000; i++)
+                {
+                    object o = g.GenerateValue(i);
+                    Assert.IsNotNull(o, string.Format("{0} generator could not generate value with default parameters", g.GeneratorName));
+                    //Console.WriteLine(o);
+                }
+            }
+        }
+
+        [Test]
         public void ShouldBeAbleToInsertUsingSQLGetDate()
         {
             var tda = new TableEntityDataAccess(Connection());

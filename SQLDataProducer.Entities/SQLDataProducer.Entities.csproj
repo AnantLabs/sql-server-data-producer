@@ -47,9 +47,9 @@
     <Compile Include="DatabaseEntities\Collections\TableEntityCollection.cs" />
     <Compile Include="DatabaseEntities\ColumnEntity.cs" />
     <Compile Include="DatabaseEntities\ColumnDataTypeDefinition.cs" />
-    <Compile Include="DatabaseEntities\DatabaseEntityBase.cs" />
     <Compile Include="DatabaseEntities\Factories\DatabaseEntityFactory.cs" />
     <Compile Include="Enums.cs" />
+    <Compile Include="ExecutionEntities\DataTableGenerator.cs" />
     <Compile Include="ExecutionEntities\ExecutionItemCollection.cs" />
     <Compile Include="ExecutionEntities\ExecutionResult.cs" />
     <Compile Include="Extensions.cs" />

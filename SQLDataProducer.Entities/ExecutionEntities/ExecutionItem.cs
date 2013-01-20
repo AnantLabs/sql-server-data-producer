@@ -18,6 +18,7 @@ using System.Xml.Serialization;
 using System.Linq;
 using System.Data;
 using System.Xml.Linq;
+using System.Collections.Generic;
 
 namespace SQLDataProducer.Entities.ExecutionEntities
 {
@@ -402,9 +403,6 @@ namespace SQLDataProducer.Entities.ExecutionEntities
         }
      
 
-        internal DataTable GenerateDataTable(Func<long> getN)
-        {
-            throw new NotImplementedException();
-        }
+       
     }
 }

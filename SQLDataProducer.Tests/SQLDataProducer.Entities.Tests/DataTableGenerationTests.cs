@@ -24,7 +24,14 @@ namespace SQLDataProducer.RandomTests.OtherTests
             long i = 0;
             //var dt = table.GenerateDataTable(10, new Func<long>(() => { return i++; }));
             var ei = new ExecutionItem(table);
-            var dt = ei.GenerateDataTable(new Func<long>(() => { return i++; }));
+            var dt = DataTableGenerator.GenerateDataTable(ei,new Func<long>(() => { return i++; }));
+        }
+
+        [Test]
+        public void DefaultTest()
+        {
+            DataTableGenerator dtGen = new DataTableGenerator();
+            Assert.Fail();
         }
     }
 }
