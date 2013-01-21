@@ -18,6 +18,7 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using System.Data;
+using SQLDataProducer.Entities.DatabaseEntities;
 
 
 namespace SQLDataProducer.RandomTests
@@ -25,10 +26,38 @@ namespace SQLDataProducer.RandomTests
     [TestFixture]
     public class ColumnEntityTests : TestBase
     {
+        ColumnEntity col = new ColumnEntity("Identity",
+                new ColumnDataTypeDefinition("int", false), true, 1, false, string.Empty, null);
+
         [Test]
         public void DefaultTest()
         {
-            Assert.Fail();
+            Assert.IsTrue(col.IsIdentity);
+            Assert.AreEqual(false, col.IsNotIdentity);
+            Assert.AreEqual(1, col.OrdinalPosition);
+            Assert.AreEqual(false, col.ColumnDataType.IsNullable);
+            Assert.AreEqual("", col.Constraints);
+            Assert.AreEqual(false, col.HasConstraints);
+            Assert.AreEqual(false, col.IsForeignKey);
+            Assert.AreEqual(null, col.ForeignKey);
+            Assert.AreEqual(5, col.PossibleGenerators.Count);
+
+            
+            Assert.AreEqual(SQLDataProducer.Entities.Generators.Generator.GENERATOR_CountingUpInteger, col.Generator.GeneratorName);
+        }
+
+        [Test]
+        public void ShouldGetGeneratedValue()
+        {
+            var i = col.GenerateValue(100);
+            Assert.IsNotNull(i);
+        }
+
+        [Test]
+        public void ShouldStorePreviouslyGeneratedValue()
+        {
+            col.GenerateValue(100);
+            Assert.IsNotNull(col.PreviouslyGeneratedValue);
         }
     }
 }
