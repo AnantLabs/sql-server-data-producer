@@ -152,9 +152,6 @@ namespace SQLDataProducer.ViewModels
             if (newIndex >= Model.ExecutionItems.Count)
                 return;
 
-            //Model.ExecutionItems[newIndex].Order--;
-            //Model.SelectedExecutionItem.Order++;
-
             Model.ExecutionItems.Move(currentIndex, newIndex);
         }
 
@@ -164,9 +161,6 @@ namespace SQLDataProducer.ViewModels
             int newIndex = Model.ExecutionItems.IndexOf(Model.SelectedExecutionItem) - 1;
             if (newIndex < 0)
                 return;
-
-            //Model.ExecutionItems[newIndex].Order++;
-            //Model.SelectedExecutionItem.Order--;
 
             Model.ExecutionItems.Move(currentIndex, newIndex);
         }

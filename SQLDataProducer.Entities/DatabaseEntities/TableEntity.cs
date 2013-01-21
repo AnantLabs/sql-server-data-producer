@@ -266,18 +266,18 @@ namespace SQLDataProducer.Entities.DatabaseEntities
                  this.WarningText == b.WarningText;
 
         }
-        private static int _someCounter = 1;
+        
         public override int GetHashCode()
         {
-            return
-                // this.Columns.GetHashCode() ^
-                _someCounter++ ^
-                 this.HasIdentityColumn.GetHashCode() ^
-                 this.HasWarning.GetHashCode() ^
-                //this.ParentExecutionItem.GetHashCode() ^
-                 this.TableName.GetHashCode() ^
-                 this.TableSchema.GetHashCode() ^
-                 this.WarningText.GetHashCode();
+            int hash = 37;
+            hash = hash * 23 + base.GetHashCode();
+            hash = hash * 23 + HasIdentityColumn.GetHashCode();
+            hash = hash * 23 + HasWarning.GetHashCode();
+            hash = hash * 23 + TableName.GetHashCode();
+            hash = hash * 23 + TableSchema.GetHashCode();
+            hash = hash * 23 + WarningText.GetHashCode();
+            hash = hash * 23 + HasWarning.GetHashCode();
+            return hash;
         }
 
         public void RefreshWarnings()

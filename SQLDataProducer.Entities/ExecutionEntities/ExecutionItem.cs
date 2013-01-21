@@ -384,22 +384,22 @@ namespace SQLDataProducer.Entities.ExecutionEntities
                     WarningText == b.WarningText;
         }
 
-        private static int _someCounter = 1;
-
+        
         public override int GetHashCode()
         {
-            return base.GetHashCode() ^
-                    _someCounter++ ^
-                    Description.GetHashCode() ^
-                    ExecutionCondition.GetHashCode() ^
-                    ExecutionConditionValue.GetHashCode() ^
-                    HasWarning.GetHashCode() ^
-                    Order.GetHashCode() ^
-                    RepeatCount.GetHashCode() ^
-                    TargetTable.GetHashCode() ^
-                    TruncateBeforeExecution.GetHashCode() ^
-                    UseIdentityInsert.GetHashCode() ^
-                    WarningText.GetHashCode();
+            int hash = 37;
+            hash = hash * 23 + base.GetHashCode();
+            hash = hash * 23 + Description.GetHashCode();
+            hash = hash * 23 + ExecutionCondition.GetHashCode();
+            hash = hash * 23 + ExecutionConditionValue.GetHashCode();
+            hash = hash * 23 + HasWarning.GetHashCode();
+            hash = hash * 23 + Order.GetHashCode();
+            hash = hash * 23 + RepeatCount.GetHashCode();
+            hash = hash * 23 + TargetTable.GetHashCode();
+            hash = hash * 23 + TruncateBeforeExecution.GetHashCode();
+            hash = hash * 23 + UseIdentityInsert.GetHashCode();
+            hash = hash * 23 + WarningText.GetHashCode();
+            return hash;
         }
      
 

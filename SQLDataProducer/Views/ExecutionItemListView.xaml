@@ -48,8 +48,9 @@
                  IsManipulationEnabled="True"
                       IsSynchronizedWithCurrentItem="True"
                           CurrentItem="{Binding Model.SelectedExecutionItem, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                      Style="{StaticResource ResourceKey=DataGridDemoStyle}"
                   >
-            <!--Style="{DynamicResource ResourceKey=DataGridDemoStyle}"-->
+            
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Path=Order}" Header="#" IsReadOnly="True"/>
                 <DataGridTextColumn Binding="{Binding Path=TargetTable.TableName}" Header="Table" IsReadOnly="True"/>

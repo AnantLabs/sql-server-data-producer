@@ -400,21 +400,50 @@ namespace SQLDataProducer.Entities.DatabaseEntities
                 this.WarningText.Equals(other.WarningText);
         }
 
-        private static int _someCounter = 1;
+//        List of coprimes in between 1 and 31
+//1 and 2-31
+//2 and 3,5,7,9,11,13,15,17,19,21,23,25,27,29
+//3 and 4,5,7,8,10,11,13,14,16,17,19,20,22,23,25…
+//4 and all odd numbers 5-30
+//5 and 6-9,11-14,16-19,21-24,26-29
+//6 and 7,11,13,17,19,23,25,29
+//7 and 8-13,15-20,22-27,29-30
+//8 and all odd numbers 9-29
+//9 and 10,11,13,14,16,17,19,20,22,23,25,26,28,2…
+//10 and 11,13,17,19,21,23,27,29
+//11 and 12-21,23-30
+//12 and 13,17,19,23,25,29
+//13 and 14-25,27-30
+//14 and 15,17,19,23,25,27,29
+//15 and 16,17,19,22,23,26,28,29
+//16 and all odd numbers 17-29
+//17 and 18-30
+//18 and 19,23,25,29
+//19 and 20-30
+//20 and 21,23,27,29
+//21 and 22,23,25,26,29
+//22 and 23,25,27,29
+//23 and 24-30
+//24 and 25,29
+//25 and 26-29
+//26 and 27,29
+//27 and 28,29
+//28 and 29
+//29 and 30
+        
         public override int GetHashCode()
         {
-            return
-                _someCounter++ ^
-                this.ColumnDataType.GetHashCode() ^
-                this.ColumnName.GetHashCode() ^
-                this.Constraints.GetHashCode() ^
-                //this.Generator.GetHashCode() ^
-                this.HasWarning.GetHashCode() ^
-                this.IsForeignKey.GetHashCode() ^
-                this.IsIdentity.GetHashCode() ^
-                this.OrdinalPosition.GetHashCode() ^
-                //this.PossibleGenerators.GetHashCode() ^
-                this.WarningText.GetHashCode();
+            int hash = 37;
+            hash = hash * 23 + base.GetHashCode();
+            hash = hash * 23 + ColumnDataType.GetHashCode();
+            hash = hash * 23 + ColumnName.GetHashCode();
+            hash = hash * 23 + Constraints.GetHashCode();
+            hash = hash * 23 + HasWarning.GetHashCode();
+            hash = hash * 23 + IsForeignKey.GetHashCode();
+            hash = hash * 23 + IsIdentity.GetHashCode();
+            hash = hash * 23 + OrdinalPosition.GetHashCode();
+            hash = hash * 23 + WarningText.GetHashCode();
+            return hash;
         }
 
         internal void RefreshWarningStatus()
