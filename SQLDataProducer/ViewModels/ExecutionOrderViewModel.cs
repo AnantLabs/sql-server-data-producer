@@ -22,6 +22,9 @@ using SQLDataProducer.Entities.DatabaseEntities.Collections;
 using System;
 using System.Collections.Generic;
 using SQLDataProducer.DataAccess.Factories;
+using System.Threading;
+using System.Windows;
+using System.Windows.Threading;
 
 namespace SQLDataProducer.ViewModels
 {
@@ -198,11 +201,21 @@ namespace SQLDataProducer.ViewModels
         {
             if (Model.Tables == null)
                 return;
+            List<ExecutionItem> ies = new List<ExecutionItem>(); ;
+            Action a = new Action(() =>
+                {
+                    Model.IsQueryRunning = true;
+                    ies.AddRange( ExecutionItemManager.GetExecutionItemsFromTables(Model.Tables, new TableEntityDataAccess(Model.ConnectionString)));
+                    Model.IsQueryRunning = false;
 
-            foreach (TableEntity tabl in Model.TablesView)
-            {
-                AddExecutionItem(tabl);
-            }
+                    Application.Current.Dispatcher.Invoke(
+                       DispatcherPriority.Normal,
+                       new ThreadStart(() =>
+                       {
+                           AddExecutionItem(ies);
+                       }));   
+                });
+            a.BeginInvoke(null, null);
         }
     }
 }

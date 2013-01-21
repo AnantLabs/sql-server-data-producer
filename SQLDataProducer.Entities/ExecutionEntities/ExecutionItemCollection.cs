@@ -67,9 +67,9 @@ namespace SQLDataProducer.Entities.ExecutionEntities
 
         protected override void InsertItem(int index, ExecutionItem item)
         {
+            item.Order = index + 1;
+            item.ParentCollection = this;
             base.InsertItem(index, item);
-            this.Items[index].Order = index + 1;
-            this.Items[index].ParentCollection = this;
         }
         protected override void MoveItem(int oldIndex, int newIndex)
         {
