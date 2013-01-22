@@ -45,11 +45,15 @@ namespace SQLDataProducer.Entities.ExecutionEntities
                     _targetTable = value;
                     HasWarning = _targetTable.HasWarning;
                     _targetTable.ParentExecutionItem = this;
+
+                    _innerTable = this.AsDataTable();
+                    
                     OnPropertyChanged("TargetTable");
                 }
             }
         }
 
+        DataTable _innerTable;
 
         int _order;
         public int Order
@@ -352,10 +356,38 @@ namespace SQLDataProducer.Entities.ExecutionEntities
         }
 
 
+        public IEnumerable<DataRow> GenerateDataRows(Func<long> getN)
+        {
+            // TODO: Prevent the need to create this table each time.
+            // The columns are only added once, then they are not changed.
+            // It should be quite possible to only generate this once.
+            // Can we share the datatable in multiple threads? .NewRow is threadsafe?
 
+            if (_innerTable == null)
+                throw new ArgumentNullException("_innerTable");
 
+            for (int i = 0; i < RepeatCount; i++)
+                yield return CreateDataRow(getN());
+        }
 
+        private DataTable AsDataTable()
+        {
+            DataTable dt = new DataTable(TargetTable.TableName, TargetTable.TableSchema);
+            foreach (var c in TargetTable.Columns)
+                dt.Columns.Add(c.ColumnName);//, SqlTypeToType(c.ColumnDataType.DBType));
+            // TODO: Do we need the Type?
+        
+            return dt;
+        }
 
+        private DataRow CreateDataRow(long n)
+        {
+            var row = _innerTable.NewRow();
+            foreach (DataColumn c in _innerTable.Columns)
+                row[c.ColumnName] = TargetTable.Columns.Where( x => x.ColumnName == c.ColumnName).First().GenerateValue(n);
+            
+            return row;
+        }
 
         public override bool Equals(System.Object obj)
         {

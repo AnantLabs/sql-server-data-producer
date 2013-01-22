@@ -287,12 +287,14 @@ namespace SQLDataProducer.Entities.DatabaseEntities
             writer.WriteEndElement();
         }
 
-        public void GenerateValue(long n)
+        public object GenerateValue(long n)
         {
             if (Generator.GENERATOR_ValueFromOtherColumn == Generator.GeneratorName)
-                return;
+                return null;
 
-            PreviouslyGeneratedValue  = Generator.GenerateValue(n);
+            var valu =  Generator.GenerateValue(n);
+            PreviouslyGeneratedValue = valu;
+            return valu;
         }
 
 

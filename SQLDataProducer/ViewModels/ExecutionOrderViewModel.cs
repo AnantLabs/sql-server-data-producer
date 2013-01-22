@@ -201,10 +201,11 @@ namespace SQLDataProducer.ViewModels
         {
             if (Model.Tables == null)
                 return;
-            List<ExecutionItem> ies = new List<ExecutionItem>(); ;
+            
             Action a = new Action(() =>
                 {
                     Model.IsQueryRunning = true;
+                    List<ExecutionItem> ies = new List<ExecutionItem>(); ;
                     ies.AddRange( ExecutionItemManager.GetExecutionItemsFromTables(Model.Tables, new TableEntityDataAccess(Model.ConnectionString)));
                     Model.IsQueryRunning = false;
 

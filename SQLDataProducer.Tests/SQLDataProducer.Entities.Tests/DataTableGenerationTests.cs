@@ -22,15 +22,23 @@ namespace SQLDataProducer.RandomTests.OtherTests
         {
             var table = ExecutionItemHelper.CreateTableAnd5Columns("dbo", "Peter");
             long i = 0;
-            //var dt = table.GenerateDataTable(10, new Func<long>(() => { return i++; }));
             var ei = new ExecutionItem(table);
-            var dt = DataTableGenerator.GenerateDataTable(ei,new Func<long>(() => { return i++; }));
+            ei.RepeatCount = 100;
+            var dataRows = ei.GenerateDataRows(new Func<long>(() => { return i++; }));
+            foreach (var dr in dataRows)
+            {
+                foreach (var c in ei.TargetTable.Columns)
+                {
+                    Console.Write("{0}, ", dr[c.ColumnName]);
+                }
+                Console.WriteLine();
+            }
         }
 
         [Test]
         public void DefaultTest()
         {
-            DataTableGenerator dtGen = new DataTableGenerator();
+            //DataTableGenerator dtGen = new DataTableGenerator();
             Assert.Fail();
         }
     }
