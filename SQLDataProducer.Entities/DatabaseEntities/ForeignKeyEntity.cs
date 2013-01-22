@@ -22,7 +22,7 @@ namespace SQLDataProducer.Entities.DatabaseEntities
     {
         public ForeignKeyEntity()
         {
-            Keys = new ForeignKeyCollection();
+            Keys = new ObservableCollection<string>();
         }
 
         private TableEntity _referencingTable;
@@ -61,9 +61,9 @@ namespace SQLDataProducer.Entities.DatabaseEntities
             }
         }
 
-        private ForeignKeyCollection _keys;
+        private ObservableCollection<string> _keys;
         [System.ComponentModel.ReadOnly(true)]
-        public ForeignKeyCollection Keys
+        public ObservableCollection<string> Keys
         {
             get
             {
@@ -84,7 +84,7 @@ namespace SQLDataProducer.Entities.DatabaseEntities
             ForeignKeyEntity fk = new ForeignKeyEntity();
             fk.ReferencingColumn = this.ReferencingColumn;
             fk.ReferencingTable = this.ReferencingTable.Clone();
-            fk.Keys = new ForeignKeyCollection(this.Keys); ;
+            fk.Keys = new ObservableCollection<string>(this.Keys); ;
             return fk;
         }
     }

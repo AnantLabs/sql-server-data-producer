@@ -54,7 +54,6 @@
     <Compile Include="SQLDataProducer.Entities.Tests\ErrorListTests.cs" />
     <Compile Include="SQLDataProducer.Entities.Tests\SQLDataProducer.Entities..Collection.Tests\ExecutionItemCollectionTests.cs" />
     <Compile Include="SQLDataProducer.Entities.Tests\ExecutionItemTests.cs" />
-    <Compile Include="SQLDataProducer.Entities.Tests\SQLDataProducer.Entities..Collection.Tests\ForeignKeyCollectionTests.cs" />
     <Compile Include="SQLDataProducer.Entities.Tests\ForeignKeyEntityTests.cs" />
     <Compile Include="SQLDataProducer.Entities.Tests\SQLDataProducer.Entities..Collection.Tests\GeneratorParameterCollectionTests.cs" />
     <Compile Include="SQLDataProducer.Entities.Tests\GeneratorParameterTests.cs" />

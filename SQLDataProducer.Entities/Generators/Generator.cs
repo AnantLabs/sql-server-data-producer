@@ -26,10 +26,15 @@ namespace SQLDataProducer.Entities.Generators
 {
     public partial class Generator : INotifyPropertyChanged, IEquatable<Generator>
     {
-       
+       /// <summary>
+       /// to hold The method used to generate values
+       /// </summary>
         protected ValueCreatorDelegate ValueGenerator { get; set; }
 
         GeneratorParameterCollection _genParameters;
+        /// <summary>
+        /// get The parameters for the generator
+        /// </summary>
         public GeneratorParameterCollection GeneratorParameters
         {
             get
@@ -48,6 +53,9 @@ namespace SQLDataProducer.Entities.Generators
 
 
         string _generatorName;
+        /// <summary>
+        /// Get name of generator
+        /// </summary>
         public string GeneratorName
         {
             get
@@ -66,13 +74,16 @@ namespace SQLDataProducer.Entities.Generators
             }
         }
         private string _generatorHelpText;
+        /// <summary>
+        /// get Help text for the generator
+        /// </summary>
         public string GeneratorHelpText
         {
             get
             {
                 return _generatorHelpText;
             }
-            set
+            private set
             {
                 _generatorHelpText = value;
                 OnPropertyChanged("GeneratorHelpText");
@@ -96,6 +107,9 @@ namespace SQLDataProducer.Entities.Generators
         /// Column where this generator is attached.
         /// </summary>
         ColumnEntity _parentColumn;
+        /// <summary>
+        /// Get Set the Column of whom this generator belong to.
+        /// </summary>
         public ColumnEntity ParentColumn
         {
             get
@@ -121,6 +135,9 @@ namespace SQLDataProducer.Entities.Generators
             _isSqlQueryGenerator = isSqlQueryGenerator;
         }
 
+        /// <summary>
+        /// Create an instance of a Generator without possibility to generate any values.
+        /// </summary>
         public Generator()
         {
             GeneratorParameters = new GeneratorParameterCollection();
@@ -128,7 +145,11 @@ namespace SQLDataProducer.Entities.Generators
 
         // cache to hold the generator texts to avoid reading the xml file multiple times.
         private static Dictionary<string, string> generatorHelpTexts;
-
+        /// <summary>
+        /// Get the help text for the supplied generator name. The name of the generator need to match the one in the helptext xml file
+        /// </summary>
+        /// <param name="generatorName"></param>
+        /// <returns></returns>
         private static string GetGeneratorHelpText(string generatorName)
         {
             if (generatorHelpTexts == null)
@@ -169,11 +190,20 @@ namespace SQLDataProducer.Entities.Generators
             return dic;
         }
 
+        /// <summary>
+        /// returns GeneratorName
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return GeneratorName;
         }
 
+        /// <summary>
+        /// Generate a value based on the parameter N
+        /// </summary>
+        /// <param name="n">generation number N</param>
+        /// <returns>an object of the type specified by the type of generator</returns>
         internal object GenerateValue(long n)
         {
             return ValueGenerator(n, GeneratorParameters);
@@ -245,18 +275,22 @@ namespace SQLDataProducer.Entities.Generators
         {
             // TODO: Implament equals on the generator parameter collection
             return
-                object.Equals(this.GeneratorParameters, other.GeneratorParameters) &&
+                Enumerable.SequenceEqual(this.GeneratorParameters, other.GeneratorParameters) &&
                 this.IsSqlQueryGenerator == other.IsSqlQueryGenerator &&
                 this.GeneratorName == other.GeneratorName;
         }
 
         public override int GetHashCode()
         {
-            return
-                this.GeneratorParameters.GetHashCode() ^
-                this.IsSqlQueryGenerator.GetHashCode() ^
-                this.GeneratorName.GetHashCode()
-                ;
+            unchecked
+            {
+                int hash = 37;
+                hash = hash * 23 + base.GetHashCode();
+                hash = hash * 23 + GeneratorParameters.GetHashCode();
+                hash = hash * 23 + IsSqlQueryGenerator.GetHashCode();
+                hash = hash * 23 + GeneratorName.GetHashCode();
+                return hash;
+            }
         }
     }
 }

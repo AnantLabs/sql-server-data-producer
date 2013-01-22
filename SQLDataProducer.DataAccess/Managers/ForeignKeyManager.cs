@@ -60,11 +60,11 @@ namespace SQLDataProducer.EntityQueryGenerator
         /// <param name="tda">the tableEntityDataAccess to use to fetch the foreign keys from database</param>
         /// <param name="table">the table from wich to get the keys</param>
         /// <param name="primaryKeyColumn">the key column to get keys for</param>
-        /// <returns>a foreignKeyCollection with the keys for the table</returns>
+        /// <returns>a ObservableCollection<string> with the keys for the table</returns>
         /// <remarks>keys will be cached for next time they are requested.</remarks>
-        public ForeignKeyCollection GetPrimaryKeysForTable(TableEntityDataAccess tda, TableEntity table, string primaryKeyColumn)
+        public ObservableCollection<string> GetPrimaryKeysForTable(TableEntityDataAccess tda, TableEntity table, string primaryKeyColumn)
         {
-            ForeignKeyCollection fkeys;
+            ObservableCollection<string> fkeys;
 
             ForeignKeyContainer cached = ForeignKeyContainerCache.Where(x => x.Table.ToString() == table.ToString()).FirstOrDefault();
             if (cached != null)
@@ -90,8 +90,8 @@ namespace SQLDataProducer.EntityQueryGenerator
             set { _table = value; }
         }
 
-        private ForeignKeyCollection _keyValues;
-        public ForeignKeyCollection KeyValues
+        private ObservableCollection<string> _keyValues;
+        public ObservableCollection<string> KeyValues
         {
             get { return _keyValues; }
             set { _keyValues = value; }
@@ -104,7 +104,7 @@ namespace SQLDataProducer.EntityQueryGenerator
             set { _keyColumnName = value; }
         }
 
-        public ForeignKeyContainer(TableEntity table, string keyColumnName, ForeignKeyCollection keys)
+        public ForeignKeyContainer(TableEntity table, string keyColumnName, ObservableCollection<string> keys)
         {
             this._table = table;
             this._keyValues = keys;

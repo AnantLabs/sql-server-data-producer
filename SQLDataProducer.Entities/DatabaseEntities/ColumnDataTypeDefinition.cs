@@ -21,7 +21,7 @@ using System.Data;
 
 namespace SQLDataProducer.Entities.DatabaseEntities
 {
-    public class ColumnDataTypeDefinition : EntityBase
+    public class ColumnDataTypeDefinition : EntityBase, IEquatable<ColumnDataTypeDefinition>
     {
 
         public ColumnDataTypeDefinition(string rawDataType, bool nullable)
@@ -215,6 +215,41 @@ namespace SQLDataProducer.Entities.DatabaseEntities
             }
 
             return sqlType;
+        }
+
+        public override bool Equals(System.Object obj)
+        {
+            // If parameter cannot be casted return false:
+            ColumnDataTypeDefinition p = obj as ColumnDataTypeDefinition;
+            if ((object)p == null)
+                return false;
+
+            // Return true if the fields match:
+            return GetHashCode() == p.GetHashCode();
+        }
+
+        public bool Equals(ColumnDataTypeDefinition other)
+        {
+            return
+               this.DBType.Equals(other.DBType) &&
+               this.IsNullable.Equals(other.IsNullable) &&
+               this.MaxLength.Equals(other.MaxLength) &&
+               this.Raw.Equals(other.Raw) &&
+               this.StringFormatter.Equals(other.StringFormatter);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 37;
+                hash = hash * 23 + DBType.GetHashCode();
+                hash = hash * 23 + IsNullable.GetHashCode();
+                hash = hash * 23 + MaxLength.GetHashCode();
+                hash = hash * 23 + Raw.GetHashCode();
+                hash = hash * 23 + StringFormatter.GetHashCode();
+                return hash;
+            }
         }
     }
 

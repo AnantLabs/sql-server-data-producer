@@ -20,6 +20,7 @@ using System;
 using SQLDataProducer.Entities.Generators;
 using Generators = SQLDataProducer.Entities.Generators;
 using SQLDataProducer.Entities;
+using System.Collections.Generic;
 
 //
 
@@ -149,7 +150,7 @@ namespace SQLDataProducer.Entities.Generators
         //    return null;
         //}
 
-        public static System.Collections.Generic.IEnumerable<Generator> GetForeignKeyGenerators(ObservableCollection<string> fkKeys)
+        public static List<Generator> GetForeignKeyGenerators(ObservableCollection<string> fkKeys)
         {
             var l = new System.Collections.Generic.List<Generator>();
             l.Add(Generators.Generator.CreateRandomForeignKeyGenerator(fkKeys));

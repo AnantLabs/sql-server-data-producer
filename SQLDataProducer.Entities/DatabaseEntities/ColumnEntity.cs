@@ -438,7 +438,7 @@ namespace SQLDataProducer.Entities.DatabaseEntities
             unchecked
             {
                 int hash = 37;
-                hash = hash * 23 + base.GetHashCode();
+                //hash = hash * 23 + base.GetHashCode();
                 hash = hash * 23 + ColumnDataType.GetHashCode();
                 hash = hash * 23 + ColumnName.GetHashCode();
                 hash = hash * 23 + Constraints.GetHashCode();

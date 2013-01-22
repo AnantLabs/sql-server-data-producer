@@ -42,7 +42,6 @@
   <ItemGroup>
     <Compile Include="DatabaseEntities\Collections\ColumnEntityCollection.cs" />
     <Compile Include="DatabaseEntities\Collections\ErrorList.cs" />
-    <Compile Include="DatabaseEntities\Collections\ForeignKeyCollection.cs" />
     <Compile Include="DatabaseEntities\Collections\GeneratorCollectionExtensions.cs" />
     <Compile Include="DatabaseEntities\Collections\TableEntityCollection.cs" />
     <Compile Include="DatabaseEntities\ColumnEntity.cs" />

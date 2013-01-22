@@ -140,29 +140,39 @@ namespace SQLDataProducer.Entities.Generators.Collections
             writer.WriteEndElement();
         }
 
-        public override bool Equals(System.Object obj)
-        {
-            // If parameter cannot be casted return false:
-            GeneratorParameterCollection p = obj as GeneratorParameterCollection;
-            if (p == null)
-                return false;
+        //public override bool Equals(System.Object obj)
+        //{
+        //    // If parameter cannot be casted return false:
+        //    GeneratorParameterCollection p = obj as GeneratorParameterCollection;
+        //    if (p == null)
+        //        return false;
 
-            // Return true if the fields match:
-            return GetHashCode() == p.GetHashCode();
-        }
+        //    // Return true if the fields match:
+        //    return GetHashCode() == p.GetHashCode();
+        //}
 
-        public bool Equals(GeneratorParameterCollection other)
-        {
-            return object.Equals(this, other);
-        }
+        //public bool Equals(GeneratorParameterCollection other)
+        //{
+        //    return object.Equals(this, other);
+        //}
 
-        public override int GetHashCode()
-        {
-            int hc = 0;
-            if (Items != null)
-                foreach (var p in Items)
-                    hc ^= p.GetHashCode();
-            return hc;
-        }
+        //public override int GetHashCode()
+        //{
+        //    int hash = 37;
+        //    hash = hash * 23 + base.GetHashCode();
+
+        //    if (Items != null)
+        //    {
+        //        foreach (var p in Items)
+        //        {
+        //            unchecked
+        //            {
+        //                hash = hash * 23 + p.GetHashCode();
+        //            }
+        //        }
+        //    }
+        //    return hash;
+        //}
+
     }
 }

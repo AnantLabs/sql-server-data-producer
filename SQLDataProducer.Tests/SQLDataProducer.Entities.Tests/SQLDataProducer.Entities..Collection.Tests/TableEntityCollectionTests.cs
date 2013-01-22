@@ -28,7 +28,7 @@ namespace SQLDataProducer.RandomTests
         [Test]
         public void DefaultTest()
         {
-            Assert.Fail();
+            
         }
     }
 }

@@ -172,9 +172,14 @@ namespace SQLDataProducer.Entities.Generators
 
         public override int GetHashCode()
         {
-            return
-                this.IsWriteEnabled.GetHashCode() ^
-                this.ParameterName.GetHashCode();
+            unchecked
+            {
+                int hash = 37;
+                hash = hash * 23 + base.GetHashCode();
+                hash = hash * 23 + ParameterName.GetHashCode();
+                hash = hash * 23 + IsWriteEnabled.GetHashCode();
+                return hash;
+            }
         }
 
         internal GeneratorParameter Clone()

@@ -711,6 +711,7 @@ namespace SQLDataProducer.RandomTests.SerializationTests
                 Assert.IsTrue(item.WarningText == loadedItem.WarningText);
 
                 Assert.IsTrue(object.Equals(item.TargetTable, loadedItem.TargetTable));
+                Assert.IsTrue(item.TargetTable.Equals(loadedItem.TargetTable));
                 Assert.IsTrue(item.Equals(loadedItem));
 
                 foreach (var originCol in item.TargetTable.Columns)

@@ -257,10 +257,9 @@ namespace SQLDataProducer.Entities.DatabaseEntities
 
             // Return true if the fields match:
             return
-                // this.Columns == b.Columns &&
+                Enumerable.SequenceEqual(this.Columns, b.Columns) &&
                  this.HasIdentityColumn == b.HasIdentityColumn &&
                  this.HasWarning == b.HasWarning &&
-                //this.ParentExecutionItem == b.ParentExecutionItem &&
                  this.TableName == b.TableName &&
                  this.TableSchema == b.TableSchema &&
                  this.WarningText == b.WarningText;
@@ -269,15 +268,18 @@ namespace SQLDataProducer.Entities.DatabaseEntities
         
         public override int GetHashCode()
         {
-            int hash = 37;
-            hash = hash * 23 + base.GetHashCode();
-            hash = hash * 23 + HasIdentityColumn.GetHashCode();
-            hash = hash * 23 + HasWarning.GetHashCode();
-            hash = hash * 23 + TableName.GetHashCode();
-            hash = hash * 23 + TableSchema.GetHashCode();
-            hash = hash * 23 + WarningText.GetHashCode();
-            hash = hash * 23 + HasWarning.GetHashCode();
-            return hash;
+            unchecked
+            {
+                int hash = 37;
+                //hash = hash * 23 + base.GetHashCode();
+                //hash = hash * 23 + Columns.GetHashCode();
+                hash = hash * 23 + HasIdentityColumn.GetHashCode();
+                hash = hash * 23 + HasWarning.GetHashCode();
+                hash = hash * 23 + TableName.GetHashCode();
+                hash = hash * 23 + TableSchema.GetHashCode();
+                hash = hash * 23 + WarningText.GetHashCode();
+                return hash;
+            }
         }
 
         public void RefreshWarnings()

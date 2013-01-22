@@ -39,7 +39,7 @@ namespace SQLDataProducer.RandomTests.OtherTests
         public void DefaultTest()
         {
             //DataTableGenerator dtGen = new DataTableGenerator();
-            Assert.Fail();
+            
         }
     }
 }

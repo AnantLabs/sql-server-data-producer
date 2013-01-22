@@ -56,7 +56,11 @@ namespace SQLDataProducer.Entities.DatabaseEntities.Collections
 
             return new ColumnEntityCollection(cols);
         }
-
+        /// <summary>
+        /// Reads all the properties from the XElement to populate the instance.
+        /// Will call ReadXML on ColumnEntity to serialize the columns
+        /// </summary>
+        /// <param name="xe"></param>
         public void ReadXml(XElement xe)
         {
             foreach (var columnElement in xe.Descendants("Column"))

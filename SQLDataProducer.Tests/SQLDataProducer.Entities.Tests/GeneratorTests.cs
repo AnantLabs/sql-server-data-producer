@@ -40,6 +40,24 @@ namespace SQLDataProducer.RandomTests
         }
 
         [Test]
+        public void IntGeneratorEqualityTest()
+        {
+            var g1 = Generators.Generator.CreateIntUpCounter(1, 50000);
+            var g2 = Generators.Generator.CreateIntUpCounter(1, 50000);
+            var g3 = Generators.Generator.CreateIntUpCounter(1, 50000);
+
+            Assert.IsTrue(g1.Equals(g2));
+            Assert.IsTrue(g2.Equals(g1));
+            Assert.AreEqual(g1, g2);
+            Assert.AreEqual(g2, g1);
+
+            AssertEqualsDefaultBehaviour(g1, g2, g3);
+            AssertEqualsDefaultBehaviour(g2, g1, g3);
+            AssertEqualsDefaultBehaviour(g2, g3, g1);
+            
+        }
+
+        [Test]
         public void GeneratorsShouldHaveHelpTexts()
         {
             Assert.IsTrue(gens.Count() > 0, "No generators found");

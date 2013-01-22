@@ -427,14 +427,14 @@ order by table_schema, table_name
             ExecuteNoResult(string.Format("Delete {0}.{1}", table.TableSchema, table.TableName));
         }
 
-        public ForeignKeyCollection GetPrimaryKeysForColumnInTable(TableEntity table, string primaryKeyColumn)
+        public ObservableCollection<string> GetPrimaryKeysForColumnInTable(TableEntity table, string primaryKeyColumn)
         {
             string s = string.Format("SELECT TOP {0} {1} FROM {2}.{3}", 1000, primaryKeyColumn, table.TableSchema, table.TableName);
             Func<SqlDataReader, string> createKey = reader =>
             {
                 return reader.GetValue(0).ToString();
             };
-            return new ForeignKeyCollection(GetMany(s, createKey));
+            return new ObservableCollection<string>(GetMany(s, createKey));
         }
 
 
