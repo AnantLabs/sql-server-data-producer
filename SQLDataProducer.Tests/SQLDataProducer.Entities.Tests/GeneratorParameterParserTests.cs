@@ -37,13 +37,13 @@ namespace SQLDataProducer.RandomTests
         [Test]
         public void ShouldBeEqualityWhenEqual()
         {
-            Assert.Fail();
+            Assert.That(dateTimeParser, Is.EqualTo(dateTimeParser));
         }
 
         [Test]
         public void ShouldNotBeEqualWhenNotEqual()
         {
-            Assert.Fail();
+            Assert.That(dateTimeParser, Is.EqualTo(intParser));
         }
 
         [Test]
@@ -82,31 +82,47 @@ namespace SQLDataProducer.RandomTests
         [Test]
         public void ShouldParseInt()
         {
-            Assert.Fail();
+            object boxed = 10;
+            int parsed = (int)intParser.ParseValue(boxed);
+            Assert.That(boxed, Is.EqualTo(parsed));
         }
 
         [Test]
         public void ShouldParseLong()
         {
-            Assert.Fail();
+            object boxed = 100000000000;
+            long parsed = (long)longParser.ParseValue(boxed);
+            Assert.That(boxed, Is.EqualTo(parsed));
         }
 
         [Test]
         public void ShouldParseString()
         {
-            Assert.Fail();
+            object boxed = "peter";
+            string parsed = (string)stringParser.ParseValue(boxed);
+            Assert.That(boxed, Is.EqualTo(parsed));
         }
 
         [Test]
         public void ShouldParseObject()
         {
-            Assert.Fail();
+            object boxed = new System.Collections.ArrayList();
+            System.Collections.ArrayList parsed = (System.Collections.ArrayList)objectParser.ParseValue(boxed);
+            Assert.That(boxed, Is.EqualTo(parsed));
         }
 
         [Test]
         public void ShouldParseDecimal()
         {
-            Assert.Fail();
+            object boxed = 1.1111;
+            double parsed = (double)decimalParser.ParseValue(boxed);
+            double parsedFromString = (double)decimalParser.ParseValue("1,1111");
+            double parsedFromString2 = (double)decimalParser.ParseValue("1.1111");
+            
+            Assert.That(boxed, Is.EqualTo(parsed));
+            Assert.That(boxed, Is.EqualTo(parsedFromString));
+            Assert.That(boxed, Is.EqualTo(parsedFromString2));
+            
         }
 
         [Test]

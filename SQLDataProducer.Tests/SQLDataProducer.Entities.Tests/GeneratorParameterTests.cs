@@ -38,7 +38,6 @@ namespace SQLDataProducer.RandomTests
             Assert.That(p1, Is.EqualTo(p1));
             Assert.That(p1, Is.EqualTo(p2));
             
-
             AssertEqualsDefaultBehaviour(p1, p2, p3);
             
             Assert.That(p2.GetHashCode(), Is.EqualTo(p3.GetHashCode()));

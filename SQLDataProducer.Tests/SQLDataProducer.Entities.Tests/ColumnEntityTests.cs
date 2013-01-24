@@ -19,6 +19,7 @@ using System.Text;
 using NUnit.Framework;
 using System.Data;
 using SQLDataProducer.Entities.DatabaseEntities;
+using SQLDataProducer.Entities.DatabaseEntities.Factories;
 
 
 namespace SQLDataProducer.RandomTests
@@ -26,38 +27,42 @@ namespace SQLDataProducer.RandomTests
     [TestFixture]
     public class ColumnEntityTests : TestBase
     {
-        ColumnEntity col = new ColumnEntity("Identity",
-                new ColumnDataTypeDefinition("int", false), true, 1, false, string.Empty, null);
+        ColumnEntity identityCol = DatabaseEntityFactory.CreateColumnEntity("identity", new ColumnDataTypeDefinition("int", false), true, 1, false, string.Empty, null);
+        ColumnEntity dateCol = DatabaseEntityFactory.CreateColumnEntity("created", new ColumnDataTypeDefinition("datetime", false), false, 2, false, string.Empty, null);
 
         [Test]
         public void DefaultTest()
         {
-            Assert.IsTrue(col.IsIdentity);
-            Assert.AreEqual(false, col.IsNotIdentity);
-            Assert.AreEqual(1, col.OrdinalPosition);
-            Assert.AreEqual(false, col.ColumnDataType.IsNullable);
-            Assert.AreEqual("", col.Constraints);
-            Assert.AreEqual(false, col.HasConstraints);
-            Assert.AreEqual(false, col.IsForeignKey);
-            Assert.AreEqual(null, col.ForeignKey);
-            Assert.AreEqual(5, col.PossibleGenerators.Count);
+            Assert.IsTrue(identityCol.IsIdentity);
+            Assert.AreEqual(false, identityCol.IsNotIdentity);
+            Assert.AreEqual(1, identityCol.OrdinalPosition);
+            Assert.AreEqual(false, identityCol.ColumnDataType.IsNullable);
+            Assert.AreEqual("", identityCol.Constraints);
+            Assert.AreEqual(false, identityCol.HasConstraints);
+            Assert.AreEqual(false, identityCol.IsForeignKey);
+            Assert.AreEqual(null, identityCol.ForeignKey);
+            Assert.AreEqual(11, identityCol.PossibleGenerators.Count);
 
             
-            Assert.AreEqual(SQLDataProducer.Entities.Generators.Generator.GENERATOR_CountingUpInteger, col.Generator.GeneratorName);
+            Assert.AreEqual(SQLDataProducer.Entities.Generators.Generator.GENERATOR_IdentityFromSqlServerGenerator, identityCol.Generator.GeneratorName);
         }
 
         [Test]
         public void ShouldGetGeneratedValue()
         {
-            var i = col.GenerateValue(100);
+            var i = identityCol.GenerateValue(100);
             Assert.IsNotNull(i);
+            var j = dateCol.GenerateValue(1);
+            Assert.That(j, Is.Not.Null);
         }
 
         [Test]
         public void ShouldStorePreviouslyGeneratedValue()
         {
-            col.GenerateValue(100);
-            Assert.IsNotNull(col.PreviouslyGeneratedValue);
+            identityCol.GenerateValue(100);
+            Assert.IsNotNull(identityCol.PreviouslyGeneratedValue);
+            dateCol.GenerateValue(100);
+            Assert.IsNotNull(dateCol.PreviouslyGeneratedValue);
         }
     }
 }
