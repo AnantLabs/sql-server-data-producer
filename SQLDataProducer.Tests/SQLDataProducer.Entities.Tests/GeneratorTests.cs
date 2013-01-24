@@ -27,7 +27,8 @@ using SQLDataProducer.DataAccess;
 using SQLDataProducer.TaskExecuter;
 using SQLDataProducer.Entities.OptionEntities;
 using System.Diagnostics;
-
+using System.Collections.ObjectModel;
+using SQLDataProducer.Entities.DatabaseEntities.Collections;
 
 namespace SQLDataProducer.RandomTests
 {
@@ -39,22 +40,33 @@ namespace SQLDataProducer.RandomTests
 
         }
 
+        Generators.Generator intGenerator1 = Generators.Generator.CreateIntUpCounter(1, 50000);
+        Generators.Generator intGenerator2 = Generators.Generator.CreateIntUpCounter(1, 50000);
+        Generators.Generator intGenerator3 = Generators.Generator.CreateIntUpCounter(1, 50000);
+
+        Generators.Generator intGenerator4 = Generators.Generator.CreateRandomIntGenerator(1, 50000);
+
         [Test]
-        public void IntGeneratorEqualityTest()
+        public void ShouldBeEqualWhenEqual()
         {
-            var g1 = Generators.Generator.CreateIntUpCounter(1, 50000);
-            var g2 = Generators.Generator.CreateIntUpCounter(1, 50000);
-            var g3 = Generators.Generator.CreateIntUpCounter(1, 50000);
+            Assert.IsTrue(intGenerator1.Equals(intGenerator2));
+            Assert.IsTrue(intGenerator2.Equals(intGenerator1));
+            Assert.AreEqual(intGenerator1, intGenerator2);
+            Assert.AreEqual(intGenerator2, intGenerator1);
 
-            Assert.IsTrue(g1.Equals(g2));
-            Assert.IsTrue(g2.Equals(g1));
-            Assert.AreEqual(g1, g2);
-            Assert.AreEqual(g2, g1);
-
-            AssertEqualsDefaultBehaviour(g1, g2, g3);
-            AssertEqualsDefaultBehaviour(g2, g1, g3);
-            AssertEqualsDefaultBehaviour(g2, g3, g1);
+            AssertEqualsDefaultBehaviour(intGenerator1, intGenerator2, intGenerator3);
+            AssertEqualsDefaultBehaviour(intGenerator2, intGenerator1, intGenerator3);
+            AssertEqualsDefaultBehaviour(intGenerator2, intGenerator3, intGenerator1);
             
+        }
+
+        [Test]
+        public void ShouldNotBeEqualWhenNotEqual()
+        {
+            Generators.Generator modifiedGenerator = Generators.Generator.CreateRandomIntGenerator(1, 50000);
+
+            Assert.That(intGenerator4, Is.EqualTo(modifiedGenerator));
+            Assert.That(intGenerator1, Is.Not.EqualTo(intGenerator4));
         }
 
         [Test]
@@ -571,6 +583,23 @@ namespace SQLDataProducer.RandomTests
 
 
         }
+
+
+        [Test]
+        public void ShouldCloneGeneratorCollection()
+        {
+            var col1 = DatabaseEntityFactory.CreateColumnEntity("id", new ColumnDataTypeDefinition("int", false), true, 1, false, "", null);
+            var col2 = DatabaseEntityFactory.CreateColumnEntity("date", new ColumnDataTypeDefinition("datetime", false), false, 2, false, "", null);
+
+            ObservableCollection<Generators.Generator> intGens = Generators.GeneratorFactory.GetGeneratorsForColumn(col1);
+            ObservableCollection<Generators.Generator> dateGens = Generators.GeneratorFactory.GetGeneratorsForColumn(col2);
+
+            var clonedIntGens = intGens.Clone();
+            Assert.That(intGens, Is.EqualTo(intGens));
+            Assert.That(intGens, Is.EqualTo(clonedIntGens));
+        }
+
+        
     }
 }
 

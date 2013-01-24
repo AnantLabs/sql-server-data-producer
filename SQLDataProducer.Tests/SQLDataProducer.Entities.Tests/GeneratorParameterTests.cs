@@ -18,6 +18,7 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using System.Data;
+using SQLDataProducer.Entities.Generators;
 
 
 namespace SQLDataProducer.RandomTests
@@ -25,9 +26,39 @@ namespace SQLDataProducer.RandomTests
     [TestFixture]
     public class GeneratorParameterTests : TestBase
     {
+
+        GeneratorParameter p1 = new GeneratorParameter("peter", 1, GeneratorParameterParser.IntegerParser);
+        GeneratorParameter p2 = new GeneratorParameter("peter", 1, GeneratorParameterParser.IntegerParser);
+        GeneratorParameter p3 = new GeneratorParameter("peter", 1.0, GeneratorParameterParser.IntegerParser);
+        GeneratorParameter nullGenParam = null;
+
         [Test]
-        public void DefaultTest()
+        public void ShouldBeEqualityWhenEqual()
         {
+            Assert.That(p1, Is.EqualTo(p1));
+            Assert.That(p1, Is.EqualTo(p2));
+            
+
+            AssertEqualsDefaultBehaviour(p1, p2, p3);
+            
+            Assert.That(p2.GetHashCode(), Is.EqualTo(p3.GetHashCode()));
+            Assert.That(p1.GetHashCode(), Is.EqualTo(p2.GetHashCode()));
+        }
+
+        [Test]
+        public void ShouldNotBeEqualWhenNotEqual()
+        {
+            GeneratorParameter withOtherValue = new GeneratorParameter("peter", 10, GeneratorParameterParser.IntegerParser);
+            GeneratorParameter withOtherName = new GeneratorParameter("Generator", 1, GeneratorParameterParser.IntegerParser);
+            GeneratorParameter withOtherParser = new GeneratorParameter("peter", 1, GeneratorParameterParser.DecimalParser);
+            GeneratorParameter withAllPropertiesChanged = new GeneratorParameter("generator", "streng", GeneratorParameterParser.StringParser);
+
+            Assert.That(p1, Is.Not.EqualTo(nullGenParam));
+
+            Assert.That(p1, Is.Not.EqualTo(withOtherValue));
+            Assert.That(p1, Is.Not.EqualTo(withOtherName));
+            Assert.That(p1, Is.Not.EqualTo(withOtherParser));
+            Assert.That(p1, Is.Not.EqualTo(withAllPropertiesChanged));
             
         }
     }

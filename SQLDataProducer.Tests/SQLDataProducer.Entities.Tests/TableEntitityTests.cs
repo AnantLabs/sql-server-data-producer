@@ -27,6 +27,25 @@ namespace SQLDataProducer.RandomTests
     [TestFixture]
     public class TableEntityTests : TestBase
     {
+        TableEntity t1 = new TableEntity("dbo", "Person");
+        TableEntity t2 = new TableEntity("dbo", "Person");
+        TableEntity t3 = new TableEntity("dbo", "Person");
+
+        TableEntity t4 = new TableEntity("dbo", "Address");
+
+        [Test]
+        public void ShouldBeEqualWhenEqual()
+        {
+            Assert.That(t1, Is.EqualTo(t2));
+            Assert.That(t1, Is.EqualTo(t3));
+        }
+
+        [Test]
+        public void ShouldNotBeEqualWhenNotEqual()
+        {
+            Assert.That(t1, Is.Not.EqualTo(t4));
+        }
+
         [Test]
         public void ShouldBeAbleToCompareTables()
         {

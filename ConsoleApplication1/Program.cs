@@ -33,15 +33,38 @@ namespace TestConsoleApplication
             //var t = new GeneratorTests();
             //t.ShouldGenerate_Long_RandomInt();
 
-            //var t = new RandomTests();
+            //var t = new ExecutionItemTests();
             //t.ShouldGenerateValuesAndInsertStatementsForAllTables();
             //var et = new DatabaseEntitityTests();
-            //et.ShouldBeAbletoCloneExecutionItem();
+            //t.ShouldBeAbletoCloneExecutionItem();
             //et.ShouldBeAbleToCompareTables();
             //et.ShouldBeAbletoCloneExecutionItem();
 
-            var t = new SaveLoadTests();
-            t.ShouldSaveAndLoadDateTimeWithFullPrecision();
+            //var t = new TableEntityTests();
+            //t.ShouldBeEqualWhenEqual();
+            //t.ShouldNotBeEqualWhenNotEqual();
+
+            //var t = new GeneratorParameterTests();
+            //t.ShouldBeEqualityWhenEqual();
+            //t.ShouldNotBeEqualWhenNotEqual();
+            //var t = new GeneratorTests();
+            //t.IntGeneratorEqualityTest();
+            //var tt = new TableEntityTests();
+            //tt.ShouldBeAbleToCompareTables();
+
+            //var c = new GeneratorParameterCollectionTests();
+            //c.ShouldBeAbleToCloneGeneratorParameterCollection();
+            //var gt = new GeneratorTests();
+            //gt.ShouldCloneGeneratorCollection();
+
+            //var et = new ExecutionItemTests();
+            //et.ShouldBeAbletoCloneExecutionItem();
+
+            var sl = new SaveLoadTests();
+            sl.ShouldBeAbleToSaveAndLoadExecutionItemCollectionUsingManager();
+
+            //var gpt = new GeneratorParameterParserTests();
+            //gpt.ShouldParseDateTime();
             //t.EveryGeneratorShouldBeRunnableWithDefaultConfiguration();
 
             //TableEntityDataAccess tda = new TableEntityDataAccess(Connection());

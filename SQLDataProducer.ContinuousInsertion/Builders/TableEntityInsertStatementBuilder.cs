@@ -76,7 +76,7 @@ namespace SQLDataProducer.ContinuousInsertion.Builders
             StringBuilder sb = new StringBuilder();
 
             if (ExecuteItem.TargetTable.Columns.Any(col => col.IsIdentity && col.Generator.GeneratorName != SQLDataProducer.Entities.Generators.Generator.GENERATOR_IdentityFromSqlServerGenerator))
-                sb.AppendLine(string.Format("SET IDENTITY_INSERT {0} ON;", ExecuteItem.TargetTable.ToString()));
+                sb.AppendLine(string.Format("SET IDENTITY_INSERT {0} ON;", ExecuteItem.TargetTable.FullName));
 
             TableQueryBuilder.AppendSqlScriptPartOfStatement(ExecuteItem.TargetTable, sb);
             ExecutionItemQueryBuilder.AppendInsertPartOfStatement(ExecuteItem, sb);
@@ -84,7 +84,7 @@ namespace SQLDataProducer.ContinuousInsertion.Builders
 
 
             if (ExecuteItem.TargetTable.Columns.Any(col => col.IsIdentity && col.Generator.GeneratorName != SQLDataProducer.Entities.Generators.Generator.GENERATOR_IdentityFromSqlServerGenerator))
-                sb.AppendLine(string.Format("SET IDENTITY_INSERT {0} OFF;", ExecuteItem.TargetTable.ToString()));
+                sb.AppendLine(string.Format("SET IDENTITY_INSERT {0} OFF;", ExecuteItem.TargetTable.FullName));
 
             
             _insertStatement = sb.ToString();

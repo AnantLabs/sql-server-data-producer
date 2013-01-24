@@ -18,6 +18,8 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using System.Data;
+using SQLDataProducer.Entities.Generators.Collections;
+using SQLDataProducer.Entities.Generators;
 
 
 namespace SQLDataProducer.RandomTests
@@ -26,9 +28,20 @@ namespace SQLDataProducer.RandomTests
     public class GeneratorParameterCollectionTests : TestBase
     {
         [Test]
-        public void DefaultTest()
+        public void ShouldBeAbleToCloneGeneratorParameterCollection()
         {
+            GeneratorParameterCollection coll = new GeneratorParameterCollection();
+            var gp1 = new Entities.Generators.GeneratorParameter("Date", DateTime.Now, GeneratorParameterParser.DateTimeParser);
+            coll.Add(gp1);
+
+            var coll2 = coll.Clone();
+
+            Assert.That(coll2, Is.EqualTo(coll));
             
+            // Changing the value should cause the collections to be unequal, value should only be changed in one of the collections.
+            gp1.Value = DateTime.Now.AddDays(1);
+            Assert.That(coll2, Is.Not.EqualTo(coll));
+
         }
     }
 }

@@ -196,7 +196,7 @@ namespace SQLDataProducer.Entities.Generators
         /// <returns></returns>
         public override string ToString()
         {
-            return GeneratorName;
+            return string.Format("<GeneratorName = '{0}', IsSqlQueryGenerator = '{1}', GeneratorParameters = '{2}'>", GeneratorName, this.IsSqlQueryGenerator, this.GeneratorParameters);
         }
 
         /// <summary>
@@ -229,7 +229,9 @@ namespace SQLDataProducer.Entities.Generators
 
         internal Generator Clone()
         {
-            return new Generator(this.GeneratorName, this.ValueGenerator, this.GeneratorParameters.Clone());
+            var gen = new Generator(this.GeneratorName, this.ValueGenerator, this.GeneratorParameters.Clone());
+            gen._isSqlQueryGenerator = this.IsSqlQueryGenerator;
+            return gen;
         }
 
 
@@ -285,7 +287,6 @@ namespace SQLDataProducer.Entities.Generators
             unchecked
             {
                 int hash = 37;
-                hash = hash * 23 + base.GetHashCode();
                 hash = hash * 23 + GeneratorParameters.GetHashCode();
                 hash = hash * 23 + IsSqlQueryGenerator.GetHashCode();
                 hash = hash * 23 + GeneratorName.GetHashCode();

@@ -35,7 +35,7 @@ namespace SQLDataProducer.Entities.DatabaseEntities.Factories
         {
             var col = new ColumnEntity(c.ColumnName, c.ColumnDataType, c.IsIdentity, c.OrdinalPosition, c.IsForeignKey, c.Constraints, c.ForeignKey == null ? null : c.ForeignKey.Clone());
             col.PossibleGenerators = c.PossibleGenerators.Clone();
-            col.Generator = col.PossibleGenerators.Where(x => x.GeneratorName == c.Generator.GeneratorName).FirstOrDefault();
+            col.Generator = col.PossibleGenerators.Where(x => x.GeneratorName == c.Generator.GeneratorName).Single();
             return col;
         }
     }

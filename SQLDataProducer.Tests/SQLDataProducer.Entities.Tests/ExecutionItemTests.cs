@@ -52,6 +52,8 @@ namespace SQLDataProducer.RandomTests
             var ei = new ExecutionItem(t, "orginal");
             var clonedEI = ei.Clone();
 
+            Assert.That(ei, Is.EqualTo(clonedEI));
+            
             Assert.IsTrue(ei.Equals(clonedEI));
             Assert.IsTrue(ei.TargetTable.Equals(clonedEI.TargetTable));
 

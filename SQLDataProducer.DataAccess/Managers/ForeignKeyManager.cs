@@ -66,7 +66,7 @@ namespace SQLDataProducer.EntityQueryGenerator
         {
             ObservableCollection<string> fkeys;
 
-            ForeignKeyContainer cached = ForeignKeyContainerCache.Where(x => x.Table.ToString() == table.ToString()).FirstOrDefault();
+            ForeignKeyContainer cached = ForeignKeyContainerCache.Where(x => x.Table.FullName == table.FullName).FirstOrDefault();
             if (cached != null)
             {
                 fkeys = cached.KeyValues;

@@ -42,7 +42,7 @@ namespace SQLDataProducer.RandomTests.SerializationTests
         <Column ColumnName=""Name"">
           <Generator GeneratorName=""Countries"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""Length"" Value=""130002278538028106"" IsWriteEnabled=""False"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""Length"" Value=""130002278538028106"" IsWriteEnabled=""False"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
@@ -54,33 +54,33 @@ namespace SQLDataProducer.RandomTests.SerializationTests
         <Column ColumnName=""DecimalColumn"">
           <Generator GeneratorName=""Counting up Decimal"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""MinValue"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""MaxValue"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Step"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""MinValue"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""MaxValue"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Step"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
         <Column ColumnName=""BigintColumn"">
           <Generator GeneratorName=""Random Int"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""MinValue"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""MaxValue"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""MinValue"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""MaxValue"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
         <Column ColumnName=""VarcharMaxColumn"">
           <Generator GeneratorName=""Countries"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""Length"" Value=""130002278538028106"" IsWriteEnabled=""False"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""Length"" Value=""130002278538028106"" IsWriteEnabled=""False"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
         <Column ColumnName=""SmallMoneyColumn"">
           <Generator GeneratorName=""Counting up Decimal"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""MinValue"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""MaxValue"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Step"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""MinValue"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""MaxValue"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Step"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
@@ -99,7 +99,7 @@ namespace SQLDataProducer.RandomTests.SerializationTests
         <Column ColumnName=""AddressLine1"">
           <Generator GeneratorName=""Countries"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""Length"" Value=""130002278537988104"" IsWriteEnabled=""False"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""Length"" Value=""130002278537988104"" IsWriteEnabled=""False"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
@@ -111,21 +111,21 @@ namespace SQLDataProducer.RandomTests.SerializationTests
         <Column ColumnName=""City"">
           <Generator GeneratorName=""Countries"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""Length"" Value=""130002278537988104"" IsWriteEnabled=""False"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""Length"" Value=""130002278537988104"" IsWriteEnabled=""False"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
         <Column ColumnName=""StateProvinceID"">
           <Generator GeneratorName=""Random FOREIGN KEY Value (EAGER)"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""Keys"" Value=""130002278538008105"" IsWriteEnabled=""False"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""Keys"" Value=""130002278538008105"" IsWriteEnabled=""False"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
         <Column ColumnName=""PostalCode"">
           <Generator GeneratorName=""Countries"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""Length"" Value=""130002278538008105"" IsWriteEnabled=""False"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""Length"" Value=""130002278538008105"" IsWriteEnabled=""False"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
@@ -137,11 +137,11 @@ namespace SQLDataProducer.RandomTests.SerializationTests
         <Column ColumnName=""ModifiedDate"">
           <Generator GeneratorName=""Current Date"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""Shift Days"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Hours"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Minutes"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Seconds"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Milliseconds"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""Shift Days"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Hours"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Minutes"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Seconds"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Milliseconds"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
@@ -159,7 +159,7 @@ namespace SQLDataProducer.RandomTests.SerializationTests
         <Column ColumnName=""Name"">
           <Generator GeneratorName=""Countries"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""Length"" Value=""130002278538008105"" IsWriteEnabled=""False"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""Length"" Value=""130002278538008105"" IsWriteEnabled=""False"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
@@ -171,112 +171,112 @@ namespace SQLDataProducer.RandomTests.SerializationTests
         <Column ColumnName=""DecimalColumn"">
           <Generator GeneratorName=""Counting up Decimal"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""MinValue"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""MaxValue"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Step"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""MinValue"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""MaxValue"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Step"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
         <Column ColumnName=""BigintColumn"">
           <Generator GeneratorName=""Random Int"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""MinValue"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""MaxValue"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""MinValue"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""MaxValue"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
         <Column ColumnName=""VarcharMaxColumn"">
           <Generator GeneratorName=""Countries"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""Length"" Value=""130002278538008105"" IsWriteEnabled=""False"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""Length"" Value=""130002278538008105"" IsWriteEnabled=""False"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
         <Column ColumnName=""FloatColumn"">
           <Generator GeneratorName=""Counting up Decimal"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""MinValue"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""MaxValue"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Step"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""MinValue"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""MaxValue"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Step"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
         <Column ColumnName=""DateTime2Column"">
           <Generator GeneratorName=""Current Date"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""Shift Days"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Hours"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Minutes"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Seconds"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Milliseconds"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""Shift Days"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Hours"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Minutes"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Seconds"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Milliseconds"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
         <Column ColumnName=""DateTimeColumn"">
           <Generator GeneratorName=""Current Date"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""Shift Days"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Hours"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Minutes"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Seconds"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Milliseconds"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""Shift Days"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Hours"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Minutes"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Seconds"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Milliseconds"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
         <Column ColumnName=""NCharFiveColumn"">
           <Generator GeneratorName=""Countries"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""Length"" Value=""130002278538008105"" IsWriteEnabled=""False"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""Length"" Value=""130002278538008105"" IsWriteEnabled=""False"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
         <Column ColumnName=""DateColumn"">
           <Generator GeneratorName=""Current Date"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""Shift Days"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Hours"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Minutes"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Seconds"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Milliseconds"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""Shift Days"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Hours"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Minutes"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Seconds"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Milliseconds"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
         <Column ColumnName=""TimeColumn"">
           <Generator GeneratorName=""Current Date"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""Shift Days"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Hours"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Minutes"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Seconds"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Milliseconds"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""Shift Days"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Hours"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Minutes"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Seconds"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Milliseconds"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
         <Column ColumnName=""SmallIntColumn"">
           <Generator GeneratorName=""Random Int"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""MinValue"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""MaxValue"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""MinValue"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""MaxValue"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
         <Column ColumnName=""SmallDateTimeColumn"">
           <Generator GeneratorName=""Current Date"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""Shift Days"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Hours"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Minutes"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Seconds"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Milliseconds"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""Shift Days"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Hours"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Minutes"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Seconds"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Milliseconds"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
         <Column ColumnName=""SmallMoneyColumn"">
           <Generator GeneratorName=""Counting up Decimal"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""MinValue"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""MaxValue"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Step"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""MinValue"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""MaxValue"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Step"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
@@ -294,7 +294,7 @@ namespace SQLDataProducer.RandomTests.SerializationTests
         <Column ColumnName=""AddressLine1"">
           <Generator GeneratorName=""Countries"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""Length"" Value=""130002278538028106"" IsWriteEnabled=""False"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""Length"" Value=""130002278538028106"" IsWriteEnabled=""False"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
@@ -306,21 +306,21 @@ namespace SQLDataProducer.RandomTests.SerializationTests
         <Column ColumnName=""City"">
           <Generator GeneratorName=""Countries"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""Length"" Value=""130002278538028106"" IsWriteEnabled=""False"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""Length"" Value=""130002278538028106"" IsWriteEnabled=""False"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
         <Column ColumnName=""StateProvinceID"">
           <Generator GeneratorName=""Random FOREIGN KEY Value (EAGER)"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""Keys"" Value=""130002278538028106"" IsWriteEnabled=""False"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""Keys"" Value=""130002278538028106"" IsWriteEnabled=""False"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
         <Column ColumnName=""PostalCode"">
           <Generator GeneratorName=""Countries"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""Length"" Value=""130002278538028106"" IsWriteEnabled=""False"" ValueParser=""LongParser""/>
+              <GeneratorParameter ParameterName=""Length"" Value=""130002278538028106"" IsWriteEnabled=""False"" ValueParser=""Long Parser""/>
             </GeneratorParameters>
           </Generator>
         </Column>
@@ -332,11 +332,11 @@ namespace SQLDataProducer.RandomTests.SerializationTests
         <Column ColumnName=""ModifiedDate"">
           <Generator GeneratorName=""Current Date"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""Shift Days"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Hours"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Minutes"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Seconds"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Milliseconds"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""Shift Days"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Hours"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Minutes"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Seconds"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Milliseconds"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
@@ -354,7 +354,7 @@ namespace SQLDataProducer.RandomTests.SerializationTests
         <Column ColumnName=""Name"">
           <Generator GeneratorName=""Countries"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""Length"" Value=""130002278538028106"" IsWriteEnabled=""False"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""Length"" Value=""130002278538028106"" IsWriteEnabled=""False"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
@@ -366,112 +366,112 @@ namespace SQLDataProducer.RandomTests.SerializationTests
         <Column ColumnName=""DecimalColumn"">
           <Generator GeneratorName=""Counting up Decimal"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""MinValue"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""MaxValue"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Step"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""MinValue"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""MaxValue"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Step"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
         <Column ColumnName=""BigintColumn"">
           <Generator GeneratorName=""Random Int"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""MinValue"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""MaxValue"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""MinValue"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""MaxValue"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
         <Column ColumnName=""VarcharMaxColumn"">
           <Generator GeneratorName=""Countries"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""Length"" Value=""130002278538028106"" IsWriteEnabled=""False"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""Length"" Value=""130002278538028106"" IsWriteEnabled=""False"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
         <Column ColumnName=""FloatColumn"">
           <Generator GeneratorName=""Counting up Decimal"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""MinValue"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""MaxValue"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Step"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""MinValue"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""MaxValue"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Step"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
         <Column ColumnName=""DateTime2Column"">
           <Generator GeneratorName=""Current Date"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""Shift Days"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Hours"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Minutes"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Seconds"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Milliseconds"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""Shift Days"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Hours"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Minutes"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Seconds"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Milliseconds"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
         <Column ColumnName=""DateTimeColumn"">
           <Generator GeneratorName=""Current Date"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""Shift Days"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Hours"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Minutes"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Seconds"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Milliseconds"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""Shift Days"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Hours"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Minutes"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Seconds"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Milliseconds"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
         <Column ColumnName=""NCharFiveColumn"">
           <Generator GeneratorName=""Countries"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""Length"" Value=""130002278538048107"" IsWriteEnabled=""False"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""Length"" Value=""130002278538048107"" IsWriteEnabled=""False"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
         <Column ColumnName=""DateColumn"">
           <Generator GeneratorName=""Current Date"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""Shift Days"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Hours"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Minutes"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Seconds"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Milliseconds"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""Shift Days"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Hours"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Minutes"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Seconds"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Milliseconds"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
         <Column ColumnName=""TimeColumn"">
           <Generator GeneratorName=""Current Date"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""Shift Days"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Hours"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Minutes"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Seconds"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Milliseconds"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""Shift Days"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Hours"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Minutes"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Seconds"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Milliseconds"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
         <Column ColumnName=""SmallIntColumn"">
           <Generator GeneratorName=""Random Int"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""MinValue"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""MaxValue"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""MinValue"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""MaxValue"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
         <Column ColumnName=""SmallDateTimeColumn"">
           <Generator GeneratorName=""Current Date"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""Shift Days"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Hours"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Minutes"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Seconds"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Milliseconds"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""Shift Days"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Hours"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Minutes"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Seconds"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Milliseconds"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
         <Column ColumnName=""SmallMoneyColumn"">
           <Generator GeneratorName=""Counting up Decimal"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""MinValue"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""MaxValue"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Step"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""MinValue"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""MaxValue"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Step"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
@@ -484,18 +484,24 @@ namespace SQLDataProducer.RandomTests.SerializationTests
         string columnXML = @" <Column ColumnName=""AddressLine1"">
           <Generator GeneratorName=""Countries"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""Length"" Value=""130002278537988104"" IsWriteEnabled=""False"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""Length"" Value=""130002278537988104"" IsWriteEnabled=""False"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>";
 
-        string parameterXML = @"<GeneratorParameter ParameterName=""Length"" Value=""130002278537988104"" IsWriteEnabled=""False"" ValueParser=""LongParser"" />";
+        string parameterXML = @"<GeneratorParameter ParameterName=""Length"" Value=""130002278537988104"" IsWriteEnabled=""False"" ValueParser=""Long Parser"" />";
 
         
 
         string generatorXML = @"<Generator GeneratorName=""Countries"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""Length"" Value=""130002278537988104"" IsWriteEnabled=""False"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""Length"" Value=""130002278537988104"" IsWriteEnabled=""False"" ValueParser=""Long Parser"" />
+            </GeneratorParameters>
+          </Generator>";
+
+        string staticDateGeneratorXML = @"<Generator GeneratorName=""Static Date"">
+            <GeneratorParameters>
+              <GeneratorParameter ParameterName=""DATE"" Value=""2013-01-23T14:32:20.7326289"" IsWriteEnabled=""True"" ValueParser=""DateParser"" />
             </GeneratorParameters>
           </Generator>";
 
@@ -509,7 +515,7 @@ namespace SQLDataProducer.RandomTests.SerializationTests
         <Column ColumnName=""Name"">
           <Generator GeneratorName=""Countries"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""Length"" Value=""130002278538028106"" IsWriteEnabled=""False"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""Length"" Value=""130002278538028106"" IsWriteEnabled=""False"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
@@ -528,7 +534,7 @@ namespace SQLDataProducer.RandomTests.SerializationTests
         <Column ColumnName=""Name"">
           <Generator GeneratorName=""Countries"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""Length"" Value=""130002278538028106"" IsWriteEnabled=""False"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""Length"" Value=""130002278538028106"" IsWriteEnabled=""False"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
@@ -540,112 +546,112 @@ namespace SQLDataProducer.RandomTests.SerializationTests
         <Column ColumnName=""DecimalColumn"">
           <Generator GeneratorName=""Counting up Decimal"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""MinValue"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""MaxValue"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Step"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""MinValue"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""MaxValue"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Step"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
         <Column ColumnName=""BigintColumn"">
           <Generator GeneratorName=""Random Int"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""MinValue"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""MaxValue"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""MinValue"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""MaxValue"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
         <Column ColumnName=""VarcharMaxColumn"">
           <Generator GeneratorName=""Countries"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""Length"" Value=""130002278538028106"" IsWriteEnabled=""False"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""Length"" Value=""130002278538028106"" IsWriteEnabled=""False"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
         <Column ColumnName=""FloatColumn"">
           <Generator GeneratorName=""Counting up Decimal"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""MinValue"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""MaxValue"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Step"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""MinValue"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""MaxValue"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Step"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
         <Column ColumnName=""DateTime2Column"">
           <Generator GeneratorName=""Current Date"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""Shift Days"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Hours"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Minutes"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Seconds"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Milliseconds"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""Shift Days"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Hours"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Minutes"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Seconds"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Milliseconds"" Value=""130002278538028106"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
         <Column ColumnName=""DateTimeColumn"">
           <Generator GeneratorName=""Current Date"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""Shift Days"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Hours"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Minutes"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Seconds"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Milliseconds"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""Shift Days"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Hours"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Minutes"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Seconds"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Milliseconds"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
         <Column ColumnName=""NCharFiveColumn"">
           <Generator GeneratorName=""Countries"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""Length"" Value=""130002278538048107"" IsWriteEnabled=""False"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""Length"" Value=""130002278538048107"" IsWriteEnabled=""False"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
         <Column ColumnName=""DateColumn"">
           <Generator GeneratorName=""Current Date"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""Shift Days"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Hours"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Minutes"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Seconds"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Milliseconds"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""Shift Days"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Hours"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Minutes"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Seconds"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Milliseconds"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
         <Column ColumnName=""TimeColumn"">
           <Generator GeneratorName=""Current Date"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""Shift Days"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Hours"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Minutes"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Seconds"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Milliseconds"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""Shift Days"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Hours"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Minutes"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Seconds"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Milliseconds"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
         <Column ColumnName=""SmallIntColumn"">
           <Generator GeneratorName=""Random Int"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""MinValue"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""MaxValue"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""MinValue"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""MaxValue"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
         <Column ColumnName=""SmallDateTimeColumn"">
           <Generator GeneratorName=""Current Date"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""Shift Days"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Hours"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Minutes"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Seconds"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Milliseconds"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""Shift Days"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Hours"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Minutes"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Seconds"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Milliseconds"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
         <Column ColumnName=""SmallMoneyColumn"">
           <Generator GeneratorName=""Counting up Decimal"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""MinValue"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""MaxValue"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Step"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""MinValue"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""MaxValue"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Step"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
@@ -668,36 +674,48 @@ namespace SQLDataProducer.RandomTests.SerializationTests
             //ExecutionItemHelper.SetSomeParameters(execItems);
             var fileName = @"c:\temp\repeater\saved.xml";
 
+            if (System.IO.File.Exists(fileName))
+                System.IO.File.Delete(fileName);
+            
             // Sanity checks
+            
+            foreach (var item in execItems)
             {
-                foreach (var item in execItems)
-                {
-                    Assert.IsTrue(item.Equals(item));
+                Assert.That(item, Is.EqualTo(item));
+                //Assert.IsTrue(item.Equals(item));
                     
-                    // sanity check on the equals methods
-                    foreach (var originCol in item.TargetTable.Columns)
-                    {
-                        var sameCol = (from cs in item.TargetTable.Columns
-                                         where cs.ColumnName == originCol.ColumnName
-                                         select cs).FirstOrDefault();
-                        Assert.AreEqual(originCol.PossibleGenerators, sameCol.PossibleGenerators);
-                    }
+                // sanity check on the equals methods
+                foreach (var originCol in item.TargetTable.Columns)
+                {
+                    var sameCol = (from cs in item.TargetTable.Columns
+                                        where cs.ColumnName == originCol.ColumnName
+                                        select cs).FirstOrDefault();
+                    Assert.AreEqual(originCol.PossibleGenerators, sameCol.PossibleGenerators);
                 }
             }
+            
 
             var tda = new DataAccess.TableEntityDataAccess(Connection());
             ExecutionItemManager.Save(execItems, fileName);
-
+            
+            // Make date differences obvious
+            System.Threading.Thread.Sleep(4000);
             var loadedList = ExecutionItemManager.Load(fileName, tda);
 
             Assert.IsNotNull(loadedList);
             Assert.AreEqual(execItems.Count, loadedList.Count);
             Assert.AreEqual(execItems.IsContainingData, loadedList.IsContainingData);
 
+            //Assert.That(execItems, Is.EqualTo(loadedList));
+
             foreach (var item in execItems)
             {
-                ExecutionItem loadedItem = loadedList.Where(x => x.TargetTable.Equals(item.TargetTable) && x.Order == item.Order).First();
-                Assert.IsNotNull(loadedItem, string.Format("expected {0} to be loaded but was not found in loaded collection", item.TargetTable.ToString()));
+                ExecutionItem loadedItem = loadedList.Where(x => x.TargetTable.FullName.Equals(item.TargetTable.FullName) && x.Order == item.Order).First();
+
+              
+                Assert.That(item, Is.EqualTo(loadedItem));
+
+                Assert.IsNotNull(loadedItem, string.Format("expected {0} to be loaded but was not found in loaded collection", item.TargetTable.FullName));
 
                 Assert.IsTrue(item.Description == loadedItem.Description);
                 Assert.IsTrue(item.ExecutionCondition == loadedItem.ExecutionCondition);
@@ -714,17 +732,6 @@ namespace SQLDataProducer.RandomTests.SerializationTests
                 Assert.IsTrue(item.TargetTable.Equals(loadedItem.TargetTable));
                 Assert.IsTrue(item.Equals(loadedItem));
 
-                foreach (var originCol in item.TargetTable.Columns)
-                {
-                    var loadedCol = (from cs in loadedItem.TargetTable.Columns
-                                     where cs.ColumnName == originCol.ColumnName
-                                     select cs).FirstOrDefault();
-
-                    Assert.IsNotNull(loadedCol);
-                    PrintParameters(originCol);
-                    PrintParameters(loadedCol);
-                    Assert.AreEqual(originCol.PossibleGenerators, loadedCol.PossibleGenerators);
-                }
             }
         }
 
@@ -756,6 +763,8 @@ namespace SQLDataProducer.RandomTests.SerializationTests
             Assert.AreEqual(1, generator.GeneratorParameters.Count);
 
             Console.WriteLine(genElement);
+
+
         }
 
         [Test]
@@ -769,18 +778,18 @@ namespace SQLDataProducer.RandomTests.SerializationTests
 
             //            <GeneratorParameter ParameterName="Length" Value="130002278537988104" IsWriteEnabled="False" />
             Assert.AreEqual("Length", parr.ParameterName);
-            Assert.AreEqual("130002278537988104", parr.Value);
+            Assert.AreEqual(130002278537988104, parr.Value);
             Assert.AreEqual(false, parr.IsWriteEnabled);
         }
 
 
         string parameterCollectionXML = @"<GeneratorParameters>
-              <GeneratorParameter ParameterName=""Shift Days"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Hours"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Minutes"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Seconds"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Shift Milliseconds"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""LongParser"" />
-              <GeneratorParameter ParameterName=""Randomness"" Value=""11"" IsWriteEnabled=""False"" ValueParser=""LongParser"" />
+              <GeneratorParameter ParameterName=""Shift Days"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Hours"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Minutes"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Seconds"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Shift Milliseconds"" Value=""130002278538048107"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""Randomness"" Value=""11"" IsWriteEnabled=""False"" ValueParser=""Long Parser"" />
             </GeneratorParameters>";
 
         string parameterCollectionXMLEMPTY = @"<GeneratorParameters />";
@@ -805,27 +814,27 @@ namespace SQLDataProducer.RandomTests.SerializationTests
                 var p6 = parras[5];
 
                 Assert.AreEqual("Shift Days", p1.ParameterName);
-                Assert.AreEqual("130002278538048107", p1.Value);
+                Assert.AreEqual(130002278538048107, p1.Value);
                 Assert.AreEqual(true, p1.IsWriteEnabled);
 
                 Assert.AreEqual("Shift Hours", p2.ParameterName);
-                Assert.AreEqual("130002278538048107", p2.Value);
+                Assert.AreEqual(130002278538048107, p2.Value);
                 Assert.AreEqual(true, p2.IsWriteEnabled);
 
                 Assert.AreEqual("Shift Minutes", p3.ParameterName);
-                Assert.AreEqual("130002278538048107", p3.Value);
+                Assert.AreEqual(130002278538048107, p3.Value);
                 Assert.AreEqual(true, p3.IsWriteEnabled);
 
                 Assert.AreEqual("Shift Seconds", p4.ParameterName);
-                Assert.AreEqual("130002278538048107", p4.Value);
+                Assert.AreEqual(130002278538048107, p4.Value);
                 Assert.AreEqual(true, p4.IsWriteEnabled);
 
                 Assert.AreEqual("Shift Milliseconds", p5.ParameterName);
-                Assert.AreEqual("130002278538048107", p5.Value);
+                Assert.AreEqual(130002278538048107, p5.Value);
                 Assert.AreEqual(true, p5.IsWriteEnabled);
 
                 Assert.AreEqual("Randomness", p6.ParameterName);
-                Assert.AreEqual("11", p6.Value);
+                Assert.AreEqual(11, p6.Value);
                 Assert.AreEqual(false, p6.IsWriteEnabled);
             }
             {
@@ -947,11 +956,11 @@ namespace SQLDataProducer.RandomTests.SerializationTests
             Assert.AreEqual(5, e1ModifiedDateColGenerator.GeneratorParameters.Count);
 
             AssertParameters(e1ModifiedDateColGenerator,
-                new KeyValuePair<string, string>("Shift Days", "130002278538008105"),
-                new KeyValuePair<string, string>("Shift Hours", "130002278538008105"),
-                new KeyValuePair<string, string>("Shift Minutes", "130002278538008105"),
-                new KeyValuePair<string, string>("Shift Seconds", "130002278538008105"),
-                new KeyValuePair<string, string>("Shift Milliseconds", "130002278538008105"));
+                new KeyValuePair<string, object>("Shift Days", 130002278538008105),
+                new KeyValuePair<string, object>("Shift Hours", 130002278538008105),
+                new KeyValuePair<string, object>("Shift Minutes", 130002278538008105),
+                new KeyValuePair<string, object>("Shift Seconds", 130002278538008105),
+                new KeyValuePair<string, object>("Shift Milliseconds", 130002278538008105));
 
         }
 
@@ -960,6 +969,9 @@ namespace SQLDataProducer.RandomTests.SerializationTests
         public void ShouldSaveAndLoadDateTimeWithFullPrecision()
         {
             var fileName = @"c:\temp\repeater\saved.xml";
+            if (System.IO.File.Exists(fileName))
+                System.IO.File.Delete(fileName);
+            
             var tda = new DataAccess.TableEntityDataAccess(Connection());
 
             var table = tda.GetTableAndColumns("Person", "NewPerson");
@@ -985,7 +997,7 @@ namespace SQLDataProducer.RandomTests.SerializationTests
             Assert.AreEqual(theSetDate, loadedDate);
         }
 
-        private void AssertParameters(Generator generator, params KeyValuePair<string, string>[] keyPairs)
+        private void AssertParameters(Generator generator, params KeyValuePair<string, object>[] keyPairs)
         {
             Assert.AreEqual(generator.GeneratorParameters.Count, keyPairs.Count());
 

@@ -128,9 +128,16 @@ namespace SQLDataProducer.Entities.DatabaseEntities
 
         public override string ToString()
         {
-            return string.Format("{0}.{1}", TableSchema, TableName);
+            return string.Format("TableName = '{0}', TableSchema = '{1}', Columns = '{2}', HasIdentityColumn = '{3}', HasWarning = '{4}', WarningText = '{5}'", this.TableName, this.TableSchema, this.Columns, this.HasIdentityColumn, this.HasWarning, this.WarningText);
         }
 
+        public string FullName
+        {
+            get
+            {
+                return string.Format("{0}.{1}", TableSchema, TableName); 
+            }
+        }
        
         internal TableEntity Clone()
         {
@@ -271,7 +278,6 @@ namespace SQLDataProducer.Entities.DatabaseEntities
             unchecked
             {
                 int hash = 37;
-                //hash = hash * 23 + base.GetHashCode();
                 //hash = hash * 23 + Columns.GetHashCode();
                 hash = hash * 23 + HasIdentityColumn.GetHashCode();
                 hash = hash * 23 + HasWarning.GetHashCode();

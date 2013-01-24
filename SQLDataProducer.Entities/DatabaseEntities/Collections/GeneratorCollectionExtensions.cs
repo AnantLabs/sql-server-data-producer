@@ -21,7 +21,7 @@ namespace SQLDataProducer.Entities.DatabaseEntities.Collections
         public static ObservableCollection<Generators.Generator> Clone(this ObservableCollection<Generators.Generator> gens)
         {
             var newGens = new ObservableCollection<Generators.Generator>();
-            foreach (var item in gens)
+            foreach (Generators.Generator item in gens)
             {
                 newGens.Add(item.Clone());
             }

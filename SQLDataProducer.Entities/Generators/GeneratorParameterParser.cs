@@ -31,6 +31,9 @@ namespace SQLDataProducer.Entities.Generators
 
         public object ParseValue(object o)
         {
+            if (o == null)
+                return o;
+            
             return ValueParser(o);
         }
         public string FormatToString(object parameterValue)
@@ -47,6 +50,9 @@ namespace SQLDataProducer.Entities.Generators
                 }),
             StringFormater = new Func<object, string>(o =>
                 {
+                    if (o == null)
+                        return null;
+
                     return o.ToString();
                 })
         };
@@ -60,6 +66,9 @@ namespace SQLDataProducer.Entities.Generators
                 }),
             StringFormater = new Func<object, string>(o =>
                 {
+                    if (o == null)
+                        return null;
+
                     return o.ToString();
                 })
         };
@@ -72,6 +81,9 @@ namespace SQLDataProducer.Entities.Generators
             }),
             StringFormater = new Func<object, string>(o =>
                 {
+                    if (o == null)
+                        return null;
+
                     return o.ToString();
                 })
         };
@@ -87,6 +99,9 @@ namespace SQLDataProducer.Entities.Generators
                 }),
             StringFormater = new Func<object, string>(o =>
                 {
+                    if (o == null)
+                        return null;
+
                     return ((DateTime)o).ToString("yyyy-MM-ddTHH:mm:ss.fffffff");
                 })
         };
@@ -99,6 +114,9 @@ namespace SQLDataProducer.Entities.Generators
                 }),
             StringFormater = new Func<object, string>(o =>
                 {
+                    if (o == null)
+                        return null;
+
                     return o.ToString();
                 })
         };
@@ -111,6 +129,9 @@ namespace SQLDataProducer.Entities.Generators
             }),
             StringFormater = new Func<object, string>(o =>
                 {
+                    if (o == null)
+                        return null;
+                    
                     return o.ToString();
                 })
         };
@@ -134,7 +155,7 @@ namespace SQLDataProducer.Entities.Generators
                     return IntegerParser;
 
                 default:
-                    return ObjectParser;
+                    throw new ArgumentException("Supplied parser name cannot be found", name);
             }
         }
 

@@ -37,10 +37,10 @@ namespace SQLDataProducer.Entities.Generators.Collections
             foreach (var s in this.Items)
             {
                 // Avoid showing parameters that cannot be changed anyway
-                if (!s.IsWriteEnabled)
-                    continue;
+                //if (!s.IsWriteEnabled)
+                //    continue;
                 
-                sb.AppendFormat("{{{0}: {1}}}; ", s.ParameterName, s.Value);
+                sb.AppendFormat("{0}", s);
             }
             return sb.ToString();
         }

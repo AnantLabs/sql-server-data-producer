@@ -17,6 +17,7 @@ using System.Linq;
 using System.Collections.ObjectModel;
 using SQLDataProducer.Entities.DatabaseEntities;
 using System.Xml.Linq;
+using System.Text;
 
 namespace SQLDataProducer.Entities.DatabaseEntities.Collections
 {
@@ -56,6 +57,17 @@ namespace SQLDataProducer.Entities.DatabaseEntities.Collections
 
             return new ColumnEntityCollection(cols);
         }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (var item in Items)
+            {
+                sb.AppendLine(item.ToString());
+            }
+            return sb.ToString();
+        }
+
         /// <summary>
         /// Reads all the properties from the XElement to populate the instance.
         /// Will call ReadXML on ColumnEntity to serialize the columns

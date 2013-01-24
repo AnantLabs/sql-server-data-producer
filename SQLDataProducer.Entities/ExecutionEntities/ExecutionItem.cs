@@ -47,7 +47,7 @@ namespace SQLDataProducer.Entities.ExecutionEntities
                     _targetTable.ParentExecutionItem = this;
 
                     _innerTable = this.AsDataTable();
-                    
+
                     OnPropertyChanged("TargetTable");
                 }
             }
@@ -82,7 +82,7 @@ namespace SQLDataProducer.Entities.ExecutionEntities
         {
             if (table != null && table.ParentExecutionItem != null)
                 throw new InvalidOperationException("this table already belong to another execution item");
-            
+
             TargetTable = table;
             Description = description;
         }
@@ -149,7 +149,7 @@ namespace SQLDataProducer.Entities.ExecutionEntities
                         value = 1;
                     if (value > 1000)
                         value = 1000;
-                    
+
                     _repeatExectution = value;
                     OnPropertyChanged("RepeatCount");
                 }
@@ -212,7 +212,7 @@ namespace SQLDataProducer.Entities.ExecutionEntities
                 OnPropertyChanged("ExecutionCondition");
             }
         }
-        
+
         private long _executionConditionValue;
         public long ExecutionConditionValue
         {
@@ -229,7 +229,27 @@ namespace SQLDataProducer.Entities.ExecutionEntities
 
         public override string ToString()
         {
-            return string.Format("{0} : {1}", Order, TargetTable.ToString());
+            return string.Format(@"this.Description = {0} 
+this.ExecutionCondition = '{1}', 
+this.ExecutionConditionValue = '{2}', 
+this.HasWarning = '{3}', 
+this.Order = '{4}', 
+this.RepeatCount = '{5}',
+this.TargetTable = '{6}',
+this.TruncateBeforeExecution = '{7}', 
+this.UseIdentityInsert = '{8}', 
+this.WarningText = '{9}' ",
+this.Description,
+this.ExecutionCondition,
+this.ExecutionConditionValue,
+this.HasWarning,
+this.Order,
+this.RepeatCount,
+this.TargetTable,
+this.TruncateBeforeExecution,
+this.UseIdentityInsert,
+this.WarningText);
+
         }
 
         private bool _hasWarning = false;
@@ -349,7 +369,7 @@ namespace SQLDataProducer.Entities.ExecutionEntities
                     var value = ei.TargetTable.Columns[k].PreviouslyGeneratedValue;
                     row.SetField(table.Columns[k], value);
                 }
-                   
+
             }
 
             return table;
@@ -376,7 +396,7 @@ namespace SQLDataProducer.Entities.ExecutionEntities
             foreach (var c in TargetTable.Columns)
                 dt.Columns.Add(c.ColumnName);//, SqlTypeToType(c.ColumnDataType.DBType));
             // TODO: Do we need the Type?
-        
+
             return dt;
         }
 
@@ -384,8 +404,8 @@ namespace SQLDataProducer.Entities.ExecutionEntities
         {
             var row = _innerTable.NewRow();
             foreach (DataColumn c in _innerTable.Columns)
-                row[c.ColumnName] = TargetTable.Columns.Where( x => x.ColumnName == c.ColumnName).First().GenerateValue(n);
-            
+                row[c.ColumnName] = TargetTable.Columns.Where(x => x.ColumnName == c.ColumnName).First().GenerateValue(n);
+
             return row;
         }
 
@@ -410,13 +430,14 @@ namespace SQLDataProducer.Entities.ExecutionEntities
                     HasWarning == b.HasWarning &&
                     Order == b.Order &&
                     RepeatCount == b.RepeatCount &&
-                    object.Equals(TargetTable, b.TargetTable) &&
+                //object.Equals(TargetTable, b.TargetTable) &&
+                    TargetTable.Equals(b.TargetTable) &&
                     TruncateBeforeExecution == b.TruncateBeforeExecution &&
                     UseIdentityInsert == b.UseIdentityInsert &&
                     WarningText == b.WarningText;
         }
 
-        
+
         public override int GetHashCode()
         {
             unchecked
@@ -436,8 +457,8 @@ namespace SQLDataProducer.Entities.ExecutionEntities
                 return hash;
             }
         }
-     
 
-       
+
+
     }
 }

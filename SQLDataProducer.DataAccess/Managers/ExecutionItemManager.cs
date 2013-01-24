@@ -42,6 +42,7 @@ namespace SQLDataProducer.DataAccess.Factories
 
         public static void Save(ExecutionItemCollection execItems, string fileName)
         {
+            
             using (XmlWriter xmlWriter = XmlTextWriter.Create(fileName))
             {
                 execItems.WriteXml(xmlWriter);
@@ -70,18 +71,26 @@ namespace SQLDataProducer.DataAccess.Factories
                 TableEntity table = tda.GetTableAndColumns(loadedExec.TargetTable.TableSchema, loadedExec.TargetTable.TableName);
                 foreach (var newColumn in table.Columns)
                 {
-                    foreach (var col in loadedExec.TargetTable.Columns)
+                    foreach (var loadedColumn in loadedExec.TargetTable.Columns)
                     {
-                        if (newColumn.ColumnName == col.ColumnName)
+                        if (newColumn.ColumnName == loadedColumn.ColumnName)
                         {
-                            newColumn.Generator = newColumn.PossibleGenerators.Where(gen => gen.GeneratorName == col.Generator.GeneratorName).Single();
+                            newColumn.Generator = newColumn.PossibleGenerators.Where(gen => gen.GeneratorName == loadedColumn.Generator.GeneratorName).Single();
                             // If this column is foreign key generator then use the foreign keys we just read from the DB
                             if (newColumn.Generator.GeneratorName.ToLower().Contains("foreign"))
                                 continue;
 
-                            newColumn.Generator.SetGeneratorParameters(col.Generator.GeneratorParameters);
+                            newColumn.Generator.SetGeneratorParameters(loadedColumn.Generator.GeneratorParameters);
                         }
+                        
+                        //// Set the parameters for all the possible generators
+                        //foreach (var n in newColumn.PossibleGenerators)
+                        //{
+                        //    var l = loadedColumn.PossibleGenerators.Where(x => x.GeneratorName == n.GeneratorName).Single();
+                        //    n.SetGeneratorParameters(l.GeneratorParameters);
+                        //}
                     }
+                    
                 }
 
                 ExecutionItem ei = new ExecutionItem(table, loadedExec.Description);
