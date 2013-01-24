@@ -19,7 +19,7 @@ using System.Text;
 
 namespace SQLDataProducer.Entities.Generators
 {
-    public class GeneratorParameterParser
+    public class GeneratorParameterParser : IEquatable<GeneratorParameterParser>
     {
         public string ParserName { get; private set; }
         private Func<object, object> ValueParser { get; set; }
@@ -161,6 +161,25 @@ namespace SQLDataProducer.Entities.Generators
 
 
 
+        public override bool Equals(object obj)
+        {
+             // If parameter cannot be casted return false:
+            GeneratorParameterParser p = obj as GeneratorParameterParser;
+            if ((object)p == null)
+                return false;
 
+            // Return true if the fields match:
+            return GetHashCode() == p.GetHashCode();
+        }
+
+        public override int GetHashCode()
+        {
+            return ParserName.GetHashCode();
+        }
+
+        public bool Equals(GeneratorParameterParser other)
+        {
+            return ParserName.Equals(other.ParserName);
+        }
     }
 }

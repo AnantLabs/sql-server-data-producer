@@ -37,13 +37,27 @@ namespace SQLDataProducer.RandomTests
         [Test]
         public void ShouldBeEqualityWhenEqual()
         {
+            GeneratorParameterParser dateTimeParser1 = GeneratorParameterParser.DateTimeParser;
+            GeneratorParameterParser dateTimeParser2 = GeneratorParameterParser.DateTimeParser;
+            GeneratorParameterParser dateTimeParser3 = GeneratorParameterParser.DateTimeParser;
+            
             Assert.That(dateTimeParser, Is.EqualTo(dateTimeParser));
+            AssertEqualsDefaultBehaviour(dateTimeParser1, dateTimeParser2, dateTimeParser3);
         }
 
         [Test]
         public void ShouldNotBeEqualWhenNotEqual()
         {
-            Assert.That(dateTimeParser, Is.EqualTo(intParser));
+            Assert.That(dateTimeParser, Is.EqualTo(dateTimeParser));
+            Assert.That(intParser, Is.EqualTo(intParser));
+
+            Assert.That(dateTimeParser, Is.Not.EqualTo(intParser));
+            Assert.That(dateTimeParser, Is.Not.EqualTo(decimalParser));
+            Assert.That(dateTimeParser, Is.Not.EqualTo(stringParser));
+            Assert.That(dateTimeParser, Is.Not.EqualTo(intParser));
+            Assert.That(dateTimeParser, Is.Not.EqualTo(longParser));
+            Assert.That(dateTimeParser, Is.Not.EqualTo(objectParser));
+            
         }
 
         [Test]
