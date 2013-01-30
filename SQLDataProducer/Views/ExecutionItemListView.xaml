@@ -53,7 +53,7 @@
             
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Path=Order}" Header="#" IsReadOnly="True"/>
-                <DataGridTextColumn Binding="{Binding Path=TargetTable.TableName}" Header="Table" IsReadOnly="True"/>
+                <DataGridTextColumn Binding="{Binding Path=TargetTable.FullName}" Header="Table" IsReadOnly="True"/>
                 <DataGridTextColumn Binding="{Binding Path=Description}" Header="Description" IsReadOnly="True"/>
                 <DataGridTextColumn Binding="{Binding Path=RepeatCount}" Header="Insertsions" IsReadOnly="True"/>
 

@@ -277,7 +277,7 @@ namespace SQLDataProducer.Entities.Generators
         {
             // TODO: Implament equals on the generator parameter collection
             return
-                Enumerable.SequenceEqual(this.GeneratorParameters, other.GeneratorParameters) &&
+                //Enumerable.SequenceEqual(this.GeneratorParameters, other.GeneratorParameters) &&
                 this.IsSqlQueryGenerator == other.IsSqlQueryGenerator &&
                 this.GeneratorName == other.GeneratorName;
         }

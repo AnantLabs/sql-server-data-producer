@@ -65,7 +65,7 @@
                 <DataGridTemplateColumn Header="Available Tables" Width="*" >
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                                <TextBlock Text="{Binding Path=.}" 
+                            <TextBlock Text="{Binding Path=FullName}" 
                                            Width="{Binding Path=ActualWidth, 
                                                     RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}" >
                                     <TextBlock.InputBindings>

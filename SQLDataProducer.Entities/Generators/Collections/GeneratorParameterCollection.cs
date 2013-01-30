@@ -36,15 +36,24 @@ namespace SQLDataProducer.Entities.Generators.Collections
             StringBuilder sb = new StringBuilder();
             foreach (var s in this.Items)
             {
-                // Avoid showing parameters that cannot be changed anyway
-                //if (!s.IsWriteEnabled)
-                //    continue;
-                
-                sb.AppendFormat("{0}", s);
+                sb.AppendFormat("{0};", s);
             }
             return sb.ToString();
         }
 
+        private string ToNiceString()
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (var s in this.Items)
+            {
+                // Avoid showing parameters that cannot be changed anyway
+                if (!s.IsWriteEnabled)
+                    continue;
+
+                sb.AppendFormat("{0}='{1}';", s.ParameterName, s.Value);
+            }
+            return sb.ToString();
+        }
 
         /// <summary>
         /// Bindable ToString property
@@ -52,7 +61,7 @@ namespace SQLDataProducer.Entities.Generators.Collections
         [XmlIgnore]
         public string NiceString
         {
-            get { return this.ToString(); }
+            get { return this.ToNiceString(); }
         }
 
         
