@@ -22,6 +22,7 @@ using System.IO;
 using System.Linq;
 using Generators = SQLDataProducer.Entities.Generators;
 using SQLDataProducer.RandomTests.SerializationTests;
+using SQLDataProducer.RandomTests.OtherTests;
 
 namespace TestConsoleApplication
 {
@@ -44,6 +45,9 @@ namespace TestConsoleApplication
             //t.ShouldBeEqualWhenEqual();
             //t.ShouldNotBeEqualWhenNotEqual();
 
+            var dtt = new DataTableGenerationTests();
+            dtt.ShouldRunASmallTest();
+
             //var t = new GeneratorParameterTests();
             //t.ShouldBeEqualityWhenEqual();
             //t.ShouldNotBeEqualWhenNotEqual();
@@ -60,8 +64,8 @@ namespace TestConsoleApplication
             //var et = new ExecutionItemTests();
             //et.ShouldBeAbletoCloneExecutionItem();
 
-            var sl = new SaveLoadTests();
-            sl.ShouldBeAbleToSaveAndLoadExecutionItemCollectionUsingManager();
+            //var sl = new SaveLoadTests();
+            //sl.ShouldBeAbleToSaveAndLoadExecutionItemCollectionUsingManager();
 
             //var gpt = new GeneratorParameterParserTests();
             //gpt.ShouldParseDateTime();

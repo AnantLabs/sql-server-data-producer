@@ -46,14 +46,10 @@ namespace SQLDataProducer.Entities.ExecutionEntities
                     HasWarning = _targetTable.HasWarning;
                     _targetTable.ParentExecutionItem = this;
 
-                    _innerTable = this.AsDataTable();
-
                     OnPropertyChanged("TargetTable");
                 }
             }
         }
-
-        DataTable _innerTable;
 
         int _order;
         public int Order
@@ -350,63 +346,50 @@ this.WarningText);
             }
         }
 
-        public static DataTable CreatePreview(ExecutionItem ei)
+        public static List<RowEntity> CreatePreview(ExecutionItem ei)
         {
 
-            DataTable table = new DataTable(ei.TargetTable.TableName, ei.TargetTable.TableSchema);
-            foreach (var c in ei.TargetTable.Columns)
-            {
-                table.Columns.Add(new DataColumn(c.ColumnName, typeof(object)));
-            }
+            //List<RowEntity> table = new List<RowEntity>();
 
-            for (int i = 1; i < 100; i++)
+            //foreach (var c in ei.TargetTable.Columns)
+            //{
+            //    table.Columns.Add(new DataColumn(c.ColumnName, typeof(object)));
+            //}
+            long l = 0;
+            Func<long> getN = new Func<long>( () => {return l++; });
+            //for (int i = 1; i < 100; i++)
+            //{
+                //ei.TargetTable.GenerateValuesForColumns(i);
+                //var row = table.NewRow();
+                //table.Rows.Add(row);
+                //for (int k = 0; k < table.Columns.Count; k++)
+                //{
+                //    var value = ei.TargetTable.Columns[k].PreviouslyGeneratedValue;
+                //    row.SetField(table.Columns[k], value);
+                //}
+
+            return ei.CreateData(getN);
+            //}
+
+            //return table;
+        }
+
+
+
+        public List<RowEntity> CreateData(Func<long> getN)
+        {
+            var dt = new List<RowEntity>();
+
+            long n = 0;
+            for (int i = 0; i < RepeatCount; i++, n = getN())
             {
-                ei.TargetTable.GenerateValuesForColumns(i);
-                var row = table.NewRow();
-                table.Rows.Add(row);
-                for (int k = 0; k < table.Columns.Count; k++)
+                if (ShouldExecuteForThisN(n))
                 {
-                    var value = ei.TargetTable.Columns[k].PreviouslyGeneratedValue;
-                    row.SetField(table.Columns[k], value);
+                    dt.Add(RowEntity.Create(TargetTable, n));
                 }
-
             }
-
-            return table;
-        }
-
-
-        public IEnumerable<DataRow> GenerateDataRows(Func<long> getN)
-        {
-            // TODO: Prevent the need to create this table each time.
-            // The columns are only added once, then they are not changed.
-            // It should be quite possible to only generate this once.
-            // Can we share the datatable in multiple threads? .NewRow is threadsafe?
-
-            if (_innerTable == null)
-                throw new ArgumentNullException("_innerTable");
-
-            for (int i = 0; i < RepeatCount; i++)
-                yield return CreateDataRow(getN());
-        }
-
-        private DataTable AsDataTable()
-        {
-            DataTable dt = new DataTable(TargetTable.TableName, TargetTable.TableSchema);
-            foreach (var c in TargetTable.Columns)
-                dt.Columns.Add(c.ColumnName);//, SqlTypeToType(c.ColumnDataType.DBType));
-            // TODO: Do we need the Type?
-
+            
             return dt;
-        }
-
-        private DataRow CreateDataRow(long n)
-        {
-            var row = _innerTable.NewRow();
-            foreach (DataColumn c in _innerTable.Columns)
-                row[c.ColumnName] = TargetTable.Columns.Where(x => x.ColumnName == c.ColumnName).First().GenerateValue(n);
-
-            return row;
         }
 
         public override bool Equals(System.Object obj)

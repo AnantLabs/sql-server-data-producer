@@ -12,9 +12,12 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
+using SQLDataProducer.Entities.DatabaseEntities;
 using SQLDataProducer.Entities.ExecutionEntities;
 using SQLDataProducer.Entities.Generators;
 using SQLDataProducer.Model;
+using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace SQLDataProducer.ViewModels
 {
@@ -49,7 +52,7 @@ namespace SQLDataProducer.ViewModels
 
             ShowPreviewCommand = new DelegateCommand<ExecutionItem>(ei =>
                 {
-                    var dt = ExecutionItem.CreatePreview(ei);
+                    List<RowEntity> dt = ExecutionItem.CreatePreview(ei);
                     ModalWindows.ShowPreviewWindow win = new ModalWindows.ShowPreviewWindow(dt);
                     win.Show();
                 });

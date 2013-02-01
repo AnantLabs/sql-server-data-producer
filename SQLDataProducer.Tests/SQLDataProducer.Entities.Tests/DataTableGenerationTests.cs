@@ -24,13 +24,17 @@ namespace SQLDataProducer.RandomTests.OtherTests
             long i = 0;
             var ei = new ExecutionItem(table);
             ei.RepeatCount = 100;
-            var dataRows = ei.GenerateDataRows(new Func<long>(() => { return i++; }));
-            foreach (var dr in dataRows)
+            var rows = ei.CreateData(new Func<long>(() => { return i++; }));
+            
+            Assert.That(rows.Count, Is.EqualTo(100));
+
+            foreach (var datarow in rows)
             {
-                foreach (var c in ei.TargetTable.Columns)
+                for (int j = 0; j < datarow.Cells.Count; j++)
                 {
-                    Console.Write("{0}, ", dr[c.ColumnName]);
+                    Console.WriteLine(datarow.Cells[j].Value);
                 }
+                
                 Console.WriteLine();
             }
         }

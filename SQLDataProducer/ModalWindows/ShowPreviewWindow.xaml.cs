@@ -26,6 +26,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Data;
+using System.ComponentModel;
+using SQLDataProducer.Entities.DatabaseEntities;
 
 namespace SQLDataProducer.ModalWindows
 {
@@ -34,8 +36,8 @@ namespace SQLDataProducer.ModalWindows
     /// </summary>
     public partial class ShowPreviewWindow : Window
     {
-        DataTable _dt;
-        public ShowPreviewWindow(DataTable dt)
+        List<RowEntity> _dt;
+        public ShowPreviewWindow(List<RowEntity> dt)
         {
             _dt = dt;
             Loaded += new RoutedEventHandler(ShowPreviewWindow_Loaded);
