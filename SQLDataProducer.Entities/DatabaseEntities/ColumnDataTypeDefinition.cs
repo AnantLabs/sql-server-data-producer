@@ -247,7 +247,7 @@ namespace SQLDataProducer.Entities.DatabaseEntities
                 hash = hash * 23 + IsNullable.GetHashCode();
                 hash = hash * 23 + MaxLength.GetHashCode();
                 hash = hash * 23 + Raw.GetHashCode();
-                hash = hash * 23 + StringFormatter.GetHashCode();
+                //hash = hash * 23 + StringFormatter.GetHashCode();
                 return hash;
             }
         }

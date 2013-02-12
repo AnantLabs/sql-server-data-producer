@@ -136,6 +136,22 @@ namespace SQLDataProducer.Entities.Generators
                 })
         };
 
+        //public static GeneratorParameterParser ColumnParser = new GeneratorParameterParser
+        //{
+        //    ParserName = "Column Parser",
+        //    ValueParser = new Func<object, object>(o =>
+        //    {
+        //        return o;
+        //    }),
+        //    StringFormater = new Func<object, string>(o =>
+        //    {
+        //        if (o == null)
+        //            return null;
+
+        //        return o.ToString();
+        //    })
+        //};
+
 
         public static GeneratorParameterParser FromName(string name)
         {

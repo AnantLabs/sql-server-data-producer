@@ -473,11 +473,11 @@ this.WarningText);
                 hash = hash * 23 + ColumnDataType.GetHashCode();
                 hash = hash * 23 + ColumnName.GetHashCode();
                 hash = hash * 23 + Constraints.GetHashCode();
-                hash = hash * 23 + HasWarning.GetHashCode();
+                //hash = hash * 23 + HasWarning.GetHashCode();
                 hash = hash * 23 + IsForeignKey.GetHashCode();
                 hash = hash * 23 + IsIdentity.GetHashCode();
                 hash = hash * 23 + OrdinalPosition.GetHashCode();
-                hash = hash * 23 + WarningText.GetHashCode();
+                //hash = hash * 23 + WarningText.GetHashCode();
                 return hash;
             }
         }

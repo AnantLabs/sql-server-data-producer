@@ -400,7 +400,8 @@ this.WarningText);
                 return false;
 
             // Return true if the fields match:
-            return GetHashCode() == p.GetHashCode();
+            //return IEquatable<ExecutionItem>.Equals(GetHashCode() == p.GetHashCode();
+            return this.Equals(p);
         }
 
         public bool Equals(ExecutionItem b)
@@ -423,22 +424,23 @@ this.WarningText);
 
         public override int GetHashCode()
         {
-            unchecked
-            {
-                int hash = 37;
-                hash = hash * 23 + base.GetHashCode();
-                hash = hash * 23 + Description.GetHashCode();
-                hash = hash * 23 + ExecutionCondition.GetHashCode();
-                hash = hash * 23 + ExecutionConditionValue.GetHashCode();
-                hash = hash * 23 + HasWarning.GetHashCode();
-                hash = hash * 23 + Order.GetHashCode();
-                hash = hash * 23 + RepeatCount.GetHashCode();
-                hash = hash * 23 + TargetTable.GetHashCode();
-                hash = hash * 23 + TruncateBeforeExecution.GetHashCode();
-                hash = hash * 23 + UseIdentityInsert.GetHashCode();
-                hash = hash * 23 + WarningText.GetHashCode();
-                return hash;
-            }
+            //unchecked
+            //{
+            //    int hash = 37;
+            //    hash = hash * 23 + base.GetHashCode();
+            //    hash = hash * 23 + Description.GetHashCode();
+            //    hash = hash * 23 + ExecutionCondition.GetHashCode();
+            //    hash = hash * 23 + ExecutionConditionValue.GetHashCode();
+            //    hash = hash * 23 + HasWarning.GetHashCode();
+            //    hash = hash * 23 + Order.GetHashCode();
+            //    hash = hash * 23 + RepeatCount.GetHashCode();
+            //    hash = hash * 23 + TargetTable.GetHashCode();
+            //    hash = hash * 23 + TruncateBeforeExecution.GetHashCode();
+            //    hash = hash * 23 + UseIdentityInsert.GetHashCode();
+            //    hash = hash * 23 + WarningText.GetHashCode();
+            //    return hash;
+            //}
+            return 1;
         }
 
 

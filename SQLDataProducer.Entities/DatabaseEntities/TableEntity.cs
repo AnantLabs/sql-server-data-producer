@@ -254,7 +254,8 @@ namespace SQLDataProducer.Entities.DatabaseEntities
                 return false;
 
             // Return true if the fields match:
-            return GetHashCode() == p.GetHashCode();
+            //return GetHashCode() == p.GetHashCode();
+            return this.Equals(p);
         }
 
         public bool Equals(TableEntity b)
@@ -264,7 +265,7 @@ namespace SQLDataProducer.Entities.DatabaseEntities
 
             // Return true if the fields match:
             return
-                Enumerable.SequenceEqual(this.Columns, b.Columns) &&
+               // Enumerable.SequenceEqual(this.Columns, b.Columns) &&
                  this.HasIdentityColumn == b.HasIdentityColumn &&
                  this.HasWarning == b.HasWarning &&
                  this.TableName == b.TableName &&
@@ -279,11 +280,11 @@ namespace SQLDataProducer.Entities.DatabaseEntities
             {
                 int hash = 37;
                 //hash = hash * 23 + Columns.GetHashCode();
-                hash = hash * 23 + HasIdentityColumn.GetHashCode();
-                hash = hash * 23 + HasWarning.GetHashCode();
+                //hash = hash * 23 + HasIdentityColumn.GetHashCode();
+                //hash = hash * 23 + HasWarning.GetHashCode();
                 hash = hash * 23 + TableName.GetHashCode();
                 hash = hash * 23 + TableSchema.GetHashCode();
-                hash = hash * 23 + WarningText.GetHashCode();
+                //hash = hash * 23 + WarningText.GetHashCode();
                 return hash;
             }
         }

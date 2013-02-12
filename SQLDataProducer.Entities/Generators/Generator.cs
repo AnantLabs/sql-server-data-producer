@@ -287,7 +287,7 @@ namespace SQLDataProducer.Entities.Generators
             unchecked
             {
                 int hash = 37;
-                hash = hash * 23 + GeneratorParameters.GetHashCode();
+                //hash = hash * 23 + GeneratorParameters.GetHashCode();
                 hash = hash * 23 + IsSqlQueryGenerator.GetHashCode();
                 hash = hash * 23 + GeneratorName.GetHashCode();
                 return hash;

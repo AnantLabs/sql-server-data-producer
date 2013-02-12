@@ -203,7 +203,7 @@ namespace SQLDataProducer.Entities.Generators
                 hash = hash * 23 + ParameterName.GetHashCode();
                 hash = hash * 23 + IsWriteEnabled.GetHashCode();
                 hash = hash * 23 + ValueParser.GetHashCode();
-                hash = hash * 23 + Value.GetHashCode();
+                //hash = hash * 23 + Value.GetHashCode();
                 return hash;
             }
         }

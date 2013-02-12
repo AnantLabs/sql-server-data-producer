@@ -43,7 +43,7 @@
 
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding TargetTable.Columns}" DataType="dt:ColumnEntity">
-                    <TextBlock Text="{Binding .}" />
+                    <TextBlock Text="{Binding ColumnName}" />
                 </HierarchicalDataTemplate>
                 <!--<HierarchicalDataTemplate DataType="dt:TableEntity">
                     <TextBlock Text="{Binding .}" />
