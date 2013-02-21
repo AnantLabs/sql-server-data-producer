@@ -425,7 +425,8 @@ namespace SQLDataProducer.Model
             IsQueryRunning = true;
 
             WorkFlowManager = new WorkflowManager();
-            WorkFlowManager.RunWorkFlowAsync(Options, ConnectionString, ExecutionItems, (executionResult) =>
+            var executor  = new TaskExecuter.TaskExecuter(Options, ConnectionString, ExecutionItems, new DataConsumers.DataToMSSSQLInsertionConsumer.InsertComsumer());
+            WorkFlowManager.RunWorkFlowAsync(executor, (executionResult) =>
             {
                 IsQueryRunning = false;
                 // Modal window need to be started from STA thread.

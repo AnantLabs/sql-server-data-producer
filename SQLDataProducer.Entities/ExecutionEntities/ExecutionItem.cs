@@ -340,6 +340,8 @@ this.WarningText);
                 case ExecutionConditions.NotEqualTo:
                     return ExecutionConditionValue != N;
                 case ExecutionConditions.EveryOtherX:
+                    if (N == 0)
+                        return true;
                     return ExecutionConditionValue % N == 0;
                 default:
                     throw new NotSupportedException("ExecutionConditions not supported");
@@ -348,45 +350,33 @@ this.WarningText);
 
         public static List<RowEntity> CreatePreview(ExecutionItem ei)
         {
-
-            //List<RowEntity> table = new List<RowEntity>();
-
-            //foreach (var c in ei.TargetTable.Columns)
-            //{
-            //    table.Columns.Add(new DataColumn(c.ColumnName, typeof(object)));
-            //}
             long l = 0;
             Func<long> getN = new Func<long>( () => {return l++; });
-            //for (int i = 1; i < 100; i++)
-            //{
-                //ei.TargetTable.GenerateValuesForColumns(i);
-                //var row = table.NewRow();
-                //table.Rows.Add(row);
-                //for (int k = 0; k < table.Columns.Count; k++)
-                //{
-                //    var value = ei.TargetTable.Columns[k].PreviouslyGeneratedValue;
-                //    row.SetField(table.Columns[k], value);
-                //}
 
-            return ei.CreateData(getN);
-            //}
-
-            //return table;
+            return ei.CreateData(getN, new SetCounter());
         }
 
 
-
-        public List<RowEntity> CreateData(Func<long> getN)
+        /// <summary>
+        /// Create set of data for one execution.
+        /// </summary>
+        /// <param name="getN"></param>
+        /// <returns></returns>
+        public List<RowEntity> CreateData(Func<long> getN, SetCounter insertCounter)
         {
             var dt = new List<RowEntity>();
 
             long n = 0;
-            for (int i = 0; i < RepeatCount; i++, n = getN())
+            for (int i = 0; i < RepeatCount; i++)
             {
+                n = getN();
+                Console.WriteLine("Generating data with N = {0}", n);
                 if (ShouldExecuteForThisN(n))
                 {
-                    dt.Add(RowEntity.Create(TargetTable, n));
+                    dt.Add(RowEntity.Create(TargetTable, n, i));
+                    insertCounter.Increment();
                 }
+                
             }
             
             return dt;

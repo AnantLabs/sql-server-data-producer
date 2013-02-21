@@ -89,6 +89,7 @@ namespace SQLDataProducer.DataAccess
         {
             using (SqlCommand cmd = new SqlCommand(sql, _connection))
             {
+                //cmd.Transaction.IsolationLevel = System.Data.IsolationLevel.ReadUncommitted;
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
 

@@ -14,7 +14,7 @@
 
 using System;
 using SQLDataProducer.RandomTests;
-using SQLDataProducer.ContinuousInsertion.Builders;
+//using SQLDataProducer.ContinuousInsertion.Builders;
 using SQLDataProducer.Entities.ExecutionEntities;
 using SQLDataProducer.DataAccess;
 using SQLDataProducer.Entities.DatabaseEntities;
@@ -45,8 +45,12 @@ namespace TestConsoleApplication
             //t.ShouldBeEqualWhenEqual();
             //t.ShouldNotBeEqualWhenNotEqual();
 
-            var dtt = new DataTableGenerationTests();
-            dtt.ShouldRunASmallTest();
+            //var dtt = new DataTableGenerationTests();
+            //dtt.ShouldRunASmallTest();
+            //var dtc = new DataToCSVConsumerTests();
+            //dtc.StandardTest();
+            var t = new RandomTests();
+            t.ShouldExecuteOnlyOnCondition_EqualOrGreaterThan();
 
             //var t = new GeneratorParameterTests();
             //t.ShouldBeEqualityWhenEqual();

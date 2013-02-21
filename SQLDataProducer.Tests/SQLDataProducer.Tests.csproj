@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataToCSVConsumerTest.cs" />
+    <Compile Include="DataToConsoleComsumerTest.cs" />
     <Compile Include="ForeignKeyTests.cs" />
     <Compile Include="Helpers\ExecutionItemHelper.cs" />
     <Compile Include="LongRunningTests.cs" />
@@ -69,17 +71,33 @@
     <Compile Include="TestBase.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SQLDataProducer.ContinuousInsertion\SQLDataProducer.ContinuousInsertion.csproj">
-      <Project>{4BB5B315-0C7C-44B7-BF79-4A52C8A12E0F}</Project>
-      <Name>SQLDataProducer.ContinuousInsertion</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SQLDataProducer.DataAccess\SQLDataProducer.DataAccess.csproj">
       <Project>{DE7F05FA-0F0C-4779-82C0-389713EB68C7}</Project>
       <Name>SQLDataProducer.DataAccess</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SQLDataProducer.DataConsumers.DataToConsoleConsumer\SQLDataProducer.DataConsumers.DataToConsoleConsumer.csproj">
+      <Project>{62618c67-991a-4d50-bb27-f7460aa69d1b}</Project>
+      <Name>SQLDataProducer.DataConsumers.DataToConsoleConsumer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SQLDataProducer.DataConsumers.DataToCSVConsumer\SQLDataProducer.DataConsumers.DataToCSVConsumer.csproj">
+      <Project>{d802aeb6-e0c9-4793-89ae-4d8c36ccf642}</Project>
+      <Name>SQLDataProducer.DataConsumers.DataToCSVConsumer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer\SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer.csproj">
+      <Project>{9d8f07da-f510-4c84-9b3b-8c2a612eeed7}</Project>
+      <Name>SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SQLDataProducer.DataConsumers.DataToMSSSQLScriptConsumer\SQLDataProducer.DataConsumers.DataToMSSSQLScriptConsumer.csproj">
+      <Project>{39ddef14-c02a-4d30-862e-3c91aa91e00b}</Project>
+      <Name>SQLDataProducer.DataConsumers.DataToMSSSQLScriptConsumer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SQLDataProducer.Entities\SQLDataProducer.Entities.csproj">
       <Project>{0D135CAD-55DB-4090-BB5F-2C493A1F0072}</Project>
       <Name>SQLDataProducer.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SQLDataProducer.IConsumer\SQLDataProducer.DataConsumers.csproj">
+      <Project>{91246dca-0d6d-41ff-8c9d-115313151021}</Project>
+      <Name>SQLDataProducer.DataConsumers</Name>
     </ProjectReference>
     <ProjectReference Include="..\SQLDataProducer.TaskExecuter\SQLDataProducer.TaskExecuter.csproj">
       <Project>{AD47B9D0-0A49-49ED-9CF0-123809E266D4}</Project>

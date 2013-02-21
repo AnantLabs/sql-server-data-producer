@@ -69,6 +69,7 @@
       <DependentUpon>ProjectMenuControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\InverseBooleanConverter.cs" />
+    <Compile Include="Converters\NodeLevelToColorConverter.cs" />
     <Compile Include="Converters\ProgressConverter.cs" />
     <Compile Include="Converters\VisibilityConverter.cs" />
     <Compile Include="Helpers\NotepadHelper.cs" />
@@ -98,6 +99,9 @@
     <Compile Include="ViewModels\ExecutionOptionsViewModel.cs" />
     <Compile Include="ViewModels\IYesNoViewModel.cs" />
     <Compile Include="ViewModels\SidePanelViewModel.cs" />
+    <Compile Include="Views\ConfigureExecutionNodes.xaml.cs">
+      <DependentUpon>ConfigureExecutionNodes.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ConfigureReferenceGeneratorView.xaml.cs">
       <DependentUpon>ConfigureReferenceGeneratorView.xaml</DependentUpon>
     </Compile>
@@ -167,6 +171,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\Styles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ConfigureExecutionNodes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -245,9 +253,17 @@
       <Project>{DE7F05FA-0F0C-4779-82C0-389713EB68C7}</Project>
       <Name>SQLDataProducer.DataAccess</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer\SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer.csproj">
+      <Project>{9d8f07da-f510-4c84-9b3b-8c2a612eeed7}</Project>
+      <Name>SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SQLDataProducer.Entities\SQLDataProducer.Entities.csproj">
       <Project>{0D135CAD-55DB-4090-BB5F-2C493A1F0072}</Project>
       <Name>SQLDataProducer.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SQLDataProducer.IConsumer\SQLDataProducer.DataConsumers.csproj">
+      <Project>{91246dca-0d6d-41ff-8c9d-115313151021}</Project>
+      <Name>SQLDataProducer.DataConsumers</Name>
     </ProjectReference>
     <ProjectReference Include="..\SQLDataProducer.TaskExecuter\SQLDataProducer.TaskExecuter.csproj">
       <Project>{AD47B9D0-0A49-49ED-9CF0-123809E266D4}</Project>

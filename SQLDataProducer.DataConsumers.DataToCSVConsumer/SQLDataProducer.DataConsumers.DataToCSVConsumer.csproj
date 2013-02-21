@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{4BB5B315-0C7C-44B7-BF79-4A52C8A12E0F}</ProjectGuid>
+    <ProjectGuid>{D802AEB6-E0C9-4793-89AE-4D8C36CCF642}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SQLDataProducer.ContinuousInsertion</RootNamespace>
-    <AssemblyName>SQLDataProducer.ContinuousInsertion</AssemblyName>
+    <RootNamespace>SQLDataProducer.DataConsumers.DataToCSVConsumer</RootNamespace>
+    <AssemblyName>SQLDataProducer.DataConsumers.DataToCSVConsumer</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,9 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -42,17 +40,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ContinuousInsertionManager.cs" />
+    <Compile Include="DataToCSVConsumer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SQLDataProducer.DataAccess\SQLDataProducer.DataAccess.csproj">
-      <Project>{DE7F05FA-0F0C-4779-82C0-389713EB68C7}</Project>
-      <Name>SQLDataProducer.DataAccess</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SQLDataProducer.Entities\SQLDataProducer.Entities.csproj">
-      <Project>{0D135CAD-55DB-4090-BB5F-2C493A1F0072}</Project>
+      <Project>{0d135cad-55db-4090-bb5f-2c493a1f0072}</Project>
       <Name>SQLDataProducer.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SQLDataProducer.IConsumer\SQLDataProducer.DataConsumers.csproj">
+      <Project>{91246dca-0d6d-41ff-8c9d-115313151021}</Project>
+      <Name>SQLDataProducer.DataConsumers</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

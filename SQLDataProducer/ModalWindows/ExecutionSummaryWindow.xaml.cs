@@ -15,6 +15,7 @@
 
 using System.Windows;
 using SQLDataProducer.Helpers;
+using System;
 
 namespace SQLDataProducer.ModalWindows
 {
@@ -48,13 +49,15 @@ namespace SQLDataProducer.ModalWindows
 
         private void showScript_Click(object sender, RoutedEventArgs e)
         {
-            if (System.IO.File.Exists(_applicationModel.Options.ScriptOutputScriptName))
-            {
-                string str = System.IO.File.ReadAllText(_applicationModel.Options.ScriptOutputScriptName);
-                NotepadHelper.ShowInNotepad(str);
-            }
-            else
-                MessageBox.Show("Script file not found, probably due to some error during generation");
+            throw new NotImplementedException("This method is not implemented yet for the new plugin system");
+
+            //if (System.IO.File.Exists(_applicationModel.Options.ScriptOutputScriptName))
+            //{
+            //    string str = System.IO.File.ReadAllText(_applicationModel.Options.ScriptOutputScriptName);
+            //    NotepadHelper.ShowInNotepad(str);
+            //}
+            //else
+            //    MessageBox.Show("Script file not found, probably due to some error during generation");
 
         }
     }

@@ -61,8 +61,11 @@ namespace SQLDataProducer.DataAccess
                         CONVERT(VARCHAR(MAX), scc.name + '.' + soc.name) AS Hierarchy ,
                         0 AS Generation,
                         Ranking = CONVERT(VARCHAR(MAX), soc.object_id)
-               FROM     SYS.objects soc
-                        JOIN sys.schemas scc ON soc.schema_id = scc.schema_id
+               FROM 
+                    SYS.objects soc  WITH(NOLOCK)
+               JOIN 
+                    sys.schemas scc WITH(NOLOCK)
+                    ON soc.schema_id = scc.schema_id
                WHERE    scc.name = @Schemaname
                         AND soc.name = @Tablename
                UNION ALL
@@ -79,16 +82,23 @@ namespace SQLDataProducer.DataAccess
                         f.Generation + 1 AS Generation,
                         Ranking = f.Ranking + '-'
                         + CONVERT(VARCHAR(MAX), sop.object_id)
-               FROM     SYS.foreign_key_columns sfc
-                        JOIN sys.Objects sop ON sfc.parent_object_id = sop.object_id
-                        JOIN SYS.columns socp ON socp.object_id = sop.object_id
-                                                 AND socp.column_id = sfc.parent_column_id
-                        JOIN sys.schemas scp ON sop.schema_id = scp.schema_id
-                        JOIN sys.objects soc ON sfc.referenced_object_id = soc.object_id
-                        JOIN sys.columns socc ON socc.object_id = soc.object_id
-                                                 AND socc.column_id = sfc.referenced_column_id
-                        JOIN sys.schemas scc ON soc.schema_id = scc.schema_id
-                        JOIN fkey f ON f.ReferencingObjectid = sfc.referenced_object_id
+               FROM     SYS.foreign_key_columns sfc WITH(NOLOCK)
+                        JOIN sys.Objects sop  WITH(NOLOCK)
+                            ON sfc.parent_object_id = sop.object_id
+                        JOIN SYS.columns socp  WITH(NOLOCK)
+                            ON socp.object_id = sop.object_id
+                            AND socp.column_id = sfc.parent_column_id
+                        JOIN sys.schemas scp  WITH(NOLOCK)
+                            ON sop.schema_id = scp.schema_id
+                        JOIN sys.objects soc  WITH(NOLOCK)
+                            ON sfc.referenced_object_id = soc.object_id
+                        JOIN sys.columns socc  WITH(NOLOCK)
+                            ON socc.object_id = soc.object_id
+                            AND socc.column_id = sfc.referenced_column_id
+                        JOIN sys.schemas scc  WITH(NOLOCK)
+                            ON soc.schema_id = scc.schema_id
+                        JOIN fkey f  WITH(NOLOCK)
+                            ON f.ReferencingObjectid = sfc.referenced_object_id
                WHERE    ISNULL(f.PrimarykeyObjectid, 0) <> f.ReferencingObjectid
              )
     INSERT  INTO @fkeytbl
@@ -166,7 +176,7 @@ AS (
 		,CONVERT(VARCHAR(MAX), schema_name(o.schema_id)+ '.' + o.name) AS Hierarchy
 		,0 AS Generation
 		,Ranking = CONVERT(VARCHAR(MAX), o.object_id)
-	FROM sys.objects o 
+	FROM sys.objects o  WITH(NOLOCK)
 	WHERE o.object_id = object_id(@SchemaName + '.' + @TableName)
 
 UNION ALL
@@ -185,9 +195,9 @@ UNION ALL
         ,Rels.Generation + 1 AS Generation
         ,Ranking = Rels.Ranking + '-'
 	FROM Rels
-		JOIN sys.foreign_keys fk ON fk.parent_object_id = Rels.ParentId
-		JOIN sys.objects co ON co.object_id = fk.parent_object_id
-		JOIN sys.objects po ON po.object_id = fk.referenced_object_id
+		JOIN sys.foreign_keys fk WITH(NOLOCK) ON fk.parent_object_id = Rels.ParentId
+		JOIN sys.objects co WITH(NOLOCK) ON co.object_id = fk.parent_object_id
+		JOIN sys.objects po WITH(NOLOCK) ON po.object_id = fk.referenced_object_id
 							AND po.object_id != co.object_id
 )
 SELECT ROW_NUMBER() OVER (ORDER BY Ranking ASC) AS RowNumber 
@@ -225,11 +235,11 @@ ORDER BY RowNumber desc
 	, ReferencedColumn = foreignInfo.ReferencedColumn
     , ConstraintDefinition = constraintDef 
 from 
-    sys.columns cols
+    sys.columns cols WITH(NOLOCK)
 cross apply
 (
 	SELECT schema_name(o.schema_id) 
-	FROM sys.objects o 
+	FROM sys.objects o  WITH(NOLOCK)
 	where o.object_id = cols.object_id
 ) obj(table_schema)
 
@@ -238,10 +248,10 @@ cross apply
 	select 	 	top 1
 		COALESCE(bt.name, t.name) as DataTypen
 	from
-		sys.types AS t
+		sys.types AS t WITH(NOLOCK)
 		--ON c.user_type_id = t.user_type_id
 	LEFT OUTER JOIN 
-		sys.types AS bt
+		sys.types AS bt WITH(NOLOCK)
 		ON t.is_user_defined = 1
 		AND bt.is_user_defined = 0
 		AND t.system_type_id = bt.system_type_id
@@ -256,24 +266,24 @@ outer apply(
 		,  referencedTable.name as ReferencedTable
 		, crk.name ReferencedColumn
 	FROM 
-		sys.tables AS tbl
+		sys.tables AS tbl WITH(NOLOCK)
 	LEFT JOIN 
-		sys.foreign_keys AS fkeys
+		sys.foreign_keys AS fkeys WITH(NOLOCK)
 		ON fkeys.parent_object_id = tbl.object_id
 	LEFT JOIN 
-		sys.foreign_key_columns AS fkcols
+		sys.foreign_key_columns AS fkcols WITH(NOLOCK)
 		ON fkcols.constraint_object_id = fkeys.object_id
 
 	LEFT JOIN 
-		sys.columns AS referencedCols
+		sys.columns AS referencedCols WITH(NOLOCK)
 		ON fkcols.parent_column_id = referencedCols.column_id
 		AND fkcols.parent_object_id = referencedCols.object_id
 
 	left join 
-		sys.tables as referencedTable
+		sys.tables as referencedTable WITH(NOLOCK)
 		on referencedTable.object_id = fkeys.referenced_object_id
 	LEFT JOIN 
-		sys.columns AS crk
+		sys.columns AS crk WITH(NOLOCK)
 		ON fkcols.referenced_column_id = crk.column_id
 		AND fkcols.referenced_object_id = crk.object_id
 
@@ -288,9 +298,9 @@ OUTER APPLY
 		(
 		SELECT '\n' + c.CHECK_CLAUSE + '\n'  AS [text()] 
 		FROM
-			INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE cu  
+			INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE cu   WITH(NOLOCK)
 		INNER JOIN
-			INFORMATION_SCHEMA.CHECK_CONSTRAINTS c 
+			INFORMATION_SCHEMA.CHECK_CONSTRAINTS c  WITH(NOLOCK)
 			ON cu.CONSTRAINT_NAME = c.CONSTRAINT_NAME
 		WHERE
 			cu.CONSTRAINT_NAME = c.CONSTRAINT_NAME
@@ -300,7 +310,7 @@ OUTER APPLY
         ) AS  constr(constraintDef)   
 
 where 
-	object_id in (SELECT object_id(TABLE_SCHEMA + '.' + TABLE_NAME) FROM INFORMATION_SCHEMA.tables where table_type = 'base table' ) 
+	object_id in (SELECT object_id(TABLE_SCHEMA + '.' + TABLE_NAME) FROM INFORMATION_SCHEMA.tables WITH(NOLOCK) where table_type = 'base table' ) 
 
 and cols.is_computed = 0
 
@@ -360,7 +370,7 @@ order by table_schema, table_name
         {
             using (ColumnEntityDataAccess colDa = new ColumnEntityDataAccess(this._connectionString))
             {
-                TableEntity table = GetOne(string.Format("select Table_Name, Table_Schema from information_Schema.Tables where table_schema = '{0}' and table_name = '{1}'", tableSchema, tableName), CreateTableEntity);
+                TableEntity table = GetOne(string.Format("select Table_Name, Table_Schema from information_Schema.Tables WITH(NOLOCK) where table_schema = '{0}' and table_name = '{1}'", tableSchema, tableName), CreateTableEntity);
                 table.Columns.AddRange(colDa.GetAllColumnsForTable(table));
                 //    // TODO: Dont add these foreign key generators here. Should be handled more central
                 foreach (var item in table.Columns.Where(x => x.IsForeignKey))
@@ -429,7 +439,7 @@ order by table_schema, table_name
 
         public ObservableCollection<string> GetPrimaryKeysForColumnInTable(TableEntity table, string primaryKeyColumn)
         {
-            string s = string.Format("SELECT TOP {0} {1} FROM {2}.{3}", 1000, primaryKeyColumn, table.TableSchema, table.TableName);
+            string s = string.Format("SELECT TOP {0} {1} FROM {2}.{3} WITH(NOLOCK)", 1000, primaryKeyColumn, table.TableSchema, table.TableName);
             Func<SqlDataReader, string> createKey = reader =>
             {
                 return reader.GetValue(0).ToString();

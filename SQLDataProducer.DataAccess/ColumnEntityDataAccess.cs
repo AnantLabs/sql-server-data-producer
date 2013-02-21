@@ -93,17 +93,17 @@ select
 	, ReferencedColumn = foreignInfo.ReferencedColumn
     , ConstraintDefinition = constraintDef 
 from 
-    sys.columns cols
+    sys.columns cols WITH(NOLOCK)
 
 cross apply
 (
 	select 	 	top 1
 		COALESCE(bt.name, t.name) as DataTypen
 	from
-		sys.types AS t
+		sys.types AS t WITH(NOLOCK)
 		--ON c.user_type_id = t.user_type_id
 	LEFT OUTER JOIN 
-		sys.types AS bt
+		sys.types AS bt WITH(NOLOCK)
 		ON t.is_user_defined = 1
 		AND bt.is_user_defined = 0
 		AND t.system_type_id = bt.system_type_id
@@ -118,24 +118,24 @@ outer apply(
 		,  referencedTable.name as ReferencedTable
 		, crk.name ReferencedColumn
 	FROM 
-		sys.tables AS tbl
+		sys.tables AS tbl WITH(NOLOCK)
 	LEFT JOIN 
-		sys.foreign_keys AS fkeys
+		sys.foreign_keys AS fkeys WITH(NOLOCK)
 		ON fkeys.parent_object_id = tbl.object_id
 	LEFT JOIN 
-		sys.foreign_key_columns AS fkcols
+		sys.foreign_key_columns AS fkcols WITH(NOLOCK)
 		ON fkcols.constraint_object_id = fkeys.object_id
 
 	LEFT JOIN 
-		sys.columns AS referencedCols
+		sys.columns AS referencedCols WITH(NOLOCK)
 		ON fkcols.parent_column_id = referencedCols.column_id
 		AND fkcols.parent_object_id = referencedCols.object_id
 
 	left join 
-		sys.tables as referencedTable
+		sys.tables as referencedTable WITH(NOLOCK)
 		on referencedTable.object_id = fkeys.referenced_object_id
 	LEFT JOIN 
-		sys.columns AS crk
+		sys.columns AS crk WITH(NOLOCK)
 		ON fkcols.referenced_column_id = crk.column_id
 		AND fkcols.referenced_object_id = crk.object_id
 
@@ -150,9 +150,9 @@ OUTER APPLY
 		(
 		SELECT '\n' + c.CHECK_CLAUSE + '\n'  AS [text()] 
 		FROM
-			INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE cu  
+			INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE cu   WITH(NOLOCK)
 		INNER JOIN
-			INFORMATION_SCHEMA.CHECK_CONSTRAINTS c 
+			INFORMATION_SCHEMA.CHECK_CONSTRAINTS c  WITH(NOLOCK)
 			ON cu.CONSTRAINT_NAME = c.CONSTRAINT_NAME
 		WHERE
 			cu.CONSTRAINT_NAME = c.CONSTRAINT_NAME

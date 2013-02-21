@@ -58,7 +58,7 @@ namespace SQLDataProducer.RandomTests
                     Console.WriteLine("Generator: {0} - DataType: {1}", c.Generator.GeneratorName, c.ColumnDataType.DBType.ToString());
                 }
 
-                var res = wfm.RunWorkFlow(options, Connection(), items);
+                var res = wfm.RunWorkFlow(new TaskExecuter.TaskExecuter(options, Connection(), items, DefaultDataConsumer));
 
                 foreach (var s in res.ErrorList)
                 {
@@ -100,7 +100,7 @@ namespace SQLDataProducer.RandomTests
                 }
 
                 // new N for each row
-                var res = wfm.RunWorkFlow(options, Connection(), items);
+                var res = wfm.RunWorkFlow(new TaskExecuter.TaskExecuter(options, Connection(), items, DefaultDataConsumer));
 
                 foreach (var s in res.ErrorList)
                 {

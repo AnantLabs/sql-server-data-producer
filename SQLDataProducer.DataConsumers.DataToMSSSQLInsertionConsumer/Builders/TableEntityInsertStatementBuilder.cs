@@ -111,26 +111,6 @@ namespace SQLDataProducer.ContinuousInsertion.Builders
 
         }
         
-        /// <summary>
-        /// Set values for the parameters. The parameters must already be generated and should have been in the init() function
-        /// </summary>
-        /// <param name="getN">will be called once per row</param>
-        public void GenerateValues(Func<long> getN)
-        {
-            for (int rep = 1; rep <= ExecuteItem.RepeatCount; rep++)
-            {
-                long N = getN();
-
-                ExecuteItem.TargetTable.GenerateValuesForColumns(N);
-                
-                foreach (var col in ExecuteItem.TargetTable.Columns)//.Where(x => x.IsNotIdentity))
-                {
-                    string paramName = QueryBuilderHelper.GetParamName(rep, col);
-                    Parameters[paramName].Value = col.PreviouslyGeneratedValue;
-                }
-            }
-        }
-
         public static ObservableCollection<TableEntityInsertStatementBuilder> CreateBuilders(ExecutionItemCollection items)
         {
             var builders = new ObservableCollection<TableEntityInsertStatementBuilder>();
@@ -138,6 +118,18 @@ namespace SQLDataProducer.ContinuousInsertion.Builders
                 builders.Add(new TableEntityInsertStatementBuilder(item));
 
             return builders;
+        }
+
+        internal void SetParameterValues(List<Entities.DatabaseEntities.RowEntity> dataRows)
+        {
+            foreach (var row in dataRows)
+            {
+                foreach (var c in row.Cells)
+                {
+                    string paramName = QueryBuilderHelper.GetParamName(row.RowNumber, c.Column);
+                    Parameters[paramName].Value = c.Value;
+                }
+            }
         }
     }
 }

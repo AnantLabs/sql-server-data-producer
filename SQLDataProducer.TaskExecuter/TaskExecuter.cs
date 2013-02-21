@@ -22,15 +22,17 @@ using SQLDataProducer.Entities;
 using System.ComponentModel;
 using System.Threading;
 using System.IO;
-using SQLDataProducer.ContinuousInsertion;
+//using SQLDataProducer.ContinuousInsertion;
+using SQLDataProducer.Entities.DatabaseEntities.Collections;
+using SQLDataProducer.DataConsumers;
 
 namespace SQLDataProducer.TaskExecuter
 {
-    internal class TaskExecuter
+    public class TaskExecuter : IDisposable
     {
         private System.Threading.CancellationTokenSource _cancelTokenSource;
-        
-        List<string> _errorMessages = new List<string>();
+
+        ErrorList _errorMessages = new ErrorList(20);
 
         SetCounter _executionCounter = new SetCounter();
         SetCounter _rowInsertCounter = new SetCounter();
@@ -47,17 +49,18 @@ namespace SQLDataProducer.TaskExecuter
 
         private bool _doneMyWork = false;
         ExecutionItemCollection _execItems;
+        private IDataConsumer _consumer;
+        private bool _isInitialized = false;
 
-        public TaskExecuter(ExecutionTaskOptions options, string connectionString, ExecutionItemCollection execItems)
+        public TaskExecuter(ExecutionTaskOptions options, string connectionString, ExecutionItemCollection execItems, IDataConsumer consumer)
         {
             _doneMyWork = false;
             _connectionString = connectionString;
             Options = options;
             _cancelTokenSource = new CancellationTokenSource();
             _execItems = execItems;
+            _consumer = consumer;
 
-           
-            
             // Create the method to be used to generate the N values.
             _nGenerator = delegate
             {
@@ -65,9 +68,11 @@ namespace SQLDataProducer.TaskExecuter
                 {
                     case NumberGeneratorMethods.NewNForEachExecution:
                         // The executionCounter is incremented for each Execution, just return the current value. It will be incremented in the big loop
+                        Console.WriteLine("_executionCounter.Peek()");
                         return _executionCounter.Peek();
                     case NumberGeneratorMethods.NewNForEachRow:
                         // Insert counter is used to generated per row, it should be incremented by "something else" for each row that is inserted
+                        Console.WriteLine("_rowInsertCounter.Peek()");
                         return _rowInsertCounter.Peek();
                     case NumberGeneratorMethods.ConstantN:
                         return 1;
@@ -77,7 +82,7 @@ namespace SQLDataProducer.TaskExecuter
             };
         }
 
-      
+
         private System.Threading.CancellationTokenSource CancelTokenSource
         {
             get
@@ -94,55 +99,52 @@ namespace SQLDataProducer.TaskExecuter
         }
 
 
-        /// <summary>
-        /// Creates an Action with insert statements and variables and then executes the query.
-        /// </summary>
-        /// <param name="execItems">the items that should be included in the execution</param>
-        /// <param name="baseQuery">The query containing insert statements for all the items and a placeholder for the variables and their values</param>
-        /// <param name="GenerateFinalQuery">The FinalQueryGeneratorDelegate that will be run to create the final query. The final query will include the actuall values</param>
-        /// <returns></returns>
-        private ExecutionTaskDelegate CreateSQLTaskForExecutionItems()
-        {
-            return new ExecutionTaskDelegate( manager =>
-            {
-                try
-                {
-                    if (!Options.OnlyOutputToFile)
-                    {
-                        manager.DoOneExecution(_nGenerator, _rowInsertCounter, _executionCounter.Peek());
-                    }
-                    else
-                    {
-                        string finalResult = ContinuousInsertionManager.OneExecutionToString(_execItems, _nGenerator, _rowInsertCounter);
-                        WriteScriptToFile(finalResult);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    // TODO: Count the error, save it in some list, and then show it to the user
-                    lock (_logFileLockObjs)
-                    {
-                        _errorMessages.Add(ex.ToString());
-                        System.IO.File.AppendAllText("log.txt", ex.ToString());
-                    }
-                }
-            });
-        }
+        //private IDataConsumer GetDataConsumer()
+        //{
+        //    return new DataConsumers.DataToCSVConsumer.DataToCSVConsumer();
+
+        //    //return new ExecutionTaskDelegate( () =>
+        //    //{
+        //    //    try
+        //    //    {
+        //    //        if (!Options.OnlyOutputToFile)
+        //    //        {
+        //    //            throw new NotImplementedException("Fix after refactoring av DataConsumers");
+        //    //           // manager.DoOneExecution(_nGenerator, _rowInsertCounter, _executionCounter.Peek());
+        //    //        }
+        //    //        else
+        //    //        {
+        //    //            throw new NotImplementedException("Fix after refactoring av DataConsumers");
+        //    //            //string finalResult = ContinuousInsertionManager.OneExecutionToString(_execItems, _nGenerator, _rowInsertCounter);
+        //    //            //WriteScriptToFile(finalResult);
+        //    //        }
+        //    //    }
+        //    //    catch (Exception ex)
+        //    //    {
+        //    //        // TODO: Count the error, save it in some list, and then show it to the user
+        //    //        lock (_logFileLockObjs)
+        //    //        {
+        //    //            _errorMessages.Add(ex.ToString());
+        //    //            System.IO.File.AppendAllText("log.txt", ex.ToString());
+        //    //        }
+        //    //    }
+        //    //});
+        //}
 
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="baseQuery"></param>
-        /// <exception cref="ArgumentNullException">When the Options.ScriptOutputFolder have not been set</exception>
-        private void WriteScriptToFile(string baseQuery)
-        {
-            if (Options.ScriptOutputScriptName == null)
-                throw new ArgumentNullException("Options.ScriptOutputFolder");
-            
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        ///// <param name="baseQuery"></param>
+        ///// <exception cref="ArgumentNullException">When the Options.ScriptOutputFolder have not been set</exception>
+        //private void WriteScriptToFile(string baseQuery)
+        //{
+        //    if (Options.ScriptOutputScriptName == null)
+        //        throw new ArgumentNullException("Options.ScriptOutputFolder");
 
-            System.IO.File.AppendAllText(Options.ScriptOutputScriptName, baseQuery);
-        }
+
+        //    System.IO.File.AppendAllText(Options.ScriptOutputScriptName, baseQuery);
+        //}
 
 
         /// <summary>
@@ -154,24 +156,26 @@ namespace SQLDataProducer.TaskExecuter
         /// <param name="onCompletedCallback">the callback that will be called when execution is done or stopped</param>
         public ExecutionResult Execute()
         {
+            if (!_isInitialized)
+                throw new InvalidOperationException("Method cannot be run before Init have been called");
+
             // Lazy fix to avoid having to clean up and reset everything.
             if (_doneMyWork)
                 throw new NotSupportedException("This TaskExecuter have already been used. It may not be used again. Create a new one and try again");
 
-            if (Options.OnlyOutputToFile && File.Exists(Options.ScriptOutputScriptName))
-                File.Delete(Options.ScriptOutputScriptName);
+            SQLDataProducer.Entities.Generators.Generator.InitGeneratorStartValues(Options);
 
             ExecutionResult result = new ExecutionResult();
-            ExecutionTaskDelegate task = CreateSQLTaskForExecutionItems();
+
             try
             {
                 switch (Options.ExecutionType)
                 {
                     case ExecutionTypes.DurationBased:
-                        RunTaskDurationBased(task);
+                        RunTaskDurationBased();
                         break;
                     case ExecutionTypes.ExecutionCountBased:
-                        RunTaskExecutionCountBased(task);
+                        RunTaskExecutionCountBased();
                         break;
                     default:
                         break;
@@ -188,8 +192,7 @@ namespace SQLDataProducer.TaskExecuter
                 result.ExecutedItemCount = _executionCounter.Peek();
                 _doneMyWork = true;
             }
-            
-            
+
             return result;
 
         }
@@ -197,31 +200,29 @@ namespace SQLDataProducer.TaskExecuter
         /// <summary>
         /// Creates an Action that will run the provided task a selected amount of times. 
         /// </summary>
-        /// <param name="task">the task to run.</param>
+        /// <param name="consumer">the task to run.</param>
         /// <returns>the action that will run the task</returns>
-        private void RunTaskExecutionCountBased(ExecutionTaskDelegate task)
+        private void RunTaskExecutionCountBased()
         {
             // Reset percent done to zero before starting
             Options.PercentCompleted = 0;
             List<BackgroundWorker> workers = new List<BackgroundWorker>();
             for (int i = 0; i < Options.MaxThreads; i++)
             {
-                
+
                 workers.Add(new BackgroundWorker());
                 workers[i].DoWork += (sender, e) =>
                 {
-                    using (ContinuousInsertionManager manager = new ContinuousInsertionManager(_connectionString, _execItems))
+                    while (_executionCounter.Peek() < Options.FixedExecutions && !CancelTokenSource.IsCancellationRequested)
                     {
-                        while (_executionCounter.Peek() < Options.FixedExecutions && !CancelTokenSource.IsCancellationRequested)
-                        {
-                            _executionCounter.Increment();
 
-                            task(manager);
-                            float percentDone = (float)_executionCounter.Peek() / (float)Options.FixedExecutions;
-                            // TODO: Find out if this is eating to much performance (Sending many OnPropertyChanged events..
-                            Options.PercentCompleted = percentDone;
-                        }
+                        RunOneExecution();
+
+                        float percentDone = (float)_executionCounter.Peek() / (float)Options.FixedExecutions;
+                        // TODO: Find out if this is eating to much performance (Sending many OnPropertyChanged events..
+                        Options.PercentCompleted = percentDone;
                     }
+
                 };
                 workers[i].RunWorkerAsync();
             }
@@ -233,13 +234,23 @@ namespace SQLDataProducer.TaskExecuter
 
         }
 
+        private void RunOneExecution()
+        {
+            foreach (var ei in _execItems)
+            {
+                var data = ei.CreateData(_nGenerator, _rowInsertCounter);
+                _consumer.Consume(data, ei.TargetTable.TableName);
+            }
+            _executionCounter.Increment();
+        }
+
         /// <summary>
         /// Creates an Action that will run the provided task until a configured DateTime.
         /// </summary>
         /// <param name="task">the task to run</param>
         /// <returns>the action that will run the task</returns>
         /// <param name="counter"></param>
-        private void RunTaskDurationBased(ExecutionTaskDelegate task)
+        private void RunTaskDurationBased()
         {
             DateTime beginTime = new DateTime(DateTime.Now.Ticks);
             DateTime until = DateTime.Now.AddSeconds(Options.SecondsToRun);
@@ -254,28 +265,66 @@ namespace SQLDataProducer.TaskExecuter
                 workers.Add(new BackgroundWorker());
                 workers[i].DoWork += (sender, e) =>
                 {
-                    using (ContinuousInsertionManager manager = new ContinuousInsertionManager(_connectionString, _execItems))
+                    while (DateTime.Now < until && !CancelTokenSource.IsCancellationRequested)
                     {
-                        while (DateTime.Now < until && !CancelTokenSource.IsCancellationRequested)
-                        {
-                            task(manager);
-                            _executionCounter.Increment();
-                            float percentDone = ((float)(DateTime.Now.Ticks - beginTime.Ticks) / (float)(until.Ticks - beginTime.Ticks));
-                            Options.PercentCompleted = percentDone;
-                        }
+                        RunOneExecution();
+
+                        //foreach (var ei in _execItems)
+                        //{
+                        //    var data = ei.CreateData(_nGenerator, _rowInsertCounter);
+                        //    _consumer.Consume(data, ei.TargetTable.TableName);
+                        //}
+                        //_executionCounter.Increment();
+                        
+                        float percentDone = ((float)(DateTime.Now.Ticks - beginTime.Ticks) / (float)(until.Ticks - beginTime.Ticks));
+                        Options.PercentCompleted = percentDone;
                     }
                 };
-                
+
                 workers[i].RunWorkerAsync();
             }
-            
+
             // TODO: This does not feel optimal
             while (workers.Any(x => x.IsBusy))
             {
                 Thread.Sleep(100);
             }
-            
+
         }
 
+        public void Dispose()
+        {
+            this._cancelTokenSource.Dispose();
+        }
+
+        internal void CleanUp()
+        {
+            if (!_isInitialized)
+                throw new InvalidOperationException("Method cannot be run before Init have been called");
+
+            _consumer.CleanUp(_execItems.Select(e => e.TargetTable.TableName).ToList());
+        }
+
+        internal void PreAction(string preScript)
+        {
+            if (!_isInitialized)
+                throw new InvalidOperationException("Method cannot be run before Init have been called");
+
+            _consumer.PreAction(preScript);
+        }
+
+        internal void PostAction(string postScript)
+        {
+            if (!_isInitialized)
+                throw new InvalidOperationException("Method cannot be run before Init have been called");
+
+            _consumer.PostAction(postScript);
+        }
+
+        internal void Init()
+        {
+            _consumer.Init(_connectionString);
+            _isInitialized = true;
+        }
     }
 }

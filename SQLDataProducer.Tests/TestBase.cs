@@ -20,6 +20,7 @@ using NUnit.Framework;
 using SQLDataProducer.DataAccess;
 using SQLDataProducer.Entities.DatabaseEntities;
 using Generators = SQLDataProducer.Entities.Generators;
+using SQLDataProducer.DataConsumers;
 
 namespace SQLDataProducer.RandomTests
 {
@@ -39,6 +40,8 @@ namespace SQLDataProducer.RandomTests
                                             .Concat(Generators.Generator.GetGeneratorsForIdentity())
                                             .Concat(new Generators.Generator[] { Generators.Generator.CreateNULLValueGenerator() });
 
+
+        protected IDataConsumer DefaultDataConsumer = new SQLDataProducer.ContinuousInsertion.DataConsumers.DataToConsoleConsumer();
 
         public TestBase()
         {

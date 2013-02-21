@@ -76,7 +76,7 @@ namespace SQLDataProducer.RandomTests
                 options.NumberGeneratorMethod = NumberGeneratorMethods.NewNForEachRow;
                 
                 // new N for each row
-                var res = wfm.RunWorkFlow(options, Connection(), items);
+                var res = wfm.RunWorkFlow(new TaskExecuter.TaskExecuter(options, Connection(), items, DefaultDataConsumer));
 
                 Console.WriteLine(res.ToString());
                 Assert.AreEqual(12, res.InsertCount, "InsertCount should be 2");
@@ -120,7 +120,7 @@ namespace SQLDataProducer.RandomTests
         //        options.NumberGeneratorMethod = NumberGeneratorMethods.NewNForEachRow;
 
         //        // new N for each row
-        //        var res = wfm.RunWorkFlow(options, Connection(), items);
+        //        var res = wfm.RunWorkFlow(new TaskExecuter.TaskExecuter(options, Connection(), items, DefaultDataConsumer));
 
         //        Console.WriteLine(res.ToString());
         //        Assert.AreEqual(2, res.InsertCount, "InsertCount should be 2");

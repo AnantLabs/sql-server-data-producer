@@ -20,49 +20,8 @@ namespace SQLDataProducer.Entities.OptionEntities
     {
         public ExecutionTaskOptions()
         {
-            _scriptOutputFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\output.sql";
+         
         }
-
-        bool _onlyOutputToFile = false;
-        /// <summary>
-        /// Get and set wether this execution should only write the scripts to disk instead of running them on the sql server.
-        /// </summary>
-        public bool OnlyOutputToFile
-        {
-            get
-            {
-                return _onlyOutputToFile;
-            }
-            set
-            {
-                if (_onlyOutputToFile != value)
-                {
-                    _onlyOutputToFile = value;
-                    OnPropertyChanged("OnlyOutputToFile");
-                }
-            }
-        }
-
-        string _scriptOutputFolder;// = Environment.SpecialFolder.Personal;
-        /// <summary>
-        /// Get and Set the script name for which to save the generated script <see cref="OnlyOutputToFile"/> option is set to True.
-        /// </summary>
-        public string ScriptOutputScriptName
-        {
-            get
-            {
-                return _scriptOutputFolder;
-            }
-            set
-            {
-                if (_scriptOutputFolder != value)
-                {
-                    _scriptOutputFolder = value;
-                    OnPropertyChanged("ScriptOutputScriptName");
-                }
-            }
-        }
-
 
         long _startValue = 1;
 
@@ -220,9 +179,5 @@ namespace SQLDataProducer.Entities.OptionEntities
                 }
             }
         }
-
-
     }
-
-    
 }

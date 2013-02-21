@@ -125,7 +125,7 @@ namespace SQLDataProducer.RandomTests
             }
 
             var wfm = new WorkflowManager();
-            var res = wfm.RunWorkFlow(options, Connection(), execItems);
+            var res = wfm.RunWorkFlow(new TaskExecuter.TaskExecuter(options, Connection(), execItems, DefaultDataConsumer));
             foreach (var er in res.ErrorList)
             {
                 Console.WriteLine(er);
@@ -163,7 +163,7 @@ namespace SQLDataProducer.RandomTests
             }
 
             var wfm = new WorkflowManager();
-            var res = wfm.RunWorkFlow(options, Connection(), execItems);
+            var res = wfm.RunWorkFlow(new TaskExecuter.TaskExecuter(options, Connection(), execItems, DefaultDataConsumer));
             foreach (var er in res.ErrorList)
             {
                 Console.WriteLine(er);
@@ -192,7 +192,7 @@ namespace SQLDataProducer.RandomTests
 
 
             var wfm = new WorkflowManager();
-            var res = wfm.RunWorkFlow(options, Connection(), execItems);
+            var res = wfm.RunWorkFlow(new TaskExecuter.TaskExecuter(options, Connection(), execItems, DefaultDataConsumer));
             foreach (var er in res.ErrorList)
             {
                 Console.WriteLine(er);
@@ -497,7 +497,7 @@ namespace SQLDataProducer.RandomTests
                 ExecutionItemCollection items = new ExecutionItemCollection();
                 items.Add(i1);
                 // new N for each row
-                var res = wfm.RunWorkFlow(options, Connection(), items);
+                var res = wfm.RunWorkFlow(new TaskExecuter.TaskExecuter(options, Connection(), items, DefaultDataConsumer));
 
                 Console.WriteLine(res.ToString());
                 Assert.AreEqual(10, res.InsertCount, "InsertCount should be 10");
@@ -527,7 +527,7 @@ namespace SQLDataProducer.RandomTests
             idCol.Generator = idCol.PossibleGenerators.Where(gen => gen.GeneratorName == Generators.Generator.GENERATOR_RandomInt).FirstOrDefault() ;
             Assert.IsNotNull(idCol.Generator);
 
-            wfm.RunWorkFlow(options, Connection(), items);
+            wfm.RunWorkFlow(new TaskExecuter.TaskExecuter(options, Connection(), items, DefaultDataConsumer));
 
         }
 

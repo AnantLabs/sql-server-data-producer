@@ -26,8 +26,8 @@ namespace SQLDataProducer.RandomTests.Helpers
     {
         public static ExecutionItemCollection GetFakeExecutionItemCollection()
         {
-            TableEntity table = CreateTableAnd5Columns("Person", "Address");
-            TableEntity table2 = CreateTableAnd5Columns("Person", "NewPerson");
+            TableEntity table = CreateTableWithIdenitityAnd5Columns("Person", "Address");
+            TableEntity table2 = CreateTableWithIdenitityAnd5Columns("Person", "NewPerson");
             ExecutionItem ei = new ExecutionItem(table);
             ExecutionItem ei2 = new ExecutionItem(table2);
             ei.RepeatCount = 10;
@@ -37,10 +37,28 @@ namespace SQLDataProducer.RandomTests.Helpers
             return items;
         }
 
-        public static TableEntity CreateTableAnd5Columns(string schemaName, string tableName)
+        public static TableEntity CreateTableWithIdenitityAnd5Columns(string schemaName, string tableName)
         {
             var table = new TableEntity(schemaName, tableName);
             table.Columns.Add(Entities.DatabaseEntities.Factories.DatabaseEntityFactory.CreateColumnEntity("id", new ColumnDataTypeDefinition("int", false), true, 1, false, string.Empty, null));
+            table.Columns.Add(Entities.DatabaseEntities.Factories.DatabaseEntityFactory.CreateColumnEntity("name", new ColumnDataTypeDefinition("varchar(500)", false), false, 2, false, string.Empty, null));
+            table.Columns.Add(Entities.DatabaseEntities.Factories.DatabaseEntityFactory.CreateColumnEntity("created", new ColumnDataTypeDefinition("datetime", false), false, 3, false, string.Empty, null));
+            table.Columns.Add(Entities.DatabaseEntities.Factories.DatabaseEntityFactory.CreateColumnEntity("enabled", new ColumnDataTypeDefinition("bit", false), false, 4, false, string.Empty, null));
+            table.Columns.Add(Entities.DatabaseEntities.Factories.DatabaseEntityFactory.CreateColumnEntity("description", new ColumnDataTypeDefinition("varchar(2000)", true), false, 5, false, string.Empty, null));
+
+            return table;
+        }
+
+        /// <summary>
+        /// Creates a table with 5 columns with NO identity
+        /// </summary>
+        /// <param name="schemaName"></param>
+        /// <param name="tableName"></param>
+        /// <returns></returns>
+        public static TableEntity CreateTableWith5Columns(string schemaName, string tableName)
+        {
+            var table = new TableEntity(schemaName, tableName);
+            table.Columns.Add(Entities.DatabaseEntities.Factories.DatabaseEntityFactory.CreateColumnEntity("id", new ColumnDataTypeDefinition("int", false), false, 1, false, string.Empty, null));
             table.Columns.Add(Entities.DatabaseEntities.Factories.DatabaseEntityFactory.CreateColumnEntity("name", new ColumnDataTypeDefinition("varchar(500)", false), false, 2, false, string.Empty, null));
             table.Columns.Add(Entities.DatabaseEntities.Factories.DatabaseEntityFactory.CreateColumnEntity("created", new ColumnDataTypeDefinition("datetime", false), false, 3, false, string.Empty, null));
             table.Columns.Add(Entities.DatabaseEntities.Factories.DatabaseEntityFactory.CreateColumnEntity("enabled", new ColumnDataTypeDefinition("bit", false), false, 4, false, string.Empty, null));

@@ -98,8 +98,10 @@
 
             <GroupBox Header="Options" IsEnabled="{Binding Model.IsExecutionIdle}" Margin="0 5 0 5">
                 <StackPanel>
-                    <CheckBox Content="Do not execute, save in script:" IsChecked="{Binding Model.Options.OnlyOutputToFile, Mode=TwoWay}"  Margin="0 2 0 2" />
-                    <TextBox Text="{Binding Model.Options.ScriptOutputScriptName, Mode=TwoWay}"  Margin="0 2 0 2" />
+                    <!-- TODO: Select the DataConsumer here -->
+                    <!-- TODO: Include the options for the DataConsumer here -->
+                    <!--<CheckBox Content="Do not execute, save in script:" IsChecked="{Binding Model.Options.OnlyOutputToFile, Mode=TwoWay}"  Margin="0 2 0 2" />
+                    <TextBox Text="{Binding Model.Options.ScriptOutputScriptName, Mode=TwoWay}"  Margin="0 2 0 2" />-->
                     <ComboBox SelectedItem="{Binding Model.Options.NumberGeneratorMethod, Mode=TwoWay}"  Margin="0 2 0 2" 
                           ItemsSource="{Binding Source={StaticResource numberGeneratorMethodsEnum}}" />
                 </StackPanel>
@@ -151,7 +153,7 @@
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 
-                                <TextBlock Text="{Binding TargetTable}" Grid.Column="0"/>
+                                <TextBlock Text="{Binding TargetTable.FullName}" Grid.Column="0"/>
                                 <ListBox ItemsSource="{Binding TargetTable.Columns}" Grid.Column="1" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden">
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
