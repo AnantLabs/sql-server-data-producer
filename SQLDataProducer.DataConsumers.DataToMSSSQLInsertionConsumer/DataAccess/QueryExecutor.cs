@@ -59,30 +59,6 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer.DataAccess
             return long.Parse(outputParam.Value.ToString());
         }
 
-        //public void ExecuteNonQuery(string query)
-        //{
-            
-        //}
-
-        //public DbCommand PrepareCommand(string query, Dictionary<string, DbParameter> parameters)
-        //{
-        //    var cmd = CommandFactory.CreateCommand(query, _connection, System.Data.CommandType.Text);
-
-        //    foreach (var p in parameters)
-        //    {
-        //        cmd.Parameters.Add(p.Value);
-        //    }
-        //    cmd.ExecuteNonQuery();
-        //    return cmd;
-        //}
-
-        //public void ExecuteCommand(DbCommand cmd)
-        //{
-        //    cmd.Connection = _connection;
-        //    cmd.ExecuteNonQuery();
-        //    cmd.Connection = null;
-        //}
-
         public void Dispose()
         {
             if (_cmd != null)

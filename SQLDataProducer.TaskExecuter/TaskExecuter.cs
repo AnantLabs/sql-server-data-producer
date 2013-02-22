@@ -98,62 +98,6 @@ namespace SQLDataProducer.TaskExecuter
             CancelTokenSource.Cancel();
         }
 
-
-        //private IDataConsumer GetDataConsumer()
-        //{
-        //    return new DataConsumers.DataToCSVConsumer.DataToCSVConsumer();
-
-        //    //return new ExecutionTaskDelegate( () =>
-        //    //{
-        //    //    try
-        //    //    {
-        //    //        if (!Options.OnlyOutputToFile)
-        //    //        {
-        //    //            throw new NotImplementedException("Fix after refactoring av DataConsumers");
-        //    //           // manager.DoOneExecution(_nGenerator, _rowInsertCounter, _executionCounter.Peek());
-        //    //        }
-        //    //        else
-        //    //        {
-        //    //            throw new NotImplementedException("Fix after refactoring av DataConsumers");
-        //    //            //string finalResult = ContinuousInsertionManager.OneExecutionToString(_execItems, _nGenerator, _rowInsertCounter);
-        //    //            //WriteScriptToFile(finalResult);
-        //    //        }
-        //    //    }
-        //    //    catch (Exception ex)
-        //    //    {
-        //    //        // TODO: Count the error, save it in some list, and then show it to the user
-        //    //        lock (_logFileLockObjs)
-        //    //        {
-        //    //            _errorMessages.Add(ex.ToString());
-        //    //            System.IO.File.AppendAllText("log.txt", ex.ToString());
-        //    //        }
-        //    //    }
-        //    //});
-        //}
-
-
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        ///// <param name="baseQuery"></param>
-        ///// <exception cref="ArgumentNullException">When the Options.ScriptOutputFolder have not been set</exception>
-        //private void WriteScriptToFile(string baseQuery)
-        //{
-        //    if (Options.ScriptOutputScriptName == null)
-        //        throw new ArgumentNullException("Options.ScriptOutputFolder");
-
-
-        //    System.IO.File.AppendAllText(Options.ScriptOutputScriptName, baseQuery);
-        //}
-
-
-        /// <summary>
-        /// Start executing tasks until suplied datetime, using the supplied number of threads then call the callback once completed.
-        /// </summary>
-        /// <param name="task">The Action to execute</param>
-        /// <param name="until">datetime when the execution should stop</param>
-        /// <param name="numThreads">maximum number of threads to use, not guaranteed to use these many treads </param>
-        /// <param name="onCompletedCallback">the callback that will be called when execution is done or stopped</param>
         public ExecutionResult Execute()
         {
             if (!_isInitialized)

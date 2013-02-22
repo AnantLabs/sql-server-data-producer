@@ -83,11 +83,9 @@ namespace SQLDataProducer.ViewModels
 
         private void StopRunningExecution()
         {
-            if (Model.WorkFlowManager != null)
-            {
-                Model.WorkFlowManager.StopAsync();
-                Model.IsQueryRunning = false;
-            }
+            Model.StopAsync();
+            
+           
         }
 
         private void ShowConfigureAndRunWindow()

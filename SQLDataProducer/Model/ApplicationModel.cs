@@ -406,7 +406,6 @@ namespace SQLDataProducer.Model
                 if (_workFlowManager != value)
                 {
                     _workFlowManager = value;
-                    //OnPropertyChanged("WorkFlowManager");
                 }
             }
         }
@@ -425,8 +424,8 @@ namespace SQLDataProducer.Model
             IsQueryRunning = true;
 
             WorkFlowManager = new WorkflowManager();
-            var executor  = new TaskExecuter.TaskExecuter(Options, ConnectionString, ExecutionItems, new DataConsumers.DataToMSSSQLInsertionConsumer.InsertComsumer());
-            WorkFlowManager.RunWorkFlowAsync(executor, (executionResult) =>
+            _executor = new TaskExecuter.TaskExecuter(Options, ConnectionString, ExecutionItems, new DataConsumers.DataToMSSSQLInsertionConsumer.InsertComsumer());
+            WorkFlowManager.RunWorkFlowAsync(_executor, (executionResult) =>
             {
                 IsQueryRunning = false;
                 // Modal window need to be started from STA thread.
@@ -436,8 +435,8 @@ namespace SQLDataProducer.Model
                     {
                         // Show the Execution Summary window with results.
                         ExecutionSummaryWindow win = new ExecutionSummaryWindow(executionResult, this);
-                        //win.DataContext = ;
                         win.ShowDialog();
+                        _executor.Dispose();
                     })
                     );
 
@@ -446,6 +445,7 @@ namespace SQLDataProducer.Model
                 , string.Empty);
         }
 
+        TaskExecuter.TaskExecuter _executor ;
 
         protected void OnPropertyChanged(string propertyName)
         {
@@ -456,5 +456,11 @@ namespace SQLDataProducer.Model
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        internal void StopAsync()
+        {
+            _executor.EndExecute();
+            IsQueryRunning = false;
+        }
     }
 }
