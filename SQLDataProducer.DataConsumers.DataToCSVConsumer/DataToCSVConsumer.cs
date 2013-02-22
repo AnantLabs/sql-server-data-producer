@@ -32,7 +32,7 @@ namespace SQLDataProducer.DataConsumers.DataToCSVConsumer
 
         Dictionary<string, bool> _initializedFiles = new Dictionary<string, bool>();
 
-        public Entities.ExecutionEntities.ExecutionResult Consume(DataRowSet rows, string datasetName)
+        public Entities.ExecutionEntities.ExecutionResult Consume(DataRowSet rows)
         {
             using (TextWriter writer = File.AppendText(FileName))
             {

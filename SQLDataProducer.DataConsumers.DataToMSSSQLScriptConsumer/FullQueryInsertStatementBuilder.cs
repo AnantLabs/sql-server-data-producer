@@ -24,32 +24,38 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLScriptConsumer
 {
     public static class FullQueryInsertStatementBuilder
     {
-        /// <summary>
-        /// Generate the full SQL script that can be executed outside the application and result in the same rows as it would have inside the application.
-        /// </summary>
-        /// <returns>The full sql query that will insert all the rows and values</returns>
-        public static string GenerateFullStatement(DataRowSet ei)
-        {
-            StringBuilder sb = new StringBuilder();
-            sb.AppendLine("DECLARE @Identity_output bigint");
-            sb.AppendLine(@"SET NOCOUNT ON
-SET XACT_ABORT ON
+//        /// <summary>
+//        /// Generate the full SQL script that can be executed outside the application and result in the same rows as it would have inside the application.
+//        /// </summary>
+//        /// <returns>The full sql query that will insert all the rows and values</returns>
+//        public static string GenerateFullStatement(DataRowSet ei)
+//        {
+//            StringBuilder sb = new StringBuilder();
+//            sb.AppendLine("DECLARE @Identity_output bigint");
+//            sb.AppendLine(@"SET NOCOUNT ON
+//SET XACT_ABORT ON
+//
+//BEGIN TRANSACTION");
 
-BEGIN TRANSACTION");
+//            //// set the values
+//            //foreach (var ei in items)
+//            //{
+//                ExecutionItemQueryBuilder.AppendVariables(ei, sb);
+//                TableQueryBuilder.AppendSqlScriptPartOfStatement(ei, sb);
+//                ExecutionItemQueryBuilder.AppendInsertPartOfStatement(ei, sb);
+//                ExecutionItemQueryBuilder.AppendValuePartOfInsertStatement(ei, sb);
+//            //}
 
-            //// set the values
-            //foreach (var ei in items)
-            //{
-                ExecutionItemQueryBuilder.AppendVariables(ei, sb);
-                TableQueryBuilder.AppendSqlScriptPartOfStatement(ei, sb);
-                ExecutionItemQueryBuilder.AppendInsertPartOfStatement(ei, sb);
-                ExecutionItemQueryBuilder.AppendValuePartOfInsertStatement(ei, sb);
-            //}
+//            sb.AppendLine(@"
+//COMMIT
+//GO");
+//            return sb.ToString();
+//        }
 
-            sb.AppendLine(@"
-COMMIT
-GO");
-            return sb.ToString();
-        }
+//        public static string OneExecutionToString(ExecutionItemCollection execItems, Func<long> getN, SetCounter _rowInsertCounter)
+//        {
+//            //FullQueryInsertStatementBuilder builder = new FullQueryInsertStatementBuilder(execItems);
+//            return FullQueryInsertStatementBuilder.GenerateFullStatement(getN, execItems);
+//        }
     }
 }

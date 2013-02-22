@@ -43,7 +43,7 @@ namespace SQLDataProducer.DataConsumers
         /// <returns>An executionResult with the result of this execution. 
         /// The calling manager is responsible for collecting this 
         /// delta and append it to the big result</returns>
-        ExecutionResult Consume(DataRowSet rows, string datasetName);
+        ExecutionResult Consume(DataRowSet rows);
 
         ///// <summary>
         ///// Implementations need to implement IDisposable

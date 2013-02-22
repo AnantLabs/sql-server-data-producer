@@ -42,19 +42,8 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLScriptConsumer
             }
         }
 
-
-        //ExecutionItem _execItem;
-        //public ExecutionItem ExecuteItem
-        //{
-        //    get
-        //    {
-        //        return _execItem;
-        //    }
-        //}
-
         public TableEntityInsertStatementBuilder(DataRowSet rows)
         {
-            //_execItem = ie;
             _paramCollection = new Dictionary<string, DbParameter>();
 
             Init(rows);
@@ -68,6 +57,7 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLScriptConsumer
                 return _insertStatement;
             }
         }
+
         /// <summary>
         /// Initializes the insertstatement and DbParameters required.
         /// </summary>
@@ -78,54 +68,49 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLScriptConsumer
             StringBuilder sb = new StringBuilder();
 
             if(ds.IsIdentityInsert)
-                sb.AppendLine(string.Format("SET IDENTITY_INSERT {0} ON;", ds.DatasetName));
+                sb.AppendLine(string.Format("SET IDENTITY_INSERT {0} ON;", ds.TargetTable.FullName));
 
             TableQueryBuilder.AppendSqlScriptPartOfStatement(ds, sb);
             ExecutionItemQueryBuilder.AppendInsertPartOfStatement(ds, sb);
             ExecutionItemQueryBuilder.AppendValuePartOfInsertStatement(ds, sb);
 
-
             if (ds.IsIdentityInsert)
-                sb.AppendLine(string.Format("SET IDENTITY_INSERT {0} OFF;", ds.DatasetName));
+                sb.AppendLine(string.Format("SET IDENTITY_INSERT {0} OFF;", ds.TargetTable.FullName));
 
-                     _insertStatement = sb.ToString();
-         
+             _insertStatement = sb.ToString();
         }
 
         private void FillParameterCollection(DataRowSet ds)
         {
-            for (int rep = 1; rep <= ds.Count; rep++)
+            for (int rep = 0; rep < ds.Count; rep++)
             {
-                for (int i = 0; i < ds.TargetTable.Columns.Count; i++)
+                for (int i = 0; i < ds[rep].Cells.Count; i++)
                 {
-                    var col = ds.TargetTable.Columns[i];
+                    var cell = ds[rep].Cells[i];
                     
-                    string paramName = QueryBuilderHelper.GetParamName(rep, col);
-                    // Add the parameter with no value, values will be added in the GenerateValues method
-                    var par = CommandFactory.CreateParameter(paramName, null, col.ColumnDataType.DBType);
+                    string paramName = QueryBuilderHelper.GetParamName(rep, cell.Column);
+                    
+                    var par = CommandFactory.CreateParameter(paramName, cell.Value, cell.Column.ColumnDataType.DBType);
                     Parameters.Add(paramName, par);
                 }
             }
         }
 
-        public static List<TableEntityInsertStatementBuilder> CreateBuilders(DataRowSet rows)
+        public static TableEntityInsertStatementBuilder Create(DataRowSet rows)
         {
-            var builders = new List<TableEntityInsertStatementBuilder>();
-            builders.Add(new TableEntityInsertStatementBuilder(rows));
-
-            return builders;
+            return new TableEntityInsertStatementBuilder(rows);
         }
 
-        internal void SetParameterValues(DataRowSet dataRows)
-        {
-            foreach (var row in dataRows)
-            {
-                foreach (var c in row.Cells)
-                {
-                    string paramName = QueryBuilderHelper.GetParamName(row.RowNumber, c.Column);
-                    Parameters[paramName].Value = c.Value;
-                }
-            }
-        }
+        //internal void SetParameterValues(DataRowSet dataRows)
+        //{
+        //    foreach (var row in dataRows)
+        //    {
+        //        foreach (var c in row.Cells)
+        //        {
+        //            string paramName = QueryBuilderHelper.GetParamName(row.RowNumber, c.Column);
+        //            Parameters[paramName].Value = c.Value;
+        //        }
+        //    }
+        //}
     }
 }

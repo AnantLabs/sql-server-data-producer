@@ -215,7 +215,6 @@ namespace SQLDataProducer.TaskExecuter
                 {
                     while (_executionCounter.Peek() < Options.FixedExecutions && !CancelTokenSource.IsCancellationRequested)
                     {
-
                         RunOneExecution();
 
                         float percentDone = (float)_executionCounter.Peek() / (float)Options.FixedExecutions;
@@ -239,7 +238,7 @@ namespace SQLDataProducer.TaskExecuter
             foreach (var ei in _execItems)
             {
                 var data = ei.CreateData(_nGenerator, _rowInsertCounter);
-                _consumer.Consume(data, ei.TargetTable.TableName);
+                _consumer.Consume(data);
             }
             _executionCounter.Increment();
         }
@@ -269,13 +268,6 @@ namespace SQLDataProducer.TaskExecuter
                     {
                         RunOneExecution();
 
-                        //foreach (var ei in _execItems)
-                        //{
-                        //    var data = ei.CreateData(_nGenerator, _rowInsertCounter);
-                        //    _consumer.Consume(data, ei.TargetTable.TableName);
-                        //}
-                        //_executionCounter.Increment();
-                        
                         float percentDone = ((float)(DateTime.Now.Ticks - beginTime.Ticks) / (float)(until.Ticks - beginTime.Ticks));
                         Options.PercentCompleted = percentDone;
                     }

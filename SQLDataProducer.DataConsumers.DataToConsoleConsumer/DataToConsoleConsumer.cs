@@ -23,7 +23,7 @@ namespace SQLDataProducer.ContinuousInsertion.DataConsumers
 {
     public class DataToConsoleConsumer : IDataConsumer
     {
-        public Entities.ExecutionEntities.ExecutionResult Consume(DataRowSet rows, string datasetName)
+        public Entities.ExecutionEntities.ExecutionResult Consume(DataRowSet rows)
         {
             foreach (var r in rows)
             {

@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataToMSSSQLScriptConsumer.cs" />
     <Compile Include="FullQueryInsertStatementBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -47,6 +48,10 @@
     <ProjectReference Include="..\SQLDataProducer.Entities\SQLDataProducer.Entities.csproj">
       <Project>{0d135cad-55db-4090-bb5f-2c493a1f0072}</Project>
       <Name>SQLDataProducer.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SQLDataProducer.IConsumer\SQLDataProducer.DataConsumers.csproj">
+      <Project>{91246dca-0d6d-41ff-8c9d-115313151021}</Project>
+      <Name>SQLDataProducer.DataConsumers</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -13,6 +13,8 @@
 //   limitations under the License.
 
 
+using SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer.DataAccess;
+using SQLDataProducer.DataConsumers.DataToMSSSQLScriptConsumer;
 using SQLDataProducer.Entities.DatabaseEntities;
 using SQLDataProducer.Entities.DataEntities.Collections;
 using SQLDataProducer.Entities.ExecutionEntities;
@@ -20,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Transactions;
 
 namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer
 {
@@ -70,12 +73,17 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer
         //    return _executor.Execute();
         //}
 
+        public string _connectionString { get; set; }
+
         public bool Init(string target)
         {
+            _connectionString = target;
+            _queryExecutor = new QueryExecutor(_connectionString);
+
             return true;
         }
 
-        public ExecutionResult Consume(DataRowSet rows, string datasetName)
+        public ExecutionResult Consume(DataRowSet rows)
         {
             // starta transaction
             // set identity insert on om det är en column med identity insert generator
@@ -86,27 +94,50 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer
             // om det är en identity så ska vi plocka identity värdet som skickats tillbaka
             // commit
 
+            DoOneExecution(rows);
             return null;
         }
 
+        QueryExecutor _queryExecutor;
+
+        private void DoOneExecution(DataRowSet ds)
+        {
+             
+            var b = TableEntityInsertStatementBuilder.Create(ds);
+            //b.SetParameterValues(ds);
+
+            using (var tran = new TransactionScope())
+            {
+                
+                if (!ds.TargetTable.HasIdentityColumn)
+                    _queryExecutor.ExecuteNonQuery(b.InsertStatement, b.Parameters);
+                else
+                   ds.TargetTable.Columns.Where(c => c.IsIdentity)
+                        .First()
+                        .PreviouslyGeneratedValue = _queryExecutor.ExecuteIdentity(b.InsertStatement, b.Parameters);
+
+                tran.Complete();
+            }
+        }
+    
+       
+
         public void CleanUp(List<string> datasetNames)
         {
-            throw new NotImplementedException();
         }
 
         public void PreAction(string action)
         {
-            throw new NotImplementedException();
         }
 
         public void PostAction(string action)
         {
-            throw new NotImplementedException();
+            
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            _queryExecutor.Dispose();
         }
     }
 }

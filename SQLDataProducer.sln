@@ -13,8 +13,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQLDataProducer.DataAccess"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsoleApplication", "ConsoleApplication1\TestConsoleApplication.csproj", "{4424FACB-FF8D-48A2-BAF7-F98594F34E3F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQLDataProducer.ContinuousInsertion", "SQLDataProducer.ContinuousInsertion\SQLDataProducer.ContinuousInsertion.csproj", "{4BB5B315-0C7C-44B7-BF79-4A52C8A12E0F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQLDataProducer.Tests", "SQLDataProducer.Tests\SQLDataProducer.Tests.csproj", "{D10899F6-29F6-4CF2-A4C6-A30FAE065245}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQLDataProducer.DataConsumers", "SQLDataProducer.IConsumer\SQLDataProducer.DataConsumers.csproj", "{91246DCA-0D6D-41FF-8C9D-115313151021}"
@@ -97,16 +95,6 @@ Global
 		{4424FACB-FF8D-48A2-BAF7-F98594F34E3F}.Release|Mixed Platforms.Build.0 = Release|x86
 		{4424FACB-FF8D-48A2-BAF7-F98594F34E3F}.Release|x86.ActiveCfg = Release|x86
 		{4424FACB-FF8D-48A2-BAF7-F98594F34E3F}.Release|x86.Build.0 = Release|x86
-		{4BB5B315-0C7C-44B7-BF79-4A52C8A12E0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4BB5B315-0C7C-44B7-BF79-4A52C8A12E0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4BB5B315-0C7C-44B7-BF79-4A52C8A12E0F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{4BB5B315-0C7C-44B7-BF79-4A52C8A12E0F}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{4BB5B315-0C7C-44B7-BF79-4A52C8A12E0F}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{4BB5B315-0C7C-44B7-BF79-4A52C8A12E0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4BB5B315-0C7C-44B7-BF79-4A52C8A12E0F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4BB5B315-0C7C-44B7-BF79-4A52C8A12E0F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{4BB5B315-0C7C-44B7-BF79-4A52C8A12E0F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{4BB5B315-0C7C-44B7-BF79-4A52C8A12E0F}.Release|x86.ActiveCfg = Release|Any CPU
 		{D10899F6-29F6-4CF2-A4C6-A30FAE065245}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D10899F6-29F6-4CF2-A4C6-A30FAE065245}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D10899F6-29F6-4CF2-A4C6-A30FAE065245}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU

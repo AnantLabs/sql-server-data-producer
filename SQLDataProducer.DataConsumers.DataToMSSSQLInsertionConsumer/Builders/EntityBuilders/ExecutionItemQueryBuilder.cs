@@ -41,25 +41,25 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer.Builders.E
         }
 
 
-        public static void AppendValuePartOfInsertStatement(DataRowSet ei, StringBuilder sb)
+        public static void AppendValuePartOfInsertStatement(DataRowSet ds, StringBuilder sb)
         {
             sb.AppendLine();
             sb.AppendLine("VALUES");
-            for (int rep = 1; rep <= ei.Count; rep++)
+            for (int rep = 0; rep < ds.Count; rep++)
             {
                 sb.Append("\t");
                 sb.Append("(");
 
-                TableQueryBuilder.CreateValuesPartForTable(ei.TargetTable, sb, rep);
+                TableQueryBuilder.CreateValuesPartForTable(ds.TargetTable, sb, rep);
 
                 sb.Append(")");
-                sb.Append(ei.Count == rep ? ";" : ", ");
+                sb.Append(ds.Count - 1 == rep ? ";" : ", ");
                 sb.AppendLine();
             }
             // If the table have idenitity column then we shuold store that in a variable
-            if (ei.TargetTable.HasIdentityColumn)
+            if (ds.TargetTable.HasIdentityColumn)
             {
-                var identityVariableName = string.Format("@Identity_i{0}", ei.Order);
+                var identityVariableName = string.Format("@Identity_i{0}", ds.Order);
                 sb.AppendFormat("DECLARE {0} bigint = SCOPE_IDENTITY();", identityVariableName);
                 sb.AppendLine();
                 sb.AppendFormat("select @Identity_output  = {0};", identityVariableName);
