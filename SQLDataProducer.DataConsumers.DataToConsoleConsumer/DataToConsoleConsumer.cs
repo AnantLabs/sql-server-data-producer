@@ -13,6 +13,7 @@
 //   limitations under the License.
 
 using SQLDataProducer.DataConsumers;
+using SQLDataProducer.Entities.DataEntities.Collections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,7 @@ namespace SQLDataProducer.ContinuousInsertion.DataConsumers
 {
     public class DataToConsoleConsumer : IDataConsumer
     {
-        public Entities.ExecutionEntities.ExecutionResult Consume(IEnumerable<Entities.DatabaseEntities.RowEntity> rows, string datasetName)
+        public Entities.ExecutionEntities.ExecutionResult Consume(DataRowSet rows, string datasetName)
         {
             foreach (var r in rows)
             {

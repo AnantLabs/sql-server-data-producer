@@ -20,7 +20,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
-namespace SQLDataProducer.Entities.DatabaseEntities
+namespace SQLDataProducer.Entities.DataEntities
 {
     public class RowEntity : EntityBase//, IListSource, ICustomTypeDescriptor
     {

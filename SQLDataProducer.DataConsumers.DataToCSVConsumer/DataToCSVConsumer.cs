@@ -18,6 +18,7 @@ using System.Linq;
 using System.Text;
 
 using System.IO;
+using SQLDataProducer.Entities.DataEntities.Collections;
 
 namespace SQLDataProducer.DataConsumers.DataToCSVConsumer
 {
@@ -31,7 +32,7 @@ namespace SQLDataProducer.DataConsumers.DataToCSVConsumer
 
         Dictionary<string, bool> _initializedFiles = new Dictionary<string, bool>();
 
-        public Entities.ExecutionEntities.ExecutionResult Consume(IEnumerable<Entities.DatabaseEntities.RowEntity> rows, string datasetName)
+        public Entities.ExecutionEntities.ExecutionResult Consume(DataRowSet rows, string datasetName)
         {
             using (TextWriter writer = File.AppendText(FileName))
             {

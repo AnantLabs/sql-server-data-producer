@@ -1,9 +1,10 @@
-﻿using System;
+﻿using SQLDataProducer.Entities.DatabaseEntities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SQLDataProducer.Entities.DatabaseEntities
+namespace SQLDataProducer.Entities.DataEntities
 {
     public class DataCell
     {

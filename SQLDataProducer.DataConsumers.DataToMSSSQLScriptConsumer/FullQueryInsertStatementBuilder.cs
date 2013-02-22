@@ -18,9 +18,9 @@ using System.Linq;
 using System.Text;
 using SQLDataProducer.Entities.ExecutionEntities;
 using SQLDataProducer.Entities.DatabaseEntities;
-using SQLDataProducer.ContinuousInsertion.Builders.EntityBuilders;
+using SQLDataProducer.Entities.DataEntities.Collections;
 
-namespace SQLDataProducer.ContinuousInsertion.Builders
+namespace SQLDataProducer.DataConsumers.DataToMSSSQLScriptConsumer
 {
     public static class FullQueryInsertStatementBuilder
     {
@@ -28,7 +28,7 @@ namespace SQLDataProducer.ContinuousInsertion.Builders
         /// Generate the full SQL script that can be executed outside the application and result in the same rows as it would have inside the application.
         /// </summary>
         /// <returns>The full sql query that will insert all the rows and values</returns>
-        public static string GenerateFullStatement(Func<long> getN, ExecutionItemCollection items)
+        public static string GenerateFullStatement(DataRowSet ei)
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("DECLARE @Identity_output bigint");
@@ -37,14 +37,14 @@ SET XACT_ABORT ON
 
 BEGIN TRANSACTION");
 
-            // set the values
-            foreach (var ei in items)
-            {
-                ExecutionItemQueryBuilder.AppendVariables(ei, sb, getN);
-                TableQueryBuilder.AppendSqlScriptPartOfStatement(ei.TargetTable, sb);
+            //// set the values
+            //foreach (var ei in items)
+            //{
+                ExecutionItemQueryBuilder.AppendVariables(ei, sb);
+                TableQueryBuilder.AppendSqlScriptPartOfStatement(ei, sb);
                 ExecutionItemQueryBuilder.AppendInsertPartOfStatement(ei, sb);
                 ExecutionItemQueryBuilder.AppendValuePartOfInsertStatement(ei, sb);
-            }
+            //}
 
             sb.AppendLine(@"
 COMMIT

@@ -18,18 +18,19 @@ using System.Linq;
 using System.Text;
 using SQLDataProducer.Entities.ExecutionEntities;
 using SQLDataProducer.Entities.DatabaseEntities;
-using SQLDataProducer.ContinuousInsertion.Builders.Helpers;
+using SQLDataProducer.Entities.DataEntities.Collections;
+using SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer.Builders.Helpers;
 
-namespace SQLDataProducer.ContinuousInsertion.Builders.EntityBuilders
+namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer.Builders.EntityBuilders
 {
     static class TableQueryBuilder
     {
-        public static void AppendVariablesForTable(TableEntity table, StringBuilder sb, int rep, long N)
+        public static void AppendVariablesForTable(DataRowSet ds, StringBuilder sb, int rep)
         {
             // TODO: This line is eating a lot of performance. Replace-fix
-            table.GenerateValuesForColumns(N);
+            //ds.GenerateValuesForColumns(N);
             
-            foreach (var col in table.Columns)//.Where(x => x.IsNotIdentity)
+            foreach (var col in ds.TargetTable.Columns)//.Where(x => x.IsNotIdentity)
             {
                 if (col.Generator.IsSqlQueryGenerator)
                     continue;
@@ -79,10 +80,10 @@ namespace SQLDataProducer.ContinuousInsertion.Builders.EntityBuilders
         /// Generate the custom sql script part of the final statement. <example>declare @c_DateTimeColumn_1 datetime = getdate();</example>
         /// </summary>
         /// <param name="sb">the stringbuilder to append the sql script part to</param>
-        public static void AppendSqlScriptPartOfStatement(TableEntity table, StringBuilder sb)
+        public static void AppendSqlScriptPartOfStatement(DataRowSet ds, StringBuilder sb)
         {
             sb.AppendLine();
-            foreach (var c in table.Columns.Where(c => c.Generator.IsSqlQueryGenerator))
+            foreach (var c in ds.TargetTable.Columns.Where(c => c.Generator.IsSqlQueryGenerator))
             {
                 var variableName = QueryBuilderHelper.GetSqlQueryParameterName(c);
                 c.GenerateValue(1);
@@ -92,7 +93,7 @@ namespace SQLDataProducer.ContinuousInsertion.Builders.EntityBuilders
             sb.AppendLine();
         }
 
-        public static void AppendInsertPartForTable(ExecutionItem ei, StringBuilder sb)
+        public static void AppendInsertPartForTable(DataRowSet ei, StringBuilder sb)
         {
             
             sb.AppendFormat("INSERT {0}.{1} (", ei.TargetTable.TableSchema, ei.TargetTable.TableName);

@@ -18,7 +18,7 @@ using System.Linq;
 using System.Text;
 using SQLDataProducer.Entities.DatabaseEntities;
 
-namespace SQLDataProducer.ContinuousInsertion.Builders.Helpers
+namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer.Builders.Helpers
 {
     static class QueryBuilderHelper
     {

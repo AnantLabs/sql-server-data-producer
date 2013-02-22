@@ -19,6 +19,8 @@ using System.Linq;
 using System.Data;
 using System.Xml.Linq;
 using System.Collections.Generic;
+using SQLDataProducer.Entities.DataEntities.Collections;
+using SQLDataProducer.Entities.DataEntities;
 
 namespace SQLDataProducer.Entities.ExecutionEntities
 {
@@ -348,7 +350,7 @@ this.WarningText);
             }
         }
 
-        public static List<RowEntity> CreatePreview(ExecutionItem ei)
+        public static DataRowSet CreatePreview(ExecutionItem ei)
         {
             long l = 0;
             Func<long> getN = new Func<long>( () => {return l++; });
@@ -362,9 +364,11 @@ this.WarningText);
         /// </summary>
         /// <param name="getN"></param>
         /// <returns></returns>
-        public List<RowEntity> CreateData(Func<long> getN, SetCounter insertCounter)
+        public DataRowSet CreateData(Func<long> getN, SetCounter insertCounter)
         {
-            var dt = new List<RowEntity>();
+            var dt = new DataRowSet();
+            dt.TargetTable = this.TargetTable;
+            dt.Order = this.Order;
 
             long n = 0;
             for (int i = 0; i < RepeatCount; i++)
@@ -376,7 +380,6 @@ this.WarningText);
                     dt.Add(RowEntity.Create(TargetTable, n, i));
                     insertCounter.Increment();
                 }
-                
             }
             
             return dt;

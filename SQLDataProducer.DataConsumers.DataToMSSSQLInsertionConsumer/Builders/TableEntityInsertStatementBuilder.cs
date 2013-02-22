@@ -19,11 +19,13 @@ using System.Text;
 using System.Collections.ObjectModel;
 using System.Data.Common;
 using SQLDataProducer.Entities.ExecutionEntities;
-using SQLDataProducer.ContinuousInsertion.Builders.EntityBuilders;
-using SQLDataProducer.ContinuousInsertion.Builders.Helpers;
 using SQLDataProducer.DataAccess.Factories;
+using SQLDataProducer.Entities.DatabaseEntities;
+using SQLDataProducer.Entities.DataEntities.Collections;
+using SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer.Builders.EntityBuilders;
+using SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer.Builders.Helpers;
 
-namespace SQLDataProducer.ContinuousInsertion.Builders
+namespace SQLDataProducer.DataConsumers.DataToMSSSQLScriptConsumer
 {
 
     /// <summary>
@@ -41,21 +43,21 @@ namespace SQLDataProducer.ContinuousInsertion.Builders
         }
 
 
-        ExecutionItem _execItem;
-        public ExecutionItem ExecuteItem
-        {
-            get
-            {
-                return _execItem;
-            }
-        }
+        //ExecutionItem _execItem;
+        //public ExecutionItem ExecuteItem
+        //{
+        //    get
+        //    {
+        //        return _execItem;
+        //    }
+        //}
 
-        public TableEntityInsertStatementBuilder(ExecutionItem ie)
+        public TableEntityInsertStatementBuilder(DataRowSet rows)
         {
-            _execItem = ie;
+            //_execItem = ie;
             _paramCollection = new Dictionary<string, DbParameter>();
 
-            Init();
+            Init(rows);
         }
 
         string _insertStatement;
@@ -69,58 +71,52 @@ namespace SQLDataProducer.ContinuousInsertion.Builders
         /// <summary>
         /// Initializes the insertstatement and DbParameters required.
         /// </summary>
-        private void Init()
+        private void Init(DataRowSet ds)
         {
-            FillParameterCollection();
+            FillParameterCollection(ds);
 
             StringBuilder sb = new StringBuilder();
 
-            if (ExecuteItem.TargetTable.Columns.Any(col => col.IsIdentity && col.Generator.GeneratorName != SQLDataProducer.Entities.Generators.Generator.GENERATOR_IdentityFromSqlServerGenerator))
-                sb.AppendLine(string.Format("SET IDENTITY_INSERT {0} ON;", ExecuteItem.TargetTable.FullName));
+            if(ds.IsIdentityInsert)
+                sb.AppendLine(string.Format("SET IDENTITY_INSERT {0} ON;", ds.DatasetName));
 
-            TableQueryBuilder.AppendSqlScriptPartOfStatement(ExecuteItem.TargetTable, sb);
-            ExecutionItemQueryBuilder.AppendInsertPartOfStatement(ExecuteItem, sb);
-            ExecutionItemQueryBuilder.AppendValuePartOfInsertStatement(ExecuteItem, sb);
+            TableQueryBuilder.AppendSqlScriptPartOfStatement(ds, sb);
+            ExecutionItemQueryBuilder.AppendInsertPartOfStatement(ds, sb);
+            ExecutionItemQueryBuilder.AppendValuePartOfInsertStatement(ds, sb);
 
 
-            if (ExecuteItem.TargetTable.Columns.Any(col => col.IsIdentity && col.Generator.GeneratorName != SQLDataProducer.Entities.Generators.Generator.GENERATOR_IdentityFromSqlServerGenerator))
-                sb.AppendLine(string.Format("SET IDENTITY_INSERT {0} OFF;", ExecuteItem.TargetTable.FullName));
+            if (ds.IsIdentityInsert)
+                sb.AppendLine(string.Format("SET IDENTITY_INSERT {0} OFF;", ds.DatasetName));
 
-            
-            _insertStatement = sb.ToString();
+                     _insertStatement = sb.ToString();
          
         }
 
-        private void FillParameterCollection()
+        private void FillParameterCollection(DataRowSet ds)
         {
-            for (int rep = 1; rep <= ExecuteItem.RepeatCount; rep++)
+            for (int rep = 1; rep <= ds.Count; rep++)
             {
-                for (int i = 0; i < ExecuteItem.TargetTable.Columns.Count; i++)
+                for (int i = 0; i < ds.TargetTable.Columns.Count; i++)
                 {
-                    var col = ExecuteItem.TargetTable.Columns[i];
+                    var col = ds.TargetTable.Columns[i];
                     
-                    //if (col.IsIdentity)
-                    //    continue;
-
                     string paramName = QueryBuilderHelper.GetParamName(rep, col);
                     // Add the parameter with no value, values will be added in the GenerateValues method
                     var par = CommandFactory.CreateParameter(paramName, null, col.ColumnDataType.DBType);
                     Parameters.Add(paramName, par);
                 }
             }
-
         }
-        
-        public static ObservableCollection<TableEntityInsertStatementBuilder> CreateBuilders(ExecutionItemCollection items)
+
+        public static List<TableEntityInsertStatementBuilder> CreateBuilders(DataRowSet rows)
         {
-            var builders = new ObservableCollection<TableEntityInsertStatementBuilder>();
-            foreach (var item in items)
-                builders.Add(new TableEntityInsertStatementBuilder(item));
+            var builders = new List<TableEntityInsertStatementBuilder>();
+            builders.Add(new TableEntityInsertStatementBuilder(rows));
 
             return builders;
         }
 
-        internal void SetParameterValues(List<Entities.DatabaseEntities.RowEntity> dataRows)
+        internal void SetParameterValues(DataRowSet dataRows)
         {
             foreach (var row in dataRows)
             {

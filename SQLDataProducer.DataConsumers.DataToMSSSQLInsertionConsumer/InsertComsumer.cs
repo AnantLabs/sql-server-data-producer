@@ -13,6 +13,8 @@
 //   limitations under the License.
 
 
+using SQLDataProducer.Entities.DatabaseEntities;
+using SQLDataProducer.Entities.DataEntities.Collections;
 using SQLDataProducer.Entities.ExecutionEntities;
 using System;
 using System.Collections.Generic;
@@ -23,6 +25,8 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer
 {
     public class InsertComsumer : IDataConsumer
     {
+        
+
         private void RunTruncationOnExecutionItems(string connectionString, ExecutionItemCollection executionItems)
         {
             //
@@ -68,12 +72,21 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer
 
         public bool Init(string target)
         {
-            throw new NotImplementedException();
+            return true;
         }
 
-        public ExecutionResult Consume(IEnumerable<Entities.DatabaseEntities.RowEntity> rows, string datasetName)
+        public ExecutionResult Consume(DataRowSet rows, string datasetName)
         {
-            throw new NotImplementedException();
+            // starta transaction
+            // set identity insert on om det är en column med identity insert generator
+            // skapa insert statement med columner som finns i settet
+            //      future feature: om det är anviget att använda default constraint value ange inte kolumnen -> nej, generera itne ens cellen för den kolumnen
+            // fyll parametrar med värden från settet
+            // kör insert
+            // om det är en identity så ska vi plocka identity värdet som skickats tillbaka
+            // commit
+
+            return null;
         }
 
         public void CleanUp(List<string> datasetNames)

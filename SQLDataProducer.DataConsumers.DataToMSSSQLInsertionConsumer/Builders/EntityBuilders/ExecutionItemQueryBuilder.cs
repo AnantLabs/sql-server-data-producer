@@ -19,8 +19,10 @@ using System.Text;
 using SQLDataProducer.Entities.ExecutionEntities;
 using System.Data.Common;
 using SQLDataProducer.Entities.DatabaseEntities;
+//using SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer.Builders.EntityBuilders;
+using SQLDataProducer.Entities.DataEntities.Collections;
 
-namespace SQLDataProducer.ContinuousInsertion.Builders.EntityBuilders
+namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer.Builders.EntityBuilders
 {
     static class ExecutionItemQueryBuilder
     {
@@ -28,22 +30,22 @@ namespace SQLDataProducer.ContinuousInsertion.Builders.EntityBuilders
         /// Generate the INSERT-part of the statement, example <example>INSERT schemaName.TableName(c1, c2)</example>
         /// </summary>
         /// <param name="sb">the stringbuilder to append the insert statement to</param>
-        public static void AppendInsertPartOfStatement(ExecutionItem ei, StringBuilder sb)
+        public static void AppendInsertPartOfStatement(DataRowSet ei, StringBuilder sb)
         {
             sb.AppendLine();
-            sb.AppendLine(string.Format("-- {0}", ei.Description));
+            //sb.AppendLine(string.Format("-- {0}", ei.TargetTable.TableName));
 
             TableQueryBuilder.AppendInsertPartForTable(ei, sb);
 
             sb.AppendLine();
         }
-        
 
-        public static void AppendValuePartOfInsertStatement(ExecutionItem ei, StringBuilder sb)
+
+        public static void AppendValuePartOfInsertStatement(DataRowSet ei, StringBuilder sb)
         {
             sb.AppendLine();
             sb.AppendLine("VALUES");
-            for (int rep = 1; rep <= ei.RepeatCount; rep++)
+            for (int rep = 1; rep <= ei.Count; rep++)
             {
                 sb.Append("\t");
                 sb.Append("(");
@@ -51,7 +53,7 @@ namespace SQLDataProducer.ContinuousInsertion.Builders.EntityBuilders
                 TableQueryBuilder.CreateValuesPartForTable(ei.TargetTable, sb, rep);
 
                 sb.Append(")");
-                sb.Append(ei.RepeatCount == rep ? ";" : ", ");
+                sb.Append(ei.Count == rep ? ";" : ", ");
                 sb.AppendLine();
             }
             // If the table have idenitity column then we shuold store that in a variable
@@ -72,14 +74,12 @@ namespace SQLDataProducer.ContinuousInsertion.Builders.EntityBuilders
         /// Set values for the parameters. The parameters must already be generated and should have been in the init() function
         /// </summary>
         /// <param name="getN">will be called once per row</param>
-        public static void AppendVariables(ExecutionItem ei, StringBuilder sb, Func<long> getN)
+        public static void AppendVariables(DataRowSet ei, StringBuilder sb)
         {
             sb.AppendLine();
-            for (int rep = 1; rep <= ei.RepeatCount; rep++)
+            for (int rep = 1; rep <= ei.Count; rep++)
             {
-                long N = getN();
-
-                TableQueryBuilder.AppendVariablesForTable(ei.TargetTable, sb, rep, N);
+                TableQueryBuilder.AppendVariablesForTable(ei, sb, rep);
             }
         }
     }

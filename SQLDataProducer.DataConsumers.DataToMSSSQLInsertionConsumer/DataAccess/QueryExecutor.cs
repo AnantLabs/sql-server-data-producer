@@ -17,7 +17,7 @@ using System.Data.Common;
 using System.Collections.Generic;
 using System;
 using SQLDataProducer.DataAccess.Factories;
-namespace SQLDataProducer.DataAccess
+namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer.DataAccess
 {
     public class QueryExecutor : IDisposable
     {
@@ -35,7 +35,6 @@ namespace SQLDataProducer.DataAccess
         {
             PrepareCommand(query, parameters);
             _cmd.ExecuteNonQuery();
-            
         }
 
         private void PrepareCommand(string query, Dictionary<string, DbParameter> parameters)
@@ -47,6 +46,7 @@ namespace SQLDataProducer.DataAccess
                 _cmd.Parameters.Add(p.Value);
             }
         }
+
         public long ExecuteIdentity(string query, Dictionary<string, DbParameter> parameters)
         {
             PrepareCommand(query, parameters);

@@ -46,9 +46,10 @@
     <Compile Include="DatabaseEntities\Collections\TableEntityCollection.cs" />
     <Compile Include="DatabaseEntities\ColumnEntity.cs" />
     <Compile Include="DatabaseEntities\ColumnDataTypeDefinition.cs" />
-    <Compile Include="DatabaseEntities\DataCell.cs" />
+    <Compile Include="DataEntities\Collections\DataRowSet.cs" />
+    <Compile Include="DataEntities\DataCell.cs" />
     <Compile Include="DatabaseEntities\Factories\DatabaseEntityFactory.cs" />
-    <Compile Include="DatabaseEntities\RowEntity.cs" />
+    <Compile Include="DataEntities\RowEntity.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="ExecutionEntities\ExecutionItemCollection.cs" />
     <Compile Include="ExecutionEntities\ExecutionNode.cs" />

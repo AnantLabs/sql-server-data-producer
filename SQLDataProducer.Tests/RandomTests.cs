@@ -309,10 +309,10 @@ namespace SQLDataProducer.RandomTests
 
         }
 
-        private static string Connection()
-        {
-            return "Data Source=localhost;Initial Catalog=AdventureWorks;Integrated Security=True";
-        }
+        //private static string Connection()
+        //{
+        //    return "Data Source=localhost;Initial Catalog=AdventureWorks;Integrated Security=True";
+        //}
 
         public RandomTests()
         {

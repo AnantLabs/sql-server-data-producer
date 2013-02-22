@@ -13,6 +13,7 @@
 //   limitations under the License.
 
 using SQLDataProducer.Entities.DatabaseEntities;
+using SQLDataProducer.Entities.DataEntities.Collections;
 using SQLDataProducer.Entities.ExecutionEntities;
 using SQLDataProducer.Entities.Generators;
 using SQLDataProducer.Model;
@@ -52,7 +53,7 @@ namespace SQLDataProducer.ViewModels
 
             ShowPreviewCommand = new DelegateCommand<ExecutionItem>(ei =>
                 {
-                    List<RowEntity> dt = ExecutionItem.CreatePreview(ei);
+                    DataRowSet dt = ExecutionItem.CreatePreview(ei);
                     ModalWindows.ShowPreviewWindow win = new ModalWindows.ShowPreviewWindow(dt);
                     win.Show();
                 });

@@ -30,7 +30,7 @@ namespace SQLDataProducer.DataAccess
 
         public void TestConnection()
         {
-            ExecuteNonQuery("select 1");
+            ExecuteNonQuery("select case when exists(select * from INFORMATION_SCHEMA.tables) then 1 else 0 end");
         }
     }
 }
