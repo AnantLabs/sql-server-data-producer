@@ -23,6 +23,7 @@ using System.Linq;
 using Generators = SQLDataProducer.Entities.Generators;
 using SQLDataProducer.RandomTests.SerializationTests;
 using SQLDataProducer.RandomTests.OtherTests;
+using SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer.ConsumerTests;
 
 namespace TestConsoleApplication
 {
@@ -49,8 +50,8 @@ namespace TestConsoleApplication
             //dtt.ShouldRunASmallTest();
             //var dtc = new DataToCSVConsumerTests();
             //dtc.StandardTest();
-            var t = new RandomTests();
-            t.ShouldExecuteOnlyOnCondition_EqualOrGreaterThan();
+            var t = new LongRunningTests();
+            t.ShouldExecute_50000_Executions();
 
             //var t = new GeneratorParameterTests();
             //t.ShouldBeEqualityWhenEqual();

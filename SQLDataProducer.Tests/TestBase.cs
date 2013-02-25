@@ -41,10 +41,12 @@ namespace SQLDataProducer.RandomTests
                                             .Concat(new Generators.Generator[] { Generators.Generator.CreateNULLValueGenerator() });
 
 
-        protected IDataConsumer DefaultDataConsumer = new SQLDataProducer.ContinuousInsertion.DataConsumers.DataToConsoleConsumer();
+        protected IDataConsumer DefaultDataConsumer = new SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer.InsertComsumer();
 
         public TestBase()
         {
+            DefaultDataConsumer.Init(Connection());
+
             string sql = @"
 
 if exists (select 1 from INFORMATION_SCHEMA.tables where TABLE_NAME = 'AnotherTable' and TABLE_SCHEMA = 'Person')

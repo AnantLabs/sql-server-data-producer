@@ -37,7 +37,11 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer.ConsumerTe
                 foreach (var item in listOfExecutionItems)
                 {
                     var data = item.CreateData(getN, new Entities.SetCounter());
+                    if (data.Count == 0)
+                        continue;
+                    
                     DefaultDataConsumer.Consume(data);
+
                     consumer.Consume(data);
                 }
             }

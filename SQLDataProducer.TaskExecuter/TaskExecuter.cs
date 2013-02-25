@@ -68,11 +68,11 @@ namespace SQLDataProducer.TaskExecuter
                 {
                     case NumberGeneratorMethods.NewNForEachExecution:
                         // The executionCounter is incremented for each Execution, just return the current value. It will be incremented in the big loop
-                        Console.WriteLine("_executionCounter.Peek()");
+                        System.Diagnostics.Debug.WriteLine("N generation called: _executionCounter.Peek()");
                         return _executionCounter.Peek();
                     case NumberGeneratorMethods.NewNForEachRow:
                         // Insert counter is used to generated per row, it should be incremented by "something else" for each row that is inserted
-                        Console.WriteLine("_rowInsertCounter.Peek()");
+                        System.Diagnostics.Debug.WriteLine("N generation called: _rowInsertCounter.Peek()");
                         return _rowInsertCounter.Peek();
                     case NumberGeneratorMethods.ConstantN:
                         return 1;
@@ -163,7 +163,11 @@ namespace SQLDataProducer.TaskExecuter
 
                         float percentDone = (float)_executionCounter.Peek() / (float)Options.FixedExecutions;
                         // TODO: Find out if this is eating to much performance (Sending many OnPropertyChanged events..
-                        Options.PercentCompleted = percentDone;
+                        // TODO: Testing if this would change the value only every 5 percent.
+                        if (percentDone % 5 == 0)
+                        {
+                            Options.PercentCompleted = percentDone;
+                        }
                     }
 
                 };
@@ -182,6 +186,8 @@ namespace SQLDataProducer.TaskExecuter
             foreach (var ei in _execItems)
             {
                 var data = ei.CreateData(_nGenerator, _rowInsertCounter);
+                if (data.Count == 0)
+                    continue;
                 _consumer.Consume(data);
             }
             _executionCounter.Increment();

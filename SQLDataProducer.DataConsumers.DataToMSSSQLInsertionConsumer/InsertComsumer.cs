@@ -73,7 +73,8 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer
         //    return _executor.Execute();
         //}
 
-        public string _connectionString { get; set; }
+        string _connectionString { get; set; }
+        QueryExecutor _queryExecutor;
 
         public bool Init(string target)
         {
@@ -85,30 +86,24 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer
 
         public ExecutionResult Consume(DataRowSet rows)
         {
-            // starta transaction
-            // set identity insert on om det är en column med identity insert generator
-            // skapa insert statement med columner som finns i settet
-            //      future feature: om det är anviget att använda default constraint value ange inte kolumnen -> nej, generera itne ens cellen för den kolumnen
-            // fyll parametrar med värden från settet
-            // kör insert
-            // om det är en identity så ska vi plocka identity värdet som skickats tillbaka
-            // commit
-
             DoOneExecution(rows);
             return null;
         }
 
-        QueryExecutor _queryExecutor;
+        
 
         private void DoOneExecution(DataRowSet ds)
         {
-             
+
+            if (ds.Count == 0)
+                throw new ArgumentException("ds cannot have zero rows");
+
+            // TODO: Optimize by caching the builders per table
+            // also save the generated parameters and only set the values when executing.
             var b = TableEntityInsertStatementBuilder.Create(ds);
-            //b.SetParameterValues(ds);
 
             using (var tran = new TransactionScope())
             {
-                
                 if (!ds.TargetTable.HasIdentityColumn)
                     _queryExecutor.ExecuteNonQuery(b.InsertStatement, b.Parameters);
                 else

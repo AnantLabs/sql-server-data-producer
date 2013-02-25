@@ -47,7 +47,7 @@ namespace SQLDataProducer.RandomTests
             {
                 var options = new ExecutionTaskOptions();
                 options.ExecutionType = ExecutionTypes.ExecutionCountBased;
-                options.FixedExecutions = 50000;
+                options.FixedExecutions = 5000;
                 options.NumberGeneratorMethod = NumberGeneratorMethods.NewNForEachRow;
                 ExecutionItemCollection items = new ExecutionItemCollection();
                 
@@ -67,9 +67,9 @@ namespace SQLDataProducer.RandomTests
                 
 
                 Console.WriteLine(res.ToString());
-                Assert.AreEqual(500000, res.InsertCount, "InsertCount should be 500000");
+                Assert.AreEqual(50000, res.InsertCount, "InsertCount should be 500000");
                 Assert.AreEqual(0, res.ErrorList.Count, "InsertCount should be 0");
-                Assert.AreEqual(50000, res.ExecutedItemCount, "ExecutedItemCount should be 50000");
+                Assert.AreEqual(5000, res.ExecutedItemCount, "ExecutedItemCount should be 50000");
                 Assert.Greater(res.Duration, TimeSpan.Zero, "Duration should > 0");
             }
         }

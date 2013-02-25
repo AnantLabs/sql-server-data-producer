@@ -45,17 +45,11 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer.Builders.E
         {
             sb.AppendLine();
             sb.AppendLine("VALUES");
-            for (int rep = 0; rep < ds.Count; rep++)
-            {
-                sb.Append("\t");
-                sb.Append("(");
 
-                TableQueryBuilder.CreateValuesPartForTable(ds.TargetTable, sb, rep);
+            TableQueryBuilder.CreateValuesPart(ds, sb);
 
-                sb.Append(")");
-                sb.Append(ds.Count - 1 == rep ? ";" : ", ");
-                sb.AppendLine();
-            }
+            sb.AppendLine(";");
+
             // If the table have idenitity column then we shuold store that in a variable
             if (ds.TargetTable.HasIdentityColumn)
             {
@@ -70,17 +64,17 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer.Builders.E
 
         
 
-        /// <summary>
-        /// Set values for the parameters. The parameters must already be generated and should have been in the init() function
-        /// </summary>
-        /// <param name="getN">will be called once per row</param>
-        public static void AppendVariables(DataRowSet ei, StringBuilder sb)
-        {
-            sb.AppendLine();
-            for (int rep = 1; rep <= ei.Count; rep++)
-            {
-                TableQueryBuilder.AppendVariablesForTable(ei, sb, rep);
-            }
-        }
+        ///// <summary>
+        ///// Set values for the parameters. The parameters must already be generated and should have been in the init() function
+        ///// </summary>
+        ///// <param name="getN">will be called once per row</param>
+        //public static void AppendVariables(DataRowSet ei, StringBuilder sb)
+        //{
+        //    sb.AppendLine();
+        //    for (int rep = 1; rep <= ei.Count; rep++)
+        //    {
+        //        TableQueryBuilder.AppendVariablesForTable(ei, sb, rep);
+        //    }
+        //}
     }
 }

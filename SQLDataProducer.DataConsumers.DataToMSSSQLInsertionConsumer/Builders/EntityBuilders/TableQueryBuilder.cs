@@ -25,55 +25,46 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer.Builders.E
 {
     static class TableQueryBuilder
     {
-        public static void AppendVariablesForTable(DataRowSet ds, StringBuilder sb, int rep)
-        {
-            // TODO: This line is eating a lot of performance. Replace-fix
-            //ds.GenerateValuesForColumns(N);
+        //public static void AppendVariablesForTable(DataRowSet ds, StringBuilder sb, int rep)
+        //{
+        //    // TODO: This line is eating a lot of performance. Replace-fix
+        //    //ds.GenerateValuesForColumns(N);
             
-            foreach (var col in ds.TargetTable.Columns)//.Where(x => x.IsNotIdentity)
-            {
-                if (col.Generator.IsSqlQueryGenerator)
-                    continue;
+        //    foreach (var col in ds.TargetTable.Columns)//.Where(x => x.IsNotIdentity)
+        //    {
+        //        if (col.Generator.IsSqlQueryGenerator)
+        //            continue;
 
-                string paramName = QueryBuilderHelper.GetParamName(rep, col);
-                if (col.Generator.GeneratorName != SQLDataProducer.Entities.Generators.Generator.GENERATOR_IdentityFromPreviousItem)
-                {
-                    var value = col.PreviouslyGeneratedValue == DBNull.Value ? "NULL" : string.Format(col.ColumnDataType.StringFormatter, col.PreviouslyGeneratedValue);
-                    // TODO: This line is eating a lot of performance. Replace-fix
-                    sb.AppendLine(string.Format("DECLARE {0} {1} = {2}; -- {3}",
-                        paramName,
-                        col.ColumnDataType.Raw,
-                        value,
-                        col.Generator.GeneratorName));
-                }
-                else
-                {
-                    sb.AppendLine(string.Format("DECLARE {0} {1} = {2}; -- {3}",
-                        paramName,
-                        col.ColumnDataType.Raw,
-                        string.Format("@Identity_i{0}", col.Generator.GeneratorParameters[0].Value),
-                        col.Generator.GeneratorName));
-                }
-            }
-        }
+        //        string paramName = QueryBuilderHelper.GetParamName(rep, col);
+        //        if (col.Generator.GeneratorName != SQLDataProducer.Entities.Generators.Generator.GENERATOR_IdentityFromPreviousItem)
+        //        {
+        //            var value = col.PreviouslyGeneratedValue == DBNull.Value ? "NULL" : string.Format(col.ColumnDataType.StringFormatter, col.PreviouslyGeneratedValue);
+        //            // TODO: This line is eating a lot of performance. Replace-fix
+        //            sb.AppendLine(string.Format("DECLARE {0} {1} = {2}; -- {3}",
+        //                paramName,
+        //                col.ColumnDataType.Raw,
+        //                value,
+        //                col.Generator.GeneratorName));
+        //        }
+        //        else
+        //        {
+        //            sb.AppendLine(string.Format("DECLARE {0} {1} = {2}; -- {3}",
+        //                paramName,
+        //                col.ColumnDataType.Raw,
+        //                string.Format("@Identity_i{0}", col.Generator.GeneratorParameters[0].Value),
+        //                col.Generator.GeneratorName));
+        //        }
+        //    }
+        //}
 
-        public static void CreateValuesPartForTable(TableEntity table, StringBuilder sb, int rep)
+        public static void CreateValuesPart(DataRowSet ds, StringBuilder sb)
         {
-            for (int i = 0; i < table.Columns.Count; i++)
-            {
-                var col = table.Columns[i];
-                // If he column is identity and the generator is set to use SQL Server identity generation, then dont generate this value part
-                if (col.IsIdentity && col.Generator.GeneratorName == SQLDataProducer.Entities.Generators.Generator.GENERATOR_IdentityFromSqlServerGenerator)
-                    continue;
+            var values = 
+                    string.Join("," + Environment.NewLine, ds.Select( r =>
+                        "(" + string.Join(",", r.Cells.Select(c2 => 
+                            c2.Column.Generator.IsSqlQueryGenerator ? QueryBuilderHelper.GetSqlQueryParameterName(c2.Column) : QueryBuilderHelper.GetParamName(r.RowNumber, c2.Column))) + ")"));
 
-                //// Get the parameter name to use, if the generator is sql query generator then the generated variable should be used instead of the parameter.
-                if (!col.Generator.IsSqlQueryGenerator)
-                    sb.Append(QueryBuilderHelper.GetParamName(rep, col));
-                else
-                    sb.Append(QueryBuilderHelper.GetSqlQueryParameterName(col));
-
-                sb.Append(i == table.Columns.Count - 1 ? string.Empty : ", ");
-            }
+            sb.AppendLine(values);
         }
 
         /// <summary>
@@ -93,28 +84,15 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer.Builders.E
             sb.AppendLine();
         }
 
-        public static void AppendInsertPartForTable(DataRowSet ei, StringBuilder sb)
+        public static void AppendInsertPartForTable(DataRowSet ds, StringBuilder sb)
         {
-            
-            sb.AppendFormat("INSERT {0}.{1} (", ei.TargetTable.TableSchema, ei.TargetTable.TableName);
+            sb.AppendFormat("INSERT {0}.{1} (", ds.TargetTable.TableSchema, ds.TargetTable.TableName);
             sb.AppendLine();
 
-            for (int i = 0; i < ei.TargetTable.Columns.Count; i++)
-            {
-                var col = ei.TargetTable.Columns[i];
-                
-                if (col.IsIdentity && col.Generator.GeneratorName == SQLDataProducer.Entities.Generators.Generator.GENERATOR_IdentityFromSqlServerGenerator)
-                    continue;
-
-                sb.AppendFormat("\t[{0}]", col.ColumnName);
-                sb.Append(i == ei.TargetTable.Columns.Count - 1 ? string.Empty : ", ");
-                sb.AppendLine();
-
-            }
+            var columnList = string.Join("," + Environment.NewLine + "\t\t", ds[0].Cells.Select(c => c.Column.ColumnName));
+            sb.Append(columnList);
 
             sb.Append(")");
-            
-
         }
     }
 }

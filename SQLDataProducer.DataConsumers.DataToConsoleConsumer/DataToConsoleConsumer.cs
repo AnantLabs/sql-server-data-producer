@@ -19,7 +19,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SQLDataProducer.ContinuousInsertion.DataConsumers
+namespace SQLDataProducer.DataConsumers
 {
     public class DataToConsoleConsumer : IDataConsumer
     {

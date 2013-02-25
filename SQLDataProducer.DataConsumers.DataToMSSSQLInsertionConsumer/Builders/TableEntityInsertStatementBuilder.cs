@@ -82,19 +82,20 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLScriptConsumer
 
         private void FillParameterCollection(DataRowSet ds)
         {
-            for (int rep = 0; rep < ds.Count; rep++)
+            foreach (var row in ds)
             {
-                for (int i = 0; i < ds[rep].Cells.Count; i++)
+                for (int i = 0; i < row.Cells.Count; i++)
                 {
-                    var cell = ds[rep].Cells[i];
-                    
-                    string paramName = QueryBuilderHelper.GetParamName(rep, cell.Column);
-                    
+                    var cell = row.Cells[i];
+
+                    string paramName = QueryBuilderHelper.GetParamName(row.RowNumber, cell.Column);
+
                     var par = CommandFactory.CreateParameter(paramName, cell.Value, cell.Column.ColumnDataType.DBType);
-                    Parameters.Add(paramName, par);
+                    _paramCollection.Add(paramName, par);
                 }
             }
         }
+    
 
         public static TableEntityInsertStatementBuilder Create(DataRowSet rows)
         {
