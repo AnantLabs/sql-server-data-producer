@@ -330,10 +330,13 @@ order by table_schema, table_name
         /// </summary>
         private static Func<SqlDataReader, TableEntity> CreateTableEntity = reader =>
         {
-            return new TableEntity(
-                reader.GetString(reader.GetOrdinal("Table_Schema")),
-                reader.GetString(reader.GetOrdinal("Table_Name"))
-                );
+            var t = new
+            {
+                TableSchema = reader.GetString(reader.GetOrdinal("Table_Schema")),
+                TableName = reader.GetString(reader.GetOrdinal("Table_Name"))
+            };
+
+            return new TableEntity(t.TableSchema, t.TableName);
         };
 
         /// <summary>
@@ -350,7 +353,8 @@ order by table_schema, table_name
             var table = new TableEntity(t.TableSchema, t.TableName);
             do
             {
-                table.Columns.Add(ColumnEntityDataAccess.CreateColumn(reader));
+                var col = ColumnEntityDataAccess.CreateColumn(reader);
+                table.Columns.Add(col);
 
             } while (reader.Read() && (
                 reader.GetString(reader.GetOrdinal("Table_Name")) == t.TableName &&

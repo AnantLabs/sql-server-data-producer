@@ -37,9 +37,11 @@ namespace SQLDataProducer.Entities.DataEntities
             var r = new RowEntity();
             r.RowNumber = rowNumber;
 
-            for (int i = 0; i < table.Columns.Count; i++)
+            foreach (var col in table.Columns)
             {
-                var col = table.Columns[i];
+            //for (int i = 0; i < table.Columns.Count; i++)
+            //{
+            //    var col = table.Columns[i];
                 if (col.IsIdentity && col.Generator.GeneratorName == Generators.Generator.GENERATOR_IdentityFromSqlServerGenerator)
                     continue;
 
