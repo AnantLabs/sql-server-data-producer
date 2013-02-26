@@ -16,7 +16,7 @@
 using System.Data.Common;
 using System.Collections.Generic;
 using System;
-using SQLDataProducer.DataAccess.Factories;
+
 namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer.DataAccess
 {
     public class QueryExecutor : IDisposable

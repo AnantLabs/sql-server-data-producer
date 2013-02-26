@@ -45,16 +45,13 @@
     <Compile Include="Builders\EntityBuilders\ExecutionItemQueryBuilder.cs" />
     <Compile Include="Builders\EntityBuilders\TableQueryBuilder.cs" />
     <Compile Include="Builders\Helpers\QueryBuilderHelper.cs" />
+    <Compile Include="DataAccess\DbCommandExecutorFactory.cs" />
     <Compile Include="InsertComsumer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DataAccess\QueryExecutor.cs" />
     <Compile Include="Builders\TableEntityInsertStatementBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SQLDataProducer.DataAccess\SQLDataProducer.DataAccess.csproj">
-      <Project>{de7f05fa-0f0c-4779-82c0-389713eb68c7}</Project>
-      <Name>SQLDataProducer.DataAccess</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SQLDataProducer.Entities\SQLDataProducer.Entities.csproj">
       <Project>{0d135cad-55db-4090-bb5f-2c493a1f0072}</Project>
       <Name>SQLDataProducer.Entities</Name>

@@ -19,11 +19,12 @@ using System.Text;
 using System.Collections.ObjectModel;
 using System.Data.Common;
 using SQLDataProducer.Entities.ExecutionEntities;
-using SQLDataProducer.DataAccess.Factories;
+
 using SQLDataProducer.Entities.DatabaseEntities;
 using SQLDataProducer.Entities.DataEntities.Collections;
 using SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer.Builders.EntityBuilders;
 using SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer.Builders.Helpers;
+using SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer.DataAccess;
 
 namespace SQLDataProducer.DataConsumers.DataToMSSSQLScriptConsumer
 {

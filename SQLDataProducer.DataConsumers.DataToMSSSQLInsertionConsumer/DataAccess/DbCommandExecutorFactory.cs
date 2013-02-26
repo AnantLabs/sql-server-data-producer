@@ -17,7 +17,7 @@ using System.Data.Common;
 using System.Data.SqlClient;
 
 
-namespace SQLDataProducer.DataAccess.Factories
+namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer.DataAccess
 {
     public static class CommandFactory
     {
@@ -104,10 +104,10 @@ namespace SQLDataProducer.DataAccess.Factories
                     //  <add key="DbConnFactory" value="System.Data.SqlClient" />
                     //</appSettings>
                     string provider = "System.Data.SqlClient";
-                    if (!string.IsNullOrEmpty(System.Configuration.ConfigurationManager.AppSettings["DbConnFactory"]))
-                    {
-                        provider = System.Configuration.ConfigurationManager.AppSettings["DbConnFactory"];
-                    }
+                    //if (!string.IsNullOrEmpty(System.Configuration.ConfigurationManager.AppSettings["DbConnFactory"]))
+                    //{
+                    //    provider = System.Configuration.ConfigurationManager.AppSettings["DbConnFactory"];
+                    //}
                     factory = DbProviderFactories.GetFactory(provider);
                 }
 
