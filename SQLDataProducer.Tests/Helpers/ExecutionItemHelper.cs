@@ -66,6 +66,7 @@ namespace SQLDataProducer.RandomTests.Helpers
 
             return table;
         }
+
         public static TableEntity CreateTableAnd1DateTimeColumn(string schemaName, string tableName)
         {
             var table = new TableEntity(schemaName, tableName);

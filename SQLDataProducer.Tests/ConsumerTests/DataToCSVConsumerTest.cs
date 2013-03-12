@@ -52,17 +52,18 @@ namespace SQLDataProducer.RandomTests
             var options = new Entities.OptionEntities.ExecutionTaskOptions();
             options.FixedExecutions = 3;
 
-
             TaskExecuter.WorkflowManager wfm = new TaskExecuter.WorkflowManager();
-            using (var te = new TaskExecuter.TaskExecuter(options, @"c:\temp\repeater\CSVOutput.txt", executionItems, new DataToCSVConsumer()))
+            Dictionary<string, string> consumerOptions = new Dictionary<string, string>();
+            consumerOptions.Add("Output Folder", @"c:\temp\repeater\");
+            using (var te = new TaskExecuter.TaskExecuter(options, @"c:\temp\repeater\CSVOutput.txt", executionItems, new DataToCSVConsumer(), consumerOptions))
             {
                 wfm.RunWorkFlow(te);
             }
 
             ei.RepeatCount = 5;
             options.NumberGeneratorMethod = Entities.NumberGeneratorMethods.NewNForEachExecution;
-            
-            using (var te = new TaskExecuter.TaskExecuter(options, @"c:\temp\repeater\CSVOutput2.txt", executionItems, new DataToCSVConsumer()))
+
+            using (var te = new TaskExecuter.TaskExecuter(options, @"c:\temp\repeater\CSVOutput2.txt", executionItems, new DataToCSVConsumer(), consumerOptions))
             {
                 wfm.RunWorkFlow(te);
             }

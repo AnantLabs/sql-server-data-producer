@@ -26,14 +26,14 @@ using System.Transactions;
 
 namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer
 {
-    [ConsumerMetaData("Insert rows to DB", "ConnectionString")]
+    [ConsumerMetaData("Insert rows to DB", null)]
     public class InsertComsumer : IDataConsumer
     {
-        Dictionary<string, string> _options;
+        //Dictionary<string, string> _options;
 
-        public string ConnectionString { 
-            get { return _options["ConnectionString"]; } 
-            set { _options["ConnectionString"] = value ;} }
+        //public string ConnectionString { 
+        //    get { return _options["ConnectionString"]; } 
+        //    set { _options["ConnectionString"] = value ;} }
 
 
         private void RunTruncationOnExecutionItems(string connectionString, ExecutionItemCollection executionItems)
@@ -73,17 +73,19 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer
         }
 
         QueryExecutor _queryExecutor;
+        private string _connectionString;
 
         public bool Init(string connectionString, Dictionary<string, string> options)
         {
-            _options = options;
-            _queryExecutor = new QueryExecutor(ConnectionString);
+            //_options = options;
+            _connectionString = connectionString;
 
             return true;
         }
 
         public ExecutionResult Consume(DataRowSet rows)
         {
+            _queryExecutor = new QueryExecutor(_connectionString);
             DoOneExecution(rows);
             return null;
         }
@@ -125,7 +127,11 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer
 
         public void Dispose()
         {
-            _queryExecutor.Dispose();
+            if (_queryExecutor != null)
+            {
+                _queryExecutor.Dispose();
+            }
+            
         }
     }
 }

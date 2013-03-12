@@ -46,14 +46,32 @@ namespace SQLDataProducer.RandomTests
         public TestBase()
         {
             DefaultDataConsumer.Init(Connection());
+            CreateTablesInDB();
+        }
+
+        private static void CreateTablesInDB()
+        {
+            AdhocDataAccess adhd = new AdhocDataAccess(Connection());
+
+            //string createDB = "use master; if not exists(select 1 from sys.databases where name = 'AdventureWorks') exec('create database AdventureWorks'); use AdventureWorks";
+            //adhd.ExecuteNonQuery(createDB);
 
             string sql = @"
+
+if not exists(SELECT schema_name FROM information_schema.schemata WHERE schema_name = 'Person') exec('CREATE SCHEMA Person');
 
 if exists (select 1 from INFORMATION_SCHEMA.tables where TABLE_NAME = 'AnotherTable' and TABLE_SCHEMA = 'Person')
 	drop table Person.AnotherTable;
 
 if exists (select 1 from INFORMATION_SCHEMA.tables where TABLE_NAME = 'NewPerson' and TABLE_SCHEMA = 'Person')
 	drop table Person.NewPerson;
+
+if exists (select 1 from INFORMATION_SCHEMA.tables where TABLE_NAME = 'Person' and TABLE_SCHEMA = 'Person')
+	drop table Person.Person;
+
+if exists (select 1 from INFORMATION_SCHEMA.tables where TABLE_NAME = 'Address' and TABLE_SCHEMA = 'Person')
+	drop table Person.Address;
+	
 	
 	
 create table Person.NewPerson(
@@ -74,14 +92,34 @@ create table Person.NewPerson(
 	SmallMoneyColumn smallmoney  not null
 );
 
+
+
+create table Person.Address(
+	AddressID int identity(1, 1) primary key,
+    AddressLine1 varchar(500) not null, 
+    AddressLine2 varchar(500), 
+    City varchar(500) not null, 
+    StateProvinceID int not null, 
+    PostalCode varchar(500) not null, 
+    rowguid uniqueidentifier, 
+    ModifiedDate datetime
+);
+
+
+create table Person.Person(
+	NewPersonId int identity(1, 1) primary key,
+	Name varchar(500) not null,
+	BitColumn bit not null, 
+	DecimalColumn decimal(10, 4) not null
+);
+
 create table Person.AnotherTable(
 	NewPersonId int foreign key references Person.NewPerson(NewPersonId),
 	AnotherColumn char(1),
     ThirdColumn char(1) not null
 );";
-            AdhocDataAccess adhd = new AdhocDataAccess(Connection());
+            
             adhd.ExecuteNonQuery(sql);
-
         }
         public static string Connection()
         {

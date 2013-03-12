@@ -116,9 +116,10 @@ namespace SQLDataProducer.RandomTests.SerializationTests
           </Generator>
         </Column>
         <Column ColumnName=""StateProvinceID"">
-          <Generator GeneratorName=""Random FOREIGN KEY Value (EAGER)"">
+          <Generator GeneratorName=""Random Int"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""Keys"" Value=""130002278538008105"" IsWriteEnabled=""False"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""MinValue"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""MaxValue"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
           </Generator>
         </Column>
@@ -311,11 +312,12 @@ namespace SQLDataProducer.RandomTests.SerializationTests
           </Generator>
         </Column>
         <Column ColumnName=""StateProvinceID"">
-          <Generator GeneratorName=""Random FOREIGN KEY Value (EAGER)"">
+          <Generator GeneratorName=""Random Int"">
             <GeneratorParameters>
-              <GeneratorParameter ParameterName=""Keys"" Value=""130002278538028106"" IsWriteEnabled=""False"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""MinValue"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
+              <GeneratorParameter ParameterName=""MaxValue"" Value=""130002278538008105"" IsWriteEnabled=""True"" ValueParser=""Long Parser"" />
             </GeneratorParameters>
-          </Generator>
+          </Generator>  
         </Column>
         <Column ColumnName=""PostalCode"">
           <Generator GeneratorName=""Countries"">

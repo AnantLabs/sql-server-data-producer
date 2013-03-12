@@ -43,7 +43,7 @@
   <ItemGroup>
     <Compile Include="ConsumerTests\InsertConsumerTests.cs" />
     <Compile Include="ConsumerTests\PluginLoaderTests.cs" />
-    <Compile Include="DataToCSVConsumerTest.cs" />
+    <Compile Include="ConsumerTests\DataToCSVConsumerTest.cs" />
     <Compile Include="DataToConsoleComsumerTest.cs" />
     <Compile Include="ForeignKeyTests.cs" />
     <Compile Include="Helpers\ExecutionItemHelper.cs" />
