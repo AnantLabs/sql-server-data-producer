@@ -26,6 +26,8 @@ using SQLDataProducer.ModalWindows;
 using System.Linq;
 using System.Windows.Data;
 using System.ComponentModel;
+using System.Collections.Generic;
+using SQLDataProducer.DataConsumers;
 
 namespace SQLDataProducer.Model
 {
@@ -36,12 +38,15 @@ namespace SQLDataProducer.Model
         public ApplicationModel()
         {
             Tables = new TableEntityCollection();
-            WorkFlowManager = new WorkflowManager();
+            //WorkFlowManager = new WorkflowManager();
 
             ExecutionItems = new ExecutionItemCollection();
             SelectedExecutionItem = ExecutionItems.FirstOrDefault();
 
             ConnectionString = SQLDataProducerSettings.Default.ConnectionString;
+
+            // TODO: Move plugin folder to some other folder. Configure where it is? Or hardcode
+            _availablePlugins = SQLDataProducer.DataConsumers.PluginLoader.LoadPluginsFromFolder(Environment.CurrentDirectory);
 
             _executionItemsWithWarningsSource = new CollectionViewSource { Source = ExecutionItems };
             ExecutionItemsWithWarningsView = _executionItemsWithWarningsSource.View;
@@ -57,6 +62,23 @@ namespace SQLDataProducer.Model
         }
 
         CollectionViewSource _executionItemsWithWarningsSource;
+
+
+        private IDataConsumerPluginWrapper _selectedConsumerPlugin;
+        public IDataConsumerPluginWrapper SelectedConsumer
+        {
+            get { return _selectedConsumerPlugin; }
+            set { _selectedConsumerPlugin = value; }
+        }
+
+
+        private List<IDataConsumerPluginWrapper> _availablePlugins;
+        public List<IDataConsumerPluginWrapper> AvailableConsumers
+        {
+            get { return _availablePlugins; }
+            set { _availablePlugins = value; }
+        }
+
 
 
         TableEntityCollection _tables;
@@ -420,11 +442,16 @@ namespace SQLDataProducer.Model
                 MessageBox.Show("The connection string must be set before executing");
                 return;
             }
+            if (SelectedConsumer == null)
+            {
+                MessageBox.Show("You need to select a consumer before running");
+            }
 
             IsQueryRunning = true;
 
             WorkFlowManager = new WorkflowManager();
-            _executor = new TaskExecuter.TaskExecuter(Options, ConnectionString, ExecutionItems, new DataConsumers.DataToMSSSQLInsertionConsumer.InsertComsumer());
+            var consumer = SelectedConsumer.CreateInstance();
+            _executor = new TaskExecuter.TaskExecuter(Options, ConnectionString, ExecutionItems, consumer);
             WorkFlowManager.RunWorkFlowAsync(_executor, (executionResult) =>
             {
                 IsQueryRunning = false;

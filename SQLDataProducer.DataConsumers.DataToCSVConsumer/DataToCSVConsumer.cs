@@ -22,19 +22,21 @@ using SQLDataProducer.Entities.DataEntities.Collections;
 
 namespace SQLDataProducer.DataConsumers.DataToCSVConsumer
 {
+    [ConsumerMetaData("Output to CSV File", "Output Folder")]
     public class DataToCSVConsumer : IDataConsumer
     {
-        string FileName; 
+
+        Dictionary<string, string> _options;
+
+        public string OutputFolder { get { return _options["Output Folder"]; } }
 
         public void Dispose()
         {
         }
 
-        Dictionary<string, bool> _initializedFiles = new Dictionary<string, bool>();
-
         public Entities.ExecutionEntities.ExecutionResult Consume(DataRowSet rows)
         {
-            using (TextWriter writer = File.AppendText(FileName))
+            using (TextWriter writer = File.AppendText(OutputFolder + rows.TargetTable.TableName))
             {
                 foreach (var r in rows)
                 {
@@ -48,12 +50,16 @@ namespace SQLDataProducer.DataConsumers.DataToCSVConsumer
             return null;
         }
 
-        public bool Init(string target)
+        public bool Init(string connectionString, Dictionary<string, string> options)
         {
-            if (string.IsNullOrEmpty(target))
-                throw new ArgumentNullException("target");
+            if (null == options)
+                throw new ArgumentNullException("options");
 
-            FileName = target;
+            _options = options;
+
+            DirectoryInfo di = new DirectoryInfo(OutputFolder);
+            if (!di.Exists)
+                Directory.CreateDirectory(OutputFolder);
 
             return true;
         }
@@ -61,8 +67,14 @@ namespace SQLDataProducer.DataConsumers.DataToCSVConsumer
 
         public void CleanUp(List<string> datasetNames)
         {
-            if (File.Exists(FileName))
-                File.Delete(FileName);
+            foreach (var tableName in datasetNames)
+            {
+                var fileName = OutputFolder + tableName;
+                
+                if (File.Exists(fileName))
+                    File.Delete(fileName);
+            }
+            
         }
 
         public void PreAction(string action)

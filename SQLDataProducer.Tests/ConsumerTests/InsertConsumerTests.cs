@@ -19,8 +19,6 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer.ConsumerTe
 
         }
         
-        
-
         [Test]
         public void ShouldConsumeDataAndInsertTheRowsToDB()
         {

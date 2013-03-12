@@ -21,8 +21,10 @@ using System.Text;
 
 namespace SQLDataProducer.DataConsumers
 {
+    [ConsumerMetaData("Output to Console", null)]
     public class DataToConsoleConsumer : IDataConsumer
     {
+
         public Entities.ExecutionEntities.ExecutionResult Consume(DataRowSet rows)
         {
             foreach (var r in rows)
@@ -41,9 +43,8 @@ namespace SQLDataProducer.DataConsumers
             
         }
 
-        public bool Init(string target)
+        public bool Init(string connectionString, Dictionary<string, string> options = null)
         {
-
             return true;
         }
 
@@ -62,5 +63,14 @@ namespace SQLDataProducer.DataConsumers
         {
          
         }
+
+        Dictionary<string, string> _options;
+
+        public Dictionary<string, string> ConsumerOptions
+        {
+            get { return _options; }
+        }
+
+        
     }
 }

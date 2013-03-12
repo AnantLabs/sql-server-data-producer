@@ -26,9 +26,15 @@ using System.Transactions;
 
 namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer
 {
+    [ConsumerMetaData("Insert rows to DB", "ConnectionString")]
     public class InsertComsumer : IDataConsumer
     {
-        
+        Dictionary<string, string> _options;
+
+        public string ConnectionString { 
+            get { return _options["ConnectionString"]; } 
+            set { _options["ConnectionString"] = value ;} }
+
 
         private void RunTruncationOnExecutionItems(string connectionString, ExecutionItemCollection executionItems)
         {
@@ -66,20 +72,12 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer
             //adhd.ExecuteNonQuery(preScript);
         }
 
-        //private ExecutionResult Execute(string connectionString, ExecutionItemCollection executionItems)
-        //{
-        //    //ExecutionTaskDelegate taskToExecute = _executor.CreateSQLTaskForExecutionItems(executionItems);
-
-        //    return _executor.Execute();
-        //}
-
-        string _connectionString { get; set; }
         QueryExecutor _queryExecutor;
 
-        public bool Init(string target)
+        public bool Init(string connectionString, Dictionary<string, string> options)
         {
-            _connectionString = target;
-            _queryExecutor = new QueryExecutor(_connectionString);
+            _options = options;
+            _queryExecutor = new QueryExecutor(ConnectionString);
 
             return true;
         }
@@ -89,12 +87,9 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer
             DoOneExecution(rows);
             return null;
         }
-
         
-
         private void DoOneExecution(DataRowSet ds)
         {
-
             if (ds.Count == 0)
                 throw new ArgumentException("ds cannot have zero rows");
 
@@ -114,8 +109,6 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer
                 tran.Complete();
             }
         }
-    
-       
 
         public void CleanUp(List<string> datasetNames)
         {

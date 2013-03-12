@@ -104,6 +104,13 @@
                     <TextBox Text="{Binding Model.Options.ScriptOutputScriptName, Mode=TwoWay}"  Margin="0 2 0 2" />-->
                     <ComboBox SelectedItem="{Binding Model.Options.NumberGeneratorMethod, Mode=TwoWay}"  Margin="0 2 0 2" 
                           ItemsSource="{Binding Source={StaticResource numberGeneratorMethodsEnum}}" />
+                    
+                    <GroupBox Header="Consumer">
+                        <ComboBox SelectedItem="{Binding Model.SelectedConsumer, Mode=TwoWay}" Margin="0 2 0 2"
+                                  ItemsSource="{Binding Model.AvailableConsumers}" 
+                                  DisplayMemberPath="PluginName" />
+                    </GroupBox>
+                    
                 </StackPanel>
             </GroupBox>
 

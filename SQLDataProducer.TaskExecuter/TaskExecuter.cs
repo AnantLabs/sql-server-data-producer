@@ -51,8 +51,9 @@ namespace SQLDataProducer.TaskExecuter
         ExecutionItemCollection _execItems;
         private IDataConsumer _consumer;
         private bool _isInitialized = false;
+        private Dictionary<string, string> _consumerOptions;
 
-        public TaskExecuter(ExecutionTaskOptions options, string connectionString, ExecutionItemCollection execItems, IDataConsumer consumer)
+        public TaskExecuter(ExecutionTaskOptions options, string connectionString, ExecutionItemCollection execItems, IDataConsumer consumer, Dictionary<string, string> consumerOptions = null)
         {
             _doneMyWork = false;
             _connectionString = connectionString;
@@ -60,6 +61,7 @@ namespace SQLDataProducer.TaskExecuter
             _cancelTokenSource = new CancellationTokenSource();
             _execItems = execItems;
             _consumer = consumer;
+            _consumerOptions = consumerOptions;
 
             // Create the method to be used to generate the N values.
             _nGenerator = delegate
@@ -265,7 +267,7 @@ namespace SQLDataProducer.TaskExecuter
 
         internal void Init()
         {
-            _consumer.Init(_connectionString);
+            _consumer.Init(_connectionString, _consumerOptions);
             _isInitialized = true;
         }
     }

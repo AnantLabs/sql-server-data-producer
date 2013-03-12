@@ -5,11 +5,23 @@ using System.Text;
 
 namespace SQLDataProducer.DataConsumers.DataToMSSSQLScriptConsumer
 {
+    [ConsumerMetaData("Create Insert Scripts", "Output Folder")]
     public class DataToMSSSQLScriptConsumer : IDataConsumer
     {
-        public bool Init(string target)
+        Dictionary<string, string> _options;
+
+      
+        public string OutputFolder { 
+            get { return _options["Output Folder"]; } 
+            set { _options["Output Folder"] = value; } 
+        }
+
+      
+
+        public bool Init(string connectionString, Dictionary<string, string> options)
         {
-            throw new NotImplementedException();
+            _options = options;
+            return true;
         }
 
         public Entities.ExecutionEntities.ExecutionResult Consume(Entities.DataEntities.Collections.DataRowSet rows)

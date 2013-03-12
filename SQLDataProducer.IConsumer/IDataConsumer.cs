@@ -27,14 +27,12 @@ namespace SQLDataProducer.DataConsumers
     /// </summary>
     public interface IDataConsumer : IDisposable
     {
-
         /// <summary>
         /// Initialize the data consumer, Will be called once before running anything.
         /// </summary>
-        /// <param name="target">filename or connectionstring to use in the consumer</param>
+        /// <param name="target">connectionstring to use in the consumer</param>
         /// <returns></returns>
-        bool Init(string target);
-
+        bool Init(string connectionString, Dictionary<string, string> options  = null);
 
         /// <summary>
         /// Consume the data feed
@@ -44,11 +42,6 @@ namespace SQLDataProducer.DataConsumers
         /// The calling manager is responsible for collecting this 
         /// delta and append it to the big result</returns>
         ExecutionResult Consume(DataRowSet rows);
-
-        ///// <summary>
-        ///// Implementations need to implement IDisposable
-        ///// </summary>
-        //public void Dispose();
 
         /// <summary>
         /// Perform cleanup to remove previous instances of the target
@@ -70,12 +63,5 @@ namespace SQLDataProducer.DataConsumers
         /// <param name="target"></param>
         /// <param name="action"></param>
         void PostAction(string action);
-
-
-        ///// <summary>
-        ///// Register a listener that can pick up error messages sent by the consumer
-        ///// </summary>
-        ///// <param name="a"></param>
-        //void RegisterErrorListener(Action<string> errorListener);
     }
 }

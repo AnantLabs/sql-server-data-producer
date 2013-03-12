@@ -41,6 +41,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IDataConsumer.cs" />
+    <Compile Include="ConsumerMetaDataAttribute.cs" />
+    <Compile Include="IDataConsumerPluginWrapper.cs" />
+    <Compile Include="PluginLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
