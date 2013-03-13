@@ -27,7 +27,7 @@ using SQLDataProducer.Entities.DatabaseEntities.Factories;
 
 namespace SQLDataProducer.DataAccess
 {
-    class ColumnEntityDataAccess : DataAccessBase
+    public class ColumnEntityDataAccess : DataAccessBase
     {
         public ColumnEntityDataAccess(string connectionString)
             : base(connectionString)
@@ -178,7 +178,7 @@ where object_id=object_id('{1}.{0}')  and cols.is_computed = 0";
             return cols;
         }
 
-        public static ColumnEntity CreateColumn(SqlDataReader reader)
+        internal static ColumnEntity CreateColumn(SqlDataReader reader)
         {
             return CreateColumnEntity(reader);
         }

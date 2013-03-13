@@ -48,6 +48,7 @@
     <Compile Include="ForeignKeyTests.cs" />
     <Compile Include="Helpers\ExecutionItemHelper.cs" />
     <Compile Include="LongRunningTests.cs" />
+    <Compile Include="SQLDataProducer.DataAccess.Tests\ColumnEntityDataAccessTests.cs" />
     <Compile Include="SQLDataProducer.DataAccess.Tests\Factories.Tests\DbCommandExecutorFactoryTests.cs" />
     <Compile Include="SQLDataProducer.DataAccess.Tests\Managers.Tests\ExecutionItemManagerTests.cs" />
     <Compile Include="SQLDataProducer.DataAccess.Tests\Managers.Tests\ForeignKeyManagerTests.cs" />
