@@ -62,9 +62,9 @@ namespace SQLDataProducer.DataAccess
                         0 AS Generation,
                         Ranking = CONVERT(VARCHAR(MAX), soc.object_id)
                FROM 
-                    SYS.objects soc  WITH(NOLOCK)
+                    SYS.objects soc
                JOIN 
-                    sys.schemas scc WITH(NOLOCK)
+                    sys.schemas scc
                     ON soc.schema_id = scc.schema_id
                WHERE    scc.name = @Schemaname
                         AND soc.name = @Tablename
@@ -82,22 +82,22 @@ namespace SQLDataProducer.DataAccess
                         f.Generation + 1 AS Generation,
                         Ranking = f.Ranking + '-'
                         + CONVERT(VARCHAR(MAX), sop.object_id)
-               FROM     SYS.foreign_key_columns sfc WITH(NOLOCK)
-                        JOIN sys.Objects sop  WITH(NOLOCK)
+               FROM     SYS.foreign_key_columns sfc
+                        JOIN sys.Objects sop
                             ON sfc.parent_object_id = sop.object_id
-                        JOIN SYS.columns socp  WITH(NOLOCK)
+                        JOIN SYS.columns socp
                             ON socp.object_id = sop.object_id
                             AND socp.column_id = sfc.parent_column_id
-                        JOIN sys.schemas scp  WITH(NOLOCK)
+                        JOIN sys.schemas scp 
                             ON sop.schema_id = scp.schema_id
-                        JOIN sys.objects soc  WITH(NOLOCK)
+                        JOIN sys.objects soc 
                             ON sfc.referenced_object_id = soc.object_id
-                        JOIN sys.columns socc  WITH(NOLOCK)
+                        JOIN sys.columns socc
                             ON socc.object_id = soc.object_id
                             AND socc.column_id = sfc.referenced_column_id
-                        JOIN sys.schemas scc  WITH(NOLOCK)
+                        JOIN sys.schemas scc 
                             ON soc.schema_id = scc.schema_id
-                        JOIN fkey f  WITH(NOLOCK)
+                        JOIN fkey f  
                             ON f.ReferencingObjectid = sfc.referenced_object_id
                WHERE    ISNULL(f.PrimarykeyObjectid, 0) <> f.ReferencingObjectid
              )
@@ -452,7 +452,7 @@ order by table_schema, table_name
         }
 
 
-        public IEnumerable<TableEntity> GetTreeStructureFromRoot(TableEntity tableAsRootForTree, TableEntityCollection tablesAvailAble)
+        public List<TableEntity> GetTreeStructureFromRoot(TableEntity tableAsRootForTree, TableEntityCollection tablesAvailAble)
         {
             string s = string.Format(TABLES_IN_HIERARCHY_FROM_ROOT, tableAsRootForTree.TableSchema, tableAsRootForTree.TableName);
 

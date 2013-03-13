@@ -41,7 +41,7 @@ namespace SQLDataProducer.RandomTests
                                             .Concat(new Generators.Generator[] { Generators.Generator.CreateNULLValueGenerator() });
 
 
-        protected IDataConsumer DefaultDataConsumer = new SQLDataProducer.DataConsumers.DataToConsoleConsumer();
+        protected IDataConsumer DefaultDataConsumer = new DataToConsoleConsumer();
 
         public TestBase()
         {

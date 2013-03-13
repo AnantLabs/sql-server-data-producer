@@ -6,7 +6,7 @@ using System.Text;
 
 namespace SQLDataProducer.DataConsumers
 {
-    public class PluginLoader
+    public static class PluginLoader
     {
         public static List<IDataConsumerPluginWrapper> LoadPluginsFromFolder(string folder)
         {
@@ -42,11 +42,19 @@ namespace SQLDataProducer.DataConsumers
             var files = System.IO.Directory.GetFiles(folder, "*.dll");
             foreach (var file in files)
             {
-                var typesInFile = LoadIDataConsumerTypes(file);
-                foreach (var t in typesInFile)
+                try
                 {
-                    pluginTypes.Add(t);
+                    var typesInFile = LoadIDataConsumerTypes(file);
+                    foreach (var t in typesInFile)
+                    {
+                        pluginTypes.Add(t);
+                    }
                 }
+                catch (Exception)
+                {
+                    // TODO: Log the error so that the developer of the plugin will know that there was some problem loading it.
+                }
+                
             }
 
             return pluginTypes;

@@ -20,6 +20,7 @@ using NUnit.Framework;
 using System.Data;
 using SQLDataProducer.Entities.DatabaseEntities;
 using SQLDataProducer.Entities.DatabaseEntities.Factories;
+using Generators = SQLDataProducer.Entities.Generators;
 
 
 namespace SQLDataProducer.RandomTests
@@ -43,8 +44,8 @@ namespace SQLDataProducer.RandomTests
             Assert.AreEqual(null, identityCol.ForeignKey);
             Assert.AreEqual(11, identityCol.PossibleGenerators.Count);
 
-            
-            Assert.AreEqual(SQLDataProducer.Entities.Generators.Generator.GENERATOR_IdentityFromSqlServerGenerator, identityCol.Generator.GeneratorName);
+
+            Assert.AreEqual(Generators.Generator.GENERATOR_IdentityFromSqlServerGenerator, identityCol.Generator.GeneratorName);
         }
 
         [Test]

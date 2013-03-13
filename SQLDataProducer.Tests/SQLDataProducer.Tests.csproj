@@ -51,6 +51,7 @@
     <Compile Include="SQLDataProducer.DataAccess.Tests\Factories.Tests\DbCommandExecutorFactoryTests.cs" />
     <Compile Include="SQLDataProducer.DataAccess.Tests\Managers.Tests\ExecutionItemManagerTests.cs" />
     <Compile Include="SQLDataProducer.DataAccess.Tests\Managers.Tests\ForeignKeyManagerTests.cs" />
+    <Compile Include="SQLDataProducer.DataAccess.Tests\TablaEntityDataAccessTests.cs" />
     <Compile Include="SQLDataProducer.Entities.Tests\ColumnDataTypeDefinitionTests.cs" />
     <Compile Include="SQLDataProducer.Entities.Tests\GeneratorParameterParserTests.cs" />
     <Compile Include="SQLDataProducer.Entities.Tests\SQLDataProducer.Entities..Collection.Tests\ColumnEntityCollectionTests.cs" />

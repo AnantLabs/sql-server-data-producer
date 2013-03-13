@@ -34,9 +34,10 @@ namespace SQLDataProducer.RandomTests
         }
 
         [Test]
+        [Ignore]
         public void ShouldHaveForeignKeysFor()
         {
-
+            
         }
 
         [Test]
