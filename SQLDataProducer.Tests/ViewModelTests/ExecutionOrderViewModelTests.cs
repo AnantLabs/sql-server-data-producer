@@ -47,7 +47,9 @@ namespace SQLDataProducer.Tests.ViewModelTests
 
         }
 
-       
+        ExecutionOrderViewModel orderVM;
+        MainWindowViewModel mainVM;
+        Model.ApplicationModel model;
 
 
         [Test]

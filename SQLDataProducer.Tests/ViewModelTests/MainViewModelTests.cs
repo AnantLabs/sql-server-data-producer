@@ -31,29 +31,32 @@ namespace SQLDataProducer.RandomTests.ViewModelTests
         }
 
         [Test]
-        public void ShouldRun_()
-        {
-
-        }
-
-        [Test]
+        [Ignore]
         public void ShouldRun_LoadCommand()
         {
+            // Cant test, is showing windows GUI
         }
 
         [Test]
         public void ShouldRun_LoadTablesCommand()
         {
+            mainVM.LoadTablesCommand.Execute();
+            Assert.That(mainVM.Model.Tables.Count, Is.GreaterThan(0));
+
         }
         
         [Test]
+        [Ignore]
         public void ShouldRun_RunCommand()
         {
+            // cannot test, is showing windows
         }
 
         [Test]
+        [Ignore]
         public void ShouldRun_SaveCommand()
         {
+            // Cant test, is showing windows GUI
         }
 
     }

@@ -12,142 +12,26 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
+using SQLDataProducer.Tests.ViewModelTests;
 using System;
-using SQLDataProducer.RandomTests;
-//using SQLDataProducer.ContinuousInsertion.Builders;
-using SQLDataProducer.Entities.ExecutionEntities;
-using SQLDataProducer.DataAccess;
-using SQLDataProducer.Entities.DatabaseEntities;
-using System.IO;
-using System.Linq;
-using Generators = SQLDataProducer.Entities.Generators;
-using SQLDataProducer.RandomTests.SerializationTests;
-using SQLDataProducer.RandomTests.OtherTests;
-using SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer.ConsumerTests;
+
+
+
 
 namespace TestConsoleApplication
 {
     class Program
     {
-
+        [STAThread]
         static void Main(string[] args)
         {
-            //var t = new GeneratorTests();
-            //t.ShouldGenerate_Long_RandomInt();
-
-            //var t = new ExecutionItemTests();
-            //t.ShouldGenerateValuesAndInsertStatementsForAllTables();
-            //var et = new DatabaseEntitityTests();
-            //t.ShouldBeAbletoCloneExecutionItem();
-            //et.ShouldBeAbleToCompareTables();
-            //et.ShouldBeAbletoCloneExecutionItem();
-
-            //var t = new TableEntityTests();
-            //t.ShouldBeEqualWhenEqual();
-            //t.ShouldNotBeEqualWhenNotEqual();
-
-            //var dtt = new DataTableGenerationTests();
-            //dtt.ShouldRunASmallTest();
-            //var dtc = new DataToCSVConsumerTests();
-            //dtc.StandardTest();
-            var t = new LongRunningTests();
-            t.ShouldExecute_50000_Executions();
-
-            //var t = new GeneratorParameterTests();
-            //t.ShouldBeEqualityWhenEqual();
-            //t.ShouldNotBeEqualWhenNotEqual();
-            //var t = new GeneratorTests();
-            //t.IntGeneratorEqualityTest();
-            //var tt = new TableEntityTests();
-            //tt.ShouldBeAbleToCompareTables();
-
-            //var c = new GeneratorParameterCollectionTests();
-            //c.ShouldBeAbleToCloneGeneratorParameterCollection();
-            //var gt = new GeneratorTests();
-            //gt.ShouldCloneGeneratorCollection();
-
-            //var et = new ExecutionItemTests();
-            //et.ShouldBeAbletoCloneExecutionItem();
-
-            //var sl = new SaveLoadTests();
-            //sl.ShouldBeAbleToSaveAndLoadExecutionItemCollectionUsingManager();
-
-            //var gpt = new GeneratorParameterParserTests();
-            //gpt.ShouldParseDateTime();
-            //t.EveryGeneratorShouldBeRunnableWithDefaultConfiguration();
-
-            //TableEntityDataAccess tda = new TableEntityDataAccess(Connection());
-
-            //TableEntity table = tda.GetTableAndColumns("Person", "Address");
-            //TableEntity table2 = tda.GetTableAndColumns("Person", "NewPerson");
-            //ExecutionItem ei = new ExecutionItem(table);
-            //ExecutionItem ei2 = new ExecutionItem(table2);
-            //ei.RepeatCount = 10;
-            //var items = new ExecutionItemCollection();
-            //items.Add(ei);
-            //items.Add(ei2);
-            //items.Add(GetSQLGetDateExecutionItem());
-
-            //long j = 0;
-            //var fileName = @"c:\temp\repeater\test.sql";
-            //File.Delete(fileName);
-            //using (StreamWriter writer = new StreamWriter(fileName))
-            //{
-            //    var b = new FullQueryInsertStatementBuilder(items);
-            //    writer.Write(b.GenerateFullStatement(() => { return j++; }));
-            //}
-
-            //GetAllTablesEI();
+            var t = new ExecutionOrderViewModelTests();
+            t.ShouldRun_MoveAllItemsRightCommand();
 
             Console.WriteLine("Done");
             Console.ReadKey();
 
         }
 
-        //private static void GetAllTablesEI()
-        //{
-        //    var tda = new TableEntityDataAccess(Connection());
-        //    var tables = tda.GetAllTablesAndColumns();
-        //    ExecutionItemCollection col = new ExecutionItemCollection();
-        //    foreach (var t in tables)
-        //    {
-        //        col.Add(new ExecutionItem(t));
-        //    }
-
-        //    long j = 0;
-        //    var fileName = @"c:\temp\repeater\testBig.sql";
-        //    File.Delete(fileName);
-        //    using (StreamWriter writer = new StreamWriter(fileName))
-        //    {
-        //        //var b = new FullQueryInsertStatementBuilder(col);
-        //        writer.Write(FullQueryInsertStatementBuilder.GenerateFullStatement(() => { return j++; }, col));
-        //    }
-
-        //}
-
-        //private static ExecutionItem GetSQLGetDateExecutionItem()
-        //{
-        //    var tda = new TableEntityDataAccess(Connection());
-        //    var table = tda.GetTableAndColumns("Person", "NewPerson");
-            
-        //    var ei = new ExecutionItem(table);
-        //    ei.RepeatCount = 1;
-            
-
-        //    var col = table.Columns.Where(x => x.ColumnDataType.Raw == "datetime").FirstOrDefault();
-        //    col.Generator = col.PossibleGenerators.Where(g => g.GeneratorName == Generators.Generator.GENERATOR_SQLGetDate).FirstOrDefault();
-
-
-        //    var bigintCol = table.Columns.Where(x => x.ColumnDataType.DBType == System.Data.SqlDbType.BigInt).FirstOrDefault();
-        //    bigintCol.Generator = bigintCol.PossibleGenerators.Where(g => g.GeneratorName == Generators.Generator.GENERATOR_IdentityFromPreviousItem).FirstOrDefault();
-        //    bigintCol.Generator.GeneratorParameters[0].Value = 1;
-
-        //    return ei;
-        //}
-
-        //private static string Connection()
-        //{
-        //    return "Data Source=localhost;Initial Catalog=AdventureWorks;Integrated Security=True";
-        //}
     }
 }
