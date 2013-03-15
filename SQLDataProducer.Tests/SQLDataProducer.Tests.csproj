@@ -79,6 +79,7 @@
     <Compile Include="ViewModelTests\ExecutionOrderViewModelTests.cs" />
     <Compile Include="ViewModelTests\Helpers\ViewModelTestHelper.cs" />
     <Compile Include="ViewModelTests\MainViewModelTests.cs" />
+    <Compile Include="ViewModelTests\SidePanelViewModelTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SQLDataProducer.DataAccess\SQLDataProducer.DataAccess.csproj">

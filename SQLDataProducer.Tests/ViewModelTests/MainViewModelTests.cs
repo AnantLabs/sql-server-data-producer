@@ -4,7 +4,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using NUnit.Framework;
+using SQLDataProducer.ViewModels;
+using SQLDataProducer.RandomTests;
+using System.Threading;
+using SQLDataProducer.Entities.DatabaseEntities;
+using SQLDataProducer.Helpers;
+
 
 namespace SQLDataProducer.RandomTests.ViewModelTests
 {
@@ -41,8 +53,19 @@ namespace SQLDataProducer.RandomTests.ViewModelTests
         public void ShouldRun_LoadTablesCommand()
         {
             mainVM.LoadTablesCommand.Execute();
+            MainViewModelDoEventsUntilQueryIsDone();
             Assert.That(mainVM.Model.Tables.Count, Is.GreaterThan(0));
 
+        }
+
+        private void MainViewModelDoEventsUntilQueryIsDone()
+        {
+            while (mainVM.Model.IsQueryRunning)
+            {
+                Thread.Sleep(10);
+                DispatcherSupplier.DispatcherUtil.DoEvents();
+
+            }
         }
         
         [Test]
