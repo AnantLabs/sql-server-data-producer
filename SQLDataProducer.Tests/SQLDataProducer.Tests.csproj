@@ -10,8 +10,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SQLDataProducer.RandomTests</RootNamespace>
     <AssemblyName>SQLDataProducer.RandomTests</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,6 +31,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="nunit.framework, Version=2.6.1.12217, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL" />
@@ -73,6 +76,9 @@
     <Compile Include="SQLDataProducer.Entities.Tests\GeneratorTests.cs" />
     <Compile Include="SerializationTests\SaveLoadTests.cs" />
     <Compile Include="TestBase.cs" />
+    <Compile Include="ViewModelTests\ExecutionOrderViewModelTests.cs" />
+    <Compile Include="ViewModelTests\Helpers\ViewModelTestHelper.cs" />
+    <Compile Include="ViewModelTests\MainViewModelTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SQLDataProducer.DataAccess\SQLDataProducer.DataAccess.csproj">
@@ -106,6 +112,10 @@
     <ProjectReference Include="..\SQLDataProducer.TaskExecuter\SQLDataProducer.TaskExecuter.csproj">
       <Project>{AD47B9D0-0A49-49ED-9CF0-123809E266D4}</Project>
       <Name>SQLDataProducer.TaskExecuter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SQLDataProducer\SQLDataProducer.csproj">
+      <Project>{295ab733-d88a-46e2-a08f-3e8baaef1573}</Project>
+      <Name>SQLDataProducer</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

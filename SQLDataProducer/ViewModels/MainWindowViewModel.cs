@@ -22,6 +22,9 @@ using System.Threading;
 using SQLDataProducer.Entities.OptionEntities;
 using SQLDataProducer.Entities.DatabaseEntities;
 using SQLDataProducer.DataAccess.Factories;
+using System.ComponentModel;
+using SQLDataProducer.Entities.DatabaseEntities.Collections;
+using SQLDataProducer.Helpers;
 
 
 namespace SQLDataProducer.ViewModels
@@ -108,32 +111,36 @@ namespace SQLDataProducer.ViewModels
 
         private void LoadTables()
         {
-            TableEntityDataAccess tda = new TableEntityDataAccess(Model.ConnectionString);
-            //{
-                Model.ExecutionItems.Clear();
-                Model.IsQueryRunning = true;
-                tda.BeginGetAllTablesAndColumns(res =>
-                {
-                    Model.Tables = res;
-                    Model.SelectedTable = Model.Tables.FirstOrDefault();
-                    Model.SelectedColumn = Model.SelectedTable.Columns.FirstOrDefault();
-                    Application.Current.Dispatcher.Invoke(
-                        DispatcherPriority.Normal,
-                        new ThreadStart(() =>
-                        {
-                            // Stuff to be done on the GUI thread when the fetching of data have completed.
-                            Model.SetTablesView();
-                            Model.SelectedExecutionItem = Model.ExecutionItems.FirstOrDefault();
-                            Model.IsQueryRunning = false;
-                            
-                        })
-                        );
-                    tda.Dispose();
-                });
+            Model.ExecutionItems.Clear();
+            // TODO: Also clear caches
+            Model.IsQueryRunning = true;
             
+            TableEntityCollection tables = null;
+
+            Action a = new Action(() =>
+                {
+                    using (var tda = new TableEntityDataAccess(Model.ConnectionString))
+                    {
+                        tables = tda.GetAllTablesAndColumns();
+                    }
+
+                    DispatcherSupplier.CurrentDispatcher.Invoke(
+                       DispatcherPriority.Normal,
+                       (Action)delegate
+                       {
+                           Model.Tables = tables;
+                           Model.SelectedTable = Model.Tables.FirstOrDefault();
+                           Model.SelectedColumn = Model.SelectedTable.Columns.FirstOrDefault();
+
+                           Model.SetTablesView();
+                           Model.SelectedExecutionItem = Model.ExecutionItems.FirstOrDefault();
+                           Model.IsQueryRunning = false;
+                       });  
+                });
+
+
+            a.BeginInvoke(null, null);
         }
-
-
 
         public MainWindowViewModel(ExecutionTaskOptions options)
         {

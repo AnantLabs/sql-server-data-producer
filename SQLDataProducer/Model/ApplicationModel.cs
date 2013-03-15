@@ -28,6 +28,7 @@ using System.Windows.Data;
 using System.ComponentModel;
 using System.Collections.Generic;
 using SQLDataProducer.DataConsumers;
+using SQLDataProducer.Helpers;
 
 namespace SQLDataProducer.Model
 {
@@ -456,7 +457,7 @@ namespace SQLDataProducer.Model
             {
                 IsQueryRunning = false;
                 // Modal window need to be started from STA thread.
-                Application.Current.Dispatcher.Invoke(
+                DispatcherSupplier.CurrentDispatcher.Invoke(
                     DispatcherPriority.Normal,
                     new ThreadStart(() =>
                     {

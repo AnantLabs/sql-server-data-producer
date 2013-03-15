@@ -501,11 +501,11 @@ namespace SQLDataProducer.RandomTests.SerializationTests
             </GeneratorParameters>
           </Generator>";
 
-        string staticDateGeneratorXML = @"<Generator GeneratorName=""Static Date"">
-            <GeneratorParameters>
-              <GeneratorParameter ParameterName=""DATE"" Value=""2013-01-23T14:32:20.7326289"" IsWriteEnabled=""True"" ValueParser=""DateParser"" />
-            </GeneratorParameters>
-          </Generator>";
+//        string staticDateGeneratorXML = @"<Generator GeneratorName=""Static Date"">
+//            <GeneratorParameters>
+//              <GeneratorParameter ParameterName=""DATE"" Value=""2013-01-23T14:32:20.7326289"" IsWriteEnabled=""True"" ValueParser=""DateParser"" />
+//            </GeneratorParameters>
+//          </Generator>";
 
         string tableXML = @"<Table TableSchema=""Person"" TableName=""NewPerson"">
       <Columns>

@@ -25,6 +25,7 @@ using SQLDataProducer.DataAccess.Factories;
 using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
+using SQLDataProducer.Helpers;
 
 namespace SQLDataProducer.ViewModels
 {
@@ -201,22 +202,26 @@ namespace SQLDataProducer.ViewModels
         {
             if (Model.Tables == null)
                 return;
-            
+            Model.IsQueryRunning = true;
+
             Action a = new Action(() =>
                 {
-                    Model.IsQueryRunning = true;
-                    List<ExecutionItem> ies = new List<ExecutionItem>(); ;
-                    ies.AddRange( ExecutionItemManager.GetExecutionItemsFromTables(Model.Tables, new TableEntityDataAccess(Model.ConnectionString)));
-                    Model.IsQueryRunning = false;
+                    var execs = ExecutionItemManager.GetExecutionItemsFromTables(Model.Tables, new TableEntityDataAccess(Model.ConnectionString));
+                    List<ExecutionItem> ies = new List<ExecutionItem>(execs);
 
-                    Application.Current.Dispatcher.Invoke(
+                    DispatcherSupplier.CurrentDispatcher.Invoke(
                        DispatcherPriority.Normal,
-                       new ThreadStart(() =>
+                       (Action)delegate
                        {
                            AddExecutionItem(ies);
-                       }));   
+                           Model.IsQueryRunning = false;
+                       });   
                 });
             a.BeginInvoke(null, null);
         }
+
+        
     }
+
+    
 }
