@@ -446,6 +446,7 @@ namespace SQLDataProducer.Model
             if (SelectedConsumer == null)
             {
                 MessageBox.Show("You need to select a consumer before running");
+                return;
             }
 
             IsQueryRunning = true;
@@ -487,7 +488,11 @@ namespace SQLDataProducer.Model
 
         internal void StopAsync()
         {
-            _executor.EndExecute();
+            if (_executor != null)
+            {
+                _executor.EndExecute();    
+            }
+            
             IsQueryRunning = false;
         }
     }

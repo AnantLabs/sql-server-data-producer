@@ -1,21 +1,7 @@
 ﻿using NUnit.Framework;
-using SQLDataProducer.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NUnit.Framework;
-using SQLDataProducer.ViewModels;
-using SQLDataProducer.RandomTests;
-using System.Threading;
-using SQLDataProducer.Entities.DatabaseEntities;
 using SQLDataProducer.Helpers;
+using SQLDataProducer.ViewModels;
+using System.Threading;
 
 
 namespace SQLDataProducer.RandomTests.ViewModelTests

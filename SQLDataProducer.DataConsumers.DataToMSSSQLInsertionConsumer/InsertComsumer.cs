@@ -104,8 +104,7 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer
                 if (!ds.TargetTable.HasIdentityColumn)
                     _queryExecutor.ExecuteNonQuery(b.InsertStatement, b.Parameters);
                 else
-                   ds.TargetTable.Columns.Where(c => c.IsIdentity)
-                        .First()
+                   ds.TargetTable.Columns.First(c => c.IsIdentity)
                         .PreviouslyGeneratedValue = _queryExecutor.ExecuteIdentity(b.InsertStatement, b.Parameters);
 
                 tran.Complete();

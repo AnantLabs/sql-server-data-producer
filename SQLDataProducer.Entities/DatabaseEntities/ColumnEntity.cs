@@ -320,6 +320,11 @@ namespace SQLDataProducer.Entities.DatabaseEntities
 
         public override string ToString()
         {
+            return string.Format("ColumnName: {0}", ColumnName);
+        }
+
+        public string ToFullString()
+        {
             return string.Format(@"ColumnName = {0} 
 ColumnDataType = {1} 
 Constraints = {2} 

@@ -174,13 +174,17 @@ namespace SQLDataProducer.TaskExecuter
 
                 };
                 workers[i].RunWorkerAsync();
+                
             }
             // TODO: This does not feel optimal
             while (workers.Any(x => x.IsBusy))
             {
                 Thread.Sleep(100);
             }
-
+            foreach (var bw in workers)
+            {
+                bw.Dispose();
+            }
         }
 
         private void RunOneExecution()

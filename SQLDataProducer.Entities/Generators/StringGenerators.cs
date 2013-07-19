@@ -14,6 +14,7 @@
 
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using SQLDataProducer.Entities.DatabaseEntities;
 using SQLDataProducer.Entities.Generators.Collections;
 //
 
@@ -27,6 +28,7 @@ namespace SQLDataProducer.Entities.Generators
         public static readonly string GENERATOR_MaleNames = "Male names";
         public static readonly string GENERATOR_Cities = "Cities";
         public static readonly string GENERATOR_UserNames = "User Names";
+        public static readonly string GENERATOR_StringValueFromOtherColumn = "Value from other Column";
 
         public static System.Collections.ObjectModel.ObservableCollection<Generator> GetStringGenerators(int length)
         {
@@ -38,6 +40,8 @@ namespace SQLDataProducer.Entities.Generators
             valueGenerators.Add(CreateQueryGenerator());
             valueGenerators.Add(CreateCityGenerator(length));
             valueGenerators.Add(CreateUserNameGenerator(length));
+            valueGenerators.Add(CreateRandomGUIDGenerator());
+            valueGenerators.Add(CreateStringValueFromOtherColumnGenerator());
             return valueGenerators;
         }
 
@@ -165,6 +169,26 @@ namespace SQLDataProducer.Entities.Generators
             return gen;
         }
 
+        [GeneratorMetaData(Generators.GeneratorMetaDataAttribute.GeneratorType.String)]
+        public static Generator CreateStringValueFromOtherColumnGenerator()
+        {
+            Generator gen = new Generator(GENERATOR_StringValueFromOtherColumn, (n, p) =>
+            {
+                ColumnEntity otherColumn = Generator.GetParameterByName(p, "Referenced Column") as ColumnEntity;
+
+                if (otherColumn != null && otherColumn.PreviouslyGeneratedValue != null)
+                {
+
+                    return otherColumn.PreviouslyGeneratedValue.ToString();
+                        
+                }
+
+
+                return System.DBNull.Value;
+            }
+                , null);
+            return gen;
+        }
       
         private static List<string> _countries;
         static List<string> CountryList
