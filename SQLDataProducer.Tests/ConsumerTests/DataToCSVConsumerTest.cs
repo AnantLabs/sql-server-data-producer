@@ -13,28 +13,31 @@
 //   limitations under the License.
 
 using NUnit.Framework;
+using MSTest = Microsoft.VisualStudio.TestTools.UnitTesting;
 using SQLDataProducer.DataConsumers.DataToCSVConsumer;
-//using SQLDataProducer.ContinuousInsertion.DataConsumers;
 using SQLDataProducer.Entities.ExecutionEntities;
-using SQLDataProducer.RandomTests.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using SQLDataProducer.Tests.Helpers;
+using SQLDataProducer.Entities;
 
-namespace SQLDataProducer.RandomTests
+namespace SQLDataProducer.Tests.ConsumerTests
 {
-   public class DataToCSVConsumerTests : TestBase
+    [MSTest.TestClass]
+    public class DataToCSVConsumerTests : TestBase
     {
 
-       public DataToCSVConsumerTests()
+        public DataToCSVConsumerTests()
             : base()
         {
 
         }
 
         [Test]
-        public void StandardTest()
+        [MSTest.TestMethod]
+        public void shouldConsumeDataUsingCSVConsumer()
         {
             var table = ExecutionItemHelper.CreateTableWithIdenitityAnd5Columns("dbo", "Peter");
             var nonIdentityTable = ExecutionItemHelper.CreateTableWith5Columns("dbo", "Peter2");
@@ -49,7 +52,7 @@ namespace SQLDataProducer.RandomTests
             executionItems.Add(ei2);
 
 
-            var options = new Entities.OptionEntities.ExecutionTaskOptions();
+            var options = new SQLDataProducer.Entities.OptionEntities.ExecutionTaskOptions();
             options.FixedExecutions = 3;
 
             TaskExecuter.WorkflowManager wfm = new TaskExecuter.WorkflowManager();
@@ -61,7 +64,7 @@ namespace SQLDataProducer.RandomTests
             }
 
             ei.RepeatCount = 5;
-            options.NumberGeneratorMethod = Entities.NumberGeneratorMethods.NewNForEachExecution;
+            options.NumberGeneratorMethod = NumberGeneratorMethods.NewNForEachExecution;
 
             using (var te = new TaskExecuter.TaskExecuter(options, @"c:\temp\repeater\CSVOutput2.txt", executionItems, new DataToCSVConsumer(), consumerOptions))
             {

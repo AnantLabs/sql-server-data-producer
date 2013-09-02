@@ -12,6 +12,7 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,8 +22,9 @@ using SQLDataProducer.DataAccess;
 using SQLDataProducer.Entities.DatabaseEntities;
 using Generators = SQLDataProducer.Entities.Generators;
 using SQLDataProducer.DataConsumers;
+using MSTest = Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace SQLDataProducer.RandomTests
+namespace SQLDataProducer.Tests
 {
     public class TestBase
     {

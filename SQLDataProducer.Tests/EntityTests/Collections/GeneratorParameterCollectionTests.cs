@@ -17,27 +17,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
+using MSTest = Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Data;
 using SQLDataProducer.Entities.Generators.Collections;
 using SQLDataProducer.Entities.Generators;
 
 
-namespace SQLDataProducer.RandomTests
+namespace SQLDataProducer.Tests.Entities.Collections
 {
     [TestFixture]
+    [MSTest.TestClass]
     public class GeneratorParameterCollectionTests : TestBase
     {
         [Test]
+        [MSTest.TestMethod]
         public void ShouldBeAbleToCloneGeneratorParameterCollection()
         {
             GeneratorParameterCollection coll = new GeneratorParameterCollection();
-            var gp1 = new Entities.Generators.GeneratorParameter("Date", DateTime.Now, GeneratorParameterParser.DateTimeParser);
+            var gp1 = new GeneratorParameter("Date", DateTime.Now, GeneratorParameterParser.DateTimeParser);
             coll.Add(gp1);
 
-            var coll2 = coll.Clone();
+            Assert.Fail("Did i not used to have a clone method?");
+            var coll2 = coll;//.Clone();
 
             Assert.That(coll2, Is.EqualTo(coll));
-            
+
             // Changing the value should cause the collections to be unequal, value should only be changed in one of the collections.
             gp1.Value = DateTime.Now.AddDays(1);
             Assert.That(coll2, Is.Not.EqualTo(coll));

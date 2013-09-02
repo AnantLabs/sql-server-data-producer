@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
+using MSTest = Microsoft.VisualStudio.TestTools.UnitTesting;
 using SQLDataProducer.DataAccess;
 using SQLDataProducer.TaskExecuter;
 using SQLDataProducer.Entities.ExecutionEntities;
@@ -24,7 +25,7 @@ using SQLDataProducer.Entities.OptionEntities;
 using SQLDataProducer.Entities;
 using SQLDataProducer.Entities.Generators;
 
-namespace SQLDataProducer.RandomTests
+namespace SQLDataProducer.Tests
 {
     public class ForeignKeyTests : TestBase
     {
@@ -33,14 +34,14 @@ namespace SQLDataProducer.RandomTests
         {
         }
 
-        [Test]
+        [Test] [MSTest.TestMethod]
         [Ignore]
         public void ShouldHaveForeignKeysFor()
         {
             
         }
 
-        [Test]
+        [Test] [MSTest.TestMethod]
         public void ShouldGetIdentityFromPreviousItem()
         {
             var wfm = new WorkflowManager();
@@ -88,7 +89,7 @@ namespace SQLDataProducer.RandomTests
         }
 
 
-        //[Test]
+        //[Test] [MSTest.TestMethod]
         //public void ShouldGeValueFromPreviousItem()
         //{
         //    var wfm = new WorkflowManager();

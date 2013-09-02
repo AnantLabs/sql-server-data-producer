@@ -17,14 +17,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
+using MSTest = Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Data;
 using SQLDataProducer.Entities.DatabaseEntities;
 using SQLDataProducer.Entities.DatabaseEntities.Factories;
 
 
-namespace SQLDataProducer.RandomTests
+namespace SQLDataProducer.Tests.Entities
 {
     [TestFixture]
+    [MSTest.TestClass]
     public class TableEntityTests : TestBase
     {
         TableEntity t1 = new TableEntity("dbo", "Person");
@@ -34,6 +36,7 @@ namespace SQLDataProducer.RandomTests
         TableEntity t4 = new TableEntity("dbo", "Address");
 
         [Test]
+        [MSTest.TestMethod]
         public void ShouldBeEqualWhenEqual()
         {
             Assert.That(t1, Is.EqualTo(t2));
@@ -41,12 +44,14 @@ namespace SQLDataProducer.RandomTests
         }
 
         [Test]
+        [MSTest.TestMethod]
         public void ShouldNotBeEqualWhenNotEqual()
         {
             Assert.That(t1, Is.Not.EqualTo(t4));
         }
 
         [Test]
+        [MSTest.TestMethod]
         public void ShouldBeAbleToCompareTables()
         {
 
@@ -107,6 +112,7 @@ namespace SQLDataProducer.RandomTests
         }
 
         [Test]
+        [MSTest.TestMethod]
         public void GivenSomeTableConfigurationItShouldGenerateValuesForAllColumns()
         {
             TableEntity table = new TableEntity("dbo", "Customer");

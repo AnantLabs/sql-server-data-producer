@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("SQLDataProducer.Tests")]
+[assembly: AssemblyTitle("SQLDataProducer.Test2")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Peter Henell")]
-[assembly: AssemblyProduct("SQLDataProducer.Tests")]
-[assembly: AssemblyCopyright("Copyright © Peter Henell 2012-2013")]
+[assembly: AssemblyCompany("Net Entertainment NE, AB")]
+[assembly: AssemblyProduct("SQLDataProducer.Test2")]
+[assembly: AssemblyCopyright("Copyright © Net Entertainment NE, AB 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("7f42803e-8d4d-4029-a782-ec448ff83199")]
+[assembly: Guid("fa492feb-25cb-4cf1-85c2-bdc6d06016cc")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -34,5 +34,3 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
-
-[assembly: InternalsVisibleTo("SQLDataProducer.Tests")]

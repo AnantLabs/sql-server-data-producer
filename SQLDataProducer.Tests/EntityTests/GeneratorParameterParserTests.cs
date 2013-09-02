@@ -17,13 +17,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
+using MSTest = Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Data;
 using SQLDataProducer.Entities.Generators;
 
 
-namespace SQLDataProducer.RandomTests
+namespace SQLDataProducer.Tests.Entities
 {
     [TestFixture]
+    [MSTest.TestClass]
     public class GeneratorParameterParserTests : TestBase
     {
         GeneratorParameterParser dateTimeParser = GeneratorParameterParser.DateTimeParser;
@@ -35,17 +37,19 @@ namespace SQLDataProducer.RandomTests
 
 
         [Test]
+        [MSTest.TestMethod]
         public void ShouldBeEqualityWhenEqual()
         {
             GeneratorParameterParser dateTimeParser1 = GeneratorParameterParser.DateTimeParser;
             GeneratorParameterParser dateTimeParser2 = GeneratorParameterParser.DateTimeParser;
             GeneratorParameterParser dateTimeParser3 = GeneratorParameterParser.DateTimeParser;
-            
+
             Assert.That(dateTimeParser, Is.EqualTo(dateTimeParser));
             AssertEqualsDefaultBehaviour(dateTimeParser1, dateTimeParser2, dateTimeParser3);
         }
 
         [Test]
+        [MSTest.TestMethod]
         public void ShouldNotBeEqualWhenNotEqual()
         {
             Assert.That(dateTimeParser, Is.EqualTo(dateTimeParser));
@@ -57,10 +61,11 @@ namespace SQLDataProducer.RandomTests
             Assert.That(dateTimeParser, Is.Not.EqualTo(intParser));
             Assert.That(dateTimeParser, Is.Not.EqualTo(longParser));
             Assert.That(dateTimeParser, Is.Not.EqualTo(objectParser));
-            
+
         }
 
         [Test]
+        [MSTest.TestMethod]
         public void ShouldNotChangeValueWhenTryingToSetValueOfWrongDataType()
         {
             DateTime d = DateTime.Now;
@@ -76,6 +81,7 @@ namespace SQLDataProducer.RandomTests
 
 
         [Test]
+        [MSTest.TestMethod]
         public void ShouldParseDateTime()
         {
             DateTime originalDate = DateTime.Now;
@@ -94,6 +100,7 @@ namespace SQLDataProducer.RandomTests
         }
 
         [Test]
+        [MSTest.TestMethod]
         public void ShouldParseInt()
         {
             object boxed = 10;
@@ -102,6 +109,7 @@ namespace SQLDataProducer.RandomTests
         }
 
         [Test]
+        [MSTest.TestMethod]
         public void ShouldParseLong()
         {
             object boxed = 100000000000;
@@ -110,6 +118,7 @@ namespace SQLDataProducer.RandomTests
         }
 
         [Test]
+        [MSTest.TestMethod]
         public void ShouldParseString()
         {
             object boxed = "peter";
@@ -118,6 +127,7 @@ namespace SQLDataProducer.RandomTests
         }
 
         [Test]
+        [MSTest.TestMethod]
         public void ShouldParseObject()
         {
             object boxed = new System.Collections.ArrayList();
@@ -126,20 +136,22 @@ namespace SQLDataProducer.RandomTests
         }
 
         [Test]
+        [MSTest.TestMethod]
         public void ShouldParseDecimal()
         {
             object boxed = 1.1111;
             double parsed = (double)decimalParser.ParseValue(boxed);
             double parsedFromString = (double)decimalParser.ParseValue("1,1111");
             double parsedFromString2 = (double)decimalParser.ParseValue("1.1111");
-            
+
             Assert.That(boxed, Is.EqualTo(parsed));
             Assert.That(boxed, Is.EqualTo(parsedFromString));
             Assert.That(boxed, Is.EqualTo(parsedFromString2));
-            
+
         }
 
         [Test]
+        [MSTest.TestMethod]
         public void ShouldGetGeneratorParameterParserFromName()
         {
 

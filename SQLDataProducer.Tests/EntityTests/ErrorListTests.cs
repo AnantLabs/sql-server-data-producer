@@ -17,18 +17,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
+using MSTest = Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Data;
 
 
-namespace SQLDataProducer.RandomTests
+namespace SQLDataProducer.Tests.Entities
 {
     [TestFixture]
-    public class ColumnEntityCollectionTests : TestBase
+    [MSTest.TestClass]
+    public class ErrorListTests : TestBase
     {
         [Test]
-        public void DefaultTest()
+        [MSTest.TestMethod]
+        public void ShouldTestErrorList()
         {
-            
+            Assert.Fail("Not implemented test");
         }
     }
 }

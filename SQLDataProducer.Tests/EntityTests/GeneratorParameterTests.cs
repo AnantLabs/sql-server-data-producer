@@ -17,13 +17,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
+using MSTest = Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Data;
 using SQLDataProducer.Entities.Generators;
 
 
-namespace SQLDataProducer.RandomTests
+namespace SQLDataProducer.Tests.Entities
 {
     [TestFixture]
+    [MSTest.TestClass]
     public class GeneratorParameterTests : TestBase
     {
 
@@ -33,18 +35,20 @@ namespace SQLDataProducer.RandomTests
         GeneratorParameter nullGenParam = null;
 
         [Test]
+        [MSTest.TestMethod]
         public void ShouldBeEqualityWhenEqual()
         {
             Assert.That(p1, Is.EqualTo(p1));
             Assert.That(p1, Is.EqualTo(p2));
-            
+
             AssertEqualsDefaultBehaviour(p1, p2, p3);
-            
+
             Assert.That(p2.GetHashCode(), Is.EqualTo(p3.GetHashCode()));
             Assert.That(p1.GetHashCode(), Is.EqualTo(p2.GetHashCode()));
         }
 
         [Test]
+        [MSTest.TestMethod]
         public void ShouldNotBeEqualWhenNotEqual()
         {
             GeneratorParameter withOtherValue = new GeneratorParameter("peter", 10, GeneratorParameterParser.IntegerParser);
@@ -58,7 +62,7 @@ namespace SQLDataProducer.RandomTests
             Assert.That(p1, Is.Not.EqualTo(withOtherName));
             Assert.That(p1, Is.Not.EqualTo(withOtherParser));
             Assert.That(p1, Is.Not.EqualTo(withAllPropertiesChanged));
-            
+
         }
     }
 }

@@ -1,22 +1,26 @@
 ﻿using NUnit.Framework;
+using MSTest = Microsoft.VisualStudio.TestTools.UnitTesting;
 using SQLDataProducer.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SQLDataProducer.Entities;
+using SQLDataProducer.Entities.OptionEntities;
 
-namespace SQLDataProducer.RandomTests.ViewModelTests
+namespace SQLDataProducer.Tests.ViewModelTests
 {
     [TestFixture]
+    [MSTest.TestClass]
     public class SidePanelViewModelTests : TestBase
     {
         public SidePanelViewModelTests()
         {
             //model = new Model.ApplicationModel();
-            var options = new Entities.OptionEntities.ExecutionTaskOptions();
+            var options = new ExecutionTaskOptions();
 
-            options.ExecutionType = Entities.ExecutionTypes.ExecutionCountBased;
+            options.ExecutionType = ExecutionTypes.ExecutionCountBased;
             options.FixedExecutions = 1;
 
             mainVM = new MainWindowViewModel(options);
@@ -32,6 +36,7 @@ namespace SQLDataProducer.RandomTests.ViewModelTests
         Model.ApplicationModel model;
 
         [Test]
+        [MSTest.TestMethod]
         public void ShouldStopExecution_OnlyIfItHaveStarted()
         {
             sidepanelVM.StopExecutionCommand.Execute();

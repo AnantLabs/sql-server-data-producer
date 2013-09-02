@@ -13,17 +13,17 @@
 //   limitations under the License.
 
 using NUnit.Framework;
-//using SQLDataProducer.ContinuousInsertion.DataConsumers;
+using MSTest = Microsoft.VisualStudio.TestTools.UnitTesting;
 using SQLDataProducer.Entities.ExecutionEntities;
-using SQLDataProducer.RandomTests.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SQLDataProducer.RandomTests
+namespace SQLDataProducer.Tests.ConsumerTests
 {
-   public class DataToConsoleComsumerTest : TestBase
+    [MSTest.TestClass]
+    public class DataToConsoleComsumerTest : TestBase
     {
 
         public DataToConsoleComsumerTest()
@@ -33,6 +33,7 @@ namespace SQLDataProducer.RandomTests
         }
 
         [Test]
+        [MSTest.TestMethod]
         public void StandardTest()
         {
             //var table = ExecutionItemHelper.CreateTableAnd5Columns("dbo", "Peter");

@@ -16,19 +16,25 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
 using NUnit.Framework;
+using MSTest = Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using System.Data;
 using SQLDataProducer.Entities.ExecutionEntities;
 using SQLDataProducer.Entities.DatabaseEntities.Factories;
 using SQLDataProducer.Entities.DatabaseEntities;
 
 
-namespace SQLDataProducer.RandomTests
+
+namespace SQLDataProducer.Tests.EntitiesTests
 {
     [TestFixture]
+    [MSTest.TestClass]
     public class ExecutionItemTests : TestBase
     {
         [Test]
+        [MSTest.TestMethod]
         public void ShouldBeAbletoCloneExecutionItem()
         {
             var t = new TableEntity("dbo", "peter");
@@ -53,7 +59,7 @@ namespace SQLDataProducer.RandomTests
             var clonedEI = ei.Clone();
 
             Assert.That(ei, Is.EqualTo(clonedEI));
-            
+
             Assert.IsTrue(ei.Equals(clonedEI));
             Assert.IsTrue(ei.TargetTable.Equals(clonedEI.TargetTable));
 
@@ -84,7 +90,9 @@ namespace SQLDataProducer.RandomTests
             AssertColumn(cc4, c4);
 
         }
+
         [Test]
+        [MSTest.TestMethod]
         public void ShouldBeAbleToCompareExecutionItems()
         {
             //Assert.AreEqual("implemented", "not implemented");
@@ -159,7 +167,9 @@ namespace SQLDataProducer.RandomTests
 
             }
         }
+
         [Test]
+        [MSTest.TestMethod]
         public void AnExecutionItemWithATableWithAColumnReferencingAnotherTableShouldHaveAWarningIfItDoesNotHaveAnyForeignKeys()
         {
 

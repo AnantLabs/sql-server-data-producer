@@ -14,6 +14,7 @@
 
 using System;
 using NUnit.Framework;
+using MSTest = Microsoft.VisualStudio.TestTools.UnitTesting;
 using SQLDataProducer.Entities.DatabaseEntities;
 using SQLDataProducer.Entities.ExecutionEntities;
 using SQLDataProducer.DataAccess;
@@ -23,11 +24,11 @@ using SQLDataProducer.Entities;
 using SQLDataProducer.Entities.OptionEntities;
 //using SQLDataProducer.ContinuousInsertion.Builders;
 
-namespace SQLDataProducer.RandomTests
+namespace SQLDataProducer.Tests
 {
-    public class RandomTests : TestBase
+    public class SomeTests : TestBase
     {
-        //[Test]
+        //[Test] [MSTest.TestMethod]
         //public void ShouldGenerateValuesAndInsertStatementsForAllTables()
         //{
         //    //TableEntityDataAccess tda = new TableEntityDataAccess(Connection());
@@ -52,7 +53,7 @@ namespace SQLDataProducer.RandomTests
         //    Assert.Fail("Test not implemented yet");
         //}
 
-        [Test]
+        [Test] [MSTest.TestMethod]
         public void ShouldExecuteWithNewNForEachExecution()
         {
             WorkflowManager wfm;
@@ -74,7 +75,7 @@ namespace SQLDataProducer.RandomTests
             }
         }
 
-        [Test]
+        [Test] [MSTest.TestMethod]
         public void ShouldExecuteWithNewNForEachRow()
         {
             WorkflowManager wfm;
@@ -95,7 +96,7 @@ namespace SQLDataProducer.RandomTests
             }
         }
 
-        [Test]
+        [Test] [MSTest.TestMethod]
         public void ShouldExecuteWithConstantN()
         {
             WorkflowManager wfm;
@@ -116,7 +117,7 @@ namespace SQLDataProducer.RandomTests
             }
         }
 
-        [Test]
+        [Test] [MSTest.TestMethod]
         public void ShouldExecuteOnlyOnCondition_EQUALTO()
         {
             var wfm = new WorkflowManager();
@@ -146,7 +147,7 @@ namespace SQLDataProducer.RandomTests
             }
         }
 
-        [Test]
+        [Test] [MSTest.TestMethod]
         public void ShouldExecuteOnlyOnCondition_GREATERTHAN()
         {
             var wfm = new WorkflowManager();
@@ -176,7 +177,7 @@ namespace SQLDataProducer.RandomTests
             }
         }
 
-        [Test]
+        [Test] [MSTest.TestMethod]
         public void ShouldExecuteOnlyOnCondition_EqualOrGreaterThan()
         {
             var wfm = new WorkflowManager();
@@ -206,7 +207,7 @@ namespace SQLDataProducer.RandomTests
             }
         }
 
-        [Test]
+        [Test] [MSTest.TestMethod]
         public void ShouldExecuteOnlyOnCondition_LessThan()
         {
             var wfm = new WorkflowManager();
@@ -236,7 +237,7 @@ namespace SQLDataProducer.RandomTests
             }
         }
 
-        [Test]
+        [Test] [MSTest.TestMethod]
         public void ShouldExecuteOnlyOnCondition_EveryOtherX()
         {
             var wfm = new WorkflowManager();
@@ -293,7 +294,7 @@ namespace SQLDataProducer.RandomTests
             items.Add(eiDepartment);
         }
 
-        [Test]
+        [Test] [MSTest.TestMethod]
         public void SetCounterShouldIncrementAndAdd()
         {
             // TODO: Test thread safety of set counter methods
@@ -314,7 +315,7 @@ namespace SQLDataProducer.RandomTests
         //    return "Data Source=localhost;Initial Catalog=AdventureWorks;Integrated Security=True";
         //}
 
-        public RandomTests()
+        public SomeTests()
         {
             string sql = @"
 

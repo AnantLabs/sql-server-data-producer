@@ -17,11 +17,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
+using MSTest = Microsoft.VisualStudio.TestTools.UnitTesting;
 using SQLDataProducer.Entities.DatabaseEntities;
 using SQLDataProducer.Entities.DatabaseEntities.Factories;
 using SQLDataProducer.Entities.ExecutionEntities;
-using Generators = SQLDataProducer.Entities.Generators;
-using SQLDataProducer.RandomTests;
+
+
 using SQLDataProducer.Entities;
 using SQLDataProducer.DataAccess;
 using SQLDataProducer.TaskExecuter;
@@ -29,9 +30,11 @@ using SQLDataProducer.Entities.OptionEntities;
 using System.Diagnostics;
 using System.Collections.ObjectModel;
 using SQLDataProducer.Entities.DatabaseEntities.Collections;
+using SQLDataProducer.Entities.Generators;
 
-namespace SQLDataProducer.RandomTests
+namespace SQLDataProducer.Tests.EntitiesTests
 {
+    [MSTest.TestClass]
     public class GeneratorTests : TestBase
     {
         public GeneratorTests()
@@ -40,13 +43,14 @@ namespace SQLDataProducer.RandomTests
 
         }
 
-        Generators.Generator intGenerator1 = Generators.Generator.CreateIntUpCounter(1, 50000);
-        Generators.Generator intGenerator2 = Generators.Generator.CreateIntUpCounter(1, 50000);
-        Generators.Generator intGenerator3 = Generators.Generator.CreateIntUpCounter(1, 50000);
+        Generator intGenerator1 = Generator.CreateIntUpCounter(1, 50000);
+        Generator intGenerator2 = Generator.CreateIntUpCounter(1, 50000);
+        Generator intGenerator3 = Generator.CreateIntUpCounter(1, 50000);
 
-        Generators.Generator intGenerator4 = Generators.Generator.CreateRandomIntGenerator(1, 50000);
+        Generator intGenerator4 = Generator.CreateRandomIntGenerator(1, 50000);
 
         [Test]
+        [MSTest.TestMethod]
         public void ShouldBeEqualWhenEqual()
         {
             Assert.IsTrue(intGenerator1.Equals(intGenerator2));
@@ -57,19 +61,21 @@ namespace SQLDataProducer.RandomTests
             AssertEqualsDefaultBehaviour(intGenerator1, intGenerator2, intGenerator3);
             AssertEqualsDefaultBehaviour(intGenerator2, intGenerator1, intGenerator3);
             AssertEqualsDefaultBehaviour(intGenerator2, intGenerator3, intGenerator1);
-            
+
         }
 
         [Test]
+        [MSTest.TestMethod]
         public void ShouldNotBeEqualWhenNotEqual()
         {
-            Generators.Generator modifiedGenerator = Generators.Generator.CreateRandomIntGenerator(1, 50000);
+            Generator modifiedGenerator = Generator.CreateRandomIntGenerator(1, 50000);
 
             Assert.That(intGenerator4, Is.EqualTo(modifiedGenerator));
             Assert.That(intGenerator1, Is.Not.EqualTo(intGenerator4));
         }
 
         [Test]
+        [MSTest.TestMethod]
         public void GeneratorsShouldHaveHelpTexts()
         {
             Assert.IsTrue(gens.Count() > 0, "No generators found");
@@ -80,12 +86,13 @@ namespace SQLDataProducer.RandomTests
         }
 
         [Test]
+        [MSTest.TestMethod]
         public void EveryGeneratorShouldBeRunnableWithDefaultConfiguration()
         {
             Assert.IsTrue(gens.Count() > 0, "No generators found");
 
             // Ignore some generators that we know cannot work
-            List<Generators.Generator> runThese = new List<Generators.Generator>(gens.Where(x => x.GeneratorName != Generators.Generator.GENERATOR_IdentityFromPreviousItem));
+            List<Generator> runThese = new List<Generator>(gens.Where(x => x.GeneratorName != Generator.GENERATOR_IdentityFromPreviousItem));
 
             foreach (var g in runThese)
             {
@@ -99,6 +106,7 @@ namespace SQLDataProducer.RandomTests
         }
 
         [Test]
+        [MSTest.TestMethod]
         public void ShouldBeAbleToInsertUsingSQLGetDate()
         {
             var tda = new TableEntityDataAccess(Connection());
@@ -114,9 +122,9 @@ namespace SQLDataProducer.RandomTests
             var col = table.Columns.Where(x => x.ColumnDataType.Raw == "datetime").FirstOrDefault();
             Assert.IsNotNull(col);
 
-            col.Generator = col.PossibleGenerators.Where(g => g.GeneratorName == Generators.Generator.GENERATOR_SQLGetDate).FirstOrDefault();
+            col.Generator = col.PossibleGenerators.Where(g => g.GeneratorName == Generator.GENERATOR_SQLGetDate).FirstOrDefault();
             Assert.IsNotNull(col.Generator);
-            Assert.AreEqual(Generators.Generator.GENERATOR_SQLGetDate, col.Generator.GeneratorName);
+            Assert.AreEqual(Generator.GENERATOR_SQLGetDate, col.Generator.GeneratorName);
 
             for (int i = 0; i < 1000; i++)
             {
@@ -134,6 +142,7 @@ namespace SQLDataProducer.RandomTests
 
         }
         [Test]
+        [MSTest.TestMethod]
         public void ShouldBeAbleToInsertUsingSQLQuery()
         {
             var tda = new TableEntityDataAccess(Connection());
@@ -149,9 +158,9 @@ namespace SQLDataProducer.RandomTests
             var col = table.Columns.Where(x => x.ColumnDataType.Raw == "datetime").FirstOrDefault();
             Assert.IsNotNull(col);
 
-            col.Generator = col.PossibleGenerators.Where(g => g.GeneratorName == Generators.Generator.GENERATOR_CustomSQLQuery).FirstOrDefault();
+            col.Generator = col.PossibleGenerators.Where(g => g.GeneratorName == Generator.GENERATOR_CustomSQLQuery).FirstOrDefault();
             Assert.IsNotNull(col.Generator);
-            Assert.AreEqual(Generators.Generator.GENERATOR_CustomSQLQuery, col.Generator.GeneratorName);
+            Assert.AreEqual(Generator.GENERATOR_CustomSQLQuery, col.Generator.GeneratorName);
 
             var queryParam = col.Generator.GeneratorParameters[0];
             queryParam.Value = "Select getdate() -5";
@@ -173,6 +182,7 @@ namespace SQLDataProducer.RandomTests
         }
 
         [Test]
+        [MSTest.TestMethod]
         public void IdentityColumnsShouldHaveTheIdentityGeneratorSelected()
         {
             var tda = new TableEntityDataAccess(Connection());
@@ -188,7 +198,7 @@ namespace SQLDataProducer.RandomTests
             var col = table.Columns.Where(x => x.IsIdentity).FirstOrDefault();
             Assert.IsNotNull(col);
             Assert.IsNotNull(col.Generator);
-            Assert.AreEqual(Generators.Generator.GENERATOR_IdentityFromSqlServerGenerator, col.Generator.GeneratorName);
+            Assert.AreEqual(Generator.GENERATOR_IdentityFromSqlServerGenerator, col.Generator.GeneratorName);
 
 
             var wfm = new WorkflowManager();
@@ -205,9 +215,10 @@ namespace SQLDataProducer.RandomTests
 
 
         [Test]
+        [MSTest.TestMethod]
         public void ShouldGenerate_DateTime_CurrentDateAllways()
         {
-            var genName = Generators.Generator.GENERATOR_CurrentDate;
+            var genName = Generator.GENERATOR_CurrentDate;
             ColumnEntity col = CreateColumnOfDatatype("datetime", genName);
 
             List<DateTime> dates = Create10000FromColumn<DateTime>(col);
@@ -222,9 +233,10 @@ namespace SQLDataProducer.RandomTests
         }
 
         [Test]
+        [MSTest.TestMethod]
         public void ShouldGenerate_DateTime_StaticDate()
         {
-            var genName = Generators.Generator.GENERATOR_StaticDate;
+            var genName = Generator.GENERATOR_StaticDate;
             ColumnEntity col = CreateColumnOfDatatype("datetime", genName);
 
             List<DateTime> dates = Create10000FromColumn<DateTime>(col);
@@ -234,9 +246,10 @@ namespace SQLDataProducer.RandomTests
             Assert.IsTrue(dates.All(x => x == aDate));
         }
         [Test]
+        [MSTest.TestMethod]
         public void ShouldGenerate_DateTime_MinuteSeries()
         {
-            var genName = Generators.Generator.GENERATOR_MinutesSeries;
+            var genName = Generator.GENERATOR_MinutesSeries;
             ColumnEntity col = CreateColumnOfDatatype("datetime", genName);
 
             List<DateTime> dates = Create10000FromColumn<DateTime>(col);
@@ -251,9 +264,10 @@ namespace SQLDataProducer.RandomTests
             }
         }
         [Test]
+        [MSTest.TestMethod]
         public void ShouldGenerate_DateTime_HourSeries()
         {
-            var genName = Generators.Generator.GENERATOR_HoursSeries;
+            var genName = Generator.GENERATOR_HoursSeries;
             ColumnEntity col = CreateColumnOfDatatype("datetime", genName);
 
             List<DateTime> dates = Create10000FromColumn<DateTime>(col);
@@ -268,9 +282,10 @@ namespace SQLDataProducer.RandomTests
             }
         }
         [Test]
+        [MSTest.TestMethod]
         public void ShouldGenerate_DateTime_SecondSeries()
         {
-            var genName = Generators.Generator.GENERATOR_SecondsSeries;
+            var genName = Generator.GENERATOR_SecondsSeries;
             ColumnEntity col = CreateColumnOfDatatype("datetime", genName);
 
             List<DateTime> dates = Create10000FromColumn<DateTime>(col);
@@ -285,9 +300,10 @@ namespace SQLDataProducer.RandomTests
             }
         }
         [Test]
+        [MSTest.TestMethod]
         public void ShouldGenerate_DateTime_DaySeries()
         {
-            var genName = Generators.Generator.GENERATOR_DaysSeries;
+            var genName = Generator.GENERATOR_DaysSeries;
             ColumnEntity col = CreateColumnOfDatatype("datetime", genName);
 
             List<DateTime> dates = Create10000FromColumn<DateTime>(col);
@@ -302,21 +318,23 @@ namespace SQLDataProducer.RandomTests
             }
         }
         [Test]
+        [MSTest.TestMethod]
         public void ShouldGenerate_Long_StaticNumber()
         {
-            var genName = Generators.Generator.GENERATOR_StaticNumber;
+            var genName = Generator.GENERATOR_StaticNumber;
             ColumnEntity col = CreateColumnOfDatatype("int", genName);
 
             List<long> longs = Create10000FromColumn<long>(col);
-            
+
             Assert.IsTrue(longs.All(x => 0 == x));
-            
+
         }
-                
+
         [Test]
+        [MSTest.TestMethod]
         public void ShouldGenerate_Long_CountingUp()
         {
-            var genName = Generators.Generator.GENERATOR_CountingUpInteger;
+            var genName = Generator.GENERATOR_CountingUpInteger;
             ColumnEntity col = CreateColumnOfDatatype("int", genName);
 
             List<long> longs = Create10000FromColumn<long>(col);
@@ -332,9 +350,10 @@ namespace SQLDataProducer.RandomTests
         }
 
         [Test]
+        [MSTest.TestMethod]
         public void ShouldGenerate_String_FemaleNames()
         {
-            var genName = Generators.Generator.GENERATOR_FemaleNames;
+            var genName = Generator.GENERATOR_FemaleNames;
             ColumnEntity col = CreateColumnOfDatatype("nvarchar(900)", genName);
 
             List<string> longs = Create10000FromColumn<string>(col);
@@ -346,9 +365,10 @@ namespace SQLDataProducer.RandomTests
         }
 
         [Test]
+        [MSTest.TestMethod]
         public void ShouldGenerate_Long_RandomInt()
         {
-            var genName = Generators.Generator.GENERATOR_RandomInt;
+            var genName = Generator.GENERATOR_RandomInt;
             ColumnEntity col = CreateColumnOfDatatype("bigint", genName);
 
             List<long> longs = Create10000FromColumn<long>(col);
@@ -363,9 +383,10 @@ namespace SQLDataProducer.RandomTests
         }
 
         [Test]
+        [MSTest.TestMethod]
         public void ShouldGenerate_Decimal_RandomDecimal()
         {
-            var genName = Generators.Generator.GENERATOR_RandomDecimal;
+            var genName = Generator.GENERATOR_RandomDecimal;
             ColumnEntity col = CreateColumnOfDatatype("decimal(19,6)", genName);
 
             List<decimal> longs = Create10000FromColumn<decimal>(col);
@@ -379,9 +400,10 @@ namespace SQLDataProducer.RandomTests
             }
         }
         [Test]
+        [MSTest.TestMethod]
         public void ShouldGenerate_Decimal_UpCounter()
         {
-            var genName = Generators.Generator.GENERATOR_CountingUpDecimal;
+            var genName = Generator.GENERATOR_CountingUpDecimal;
             ColumnEntity col = CreateColumnOfDatatype("decimal(19,6)", genName);
 
             List<decimal> longs = Create10000FromColumn<decimal>(col);
@@ -397,6 +419,7 @@ namespace SQLDataProducer.RandomTests
         }
 
         [Test]
+        [MSTest.TestMethod]
         public void ShouldGetGeneratorsForEverySQLDatatype()
         {
             var dataTypes = new List<string> {"bigint",
@@ -440,7 +463,7 @@ namespace SQLDataProducer.RandomTests
                 ColumnEntity col = DatabaseEntityFactory.CreateColumnEntity(s, new ColumnDataTypeDefinition(s, false), false, 1, false, string.Empty, null);
                 cols.Add(col);
                 Assert.IsNotNull(col.Generator);
-                
+
                 Assert.Greater(col.PossibleGenerators.Count, 0);
 
                 for (int i = 0; i < 10000; i++)
@@ -462,12 +485,12 @@ namespace SQLDataProducer.RandomTests
             }
             return longs;
         }
-        
+
 
         private static ColumnEntity CreateColumnOfDatatype(string dataType, string genName)
         {
             ColumnEntity col = DatabaseEntityFactory.CreateColumnEntity("someCol", new ColumnDataTypeDefinition(dataType, false), false, 1, false, string.Empty, null);
-            
+
             Assert.IsNotNull(col.PossibleGenerators);
             Assert.IsNotNull(col.Generator);
             Assert.Greater(col.PossibleGenerators.Count, 0);
@@ -475,11 +498,12 @@ namespace SQLDataProducer.RandomTests
             col.Generator = col.PossibleGenerators.Where(x => x.GeneratorName == genName).FirstOrDefault();
             Assert.IsNotNull(col.Generator);
             Assert.AreEqual(genName, col.Generator.GeneratorName);
-            
+
             return col;
         }
 
         [Test]
+        [MSTest.TestMethod]
         public void ShouldGenerateNewValuesForEachRow()
         {
             var wfm = new WorkflowManager();
@@ -488,7 +512,7 @@ namespace SQLDataProducer.RandomTests
             var i1 = new ExecutionItem(adressTable);
             i1.ExecutionCondition = ExecutionConditions.None;
             i1.RepeatCount = 10;
-            
+
             {
                 var options = new ExecutionTaskOptions();
                 options.ExecutionType = ExecutionTypes.ExecutionCountBased;
@@ -508,6 +532,7 @@ namespace SQLDataProducer.RandomTests
         }
 
         [Test]
+        [MSTest.TestMethod]
         public void ShouldUseIdentityInsertIfRegularGeneratorSelected()
         {
             var wfm = new WorkflowManager();
@@ -524,7 +549,7 @@ namespace SQLDataProducer.RandomTests
             var idCol = newPerson.Columns.First();
             Assert.IsTrue(idCol.IsIdentity);
 
-            idCol.Generator = idCol.PossibleGenerators.Where(gen => gen.GeneratorName == Generators.Generator.GENERATOR_RandomInt).FirstOrDefault() ;
+            idCol.Generator = idCol.PossibleGenerators.Where(gen => gen.GeneratorName == Generator.GENERATOR_RandomInt).FirstOrDefault();
             Assert.IsNotNull(idCol.Generator);
 
             wfm.RunWorkFlow(new TaskExecuter.TaskExecuter(options, Connection(), items, DefaultDataConsumer));
@@ -532,11 +557,12 @@ namespace SQLDataProducer.RandomTests
         }
 
         [Test]
+        [MSTest.TestMethod]
         public void GeneratorsShouldBeAsFastAsOtherGenerators()
         {
             Stopwatch sw = new Stopwatch();
-            var currDateGeneratorCol = CreateColumnOfDatatype("datetime", Generators.Generator.GENERATOR_CurrentDate);
-            var msDateGeneratorCol = CreateColumnOfDatatype("datetime", Generators.Generator.GENERATOR_MilisecondsSeries);
+            var currDateGeneratorCol = CreateColumnOfDatatype("datetime", Generator.GENERATOR_CurrentDate);
+            var msDateGeneratorCol = CreateColumnOfDatatype("datetime", Generator.GENERATOR_MilisecondsSeries);
 
 
             // warm up
@@ -574,11 +600,11 @@ namespace SQLDataProducer.RandomTests
                 sw.Reset();
                 Console.WriteLine("Current Date generation elapsed time: {0}", currDateGeneratorElapsedTime);
                 Console.WriteLine("Milliseconds generation elapsed time: {0}", msDateGeneratorElapsedTime);
-                Console.WriteLine("Diff {0}", msDateGeneratorElapsedTime-currDateGeneratorElapsedTime);
+                Console.WriteLine("Diff {0}", msDateGeneratorElapsedTime - currDateGeneratorElapsedTime);
                 Console.WriteLine();
-//Current Date generation elapsed time: 00:00:00.2576633
-//Milliseconds generation elapsed time: 00:00:00.1483403
-//Diff -00:00:00.1093230
+                //Current Date generation elapsed time: 00:00:00.2576633
+                //Milliseconds generation elapsed time: 00:00:00.1483403
+                //Diff -00:00:00.1093230
             }
 
 
@@ -586,20 +612,21 @@ namespace SQLDataProducer.RandomTests
 
 
         [Test]
+        [MSTest.TestMethod]
         public void ShouldCloneGeneratorCollection()
         {
             var col1 = DatabaseEntityFactory.CreateColumnEntity("id", new ColumnDataTypeDefinition("int", false), true, 1, false, "", null);
             var col2 = DatabaseEntityFactory.CreateColumnEntity("date", new ColumnDataTypeDefinition("datetime", false), false, 2, false, "", null);
 
-            ObservableCollection<Generators.Generator> intGens = Generators.GeneratorFactory.GetGeneratorsForColumn(col1);
-            ObservableCollection<Generators.Generator> dateGens = Generators.GeneratorFactory.GetGeneratorsForColumn(col2);
+            ObservableCollection<Generator> intGens = GeneratorFactory.GetGeneratorsForColumn(col1);
+            ObservableCollection<Generator> dateGens = GeneratorFactory.GetGeneratorsForColumn(col2);
 
             var clonedIntGens = intGens.Clone();
             Assert.That(intGens, Is.EqualTo(intGens));
             Assert.That(intGens, Is.EqualTo(clonedIntGens));
         }
 
-        
+
     }
 }
 

@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio Express 2012 for Windows Desktop
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQLDataProducer", "SQLDataProducer\SQLDataProducer.csproj", "{295AB733-D88A-46E2-A08F-3E8BAAEF1573}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConnectionStringCreatorGUI", "SQLConnectionStringBuilderGUI\ConnectionStringCreatorGUI\ConnectionStringCreatorGUI.csproj", "{7319917A-8A1B-41CA-99BC-6E14C324DC63}"

@@ -78,6 +78,7 @@
     <Compile Include="Generators\StringGenerators.cs" />
     <Compile Include="Generators\UniqueIdentifierGenerators.cs" />
     <Compile Include="Generators\XMLGenerator.cs" />
+    <Compile Include="NodeIterator.cs" />
     <Compile Include="OptionEntities\ExecutionTaskOptions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DatabaseEntities\TableEntity.cs" />

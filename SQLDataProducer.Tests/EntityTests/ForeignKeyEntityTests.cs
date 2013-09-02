@@ -17,20 +17,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
+using MSTest = Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Data;
 
 
-namespace SQLDataProducer.RandomTests
+namespace SQLDataProducer.Tests.Entities
 {
     [TestFixture]
-    public class TableEntityCollectionTests : TestBase
+    [MSTest.TestClass]
+    public class ForeignKeyEntityTests : TestBase
     {
         [Test]
-        public void DefaultTest()
+        [MSTest.TestMethod]
+        public void ShouldTestForeignKeyEntity()
         {
-            
+            Assert.Fail("Not implemented yet");
         }
     }
 }
-
-

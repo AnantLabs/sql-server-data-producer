@@ -17,13 +17,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
+using MSTest = Microsoft.VisualStudio.TestTools.UnitTesting;
 using SQLDataProducer.TaskExecuter;
 using SQLDataProducer.DataAccess;
 using SQLDataProducer.Entities.OptionEntities;
 using SQLDataProducer.Entities;
 using SQLDataProducer.Entities.ExecutionEntities;
 
-namespace SQLDataProducer.RandomTests
+namespace SQLDataProducer.Tests
 {
 
     public class LongRunningTests : TestBase
@@ -33,7 +34,7 @@ namespace SQLDataProducer.RandomTests
         {
         }
 
-        [Test]
+        [Test] [MSTest.TestMethod]
         [Ignore]
         public void ShouldExecute_50000_Executions()
         {
@@ -74,7 +75,7 @@ namespace SQLDataProducer.RandomTests
             }
         }
 
-        [Test]
+        [Test] [MSTest.TestMethod]
         [Ignore]
         public void ShouldExecute_50000_Executions_Threaded()
         {

@@ -17,17 +17,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
+using MSTest = Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Data;
 using SQLDataProducer.Entities.DatabaseEntities.Factories;
 using SQLDataProducer.Entities.DatabaseEntities;
 
 
-namespace SQLDataProducer.RandomTests
+namespace SQLDataProducer.Tests.Entities
 {
     [TestFixture]
+    [MSTest.TestClass]
     public class DatabaseEntityFactoryTests : TestBase
     {
         [Test]
+        [MSTest.TestMethod]
         public void ShouldBeAbleToCreateColumnEntityFromFactory()
         {
             var c1 = DatabaseEntityFactory.CreateColumnEntity("id", new ColumnDataTypeDefinition("int", false), true, 1, false, string.Empty, null);

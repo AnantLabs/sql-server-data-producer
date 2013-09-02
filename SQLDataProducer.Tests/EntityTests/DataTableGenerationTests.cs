@@ -17,22 +17,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
-using SQLDataProducer.RandomTests.Helpers;
+using MSTest = Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using SQLDataProducer.Entities.ExecutionEntities;
 using SQLDataProducer.Entities;
+using SQLDataProducer.Tests.Helpers;
+using SQLDataProducer.Entities.Generators;
 
 
-namespace SQLDataProducer.RandomTests.OtherTests
+namespace SQLDataProducer.Tests.EntitiesTests
 {
+    [TestFixture]
+    [MSTest.TestClass]
     public class DataTableGenerationTests : TestBase
     {
         public DataTableGenerationTests()
             : base()
         {
-            
+
         }
-        
+
         [Test]
+        [MSTest.TestMethod]
         public void ShouldRunASmallTest()
         {
             var table = ExecutionItemHelper.CreateTableWithIdenitityAnd5Columns("dbo", "Peter");
@@ -40,12 +46,12 @@ namespace SQLDataProducer.RandomTests.OtherTests
             var ei = new ExecutionItem(table);
             ei.RepeatCount = 100;
             var rows = ei.CreateData(new Func<long>(() => { return i++; }), new SetCounter());
-            
+
             Assert.That(rows.Count, Is.EqualTo(100));
 
             // If the columns is Identity then it should not exist in the collection if it is the SQL Server Identity generator.
             // In those cases the column should be ignored and be generated when inserted.
-            Assert.That(rows[0].Cells.Any( c =>!( c.Column.IsIdentity && c.Column.Generator.GeneratorName == Entities.Generators.Generator.GENERATOR_IdentityFromSqlServerGenerator)), Is.True);
+            Assert.That(rows[0].Cells.Any(c => !(c.Column.IsIdentity && c.Column.Generator.GeneratorName == Generator.GENERATOR_IdentityFromSqlServerGenerator)), Is.True);
 
             foreach (var datarow in rows)
             {
@@ -53,19 +59,14 @@ namespace SQLDataProducer.RandomTests.OtherTests
                 {
                     Console.WriteLine(datarow.Cells[j].Value);
                 }
-                
+
                 Console.WriteLine();
             }
         }
 
-        //[Test]
+        //[Test] [MSTest.TestMethod]
         //public void DataToConsoleComsumerTest
 
-        [Test]
-        public void DefaultTest()
-        {
-            //DataTableGenerator dtGen = new DataTableGenerator();
-            
-        }
+       
     }
 }

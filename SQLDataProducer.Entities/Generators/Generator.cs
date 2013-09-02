@@ -204,7 +204,7 @@ namespace SQLDataProducer.Entities.Generators
         /// </summary>
         /// <param name="n">generation number N</param>
         /// <returns>an object of the type specified by the type of generator</returns>
-        internal object GenerateValue(long n)
+        public object GenerateValue(long n)
         {
             return ValueGenerator(n, GeneratorParameters);
         }

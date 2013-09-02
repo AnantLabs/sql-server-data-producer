@@ -17,25 +17,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
-using SQLDataProducer.ViewModels;
-using SQLDataProducer.RandomTests;
+using MSTest = Microsoft.VisualStudio.TestTools.UnitTesting;
+
+
 using System.Threading;
 using SQLDataProducer.Entities.DatabaseEntities;
+using SQLDataProducer.ViewModels;
+using SQLDataProducer.Entities;
 
 
 
 
 namespace SQLDataProducer.Tests.ViewModelTests
 {
+    [TestFixture]
+    [MSTest.TestClass]
     public class ExecutionOrderViewModelTests : TestBase
     {
         public ExecutionOrderViewModelTests()
             : base()
         {
             //model = new Model.ApplicationModel();
-            var options = new Entities.OptionEntities.ExecutionTaskOptions();
+            var options = new SQLDataProducer.Entities.OptionEntities.ExecutionTaskOptions();
 
-            options.ExecutionType = Entities.ExecutionTypes.ExecutionCountBased;
+            options.ExecutionType = ExecutionTypes.ExecutionCountBased;
             options.FixedExecutions = 1;
 
             mainVM = new MainWindowViewModel(options);
@@ -53,6 +58,7 @@ namespace SQLDataProducer.Tests.ViewModelTests
 
 
         [Test]
+        [MSTest.TestMethod]
         public void ShouldRun_AddItemToRightCommand()
         {
             LoadTables();
@@ -74,12 +80,13 @@ namespace SQLDataProducer.Tests.ViewModelTests
         }
 
         [Test]
+        [MSTest.TestMethod]
         public void ShouldRun_MoveAllItemsLeftCommand()
         {
             LoadTables();
             var table = mainVM.Model.Tables.FirstOrDefault();
             Assert.That(table, Is.Not.Null);
-            
+
             orderVM.MoveItemRightCommand.Execute(table);
             Assert.That(mainVM.Model.ExecutionItems.Count, Is.EqualTo(1));
             Assert.That(mainVM.Model.ExecutionItems.First().TargetTable, Is.EqualTo(table));
@@ -89,14 +96,15 @@ namespace SQLDataProducer.Tests.ViewModelTests
 
         }
         [Test]
+        [MSTest.TestMethod]
         public void ShouldRun_MoveAllItemsRightCommand()
         {
             LoadTables();
 
             Assert.That(mainVM.Model.Tables.Count, Is.GreaterThan(0));
-            
+
             orderVM.MoveAllItemsRightCommand.Execute();
-            
+
             MainViewModelDoEventsUntilQueryIsDone();
 
             Assert.That(mainVM.Model.ExecutionItems.Count, Is.GreaterThan(0));
@@ -104,6 +112,7 @@ namespace SQLDataProducer.Tests.ViewModelTests
         }
 
         [Test]
+        [MSTest.TestMethod]
         public void ShouldRun_MoveDownWithTheSelectorCommand()
         {
             LoadTables();
@@ -112,6 +121,7 @@ namespace SQLDataProducer.Tests.ViewModelTests
         }
 
         [Test]
+        [MSTest.TestMethod]
         public void ShouldRun_MoveItemDownCommand()
         {
             LoadTables();
@@ -126,6 +136,7 @@ namespace SQLDataProducer.Tests.ViewModelTests
         }
 
         [Test]
+        [MSTest.TestMethod]
         public void ShouldRun_MoveItemLeftCommand()
         {
             LoadTables();
@@ -140,8 +151,9 @@ namespace SQLDataProducer.Tests.ViewModelTests
             Assert.That(mainVM.Model.ExecutionItems.Count, Is.EqualTo(1));
         }
 
-      
+
         [Test]
+        [MSTest.TestMethod]
         public void ShouldRun_MoveItemUpCommand()
         {
             LoadTables();
@@ -154,6 +166,7 @@ namespace SQLDataProducer.Tests.ViewModelTests
         }
 
         [Test]
+        [MSTest.TestMethod]
         public void ShouldRun_MoveUpWithTheSelectorCommand()
         {
             LoadTables();
@@ -161,6 +174,7 @@ namespace SQLDataProducer.Tests.ViewModelTests
         }
 
         [Test]
+        [MSTest.TestMethod]
         public void ShouldRun_CreateTreeWithTableTableAsRootCommand()
         {
             LoadTables();
@@ -172,6 +186,7 @@ namespace SQLDataProducer.Tests.ViewModelTests
         }
 
         [Test]
+        [MSTest.TestMethod]
         public void ShouldRun_CreateTreeWithTableAsLeafCommand()
         {
             LoadTables();
@@ -182,7 +197,7 @@ namespace SQLDataProducer.Tests.ViewModelTests
             orderVM.CreateTreeWithTableAsLeafCommand.Execute(exec.TargetTable);
         }
 
-        //[Test]
+        //[Test] [MSTest.TestMethod]
         //public void ShouldRun_CloneExecutionItemCommand()
         //{
         //    LoadTables();
@@ -207,6 +222,7 @@ namespace SQLDataProducer.Tests.ViewModelTests
         }
 
         [Test]
+        [MSTest.TestMethod]
         public void ShouldRun_ClearSearchCriteraCommand()
         {
             LoadTables();

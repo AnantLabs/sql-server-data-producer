@@ -17,19 +17,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
+using MSTest = Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Data;
 
 
-namespace SQLDataProducer.RandomTests
+namespace SQLDataProducer.Tests.Entities
 {
     [TestFixture]
-    public class ColumnDataTypeDefinitionTests : TestBase
+    [MSTest.TestClass]
+    public class SetCounterTests : TestBase
     {
         [Test]
-        public void DefaultTest()
+        [MSTest.TestMethod]
+        public void ShouldTestSetCounter()
         {
-            
+            Assert.Fail("Not implemented yet");
         }
+
     }
 }
-

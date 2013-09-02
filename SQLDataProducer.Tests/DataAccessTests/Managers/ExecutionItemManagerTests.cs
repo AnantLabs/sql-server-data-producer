@@ -17,18 +17,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
+using MSTest = Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Data;
 
 
-namespace SQLDataProducer.RandomTests
+namespace SQLDataProducer.Tests.DataAccessTests.Managers
 {
     [TestFixture]
+    [MSTest.TestClass]
     public class ExecutionItemManagerTests : TestBase
     {
         [Test]
-        public void DefaultTest()
+        [MSTest.TestMethod]
+        public void ShouldTestExecutionItemManager()
         {
-            
+            Assert.Fail("Not implemented yet");
         }
     }
 }

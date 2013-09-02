@@ -16,12 +16,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SQLDataProducer.Entities.ExecutionEntities;
 using SQLDataProducer.Entities.DatabaseEntities;
+using SQLDataProducer.Entities.ExecutionEntities;
+using SQLDataProducer.Entities.DatabaseEntities.Factories;
+using SQLDataProducer.Entities;
 using SQLDataProducer.DataAccess;
 
-namespace SQLDataProducer.RandomTests.Helpers
+namespace SQLDataProducer.Tests.Helpers
 {
+
     public static class ExecutionItemHelper
     {
         public static ExecutionItemCollection GetFakeExecutionItemCollection()
@@ -40,11 +43,11 @@ namespace SQLDataProducer.RandomTests.Helpers
         public static TableEntity CreateTableWithIdenitityAnd5Columns(string schemaName, string tableName)
         {
             var table = new TableEntity(schemaName, tableName);
-            table.Columns.Add(Entities.DatabaseEntities.Factories.DatabaseEntityFactory.CreateColumnEntity("id", new ColumnDataTypeDefinition("int", false), true, 1, false, string.Empty, null));
-            table.Columns.Add(Entities.DatabaseEntities.Factories.DatabaseEntityFactory.CreateColumnEntity("name", new ColumnDataTypeDefinition("varchar(500)", false), false, 2, false, string.Empty, null));
-            table.Columns.Add(Entities.DatabaseEntities.Factories.DatabaseEntityFactory.CreateColumnEntity("created", new ColumnDataTypeDefinition("datetime", false), false, 3, false, string.Empty, null));
-            table.Columns.Add(Entities.DatabaseEntities.Factories.DatabaseEntityFactory.CreateColumnEntity("enabled", new ColumnDataTypeDefinition("bit", false), false, 4, false, string.Empty, null));
-            table.Columns.Add(Entities.DatabaseEntities.Factories.DatabaseEntityFactory.CreateColumnEntity("description", new ColumnDataTypeDefinition("varchar(2000)", true), false, 5, false, string.Empty, null));
+            table.Columns.Add(DatabaseEntityFactory.CreateColumnEntity("id", new ColumnDataTypeDefinition("int", false), true, 1, false, string.Empty, null));
+            table.Columns.Add(DatabaseEntityFactory.CreateColumnEntity("name", new ColumnDataTypeDefinition("varchar(500)", false), false, 2, false, string.Empty, null));
+            table.Columns.Add(DatabaseEntityFactory.CreateColumnEntity("created", new ColumnDataTypeDefinition("datetime", false), false, 3, false, string.Empty, null));
+            table.Columns.Add(DatabaseEntityFactory.CreateColumnEntity("enabled", new ColumnDataTypeDefinition("bit", false), false, 4, false, string.Empty, null));
+            table.Columns.Add(DatabaseEntityFactory.CreateColumnEntity("description", new ColumnDataTypeDefinition("varchar(2000)", true), false, 5, false, string.Empty, null));
 
             return table;
         }
@@ -58,11 +61,11 @@ namespace SQLDataProducer.RandomTests.Helpers
         public static TableEntity CreateTableWith5Columns(string schemaName, string tableName)
         {
             var table = new TableEntity(schemaName, tableName);
-            table.Columns.Add(Entities.DatabaseEntities.Factories.DatabaseEntityFactory.CreateColumnEntity("id", new ColumnDataTypeDefinition("int", false), false, 1, false, string.Empty, null));
-            table.Columns.Add(Entities.DatabaseEntities.Factories.DatabaseEntityFactory.CreateColumnEntity("name", new ColumnDataTypeDefinition("varchar(500)", false), false, 2, false, string.Empty, null));
-            table.Columns.Add(Entities.DatabaseEntities.Factories.DatabaseEntityFactory.CreateColumnEntity("created", new ColumnDataTypeDefinition("datetime", false), false, 3, false, string.Empty, null));
-            table.Columns.Add(Entities.DatabaseEntities.Factories.DatabaseEntityFactory.CreateColumnEntity("enabled", new ColumnDataTypeDefinition("bit", false), false, 4, false, string.Empty, null));
-            table.Columns.Add(Entities.DatabaseEntities.Factories.DatabaseEntityFactory.CreateColumnEntity("description", new ColumnDataTypeDefinition("varchar(2000)", true), false, 5, false, string.Empty, null));
+            table.Columns.Add(DatabaseEntityFactory.CreateColumnEntity("id", new ColumnDataTypeDefinition("int", false), false, 1, false, string.Empty, null));
+            table.Columns.Add(DatabaseEntityFactory.CreateColumnEntity("name", new ColumnDataTypeDefinition("varchar(500)", false), false, 2, false, string.Empty, null));
+            table.Columns.Add(DatabaseEntityFactory.CreateColumnEntity("created", new ColumnDataTypeDefinition("datetime", false), false, 3, false, string.Empty, null));
+            table.Columns.Add(DatabaseEntityFactory.CreateColumnEntity("enabled", new ColumnDataTypeDefinition("bit", false), false, 4, false, string.Empty, null));
+            table.Columns.Add(DatabaseEntityFactory.CreateColumnEntity("description", new ColumnDataTypeDefinition("varchar(2000)", true), false, 5, false, string.Empty, null));
 
             return table;
         }
@@ -70,7 +73,7 @@ namespace SQLDataProducer.RandomTests.Helpers
         public static TableEntity CreateTableAnd1DateTimeColumn(string schemaName, string tableName)
         {
             var table = new TableEntity(schemaName, tableName);
-            table.Columns.Add(Entities.DatabaseEntities.Factories.DatabaseEntityFactory.CreateColumnEntity("created", new ColumnDataTypeDefinition("datetime", false), true, 1, false, string.Empty, null));
+            table.Columns.Add(DatabaseEntityFactory.CreateColumnEntity("created", new ColumnDataTypeDefinition("datetime", false), true, 1, false, string.Empty, null));
             
             return table;
         }
@@ -106,7 +109,7 @@ namespace SQLDataProducer.RandomTests.Helpers
         private static void SetNoneDefaultValuesOnItem(ExecutionItem ei)
         {
             ei.Description = "Peters exec item with none default values";
-            ei.ExecutionCondition = Entities.ExecutionConditions.GreaterThan;
+            ei.ExecutionCondition = ExecutionConditions.GreaterThan;
             ei.ExecutionConditionValue = 7;
             ei.RepeatCount = 66;
             ei.TruncateBeforeExecution = true;

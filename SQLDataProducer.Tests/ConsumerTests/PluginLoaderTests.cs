@@ -1,16 +1,19 @@
 ﻿using NUnit.Framework;
+using MSTest = Microsoft.VisualStudio.TestTools.UnitTesting;
 using SQLDataProducer.DataConsumers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SQLDataProducer.RandomTests.ConsumerTests
+namespace SQLDataProducer.Tests.ConsumerTests
 {
     [TestFixture]
+    [MSTest.TestClass]
     public class PluginLoaderTests
     {
         [Test]
+        [MSTest.TestMethod]
         public void ShouldLoadAllPluginsFromFolder()
         {
             var folderName = Environment.CurrentDirectory;
@@ -30,6 +33,7 @@ namespace SQLDataProducer.RandomTests.ConsumerTests
         }
 
         [Test]
+        [MSTest.TestMethod]
         public void ShouldBeAbleToCreateInstanceOfPlugin()
         {
             var folderName = Environment.CurrentDirectory;

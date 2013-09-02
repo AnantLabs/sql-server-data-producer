@@ -1,12 +1,16 @@
 ﻿using NUnit.Framework;
+using MSTest = Microsoft.VisualStudio.TestTools.UnitTesting;
 using SQLDataProducer.Helpers;
 using SQLDataProducer.ViewModels;
 using System.Threading;
+using SQLDataProducer.Entities;
+using SQLDataProducer.Entities.OptionEntities;
 
 
-namespace SQLDataProducer.RandomTests.ViewModelTests
+namespace SQLDataProducer.Tests.ViewModelTests
 {
     [TestFixture]
+    [MSTest.TestClass]
     public class MainViewModelTests : TestBase
     {
 
@@ -17,9 +21,9 @@ namespace SQLDataProducer.RandomTests.ViewModelTests
             : base()
         {
             //model = new Model.ApplicationModel();
-            var options = new Entities.OptionEntities.ExecutionTaskOptions();
+            var options = new ExecutionTaskOptions();
 
-            options.ExecutionType = Entities.ExecutionTypes.ExecutionCountBased;
+            options.ExecutionType = ExecutionTypes.ExecutionCountBased;
             options.FixedExecutions = 1;
 
             mainVM = new MainWindowViewModel(options);
@@ -29,6 +33,7 @@ namespace SQLDataProducer.RandomTests.ViewModelTests
         }
 
         [Test]
+        [MSTest.TestMethod]
         [Ignore]
         public void ShouldRun_LoadCommand()
         {
@@ -36,6 +41,7 @@ namespace SQLDataProducer.RandomTests.ViewModelTests
         }
 
         [Test]
+        [MSTest.TestMethod]
         public void ShouldRun_LoadTablesCommand()
         {
             mainVM.LoadTablesCommand.Execute();
@@ -53,8 +59,9 @@ namespace SQLDataProducer.RandomTests.ViewModelTests
 
             }
         }
-        
+
         [Test]
+        [MSTest.TestMethod]
         [Ignore]
         public void ShouldRun_RunCommand()
         {
@@ -62,6 +69,7 @@ namespace SQLDataProducer.RandomTests.ViewModelTests
         }
 
         [Test]
+        [MSTest.TestMethod]
         [Ignore]
         public void ShouldRun_SaveCommand()
         {

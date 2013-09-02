@@ -4,25 +4,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using MSTest = Microsoft.VisualStudio.TestTools.UnitTesting;
 using SQLDataProducer.DataAccess;
 using SQLDataProducer.DataConsumers;
 using SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer;
-using SQLDataProducer.Entities.ExecutionEntities;
-using SQLDataProducer.Entities.OptionEntities;
-using SQLDataProducer.RandomTests.Helpers;
-using SQLDataProducer.TaskExecuter;
 
-namespace SQLDataProducer.RandomTests.IntegrationTests
+
+using SQLDataProducer.TaskExecuter;
+using SQLDataProducer.Entities.OptionEntities;
+using SQLDataProducer.Entities.ExecutionEntities;
+
+namespace SQLDataProducer.Tests.IntegrationTests
 {
+    [TestFixture]
+    [MSTest.TestClass]
     class BugTest : TestBase
     {
-        [Test]
+        [Test] [MSTest.TestMethod]
         public void ShouldTestIdentityInsert()
         {
 
             DataAccess.TableEntityDataAccess tda = new TableEntityDataAccess(Connection());
             var oneTable = tda.GetTableAndColumns("dbo", "one");
-            var twoTable = 
+            //var twoTable = 
 
 
             WorkflowManager manager = new WorkflowManager();

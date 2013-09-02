@@ -1,5 +1,4 @@
-﻿
-// Copyright 2012-2013 Peter Henell
+﻿// Copyright 2012-2013 Peter Henell
 
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -18,18 +17,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
+using MSTest = Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Data;
 
 
-namespace SQLDataProducer.RandomTests
+namespace SQLDataProducer.Tests.Entities.Collections
 {
     [TestFixture]
-    public class DbCommandExecutorFactoryTests : TestBase
+    [MSTest.TestClass]
+    public class TableEntityCollectionTests : TestBase
     {
         [Test]
-        public void DefaultTest()
+        [MSTest.TestMethod]
+        public void ShouldTestTableEntityCollection()
         {
-            
+            Assert.Fail("Not implemented yet");
         }
     }
 }
+
+

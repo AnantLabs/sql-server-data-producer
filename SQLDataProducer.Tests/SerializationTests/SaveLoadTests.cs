@@ -17,18 +17,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
-using SQLDataProducer.RandomTests.Helpers;
+using MSTest = Microsoft.VisualStudio.TestTools.UnitTesting;
 using SQLDataProducer.Entities.ExecutionEntities;
-//using System.Xml;
 using SQLDataProducer.DataAccess.Factories;
 using SQLDataProducer.Entities.Generators;
 using System.Xml.Linq;
 using SQLDataProducer.Entities.DatabaseEntities;
 using SQLDataProducer.Entities.Generators.Collections;
 using SQLDataProducer.Entities.DatabaseEntities.Collections;
+using SQLDataProducer.Tests.Helpers;
+using SQLDataProducer.Entities;
 
-namespace SQLDataProducer.RandomTests.SerializationTests
+namespace SQLDataProducer.Tests.SerializationTests
 {
+    [TestFixture]
+    [MSTest.TestClass]
     public class SaveLoadTests : TestBase
     {
         #region XmlDocumentStrings
@@ -669,7 +672,7 @@ namespace SQLDataProducer.RandomTests.SerializationTests
         {
         }
 
-        [Test]
+        [Test] [MSTest.TestMethod]
         public void ShouldBeAbleToSaveAndLoadExecutionItemCollectionUsingManager()
         {
             var execItems = ExecutionItemHelper.GetRealExecutionItemCollection(Connection());
@@ -737,7 +740,7 @@ namespace SQLDataProducer.RandomTests.SerializationTests
             }
         }
 
-        [Test]
+        [Test] [MSTest.TestMethod]
         public void ShouldBeAbleToCreateColumnFromXMLDoc()
         {
             XElement columnElement = XElement.Parse(columnXML);
@@ -753,7 +756,7 @@ namespace SQLDataProducer.RandomTests.SerializationTests
             Console.WriteLine(columnElement);
         }
 
-        [Test]
+        [Test] [MSTest.TestMethod]
         public void ShouldBeAbleToCreateGeneratorFromXMLDoc()
         {
             XElement genElement = XElement.Parse(generatorXML);
@@ -769,7 +772,7 @@ namespace SQLDataProducer.RandomTests.SerializationTests
 
         }
 
-        [Test]
+        [Test] [MSTest.TestMethod]
         public void ShouldBeAbleToCreateGeneratorParameterFromXMLDoc()
         {
             XElement paramElement = XElement.Parse(parameterXML);
@@ -796,7 +799,7 @@ namespace SQLDataProducer.RandomTests.SerializationTests
 
         string parameterCollectionXMLEMPTY = @"<GeneratorParameters />";
 
-        [Test]
+        [Test] [MSTest.TestMethod]
         public void ShouldBeAbleToCreateGeneratorParameterCollectionFromXMLDoc()
         {
             {
@@ -854,7 +857,7 @@ namespace SQLDataProducer.RandomTests.SerializationTests
 
         
 
-        [Test]
+        [Test] [MSTest.TestMethod]
         public void ShouldBeAbleToCreateColumnCollectionFromXMLDoc()
         {
             XElement columnCollectionElement = XElement.Parse(columnsCollectionXML);
@@ -866,7 +869,7 @@ namespace SQLDataProducer.RandomTests.SerializationTests
             Assert.AreEqual(7, columns.Count);
         }
 
-        [Test]
+        [Test] [MSTest.TestMethod]
         public void ShouldBeAbleToCreateExecutionItemFromXMLDoc()
         {
             XElement executionItemElement = XElement.Parse(executionItemXML);
@@ -881,13 +884,13 @@ namespace SQLDataProducer.RandomTests.SerializationTests
             Assert.AreEqual(66, ie.RepeatCount);
             Assert.AreEqual(true, ie.TruncateBeforeExecution);
             Assert.AreEqual(true, ie.UseIdentityInsert);
-            Assert.AreEqual(Entities.ExecutionConditions.GreaterThan, ie.ExecutionCondition);
+            Assert.AreEqual(ExecutionConditions.GreaterThan, ie.ExecutionCondition);
             Assert.AreEqual(7, ie.ExecutionConditionValue);
             Assert.AreEqual(4, ie.Order);
             Assert.AreEqual(15, ie.TargetTable.Columns.Count);
         }
 
-        [Test]
+        [Test] [MSTest.TestMethod]
         public void ShouldBeAbleToCreateExecutionItemCollectionFromXMLDoc()
         {
             XDocument exeColElement = XDocument.Parse(fullDocumentXML);
@@ -910,7 +913,7 @@ namespace SQLDataProducer.RandomTests.SerializationTests
             Assert.AreEqual("NewPerson", e4.TargetTable.TableName);
         }
 
-        [Test]
+        [Test] [MSTest.TestMethod]
         public void ShouldBeAbleToCreateTableEntityFromXMLDoc()
         {
             XElement tableElement = XElement.Parse(tableXML);
@@ -925,7 +928,7 @@ namespace SQLDataProducer.RandomTests.SerializationTests
         }
 
 
-        [Test]
+        [Test] [MSTest.TestMethod]
         public void ShouldBeAbleToCreateExecutionItemCollectionUsingExecutionManager()
         {
             var tda = new DataAccess.TableEntityDataAccess(Connection());
@@ -967,7 +970,7 @@ namespace SQLDataProducer.RandomTests.SerializationTests
         }
 
 
-        [Test]
+        [Test] [MSTest.TestMethod]
         public void ShouldSaveAndLoadDateTimeWithFullPrecision()
         {
             var fileName = @"c:\temp\repeater\saved.xml";
@@ -1021,7 +1024,7 @@ namespace SQLDataProducer.RandomTests.SerializationTests
             }
         }
 
-        private void PrintParameters(Entities.DatabaseEntities.ColumnEntity column)
+        private void PrintParameters(ColumnEntity column)
         {
             foreach (var gen in column.PossibleGenerators)
             {

@@ -17,22 +17,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
+using MSTest = Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Data;
 using SQLDataProducer.Entities.DatabaseEntities;
 using SQLDataProducer.Entities.DatabaseEntities.Factories;
 using Generators = SQLDataProducer.Entities.Generators;
 
 
-namespace SQLDataProducer.RandomTests
+
+namespace SQLDataProducer.Tests.EntitiesTests
 {
     [TestFixture]
+    [MSTest.TestClass]
     public class ColumnEntityTests : TestBase
     {
         ColumnEntity identityCol = DatabaseEntityFactory.CreateColumnEntity("identity", new ColumnDataTypeDefinition("int", false), true, 1, false, string.Empty, null);
         ColumnEntity dateCol = DatabaseEntityFactory.CreateColumnEntity("created", new ColumnDataTypeDefinition("datetime", false), false, 2, false, string.Empty, null);
 
         [Test]
-        public void DefaultTest()
+        [MSTest.TestMethod]
+        public void ShouldAssertDefaultPropertiesForTestColumn()
         {
             Assert.IsTrue(identityCol.IsIdentity);
             Assert.AreEqual(false, identityCol.IsNotIdentity);
@@ -49,6 +53,7 @@ namespace SQLDataProducer.RandomTests
         }
 
         [Test]
+        [MSTest.TestMethod]
         public void ShouldGetGeneratedValue()
         {
             var i = identityCol.GenerateValue(100);
@@ -58,6 +63,7 @@ namespace SQLDataProducer.RandomTests
         }
 
         [Test]
+        [MSTest.TestMethod]
         public void ShouldStorePreviouslyGeneratedValue()
         {
             identityCol.GenerateValue(100);

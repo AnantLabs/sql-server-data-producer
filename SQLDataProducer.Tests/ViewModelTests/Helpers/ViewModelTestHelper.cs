@@ -18,7 +18,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SQLDataProducer.RandomTests.ViewModelTests.Helpers
+namespace SQLDataProducer.Tests.ViewModelTests.Helpers
 {
     class ViewModelTestHelper
     {
