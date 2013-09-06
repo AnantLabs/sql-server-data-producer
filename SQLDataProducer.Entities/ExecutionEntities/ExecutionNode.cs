@@ -13,6 +13,7 @@
 //   limitations under the License.
 
 
+using SQLDataProducer.Entities.DatabaseEntities;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,31 +23,6 @@ using System.Text;
 
 namespace SQLDataProducer.Entities.ExecutionEntities
 {
-
-       //RootNode = Node.CreateLevelOneNode(1);
-       //     var player = RootNode.AddChild(100);
-       //     player.AddExecutionItem("Player");
-       //     player.AddExecutionItem("PlayerDetails");
-       //     player.AddExecutionItem("SW Account");
-       //     player.AddExecutionItem("Bonus Account");
-
-
-       //     var playerSession = player.AddChild(1);
-       //     playerSession.AddExecutionItem("PlayerSession");
-
-       //     playerSession.AddChild(1).AddExecutionItem("Deposit into account").AddExecutionItem("SeamlessWalletTransaction");
-
-       //     var gameRound = playerSession.AddChild(50);
-       //     gameRound.AddExecutionItem("GameRound");
-       //     gameRound.AddExecutionItem("GameRoundTransaction");
-       //     gameRound.AddExecutionItem("AccountTransaction (bet)").AddExecutionItem("SeamlessWalletTransaction"); ;
-       //     gameRound.AddExecutionItem("AccountTransaction (win)").AddExecutionItem("SeamlessWalletTransaction"); ;
-       //     gameRound.AddExecutionItem("GameTracking");
-       //     gameRound.AddExecutionItem("LocalJackpotContribution");
-
-       //     playerSession.AddChild(1).AddExecutionItem("Withdraw all money from account").AddExecutionItem("SeamlessWalletTransaction");
-       //     playerSession.AddChild(1).AddExecutionItem("Update PlayerSession END");
-
     public class ExecutionNode : EntityBase, IEquatable<ExecutionNode>
     {
         ExecutionNode _parent;
@@ -56,7 +32,7 @@ namespace SQLDataProducer.Entities.ExecutionEntities
             {
                 return _parent;
             }
-            set
+            private set
             {
                 if (_parent != value)
                 {
@@ -73,7 +49,7 @@ namespace SQLDataProducer.Entities.ExecutionEntities
             {
                 return _children;
             }
-            set
+            private set
             {
                 if (_children != value)
                 {
@@ -83,7 +59,6 @@ namespace SQLDataProducer.Entities.ExecutionEntities
             }
         }
 
-
         int _nodeId;
         public int NodeId
         {
@@ -91,7 +66,7 @@ namespace SQLDataProducer.Entities.ExecutionEntities
             {
                 return _nodeId;
             }
-            set
+            private set
             {
                 if (_nodeId != value)
                 {
@@ -101,7 +76,6 @@ namespace SQLDataProducer.Entities.ExecutionEntities
             }
         }
 
-
         int _level;
         public int Level
         {
@@ -109,7 +83,7 @@ namespace SQLDataProducer.Entities.ExecutionEntities
             {
                 return _level;
             }
-            set
+            private set
             {
                 if (_level != value)
                 {
@@ -118,7 +92,6 @@ namespace SQLDataProducer.Entities.ExecutionEntities
                 }
             }
         }
-
 
         string _nodeName;
         public string NodeName
@@ -144,7 +117,7 @@ namespace SQLDataProducer.Entities.ExecutionEntities
             {
                 return _hasChildren;
             }
-            set
+            private set
             {
                 if (_hasChildren != value)
                 {
@@ -154,7 +127,22 @@ namespace SQLDataProducer.Entities.ExecutionEntities
             }
         }
 
-        public List<ExecutionItem> ExecutionItems { get; set; }
+        ObservableCollection<TableEntity> _tables;
+        public ObservableCollection<TableEntity> Tables
+        {
+            get
+            {
+                return _tables;
+            }
+            private set
+            {
+                if (_tables != value)
+                {
+                    _tables = value;
+                    OnPropertyChanged("Tables");
+                }
+            }
+        }
 
         private static int nodeCounter = 0;
 
@@ -177,7 +165,7 @@ namespace SQLDataProducer.Entities.ExecutionEntities
         {
             Parent = parent;
             NodeId = nodeCounter++;
-            ExecutionItems = new List<ExecutionItem>();
+            Tables = new ObservableCollection<TableEntity>();
             Children = new ObservableCollection<ExecutionNode>();
             RepeatCount = repeatCount;
             NodeName = nodeName;
@@ -220,6 +208,11 @@ namespace SQLDataProducer.Entities.ExecutionEntities
         {
             return string.Format("[ExecutionNode NodeId: {0}, Level: {1}, RepeatCount: {2}]"
                 , this.NodeId, this.Level, this.RepeatCount);
+        }
+
+        public void AddTable(TableEntity tableEntity)
+        {
+            Tables.Add(tableEntity);
         }
     }
     

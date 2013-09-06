@@ -53,6 +53,7 @@
     <Compile Include="DataEntities\DataCell.cs" />
     <Compile Include="DatabaseEntities\Factories\DatabaseEntityFactory.cs" />
     <Compile Include="DataEntities\RowEntity.cs" />
+    <Compile Include="DataProducer.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="ExecutionEntities\ExecutionItemCollection.cs" />
     <Compile Include="ExecutionEntities\ExecutionNode.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DatabaseEntities\TableEntity.cs" />
     <Compile Include="SetCounter.cs" />
+    <Compile Include="ValidateUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Generators\resources\Countries.txt">

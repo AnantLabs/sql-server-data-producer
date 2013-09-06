@@ -17,6 +17,7 @@ using SQLDataProducer.Entities.DataEntities.Collections;
 using SQLDataProducer.Entities.ExecutionEntities;
 using SQLDataProducer.Entities.Generators;
 using SQLDataProducer.Model;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 
@@ -56,6 +57,7 @@ namespace SQLDataProducer.ViewModels
                     DataRowSet dt = ExecutionItem.CreatePreview(ei);
                     ModalWindows.ShowPreviewWindow win = new ModalWindows.ShowPreviewWindow(dt);
                     win.Show();
+                    throw new NotImplementedException();
                 });
         }
 

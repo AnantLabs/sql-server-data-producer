@@ -39,7 +39,7 @@ namespace SQLDataProducer.Tests.EntitiesTests
 
         [Test]
         [MSTest.TestMethod]
-        public void ShouldRunASmallTest()
+        public void ShouldCreateSomeData()
         {
             var table = ExecutionItemHelper.CreateTableWithIdenitityAnd5Columns("dbo", "Peter");
             long i = 0;

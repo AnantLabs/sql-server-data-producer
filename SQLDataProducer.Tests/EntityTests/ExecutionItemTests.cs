@@ -91,82 +91,82 @@ namespace SQLDataProducer.Tests.EntitiesTests
 
         }
 
-        [Test]
-        [MSTest.TestMethod]
-        public void ShouldBeAbleToCompareExecutionItems()
-        {
-            //Assert.AreEqual("implemented", "not implemented");
+        //[Test]
+        //[MSTest.TestMethod]
+        //public void ShouldBeAbleToCompareExecutionItems()
+        //{
+        //    //Assert.AreEqual("implemented", "not implemented");
 
-            {
-                // Equal
-                ExecutionItem x = new ExecutionItem(new TableEntity("dbo", "peter"));
-                ExecutionItem y = new ExecutionItem(new TableEntity("dbo", "peter"));
-                ExecutionItem z = new ExecutionItem(new TableEntity("dbo", "peter"));
-                AssertEqualsDefaultBehaviour(x, y, z);
+        //    {
+        //        // Equal
+        //        ExecutionItem x = new ExecutionItem(new TableEntity("dbo", "peter"));
+        //        ExecutionItem y = new ExecutionItem(new TableEntity("dbo", "peter"));
+        //        ExecutionItem z = new ExecutionItem(new TableEntity("dbo", "peter"));
+        //        AssertEqualsDefaultBehaviour(x, y, z);
 
-                Assert.IsTrue(x.Equals(y));
-                Assert.IsTrue(x.Equals(z));
-                Assert.IsTrue(y.Equals(x));
-                Assert.IsTrue(y.Equals(z));
-                Assert.IsTrue(z.Equals(x));
-                Assert.IsTrue(z.Equals(y));
-            }
+        //        Assert.IsTrue(x.Equals(y));
+        //        Assert.IsTrue(x.Equals(z));
+        //        Assert.IsTrue(y.Equals(x));
+        //        Assert.IsTrue(y.Equals(z));
+        //        Assert.IsTrue(z.Equals(x));
+        //        Assert.IsTrue(z.Equals(y));
+        //    }
 
-            {
-                // Not equal
-                ExecutionItem x = new ExecutionItem(new TableEntity("dbo", "peter"));
-                ExecutionItem y = new ExecutionItem(new TableEntity("dbo", "henell"));
-                ExecutionItem z = new ExecutionItem(new TableEntity("dbo", "data producer"));
-                AssertEqualsDefaultBehaviour(x, y, z);
+        //    {
+        //        // Not equal
+        //        ExecutionItem x = new ExecutionItem(new TableEntity("dbo", "peter"));
+        //        ExecutionItem y = new ExecutionItem(new TableEntity("dbo", "henell"));
+        //        ExecutionItem z = new ExecutionItem(new TableEntity("dbo", "data producer"));
+        //        AssertEqualsDefaultBehaviour(x, y, z);
 
-                Assert.IsFalse(x.Equals(y));
-                Assert.IsFalse(x.Equals(z));
-                Assert.IsFalse(y.Equals(x));
-                Assert.IsFalse(y.Equals(z));
-                Assert.IsFalse(z.Equals(x));
-                Assert.IsFalse(z.Equals(y));
-            }
-            {
-                // Not equal even if same table
-                ExecutionItem x = new ExecutionItem(new TableEntity("dbo", "peter"));
-                ExecutionItem y = new ExecutionItem(new TableEntity("dbo", "peter"));
-                ExecutionItem z = new ExecutionItem(new TableEntity("dbo", "peter"));
-                x.Order = 1;
-                y.Order = 2;
-                z.Order = 3;
+        //        Assert.IsFalse(x.Equals(y));
+        //        Assert.IsFalse(x.Equals(z));
+        //        Assert.IsFalse(y.Equals(x));
+        //        Assert.IsFalse(y.Equals(z));
+        //        Assert.IsFalse(z.Equals(x));
+        //        Assert.IsFalse(z.Equals(y));
+        //    }
+        //    {
+        //        // Not equal even if same table
+        //        ExecutionItem x = new ExecutionItem(new TableEntity("dbo", "peter"));
+        //        ExecutionItem y = new ExecutionItem(new TableEntity("dbo", "peter"));
+        //        ExecutionItem z = new ExecutionItem(new TableEntity("dbo", "peter"));
+        //        x.Order = 1;
+        //        y.Order = 2;
+        //        z.Order = 3;
 
-                AssertEqualsDefaultBehaviour(x, y, z);
+        //        AssertEqualsDefaultBehaviour(x, y, z);
 
-                Assert.IsFalse(x.Equals(y));
-                Assert.IsFalse(x.Equals(z));
-                Assert.IsFalse(y.Equals(x));
-                Assert.IsFalse(y.Equals(z));
-                Assert.IsFalse(z.Equals(x));
-                Assert.IsFalse(z.Equals(y));
-            }
-            {
-                // Not equal even if same table
-                ExecutionItem x = new ExecutionItem(new TableEntity("dbo", "peter"));
-                ExecutionItem y = new ExecutionItem(new TableEntity("dbo", "peter"));
-                ExecutionItem z = new ExecutionItem(new TableEntity("dbo", "peter"));
-                // When items are added to the list they should get the Order property set, and then be unique
-                ExecutionItemCollection col = new ExecutionItemCollection();
-                col.Add(x);
-                col.Add(y);
-                col.Add(z);
-                var tested = 0;
-                for (int i = 0; i < col.Count - 1; i++)
-                {
-                    for (int j = i + 1; j < col.Count; j++)
-                    {
-                        Assert.IsFalse(col[i].Equals(col[j]));
-                        tested++;
-                    }
-                }
-                Assert.Greater(tested, 0);
+        //        Assert.IsFalse(x.Equals(y));
+        //        Assert.IsFalse(x.Equals(z));
+        //        Assert.IsFalse(y.Equals(x));
+        //        Assert.IsFalse(y.Equals(z));
+        //        Assert.IsFalse(z.Equals(x));
+        //        Assert.IsFalse(z.Equals(y));
+        //    }
+        //    {
+        //        // Not equal even if same table
+        //        ExecutionItem x = new ExecutionItem(new TableEntity("dbo", "peter"));
+        //        ExecutionItem y = new ExecutionItem(new TableEntity("dbo", "peter"));
+        //        ExecutionItem z = new ExecutionItem(new TableEntity("dbo", "peter"));
+        //        // When items are added to the list they should get the Order property set, and then be unique
+        //        ExecutionItemCollection col = new ExecutionItemCollection();
+        //        col.Add(x);
+        //        col.Add(y);
+        //        col.Add(z);
+        //        var tested = 0;
+        //        for (int i = 0; i < col.Count - 1; i++)
+        //        {
+        //            for (int j = i + 1; j < col.Count; j++)
+        //            {
+        //                Assert.IsFalse(col[i].Equals(col[j]));
+        //                tested++;
+        //            }
+        //        }
+        //        Assert.Greater(tested, 0);
 
-            }
-        }
+        //    }
+        //}
 
         [Test]
         [MSTest.TestMethod]

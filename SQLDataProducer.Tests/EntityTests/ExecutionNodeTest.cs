@@ -37,8 +37,6 @@ namespace SQLDataProducer.Tests.EntitiesTests
         {
         }
 
-
-
         [Test]
         [MSTest.TestMethod]
         public void shouldCreateExecutionNodeBySettingRepeatCount()
@@ -69,7 +67,6 @@ namespace SQLDataProducer.Tests.EntitiesTests
             Assert.That(node4.Level, Is.EqualTo(node.Level + 1));
         }
 
-
         [Test]
         [MSTest.TestMethod]
         public void shouldAddChildNodesToNode()
@@ -96,28 +93,26 @@ namespace SQLDataProducer.Tests.EntitiesTests
             }
         }
 
-        [Test]
-        [MSTest.TestMethod]
-        public void shouldIterateOverAllNodesInTree()
-        {
-            ExecutionNode node = ExecutionNode.CreateLevelOneNode(1);
-            node.AddChild(1).AddChild(1).AddChild(1).AddChild(1).AddChild(1).AddChild(1);
+        //[Test]
+        //[MSTest.TestMethod]
+        //public void shouldIterateOverAllNodesInTree()
+        //{
+        //    ExecutionNode node = ExecutionNode.CreateLevelOneNode(1);
+        //    node.AddChild(1).AddChild(1).AddChild(1).AddChild(1).AddChild(1).AddChild(1);
 
-            int counter = 0;
-            NodeIterator it = new NodeIterator(node);
-            Assert.That(node.Children.Count, Is.GreaterThan(0));
+        //    int counter = 0;
+        //    NodeIterator it = new NodeIterator(node);
+        //    Assert.That(node.Children.Count, Is.GreaterThan(0));
 
+        //    foreach (var item in it.GetNodesRecursive())
+        //    {
+        //        counter++;
+        //        Console.WriteLine(item.NodeId);
+        //    }
 
+        //    Assert.That(counter, Is.EqualTo(7));
 
-            foreach (var item in it.GetNodesRecursive())
-            {
-                counter++;
-                Console.WriteLine(item.NodeId);
-            }
-
-            Assert.That(counter, Is.EqualTo(7));
-
-        }
+        //}
 
         [Test]
         [MSTest.TestMethod]
@@ -138,57 +133,55 @@ namespace SQLDataProducer.Tests.EntitiesTests
             Assert.That(node2, Is.EqualTo(node2));
         }
 
-        [Test]
-        [MSTest.TestMethod]
-        public void shouldGetEachExecutionNodeOnlyOnceFromTheIterator()
-        {
-            ExecutionNode node = ExecutionNode.CreateLevelOneNode(1);
-            node.AddChild(1).AddChild(1).AddChild(1).AddChild(1).AddChild(1).AddChild(1);
+        //[Test]
+        //[MSTest.TestMethod]
+        //public void shouldGetEachExecutionNodeOnlyOnceFromTheIterator()
+        //{
+        //    ExecutionNode node = ExecutionNode.CreateLevelOneNode(1);
+        //    node.AddChild(1).AddChild(1).AddChild(1).AddChild(1).AddChild(1).AddChild(1);
 
-            int counter = 0;
-            NodeIterator it = new NodeIterator(node);
-            Assert.That(node.Children.Count, Is.GreaterThan(0));
+        //    int counter = 0;
+        //    NodeIterator it = new NodeIterator(node);
+        //    Assert.That(node.Children.Count, Is.GreaterThan(0));
 
-            HashSet<ExecutionNode> nodes = new HashSet<ExecutionNode>();
+        //    HashSet<ExecutionNode> nodes = new HashSet<ExecutionNode>();
 
-            foreach (var item in it.GetNodesRecursive())
-            {
-                nodes.Add(item);
-                counter++;
-                Console.WriteLine(item.NodeId);
-            }
+        //    foreach (var item in it.GetNodesRecursive())
+        //    {
+        //        nodes.Add(item);
+        //        counter++;
+        //        Console.WriteLine(item.NodeId);
+        //    }
 
-            Assert.That(counter, Is.EqualTo(7));
-            Assert.That(nodes.Count, Is.EqualTo(7));
-        }
+        //    Assert.That(counter, Is.EqualTo(7));
+        //    Assert.That(nodes.Count, Is.EqualTo(7));
+        //}
 
-        [Test]
-        [MSTest.TestMethod]
-        public void shouldHaveWantedOrderInTheRecursiveness()
-        {
-            string[] requestedOrder = { "Player", "Deposit", "GameRound", "Transactions", "Tracking", "Withdraw" };
+        //[Test]
+        //[MSTest.TestMethod]
+        //public void shouldHaveWantedOrderInTheRecursiveness()
+        //{
+        //    string[] requestedOrder = { "User", "Deposit", "Order", "Transactions", "Tracking", "Withdraw" };
 
-            ExecutionNode player = ExecutionNode.CreateLevelOneNode(50, "Player");
+        //    ExecutionNode User = ExecutionNode.CreateLevelOneNode(50, "User");
 
-            var deposit = player.AddChild(1, "Deposit");
-            var gameRound = player.AddChild(100, "GameRound");
-            var withdraw = player.AddChild(1, "Withdraw");
-            var transactions = gameRound.AddChild(2, "Transactions");
-            var tracking = gameRound.AddChild(1, "Tracking");
+        //    var deposit = User.AddChild(1, "Deposit");
+        //    var Order = User.AddChild(100, "Order");
+        //    var withdraw = User.AddChild(1, "Withdraw");
+        //    var transactions = Order.AddChild(2, "Transactions");
+        //    var tracking = Order.AddChild(1, "Tracking");
 
-            NodeIterator it = new NodeIterator(player);
+        //    NodeIterator it = new NodeIterator(User);
 
-            List<ExecutionNode> actual = new List<ExecutionNode>(it.GetNodesRecursive());
+        //    List<ExecutionNode> actual = new List<ExecutionNode>(it.GetNodesRecursive());
             
-            Assert.That(actual.Count, Is.EqualTo(6));
+        //    Assert.That(actual.Count, Is.EqualTo(6));
 
-            for (int i = 0; i < requestedOrder.Length; i++)
-            {
-                Assert.That(requestedOrder[i], Is.EqualTo(actual[i].NodeName));
-            }
-
-            
-        }
+        //    for (int i = 0; i < requestedOrder.Length; i++)
+        //    {
+        //        Assert.That(requestedOrder[i], Is.EqualTo(actual[i].NodeName));
+        //    }
+        //}
 
         [Test]
         [MSTest.TestMethod]
@@ -224,6 +217,8 @@ namespace SQLDataProducer.Tests.EntitiesTests
             Assert.That(node4, Is.Null);
             Assert.That(node1, Is.Not.EqualTo(node4));
 
+            Assert.That(node1, Is.Not.EqualTo(new List<int>()));
+
             Console.WriteLine(node2);
         }
 
@@ -232,14 +227,15 @@ namespace SQLDataProducer.Tests.EntitiesTests
         public void shouldReturnOnlyTheNodeIfOnlyOne()
         {
             ExecutionNode node = ExecutionNode.CreateLevelOneNode(1);
+            node.AddTable(new TableEntity());
 
             int counter = 0;
             NodeIterator it = new NodeIterator(node);
             Assert.That(node.Children.Count, Is.EqualTo(0));
 
-            HashSet<ExecutionNode> nodes = new HashSet<ExecutionNode>();
+            HashSet<TableEntity> nodes = new HashSet<TableEntity>();
 
-            foreach (var item in it.GetNodesRecursive())
+            foreach (var item in it.GetTablesRecursive())
             {
                 nodes.Add(item);
                 counter++;
@@ -251,23 +247,127 @@ namespace SQLDataProducer.Tests.EntitiesTests
 
         [Test]
         [MSTest.TestMethod]
-        public void shouldNotCrashOnNoNodesInIterator()
+        public void ShouldHaveNoNullValuesAfterInitialization()
         {
-            ExecutionNode node = null;
+            ExecutionNode node = ExecutionNode.CreateLevelOneNode(1);
 
-            int counter = 0;
+            Assert.That(node, Is.Not.Null);
+            Assert.That(node.NodeName, Is.Not.Null);
+            Assert.That(node.Level, Is.Not.Null);
+            Assert.That(node.NodeId, Is.Not.Null);
+            Assert.That(node.Tables, Is.Not.Null);
+            Assert.That(node.Children, Is.Not.Null);
+            Assert.That(node.RepeatCount, Is.Not.Null);
+        }
+
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldHaveParentIfItIsChild()
+        {
+            ExecutionNode node = ExecutionNode.CreateLevelOneNode(1);
+            Assert.That(node.HasChildren, Is.False);
+
+            var child = node.AddChild(1);
+            Assert.That(node.HasChildren, Is.True);
+            Assert.That(child.Parent, Is.Not.Null);
+            Assert.That(child.Parent, Is.EqualTo(node));
+        }
+
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldGetAllExecutionItems()
+        {
+            ExecutionNode node = ExecutionNode.CreateLevelOneNode(1);
+            node.Tables.Add(new TableEntity());
+            node.Tables.Add(new TableEntity());
+
+            var child = node.AddChild(1);
+            child.Tables.Add(new TableEntity());
+            child.Tables.Add(new TableEntity());
+            child.Tables.Add(new TableEntity());
+
             NodeIterator it = new NodeIterator(node);
-
-            HashSet<ExecutionNode> nodes = new HashSet<ExecutionNode>();
-
-            foreach (var item in it.GetNodesRecursive())
+            int counter = 0;
+            foreach (var ei in it.GetTablesRecursive())
             {
-                nodes.Add(item);
+                Console.WriteLine(ei);
                 counter++;
             }
 
-            Assert.That(counter, Is.EqualTo(0));
-            Assert.That(nodes.Count, Is.EqualTo(0));
+            Assert.That(counter, Is.EqualTo(5));
+        }
+
+        /*
+         * Node1 x50:
+         * User
+         * PlayerDetails
+         * Account
+         * Account
+         *      Node2 x1:
+         *      Deposit
+         *          Node3 x100:
+         *          Order
+         *          Transaction
+         *      Node3 x1
+         *      Withdraw
+         
+         * 
+         * Output:
+         * [User, pd, acc, acc, [dep, [Gr, tran], [Gr, tran] ... [Gr, tran]], Withdraw]
+         * 
+         */
+
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldReturnTablesInCorrectOrder()
+        {
+            // Scenario: Make 2 customers, for each customer make two accounts and do one deposit and one withdraw for each account
+            string[] requestedOrder = { "Customer", "Account", "Deposit", "Withdraw", "Account", "Deposit", "Withdraw",
+                                        "Customer", "Account", "Deposit", "Withdraw", "Account", "Deposit", "Withdraw", };
+
+            // 2 Customers
+            ExecutionNode customer = ExecutionNode.CreateLevelOneNode(2, "Customer");
+            customer.AddTable(new TableEntity("dbo", "Customer"));
+
+            // Make 2 accounts
+            var accounts = customer.AddChild(2, "Accounts");
+            accounts.AddTable(new TableEntity("dbo", "Account"));
+
+            // make one one Deposit and one WithDraw
+            var accountTransactions = accounts.AddChild(1, "AccountTransactions");
+            accountTransactions.AddTable(new TableEntity("dbo", "Deposit"));
+            accountTransactions.AddTable(new TableEntity("dbo", "Withdraw"));
+
+
+            NodeIterator it = new NodeIterator(customer);
+
+            List<TableEntity> actual = 
+                new List<TableEntity>(it.GetTablesRecursive());
+
+            for (int i = 0; i < requestedOrder.Length; i++)
+            {
+                Console.WriteLine(actual[i].TableName);
+                Assert.That(requestedOrder[i], Is.EqualTo(actual[i].TableName));
+            }
+        }
+
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldNotAllowNullInTheParameterForNodeIterator()
+        {
+            bool thrown = false;
+            ExecutionNode node = null;
+            try
+            {
+                NodeIterator it = new NodeIterator(node);
+            }
+            catch (ArgumentNullException)
+            {
+                thrown = true;
+            }
+
+            Assert.That(thrown, Is.True);
+
         }
     }
 }

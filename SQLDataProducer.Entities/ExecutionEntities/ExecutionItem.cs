@@ -28,7 +28,7 @@ namespace SQLDataProducer.Entities.ExecutionEntities
     /// <summary>
     /// An execution item is a table that have been configured to get data generated.
     /// </summary>
-    public sealed class ExecutionItem : EntityBase, IEquatable<ExecutionItem>
+    public sealed class ExecutionItem : EntityBase//, IEquatable<ExecutionItem>
     {
         TableEntity _targetTable;
         /// <summary>
@@ -353,7 +353,7 @@ this.WarningText);
         public static DataRowSet CreatePreview(ExecutionItem ei)
         {
             long l = 0;
-            Func<long> getN = new Func<long>( () => {return l++; });
+            Func<long> getN = new Func<long>(() => { return l++; });
 
             return ei.CreateData(getN, new SetCounter());
         }
@@ -381,60 +381,60 @@ this.WarningText);
                     insertCounter.Increment();
                 }
             }
-            
+
             return dt;
         }
 
-        public override bool Equals(System.Object obj)
-        {
-            // If parameter cannot be casted return false:
-            ExecutionItem p = obj as ExecutionItem;
-            if ((object)p == null)
-                return false;
+        //public override bool Equals(System.Object obj)
+        //{
+        //    // If parameter cannot be casted return false:
+        //    ExecutionItem p = obj as ExecutionItem;
+        //    if ((object)p == null)
+        //        return false;
 
-            // Return true if the fields match:
-            //return IEquatable<ExecutionItem>.Equals(GetHashCode() == p.GetHashCode();
-            return this.Equals(p);
-        }
+        //    // Return true if the fields match:
+        //    //return IEquatable<ExecutionItem>.Equals(GetHashCode() == p.GetHashCode();
+        //    return this.Equals(p);
+        //}
 
-        public bool Equals(ExecutionItem b)
-        {
-            // Return true if the fields match:
-            return
-                    Description == b.Description &&
-                    ExecutionCondition == b.ExecutionCondition &&
-                    ExecutionConditionValue == b.ExecutionConditionValue &&
-                    HasWarning == b.HasWarning &&
-                    Order == b.Order &&
-                    RepeatCount == b.RepeatCount &&
-                //object.Equals(TargetTable, b.TargetTable) &&
-                    TargetTable.Equals(b.TargetTable) &&
-                    TruncateBeforeExecution == b.TruncateBeforeExecution &&
-                    UseIdentityInsert == b.UseIdentityInsert &&
-                    WarningText == b.WarningText;
-        }
+        //public bool Equals(ExecutionItem b)
+        //{
+        //    // Return true if the fields match:
+        //    return
+        //            Description == b.Description &&
+        //            ExecutionCondition == b.ExecutionCondition &&
+        //            ExecutionConditionValue == b.ExecutionConditionValue &&
+        //            HasWarning == b.HasWarning &&
+        //            Order == b.Order &&
+        //            RepeatCount == b.RepeatCount &&
+        //        //object.Equals(TargetTable, b.TargetTable) &&
+        //            TargetTable.Equals(b.TargetTable) &&
+        //            TruncateBeforeExecution == b.TruncateBeforeExecution &&
+        //            UseIdentityInsert == b.UseIdentityInsert &&
+        //            WarningText == b.WarningText;
+        //}
 
 
-        public override int GetHashCode()
-        {
-            //unchecked
-            //{
-            //    int hash = 37;
-            //    hash = hash * 23 + base.GetHashCode();
-            //    hash = hash * 23 + Description.GetHashCode();
-            //    hash = hash * 23 + ExecutionCondition.GetHashCode();
-            //    hash = hash * 23 + ExecutionConditionValue.GetHashCode();
-            //    hash = hash * 23 + HasWarning.GetHashCode();
-            //    hash = hash * 23 + Order.GetHashCode();
-            //    hash = hash * 23 + RepeatCount.GetHashCode();
-            //    hash = hash * 23 + TargetTable.GetHashCode();
-            //    hash = hash * 23 + TruncateBeforeExecution.GetHashCode();
-            //    hash = hash * 23 + UseIdentityInsert.GetHashCode();
-            //    hash = hash * 23 + WarningText.GetHashCode();
-            //    return hash;
-            //}
-            return 1;
-        }
+        //public override int GetHashCode()
+        //{
+        //    //unchecked
+        //    //{
+        //    //    int hash = 37;
+        //    //    hash = hash * 23 + base.GetHashCode();
+        //    //    hash = hash * 23 + Description.GetHashCode();
+        //    //    hash = hash * 23 + ExecutionCondition.GetHashCode();
+        //    //    hash = hash * 23 + ExecutionConditionValue.GetHashCode();
+        //    //    hash = hash * 23 + HasWarning.GetHashCode();
+        //    //    hash = hash * 23 + Order.GetHashCode();
+        //    //    hash = hash * 23 + RepeatCount.GetHashCode();
+        //    //    hash = hash * 23 + TargetTable.GetHashCode();
+        //    //    hash = hash * 23 + TruncateBeforeExecution.GetHashCode();
+        //    //    hash = hash * 23 + UseIdentityInsert.GetHashCode();
+        //    //    hash = hash * 23 + WarningText.GetHashCode();
+        //    //    return hash;
+        //    //}
+        //    return 1;
+        //}
 
 
 

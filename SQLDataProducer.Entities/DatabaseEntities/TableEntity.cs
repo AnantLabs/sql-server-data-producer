@@ -24,7 +24,7 @@ using System.Xml.Linq;
 
 namespace SQLDataProducer.Entities.DatabaseEntities
 {
-    public class TableEntity : EntityBase, IEquatable<TableEntity> 
+    public class TableEntity : EntityBase//, IEquatable<TableEntity> 
     {
 
         public TableEntity(string tableSchema, string tableName)
@@ -246,48 +246,48 @@ namespace SQLDataProducer.Entities.DatabaseEntities
 
 
 
-        public override bool Equals(System.Object obj)
-        {
-            // If parameter cannot be casted return false:
-            TableEntity p = obj as TableEntity;
-            if ((object)p == null)
-                return false;
+        //public override bool Equals(System.Object obj)
+        //{
+        //    // If parameter cannot be casted return false:
+        //    TableEntity p = obj as TableEntity;
+        //    if ((object)p == null)
+        //        return false;
 
-            // Return true if the fields match:
-            //return GetHashCode() == p.GetHashCode();
-            return this.Equals(p);
-        }
+        //    // Return true if the fields match:
+        //    //return GetHashCode() == p.GetHashCode();
+        //    return this.Equals(p);
+        //}
 
-        public bool Equals(TableEntity b)
-        {
-            if ((object)b == null)
-                return false;
+        //public bool Equals(TableEntity b)
+        //{
+        //    if ((object)b == null)
+        //        return false;
 
-            // Return true if the fields match:
-            return
-               // Enumerable.SequenceEqual(this.Columns, b.Columns) &&
-                 this.HasIdentityColumn == b.HasIdentityColumn &&
-                 this.HasWarning == b.HasWarning &&
-                 this.TableName == b.TableName &&
-                 this.TableSchema == b.TableSchema &&
-                 this.WarningText == b.WarningText;
+        //    // Return true if the fields match:
+        //    return
+        //       // Enumerable.SequenceEqual(this.Columns, b.Columns) &&
+        //         this.HasIdentityColumn == b.HasIdentityColumn &&
+        //         this.HasWarning == b.HasWarning &&
+        //         this.TableName == b.TableName &&
+        //         this.TableSchema == b.TableSchema &&
+        //         this.WarningText == b.WarningText;
 
-        }
+        //}
         
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                int hash = 37;
-                //hash = hash * 23 + Columns.GetHashCode();
-                //hash = hash * 23 + HasIdentityColumn.GetHashCode();
-                //hash = hash * 23 + HasWarning.GetHashCode();
-                hash = hash * 23 + TableName.GetHashCode();
-                hash = hash * 23 + TableSchema.GetHashCode();
-                //hash = hash * 23 + WarningText.GetHashCode();
-                return hash;
-            }
-        }
+        //public override int GetHashCode()
+        //{
+        //    unchecked
+        //    {
+        //        int hash = 37;
+        //        //hash = hash * 23 + Columns.GetHashCode();
+        //        //hash = hash * 23 + HasIdentityColumn.GetHashCode();
+        //        //hash = hash * 23 + HasWarning.GetHashCode();
+        //        hash = hash * 23 + TableName.GetHashCode();
+        //        hash = hash * 23 + TableSchema.GetHashCode();
+        //        //hash = hash * 23 + WarningText.GetHashCode();
+        //        return hash;
+        //    }
+        //}
 
         public void RefreshWarnings()
         {
