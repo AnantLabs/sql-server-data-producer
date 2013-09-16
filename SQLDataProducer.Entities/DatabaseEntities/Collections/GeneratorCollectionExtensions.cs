@@ -20,6 +20,7 @@ namespace SQLDataProducer.Entities.DatabaseEntities.Collections
     {
         public static ObservableCollection<Generators.Generator> Clone(this ObservableCollection<Generators.Generator> gens)
         {
+            // TODO: Clone using the same entity as the LOAD/SAVE functionality
             var newGens = new ObservableCollection<Generators.Generator>();
             foreach (Generators.Generator item in gens)
             {

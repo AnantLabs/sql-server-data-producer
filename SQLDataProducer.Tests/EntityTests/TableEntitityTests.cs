@@ -158,7 +158,8 @@ namespace SQLDataProducer.Tests.Entities
                 foreach (var c in table.Columns)
                 {
                     c.GenerateValue(i);
-                    Assert.IsNotNull(c.PreviouslyGeneratedValue, string.Format("PreviouslyGeneratedValue of {0} does not exist", c.ColumnName));
+                    //Assert.IsNotNull(c.PreviouslyGeneratedValue, string.Format("PreviouslyGeneratedValue of {0} does not exist", c.ColumnName));
+                    throw new NotImplementedException("Valuestore");
                 }
             }
 

@@ -227,7 +227,7 @@ namespace SQLDataProducer.Tests.EntitiesTests
         public void shouldReturnOnlyTheNodeIfOnlyOne()
         {
             ExecutionNode node = ExecutionNode.CreateLevelOneNode(1);
-            node.AddTable(new TableEntity());
+            node.AddTable(new TableEntity("",""));
 
             int counter = 0;
             NodeIterator it = new NodeIterator(node);
@@ -278,13 +278,13 @@ namespace SQLDataProducer.Tests.EntitiesTests
         public void ShouldGetAllExecutionItems()
         {
             ExecutionNode node = ExecutionNode.CreateLevelOneNode(1);
-            node.Tables.Add(new TableEntity());
-            node.Tables.Add(new TableEntity());
+            node.Tables.Add(new TableEntity("",""));
+            node.Tables.Add(new TableEntity("", ""));
 
             var child = node.AddChild(1);
-            child.Tables.Add(new TableEntity());
-            child.Tables.Add(new TableEntity());
-            child.Tables.Add(new TableEntity());
+            child.Tables.Add(new TableEntity("", ""));
+            child.Tables.Add(new TableEntity("", ""));
+            child.Tables.Add(new TableEntity("", ""));
 
             NodeIterator it = new NodeIterator(node);
             int counter = 0;

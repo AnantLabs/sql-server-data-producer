@@ -27,28 +27,32 @@ using SQLDataProducer.Entities.Generators;
 
 namespace SQLDataProducer.Tests
 {
+    [TestFixture]
+    [MSTest.TestClass]
     public class ForeignKeyTests : TestBase
     {
         public ForeignKeyTests()
-            :base()
+            : base()
         {
         }
 
-        [Test] [MSTest.TestMethod]
+        [Test]
+        [MSTest.TestMethod]
         [Ignore]
         public void ShouldHaveForeignKeysFor()
         {
-            
+
         }
 
-        [Test] [MSTest.TestMethod]
+        [Test]
+        [MSTest.TestMethod]
         public void ShouldGetIdentityFromPreviousItem()
         {
             var wfm = new WorkflowManager();
             var tda = new TableEntityDataAccess(Connection());
             var person = tda.GetTableAndColumns("Person", "NewPerson");
             var anotherTable = tda.GetTableAndColumns("Person", "AnotherTable");
-            
+
             Assert.Greater(person.Columns.Count, 0);
             Assert.Greater(anotherTable.Columns.Count, 0);
 
@@ -57,9 +61,9 @@ namespace SQLDataProducer.Tests
             var i2 = new ExecutionItem(anotherTable);
             i2.RepeatCount = 2;
 
-            anotherTable.Columns[0].Generator = 
+            anotherTable.Columns[0].Generator =
                 anotherTable.Columns[0].PossibleGenerators.Where
-                    ( 
+                    (
                     g => g.GeneratorName == Generator.GENERATOR_IdentityFromPreviousItem
                     ).FirstOrDefault();
 
@@ -76,7 +80,7 @@ namespace SQLDataProducer.Tests
                 options.FixedExecutions = 1;
                 options.MaxThreads = 1;
                 options.NumberGeneratorMethod = NumberGeneratorMethods.NewNForEachRow;
-                
+
                 // new N for each row
                 var res = wfm.RunWorkFlow(new TaskExecuter.TaskExecuter(options, Connection(), items, DefaultDataConsumer));
 
@@ -131,6 +135,6 @@ namespace SQLDataProducer.Tests
         //        Assert.Greater(res.Duration, TimeSpan.Zero, "Duration should > 0");
         //    }
         //}
-       
+
     }
 }

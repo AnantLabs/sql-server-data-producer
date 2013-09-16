@@ -64,12 +64,10 @@ namespace SQLDataProducer.Tests.EntitiesTests
 
         [Test]
         [MSTest.TestMethod]
-        public void ShouldStorePreviouslyGeneratedValue()
+        public void ShouldPickForeignKeyTableAsReferenceWhenItExistInTheListOfExecutionItems()
         {
-            identityCol.GenerateValue(100);
-            Assert.IsNotNull(identityCol.PreviouslyGeneratedValue);
-            dateCol.GenerateValue(100);
-            Assert.IsNotNull(dateCol.PreviouslyGeneratedValue);
+            Assert.Fail("Adding table that is referencing another table's identity value should automatically set the generator to value from other column and point it to the other identity column");
         }
+      
     }
 }

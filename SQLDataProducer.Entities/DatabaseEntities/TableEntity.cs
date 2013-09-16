@@ -24,18 +24,13 @@ using System.Xml.Linq;
 
 namespace SQLDataProducer.Entities.DatabaseEntities
 {
-    public class TableEntity : EntityBase//, IEquatable<TableEntity> 
+    public class TableEntity : EntityBase
     {
 
         public TableEntity(string tableSchema, string tableName)
-            : this()
         {
             TableName = tableName;
             TableSchema = tableSchema;
-        }
-
-        public TableEntity()
-        {
             Columns = new ColumnEntityCollection();
             Columns.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(Columns_CollectionChanged);
         }
@@ -86,7 +81,6 @@ namespace SQLDataProducer.Entities.DatabaseEntities
                 {
                     _columns = value;
                     HasWarning = _columns.Any(c => c.HasWarning);
-                    //OnPropertyChanged("Columns");
                 }
             }
         }
@@ -103,7 +97,6 @@ namespace SQLDataProducer.Entities.DatabaseEntities
                 if (_tableSchema != value)
                 {
                     _tableSchema = value;
-                    //OnPropertyChanged("TableSchema");
                 }
             }
         }
@@ -120,7 +113,6 @@ namespace SQLDataProducer.Entities.DatabaseEntities
                 if (_tableName != value)
                 {
                     _tableName = value;
-                    //OnPropertyChanged("TableName");
                 }
             }
         }
@@ -141,6 +133,7 @@ namespace SQLDataProducer.Entities.DatabaseEntities
        
         internal TableEntity Clone()
         {
+            // TODO: Clone using the same entity as the LOAD/SAVE functionality
             var t = new TableEntity(this.TableSchema, this.TableName);
             t.HasIdentityColumn = this.HasIdentityColumn;
             t.Columns = this.Columns.Clone();
@@ -149,41 +142,6 @@ namespace SQLDataProducer.Entities.DatabaseEntities
         }
 
        
-
-        #region XML Serialize
-
-        public void ReadXml(XElement xe)
-        {
-            this.TableSchema = xe.Attribute("TableSchema").Value;
-            this.TableName = xe.Attribute("TableName").Value;
-            this.Columns.ReadXml(xe.Element("Columns"));
-        }
-
-        public void WriteXml(System.Xml.XmlWriter writer)
-        {
-
-            writer.WriteStartElement("Table");
-            writer.WriteAttributeString("TableSchema", this.TableSchema);
-            writer.WriteAttributeString("TableName", this.TableName);
-            writer.WriteStartElement("Columns");
-            foreach (var item in Columns)
-            {
-                item.WriteXml(writer);
-
-            }
-            writer.WriteEndElement();
-            writer.WriteEndElement();
-        } 
-        #endregion
-
-        public void GenerateValuesForColumns(long n)
-        {
-            foreach (var col in Columns)
-            {
-                col.GenerateValue(n);
-            }
-        }
-
         private bool _hasWarning = false;
         /// <summary>
         /// This Item have some kind of warning that might cause problems during execution
@@ -234,60 +192,9 @@ namespace SQLDataProducer.Entities.DatabaseEntities
                 if (_parentExecutionItem != value)
                 {
                     _parentExecutionItem = value;
-                    //OnPropertyChanged("ParentExecutionItem");
                 }
             }
         }
-
-
-
-
-
-
-
-
-        //public override bool Equals(System.Object obj)
-        //{
-        //    // If parameter cannot be casted return false:
-        //    TableEntity p = obj as TableEntity;
-        //    if ((object)p == null)
-        //        return false;
-
-        //    // Return true if the fields match:
-        //    //return GetHashCode() == p.GetHashCode();
-        //    return this.Equals(p);
-        //}
-
-        //public bool Equals(TableEntity b)
-        //{
-        //    if ((object)b == null)
-        //        return false;
-
-        //    // Return true if the fields match:
-        //    return
-        //       // Enumerable.SequenceEqual(this.Columns, b.Columns) &&
-        //         this.HasIdentityColumn == b.HasIdentityColumn &&
-        //         this.HasWarning == b.HasWarning &&
-        //         this.TableName == b.TableName &&
-        //         this.TableSchema == b.TableSchema &&
-        //         this.WarningText == b.WarningText;
-
-        //}
-        
-        //public override int GetHashCode()
-        //{
-        //    unchecked
-        //    {
-        //        int hash = 37;
-        //        //hash = hash * 23 + Columns.GetHashCode();
-        //        //hash = hash * 23 + HasIdentityColumn.GetHashCode();
-        //        //hash = hash * 23 + HasWarning.GetHashCode();
-        //        hash = hash * 23 + TableName.GetHashCode();
-        //        hash = hash * 23 + TableSchema.GetHashCode();
-        //        //hash = hash * 23 + WarningText.GetHashCode();
-        //        return hash;
-        //    }
-        //}
 
         public void RefreshWarnings()
         {

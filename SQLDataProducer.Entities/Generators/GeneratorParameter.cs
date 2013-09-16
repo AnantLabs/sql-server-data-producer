@@ -129,31 +129,6 @@ namespace SQLDataProducer.Entities.Generators
             IsWriteEnabled = isWriteEnabled;
         }
 
-        public GeneratorParameter()
-        {
-
-        }
-
-
-        public void ReadXml(XElement xe)
-        {
-            this.ParameterName = xe.Attribute("ParameterName").Value;
-            this.ValueParser = GeneratorParameterParser.FromName(xe.Attribute("ValueParser").Value);
-            this.Value = xe.Attribute("Value").Value;
-            this.IsWriteEnabled = bool.Parse(xe.Attribute("IsWriteEnabled").Value);
-            
-        }
-
-        public void WriteXml(System.Xml.XmlWriter writer)
-        {
-            writer.WriteStartElement("GeneratorParameter");
-            writer.WriteAttributeString("ParameterName", this.ParameterName);
-            writer.WriteAttributeString("Value", this.ValueParser.FormatToString(this.Value));
-            writer.WriteAttributeString("IsWriteEnabled", this.IsWriteEnabled.ToString());
-            writer.WriteAttributeString("ValueParser", this.ValueParser.ParserName);
-            writer.WriteEndElement();
-        }
-
 
         public override string ToString()
         {
@@ -162,37 +137,19 @@ namespace SQLDataProducer.Entities.Generators
 
         public override bool Equals(System.Object obj)
         {
-            // If parameter cannot be casted return false:
             GeneratorParameter p = obj as GeneratorParameter;
             if ((object)p == null)
                 return false;
 
-            // Return true if the fields match:
-            return GetHashCode() == p.GetHashCode();
+            return GetHashCode().Equals(p.GetHashCode());
         }
 
         public bool Equals(GeneratorParameter other)
         {
             if (other == null)
                 return false;
-            if (this.ValueParser.ParserName == "DateTime Parser")
-            {
-                DateTime a = (DateTime)this.Value;
-                DateTime b = (DateTime)other.Value;
-
-                Console.WriteLine(a.GetHashCode());
-                Console.WriteLine(b.GetHashCode());
-                Console.WriteLine(object.Equals(this.Value, other.Value));
-                Console.WriteLine();
-            }
-
             return
-                this.IsWriteEnabled == other.IsWriteEnabled &&
-                this.ParameterName == other.ParameterName &&
-                this.ValueParser.Equals(other.ValueParser) &&
-                //object.Equals(this.ValueParser.ParseValue(this.Value), other.ValueParser.ParseValue(other.Value));
-        
-                object.Equals(this.Value, other.Value);
+                this.ParameterName == other.ParameterName;
         }
 
         public override int GetHashCode()
@@ -201,15 +158,13 @@ namespace SQLDataProducer.Entities.Generators
             {
                 int hash = 37;
                 hash = hash * 23 + ParameterName.GetHashCode();
-                hash = hash * 23 + IsWriteEnabled.GetHashCode();
-                hash = hash * 23 + ValueParser.GetHashCode();
-                //hash = hash * 23 + Value.GetHashCode();
                 return hash;
             }
         }
 
         internal GeneratorParameter Clone()
         {
+            // TODO: Clone using the same entity as the LOAD/SAVE functionality
             var para = new GeneratorParameter(this.ParameterName, this.ValueParser.FormatToString(this.Value), this.ValueParser);
             para.IsWriteEnabled = this.IsWriteEnabled;
             para.DefaultValue = this.DefaultValue;

@@ -57,11 +57,21 @@ namespace SQLDataProducer.Entities
         //    }
         //}
 
+        /// <summary>
+        /// Gets all tables recursively, in the order of the nodes, repeated according to the node settings
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<TableEntity> GetTablesRecursive()
         {
             return GetOrderedTables(executionNode);
         }
 
+        /// <summary>
+        /// Get tables,
+        ///     in this node, repeat X times: Return my tables then return the tables of my children
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
         private IEnumerable<TableEntity> GetOrderedTables(ExecutionNode node)
         {
             for (int i = 0; i < node.RepeatCount; i++)

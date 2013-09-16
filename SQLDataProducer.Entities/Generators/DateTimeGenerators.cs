@@ -79,11 +79,11 @@ namespace SQLDataProducer.Entities.Generators
 
             Generator gen = new Generator(GENERATOR_CurrentDate, (n, p) =>
             {
-                int d = (int)GetParameterByName(p, "Shift Days");
-                int h = (int)GetParameterByName(p, "Shift Hours");
-                int min = (int)GetParameterByName(p, "Shift Minutes");
-                int s = (int)GetParameterByName(p, "Shift Seconds");
-                int ms = (int)GetParameterByName(p, "Shift Milliseconds");
+                int d = (int)p.GetParameterByName( "Shift Days");
+                int h = (int)p.GetParameterByName( "Shift Hours");
+                int min = (int)p.GetParameterByName( "Shift Minutes");
+                int s = (int)p.GetParameterByName( "Shift Seconds");
+                int ms = (int)p.GetParameterByName( "Shift Milliseconds");
                 var ts = new TimeSpan(d, h, min, s, ms);
                 return DateTime.Now.Add(ts);
             }
@@ -100,7 +100,8 @@ namespace SQLDataProducer.Entities.Generators
 
             Generator gen = new Generator(GENERATOR_StaticDate, (n, p) =>
             {
-                return GetParameterByName(p, "DATE");
+                //return p.GetParameterByName( "DATE");
+                return p.GetParameterByName("DATE");
             }
                 , paramss);
             return gen;
@@ -139,9 +140,9 @@ namespace SQLDataProducer.Entities.Generators
 
             Generator gen = new Generator(GENERATOR_SecondsSeries, (n, p) =>
             {
-                int h = (int)GetParameterByName(p, "Shift Hours");
-                int min = (int)GetParameterByName(p, "Shift Minutes");
-                int ms = (int)GetParameterByName(p, "Shift Milliseconds");
+                int h = (int)p.GetParameterByName( "Shift Hours");
+                int min = (int)p.GetParameterByName( "Shift Minutes");
+                int ms = (int)p.GetParameterByName( "Shift Milliseconds");
                 var ts = new TimeSpan(h, min, 0, ms);
                 return StartDate.Add(ts).AddSeconds(n);
             }
@@ -160,10 +161,10 @@ namespace SQLDataProducer.Entities.Generators
 
             Generator gen = new Generator(GENERATOR_MilisecondsSeries, (n, p) =>
             {
-                int d = (int)GetParameterByName(p, "Shift Days");
-                int h = (int)GetParameterByName(p, "Shift Hours");
-                int min = (int)GetParameterByName(p, "Shift Minutes");
-                int s = (int)GetParameterByName(p, "Shift Seconds");
+                int d = (int)p.GetParameterByName( "Shift Days");
+                int h = (int)p.GetParameterByName( "Shift Hours");
+                int min = (int)p.GetParameterByName( "Shift Minutes");
+                int s = (int)p.GetParameterByName( "Shift Seconds");
                 
                 var ts = new TimeSpan(d, h, min, s);
                 return StartDate.Add(ts).AddMilliseconds(n);
@@ -183,10 +184,10 @@ namespace SQLDataProducer.Entities.Generators
             
             Generator gen = new Generator(GENERATOR_MinutesSeries, (n, p) =>
             {
-                int d = (int)GetParameterByName(p, "Shift Days");
-                int h = (int)GetParameterByName(p, "Shift Hours");
-                int s = (int)GetParameterByName(p, "Shift Seconds");
-                int ms = (int)GetParameterByName(p, "Shift Milliseconds");
+                int d = (int)p.GetParameterByName( "Shift Days");
+                int h = (int)p.GetParameterByName( "Shift Hours");
+                int s = (int)p.GetParameterByName( "Shift Seconds");
+                int ms = (int)p.GetParameterByName( "Shift Milliseconds");
                 var ts = new TimeSpan(d, h, 0, s, ms);
                 return StartDate.Add(ts).AddMinutes(n);
             }
@@ -206,10 +207,10 @@ namespace SQLDataProducer.Entities.Generators
 
             Generator gen = new Generator(GENERATOR_HoursSeries, (n, p) =>
             {
-                int d = (int)GetParameterByName(p, "Shift Days");
-                int min = (int)GetParameterByName(p, "Shift Minutes");
-                int s = (int)GetParameterByName(p, "Shift Seconds");
-                int ms = (int)GetParameterByName(p, "Shift Milliseconds");
+                int d = (int)p.GetParameterByName( "Shift Days");
+                int min = (int)p.GetParameterByName( "Shift Minutes");
+                int s = (int)p.GetParameterByName( "Shift Seconds");
+                int ms = (int)p.GetParameterByName( "Shift Milliseconds");
                 var ts = new TimeSpan(d, 0, min, s, ms);
                 return StartDate.Add(ts).AddHours(n);
             }
@@ -228,10 +229,10 @@ namespace SQLDataProducer.Entities.Generators
             
             Generator gen = new Generator(GENERATOR_DaysSeries, (n, p) =>
             {
-                int h = (int)GetParameterByName(p, "Shift Hours");
-                int min = (int)GetParameterByName(p, "Shift Minutes");
-                int s = (int)GetParameterByName(p, "Shift Seconds");
-                int ms = (int)GetParameterByName(p, "Shift Milliseconds");
+                int h = (int)p.GetParameterByName( "Shift Hours");
+                int min = (int)p.GetParameterByName( "Shift Minutes");
+                int s = (int)p.GetParameterByName( "Shift Seconds");
+                int ms = (int)p.GetParameterByName( "Shift Milliseconds");
                 var ts = new TimeSpan(0, h, min, s, ms);
 
                 return StartDate.Add(ts).AddDays(n);
@@ -256,23 +257,24 @@ namespace SQLDataProducer.Entities.Generators
 
             Generator gen = new Generator(GENERATOR_ValueFromOtherDateTimeColumn, (n, p) =>
             {
-                ColumnEntity otherColumn = GetParameterByName(p, "Referenced Column") as ColumnEntity;
+                //ColumnEntity otherColumn = p.GetParameterByName( "Referenced Column") as ColumnEntity;
 
-                if (otherColumn != null && otherColumn.PreviouslyGeneratedValue != null)
-                {
-                    DateTime a;
-                    if (!DateTime.TryParse(otherColumn.PreviouslyGeneratedValue.ToString().Replace("'", ""), out a))
-                        return DBNull.Value; // TODO: What to do if it fails? Exception? Logg?
+                //if (otherColumn != null && otherColumn.PreviouslyGeneratedValue != null)
+                //{
+                //    DateTime a;
+                //    if (!DateTime.TryParse(otherColumn.PreviouslyGeneratedValue.ToString().Replace("'", ""), out a))
+                //        return DBNull.Value; // TODO: What to do if it fails? Exception? Logg?
 
-                    int d = (int)GetParameterByName(p, "Shift Days");
-                    int h = (int)GetParameterByName(p, "Shift Hours");
-                    int min = (int)GetParameterByName(p, "Shift Minutes");
-                    int s = (int)GetParameterByName(p, "Shift Seconds");
-                    int ms = (int)GetParameterByName(p, "Shift Milliseconds");
-                    var ts = new TimeSpan(d, h, min, s, ms);
-                    return a.Add(ts);
-                }
+                //    int d = (int)p.GetParameterByName( "Shift Days");
+                //    int h = (int)p.GetParameterByName( "Shift Hours");
+                //    int min = (int)p.GetParameterByName( "Shift Minutes");
+                //    int s = (int)p.GetParameterByName( "Shift Seconds");
+                //    int ms = (int)p.GetParameterByName( "Shift Milliseconds");
+                //    var ts = new TimeSpan(d, h, min, s, ms);
+                //    return a.Add(ts);
+                //}
 
+                throw new NotImplementedException("from other value not implemented");
 
                 return DBNull.Value;
             }

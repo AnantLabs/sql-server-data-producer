@@ -58,7 +58,6 @@ namespace SQLDataProducer.Entities.Generators.Collections
         /// <summary>
         /// Bindable ToString property
         /// </summary>
-        [XmlIgnore]
         public string NiceString
         {
             get { return this.ToNiceString(); }
@@ -121,67 +120,12 @@ namespace SQLDataProducer.Entities.Generators.Collections
 
         internal GeneratorParameterCollection Clone()
         {
+            // TODO: Clone using the same entity as the LOAD/SAVE functionality
             var paramCollection = new GeneratorParameterCollection();
             foreach (var c in this.Items)
                 paramCollection.Add(c.Clone());
             return paramCollection;
         }
-
-   
-        public void ReadXml(XElement xe)
-        {
-            foreach (var genElement in xe.Descendants("GeneratorParameter"))
-            {
-                GeneratorParameter p2 = new GeneratorParameter();
-                p2.ReadXml(genElement);
-                Items.Add(p2);
-            }
-        }
-
-        public void WriteXml(System.Xml.XmlWriter writer)
-        {
-            writer.WriteStartElement("GeneratorParameters");
-            foreach (var item in Items)
-            {
-                item.WriteXml(writer);
-            }
-
-            writer.WriteEndElement();
-        }
-
-        //public override bool Equals(System.Object obj)
-        //{
-        //    // If parameter cannot be casted return false:
-        //    GeneratorParameterCollection p = obj as GeneratorParameterCollection;
-        //    if (p == null)
-        //        return false;
-
-        //    // Return true if the fields match:
-        //    return GetHashCode() == p.GetHashCode();
-        //}
-
-        //public bool Equals(GeneratorParameterCollection other)
-        //{
-        //    return object.Equals(this, other);
-        //}
-
-        //public override int GetHashCode()
-        //{
-        //    int hash = 37;
-        //    hash = hash * 23 + base.GetHashCode();
-
-        //    if (Items != null)
-        //    {
-        //        foreach (var p in Items)
-        //        {
-        //            unchecked
-        //            {
-        //                hash = hash * 23 + p.GetHashCode();
-        //            }
-        //        }
-        //    }
-        //    return hash;
-        //}
 
     }
 }

@@ -73,15 +73,15 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer.Builders.E
         /// <param name="sb">the stringbuilder to append the sql script part to</param>
         public static void AppendSqlScriptPartOfStatement(DataRowSet ds, StringBuilder sb)
         {
-            sb.AppendLine();
-            foreach (var c in ds.TargetTable.Columns.Where(c => c.Generator.IsSqlQueryGenerator))
-            {
-                var variableName = QueryBuilderHelper.GetSqlQueryParameterName(c);
-                c.GenerateValue(1);
-                var query = c.PreviouslyGeneratedValue;
-                sb.AppendLine(string.Format("DECLARE {0} {1} = ({2});", variableName, c.ColumnDataType.Raw, query));
-            }
-            sb.AppendLine();
+            //sb.AppendLine();
+            //foreach (var c in ds.TargetTable.Columns.Where(c => c.Generator.IsSqlQueryGenerator))
+            //{
+            //    var variableName = QueryBuilderHelper.GetSqlQueryParameterName(c);
+            //    c.GenerateValue(1);
+            //    var query = c.PreviouslyGeneratedValue;
+            //    sb.AppendLine(string.Format("DECLARE {0} {1} = ({2});", variableName, c.ColumnDataType.Raw, query));
+            //}
+            //sb.AppendLine();
         }
 
         public static void AppendInsertPartForTable(DataRowSet ds, StringBuilder sb)

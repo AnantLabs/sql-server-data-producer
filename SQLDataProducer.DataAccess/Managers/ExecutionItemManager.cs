@@ -40,69 +40,69 @@ namespace SQLDataProducer.DataAccess.Factories
             return new ExecutionItem(clonedTable);
         }
 
-        public static void Save(ExecutionItemCollection execItems, string fileName)
-        {
+        //public static void Save(ExecutionItemCollection execItems, string fileName)
+        //{
             
-            using (XmlWriter xmlWriter = XmlTextWriter.Create(fileName))
-            {
-                execItems.WriteXml(xmlWriter);
-            }
-        }
-        public static ExecutionItemCollection Load(string fileName, TableEntityDataAccess tda)
-        {
-            return Load(XDocument.Load(fileName), tda);
-        }
-        public static ExecutionItemCollection Load(XDocument doc, TableEntityDataAccess tda)
-        {
-            // The logic here is that we only load(and save) relevant configuration.
-            // When we load, we will only load up 
-            //      The execution items and their tables.
-            //      The columns and their selected generator and it's parameters  
-            //      
-            // We then get the correct information from the database and applies the loaded changes to the tables and columns retrieved from the database.
-            // By doing this we will get all the columns correctly from the database, and we only need to store the configured parameter values in the savefile.
-            ExecutionItemCollection loadedExecCollection = new ExecutionItemCollection();
+        //    using (XmlWriter xmlWriter = XmlTextWriter.Create(fileName))
+        //    {
+        //        execItems.WriteXml(xmlWriter);
+        //    }
+        //}
+        //public static ExecutionItemCollection Load(string fileName, TableEntityDataAccess tda)
+        //{
+        //    return Load(XDocument.Load(fileName), tda);
+        //}
+        //public static ExecutionItemCollection Load(XDocument doc, TableEntityDataAccess tda)
+        //{
+        //    // The logic here is that we only load(and save) relevant configuration.
+        //    // When we load, we will only load up 
+        //    //      The execution items and their tables.
+        //    //      The columns and their selected generator and it's parameters  
+        //    //      
+        //    // We then get the correct information from the database and applies the loaded changes to the tables and columns retrieved from the database.
+        //    // By doing this we will get all the columns correctly from the database, and we only need to store the configured parameter values in the savefile.
+        //    ExecutionItemCollection loadedExecCollection = new ExecutionItemCollection();
 
-            ExecutionItemCollection completeExecCollection = new ExecutionItemCollection();
-            loadedExecCollection.ReadXml(doc);
+        //    ExecutionItemCollection completeExecCollection = new ExecutionItemCollection();
+        //    loadedExecCollection.ReadXml(doc);
             
-            foreach (var loadedExec in loadedExecCollection)
-            {
-                TableEntity table = tda.GetTableAndColumns(loadedExec.TargetTable.TableSchema, loadedExec.TargetTable.TableName);
-                foreach (var newColumn in table.Columns)
-                {
-                    foreach (var loadedColumn in loadedExec.TargetTable.Columns)
-                    {
-                        if (newColumn.ColumnName == loadedColumn.ColumnName)
-                        {
-                            newColumn.Generator = newColumn.PossibleGenerators.Where(gen => gen.GeneratorName == loadedColumn.Generator.GeneratorName).Single();
-                            // If this column is foreign key generator then use the foreign keys we just read from the DB
-                            if (newColumn.Generator.GeneratorName.ToLower().Contains("foreign"))
-                                continue;
+        //    foreach (var loadedExec in loadedExecCollection)
+        //    {
+        //        TableEntity table = tda.GetTableAndColumns(loadedExec.TargetTable.TableSchema, loadedExec.TargetTable.TableName);
+        //        foreach (var newColumn in table.Columns)
+        //        {
+        //            foreach (var loadedColumn in loadedExec.TargetTable.Columns)
+        //            {
+        //                if (newColumn.ColumnName == loadedColumn.ColumnName)
+        //                {
+        //                    newColumn.Generator = newColumn.PossibleGenerators.Where(gen => gen.GeneratorName == loadedColumn.Generator.GeneratorName).Single();
+        //                    // If this column is foreign key generator then use the foreign keys we just read from the DB
+        //                    if (newColumn.Generator.GeneratorName.ToLower().Contains("foreign"))
+        //                        continue;
 
-                            newColumn.Generator.SetGeneratorParameters(loadedColumn.Generator.GeneratorParameters);
-                        }
+        //                    newColumn.Generator.SetGeneratorParameters(loadedColumn.Generator.GeneratorParameters);
+        //                }
                         
-                        //// Set the parameters for all the possible generators
-                        //foreach (var n in newColumn.PossibleGenerators)
-                        //{
-                        //    var l = loadedColumn.PossibleGenerators.Where(x => x.GeneratorName == n.GeneratorName).Single();
-                        //    n.SetGeneratorParameters(l.GeneratorParameters);
-                        //}
-                    }
+        //                //// Set the parameters for all the possible generators
+        //                //foreach (var n in newColumn.PossibleGenerators)
+        //                //{
+        //                //    var l = loadedColumn.PossibleGenerators.Where(x => x.GeneratorName == n.GeneratorName).Single();
+        //                //    n.SetGeneratorParameters(l.GeneratorParameters);
+        //                //}
+        //            }
                     
-                }
+        //        }
 
-                ExecutionItem ei = new ExecutionItem(table, loadedExec.Description);
-                ei.RepeatCount = loadedExec.RepeatCount;
-                ei.ExecutionCondition = loadedExec.ExecutionCondition;
-                ei.ExecutionConditionValue = loadedExec.ExecutionConditionValue;
-                ei.TruncateBeforeExecution = loadedExec.TruncateBeforeExecution;
-                ei.UseIdentityInsert = loadedExec.UseIdentityInsert;
-                completeExecCollection.Add(ei);
-            }
+        //        ExecutionItem ei = new ExecutionItem(table, loadedExec.Description);
+        //        ei.RepeatCount = loadedExec.RepeatCount;
+        //        ei.ExecutionCondition = loadedExec.ExecutionCondition;
+        //        ei.ExecutionConditionValue = loadedExec.ExecutionConditionValue;
+        //        ei.TruncateBeforeExecution = loadedExec.TruncateBeforeExecution;
+        //        ei.UseIdentityInsert = loadedExec.UseIdentityInsert;
+        //        completeExecCollection.Add(ei);
+        //    }
 
-            return completeExecCollection;
-        }
+        //    return completeExecCollection;
+        //}
     }
 }

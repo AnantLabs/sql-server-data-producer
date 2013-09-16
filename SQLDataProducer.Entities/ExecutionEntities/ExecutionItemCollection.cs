@@ -89,24 +89,6 @@ namespace SQLDataProducer.Entities.ExecutionEntities
             }
         }
 
-        public void ReadXml(XDocument doc)
-        {
-            foreach (var ei in doc.Descendants("ExecutionItem"))
-            {
-                ExecutionItem i = new ExecutionItem();
-                i.ReadXml(ei);
-                Items.Add(i);
-            }
-        }
-
-        public void WriteXml(System.Xml.XmlWriter writer)
-        {
-            writer.WriteStartElement("ExecutionItemCollection");
-            foreach (var item in Items)
-            {
-                item.WriteXml(writer);
-            }
-            writer.WriteEndElement();
-        }
+        
     }
 }

@@ -49,6 +49,7 @@
     <Compile Include="ConsumerTests\PluginLoaderTests.cs" />
     <Compile Include="ConsumerTests\DataToCSVConsumerTest.cs" />
     <Compile Include="ConsumerTests\DataToConsoleComsumerTest.cs" />
+    <Compile Include="DataProducerTest.cs" />
     <Compile Include="ForeignKeyTests.cs" />
     <Compile Include="Helpers\ExecutionItemHelper.cs" />
     <Compile Include="IntegrationTests\BugTest.cs" />

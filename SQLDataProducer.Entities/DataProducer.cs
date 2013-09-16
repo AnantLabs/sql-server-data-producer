@@ -13,6 +13,7 @@
 //   limitations under the License.
 
 
+using SQLDataProducer.Entities.DatabaseEntities;
 using SQLDataProducer.Entities.DataEntities;
 using System;
 using System.Collections.Generic;
@@ -22,44 +23,43 @@ using System.Threading.Tasks;
 
 namespace SQLDataProducer.Entities
 {
-    public sealed class DataProducer
+    public sealed class DataProducer 
     {
-        private NodeIterator it;
-        
-        //public static DataRowSet CreatePreview(NodeIterator it)
-        //{
-        //    long l = 0;
-        //    Func<long> getN = new Func<long>(() => { return l++; });
-
-        //    return ei.CreateData(getN, new SetCounter());
-        //}
-
-        public DataProducer(NodeIterator it)
+        public DataProducer(ValueStore valuestore)
         {
-            this.it = it;
+            ValidateUtil.ValidateNotNull(valuestore, "valuestore");
+            this.ValueStorage = valuestore;
         }
 
+        public DataRowEntity ProduceRow(TableEntity table, long n)
+        {
+            ValidateUtil.ValidateNotNull(table, "table");
+            var row = new DataRowEntity();
+
+            foreach (var col in table.Columns)
+            {
+                var value = col.GenerateValue(n);
+
+                Guid valueKey = Guid.NewGuid();
+                ValueStorage.Put(valueKey, value);
+                
+                row.AddField(col.ColumnName, valueKey, col.ColumnDataType, col.IsIdentity);
+            }
+
+            return row;
+        }
       
-        public IEnumerable<RowEntity> ProduceData(Func<long> getN, SetCounter insertCounter)
+        public IEnumerable<DataRowEntity> ProduceRows(IEnumerable<TableEntity> tables, Func<long> getN)
         {
-            return null;
-            //var dt = new DataRowSet();
-            //dt.TargetTable = this.TargetTable;
-            //dt.Order = this.Order;
+            ValidateUtil.ValidateNotNull(getN, "getN");
+            ValidateUtil.ValidateNotNull(tables, "tables");
 
-            //long n = 0;
-            //for (int i = 0; i < RepeatCount; i++)
-            //{
-            //    n = getN();
-            //    //Console.WriteLine("Generating data with N = {0}", n);
-            //    if (ShouldExecuteForThisN(n))
-            //    {
-            //        dt.Add(RowEntity.Create(TargetTable, n, i));
-            //        insertCounter.Increment();
-            //    }
-            //}
-
-            //return dt;
+            foreach (var table in tables)
+            {
+                yield return ProduceRow(table, getN());
+            }
         }
+
+        public ValueStore ValueStorage { get; private set; }
     }
 }

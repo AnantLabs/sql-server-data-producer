@@ -47,6 +47,7 @@ namespace SQLDataProducer.Entities.DatabaseEntities.Collections
         /// <returns></returns>
         internal ColumnEntityCollection Clone()
         {
+            // TODO: Clone using the same entity as the LOAD/SAVE functionality
             ColumnEntityCollection cols = new ColumnEntityCollection();
             foreach (var c in Items)
             {
@@ -68,20 +69,7 @@ namespace SQLDataProducer.Entities.DatabaseEntities.Collections
             return sb.ToString();
         }
 
-        /// <summary>
-        /// Reads all the properties from the XElement to populate the instance.
-        /// Will call ReadXML on ColumnEntity to serialize the columns
-        /// </summary>
-        /// <param name="xe"></param>
-        public void ReadXml(XElement xe)
-        {
-            foreach (var columnElement in xe.Descendants("Column"))
-            {
-                ColumnEntity col = new ColumnEntity();
-                col.ReadXml(columnElement);
-                Items.Add(col);
-            }
-        }
+        
         
     }
 }

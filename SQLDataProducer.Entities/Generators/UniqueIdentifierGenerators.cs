@@ -55,7 +55,7 @@ namespace SQLDataProducer.Entities.Generators
 
             Generator gen = new Generator(GENERATOR_StaticGUID, (n, p) =>
             {
-                string value = GetParameterByName(p, "GUID").ToString();
+                string value = p.GetParameterByName( "GUID").ToString();
 
                 return value;
             }

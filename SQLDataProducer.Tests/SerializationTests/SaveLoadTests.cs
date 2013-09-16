@@ -675,99 +675,102 @@ namespace SQLDataProducer.Tests.SerializationTests
         [Test] [MSTest.TestMethod]
         public void ShouldBeAbleToSaveAndLoadExecutionItemCollectionUsingManager()
         {
-            var execItems = ExecutionItemHelper.GetRealExecutionItemCollection(Connection());
-            //ExecutionItemHelper.SetSomeParameters(execItems);
-            var fileName = @"c:\temp\repeater\saved.xml";
+            //var execItems = ExecutionItemHelper.GetRealExecutionItemCollection(Connection());
+            ////ExecutionItemHelper.SetSomeParameters(execItems);
+            //var fileName = @"c:\temp\repeater\saved.xml";
 
-            if (System.IO.File.Exists(fileName))
-                System.IO.File.Delete(fileName);
+            //if (System.IO.File.Exists(fileName))
+            //    System.IO.File.Delete(fileName);
             
-            // Sanity checks
+            //// Sanity checks
             
-            foreach (var item in execItems)
-            {
-                Assert.That(item, Is.EqualTo(item));
-                //Assert.IsTrue(item.Equals(item));
+            //foreach (var item in execItems)
+            //{
+            //    Assert.That(item, Is.EqualTo(item));
+            //    //Assert.IsTrue(item.Equals(item));
                     
-                // sanity check on the equals methods
-                foreach (var originCol in item.TargetTable.Columns)
-                {
-                    var sameCol = (from cs in item.TargetTable.Columns
-                                        where cs.ColumnName == originCol.ColumnName
-                                        select cs).FirstOrDefault();
-                    Assert.AreEqual(originCol.PossibleGenerators, sameCol.PossibleGenerators);
-                }
-            }
+            //    // sanity check on the equals methods
+            //    foreach (var originCol in item.TargetTable.Columns)
+            //    {
+            //        var sameCol = (from cs in item.TargetTable.Columns
+            //                            where cs.ColumnName == originCol.ColumnName
+            //                            select cs).FirstOrDefault();
+            //        Assert.AreEqual(originCol.PossibleGenerators, sameCol.PossibleGenerators);
+            //    }
+            //}
             
 
-            var tda = new DataAccess.TableEntityDataAccess(Connection());
-            ExecutionItemManager.Save(execItems, fileName);
+            //var tda = new DataAccess.TableEntityDataAccess(Connection());
+            //ExecutionItemManager.Save(execItems, fileName);
             
-            // Make date differences obvious
-            System.Threading.Thread.Sleep(4000);
-            var loadedList = ExecutionItemManager.Load(fileName, tda);
+            //// Make date differences obvious
+            //System.Threading.Thread.Sleep(4000);
+            //var loadedList = ExecutionItemManager.Load(fileName, tda);
 
-            Assert.IsNotNull(loadedList);
-            Assert.AreEqual(execItems.Count, loadedList.Count);
-            Assert.AreEqual(execItems.IsContainingData, loadedList.IsContainingData);
+            //Assert.IsNotNull(loadedList);
+            //Assert.AreEqual(execItems.Count, loadedList.Count);
+            //Assert.AreEqual(execItems.IsContainingData, loadedList.IsContainingData);
 
-            //Assert.That(execItems, Is.EqualTo(loadedList));
+            ////Assert.That(execItems, Is.EqualTo(loadedList));
 
-            foreach (var item in execItems)
-            {
-                ExecutionItem loadedItem = loadedList.Where(x => x.TargetTable.FullName.Equals(item.TargetTable.FullName) && x.Order == item.Order).First();
+            //foreach (var item in execItems)
+            //{
+            //    ExecutionItem loadedItem = loadedList.Where(x => x.TargetTable.FullName.Equals(item.TargetTable.FullName) && x.Order == item.Order).First();
 
               
-                Assert.That(item, Is.EqualTo(loadedItem));
+            //    Assert.That(item, Is.EqualTo(loadedItem));
 
-                Assert.IsNotNull(loadedItem, string.Format("expected {0} to be loaded but was not found in loaded collection", item.TargetTable.FullName));
+            //    Assert.IsNotNull(loadedItem, string.Format("expected {0} to be loaded but was not found in loaded collection", item.TargetTable.FullName));
 
-                Assert.IsTrue(item.Description == loadedItem.Description);
-                Assert.IsTrue(item.ExecutionCondition == loadedItem.ExecutionCondition);
-                Assert.IsTrue(item.ExecutionConditionValue == loadedItem.ExecutionConditionValue);
-                Assert.IsTrue(item.HasWarning == loadedItem.HasWarning);
-                Assert.IsTrue(item.Order == loadedItem.Order);
-                Assert.IsTrue(item.RepeatCount == loadedItem.RepeatCount);
+            //    Assert.IsTrue(item.Description == loadedItem.Description);
+            //    Assert.IsTrue(item.ExecutionCondition == loadedItem.ExecutionCondition);
+            //    Assert.IsTrue(item.ExecutionConditionValue == loadedItem.ExecutionConditionValue);
+            //    Assert.IsTrue(item.HasWarning == loadedItem.HasWarning);
+            //    Assert.IsTrue(item.Order == loadedItem.Order);
+            //    Assert.IsTrue(item.RepeatCount == loadedItem.RepeatCount);
 
-                Assert.IsTrue(item.TruncateBeforeExecution == loadedItem.TruncateBeforeExecution);
-                Assert.IsTrue(item.UseIdentityInsert == loadedItem.UseIdentityInsert);
-                Assert.IsTrue(item.WarningText == loadedItem.WarningText);
+            //    Assert.IsTrue(item.TruncateBeforeExecution == loadedItem.TruncateBeforeExecution);
+            //    Assert.IsTrue(item.UseIdentityInsert == loadedItem.UseIdentityInsert);
+            //    Assert.IsTrue(item.WarningText == loadedItem.WarningText);
 
-                Assert.IsTrue(object.Equals(item.TargetTable, loadedItem.TargetTable));
-                Assert.IsTrue(item.TargetTable.Equals(loadedItem.TargetTable));
-                Assert.IsTrue(item.Equals(loadedItem));
+            //    Assert.IsTrue(object.Equals(item.TargetTable, loadedItem.TargetTable));
+            //    Assert.IsTrue(item.TargetTable.Equals(loadedItem.TargetTable));
+            //    Assert.IsTrue(item.Equals(loadedItem));
 
-            }
+            //}
+            throw new NotImplementedException("Load and save");
         }
 
         [Test] [MSTest.TestMethod]
         public void ShouldBeAbleToCreateColumnFromXMLDoc()
         {
-            XElement columnElement = XElement.Parse(columnXML);
+            //XElement columnElement = XElement.Parse(columnXML);
 
-            ColumnEntity col = new ColumnEntity();
-            col.ReadXml(columnElement);
+            //ColumnEntity col = new ColumnEntity();
+            //col.ReadXml(columnElement);
             
-            Assert.AreEqual("AddressLine1", col.ColumnName);
-            Assert.AreEqual("Countries", col.Generator.GeneratorName);
+            //Assert.AreEqual("AddressLine1", col.ColumnName);
+            //Assert.AreEqual("Countries", col.Generator.GeneratorName);
 
-            Assert.AreEqual(1, col.Generator.GeneratorParameters.Count);
+            //Assert.AreEqual(1, col.Generator.GeneratorParameters.Count);
             
-            Console.WriteLine(columnElement);
+            //Console.WriteLine(columnElement);
+            throw new NotImplementedException("Load and save");
         }
 
         [Test] [MSTest.TestMethod]
         public void ShouldBeAbleToCreateGeneratorFromXMLDoc()
         {
-            XElement genElement = XElement.Parse(generatorXML);
+            //XElement genElement = XElement.Parse(generatorXML);
 
-            Generator generator = new Generator();
-            generator.ReadXml(genElement);
+            //Generator generator = new Generator();
+            //generator.ReadXml(genElement);
 
-            Assert.AreEqual("Countries", generator.GeneratorName);
-            Assert.AreEqual(1, generator.GeneratorParameters.Count);
+            //Assert.AreEqual("Countries", generator.GeneratorName);
+            //Assert.AreEqual(1, generator.GeneratorParameters.Count);
 
-            Console.WriteLine(genElement);
+            //Console.WriteLine(genElement);
+            throw new NotImplementedException("Load and save");
 
 
         }
@@ -775,16 +778,17 @@ namespace SQLDataProducer.Tests.SerializationTests
         [Test] [MSTest.TestMethod]
         public void ShouldBeAbleToCreateGeneratorParameterFromXMLDoc()
         {
-            XElement paramElement = XElement.Parse(parameterXML);
-            Console.WriteLine(paramElement);
+            //XElement paramElement = XElement.Parse(parameterXML);
+            //Console.WriteLine(paramElement);
 
-            GeneratorParameter parr = new GeneratorParameter();
-            parr.ReadXml(paramElement);
+            //GeneratorParameter parr = new GeneratorParameter();
+            //parr.ReadXml(paramElement);
 
-            //            <GeneratorParameter ParameterName="Length" Value="130002278537988104" IsWriteEnabled="False" />
-            Assert.AreEqual("Length", parr.ParameterName);
-            Assert.AreEqual(130002278537988104, parr.Value);
-            Assert.AreEqual(false, parr.IsWriteEnabled);
+            ////            <GeneratorParameter ParameterName="Length" Value="130002278537988104" IsWriteEnabled="False" />
+            //Assert.AreEqual("Length", parr.ParameterName);
+            //Assert.AreEqual(130002278537988104, parr.Value);
+            //Assert.AreEqual(false, parr.IsWriteEnabled);
+            throw new NotImplementedException("load and save");
         }
 
 
@@ -802,56 +806,56 @@ namespace SQLDataProducer.Tests.SerializationTests
         [Test] [MSTest.TestMethod]
         public void ShouldBeAbleToCreateGeneratorParameterCollectionFromXMLDoc()
         {
-            {
-                XElement paramElement = XElement.Parse(parameterCollectionXML);
-                Console.WriteLine(paramElement);
+            //{
+            //    XElement paramElement = XElement.Parse(parameterCollectionXML);
+            //    Console.WriteLine(paramElement);
 
-                GeneratorParameterCollection parras = new GeneratorParameterCollection();
-                parras.ReadXml(paramElement);
+            //    GeneratorParameterCollection parras = new GeneratorParameterCollection();
+            //    parras.ReadXml(paramElement);
 
-                Assert.AreEqual(6, parras.Count);
+            //    Assert.AreEqual(6, parras.Count);
 
-                var p1 = parras[0];
-                var p2 = parras[1];
-                var p3 = parras[2];
-                var p4 = parras[3];
-                var p5 = parras[4];
-                var p6 = parras[5];
+            //    var p1 = parras[0];
+            //    var p2 = parras[1];
+            //    var p3 = parras[2];
+            //    var p4 = parras[3];
+            //    var p5 = parras[4];
+            //    var p6 = parras[5];
 
-                Assert.AreEqual("Shift Days", p1.ParameterName);
-                Assert.AreEqual(130002278538048107, p1.Value);
-                Assert.AreEqual(true, p1.IsWriteEnabled);
+            //    Assert.AreEqual("Shift Days", p1.ParameterName);
+            //    Assert.AreEqual(130002278538048107, p1.Value);
+            //    Assert.AreEqual(true, p1.IsWriteEnabled);
 
-                Assert.AreEqual("Shift Hours", p2.ParameterName);
-                Assert.AreEqual(130002278538048107, p2.Value);
-                Assert.AreEqual(true, p2.IsWriteEnabled);
+            //    Assert.AreEqual("Shift Hours", p2.ParameterName);
+            //    Assert.AreEqual(130002278538048107, p2.Value);
+            //    Assert.AreEqual(true, p2.IsWriteEnabled);
 
-                Assert.AreEqual("Shift Minutes", p3.ParameterName);
-                Assert.AreEqual(130002278538048107, p3.Value);
-                Assert.AreEqual(true, p3.IsWriteEnabled);
+            //    Assert.AreEqual("Shift Minutes", p3.ParameterName);
+            //    Assert.AreEqual(130002278538048107, p3.Value);
+            //    Assert.AreEqual(true, p3.IsWriteEnabled);
 
-                Assert.AreEqual("Shift Seconds", p4.ParameterName);
-                Assert.AreEqual(130002278538048107, p4.Value);
-                Assert.AreEqual(true, p4.IsWriteEnabled);
+            //    Assert.AreEqual("Shift Seconds", p4.ParameterName);
+            //    Assert.AreEqual(130002278538048107, p4.Value);
+            //    Assert.AreEqual(true, p4.IsWriteEnabled);
 
-                Assert.AreEqual("Shift Milliseconds", p5.ParameterName);
-                Assert.AreEqual(130002278538048107, p5.Value);
-                Assert.AreEqual(true, p5.IsWriteEnabled);
+            //    Assert.AreEqual("Shift Milliseconds", p5.ParameterName);
+            //    Assert.AreEqual(130002278538048107, p5.Value);
+            //    Assert.AreEqual(true, p5.IsWriteEnabled);
 
-                Assert.AreEqual("Randomness", p6.ParameterName);
-                Assert.AreEqual(11, p6.Value);
-                Assert.AreEqual(false, p6.IsWriteEnabled);
-            }
-            {
-                XElement paramElement = XElement.Parse(parameterCollectionXMLEMPTY);
-                Console.WriteLine(paramElement);
+            //    Assert.AreEqual("Randomness", p6.ParameterName);
+            //    Assert.AreEqual(11, p6.Value);
+            //    Assert.AreEqual(false, p6.IsWriteEnabled);
+            //}
+            //{
+            //    XElement paramElement = XElement.Parse(parameterCollectionXMLEMPTY);
+            //    Console.WriteLine(paramElement);
 
-                GeneratorParameterCollection parras = new GeneratorParameterCollection();
-                parras.ReadXml(paramElement);
+            //    GeneratorParameterCollection parras = new GeneratorParameterCollection();
+            //    parras.ReadXml(paramElement);
 
-                Assert.AreEqual(0, parras.Count);
-            }
-
+            //    Assert.AreEqual(0, parras.Count);
+            //}
+            throw new NotImplementedException("load and save");
         }
 
 
@@ -861,145 +865,152 @@ namespace SQLDataProducer.Tests.SerializationTests
         public void ShouldBeAbleToCreateColumnCollectionFromXMLDoc()
         {
             XElement columnCollectionElement = XElement.Parse(columnsCollectionXML);
-            Console.WriteLine(columnCollectionElement);
+            //Console.WriteLine(columnCollectionElement);
 
-            ColumnEntityCollection columns = new ColumnEntityCollection();
-            columns.ReadXml(columnCollectionElement);
+            //ColumnEntityCollection columns = new ColumnEntityCollection();
+            //columns.ReadXml(columnCollectionElement);
 
-            Assert.AreEqual(7, columns.Count);
+            //Assert.AreEqual(7, columns.Count);
+            throw new NotImplementedException("Load and save");
         }
 
         [Test] [MSTest.TestMethod]
         public void ShouldBeAbleToCreateExecutionItemFromXMLDoc()
         {
-            XElement executionItemElement = XElement.Parse(executionItemXML);
-            Console.WriteLine(executionItemElement);
+            //XElement executionItemElement = XElement.Parse(executionItemXML);
+            //Console.WriteLine(executionItemElement);
 
-            ExecutionItem ie = new ExecutionItem();
-            ie.ReadXml(executionItemElement);
+            //ExecutionItem ie = new ExecutionItem();
+            //ie.ReadXml(executionItemElement);
 
-            Assert.IsNotNull(ie.TargetTable);
-            Assert.AreEqual("NewPerson", ie.TargetTable.TableName);
-            Assert.AreEqual("Peters exec item with none default values", ie.Description);
-            Assert.AreEqual(66, ie.RepeatCount);
-            Assert.AreEqual(true, ie.TruncateBeforeExecution);
-            Assert.AreEqual(true, ie.UseIdentityInsert);
-            Assert.AreEqual(ExecutionConditions.GreaterThan, ie.ExecutionCondition);
-            Assert.AreEqual(7, ie.ExecutionConditionValue);
-            Assert.AreEqual(4, ie.Order);
-            Assert.AreEqual(15, ie.TargetTable.Columns.Count);
+            //Assert.IsNotNull(ie.TargetTable);
+            //Assert.AreEqual("NewPerson", ie.TargetTable.TableName);
+            //Assert.AreEqual("Peters exec item with none default values", ie.Description);
+            //Assert.AreEqual(66, ie.RepeatCount);
+            //Assert.AreEqual(true, ie.TruncateBeforeExecution);
+            //Assert.AreEqual(true, ie.UseIdentityInsert);
+            //Assert.AreEqual(ExecutionConditions.GreaterThan, ie.ExecutionCondition);
+            //Assert.AreEqual(7, ie.ExecutionConditionValue);
+            //Assert.AreEqual(4, ie.Order);
+            //Assert.AreEqual(15, ie.TargetTable.Columns.Count);
+            throw new NotImplementedException("load and save");
         }
 
         [Test] [MSTest.TestMethod]
         public void ShouldBeAbleToCreateExecutionItemCollectionFromXMLDoc()
         {
-            XDocument exeColElement = XDocument.Parse(fullDocumentXML);
-            Console.WriteLine(exeColElement);
+            //XDocument exeColElement = XDocument.Parse(fullDocumentXML);
+            //Console.WriteLine(exeColElement);
 
-            ExecutionItemCollection execItems = new ExecutionItemCollection();
-            execItems.ReadXml(exeColElement);
+            //ExecutionItemCollection execItems = new ExecutionItemCollection();
+            //execItems.ReadXml(exeColElement);
 
-            Assert.IsNotNull(execItems);
-            Assert.AreEqual(4, execItems.Count);
+            //Assert.IsNotNull(execItems);
+            //Assert.AreEqual(4, execItems.Count);
 
-            var e1 = execItems[0];
-            var e2 = execItems[1];
-            var e3 = execItems[2];
-            var e4 = execItems[3];
+            //var e1 = execItems[0];
+            //var e2 = execItems[1];
+            //var e3 = execItems[2];
+            //var e4 = execItems[3];
 
-            Assert.AreEqual("Address", e1.TargetTable.TableName);
-            Assert.AreEqual("NewPerson", e2.TargetTable.TableName);
-            Assert.AreEqual("Address", e3.TargetTable.TableName);
-            Assert.AreEqual("NewPerson", e4.TargetTable.TableName);
+            //Assert.AreEqual("Address", e1.TargetTable.TableName);
+            //Assert.AreEqual("NewPerson", e2.TargetTable.TableName);
+            //Assert.AreEqual("Address", e3.TargetTable.TableName);
+            //Assert.AreEqual("NewPerson", e4.TargetTable.TableName);
+
+            throw new NotImplementedException("load and save");
         }
 
         [Test] [MSTest.TestMethod]
         public void ShouldBeAbleToCreateTableEntityFromXMLDoc()
         {
-            XElement tableElement = XElement.Parse(tableXML);
-            Console.WriteLine(tableElement);
+            //XElement tableElement = XElement.Parse(tableXML);
+            //Console.WriteLine(tableElement);
 
-            TableEntity table = new TableEntity();
-            table.ReadXml(tableElement);
+            //TableEntity table = new TableEntity();
+            //table.ReadXml(tableElement);
 
-            Assert.AreEqual(2, table.Columns.Count);
-            Assert.AreEqual("NewPerson", table.TableName);
-            Assert.AreEqual("Person", table.TableSchema);
+            //Assert.AreEqual(2, table.Columns.Count);
+            //Assert.AreEqual("NewPerson", table.TableName);
+            //Assert.AreEqual("Person", table.TableSchema);
+            throw new NotImplementedException("Load and save");
         }
 
 
         [Test] [MSTest.TestMethod]
         public void ShouldBeAbleToCreateExecutionItemCollectionUsingExecutionManager()
         {
-            var tda = new DataAccess.TableEntityDataAccess(Connection());
+            //var tda = new DataAccess.TableEntityDataAccess(Connection());
 
-            var loadedList = ExecutionItemManager.Load(XDocument.Parse(fullDocumentXML), tda);
+            //var loadedList = ExecutionItemManager.Load(XDocument.Parse(fullDocumentXML), tda);
 
-            Assert.IsNotNull(loadedList);
-            Assert.AreEqual(4, loadedList.Count);
+            //Assert.IsNotNull(loadedList);
+            //Assert.AreEqual(4, loadedList.Count);
 
-            var e1 = loadedList[0];
-            var e2 = loadedList[1];
-            var e3 = loadedList[2];
-            var e4 = loadedList[3];
+            //var e1 = loadedList[0];
+            //var e2 = loadedList[1];
+            //var e3 = loadedList[2];
+            //var e4 = loadedList[3];
 
-            Assert.AreEqual("Address", e1.TargetTable.TableName);
-            Assert.AreEqual("NewPerson", e2.TargetTable.TableName);
-            Assert.AreEqual("Address", e3.TargetTable.TableName);
-            Assert.AreEqual("NewPerson", e4.TargetTable.TableName);
+            //Assert.AreEqual("Address", e1.TargetTable.TableName);
+            //Assert.AreEqual("NewPerson", e2.TargetTable.TableName);
+            //Assert.AreEqual("Address", e3.TargetTable.TableName);
+            //Assert.AreEqual("NewPerson", e4.TargetTable.TableName);
 
-            AssertLoadedExecutionItem(e1, "Person", "Address", true, "AddressID", "AddressLine1", "AddressLine2", "City", "StateProvinceID", "PostalCode", "rowguid", "ModifiedDate");
-            AssertLoadedExecutionItem(e2, "Person", "NewPerson", true, "NewPersonId", "Name", "BitColumn", "DecimalColumn", "BigintColumn", "VarcharMaxColumn", "FloatColumn", "DateTime2Column"
-                , "DateTimeColumn", "NCharFiveColumn", "DateColumn", "TimeColumn", "SmallIntColumn", "SmallDateTimeColumn", "SmallMoneyColumn");
-            AssertLoadedExecutionItem(e3, "Person", "Address", true, "AddressID", "AddressLine1", "AddressLine2", "City", "StateProvinceID", "PostalCode", "rowguid", "ModifiedDate");
-            AssertLoadedExecutionItem(e4, "Person", "NewPerson", true, "NewPersonId", "Name", "BitColumn", "DecimalColumn", "BigintColumn", "VarcharMaxColumn", "FloatColumn", "DateTime2Column"
-                , "DateTimeColumn", "NCharFiveColumn", "DateColumn", "TimeColumn", "SmallIntColumn", "SmallDateTimeColumn", "SmallMoneyColumn");
+            //AssertLoadedExecutionItem(e1, "Person", "Address", true, "AddressID", "AddressLine1", "AddressLine2", "City", "StateProvinceID", "PostalCode", "rowguid", "ModifiedDate");
+            //AssertLoadedExecutionItem(e2, "Person", "NewPerson", true, "NewPersonId", "Name", "BitColumn", "DecimalColumn", "BigintColumn", "VarcharMaxColumn", "FloatColumn", "DateTime2Column"
+            //    , "DateTimeColumn", "NCharFiveColumn", "DateColumn", "TimeColumn", "SmallIntColumn", "SmallDateTimeColumn", "SmallMoneyColumn");
+            //AssertLoadedExecutionItem(e3, "Person", "Address", true, "AddressID", "AddressLine1", "AddressLine2", "City", "StateProvinceID", "PostalCode", "rowguid", "ModifiedDate");
+            //AssertLoadedExecutionItem(e4, "Person", "NewPerson", true, "NewPersonId", "Name", "BitColumn", "DecimalColumn", "BigintColumn", "VarcharMaxColumn", "FloatColumn", "DateTime2Column"
+            //    , "DateTimeColumn", "NCharFiveColumn", "DateColumn", "TimeColumn", "SmallIntColumn", "SmallDateTimeColumn", "SmallMoneyColumn");
 
-            var e1ModifiedDateColGenerator = e1.TargetTable.Columns.Where(c => c.ColumnName == "ModifiedDate").FirstOrDefault().Generator;
+            //var e1ModifiedDateColGenerator = e1.TargetTable.Columns.Where(c => c.ColumnName == "ModifiedDate").FirstOrDefault().Generator;
 
-            Assert.AreEqual("Current Date", e1ModifiedDateColGenerator.GeneratorName);
-            Assert.AreEqual(5, e1ModifiedDateColGenerator.GeneratorParameters.Count);
+            //Assert.AreEqual("Current Date", e1ModifiedDateColGenerator.GeneratorName);
+            //Assert.AreEqual(5, e1ModifiedDateColGenerator.GeneratorParameters.Count);
 
-            AssertParameters(e1ModifiedDateColGenerator,
-                new KeyValuePair<string, object>("Shift Days", 130002278538008105),
-                new KeyValuePair<string, object>("Shift Hours", 130002278538008105),
-                new KeyValuePair<string, object>("Shift Minutes", 130002278538008105),
-                new KeyValuePair<string, object>("Shift Seconds", 130002278538008105),
-                new KeyValuePair<string, object>("Shift Milliseconds", 130002278538008105));
+            //AssertParameters(e1ModifiedDateColGenerator,
+            //    new KeyValuePair<string, object>("Shift Days", 130002278538008105),
+            //    new KeyValuePair<string, object>("Shift Hours", 130002278538008105),
+            //    new KeyValuePair<string, object>("Shift Minutes", 130002278538008105),
+            //    new KeyValuePair<string, object>("Shift Seconds", 130002278538008105),
+            //    new KeyValuePair<string, object>("Shift Milliseconds", 130002278538008105));
 
+            throw new NotImplementedException("Load and save");
         }
 
 
         [Test] [MSTest.TestMethod]
         public void ShouldSaveAndLoadDateTimeWithFullPrecision()
         {
-            var fileName = @"c:\temp\repeater\saved.xml";
-            if (System.IO.File.Exists(fileName))
-                System.IO.File.Delete(fileName);
+            //var fileName = @"c:\temp\repeater\saved.xml";
+            //if (System.IO.File.Exists(fileName))
+            //    System.IO.File.Delete(fileName);
             
-            var tda = new DataAccess.TableEntityDataAccess(Connection());
+            //var tda = new DataAccess.TableEntityDataAccess(Connection());
 
-            var table = tda.GetTableAndColumns("Person", "NewPerson");
+            //var table = tda.GetTableAndColumns("Person", "NewPerson");
 
-            var col = table.Columns.Where(x => x.ColumnName == "DateTime2Column").First();
-            col.Generator = col.PossibleGenerators.Where(x => x.GeneratorName == Generator.GENERATOR_StaticDate).First();
-            Assert.IsNotNull(col.Generator);
+            //var col = table.Columns.Where(x => x.ColumnName == "DateTime2Column").First();
+            //col.Generator = col.PossibleGenerators.Where(x => x.GeneratorName == Generator.GENERATOR_StaticDate).First();
+            //Assert.IsNotNull(col.Generator);
 
-            var theSetDate = DateTime.Now.AddSeconds(1);
-            var parsedValue = (DateTime)GeneratorParameterParser.DateTimeParser.ParseValue(GeneratorParameterParser.DateTimeParser.FormatToString(theSetDate));
-            Assert.AreEqual(theSetDate.Ticks, parsedValue.Ticks);
+            //var theSetDate = DateTime.Now.AddSeconds(1);
+            //var parsedValue = (DateTime)GeneratorParameterParser.DateTimeParser.ParseValue(GeneratorParameterParser.DateTimeParser.FormatToString(theSetDate));
+            //Assert.AreEqual(theSetDate.Ticks, parsedValue.Ticks);
 
-            col.Generator.GeneratorParameters[0].Value = theSetDate;
+            //col.Generator.GeneratorParameters[0].Value = theSetDate;
 
-            var execItems = new ExecutionItemCollection();
-            execItems.Add(new ExecutionItem(table));
+            //var execItems = new ExecutionItemCollection();
+            //execItems.Add(new ExecutionItem(table));
 
-            ExecutionItemManager.Save(execItems, fileName);
+            //ExecutionItemManager.Save(execItems, fileName);
 
-            var loadedList = ExecutionItemManager.Load(fileName, tda);
-            var loadedDate = (DateTime)loadedList[0].TargetTable.Columns.Where(x => x.ColumnName == "DateTime2Column").First().Generator.GeneratorParameters[0].Value;
+            //var loadedList = ExecutionItemManager.Load(fileName, tda);
+            //var loadedDate = (DateTime)loadedList[0].TargetTable.Columns.Where(x => x.ColumnName == "DateTime2Column").First().Generator.GeneratorParameters[0].Value;
             
-            Assert.AreEqual(theSetDate, loadedDate);
+            //Assert.AreEqual(theSetDate, loadedDate);
+            throw new NotImplementedException("Load and save");
         }
 
         private void AssertParameters(Generator generator, params KeyValuePair<string, object>[] keyPairs)

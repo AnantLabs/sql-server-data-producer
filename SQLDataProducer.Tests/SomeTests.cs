@@ -26,6 +26,8 @@ using SQLDataProducer.Entities.OptionEntities;
 
 namespace SQLDataProducer.Tests
 {
+    [TestFixture]
+    [MSTest.TestClass]
     public class SomeTests : TestBase
     {
         //[Test] [MSTest.TestMethod]

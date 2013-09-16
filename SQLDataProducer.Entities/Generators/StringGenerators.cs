@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using SQLDataProducer.Entities.DatabaseEntities;
 using SQLDataProducer.Entities.Generators.Collections;
+using System;
 //
 
 namespace SQLDataProducer.Entities.Generators
@@ -91,8 +92,8 @@ namespace SQLDataProducer.Entities.Generators
 
             Generator gen = new Generator(GENERATOR_StaticString, (n, p) =>
             {
-                int l = (int)GetParameterByName(p, "Length");
-                return GetParameterByName(p, "Value").ToString().SubstringWithMaxLength(l);
+                int l = (int)p.GetParameterByName( "Length");
+                return p.GetParameterByName( "Value").ToString().SubstringWithMaxLength(l);
             }
                 , paramss);
             return gen;
@@ -105,7 +106,7 @@ namespace SQLDataProducer.Entities.Generators
             paramss.Add(new GeneratorParameter("Length", length, GeneratorParameterParser.IntegerParser, false));
             Generator gen = new Generator(GENERATOR_Countries, (n, p) =>
             {
-                int l = (int)GetParameterByName(p, "Length");
+                int l = (int)p.GetParameterByName( "Length");
                 return CountryList[n.LongToInt() % CountryList.Count].SubstringWithMaxLength(l);
             }
                 , paramss);
@@ -119,7 +120,7 @@ namespace SQLDataProducer.Entities.Generators
             paramss.Add(new GeneratorParameter("Length", length, GeneratorParameterParser.IntegerParser, false));
             Generator gen = new Generator(GENERATOR_FemaleNames, (n, p) =>
             {
-                int l = (int)GetParameterByName(p, "Length");
+                int l = (int)p.GetParameterByName( "Length");
                 return Females[n.LongToInt() % Females.Count].SubstringWithMaxLength(l);
             }
                 , paramss);
@@ -133,7 +134,7 @@ namespace SQLDataProducer.Entities.Generators
             paramss.Add(new GeneratorParameter("Length", length, GeneratorParameterParser.IntegerParser, false));
             Generator gen = new Generator(GENERATOR_MaleNames, (n, p) =>
             {
-                int l = (int)GetParameterByName(p, "Length");
+                int l = (int)p.GetParameterByName( "Length");
                 return Males[n.LongToInt() % Males.Count].SubstringWithMaxLength(l);
             }
                , paramss);
@@ -147,7 +148,7 @@ namespace SQLDataProducer.Entities.Generators
             paramss.Add(new GeneratorParameter("Length", length, GeneratorParameterParser.IntegerParser, false));
             Generator gen = new Generator(GENERATOR_Cities, (n, p) =>
             {
-                int l = (int)GetParameterByName(p, "Length");
+                int l = (int)p.GetParameterByName( "Length");
                 return Cities[n.LongToInt() % Cities.Count].SubstringWithMaxLength(l);
             }
                 , paramss);
@@ -162,7 +163,7 @@ namespace SQLDataProducer.Entities.Generators
             paramss.Add(new GeneratorParameter("Length", length, GeneratorParameterParser.IntegerParser, false));
             Generator gen = new Generator(GENERATOR_UserNames, (n, p) =>
             {
-                int l = (int)GetParameterByName(p, "Length");
+                int l = (int)p.GetParameterByName( "Length");
                 return UserNames[n.LongToInt() % UserNames.Count].SubstringWithMaxLength(l);
             }
                 , paramss);
@@ -174,17 +175,18 @@ namespace SQLDataProducer.Entities.Generators
         {
             Generator gen = new Generator(GENERATOR_StringValueFromOtherColumn, (n, p) =>
             {
-                ColumnEntity otherColumn = Generator.GetParameterByName(p, "Referenced Column") as ColumnEntity;
+                //ColumnEntity otherColumn = Generator.p.GetParameterByName( "Referenced Column") as ColumnEntity;
 
-                if (otherColumn != null && otherColumn.PreviouslyGeneratedValue != null)
-                {
+                //if (otherColumn != null && otherColumn.PreviouslyGeneratedValue != null)
+                //{
 
-                    return otherColumn.PreviouslyGeneratedValue.ToString();
+                //    return otherColumn.PreviouslyGeneratedValue.ToString();
                         
-                }
+                //}
 
 
-                return System.DBNull.Value;
+                //return System.DBNull.Value;
+                throw new NotImplementedException("Value from other column");
             }
                 , null);
             return gen;

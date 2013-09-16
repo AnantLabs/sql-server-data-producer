@@ -35,7 +35,7 @@ namespace SQLDataProducer.Entities.Generators
 
             Generator gen = new Generator(GENERATOR_CustomSQLQuery, (n, p) =>
             {
-                string value = GetParameterByName(p, "Query").ToString();
+                string value = p.GetParameterByName( "Query").ToString();
 
                 return string.Format("({0})", value);
             }

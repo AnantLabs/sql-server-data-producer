@@ -26,15 +26,17 @@ using SQLDataProducer.Entities.ExecutionEntities;
 
 namespace SQLDataProducer.Tests
 {
-
+    [TestFixture]
+    [MSTest.TestClass]
     public class LongRunningTests : TestBase
     {
         public LongRunningTests()
-            :base()
+            : base()
         {
         }
 
-        [Test] [MSTest.TestMethod]
+        [Test]
+        [MSTest.TestMethod]
         [Ignore]
         public void ShouldExecute_50000_Executions()
         {
@@ -51,7 +53,7 @@ namespace SQLDataProducer.Tests
                 options.FixedExecutions = 5000;
                 options.NumberGeneratorMethod = NumberGeneratorMethods.NewNForEachRow;
                 ExecutionItemCollection items = new ExecutionItemCollection();
-                
+
                 items.Add(i1);
                 // new N for each row
                 foreach (var c in i1.TargetTable.Columns)
@@ -65,7 +67,7 @@ namespace SQLDataProducer.Tests
                 {
                     Console.WriteLine(s);
                 }
-                
+
 
                 Console.WriteLine(res.ToString());
                 Assert.AreEqual(50000, res.InsertCount, "InsertCount should be 500000");
@@ -75,7 +77,8 @@ namespace SQLDataProducer.Tests
             }
         }
 
-        [Test] [MSTest.TestMethod]
+        [Test]
+        [MSTest.TestMethod]
         [Ignore]
         public void ShouldExecute_50000_Executions_Threaded()
         {
@@ -114,7 +117,7 @@ namespace SQLDataProducer.Tests
                 Assert.AreEqual(50000, res.ExecutedItemCount, "ExecutedItemCount should be 50000");
                 Assert.Greater(res.Duration, TimeSpan.Zero, "Duration should > 0");
             }
-           
+
         }
 
     }

@@ -157,6 +157,7 @@ namespace SQLDataProducer.Entities.ExecutionEntities
 
         public ExecutionItem Clone()
         {
+            // TODO: Clone using the same entity as the LOAD/SAVE functionality
             TableEntity clonedTable = this.TargetTable.Clone();
             var ei = new ExecutionItem(clonedTable);
             ei.Description = this.Description;
@@ -165,37 +166,7 @@ namespace SQLDataProducer.Entities.ExecutionEntities
             ei.UseIdentityInsert = this.UseIdentityInsert;
             return ei;
         }
-
-        public void ReadXml(XElement xe)
-        {
-            this.Description = xe.Attribute("Description").Value;
-            this.Order = int.Parse(xe.Attribute("Order").Value);
-            this.RepeatCount = int.Parse(xe.Attribute("RepeatCount").Value);
-            this.TruncateBeforeExecution = bool.Parse(xe.Attribute("TruncateBeforeExecution").Value);
-            this.UseIdentityInsert = bool.Parse(xe.Attribute("UseIdentityInsert").Value);
-
-            this.ExecutionCondition = (ExecutionConditions)Enum.Parse(typeof(ExecutionConditions), xe.Attribute("ExecutionCondition").Value);
-            this.ExecutionConditionValue = int.Parse(xe.Attribute("ExecutionConditionValue").Value);
-
-            TableEntity table = new TableEntity();
-            table.ReadXml(xe.Element("Table"));
-            this.TargetTable = table;
-        }
-
-        public void WriteXml(System.Xml.XmlWriter writer)
-        {
-            writer.WriteStartElement("ExecutionItem");
-            writer.WriteAttributeString("Description", this.Description);
-            writer.WriteAttributeString("Order", this.Order.ToString());
-            writer.WriteAttributeString("RepeatCount", this.RepeatCount.ToString());
-            writer.WriteAttributeString("TruncateBeforeExecution", this.TruncateBeforeExecution.ToString());
-            writer.WriteAttributeString("UseIdentityInsert", this.TruncateBeforeExecution.ToString());
-            writer.WriteAttributeString("ExecutionCondition", this.ExecutionCondition.ToString());
-            writer.WriteAttributeString("ExecutionConditionValue", this.ExecutionConditionValue.ToString());
-            this.TargetTable.WriteXml(writer);
-            writer.WriteEndElement();
-
-        }
+        
 
         private ExecutionConditions _executionCondition = ExecutionConditions.None;
         public ExecutionConditions ExecutionCondition
@@ -384,59 +355,6 @@ this.WarningText);
 
             return dt;
         }
-
-        //public override bool Equals(System.Object obj)
-        //{
-        //    // If parameter cannot be casted return false:
-        //    ExecutionItem p = obj as ExecutionItem;
-        //    if ((object)p == null)
-        //        return false;
-
-        //    // Return true if the fields match:
-        //    //return IEquatable<ExecutionItem>.Equals(GetHashCode() == p.GetHashCode();
-        //    return this.Equals(p);
-        //}
-
-        //public bool Equals(ExecutionItem b)
-        //{
-        //    // Return true if the fields match:
-        //    return
-        //            Description == b.Description &&
-        //            ExecutionCondition == b.ExecutionCondition &&
-        //            ExecutionConditionValue == b.ExecutionConditionValue &&
-        //            HasWarning == b.HasWarning &&
-        //            Order == b.Order &&
-        //            RepeatCount == b.RepeatCount &&
-        //        //object.Equals(TargetTable, b.TargetTable) &&
-        //            TargetTable.Equals(b.TargetTable) &&
-        //            TruncateBeforeExecution == b.TruncateBeforeExecution &&
-        //            UseIdentityInsert == b.UseIdentityInsert &&
-        //            WarningText == b.WarningText;
-        //}
-
-
-        //public override int GetHashCode()
-        //{
-        //    //unchecked
-        //    //{
-        //    //    int hash = 37;
-        //    //    hash = hash * 23 + base.GetHashCode();
-        //    //    hash = hash * 23 + Description.GetHashCode();
-        //    //    hash = hash * 23 + ExecutionCondition.GetHashCode();
-        //    //    hash = hash * 23 + ExecutionConditionValue.GetHashCode();
-        //    //    hash = hash * 23 + HasWarning.GetHashCode();
-        //    //    hash = hash * 23 + Order.GetHashCode();
-        //    //    hash = hash * 23 + RepeatCount.GetHashCode();
-        //    //    hash = hash * 23 + TargetTable.GetHashCode();
-        //    //    hash = hash * 23 + TruncateBeforeExecution.GetHashCode();
-        //    //    hash = hash * 23 + UseIdentityInsert.GetHashCode();
-        //    //    hash = hash * 23 + WarningText.GetHashCode();
-        //    //    return hash;
-        //    //}
-        //    return 1;
-        //}
-
-
 
     }
 }

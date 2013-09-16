@@ -52,8 +52,11 @@
     <Compile Include="DataEntities\Collections\DataRowSet.cs" />
     <Compile Include="DataEntities\DataCell.cs" />
     <Compile Include="DatabaseEntities\Factories\DatabaseEntityFactory.cs" />
+    <Compile Include="DataEntities\DataFieldEntity.cs" />
+    <Compile Include="DataEntities\DataRowEntity.cs" />
     <Compile Include="DataEntities\RowEntity.cs" />
     <Compile Include="DataProducer.cs" />
+    <Compile Include="ValueStore.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="ExecutionEntities\ExecutionItemCollection.cs" />
     <Compile Include="ExecutionEntities\ExecutionNode.cs" />
@@ -69,6 +72,7 @@
     <Compile Include="Generators\DecimalGenerators.cs" />
     <Compile Include="Generators\GeneralGenerators.cs" />
     <Compile Include="Generators\GeneratorFactory.cs" />
+    <Compile Include="Generators\GeneratorHelpTextManager.cs" />
     <Compile Include="Generators\GeneratorMetaData.cs" />
     <Compile Include="Generators\GeneratorParameterParser.cs" />
     <Compile Include="Generators\Tools\GenerationNumberSupplier.cs" />

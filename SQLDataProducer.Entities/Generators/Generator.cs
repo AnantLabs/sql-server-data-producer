@@ -68,7 +68,7 @@ namespace SQLDataProducer.Entities.Generators
                 {
                     _generatorName = value;
                     if(string.IsNullOrEmpty(GeneratorHelpText))
-                        GeneratorHelpText = GetGeneratorHelpText(_generatorName);
+                        GeneratorHelpText = GeneratorHelpTextManager.GetGeneratorHelpText(_generatorName);
                     OnPropertyChanged("GeneratorName");
                 }
             }
@@ -131,7 +131,7 @@ namespace SQLDataProducer.Entities.Generators
             ValueGenerator = generator;
             GeneratorParameters = genParams ?? new GeneratorParameterCollection();
             GeneratorName = generatorName;
-            GeneratorHelpText = GetGeneratorHelpText(generatorName);
+            GeneratorHelpText = GeneratorHelpTextManager.GetGeneratorHelpText(generatorName);
             _isSqlQueryGenerator = isSqlQueryGenerator;
         }
 
@@ -143,52 +143,7 @@ namespace SQLDataProducer.Entities.Generators
             GeneratorParameters = new GeneratorParameterCollection();
         }
 
-        // cache to hold the generator texts to avoid reading the xml file multiple times.
-        private static Dictionary<string, string> generatorHelpTexts;
-        /// <summary>
-        /// Get the help text for the supplied generator name. The name of the generator need to match the one in the helptext xml file
-        /// </summary>
-        /// <param name="generatorName"></param>
-        /// <returns></returns>
-        private static string GetGeneratorHelpText(string generatorName)
-        {
-            if (generatorHelpTexts == null)
-                generatorHelpTexts = LoadGeneratorHelpTexts();
-            
-            // If the generator name was not found in the dictionary just return empty string.
-            string ret = String.Empty;
-            if (generatorHelpTexts.ContainsKey(generatorName))
-                ret = generatorHelpTexts[generatorName];
-
-            return ret;
-        }
-
-        private static Dictionary<string, string> LoadGeneratorHelpTexts()
-        {
-            var dic = new Dictionary<string, string>();
-            
-            try
-            {
-                string helpTextFile = @".\Generators\resources\GeneratorHelpTexts.xml";
-
-                XDocument doc = XDocument.Load(helpTextFile);
-                var texts = from en in doc.Descendants("Text")
-                            select new
-                            {
-                                GenName = en.Attribute("generatorName").Value,
-                                Text = en.Value
-                            };
-
-                foreach (var kv in texts)
-                    dic.Add(kv.GenName, kv.Text);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
-            }
-
-            return dic;
-        }
+        
 
         /// <summary>
         /// returns GeneratorName
@@ -209,14 +164,6 @@ namespace SQLDataProducer.Entities.Generators
             return ValueGenerator(n, GeneratorParameters);
         }
 
-
-        internal static object GetParameterByName(GeneratorParameterCollection paramas, string name)
-        {
-            return paramas.Where(x => x.ParameterName == name).First().Value;
-        }
-
-        
-
         protected void OnPropertyChanged(string propertyName)
         {
             if (PropertyChanged == null)
@@ -229,32 +176,11 @@ namespace SQLDataProducer.Entities.Generators
 
         internal Generator Clone()
         {
-            var gen = new Generator(this.GeneratorName, this.ValueGenerator, this.GeneratorParameters.Clone());
+            // TODO: Clone using the same entity as the LOAD/SAVE functionality
+            var clonedParameters = this.GeneratorParameters.Clone();
+            var gen = new Generator(this.GeneratorName, this.ValueGenerator, clonedParameters);
             gen._isSqlQueryGenerator = this.IsSqlQueryGenerator;
             return gen;
-        }
-
-
-
-        public void ReadXml(XElement xe)
-        {
-            this.GeneratorName = xe.Attribute("GeneratorName").Value;
-            this.GeneratorParameters.ReadXml(xe);
-        }
-
-        public void WriteXml(System.Xml.XmlWriter writer)
-        {
-            writer.WriteStartElement("Generator");
-            writer.WriteAttributeString("GeneratorName", this.GeneratorName);
-
-            this.GeneratorParameters.WriteXml(writer);
-
-            writer.WriteEndElement();
-        }
-
-        public void SetGeneratorParameters(GeneratorParameterCollection generatorParameterCollection)
-        {
-            this.GeneratorParameters = generatorParameterCollection.Clone();
         }
 
         public static void InitGeneratorStartValues(OptionEntities.ExecutionTaskOptions options)
@@ -264,22 +190,17 @@ namespace SQLDataProducer.Entities.Generators
 
         public override bool Equals(System.Object obj)
         {
-            // If parameter cannot be casted return false:
             Generator p = obj as Generator;
             if ((object)p == null)
                 return false;
 
-            // Return true if the fields match:
-            return GetHashCode() == p.GetHashCode();
+            return GetHashCode().Equals(p.GetHashCode());
         }
 
         public bool Equals(Generator other)
         {
-            // TODO: Implament equals on the generator parameter collection
             return
-                //Enumerable.SequenceEqual(this.GeneratorParameters, other.GeneratorParameters) &&
-                this.IsSqlQueryGenerator == other.IsSqlQueryGenerator &&
-                this.GeneratorName == other.GeneratorName;
+                this.GeneratorName.Equals(other.GeneratorName);
         }
 
         public override int GetHashCode()
@@ -287,11 +208,18 @@ namespace SQLDataProducer.Entities.Generators
             unchecked
             {
                 int hash = 37;
-                //hash = hash * 23 + GeneratorParameters.GetHashCode();
-                hash = hash * 23 + IsSqlQueryGenerator.GetHashCode();
                 hash = hash * 23 + GeneratorName.GetHashCode();
                 return hash;
             }
         }
+    }
+
+    public static class GeneratorExtensions
+    {
+        internal static object GetParameterByName(this GeneratorParameterCollection paramas, string name)
+        {
+            return paramas.Where(x => x.ParameterName == name).First().Value;
+        }
+
     }
 }

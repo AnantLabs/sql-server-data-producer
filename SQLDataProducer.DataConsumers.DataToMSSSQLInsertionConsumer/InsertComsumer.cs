@@ -98,17 +98,17 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer
             // TODO: Optimize by caching the builders per table
             // also save the generated parameters and only set the values when executing.
             var b = TableEntityInsertStatementBuilder.Create(ds);
+            throw new NotImplementedException("Valuestore");
+            //using (var tran = new TransactionScope())
+            //{
+            //    if (!ds.TargetTable.HasIdentityColumn)
+            //        _queryExecutor.ExecuteNonQuery(b.InsertStatement, b.Parameters);
+            //    else
+            //       ds.TargetTable.Columns.First(c => c.IsIdentity)
+            //            .PreviouslyGeneratedValue = _queryExecutor.ExecuteIdentity(b.InsertStatement, b.Parameters);
 
-            using (var tran = new TransactionScope())
-            {
-                if (!ds.TargetTable.HasIdentityColumn)
-                    _queryExecutor.ExecuteNonQuery(b.InsertStatement, b.Parameters);
-                else
-                   ds.TargetTable.Columns.First(c => c.IsIdentity)
-                        .PreviouslyGeneratedValue = _queryExecutor.ExecuteIdentity(b.InsertStatement, b.Parameters);
-
-                tran.Complete();
-            }
+            //    tran.Complete();
+            //}
         }
 
         public void CleanUp(List<string> datasetNames)

@@ -168,52 +168,54 @@ namespace SQLDataProducer.ViewModels
         private void LoadExecutionListFromFile()
         {
 
-            if (string.IsNullOrEmpty(Model.ConnectionString))
-            {
-                MessageBox.Show("The connection string must be set before loading");
-                return;
-            }
+            //if (string.IsNullOrEmpty(Model.ConnectionString))
+            //{
+            //    MessageBox.Show("The connection string must be set before loading");
+            //    return;
+            //}
 
 
-            System.Windows.Forms.OpenFileDialog dia = new System.Windows.Forms.OpenFileDialog();
-            dia.Filter = "Saved Files (*.xml)|*.xml";
-            dia.Multiselect = false;
-            dia.AddExtension = true;
-            dia.CheckFileExists = true;
-            dia.DefaultExt = ".xml";
-            //dia.InitialDirectory = ""; // TODO: Remember the last path
+            //System.Windows.Forms.OpenFileDialog dia = new System.Windows.Forms.OpenFileDialog();
+            //dia.Filter = "Saved Files (*.xml)|*.xml";
+            //dia.Multiselect = false;
+            //dia.AddExtension = true;
+            //dia.CheckFileExists = true;
+            //dia.DefaultExt = ".xml";
+            ////dia.InitialDirectory = ""; // TODO: Remember the last path
 
-            System.Windows.Forms.DialogResult diaResult = dia.ShowDialog();
-            if (diaResult != System.Windows.Forms.DialogResult.Cancel)
-            {
-                string fileName = dia.FileName;
-                //ExecutionItemManager m = new ExecutionItemManager(Model.ConnectionString);
-                var loaded = ExecutionItemManager.Load(fileName, new TableEntityDataAccess(Model.ConnectionString));
-                Model.ExecutionItems.Clear();
-                foreach (var item in loaded)
-                {
-                    Model.ExecutionItems.Add(item);
-                }
-                Model.SelectedExecutionItem = Model.ExecutionItems.FirstOrDefault();
-            }
+            //System.Windows.Forms.DialogResult diaResult = dia.ShowDialog();
+            //if (diaResult != System.Windows.Forms.DialogResult.Cancel)
+            //{
+            //    string fileName = dia.FileName;
+            //    //ExecutionItemManager m = new ExecutionItemManager(Model.ConnectionString);
+            //    var loaded = ExecutionItemManager.Load(fileName, new TableEntityDataAccess(Model.ConnectionString));
+            //    Model.ExecutionItems.Clear();
+            //    foreach (var item in loaded)
+            //    {
+            //        Model.ExecutionItems.Add(item);
+            //    }
+            //    Model.SelectedExecutionItem = Model.ExecutionItems.FirstOrDefault();
+            //}
+            throw new NotImplementedException("Load and save");
         }
 
         private void SaveExecutionListToFile()
         {
-            if (Model.ExecutionItems.Count > 0)
-            {
-                System.Windows.Forms.SaveFileDialog dia = new System.Windows.Forms.SaveFileDialog();
-                dia.Filter = "Saved Files (*.xml)|*.xml";
-                dia.AddExtension = true;
-                dia.DefaultExt = ".xml";
+            //if (Model.ExecutionItems.Count > 0)
+            //{
+            //    System.Windows.Forms.SaveFileDialog dia = new System.Windows.Forms.SaveFileDialog();
+            //    dia.Filter = "Saved Files (*.xml)|*.xml";
+            //    dia.AddExtension = true;
+            //    dia.DefaultExt = ".xml";
 
-                System.Windows.Forms.DialogResult diaResult = dia.ShowDialog();
-                if (diaResult != System.Windows.Forms.DialogResult.Cancel)
-                {
-                    string fileName = dia.FileName;
-                    ExecutionItemManager.Save(Model.ExecutionItems, fileName);
-                }
-            }
+            //    System.Windows.Forms.DialogResult diaResult = dia.ShowDialog();
+            //    if (diaResult != System.Windows.Forms.DialogResult.Cancel)
+            //    {
+            //        string fileName = dia.FileName;
+            //        ExecutionItemManager.Save(Model.ExecutionItems, fileName);
+            //    }
+            //}
+            throw new NotImplementedException("Load and save");
         }
 
         private void ShowSQLConnectionStringBuilder()

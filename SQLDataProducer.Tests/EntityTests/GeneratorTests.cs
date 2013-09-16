@@ -129,7 +129,8 @@ namespace SQLDataProducer.Tests.EntitiesTests
             for (int i = 0; i < 1000; i++)
             {
                 col.GenerateValue(i);
-                Assert.IsNotNull(col.PreviouslyGeneratedValue);
+                //Assert.IsNotNull(col.PreviouslyGeneratedValue);
+                throw new NotImplementedException("Valuestore");
             }
 
             var wfm = new WorkflowManager();
@@ -168,7 +169,8 @@ namespace SQLDataProducer.Tests.EntitiesTests
             for (int i = 0; i < 1000; i++)
             {
                 col.GenerateValue(i);
-                Assert.IsNotNull(col.PreviouslyGeneratedValue);
+                //Assert.IsNotNull(col.PreviouslyGeneratedValue);
+                throw new NotImplementedException("Valuestore");
             }
 
             var wfm = new WorkflowManager();
@@ -469,7 +471,8 @@ namespace SQLDataProducer.Tests.EntitiesTests
                 for (int i = 0; i < 10000; i++)
                 {
                     col.GenerateValue(i);
-                    Assert.IsNotNull(col.PreviouslyGeneratedValue);
+                    //Assert.IsNotNull(col.PreviouslyGeneratedValue);
+                    throw new NotImplementedException("Valuestore");
                 }
             }
         }
@@ -481,7 +484,8 @@ namespace SQLDataProducer.Tests.EntitiesTests
             for (int i = 0; i < 10000; i++)
             {
                 col.GenerateValue(i);
-                longs.Add((T)col.PreviouslyGeneratedValue);
+                //longs.Add((T)col.PreviouslyGeneratedValue);
+                throw new NotImplementedException("Valuestore");
             }
             return longs;
         }
@@ -624,6 +628,17 @@ namespace SQLDataProducer.Tests.EntitiesTests
             var clonedIntGens = intGens.Clone();
             Assert.That(intGens, Is.EqualTo(intGens));
             Assert.That(intGens, Is.EqualTo(clonedIntGens));
+        }
+
+
+
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldProduceNullValue()
+        {
+            Generator nullGenerator = Generator.CreateNULLValueGenerator();
+            var value = nullGenerator.GenerateValue(1);
+            Assert.That(value, Is.EqualTo(DBNull.Value));
         }
 
 

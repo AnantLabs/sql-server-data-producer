@@ -22,7 +22,7 @@ using System.Text;
 
 namespace SQLDataProducer.Entities.DataEntities
 {
-    public class RowEntity : EntityBase//, IListSource, ICustomTypeDescriptor
+    public class RowEntity : EntityBase
     {
         public List<DataCell> Cells { get; set; }
         public int RowNumber { get; set; }
@@ -30,6 +30,7 @@ namespace SQLDataProducer.Entities.DataEntities
         private RowEntity()
         {
             Cells = new List<DataCell>();
+            throw new NotImplementedException("RowEntity class is depricated, use DataRowEntity instead");
         }
 
         public static RowEntity Create(TableEntity table, long n, int rowNumber)
