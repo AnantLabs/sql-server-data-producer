@@ -22,6 +22,9 @@ using System.Data;
 using SQLDataProducer.Entities.DatabaseEntities;
 using SQLDataProducer.Entities.DatabaseEntities.Factories;
 using Generators = SQLDataProducer.Entities.Generators;
+using System.Threading.Tasks;
+using System.Collections;
+using System.Threading;
 
 
 
@@ -60,6 +63,51 @@ namespace SQLDataProducer.Tests.EntitiesTests
             Assert.IsNotNull(i);
             var j = dateCol.GenerateValue(1);
             Assert.That(j, Is.Not.Null);
+        }
+
+        [Test]
+        [MSTest.TestMethod]
+        public void shouldProduceSameColumnIdentityEveryTime()
+        {
+            var colId = identityCol.ColumnIdentity;
+            var colId2 = identityCol.ColumnIdentity;
+            Assert.That(colId, Is.EqualTo(colId2));
+            for (int i = 0; i < 100; i++)
+            {
+                Assert.That(colId, Is.EqualTo(identityCol.ColumnIdentity));
+            }
+
+        }
+
+        [Test]
+        [MSTest.TestMethod]
+        public void shouldProduceDifferentColumnIdentitiesFromEachThread()
+        {
+            // Make both the same
+            Guid original = Guid.NewGuid();
+            Guid a1 = original;
+            Guid a2 = original;
+
+            Action action1 = new Action(() =>
+            {
+                a1 = identityCol.ColumnIdentity;
+            });
+            Action action2 = new Action(() =>
+            {
+                a2 = identityCol.ColumnIdentity;
+            });
+
+            Thread t1 = new Thread(new ThreadStart(action1));
+            Thread t2 = new Thread(new ThreadStart(action2));
+
+            t1.Start();
+            t2.Start();
+            t1.Join();
+            t2.Join();
+
+            Assert.That(a1, Is.Not.EqualTo(a2));
+            Assert.That(a1, Is.Not.EqualTo(original));
+            Assert.That(a1, Is.Not.EqualTo(original));
         }
 
         [Test]

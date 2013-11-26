@@ -261,12 +261,13 @@ namespace SQLDataProducer.Entities.Generators
 
             Generator gen = new Generator();
             gen.GeneratorName = GENERATOR_NewWayToGetValueFromOtherColumn;
+            gen._isTakingValueFromOtherColumn = true;
             gen.ValueGenerator = (n, p) =>
             {
                 ColumnEntity col = p.GetParameterByName("Value From Column") as ColumnEntity;
                 if (col != null)
                 {
-                    return col.ColumnName;
+                    return col.ColumnIdentity;
                 }
                 throw new ArgumentNullException("Value From Column");
             };

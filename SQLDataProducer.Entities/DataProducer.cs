@@ -39,11 +39,25 @@ namespace SQLDataProducer.Entities
             foreach (var col in table.Columns)
             {
                 var value = col.GenerateValue(n);
+                var key = col.ColumnIdentity;
 
-                Guid valueKey = Guid.NewGuid();
-                ValueStorage.Put(valueKey, value);
+                if (col.Generator.IsTakingValueFromOtherColumn)
+                {
+                    if (value.GetType().Equals(typeof(Guid)))
+                    {
+                        key = (Guid)value;
+                    }
+                    else
+                    {
+                        throw new InvalidCastException("The generator returned a non-GUID type when generating value from other column");
+                    }
+                }
+                else
+                {
+                    ValueStorage.Put(key, value);
+                }
                 
-                row.AddField(col.ColumnName, valueKey, col.ColumnDataType, col.IsIdentity);
+                row.AddField(col.ColumnName, key, col.ColumnDataType, col.IsIdentity);
             }
 
             return row;

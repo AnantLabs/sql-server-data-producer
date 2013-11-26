@@ -16,6 +16,7 @@ using SQLDataProducer.Entities;
 using System.Xml.Serialization;
 using SQLDataProducer.Entities.DatabaseEntities;
 using System.Xml.Linq;
+using System.Threading;
 
 namespace SQLDataProducer.Entities.DatabaseEntities
 {
@@ -195,6 +196,17 @@ namespace SQLDataProducer.Entities.DatabaseEntities
 		{
 
 		}
+
+        ThreadLocal<Guid> columnIdentity = new ThreadLocal<Guid>(() =>
+        {
+            return Guid.NewGuid();
+        });
+
+        public Guid ColumnIdentity
+        {
+            get { return columnIdentity.Value; }
+        
+        }
 
         public object GenerateValue(long n)
         {

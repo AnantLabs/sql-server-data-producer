@@ -55,10 +55,11 @@ namespace SQLDataProducer.Tests
             var customerIdColumn = DatabaseEntityFactory.CreateColumnEntity("CustomerId", new ColumnDataTypeDefinition("int", false), false, 2, true, null, fk);
             customerIdColumn.Generator = Generators.Generator.CreateValueFromOtherColumnGenerator_NewWay();
             customerIdColumn.Generator.GeneratorParameters[0].Value = customerId;
-
-            orderTable.Columns.Add(customerIdColumn);
+            
             orderTable.Columns.Add(DatabaseEntityFactory.CreateColumnEntity("OrderId", new ColumnDataTypeDefinition("int", false), true, 1, false, null, null));
+            orderTable.Columns.Add(customerIdColumn);
             orderTable.Columns.Add(DatabaseEntityFactory.CreateColumnEntity("Amount", new ColumnDataTypeDefinition("decimal(19, 6)", false), false, 3, false, null, null));
+            orderTable.Columns.Add(DatabaseEntityFactory.CreateColumnEntity("SessionId", new ColumnDataTypeDefinition("uniqueidentifier", false), false, 4, false, null, null));
         }
 
         [Test]
@@ -125,6 +126,18 @@ namespace SQLDataProducer.Tests
             }
 
             return exceptionHappened;
+        }
+
+        [Test]
+        [MSTest.TestMethod]
+        public void shouldGenerateRowWithUniqueIdentifier()
+        {
+            ValueStore valuestore = new ValueStore();
+            var dp = new DataProducer(valuestore);
+
+            DataRowEntity row = dp.ProduceRow(orderTable, 1);
+            Assert.That(row.Fields[3].KeyValue, Is.Not.Null);
+            Assert.That(valuestore.GetByKey(row.Fields[3].KeyValue), Is.Not.Null);
         }
 
         [Test]
@@ -218,7 +231,7 @@ namespace SQLDataProducer.Tests
             Assert.That(rows[0].Fields.Count, Is.EqualTo(4));
             AssertFieldsInRowHaveSomeValues(valuestore, rows[0], 2);
 
-            Assert.That(rows[1].Fields.Count, Is.EqualTo(3));
+            Assert.That(rows[1].Fields.Count, Is.EqualTo(4));
             AssertFieldsInRowHaveSomeValues(valuestore, rows[1], 0);
         }
 
@@ -248,7 +261,7 @@ namespace SQLDataProducer.Tests
             var orderRow = rows[1];
 
             Assert.That(customerRow.Fields.Count, Is.EqualTo(4));
-            Assert.That(orderRow.Fields.Count, Is.EqualTo(3));
+            Assert.That(orderRow.Fields.Count, Is.EqualTo(4));
 
             Assert.That(orderRow.Fields[1].FieldName, Is.EqualTo("CustomerId"));
             Assert.That(customerRow.Fields[0].FieldName, Is.EqualTo("CustomerId"));

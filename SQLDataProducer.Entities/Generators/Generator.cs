@@ -126,6 +126,25 @@ namespace SQLDataProducer.Entities.Generators
             }
         }
 
+       bool _isTakingValueFromOtherColumn = false;
+       public bool IsTakingValueFromOtherColumn
+       {
+           get
+           {
+               return _isTakingValueFromOtherColumn;
+           }
+           //set
+           //{
+           //    if (_isTakingValueFromOtherColumn != value)
+           //    {
+           //        _isTakingValueFromOtherColumn = value;
+           //        OnPropertyChanged("IsTakingValueFromOtherColumn");
+           //    }
+           //}
+       }
+        
+
+
         public Generator(string generatorName, ValueCreatorDelegate generator, GeneratorParameterCollection genParams, bool isSqlQueryGenerator = false)
         {
             ValueGenerator = generator;
