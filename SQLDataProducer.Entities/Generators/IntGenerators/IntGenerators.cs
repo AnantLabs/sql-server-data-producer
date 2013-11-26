@@ -248,7 +248,7 @@ namespace SQLDataProducer.Entities.Generators
                 //            .First().PreviouslyGeneratedValue;
                 throw new NotImplementedException("Value from other column");
             };
-              
+
             gen.GeneratorParameters = paramss;
             return gen;
         }

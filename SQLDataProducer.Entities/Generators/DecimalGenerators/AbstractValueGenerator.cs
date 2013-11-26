@@ -1,35 +1,19 @@
-﻿// Copyright 2012-2013 Peter Henell
-
-//   Licensed under the Apache License, Version 2.0 (the "License");
-//   you may not use this file except in compliance with the License.
-//   You may obtain a copy of the License at
-
-//       http://www.apache.org/licenses/LICENSE-2.0
-
-//   Unless required by applicable law or agreed to in writing, software
-//   distributed under the License is distributed on an "AS IS" BASIS,
-//   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-//   See the License for the specific language governing permissions and
-//   limitations under the License.
-
-using System;
-using System.Linq;
-using System.ComponentModel;
+﻿using SQLDataProducer.Entities.DatabaseEntities;
 using SQLDataProducer.Entities.Generators.Collections;
-using System.Xml.Serialization;
+using System;
 using System.Collections.Generic;
-using System.Xml;
-using System.Xml.Linq;
-using SQLDataProducer.Entities.DatabaseEntities;
+using System.ComponentModel;
+using System.Linq;
+using System.Text;
 
-namespace SQLDataProducer.Entities.Generators
+namespace SQLDataProducer.Entities.Generators.DecimalGenerators
 {
-    public partial class Generator : INotifyPropertyChanged, IEquatable<Generator>
+    public abstract class AbstractValueGenerator<T>
     {
-       /// <summary>
-       /// to hold The method used to generate values
-       /// </summary>
-        protected ValueCreatorDelegate ValueGenerator { get; set; }
+        ///// <summary>
+        ///// to hold The method used to generate values
+        ///// </summary>
+        //protected ValueCreatorDelegate ValueGenerator { get; set; }
 
         GeneratorParameterCollection _genParameters;
         /// <summary>
@@ -41,7 +25,7 @@ namespace SQLDataProducer.Entities.Generators
             {
                 return _genParameters;
             }
-            private set
+            protected set
             {
                 if (_genParameters != value)
                 {
@@ -62,12 +46,12 @@ namespace SQLDataProducer.Entities.Generators
             {
                 return _generatorName;
             }
-            private set
+            protected set
             {
                 if (_generatorName != value)
                 {
                     _generatorName = value;
-                    if(string.IsNullOrEmpty(GeneratorHelpText))
+                    if (string.IsNullOrEmpty(GeneratorHelpText))
                         GeneratorHelpText = GeneratorHelpTextManager.GetGeneratorHelpText(_generatorName);
                     OnPropertyChanged("GeneratorName");
                 }
@@ -83,24 +67,12 @@ namespace SQLDataProducer.Entities.Generators
             {
                 return _generatorHelpText;
             }
-            private set
+            protected set
             {
                 _generatorHelpText = value;
                 OnPropertyChanged("GeneratorHelpText");
             }
         }
-
-
-        bool _isSqlQueryGenerator = false;
-        // Gets whether this generator is generating pure sql queries
-        public bool IsSqlQueryGenerator
-        {
-            get
-            {
-                return _isSqlQueryGenerator;
-            }
-        }
-
 
 
         /// <summary>
@@ -126,39 +98,25 @@ namespace SQLDataProducer.Entities.Generators
             }
         }
 
-       bool _isTakingValueFromOtherColumn = false;
+        bool _isTakingValueFromOtherColumn = false;
         /// <summary>
         /// true If this generator is taking value from another column instead of generating its own
         /// Used for identity values and other similar
         /// </summary>
-       public bool IsTakingValueFromOtherColumn
-       {
-           get
-           {
-               return _isTakingValueFromOtherColumn;
-           }
-       }
-        
-
-
-        public Generator(string generatorName, ValueCreatorDelegate generator, GeneratorParameterCollection genParams, bool isSqlQueryGenerator = false)
+        public bool IsTakingValueFromOtherColumn
         {
-            ValueGenerator = generator;
-            GeneratorParameters = genParams ?? new GeneratorParameterCollection();
-            GeneratorName = generatorName;
-            GeneratorHelpText = GeneratorHelpTextManager.GetGeneratorHelpText(generatorName);
-            _isSqlQueryGenerator = isSqlQueryGenerator;
+            get
+            {
+                return _isTakingValueFromOtherColumn;
+            }
         }
 
-        /// <summary>
-        /// Create an instance of a Generator without possibility to generate any values.
-        /// </summary>
-        private Generator()
+        protected AbstractValueGenerator(string generatorName)
         {
             GeneratorParameters = new GeneratorParameterCollection();
+            GeneratorName = generatorName;
+            GeneratorHelpText = GeneratorHelpTextManager.GetGeneratorHelpText(generatorName);
         }
-
-        
 
         /// <summary>
         /// returns GeneratorName
@@ -169,14 +127,13 @@ namespace SQLDataProducer.Entities.Generators
             return string.Format("<GeneratorName = '{0}', IsSqlQueryGenerator = '{1}', GeneratorParameters = '{2}'>", GeneratorName, this.IsSqlQueryGenerator, this.GeneratorParameters);
         }
 
-        /// <summary>
-        /// Generate a value based on the parameter N
-        /// </summary>
-        /// <param name="n">generation number N</param>
-        /// <returns>an object of the type specified by the type of generator</returns>
+        protected abstract T InternalGenerateValue(long n, GeneratorParameterCollection paramas);
+
+        protected abstract T ApplyTypeSpecificLimits(T value);
+        
         public object GenerateValue(long n)
         {
-            return ValueGenerator(n, GeneratorParameters);
+            return ApplyTypeSpecificLimits(InternalGenerateValue(n, GeneratorParameters));
         }
 
         protected void OnPropertyChanged(string propertyName)
@@ -189,30 +146,16 @@ namespace SQLDataProducer.Entities.Generators
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        internal Generator Clone()
-        {
-            // TODO: Clone using the same entity as the LOAD/SAVE functionality
-            var clonedParameters = this.GeneratorParameters.Clone();
-            var gen = new Generator(this.GeneratorName, this.ValueGenerator, clonedParameters);
-            gen._isSqlQueryGenerator = this.IsSqlQueryGenerator;
-            return gen;
-        }
-
-        public static void InitGeneratorStartValues(OptionEntities.ExecutionTaskOptions options)
-        {
-            Generator.StartDate = options.DateTimeGenerationStartTime;
-        }
-
         public override bool Equals(System.Object obj)
         {
-            Generator p = obj as Generator;
+            AbstractValueGenerator<T> p = obj as AbstractValueGenerator<T>;
             if ((object)p == null)
                 return false;
 
             return GetHashCode().Equals(p.GetHashCode());
         }
 
-        public bool Equals(Generator other)
+        public bool Equals(AbstractValueGenerator<T> other)
         {
             return
                 this.GeneratorName.Equals(other.GeneratorName);
@@ -227,14 +170,5 @@ namespace SQLDataProducer.Entities.Generators
                 return hash;
             }
         }
-    }
-
-    public static class GeneratorExtensions
-    {
-        public static object GetParameterByName(this GeneratorParameterCollection paramas, string name)
-        {
-            return paramas.Where(x => x.ParameterName == name).First().Value;
-        }
-
     }
 }

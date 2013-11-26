@@ -41,6 +41,12 @@ namespace SQLDataProducer.Entities
                 var value = col.GenerateValue(n);
                 var key = col.ColumnIdentity;
 
+                // if col is generating identity or other value at insert, do not generate value now
+                if (col.IsIdentity)
+                {
+                    value = null;
+                }
+
                 if (col.Generator.IsTakingValueFromOtherColumn)
                 {
                     if (value.GetType().Equals(typeof(Guid)))

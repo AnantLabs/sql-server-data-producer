@@ -22,8 +22,6 @@ using Generators = SQLDataProducer.Entities.Generators;
 using SQLDataProducer.Entities;
 using System.Collections.Generic;
 
-//
-
 namespace SQLDataProducer.Entities.Generators
 {
     public class GeneratorFactory
@@ -41,15 +39,10 @@ namespace SQLDataProducer.Entities.Generators
                 }
             }
 
-            //if (column.IsForeignKey)
-            //{
-            //    column.ForeignKey.Keys
-            //}
-
             return gens;
         }
 
-        private static ObservableCollection<Generator> GetGeneratorsForDataType(ColumnDataTypeDefinition dbataTypeDef)
+        public static ObservableCollection<Generator> GetGeneratorsForDataType(ColumnDataTypeDefinition dbataTypeDef)
         {
             ObservableCollection<Generator> gens = GetDefaultGeneratorsForDataType(dbataTypeDef);
 
@@ -130,25 +123,9 @@ namespace SQLDataProducer.Entities.Generators
                     break;
             }
 
-            throw new NotImplementedException(dbataTypeDef.Raw);
+            return new ObservableCollection<Generator>();
 
         }
-
-        //private static ObservableCollection<Generator> GetDefaultGeneratorsForDataType2(ColumnDataTypeDefinition dbataTypeDef)
-        //{
-        //    System.Reflection.MemberInfo inf = typeof(Generator);
-
-        //    object[] attributes =
-        //       inf.GetCustomAttributes(
-        //            typeof(GeneratorMetaDataAttribute), false);
-
-        //    foreach (GeneratorMetaDataAttribute attribute in attributes)
-        //    {
-                
-        //    }
-
-        //    return null;
-        //}
 
         public static List<Generator> GetForeignKeyGenerators(ObservableCollection<string> fkKeys)
         {
@@ -157,6 +134,11 @@ namespace SQLDataProducer.Entities.Generators
             l.Add(Generators.Generator.CreateSequentialForeignKeyGenerator(fkKeys));
             //l.Add(Generators.Generator.CreateSequentialForeignKeyGeneratorLazy(fkKeys));
             return l;
+        }
+
+        public static ObservableCollection<Generator> GetAllGeneratorsForType(System.Data.SqlDbType sqlDbType)
+        {
+            return null;
         }
     }
 }

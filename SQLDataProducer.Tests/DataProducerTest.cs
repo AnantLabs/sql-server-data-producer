@@ -192,9 +192,17 @@ namespace SQLDataProducer.Tests
                 var retreivedValue = valuestore.GetByKey(field.KeyValue);
 
                 Console.WriteLine("{0}: {1}", field.KeyValue, retreivedValue);
-
-                Assert.That(field.KeyValue, Is.Not.Null);
-                Assert.That(retreivedValue, Is.Not.Null);
+                Assert.That(field.KeyValue, Is.Not.Null, field.FieldName);
+               
+                if (!field.ProducesValue)
+                {
+                    Assert.That(retreivedValue, Is.Not.Null, field.FieldName);
+                }
+                else
+                {
+                    Assert.That(retreivedValue, Is.Null, field.FieldName);
+                }
+                
 
                 if (field.DataType.IsNullable)
                 {
@@ -231,7 +239,12 @@ namespace SQLDataProducer.Tests
             Assert.That(rows[0].Fields.Count, Is.EqualTo(4));
             AssertFieldsInRowHaveSomeValues(valuestore, rows[0], 2);
 
+            // simulate consuming and producing the identity value of CustomerId
+            // this will cause the Order table to have a value for its CustomerId column
+            valuestore.Put(rows[0].Fields[0].KeyValue, 1);
+
             Assert.That(rows[1].Fields.Count, Is.EqualTo(4));
+
             AssertFieldsInRowHaveSomeValues(valuestore, rows[1], 0);
         }
 
@@ -239,8 +252,22 @@ namespace SQLDataProducer.Tests
         [MSTest.TestMethod]
         public void ShouldNotProduceValueForFieldsThatGeneratesValueOnInsert()
         {
-            Assert.Fail("requirement");
+            ValueStore valuestore = new ValueStore();
+            var dp = new DataProducer(valuestore);
+
+            List<TableEntity> tables = new List<TableEntity>();
+            tables.Add(customerTable);
+            List<DataRowEntity> rows = new List<DataRowEntity>();
+
+            rows.AddRange(dp.ProduceRows(tables, getN));
+
+            var row = rows[0];
+            var value = valuestore.GetByKey(row.Fields[0].KeyValue);
+            Assert.That(row.Fields[0].ProducesValue, Is.True);
+            Assert.That(value, Is.Null);
         }
+
+       
 
         [Test]
         [MSTest.TestMethod]
@@ -270,60 +297,29 @@ namespace SQLDataProducer.Tests
             Assert.That(orderRow.Fields[1].KeyValue, Is.EqualTo(customerRow.Fields[0].KeyValue));
         }
 
-        /*
-   * Node1 x50:
-   * User
-   * PlayerDetails
-   * Account
-   * Account
-   *      Node2 x1:
-   *      Deposit
-   *          Node3 x100:
-   *          Order
-   *          Transaction
-   *      Node3 x1
-   *      Withdraw
-         
-   * 
-   * Output:
-   * [User, pd, acc, acc, [dep, [Gr, tran], [Gr, tran] ... [Gr, tran]], Withdraw]
-   * 
-   */
 
-        //[Test]
-        //[MSTest.TestMethod]
-        //public void ShouldProduceDataForEachTableThatHaveForeignKeysToEachOther()
-        //{
-        //    // Scenario: Make 2 customers, for each customer make two accounts and do one deposit and one withdraw for each account
-        //    string[] requestedOrder = { "Customer", "Account", "Deposit", "Withdraw", "Account", "Deposit", "Withdraw",
-        //                                "Customer", "Account", "Deposit", "Withdraw", "Account", "Deposit", "Withdraw", };
+        [Test]
+        [MSTest.TestMethod]
+        public void shouldUseSameGeneratedValueWhenGettingValueFromSameTable()
+        {
+            TableEntity table = new TableEntity("dbo", "Calendar");
+            var startDate = DatabaseEntityFactory.CreateColumnEntity("StartDate", new ColumnDataTypeDefinition("datetime", false), false, 1, false, null, null);
+            table.Columns.Add(startDate);
+            var col2 = DatabaseEntityFactory.CreateColumnEntity("EndDate", new ColumnDataTypeDefinition("datetime", false), false, 2, false, null, null);
+            col2.Generator = Generators.Generator.CreateValueFromOtherColumnGenerator_NewWay();
+            col2.Generator.GeneratorParameters[0].Value = startDate;
+            table.Columns.Add(col2);
 
-        //    // 2 Customers
-        //    ExecutionNode customer = ExecutionNode.CreateLevelOneNode(2, "Customer");
-        //    customer.AddTable(new TableEntity("dbo", "Customer"));
+            List<TableEntity> tables = new List<TableEntity> {table};
 
-        //    // Make 2 accounts
-        //    var accounts = customer.AddChild(2, "Accounts");
-        //    accounts.AddTable(new TableEntity("dbo", "Account"));
+            List<DataRowEntity> rows = new List<DataRowEntity>(new DataProducer(new ValueStore()).ProduceRows(tables, getN));
+            Assert.That(rows.Count, Is.EqualTo(1));
 
-        //    // make one one Deposit and one WithDraw
-        //    var accountTransactions = accounts.AddChild(1, "AccountTransactions");
-        //    accountTransactions.AddTable(new TableEntity("dbo", "Deposit"));
-        //    accountTransactions.AddTable(new TableEntity("dbo", "Withdraw"));
+            var row = rows[0];
 
-
-        //    NodeIterator it = new NodeIterator(customer);
-
-        //    List<TableEntity> actual =
-        //        new List<TableEntity>(it.GetTablesRecursive());
-
-        //    for (int i = 0; i < requestedOrder.Length; i++)
-        //    {
-        //        Console.WriteLine(actual[i].TableName);
-        //        Assert.That(requestedOrder[i], Is.EqualTo(actual[i].TableName));
-        //    }
-        //}
-
+            // Check key is the same as it is for the CustomerId column in CustomerRow
+            Assert.That(row.Fields[1].KeyValue, Is.EqualTo(row.Fields[0].KeyValue));
+        }
 
     }
 }

@@ -56,6 +56,7 @@
     <Compile Include="DataEntities\DataRowEntity.cs" />
     <Compile Include="DataEntities\RowEntity.cs" />
     <Compile Include="DataProducer.cs" />
+    <Compile Include="Generators\BinaryGenerators\StaticBinaryGenerator.cs" />
     <Compile Include="ValueStore.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="ExecutionEntities\ExecutionItemCollection.cs" />
@@ -66,10 +67,10 @@
     <Compile Include="GeneratorDelegate.cs" />
     <Compile Include="ExecutionEntities\ExecutionItem.cs" />
     <Compile Include="EntityBase.cs" />
-    <Compile Include="Generators\BinaryGenerators.cs" />
+    <Compile Include="Generators\BinaryGenerators\BinaryGenerators.cs" />
     <Compile Include="Generators\Collections\GeneratorParameterCollection.cs" />
-    <Compile Include="Generators\DateTimeGenerators.cs" />
-    <Compile Include="Generators\DecimalGenerators.cs" />
+    <Compile Include="Generators\DateTimeGenerators\DateTimeGenerators.cs" />
+    <Compile Include="Generators\DecimalGenerators\DecimalGenerators.cs" />
     <Compile Include="Generators\GeneralGenerators.cs" />
     <Compile Include="Generators\GeneratorFactory.cs" />
     <Compile Include="Generators\GeneratorHelpTextManager.cs" />
@@ -78,11 +79,11 @@
     <Compile Include="Generators\Tools\GenerationNumberSupplier.cs" />
     <Compile Include="Generators\Generator.cs" />
     <Compile Include="Generators\GeneratorParameter.cs" />
-    <Compile Include="Generators\IntGenerators.cs" />
+    <Compile Include="Generators\IntGenerators\IntGenerators.cs" />
     <Compile Include="Generators\RandomSupplier.cs" />
-    <Compile Include="Generators\StringGenerators.cs" />
-    <Compile Include="Generators\UniqueIdentifierGenerators.cs" />
-    <Compile Include="Generators\XMLGenerator.cs" />
+    <Compile Include="Generators\StringGenerators\StringGenerators.cs" />
+    <Compile Include="Generators\UniqueIdentifierGenerators\UniqueIdentifierGenerators.cs" />
+    <Compile Include="Generators\XMLGenerators\XMLGenerator.cs" />
     <Compile Include="NodeIterator.cs" />
     <Compile Include="OptionEntities\ExecutionTaskOptions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -24,7 +24,7 @@ namespace SQLDataProducer.Entities.Generators
 {
     public partial class Generator
     {
-        public static readonly string GENERATOR_BinaryStaticGenerator = "Static Binary Value";
+        //public static readonly string GENERATOR_BinaryStaticGenerator = "Static Binary Value";
 
         public static ObservableCollection<Generator> GetBinaryGenerators(int length)
         {
@@ -33,21 +33,6 @@ namespace SQLDataProducer.Entities.Generators
 
             return gens;
         }
-
-        private static Generator Create_Binary_StaticGenerator(int length)
-        {
-            //GeneratorParameterCollection paramss = new GeneratorParameterCollection();
-            // paramss.Add(new GeneratorParameter("Number", 0));
-
-            Generator gen = new Generator(GENERATOR_BinaryStaticGenerator, (n, p) =>
-            {
-                return 0x10;
-            }
-                , null);
-            return gen;
-        }
-
-
        
     }
 }
