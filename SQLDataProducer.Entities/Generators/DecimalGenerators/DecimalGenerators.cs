@@ -43,15 +43,15 @@ namespace SQLDataProducer.Entities.Generators
         private static Generator CreateRandomDecimalGenerator(decimal dataTypeMax)
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
-            paramss.Add(new GeneratorParameter("MinValue", 0.0, GeneratorParameterParser.DecimalParser));
+            paramss.Add(new GeneratorParameter("MinValue", decimal.Zero, GeneratorParameterParser.DecimalParser));
             paramss.Add(new GeneratorParameter("MaxValue", dataTypeMax, GeneratorParameterParser.DecimalParser));
 
             Generator gen = new Generator(GENERATOR_RandomDecimal, (n, p) =>
             {
-                decimal maxValue = (decimal)(double)p.GetParameterByName( "MaxValue");
-                decimal minValue = (decimal)(double)p.GetParameterByName( "MinValue");
+                decimal maxValue = p.GetValueOf<Decimal>( "MaxValue");
+                decimal minValue = p.GetValueOf<Decimal>( "MinValue");
                 var newMax = Math.Min(dataTypeMax, maxValue);
-                return (((RandomSupplier.Instance.GetNextDouble() * decimal.MaxValue) % newMax) + minValue);
+                return (((RandomSupplier.Instance.GetNextDecimal() * decimal.MaxValue) % newMax) + minValue);
             }
                 , paramss);
             return gen;
@@ -62,15 +62,15 @@ namespace SQLDataProducer.Entities.Generators
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
 
-            paramss.Add(new GeneratorParameter("MinValue", 0.0, GeneratorParameterParser.DecimalParser));
+            paramss.Add(new GeneratorParameter("MinValue", decimal.Zero, GeneratorParameterParser.DecimalParser));
             paramss.Add(new GeneratorParameter("MaxValue", dataTypeMax, GeneratorParameterParser.DecimalParser));
-            paramss.Add(new GeneratorParameter("Step", 1.0, GeneratorParameterParser.DecimalParser));
+            paramss.Add(new GeneratorParameter("Step", new decimal(1.0), GeneratorParameterParser.DecimalParser));
 
             Generator gen = new Generator(GENERATOR_CountingUpDecimal, (n, p) =>
             {
-                decimal maxValue = (decimal)(double)p.GetParameterByName( "MaxValue");
-                decimal minValue = (decimal)(double)p.GetParameterByName( "MinValue");
-                decimal step = (decimal)(double)p.GetParameterByName( "Step");
+                decimal maxValue = p.GetValueOf<Decimal>( "MaxValue");
+                decimal minValue = p.GetValueOf<Decimal>( "MinValue");
+                decimal step = p.GetValueOf<Decimal>( "Step");
 
                 var newMax = Math.Min(dataTypeMax, maxValue);
                 return ((minValue + (step * (n - 1))) % newMax);
@@ -83,11 +83,11 @@ namespace SQLDataProducer.Entities.Generators
         private static Generator CreateStaticDecimalNumberGenerator(decimal dataTypeMax)
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
-            paramss.Add(new GeneratorParameter("Static Decimal Value", 0.0, GeneratorParameterParser.DecimalParser));
+            paramss.Add(new GeneratorParameter("Static Decimal Value", decimal.Zero, GeneratorParameterParser.DecimalParser));
             paramss.Add(new GeneratorParameter("MaxValue", dataTypeMax, GeneratorParameterParser.DecimalParser, false));
             Generator gen = new Generator(GENERATOR_StaticNumberDecimal, (n, p) =>
             {
-                double value = (double)p.GetParameterByName( "Static Decimal Value");
+                decimal value = p.GetValueOf<decimal>("Static Decimal Value");
                 
                 return value;
             }

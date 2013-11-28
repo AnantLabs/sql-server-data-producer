@@ -229,12 +229,12 @@ namespace SQLDataProducer.Entities.Generators
         }
     }
 
-    public static class GeneratorExtensions
-    {
-        public static object GetParameterByName(this GeneratorParameterCollection paramas, string name)
-        {
-            return paramas.Where(x => x.ParameterName == name).First().Value;
-        }
+    //public static class GeneratorExtensions
+    //{
+    //    public static object GetParameterByName(this GeneratorParameterCollection paramas, string name)
+    //    {
+    //        return paramas.Where(x => x.ParameterName == name).First().Value;
+    //    }
 
-    }
+    //}
 }

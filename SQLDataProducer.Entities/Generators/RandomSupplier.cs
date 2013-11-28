@@ -59,14 +59,20 @@ namespace SQLDataProducer.Entities.Generators
                 return (long)((_random.NextDouble() * 2.0 - 1.0) * long.MaxValue);
             }
         }
-        public decimal GetNextDouble()
+        public decimal GetNextDecimal()
         {
             lock (_random)
             {
                 return (decimal)_random.NextDouble();
             }
         }
-        
+        public double GetNextDouble()
+        {
+            lock (_random)
+            {
+                return _random.NextDouble();
+            }
+        }
         readonly Random _random;
         
     }

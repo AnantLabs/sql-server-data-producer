@@ -49,7 +49,17 @@ namespace SQLDataProducer.Tests.Entities
 
         [Test]
         [MSTest.TestMethod]
-        public void ShouldNotBeEqualWhenNotEqual()
+        public void ShouldGetTheCorrectDatatypeFromParameter()
+        {
+            var p = new GeneratorParameter("test", new decimal(1.0), GeneratorParameterParser.DecimalParser);
+            Assert.That(p.Value, Is.Not.Null);
+           // make sure that value is castable to decimal
+            decimal val = (decimal)p.Value;
+        }
+
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldBeEqualIfSameName()
         {
             GeneratorParameter withOtherValue = new GeneratorParameter("peter", 10, GeneratorParameterParser.IntegerParser);
             GeneratorParameter withOtherName = new GeneratorParameter("Generator", 1, GeneratorParameterParser.IntegerParser);
@@ -58,9 +68,9 @@ namespace SQLDataProducer.Tests.Entities
 
             Assert.That(p1, Is.Not.EqualTo(nullGenParam));
 
-            Assert.That(p1, Is.Not.EqualTo(withOtherValue));
+            Assert.That(p1, Is.EqualTo(withOtherValue));
             Assert.That(p1, Is.Not.EqualTo(withOtherName));
-            Assert.That(p1, Is.Not.EqualTo(withOtherParser));
+            Assert.That(p1, Is.EqualTo(withOtherParser));
             Assert.That(p1, Is.Not.EqualTo(withAllPropertiesChanged));
 
         }

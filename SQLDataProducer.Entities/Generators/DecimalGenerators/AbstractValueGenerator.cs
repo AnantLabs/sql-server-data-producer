@@ -1,4 +1,19 @@
-﻿using SQLDataProducer.Entities.DatabaseEntities;
+﻿// Copyright 2012-2013 Peter Henell
+
+//   Licensed under the Apache License, Version 2.0 (the "License");
+//   you may not use this file except in compliance with the License.
+//   You may obtain a copy of the License at
+
+//       http://www.apache.org/licenses/LICENSE-2.0
+
+//   Unless required by applicable law or agreed to in writing, software
+//   distributed under the License is distributed on an "AS IS" BASIS,
+//   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//   See the License for the specific language governing permissions and
+//   limitations under the License.
+
+
+using SQLDataProducer.Entities.DatabaseEntities;
 using SQLDataProducer.Entities.Generators.Collections;
 using System;
 using System.Collections.Generic;
@@ -8,7 +23,7 @@ using System.Text;
 
 namespace SQLDataProducer.Entities.Generators.DecimalGenerators
 {
-    public abstract class AbstractValueGenerator<T>
+    public abstract class AbstractValueGenerator
     {
         ///// <summary>
         ///// to hold The method used to generate values
@@ -124,12 +139,12 @@ namespace SQLDataProducer.Entities.Generators.DecimalGenerators
         /// <returns></returns>
         public override string ToString()
         {
-            return string.Format("<GeneratorName = '{0}', IsSqlQueryGenerator = '{1}', GeneratorParameters = '{2}'>", GeneratorName, this.IsSqlQueryGenerator, this.GeneratorParameters);
+            return string.Format("<GeneratorName = '{0}', GeneratorParameters = '{1}'>", GeneratorName, this.GeneratorParameters);
         }
 
-        protected abstract T InternalGenerateValue(long n, GeneratorParameterCollection paramas);
+        protected abstract object InternalGenerateValue(long n, GeneratorParameterCollection paramas);
 
-        protected abstract T ApplyTypeSpecificLimits(T value);
+        protected abstract object ApplyTypeSpecificLimits(object value);
         
         public object GenerateValue(long n)
         {
@@ -148,14 +163,14 @@ namespace SQLDataProducer.Entities.Generators.DecimalGenerators
 
         public override bool Equals(System.Object obj)
         {
-            AbstractValueGenerator<T> p = obj as AbstractValueGenerator<T>;
+            AbstractValueGenerator p = obj as AbstractValueGenerator;
             if ((object)p == null)
                 return false;
 
             return GetHashCode().Equals(p.GetHashCode());
         }
 
-        public bool Equals(AbstractValueGenerator<T> other)
+        public bool Equals(AbstractValueGenerator other)
         {
             return
                 this.GeneratorName.Equals(other.GeneratorName);

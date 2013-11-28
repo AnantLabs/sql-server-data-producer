@@ -26,6 +26,7 @@ using SQLDataProducer.Entities;
 using SQLDataProducer.Entities.DataEntities;
 using SQLDataProducer.Entities.Generators;
 using System.Collections.ObjectModel;
+using SQLDataProducer.Entities.Generators.DecimalGenerators;
 
 namespace SQLDataProducer.Tests
 {
@@ -40,10 +41,29 @@ namespace SQLDataProducer.Tests
 
         [Test]
         [MSTest.TestMethod]
-        public void ShouldGetAllIntGenerators()
+        public void ShouldGetAllGenerators()
         {
-            ObservableCollection<Generator> gens = GeneratorFactory.GetAllGeneratorsForType(System.Data.SqlDbType.BigInt);
-            Assert.That(gens.Count, Is.GreaterThan(0));
+            var dataTypes = Enum.GetValues(typeof(System.Data.SqlDbType));
+            Assert.That(dataTypes.Length, Is.GreaterThan(0));
+
+            foreach (System.Data.SqlDbType dataType in dataTypes)
+            {
+                var gens = GeneratorFactory.GetAllGeneratorsForType(dataType);
+                Assert.That(gens.Count, Is.GreaterThan(0));
+               
+                foreach (var gen in gens)
+                {
+                    Assert.That(gen.GenerateValue(1), Is.Not.Null);
+                }
+            }
+        }
+
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldInstantiateGeneratorClassesUsingDatatype()
+        {
+          //  var gen = new CountingUpDecimalGenerator(new ColumnDataTypeDefinition("varchar", false));
+            Assert.Fail("not implemented");
         }
 
         [Test]
@@ -148,7 +168,7 @@ namespace SQLDataProducer.Tests
             foreach (var g in gens)
             {
                 Console.WriteLine(g.GeneratorName);
-                var maxParam = g.GeneratorParameters.GetParameterByName("MaxValue");
+                var maxParam = g.GeneratorParameters.GetValueOf<long>("MaxValue");
                 Assert.That(maxParam, Is.Not.Null);
                 Assert.That(maxParam, Is.EqualTo(maxValue), g.GeneratorName);
             }

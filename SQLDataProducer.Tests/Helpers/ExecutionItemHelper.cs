@@ -116,14 +116,14 @@ namespace SQLDataProducer.Tests.Helpers
             ei.UseIdentityInsert = true;
         }
 
-        internal static void SetSomeParameters(ExecutionItemCollection execItems)
-        {
-            var generatorParameters = execItems.SelectMany(x => x.TargetTable.Columns).SelectMany(y => y.PossibleGenerators).SelectMany(z => z.GeneratorParameters);
+        //internal static void SetSomeParameters(ExecutionItemCollection execItems)
+        //{
+        //    var generatorParameters = execItems.SelectMany(x => x.TargetTable.Columns).SelectMany(y => y.PossibleGenerators).SelectMany(z => z.GeneratorParameters);
 
-            foreach (var parr in generatorParameters) 
-            {
-                parr.Value = "123987456";
-            }
-        }
+        //    foreach (var parr in generatorParameters) 
+        //    {
+        //        parr.Value = "123987456";
+        //    }
+        //}
     }
 }

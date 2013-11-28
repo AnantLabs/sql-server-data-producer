@@ -163,7 +163,7 @@ namespace SQLDataProducer.Tests.EntitiesTests
             Assert.IsNotNull(col.Generator);
             Assert.AreEqual(Generator.GENERATOR_CustomSQLQuery, col.Generator.GeneratorName);
 
-            var queryParam = col.Generator.GeneratorParameters[0];
+            var queryParam = col.Generator.GeneratorParameters["Custom SQL Query"];
             queryParam.Value = "Select getdate() -5";
 
             for (int i = 0; i < 1000; i++)

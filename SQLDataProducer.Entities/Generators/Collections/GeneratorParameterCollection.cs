@@ -17,14 +17,23 @@ using System.Text;
 using System.Collections.ObjectModel;
 using System.Xml.Serialization;
 using System.Xml.Linq;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace SQLDataProducer.Entities.Generators.Collections
 {
     /// <summary>
     /// To enable binding to the NiceString property to the DataGrid.
     /// </summary>
-    public class GeneratorParameterCollection : ObservableCollection<GeneratorParameter>
+    public class GeneratorParameterCollection : Dictionary<string, GeneratorParameter>
     {
+        //Dictionary<string, GeneratorParameter> items;
+
+        public GeneratorParameterCollection()
+            : base()
+        {
+            //items = new Dictionary<string, GeneratorParameter>();
+        }
 
         /// <summary>
         /// Returns a humanly readable string that describes the GeneratorParameters in the collection.
@@ -34,9 +43,10 @@ namespace SQLDataProducer.Entities.Generators.Collections
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            foreach (var s in this.Items)
+
+            foreach (var key in this.Keys)
             {
-                sb.AppendFormat("{0};", s);
+                sb.AppendFormat("{0};", this[key]);
             }
             return sb.ToString();
         }
@@ -44,8 +54,9 @@ namespace SQLDataProducer.Entities.Generators.Collections
         private string ToNiceString()
         {
             StringBuilder sb = new StringBuilder();
-            foreach (var s in this.Items)
+            foreach (var key in this.Keys)
             {
+                var s = this[key];
                 // Avoid showing parameters that cannot be changed anyway
                 if (!s.IsWriteEnabled)
                     continue;
@@ -63,69 +74,44 @@ namespace SQLDataProducer.Entities.Generators.Collections
             get { return this.ToNiceString(); }
         }
 
-        
-        public GeneratorParameterCollection() 
-            : base()
+        public void Add(GeneratorParameter parameter)
         {
-            this.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(GeneratorParameterCollection_CollectionChanged);
-            
+            this.Add(parameter.ParameterName, parameter);
         }
 
-        /// <summary>
-        /// To notify about updates of the NiceString property we need to hook up events of the internal collection and add event handler to all the added items.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void GeneratorParameterCollection_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            switch (e.Action)
-            {
-                case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
-                    foreach (var item in e.NewItems)
-                    {
-                        ((GeneratorParameter)item).PropertyChanged += GeneratorParameterCollection_PropertyChanged;
-                    }
-                    break;
-                case System.Collections.Specialized.NotifyCollectionChangedAction.Move:
-                    break;
-                case System.Collections.Specialized.NotifyCollectionChangedAction.Remove:
-                    foreach (var item in e.OldItems)
-                    {
-                        ((GeneratorParameter)item).PropertyChanged -= GeneratorParameterCollection_PropertyChanged;
-                    }
-                    break;
-                case System.Collections.Specialized.NotifyCollectionChangedAction.Replace:
-                    break;
-                case System.Collections.Specialized.NotifyCollectionChangedAction.Reset:
-                    foreach (var item in e.OldItems)
-                    {
-                        ((GeneratorParameter)item).PropertyChanged -= GeneratorParameterCollection_PropertyChanged;
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
+        //public GeneratorParameter this[int index]
+        //{
+        //    get
+        //    {
+        //        return this.Keys[index];
+        //    }
+        //}
 
-        /// <summary>
-        /// If any of the properties of the Items in the collections change, then we will trigger the PropertyChanged event for the NiceString property.
-        /// This way we can bind to NiceString in the GUI.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void GeneratorParameterCollection_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            OnPropertyChanged(new System.ComponentModel.PropertyChangedEventArgs("NiceString"));
-        }
+        //public int Count { get { return this.Count; } }
 
-        internal GeneratorParameterCollection Clone()
+        public GeneratorParameterCollection Clone()
         {
             // TODO: Clone using the same entity as the LOAD/SAVE functionality
             var paramCollection = new GeneratorParameterCollection();
-            foreach (var c in this.Items)
-                paramCollection.Add(c.Clone());
+            foreach (var g in this.Values)
+            {
+                paramCollection.Add(g.Clone());
+            }
             return paramCollection;
         }
 
+
+        public T GetValueOf<T>(string parameterName)
+        {
+            var param = this[parameterName];
+            if (param == null)
+            {
+                throw new ArgumentNullException(parameterName);
+            }
+            if (param.Value is T)
+                return (T)param.Value;
+            else
+                throw new InvalidCastException("The parameter did not match the supplied type. parameterName: " + parameterName + ", requested type: " + typeof(T).ToString());
+        }
     }
 }

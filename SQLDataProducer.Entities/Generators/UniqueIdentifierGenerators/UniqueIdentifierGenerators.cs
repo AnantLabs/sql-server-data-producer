@@ -51,11 +51,11 @@ namespace SQLDataProducer.Entities.Generators
         {
             GeneratorParameterCollection paramss = new GeneratorParameterCollection();
 
-            paramss.Add(new GeneratorParameter("GUID", new Guid(), GeneratorParameterParser.StringParser));
+            paramss.Add(new GeneratorParameter("GUID", new Guid().ToString(), GeneratorParameterParser.StringParser));
 
             Generator gen = new Generator(GENERATOR_StaticGUID, (n, p) =>
             {
-                string value = p.GetParameterByName( "GUID").ToString();
+                string value = p.GetValueOf<string>("GUID");
 
                 return value;
             }

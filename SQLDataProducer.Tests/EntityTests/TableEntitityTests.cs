@@ -37,10 +37,11 @@ namespace SQLDataProducer.Tests.Entities
 
         [Test]
         [MSTest.TestMethod]
-        public void ShouldBeEqualWhenEqual()
+        public void ShouldOnlyBeEqualByReferential()
         {
-            Assert.That(t1, Is.EqualTo(t2));
-            Assert.That(t1, Is.EqualTo(t3));
+            Assert.That(t1, Is.EqualTo(t1));
+            var another = t1;
+            Assert.That(t1, Is.EqualTo(another));
         }
 
         [Test]
@@ -48,68 +49,9 @@ namespace SQLDataProducer.Tests.Entities
         public void ShouldNotBeEqualWhenNotEqual()
         {
             Assert.That(t1, Is.Not.EqualTo(t4));
+            Assert.That(t1, Is.Not.EqualTo(t2));
+            Assert.That(t1, Is.Not.EqualTo(t3));
         }
-
-        //[Test]
-        //[MSTest.TestMethod]
-        //public void ShouldBeAbleToCompareTables()
-        //{
-
-        //    {
-        //        TableEntity x = new TableEntity("dbo", "Person");
-        //        TableEntity z = new TableEntity("dbo", "Person");
-        //        TableEntity y = new TableEntity("dbo", "Person");
-
-        //        // All are the same
-        //        AssertEqualsDefaultBehaviour(x, z, y);
-
-        //        Assert.IsTrue(x.Equals(y) && x.Equals(z));
-        //        Assert.IsTrue(z.Equals(x) && z.Equals(y));
-        //        Assert.IsTrue(y.Equals(x) && y.Equals(z));
-
-        //        Assert.IsTrue(object.Equals(x, y));
-        //        Assert.IsTrue(object.Equals(x, z));
-
-        //        Assert.IsTrue(object.Equals(y, x));
-        //        Assert.IsTrue(object.Equals(y, z));
-
-        //        Assert.IsTrue(object.Equals(z, y));
-        //        Assert.IsTrue(object.Equals(z, x));
-
-        //    }
-        //    {
-        //        TableEntity x = new TableEntity("Person", "Person");
-        //        TableEntity z = new TableEntity("Person", "Contact");
-        //        TableEntity y = new TableEntity("Person", "Customer");
-
-        //        // All are different
-        //        AssertEqualsDefaultBehaviour(x, z, y);
-
-        //        Assert.IsFalse(x.Equals(y) && x.Equals(z));
-        //        Assert.IsFalse(z.Equals(x) && z.Equals(y));
-        //        Assert.IsFalse(y.Equals(x) && y.Equals(z));
-        //    }
-        //    {
-        //        TableEntity x = new TableEntity("Person", "Person");
-        //        TableEntity z = new TableEntity("Person", "Person");
-        //        TableEntity y = new TableEntity("Person", "Person");
-
-        //        x.Columns.Add(DatabaseEntityFactory.CreateColumnEntity("id", new ColumnDataTypeDefinition("int", false), true, 1, false, "", null));
-
-        //        z.Columns.Add(DatabaseEntityFactory.CreateColumnEntity("id", new ColumnDataTypeDefinition("int", false), true, 1, true, "", new ForeignKeyEntity()));
-
-        //        y.Columns.Add(DatabaseEntityFactory.CreateColumnEntity("id", new ColumnDataTypeDefinition("int", false), false, 1, false, "", null));
-
-        //        // All are different
-        //        AssertEqualsDefaultBehaviour(x, z, y);
-
-        //        Assert.IsFalse(x.Equals(y) && x.Equals(z));
-        //        Assert.IsFalse(z.Equals(x) && z.Equals(y));
-        //        Assert.IsFalse(y.Equals(x) && y.Equals(z));
-        //    }
-
-
-        //}
 
         [Test]
         [MSTest.TestMethod]
@@ -157,9 +99,8 @@ namespace SQLDataProducer.Tests.Entities
             {
                 foreach (var c in table.Columns)
                 {
-                    c.GenerateValue(i);
-                    //Assert.IsNotNull(c.PreviouslyGeneratedValue, string.Format("PreviouslyGeneratedValue of {0} does not exist", c.ColumnName));
-                    throw new NotImplementedException("Valuestore");
+                    var val = c.GenerateValue(i);
+                    Assert.That(val, Is.Not.Null);
                 }
             }
 

@@ -57,6 +57,9 @@
     <Compile Include="DataEntities\RowEntity.cs" />
     <Compile Include="DataProducer.cs" />
     <Compile Include="Generators\BinaryGenerators\StaticBinaryGenerator.cs" />
+    <Compile Include="Generators\DecimalGenerators\CountingUpDecimalGenerator.cs" />
+    <Compile Include="Generators\DecimalGenerators\DecimalGeneratorBase.cs" />
+    <Compile Include="Generators\DecimalGenerators\AbstractValueGenerator.cs" />
     <Compile Include="ValueStore.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="ExecutionEntities\ExecutionItemCollection.cs" />

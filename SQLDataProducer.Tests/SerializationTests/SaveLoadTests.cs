@@ -1019,7 +1019,7 @@ namespace SQLDataProducer.Tests.SerializationTests
 
             for (int i = 0; i < keyPairs.Count(); i++)
             {
-                var parm = generator.GeneratorParameters[i];
+                var parm = generator.GeneratorParameters[keyPairs[i].Key];
                 Assert.AreEqual(parm.ParameterName, keyPairs[i].Key);
                 Assert.AreEqual(parm.Value, keyPairs[i].Value);
             }
@@ -1039,9 +1039,9 @@ namespace SQLDataProducer.Tests.SerializationTests
         {
             foreach (var gen in column.PossibleGenerators)
             {
-                foreach (var p in gen.GeneratorParameters)
+                foreach (var keyValue in gen.GeneratorParameters)
                 {
-                    Console.WriteLine("{0} = {1}", p.ParameterName, p.Value);
+                    Console.WriteLine("{0} = {1}", keyValue.Key, keyValue.Value.Value);
                 }
             }
             Console.WriteLine();

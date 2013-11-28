@@ -140,21 +140,21 @@ namespace SQLDataProducer.Tests.Entities
         public void ShouldParseDecimal()
         {
             object boxed = 1.1111;
-            double parsed = (double)decimalParser.ParseValue(boxed);
-            double parsedFromString = (double)decimalParser.ParseValue("1,1111");
-            double parsedFromString2 = (double)decimalParser.ParseValue("1.1111");
+            decimal parsed = (decimal)decimalParser.ParseValue(boxed);
+            decimal parsedFromString = (decimal)decimalParser.ParseValue("1,1111");
+            decimal parsedFromString2 = (decimal)decimalParser.ParseValue("1.1111");
 
             Assert.That(boxed, Is.EqualTo(parsed));
             Assert.That(boxed, Is.EqualTo(parsedFromString));
             Assert.That(boxed, Is.EqualTo(parsedFromString2));
-
         }
 
         [Test]
         [MSTest.TestMethod]
         public void ShouldGetGeneratorParameterParserFromName()
         {
-
+            var parser = GeneratorParameterParser.FromName("Decimal Parser");
+            Assert.That(parser, Is.Not.Null);
         }
 
     }

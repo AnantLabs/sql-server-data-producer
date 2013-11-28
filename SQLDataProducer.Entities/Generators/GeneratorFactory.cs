@@ -21,6 +21,8 @@ using SQLDataProducer.Entities.Generators;
 using Generators = SQLDataProducer.Entities.Generators;
 using SQLDataProducer.Entities;
 using System.Collections.Generic;
+using System.Reflection;
+using SQLDataProducer.Entities.Generators.DecimalGenerators;
 
 namespace SQLDataProducer.Entities.Generators
 {
@@ -59,12 +61,12 @@ namespace SQLDataProducer.Entities.Generators
             {
                 case System.Data.SqlDbType.BigInt:
                     return Generators.Generator.GetGeneratorsForBigInt();
-                
+
                 case System.Data.SqlDbType.Bit:
                     return Generators.Generator.GetGeneratorsForBit();
                 case System.Data.SqlDbType.Char:
                     return Generators.Generator.GetStringGenerators(dbataTypeDef.MaxLength);
-                
+
                 case System.Data.SqlDbType.Date:
                 case System.Data.SqlDbType.DateTime:
                 case System.Data.SqlDbType.DateTime2:
@@ -83,7 +85,7 @@ namespace SQLDataProducer.Entities.Generators
                     return Generators.Generator.GetDecimalGenerators(922337203685470);
                 case System.Data.SqlDbType.SmallMoney:
                     return Generators.Generator.GetDecimalGenerators(214740);
-                    
+
 
                 case System.Data.SqlDbType.Binary:
                 case System.Data.SqlDbType.Image:
@@ -93,17 +95,17 @@ namespace SQLDataProducer.Entities.Generators
 
                 case System.Data.SqlDbType.Int:
                     return Generators.Generator.GetGeneratorsForInt();
-                    
+
                 case System.Data.SqlDbType.NChar:
                 case System.Data.SqlDbType.NText:
                 case System.Data.SqlDbType.NVarChar:
                 case System.Data.SqlDbType.Text:
                 case System.Data.SqlDbType.VarChar:
                     return Generators.Generator.GetStringGenerators(dbataTypeDef.MaxLength);
-                
+
                 case System.Data.SqlDbType.SmallInt:
                     return Generators.Generator.GetGeneratorsForSmallInt();
-                
+
                 case System.Data.SqlDbType.Structured:
                     break;
                 case System.Data.SqlDbType.TinyInt:
@@ -136,9 +138,103 @@ namespace SQLDataProducer.Entities.Generators
             return l;
         }
 
-        public static ObservableCollection<Generator> GetAllGeneratorsForType(System.Data.SqlDbType sqlDbType)
+        public static ObservableCollection<AbstractValueGenerator> GetAllGeneratorsForType(System.Data.SqlDbType sqlDbType)
         {
-            return null;
+
+            switch (sqlDbType)
+            {
+                case System.Data.SqlDbType.BigInt:
+                    //return Generators.Generator.GetGeneratorsForBigInt();
+                    return GetGeneratorsOfBaseType<DecimalGeneratorBase>();
+
+                case System.Data.SqlDbType.Bit:
+                    //return Generators.Generator.GetGeneratorsForBit();
+                    return GetGeneratorsOfBaseType<DecimalGeneratorBase>();
+                case System.Data.SqlDbType.Char:
+                   // return Generators.Generator.GetStringGenerators(dbataTypeDef.MaxLength);
+                    return GetGeneratorsOfBaseType<DecimalGeneratorBase>();
+
+                case System.Data.SqlDbType.Date:
+                case System.Data.SqlDbType.DateTime:
+                case System.Data.SqlDbType.DateTime2:
+                case System.Data.SqlDbType.SmallDateTime:
+                case System.Data.SqlDbType.Time:
+                case System.Data.SqlDbType.DateTimeOffset:
+                   // return Generators.Generator.GetDateTimeGenerators();
+                    return GetGeneratorsOfBaseType<DecimalGeneratorBase>();
+
+                case System.Data.SqlDbType.Decimal:
+                    //return Generators.Generator.GetDecimalGenerators(100000000000000000);
+                    return GetGeneratorsOfBaseType<DecimalGeneratorBase>();
+                case System.Data.SqlDbType.Float:
+                    //return Generators.Generator.GetDecimalGenerators(100000000000000000);
+                    return GetGeneratorsOfBaseType<DecimalGeneratorBase>();
+                case System.Data.SqlDbType.Real:
+                    //return Generators.Generator.GetDecimalGenerators(100000000000000000);
+                    return GetGeneratorsOfBaseType<DecimalGeneratorBase>();
+                case System.Data.SqlDbType.Money:
+                    //return Generators.Generator.GetDecimalGenerators(922337203685470);
+                    return GetGeneratorsOfBaseType<DecimalGeneratorBase>();
+                case System.Data.SqlDbType.SmallMoney:
+                    //return Generators.Generator.GetDecimalGenerators(214740);
+                    return GetGeneratorsOfBaseType<DecimalGeneratorBase>();
+
+
+                case System.Data.SqlDbType.Binary:
+                case System.Data.SqlDbType.Image:
+                case System.Data.SqlDbType.Timestamp:
+                case System.Data.SqlDbType.VarBinary:
+                    //return Generators.Generator.GetBinaryGenerators(1);
+                    return GetGeneratorsOfBaseType<DecimalGeneratorBase>();
+
+                case System.Data.SqlDbType.Int:
+                    //return Generators.Generator.GetGeneratorsForInt();
+                    return GetGeneratorsOfBaseType<DecimalGeneratorBase>();
+
+                case System.Data.SqlDbType.NChar:
+                case System.Data.SqlDbType.NText:
+                case System.Data.SqlDbType.NVarChar:
+                case System.Data.SqlDbType.Text:
+                case System.Data.SqlDbType.VarChar:
+                   // return Generators.Generator.GetStringGenerators(dbataTypeDef.MaxLength);
+                    return GetGeneratorsOfBaseType<DecimalGeneratorBase>();
+
+                case System.Data.SqlDbType.SmallInt:
+                   // return Generators.Generator.GetGeneratorsForSmallInt();
+                    return GetGeneratorsOfBaseType<DecimalGeneratorBase>();
+
+                case System.Data.SqlDbType.Structured:
+                    break;
+                case System.Data.SqlDbType.TinyInt:
+                    //return Generators.Generator.GetGeneratorsForTinyInt();
+                    return GetGeneratorsOfBaseType<DecimalGeneratorBase>();
+                case System.Data.SqlDbType.Udt:
+                    break;
+                case System.Data.SqlDbType.UniqueIdentifier:
+                //    return Generators.Generator.GetGUIDGenerators();
+                    return GetGeneratorsOfBaseType<DecimalGeneratorBase>();
+                case System.Data.SqlDbType.Variant:
+                    //return Generators.Generator.GetGeneratorsForInt();
+                    return GetGeneratorsOfBaseType<DecimalGeneratorBase>();
+                case System.Data.SqlDbType.Xml:
+                    //return Generators.Generator.GetXMLGenerators();
+                    return GetGeneratorsOfBaseType<DecimalGeneratorBase>();
+                default:
+                    break;
+            }
+
+            return GetGeneratorsOfBaseType<DecimalGeneratorBase>();
+        }
+        
+        // based on
+        //http://stackoverflow.com/questions/3353699/using-reflection-to-get-all-classes-of-certain-base-type-in-dll
+        private static ObservableCollection<AbstractValueGenerator> GetGeneratorsOfBaseType<T>() where T : AbstractValueGenerator
+        {
+            var a = (from t in typeof(AbstractValueGenerator).Assembly.GetTypes()
+                     where t.BaseType == (typeof(T)) && t.GetConstructor(Type.EmptyTypes) != null
+                     select (T)Activator.CreateInstance(t)).ToList();
+
+            return new ObservableCollection<AbstractValueGenerator>(a);
         }
     }
 }

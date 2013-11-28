@@ -46,7 +46,7 @@ namespace SQLDataProducer.Entities.Generators
             ParserName = "Decimal Parser",
             ValueParser = new Func<object, object>(o =>
                 {
-                    return double.Parse(o.ToString().Replace(".", ","));
+                    return decimal.Parse(o.ToString().Replace(".", ","));
                 }),
             StringFormater = new Func<object, string>(o =>
                 {
@@ -135,22 +135,6 @@ namespace SQLDataProducer.Entities.Generators
                     return o.ToString();
                 })
         };
-
-        //public static GeneratorParameterParser ColumnParser = new GeneratorParameterParser
-        //{
-        //    ParserName = "Column Parser",
-        //    ValueParser = new Func<object, object>(o =>
-        //    {
-        //        return o;
-        //    }),
-        //    StringFormater = new Func<object, string>(o =>
-        //    {
-        //        if (o == null)
-        //            return null;
-
-        //        return o.ToString();
-        //    })
-        //};
 
 
         public static GeneratorParameterParser FromName(string name)
