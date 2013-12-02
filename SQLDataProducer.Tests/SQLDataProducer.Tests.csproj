@@ -52,7 +52,6 @@
     <Compile Include="DataProducerTest.cs" />
     <Compile Include="EntityTests\GeneratorFactoryTest.cs" />
     <Compile Include="ForeignKeyTests.cs" />
-    <Compile Include="ValueGenerators\CountingUpDecimalGeneratorTest.cs" />
     <Compile Include="Helpers\ExecutionItemHelper.cs" />
     <Compile Include="IntegrationTests\BugTest.cs" />
     <Compile Include="LongRunningTests.cs" />
@@ -82,7 +81,6 @@
     <Compile Include="EntityTests\GeneratorTests.cs" />
     <Compile Include="SerializationTests\SaveLoadTests.cs" />
     <Compile Include="TestBase.cs" />
-    <Compile Include="ValueGenerators\CountingUpIntegerGeneratorTest.cs" />
     <Compile Include="ViewModelTests\ExecutionOrderViewModelTests.cs" />
     <Compile Include="ViewModelTests\Helpers\ViewModelTestHelper.cs" />
     <Compile Include="ViewModelTests\MainViewModelTests.cs" />
@@ -129,7 +127,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="ValueGenerators\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

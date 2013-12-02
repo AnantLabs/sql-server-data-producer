@@ -111,6 +111,75 @@ namespace SQLDataProducer.Tests
 
         [Test]
         [MSTest.TestMethod]
+        public void ShouldOutputTestsForEachType()
+        {
+            string testClassTemplate = @"
+using NUnit.Framework;
+using MSTest = Microsoft.VisualStudio.TestTools.UnitTesting;
+using SQLDataProducer.Entities.DatabaseEntities;
+using {0};
+
+namespace SQLDataProducer.Tests.ValueGenerators
+{{
+    [TestFixture]
+    [MSTest.TestClass]
+    public class {1}Test
+    {{
+        public {1}Test()
+        {{
+        }}
+
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldGenerateValue()
+        {{
+            var gen = new {1}(new ColumnDataTypeDefinition(""{2}"", false));
+            var firstValue = gen.GenerateValue(1);
+            Assert.That(firstValue, Is.Not.Null);
+        }}
+
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldTestStep()
+        {{
+            Assert.Fail(""not implemented"");
+        }}
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldTestStartValue()
+        {{
+            Assert.Fail(""not implemented"");
+        }}
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldTestOverFlow()
+        {{
+            Assert.Fail(""not implemented"");
+        }}
+    }}
+}}";
+
+
+            foreach (string dataType in supportedDatatypes)
+            {
+                var gens = GeneratorFactory.GetAllGeneratorsForType(new ColumnDataTypeDefinition(dataType, true));
+                Console.WriteLine();
+                Console.WriteLine(dataType);
+                foreach (var g in gens)
+                {
+                    string testClass = string.Format(testClassTemplate, g.GetType().Namespace, g.GetType().Name, dataType);
+                    Console.WriteLine(testClass);
+                    System.IO.Directory.CreateDirectory("c:\\temp\\" + g.GetType().Namespace.Substring(g.GetType().Namespace.LastIndexOf('.') + 1, g.GetType().Namespace.Length - g.GetType().Namespace.LastIndexOf('.') - 1));
+                    System.IO.File.WriteAllText("c:\\temp\\" + g.GetType().Namespace.Substring(g.GetType().Namespace.LastIndexOf('.') + 1 , g.GetType().Namespace.Length - g.GetType().Namespace.LastIndexOf('.') - 1 ) 
+                        + "\\" + g.GetType().Name + "Test.cs", testClass);
+                }
+                
+            }
+            Assert.Fail();
+        }
+
+        [Test]
+        [MSTest.TestMethod]
         public void ShouldGetGeneratorsForDatatype()
         {
             int expectedStringGenerators = 5;
