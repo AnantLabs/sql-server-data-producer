@@ -21,14 +21,16 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
-namespace SQLDataProducer.Entities.Generators.DecimalGenerators
+namespace SQLDataProducer.Entities.Generators
 {
     public abstract class AbstractValueGenerator
     {
-        ///// <summary>
-        ///// to hold The method used to generate values
-        ///// </summary>
-        //protected ValueCreatorDelegate ValueGenerator { get; set; }
+        protected AbstractValueGenerator(string generatorName)
+        {
+            GeneratorName = generatorName;
+            GeneratorParameters = new GeneratorParameterCollection();
+            GeneratorHelpText = GeneratorHelpTextManager.GetGeneratorHelpText(generatorName);
+        }
 
         GeneratorParameterCollection _genParameters;
         /// <summary>
@@ -40,12 +42,11 @@ namespace SQLDataProducer.Entities.Generators.DecimalGenerators
             {
                 return _genParameters;
             }
-            protected set
+            private set
             {
                 if (_genParameters != value)
                 {
                     _genParameters = value;
-                    OnPropertyChanged("GeneratorParameters");
                 }
             }
         }
@@ -61,14 +62,14 @@ namespace SQLDataProducer.Entities.Generators.DecimalGenerators
             {
                 return _generatorName;
             }
-            protected set
+            private set
             {
                 if (_generatorName != value)
                 {
                     _generatorName = value;
                     if (string.IsNullOrEmpty(GeneratorHelpText))
                         GeneratorHelpText = GeneratorHelpTextManager.GetGeneratorHelpText(_generatorName);
-                    OnPropertyChanged("GeneratorName");
+                //    OnPropertyChanged("GeneratorName");
                 }
             }
         }
@@ -82,36 +83,13 @@ namespace SQLDataProducer.Entities.Generators.DecimalGenerators
             {
                 return _generatorHelpText;
             }
-            protected set
+            private set
             {
                 _generatorHelpText = value;
-                OnPropertyChanged("GeneratorHelpText");
+               // OnPropertyChanged("GeneratorHelpText");
             }
         }
 
-
-        /// <summary>
-        /// Column where this generator is attached.
-        /// </summary>
-        ColumnEntity _parentColumn;
-        /// <summary>
-        /// Get Set the Column of whom this generator belong to.
-        /// </summary>
-        public ColumnEntity ParentColumn
-        {
-            get
-            {
-                return _parentColumn;
-            }
-            set
-            {
-                if (_parentColumn != value)
-                {
-                    _parentColumn = value;
-                    OnPropertyChanged("ParentColumn");
-                }
-            }
-        }
 
         bool _isTakingValueFromOtherColumn = false;
         /// <summary>
@@ -126,17 +104,6 @@ namespace SQLDataProducer.Entities.Generators.DecimalGenerators
             }
         }
 
-        protected AbstractValueGenerator(string generatorName)
-        {
-            GeneratorParameters = new GeneratorParameterCollection();
-            GeneratorName = generatorName;
-            GeneratorHelpText = GeneratorHelpTextManager.GetGeneratorHelpText(generatorName);
-        }
-
-        /// <summary>
-        /// returns GeneratorName
-        /// </summary>
-        /// <returns></returns>
         public override string ToString()
         {
             return string.Format("<GeneratorName = '{0}', GeneratorParameters = '{1}'>", GeneratorName, this.GeneratorParameters);
@@ -144,11 +111,11 @@ namespace SQLDataProducer.Entities.Generators.DecimalGenerators
 
         protected abstract object InternalGenerateValue(long n, GeneratorParameterCollection paramas);
 
-        protected abstract object ApplyTypeSpecificLimits(object value);
+        protected abstract object ApplyGeneratorTypeSpecificLimits(object value);
         
         public object GenerateValue(long n)
         {
-            return ApplyTypeSpecificLimits(InternalGenerateValue(n, GeneratorParameters));
+            return ApplyGeneratorTypeSpecificLimits(InternalGenerateValue(n, GeneratorParameters));
         }
 
         protected void OnPropertyChanged(string propertyName)
@@ -184,6 +151,11 @@ namespace SQLDataProducer.Entities.Generators.DecimalGenerators
                 hash = hash * 23 + GeneratorName.GetHashCode();
                 return hash;
             }
+        }
+
+        public AbstractValueGenerator Clone()
+        {
+            throw new NotImplementedException("Cloning not implemented");
         }
     }
 }

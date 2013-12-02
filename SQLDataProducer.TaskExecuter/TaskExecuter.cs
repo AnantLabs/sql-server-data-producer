@@ -48,12 +48,12 @@ namespace SQLDataProducer.TaskExecuter
         private object _logFileLockObjs = new object();
 
         private bool _doneMyWork = false;
-        ExecutionItemCollection _execItems;
+        ExecutionNode _execItems;
         private IDataConsumer _consumer;
         private bool _isInitialized = false;
         private Dictionary<string, string> _consumerOptions;
 
-        public TaskExecuter(ExecutionTaskOptions options, string connectionString, ExecutionItemCollection execItems, IDataConsumer consumer, Dictionary<string, string> consumerOptions = null)
+        public TaskExecuter(ExecutionTaskOptions options, string connectionString, ExecutionNode execItems, IDataConsumer consumer, Dictionary<string, string> consumerOptions = null)
         {
             _doneMyWork = false;
             _connectionString = connectionString;
@@ -109,7 +109,7 @@ namespace SQLDataProducer.TaskExecuter
             if (_doneMyWork)
                 throw new NotSupportedException("This TaskExecuter have already been used. It may not be used again. Create a new one and try again");
 
-            SQLDataProducer.Entities.Generators.Generator.InitGeneratorStartValues(Options);
+            //SQLDataProducer.Entities.Generators.Generator.InitGeneratorStartValues(Options);
 
             ExecutionResult result = new ExecutionResult();
 
@@ -189,14 +189,15 @@ namespace SQLDataProducer.TaskExecuter
 
         private void RunOneExecution()
         {
-            foreach (var ei in _execItems)
-            {
-                var data = ei.CreateData(_nGenerator, _rowInsertCounter);
-                if (data.Count == 0)
-                    continue;
-                _consumer.Consume(data);
-            }
-            _executionCounter.Increment();
+            throw new NotImplementedException("Running not implemented");
+            //foreach (var ei in _execItems)
+            //{
+            //    var data = ei.CreateData(_nGenerator, _rowInsertCounter);
+            //    if (data.Count == 0)
+            //        continue;
+            //    _consumer.Consume(data);
+            //}
+            //_executionCounter.Increment();
         }
 
         /// <summary>
@@ -250,7 +251,8 @@ namespace SQLDataProducer.TaskExecuter
             if (!_isInitialized)
                 throw new InvalidOperationException("Method cannot be run before Init have been called");
 
-            _consumer.CleanUp(_execItems.Select(e => e.TargetTable.TableName).ToList());
+            throw new NotImplementedException("cleanup not implemented");
+            //_consumer.CleanUp(_execItems.Select(e => e.TargetTable.TableName).ToList());
         }
 
         internal void PreAction(string preScript)

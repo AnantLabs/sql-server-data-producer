@@ -13,7 +13,7 @@
 //   limitations under the License.
 
 using SQLDataProducer.Entities.DatabaseEntities;
-using SQLDataProducer.Entities.DataEntities.Collections;
+
 using SQLDataProducer.Entities.ExecutionEntities;
 using SQLDataProducer.Entities.Generators;
 using SQLDataProducer.Model;
@@ -27,7 +27,7 @@ namespace SQLDataProducer.ViewModels
     {
 
         public DelegateCommand<GeneratorParameter> ConfigureReferenceParameterCommand { private set; get; }
-        public DelegateCommand<ExecutionItem> ShowPreviewCommand { private set; get; }
+        public DelegateCommand<ExecutionNode> ShowPreviewCommand { private set; get; }
         
 
         SQLDataProducer.Model.ApplicationModel _model;
@@ -52,9 +52,10 @@ namespace SQLDataProducer.ViewModels
             Model = model;
             ConfigureReferenceParameterCommand = new DelegateCommand<GeneratorParameter>(ShowParameterReferenceConfigurationWindow);
 
-            ShowPreviewCommand = new DelegateCommand<ExecutionItem>(ei =>
+            ShowPreviewCommand = new DelegateCommand<ExecutionNode>(ei =>
                 {
-                    DataRowSet dt = ExecutionItem.CreatePreview(ei);
+                    Object dt;// = ExecutionNode.CreatePreview(ei);
+                    throw new NotImplementedException("Preview not implemented");
                     ModalWindows.ShowPreviewWindow win = new ModalWindows.ShowPreviewWindow(dt);
                     win.Show();
                     throw new NotImplementedException();
@@ -71,7 +72,7 @@ namespace SQLDataProducer.ViewModels
             win.Show();
         }
 
-        public ExecutionDetailsViewModel(SQLDataProducer.Model.ApplicationModel model, ExecutionItem execItem)
+        public ExecutionDetailsViewModel(SQLDataProducer.Model.ApplicationModel model, ExecutionNode execItem)
         {
             Model = model;
         }

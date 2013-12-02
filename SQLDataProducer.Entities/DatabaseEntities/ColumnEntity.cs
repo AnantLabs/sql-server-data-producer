@@ -87,23 +87,26 @@ namespace SQLDataProducer.Entities.DatabaseEntities
 			}
 		}
 
-		Generator _generator;
-		public Generator Generator {
+        AbstractValueGenerator _generator;
+        public AbstractValueGenerator Generator
+        {
 			get {
 				return _generator;
 			}
 			set {
 				if (_generator != value) {
 					_generator = value;
-					_generator.ParentColumn = this;
+                    // TODO: Do We need this property?
+					//_generator.ParentColumn = this;
 					OnPropertyChanged("Generator");
 				}
 			}
 		}
 
-		ObservableCollection<Generator> _valueGenerators;
+        ObservableCollection<AbstractValueGenerator> _valueGenerators;
 
-		public ObservableCollection<Generator> PossibleGenerators {
+        public ObservableCollection<AbstractValueGenerator> PossibleGenerators
+        {
 			get {
 				return _valueGenerators;
 			}

@@ -41,8 +41,8 @@ namespace SQLDataProducer.Model
             Tables = new TableEntityCollection();
             //WorkFlowManager = new WorkflowManager();
 
-            ExecutionItems = new ExecutionItemCollection();
-            SelectedExecutionItem = ExecutionItems.FirstOrDefault();
+            //ExecutionItems = new ExecutionItemCollection();
+            //SelectedExecutionItem = ExecutionItems.FirstOrDefault();
 
             ConnectionString = SQLDataProducerSettings.Default.ConnectionString;
 
@@ -53,7 +53,7 @@ namespace SQLDataProducer.Model
             ExecutionItemsWithWarningsView = _executionItemsWithWarningsSource.View;
             ExecutionItemsWithWarningsView.Filter = new Predicate<object>( obj  =>
             {
-                ExecutionItem t = obj as ExecutionItem;
+                ExecutionNode t = obj as ExecutionNode;
                 if (t != null)
                 {
                     return t.HasWarning;
@@ -104,7 +104,7 @@ namespace SQLDataProducer.Model
 
         TableEntity _selectedTable;
         /// <summary>
-        /// The selected table, do not confuse with selected ExecutionItem. This is the raw database table that is selected.
+        /// The selected table, do not confuse with selected ExecutionNode. This is the raw database table that is selected.
         /// </summary>
         public TableEntity SelectedTable
         {
@@ -143,11 +143,11 @@ namespace SQLDataProducer.Model
             }
         }
 
-        ExecutionItemCollection _executionItems;
+        ExecutionNode _executionItems;
         /// <summary>
         /// The list of ExecutionItems created. This is the list of "tables" that have been choosen to get data generated.
         /// </summary>
-        public ExecutionItemCollection ExecutionItems
+        public ExecutionNode ExecutionItems
         {
             get
             {
@@ -162,21 +162,21 @@ namespace SQLDataProducer.Model
                     OnPropertyChanged("ExecutionItems");
                 }
 
-                if (value != null)
-                {
-                    _executionItems.CollectionChanged += (sender, e) =>
-                    {
-                        HavePendingChanges = true;
-                    };
-                }
+                //if (value != null)
+                //{
+                //    _executionItems.CollectionChanged += (sender, e) =>
+                //    {
+                //        HavePendingChanges = true;
+                //    };
+                //}
             }
         }
 
-        ExecutionItem _currentExecutionItem;
+        ExecutionNode _currentExecutionItem;
         /// <summary>
-        /// The selected ExecutionItem. This an item that will get data generated. Do not confuse with SelectedTable.
+        /// The selected ExecutionNode. This an item that will get data generated. Do not confuse with SelectedTable.
         /// </summary>
-        public ExecutionItem SelectedExecutionItem
+        public ExecutionNode SelectedExecutionItem
         {
             get
             {
@@ -189,8 +189,9 @@ namespace SQLDataProducer.Model
                     HaveExecutionItemSelected = value != null;
                     
                     _currentExecutionItem = value;
-                    if (_currentExecutionItem != null)
-                        SelectedColumn = _currentExecutionItem.TargetTable.Columns.FirstOrDefault();
+                    throw new NotImplementedException("Selecting not implemented");
+                    //if (_currentExecutionItem != null)
+                    //    SelectedColumn = _currentExecutionItem.TargetTable.Columns.FirstOrDefault();
                     OnPropertyChanged("SelectedExecutionItem");
                 }
             }
@@ -435,7 +436,7 @@ namespace SQLDataProducer.Model
 
         public void RunExecution()
         {
-            if (ExecutionItems.Count == 0)
+            if (ExecutionItems == null)
                 return;
 
             if (string.IsNullOrEmpty(ConnectionString))

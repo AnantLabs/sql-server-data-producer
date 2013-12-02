@@ -111,7 +111,8 @@ namespace SQLDataProducer.ViewModels
 
         private void LoadTables()
         {
-            Model.ExecutionItems.Clear();
+            throw new NotImplementedException("Loading");
+            //Model.ExecutionItems.Clear();
             // TODO: Also clear caches
             Model.IsQueryRunning = true;
             
@@ -133,7 +134,8 @@ namespace SQLDataProducer.ViewModels
                            Model.SelectedColumn = Model.SelectedTable.Columns.FirstOrDefault();
 
                            Model.SetTablesView();
-                           Model.SelectedExecutionItem = Model.ExecutionItems.FirstOrDefault();
+
+                           //Model.SelectedExecutionItem = Model.ExecutionItems.FirstOrDefault();
                            Model.IsQueryRunning = false;
                        });  
                 });

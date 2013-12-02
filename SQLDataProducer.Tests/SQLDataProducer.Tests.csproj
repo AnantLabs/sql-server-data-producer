@@ -52,6 +52,7 @@
     <Compile Include="DataProducerTest.cs" />
     <Compile Include="EntityTests\GeneratorFactoryTest.cs" />
     <Compile Include="ForeignKeyTests.cs" />
+    <Compile Include="ValueGenerators\CountingUpDecimalGeneratorTest.cs" />
     <Compile Include="Helpers\ExecutionItemHelper.cs" />
     <Compile Include="IntegrationTests\BugTest.cs" />
     <Compile Include="LongRunningTests.cs" />
@@ -81,6 +82,7 @@
     <Compile Include="EntityTests\GeneratorTests.cs" />
     <Compile Include="SerializationTests\SaveLoadTests.cs" />
     <Compile Include="TestBase.cs" />
+    <Compile Include="ValueGenerators\CountingUpIntegerGeneratorTest.cs" />
     <Compile Include="ViewModelTests\ExecutionOrderViewModelTests.cs" />
     <Compile Include="ViewModelTests\Helpers\ViewModelTestHelper.cs" />
     <Compile Include="ViewModelTests\MainViewModelTests.cs" />

@@ -214,6 +214,8 @@ namespace SQLDataProducer.Entities.ExecutionEntities
         {
             Tables.Add(tableEntity);
         }
+
+        public bool HasWarning { get; set; }
     }
     
 }

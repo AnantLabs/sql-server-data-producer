@@ -12,6 +12,7 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
+using SQLDataProducer.Entities.DatabaseEntities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,11 +23,13 @@ namespace SQLDataProducer.Entities.Generators.DecimalGenerators
 {
     public class CountingUpDecimalGenerator : DecimalGeneratorBase
     {
-        public CountingUpDecimalGenerator()
-            : base("CountingUpDecimalGenerator")
+        public static readonly string GENERATOR_NAME = "Counting up Decimal";
+
+        public CountingUpDecimalGenerator(ColumnDataTypeDefinition datatype)
+            : base(GENERATOR_NAME, datatype)
         {
-            GeneratorParameters.Add(new GeneratorParameter("StartValue", new decimal(0.0), GeneratorParameterParser.DecimalParser));
-            GeneratorParameters.Add(new GeneratorParameter("Step", new decimal(1.0), GeneratorParameterParser.DecimalParser));
+            GeneratorParameters.Add(new GeneratorParameter("StartValue", 0.0m, GeneratorParameterParser.DecimalParser));
+            GeneratorParameters.Add(new GeneratorParameter("Step", 1.0m, GeneratorParameterParser.DecimalParser));
         }
 
         protected override object InternalGenerateValue(long n, Collections.GeneratorParameterCollection paramas)

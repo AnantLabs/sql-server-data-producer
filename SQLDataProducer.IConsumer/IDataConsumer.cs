@@ -13,7 +13,8 @@
 //   limitations under the License.
 
 using SQLDataProducer.Entities.DatabaseEntities;
-using SQLDataProducer.Entities.DataEntities.Collections;
+using SQLDataProducer.Entities.DataEntities;
+
 using SQLDataProducer.Entities.ExecutionEntities;
 using System;
 using System.Collections.Generic;
@@ -41,7 +42,7 @@ namespace SQLDataProducer.DataConsumers
         /// <returns>An executionResult with the result of this execution. 
         /// The calling manager is responsible for collecting this 
         /// delta and append it to the big result</returns>
-        ExecutionResult Consume(DataRowSet rows);
+        ExecutionResult Consume(IEnumerable<DataRowEntity> rows);
 
         /// <summary>
         /// Perform cleanup to remove previous instances of the target

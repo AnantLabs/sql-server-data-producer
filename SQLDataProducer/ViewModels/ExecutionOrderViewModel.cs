@@ -42,7 +42,7 @@ namespace SQLDataProducer.ViewModels
         public DelegateCommand<TableEntity> CreateTreeWithTableTableAsRootCommand { get; private set; }
         public DelegateCommand<TableEntity> CreateTreeWithTableAsLeafCommand { get; private set; }
         
-        public DelegateCommand<ExecutionItem> CloneExecutionItemCommand { get; private set; }
+        public DelegateCommand<ExecutionNode> CloneExecutionItemCommand { get; private set; }
 
         public DelegateCommand ClearSearchCriteraCommand { get; private set; }
         public DelegateCommand MoveUpWithTheSelectorCommand { get; private set; }
@@ -77,7 +77,7 @@ namespace SQLDataProducer.ViewModels
             MoveItemUpCommand = new DelegateCommand(MoveSelectedExecutionItemUp);
             MoveItemDownCommand = new DelegateCommand(MoveSelectedExecutionItemDown);
             MoveItemLeftCommand = new DelegateCommand(RemoveSelectedExecutionItemFromExecutionItemList);
-            CloneExecutionItemCommand = new DelegateCommand<ExecutionItem>(CloneSelectedExecutionItem);
+            CloneExecutionItemCommand = new DelegateCommand<ExecutionNode>(CloneSelectedExecutionItem);
             ClearSearchCriteraCommand = new DelegateCommand(ClearSearchCriteriaValue);
             MoveUpWithTheSelectorCommand = new DelegateCommand(MoveTheTableSelectorUp);
             MoveDownWithTheSelectorCommand = new DelegateCommand(MoveTheTableSelectorDown);
@@ -122,16 +122,17 @@ namespace SQLDataProducer.ViewModels
             Model.SearchCriteria = string.Empty;
         }
 
-        private void CloneSelectedExecutionItem(ExecutionItem item)
+        private void CloneSelectedExecutionItem(ExecutionNode item)
         {
             if (item == null)
                 return;
 
             CloneExecutionItemWindow window = new CloneExecutionItemWindow(clones =>
             {
+                throw new NotImplementedException("Cloning not implemented");
                 for (int i = 0; i < clones; i++)
                 {
-                    Model.ExecutionItems.Add(item.Clone());
+                   // Model.ExecutionItems.Add(item.Clone());
                 }
             });
             window.Show();
@@ -139,55 +140,62 @@ namespace SQLDataProducer.ViewModels
 
         private void RemoveSelectedExecutionItemFromExecutionItemList()
         {
-            if (Model.SelectedExecutionItem != null)
-            {
-                Model.ExecutionItems.Remove(Model.SelectedExecutionItem);
-                for (int i = 0; i < Model.ExecutionItems.Count; i++)
-                {
-                    Model.ExecutionItems[i].Order = i + 1;
-                }
-            }
+            throw new NotImplementedException("Removing not implemented");
+            //if (Model.SelectedExecutionItem != null)
+            //{
+            //    Model.ExecutionItems.Remove(Model.SelectedExecutionItem);
+            //    for (int i = 0; i < Model.ExecutionItems.Count; i++)
+            //    {
+            //        Model.ExecutionItems[i].Order = i + 1;
+            //    }
+            //}
         }
 
         private void MoveSelectedExecutionItemDown()
         {
-            int currentIndex = Model.ExecutionItems.IndexOf(Model.SelectedExecutionItem);
-            int newIndex = Model.ExecutionItems.IndexOf(Model.SelectedExecutionItem) + 1;
-            if (newIndex >= Model.ExecutionItems.Count)
-                return;
+            //int currentIndex = Model.ExecutionItems.IndexOf(Model.SelectedExecutionItem);
+            //int newIndex = Model.ExecutionItems.IndexOf(Model.SelectedExecutionItem) + 1;
+            //if (newIndex >= Model.ExecutionItems.Count)
+            //    return;
 
-            Model.ExecutionItems.Move(currentIndex, newIndex);
+            //Model.ExecutionItems.Move(currentIndex, newIndex);
+            throw new NotImplementedException("Moving not implemented");
         }
 
         private void MoveSelectedExecutionItemUp()
         {
-            int currentIndex = Model.ExecutionItems.IndexOf(Model.SelectedExecutionItem);
-            int newIndex = Model.ExecutionItems.IndexOf(Model.SelectedExecutionItem) - 1;
-            if (newIndex < 0)
-                return;
+            //int currentIndex = Model.ExecutionItems.IndexOf(Model.SelectedExecutionItem);
+            //int newIndex = Model.ExecutionItems.IndexOf(Model.SelectedExecutionItem) - 1;
+            //if (newIndex < 0)
+            //    return;
 
-            Model.ExecutionItems.Move(currentIndex, newIndex);
+            //Model.ExecutionItems.Move(currentIndex, newIndex);
+            throw new NotImplementedException("Moving not implemented");
         }
 
         private void ClearExecutionItemList()
         {
-            Model.ExecutionItems.Clear();
+            //Model.ExecutionItems.Clear();
+            throw new NotImplementedException("Clearing not implemented");
         }
 
         private void AddExecutionItem(TableEntity table)
         {
             // Clone the selected table so that each generation of that table is configurable uniquely
-            Model.ExecutionItems.Add(ExecutionItemManager.CloneFromTable(table, new TableEntityDataAccess(Model.ConnectionString)));
+            //Model.ExecutionItems.Add(ExecutionItemManager.CloneFromTable(table, new TableEntityDataAccess(Model.ConnectionString)));
+            throw new NotImplementedException("Adding not implemented");
         }
         
         private void AddExecutionItem(IEnumerable<TableEntity> tables)
         {
-            Model.ExecutionItems.AddRange(ExecutionItemManager.GetExecutionItemsFromTables(tables, new TableEntityDataAccess(Model.ConnectionString)));
+            //Model.ExecutionItems.AddRange(ExecutionItemManager.GetExecutionItemsFromTables(tables, new TableEntityDataAccess(Model.ConnectionString)));
+            throw new NotImplementedException("Adding not implemented");
         }
 
-        private void AddExecutionItem(IEnumerable<ExecutionItem> eiItems)
+        private void AddExecutionItem(IEnumerable<ExecutionNode> eiItems)
         {
-            Model.ExecutionItems.AddRange(eiItems);
+            //Model.ExecutionItems.AddRange(eiItems);
+            throw new NotImplementedException("Adding not implemented");
         }
 
         private void AddSelectedItemToExecutionItemList(TableEntity table)
@@ -207,7 +215,7 @@ namespace SQLDataProducer.ViewModels
             Action a = new Action(() =>
                 {
                     var execs = ExecutionItemManager.GetExecutionItemsFromTables(Model.Tables, new TableEntityDataAccess(Model.ConnectionString));
-                    List<ExecutionItem> ies = new List<ExecutionItem>(execs);
+                    List<ExecutionNode> ies = new List<ExecutionNode>(execs);
 
                     DispatcherSupplier.CurrentDispatcher.Invoke(
                        DispatcherPriority.Normal,

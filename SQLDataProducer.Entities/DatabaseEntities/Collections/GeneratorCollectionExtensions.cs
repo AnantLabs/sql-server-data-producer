@@ -12,17 +12,18 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
+using SQLDataProducer.Entities.Generators;
 using System.Collections.ObjectModel;
 
 namespace SQLDataProducer.Entities.DatabaseEntities.Collections
 {
     public static class GeneratorCollectionExtensions
     {
-        public static ObservableCollection<Generators.Generator> Clone(this ObservableCollection<Generators.Generator> gens)
+        public static ObservableCollection<AbstractValueGenerator> Clone(this ObservableCollection<AbstractValueGenerator> gens)
         {
             // TODO: Clone using the same entity as the LOAD/SAVE functionality
-            var newGens = new ObservableCollection<Generators.Generator>();
-            foreach (Generators.Generator item in gens)
+            var newGens = new ObservableCollection<AbstractValueGenerator>();
+            foreach (AbstractValueGenerator item in gens)
             {
                 newGens.Add(item.Clone());
             }

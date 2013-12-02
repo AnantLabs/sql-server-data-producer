@@ -25,6 +25,8 @@ using Generators = SQLDataProducer.Entities.Generators;
 using System.Threading.Tasks;
 using System.Collections;
 using System.Threading;
+using SQLDataProducer.Entities.Generators;
+using SQLDataProducer.Entities.Generators.IntGenerators;
 
 
 
@@ -52,7 +54,7 @@ namespace SQLDataProducer.Tests.EntitiesTests
             Assert.AreEqual(11, identityCol.PossibleGenerators.Count);
 
 
-            Assert.AreEqual(Generators.Generator.GENERATOR_IdentityFromSqlServerGenerator, identityCol.Generator.GeneratorName);
+            Assert.AreEqual(SQLDataProducer.Entities.Generators.IntGenerators.IdentityIntGenerator.GENERATOR_NAME, identityCol.Generator.GeneratorName);
         }
 
         [Test]

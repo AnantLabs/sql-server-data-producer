@@ -34,72 +34,118 @@ namespace SQLDataProducer.Tests
     [MSTest.TestClass]
     public class GeneratorFactoryTest : TestBase
     {
+        List<string> supportedDatatypes = new List<string>();
+
         public GeneratorFactoryTest()
             : base()
         {
+            supportedDatatypes.Add("BigInt");
+            supportedDatatypes.Add("Binary");
+            supportedDatatypes.Add("Bit");
+            supportedDatatypes.Add("Char");
+            supportedDatatypes.Add("DateTime");
+            supportedDatatypes.Add("Decimal");
+            supportedDatatypes.Add("Float");
+            supportedDatatypes.Add("Image");
+            supportedDatatypes.Add("Int");
+            supportedDatatypes.Add("Money");
+            supportedDatatypes.Add("NChar");
+            supportedDatatypes.Add("NText");
+            supportedDatatypes.Add("NVarChar");
+            supportedDatatypes.Add("Real");
+            supportedDatatypes.Add("UniqueIdentifier");
+            supportedDatatypes.Add("SmallDateTime");
+            supportedDatatypes.Add("SmallInt");
+            supportedDatatypes.Add("SmallMoney");
+            supportedDatatypes.Add("Text");
+            supportedDatatypes.Add("Timestamp");
+            supportedDatatypes.Add("TinyInt");
+            supportedDatatypes.Add("VarBinary");
+            supportedDatatypes.Add("VarChar");
+            supportedDatatypes.Add("Variant");
+            supportedDatatypes.Add("Xml");
+            // not supported
+            //dataTypes.Add("Udt");
+            //dataTypes.Add("Structured");
+            supportedDatatypes.Add("Date");
+            supportedDatatypes.Add("Time");
+            supportedDatatypes.Add("DateTime2");
+            supportedDatatypes.Add("DateTimeOffset");
+            
+            supportedDatatypes.Add("NChar(123)");
+            supportedDatatypes.Add("NVarChar(123)");
+            supportedDatatypes.Add("VarBinary(123)");
+            supportedDatatypes.Add("VarChar(123)");
+            supportedDatatypes.Add("Binary(123)");
+            
+            supportedDatatypes.Add("Decimal(12,10)");
+            supportedDatatypes.Add("Decimal(12,1)");
+            supportedDatatypes.Add("Decimal(12)");
+            
+            supportedDatatypes.Add("DateTime2(2)");
         }
 
         [Test]
         [MSTest.TestMethod]
         public void ShouldGetAllGenerators()
         {
-            var dataTypes = Enum.GetValues(typeof(System.Data.SqlDbType));
-            Assert.That(dataTypes.Length, Is.GreaterThan(0));
-
-            foreach (System.Data.SqlDbType dataType in dataTypes)
+            foreach (string dataType in supportedDatatypes)
             {
-                var gens = GeneratorFactory.GetAllGeneratorsForType(dataType);
-                Assert.That(gens.Count, Is.GreaterThan(0));
+                var gens = GeneratorFactory.GetAllGeneratorsForType(new ColumnDataTypeDefinition(dataType, false));
+                Assert.That(gens.Count, Is.GreaterThan(0), dataType);
                
                 foreach (var gen in gens)
                 {
-                    Assert.That(gen.GenerateValue(1), Is.Not.Null);
+                    try
+                    {
+                        Assert.That(gen.GenerateValue(1), Is.Not.Null, dataType);
+                    }
+                    catch (Exception e)
+                    {
+                        Assert.Fail(string.Format("ERROR Generating value for [{0}], generator: [{1}], message : {2}", dataType, gen.GeneratorName ,e.ToString()));
+                    }
+                    
                 }
             }
         }
 
         [Test]
         [MSTest.TestMethod]
-        public void ShouldInstantiateGeneratorClassesUsingDatatype()
-        {
-           // ColumnDataTypeDefinition
-          //  var gen = new CountingUpDecimalGenerator(new ColumnDataTypeDefinition("varchar", false));
-            Assert.Fail("not implemented");
-        }
-
-        [Test]
-        [MSTest.TestMethod]
         public void ShouldGetGeneratorsForDatatype()
         {
-            ExpectMoreNullableThanRegular("BigInt", 9);
+            int expectedStringGenerators = 5;
+            int expectedDateTimeGenerators = 9;
+            int expectedDecimalGenerators = 2;
+
+            ExpectMoreNullableThanRegular("BigInt", expectedDateTimeGenerators);
             ExpectMoreNullableThanRegular("Bit", 0);
-            ExpectMoreNullableThanRegular("Char", 8);
-            ExpectMoreNullableThanRegular("Date", 9);
-            ExpectMoreNullableThanRegular("DateTime", 9);
-            ExpectMoreNullableThanRegular("DateTime2", 9);
-            ExpectMoreNullableThanRegular("SmallDateTime", 9);
-            ExpectMoreNullableThanRegular("Time", 9);
-            ExpectMoreNullableThanRegular("DateTimeOffset", 9);
-            ExpectMoreNullableThanRegular("Decimal", 2);
-            ExpectMoreNullableThanRegular("Float", 2);
-            ExpectMoreNullableThanRegular("Real", 2);
-            ExpectMoreNullableThanRegular("Money", 2);
-            ExpectMoreNullableThanRegular("SmallMoney", 2);
+            ExpectMoreNullableThanRegular("Char", expectedStringGenerators);
+            ExpectMoreNullableThanRegular("Date", expectedDateTimeGenerators);
+            ExpectMoreNullableThanRegular("DateTime", expectedDateTimeGenerators);
+            ExpectMoreNullableThanRegular("DateTime2", expectedDateTimeGenerators);
+            ExpectMoreNullableThanRegular("SmallDateTime", expectedDateTimeGenerators);
+            ExpectMoreNullableThanRegular("Time", expectedDateTimeGenerators);
+            ExpectMoreNullableThanRegular("DateTimeOffset", expectedDateTimeGenerators);
+            ExpectMoreNullableThanRegular("Decimal", expectedDecimalGenerators);
+            ExpectMoreNullableThanRegular("Float", expectedDecimalGenerators);
+            ExpectMoreNullableThanRegular("Real", expectedDecimalGenerators);
+            ExpectMoreNullableThanRegular("Money", expectedDecimalGenerators);
+            ExpectMoreNullableThanRegular("SmallMoney", expectedDecimalGenerators);
             ExpectMoreNullableThanRegular("Binary", 0);
             ExpectMoreNullableThanRegular("Image", 0);
             ExpectMoreNullableThanRegular("Timestamp", 0);
             ExpectMoreNullableThanRegular("VarBinary(10)", 0);
-            ExpectMoreNullableThanRegular("int", 9);
-            ExpectMoreNullableThanRegular("NChar(10)", 8);
-            ExpectMoreNullableThanRegular("NText", 8);
-            ExpectMoreNullableThanRegular("NVarChar(10)", 8);
-            ExpectMoreNullableThanRegular("Text", 8);
-            ExpectMoreNullableThanRegular("VarChar(100)", 8);
-            ExpectMoreNullableThanRegular("VarChar(max)", 8);
-            ExpectMoreNullableThanRegular("SmallInt", 9);
-            ExpectMoreNullableThanRegular("TinyInt", 9);
+            ExpectMoreNullableThanRegular("int", expectedDateTimeGenerators);
+            ExpectMoreNullableThanRegular("NChar(10)", expectedStringGenerators);
+            ExpectMoreNullableThanRegular("NText", expectedStringGenerators);
+            ExpectMoreNullableThanRegular("NVarChar(10)", expectedStringGenerators);
+            ExpectMoreNullableThanRegular("Text", expectedStringGenerators);
+            ExpectMoreNullableThanRegular("VarChar(100)", expectedStringGenerators);
+            ExpectMoreNullableThanRegular("VarChar(max)", expectedStringGenerators);
+            ExpectMoreNullableThanRegular("SmallInt", expectedDateTimeGenerators);
+            ExpectMoreNullableThanRegular("TinyInt", expectedDateTimeGenerators);
             ExpectMoreNullableThanRegular("UniqueIdentifier", 0);
-            ExpectMoreNullableThanRegular("Variant", 9);
+            ExpectMoreNullableThanRegular("Variant", expectedStringGenerators);
             ExpectMoreNullableThanRegular("Xml", 0);
         }
 
@@ -107,72 +153,42 @@ namespace SQLDataProducer.Tests
         [MSTest.TestMethod]
         public void ShouldGetExceptionWhenTryingToGetGeneratorForNonNullableDatatypeThatIsNotImplemented()
         {
-            ExpectEmptyListForNonNullableType("udt");
-            ExpectEmptyListForNonNullableType("Structured");
+            ExeptionForUnsupportedDatatype("udt");
+            ExeptionForUnsupportedDatatype("Structured");
         }
 
-        [Test]
-        [MSTest.TestMethod]
-        public void shouldGetGeneratorForNullableDatatypeEvenIfGeneratorIsNotImplemented()
+        private void ExeptionForUnsupportedDatatype(string datatype)
         {
-            var gens = GeneratorFactory.GetGeneratorsForDataType(new ColumnDataTypeDefinition("udt", true));
-            var gens2 = GeneratorFactory.GetGeneratorsForDataType(new ColumnDataTypeDefinition("Structured", true));
-
-            Assert.That(gens.Count, Is.EqualTo(1));
-            Assert.That(gens2.Count, Is.EqualTo(1));
-        }
-
-        private void ExpectEmptyListForNonNullableType(string datatype)
-        {
-          
-          var gens = GeneratorFactory.GetGeneratorsForDataType(new ColumnDataTypeDefinition(datatype, false));
-          Assert.That(gens.Count, Is.EqualTo(0), "should not find generators for datatype, but did: " + datatype);
+            bool exeptionHappened = false;
+            try
+            {
+                var gens = GeneratorFactory.GetAllGeneratorsForType(new ColumnDataTypeDefinition(datatype, false));
+            }
+            catch (Exception)
+            {
+                exeptionHappened = true;
+            }
+            Assert.That(exeptionHappened);
         }
 
         private void ExpectMoreNullableThanRegular(string datatype, int expectedGens)
         {
-            var gens = GeneratorFactory.GetGeneratorsForDataType(new ColumnDataTypeDefinition(datatype, false));
-            Assert.That(gens.Count, Is.GreaterThan(expectedGens));
-            var nullable = GeneratorFactory.GetGeneratorsForDataType(new ColumnDataTypeDefinition(datatype, true));
-            Assert.That(nullable.Count, Is.GreaterThan(gens.Count));
+            var gens = GeneratorFactory.GetAllGeneratorsForType(new ColumnDataTypeDefinition(datatype, false));
+            Assert.That(gens.Count, Is.GreaterThanOrEqualTo(expectedGens), datatype);
+            var nullable = GeneratorFactory.GetAllGeneratorsForType(new ColumnDataTypeDefinition(datatype, true));
+            Assert.That(nullable.Count, Is.GreaterThan(gens.Count), datatype);
         }
 
         [Test]
         [MSTest.TestMethod]
-        public void shouldHaveLimitedMaxAndMinValuesOfDecimalGenerators()
+        public void ShouldCreateInstanceOfDecimalUpCounter()
         {
-            AssertMaxValue("decimal(19, 6)", 100000000000000000);
-            AssertMaxValue("float", 100000000000000000);
-            AssertMaxValue("Real", 100000000000000000);
-            AssertMaxValue("Money", 922337203685470);
-            AssertMaxValue("SmallMoney", 214740);
-
-         
+            var dt = new ColumnDataTypeDefinition("decimal(19, 6)", false);
+            var gen = GeneratorFactory.CreateInstance(typeof(CountingUpDecimalGenerator), dt);
+            Assert.That(gen, Is.Not.Null);
+            var value = gen.GenerateValue(1);
+            Assert.That(value, Is.Not.Null);
         }
         
-        [Test]
-        [MSTest.TestMethod]
-        public void shouldHaveLimitedMaxAndMinValuesOfIntegerGenerators()
-        {
-            AssertMaxValue("int", int.MaxValue);
-            AssertMaxValue("BigInt", long.MaxValue);
-            AssertMaxValue("Bit", 1);
-            AssertMaxValue("SmallInt", short.MaxValue);
-            AssertMaxValue("TinyInt", byte.MaxValue);
-        }
-          
-        private static void AssertMaxValue(string datatype, long maxValue)
-        {
-            var gens = GeneratorFactory.GetGeneratorsForDataType(new ColumnDataTypeDefinition(datatype, false));
-            Assert.That(gens.Count, Is.GreaterThan(0));
-
-            foreach (var g in gens)
-            {
-                Console.WriteLine(g.GeneratorName);
-                var maxParam = g.GeneratorParameters.GetValueOf<long>("MaxValue");
-                Assert.That(maxParam, Is.Not.Null);
-                Assert.That(maxParam, Is.EqualTo(maxValue), g.GeneratorName);
-            }
-        }
     }
 }

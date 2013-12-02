@@ -38,7 +38,7 @@ namespace SQLDataProducer.Tests.ConsumerTests
         {
             //var table = ExecutionItemHelper.CreateTableAnd5Columns("dbo", "Peter");
             //long i = 0;
-            //var ei = new ExecutionItem(table);
+            //var ei = new ExecutionNode(table);
             //ei.RepeatCount = 100;
             //var rows = ei.CreateData(new Func<long>(() => { return i++; }));
 

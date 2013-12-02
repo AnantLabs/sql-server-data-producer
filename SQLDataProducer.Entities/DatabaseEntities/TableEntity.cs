@@ -180,8 +180,8 @@ namespace SQLDataProducer.Entities.DatabaseEntities
         /// <summary>
         ///  Execution item where this table is used.
         /// </summary>
-        ExecutionItem _parentExecutionItem;
-        public ExecutionItem ParentExecutionItem
+        ExecutionNode _parentExecutionItem;
+        public ExecutionNode ParentExecutionItem
         {
             get
             {

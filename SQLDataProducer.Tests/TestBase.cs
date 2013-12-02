@@ -28,26 +28,26 @@ namespace SQLDataProducer.Tests
 {
     public class TestBase
     {
-        protected IEnumerable<Generators.Generator> gens = Generators.Generator.GetDateTimeGenerators()
-                                            .Concat(Generators.Generator.GetDecimalGenerators(5000))
-                                            .Concat(Generators.Generator.GetGeneratorsForBigInt())
-                                            .Concat(Generators.Generator.GetGeneratorsForBit())
-                                            .Concat(Generators.Generator.GetGeneratorsForInt())
-                                            .Concat(Generators.Generator.GetGeneratorsForSmallInt())
-                                            .Concat(Generators.Generator.GetGeneratorsForTinyInt())
-                                            .Concat(Generators.Generator.GetGUIDGenerators())
-                                            .Concat(Generators.Generator.GetStringGenerators(1))
-                                            .Concat(Generators.Generator.GetBinaryGenerators(1))
-                                            .Concat(Generators.Generator.GetXMLGenerators())
-                                            .Concat(Generators.Generator.GetGeneratorsForIdentity())
-                                            .Concat(new Generators.Generator[] { Generators.Generator.CreateNULLValueGenerator() });
+        //protected IEnumerable<Generators.Generator> gens = Generators.Generator.GetDateTimeGenerators()
+        //                                    .Concat(Generators.Generator.GetDecimalGenerators(5000))
+        //                                    .Concat(Generators.Generator.GetGeneratorsForBigInt())
+        //                                    .Concat(Generators.Generator.GetGeneratorsForBit())
+        //                                    .Concat(Generators.Generator.GetGeneratorsForInt())
+        //                                    .Concat(Generators.Generator.GetGeneratorsForSmallInt())
+        //                                    .Concat(Generators.Generator.GetGeneratorsForTinyInt())
+        //                                    .Concat(Generators.Generator.GetGUIDGenerators())
+        //                                    .Concat(Generators.Generator.GetStringGenerators(1))
+        //                                    .Concat(Generators.Generator.GetBinaryGenerators(1))
+        //                                    .Concat(Generators.Generator.GetXMLGenerators())
+        //                                    .Concat(Generators.Generator.GetGeneratorsForIdentity())
+        //                                    .Concat(new Generators.Generator[] { Generators.Generator.CreateNULLValueGenerator() });
 
 
-        protected IDataConsumer DefaultDataConsumer = new DataToConsoleConsumer();
+        //protected IDataConsumer DefaultDataConsumer = new DataToConsoleConsumer();
 
         public TestBase()
         {
-            DefaultDataConsumer.Init(Connection());
+            //DefaultDataConsumer.Init(Connection());
             CreateTablesInDB();
         }
 

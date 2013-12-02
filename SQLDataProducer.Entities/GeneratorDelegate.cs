@@ -22,16 +22,16 @@ namespace SQLDataProducer.Entities
     //public delegate IValueCreator GeneratorDelegate();
 
     // Functions that can generate values using the serial number n and the supplied parameters
-    public delegate object ValueCreatorDelegate(long n, GeneratorParameterCollection genParameters);
+    //public delegate object ValueCreatorDelegate(long n, GeneratorParameterCollection genParameters);
 
-    //Func<string, IEnumerable<ExecutionItem>, string>
-    public delegate string FinalQueryGeneratorDelegate(string baseQUery, ExecutionItemCollection executionItems, long n, System.Func<long> numberGenerator);
+    //Func<string, IEnumerable<ExecutionNode>, string>
+    //public delegate string FinalQueryGeneratorDelegate(string baseQUery, ExecutionItemCollection executionItems, long n, System.Func<long> numberGenerator);
 
     // Action<>
     
 
     //Action<int>
-    public delegate void ExecutionDoneCallbackDelegate(int n);
+    //public delegate void ExecutionDoneCallbackDelegate(int n);
 
-    public delegate void TableWithForeignKeyInsertedRowEventHandler(string tableSchema, string tableName, int insertedFKId);
+    //public delegate void TableWithForeignKeyInsertedRowEventHandler(string tableSchema, string tableName, int insertedFKId);
 }

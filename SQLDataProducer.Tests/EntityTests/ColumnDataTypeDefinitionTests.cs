@@ -69,6 +69,7 @@ namespace SQLDataProducer.Tests.Entities
         [MSTest.TestMethod]
         public void ShouldFallbackToVarcharWithDefaultLengthIfUnkownDatatype()
         {
+            // TODO: Consider this requirement. Should we throw exception instead? Instead of having it fail when inserting values.
             AssertRawStringIsTurnedIntoSqlDataType("Boat", SqlDbType.VarChar);
             AssertLengthPropertyIsEqualTo("Boat", ColumnDataTypeDefinition.STRING_DEFAULT_LENGTH);
         }
@@ -77,6 +78,7 @@ namespace SQLDataProducer.Tests.Entities
         [MSTest.TestMethod]
         public void ShouldSetLengthToDEFAULTIfUnableToParseLength()
         {
+            // TODO: Consider this requirement. Should we throw exception instead? Instead of having it fail when inserting values.
             AssertRawStringIsTurnedIntoSqlDataType("varchar(9999999999999999)", SqlDbType.VarChar);
             AssertLengthPropertyIsEqualTo("varchar(9999999999999999)", ColumnDataTypeDefinition.STRING_DEFAULT_LENGTH);
         }
@@ -85,6 +87,7 @@ namespace SQLDataProducer.Tests.Entities
         [MSTest.TestMethod]
         public void ShouldSetLengthToDefaultValueIfUnableToParseDatatype()
         {
+            // TODO: Consider this requirement. Should we throw exception instead? Instead of having it fail when inserting values.
             AssertRawStringIsTurnedIntoSqlDataType("varchar(boat)", SqlDbType.VarChar);
             AssertLengthPropertyIsEqualTo("varchar(boat)", ColumnDataTypeDefinition.STRING_DEFAULT_LENGTH);
         }

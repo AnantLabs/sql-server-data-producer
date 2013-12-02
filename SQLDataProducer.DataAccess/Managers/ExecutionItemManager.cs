@@ -25,7 +25,7 @@ namespace SQLDataProducer.DataAccess.Factories
 {
     public static class ExecutionItemManager
     {
-        public static IEnumerable<ExecutionItem> GetExecutionItemsFromTables(IEnumerable<TableEntity> tables, TableEntityDataAccess tda)
+        public static IEnumerable<ExecutionNode> GetExecutionItemsFromTables(IEnumerable<TableEntity> tables, TableEntityDataAccess tda)
         {
             // Clone the selected table so that each generation of that table is configurable uniquely
             foreach (var table in tables)
@@ -34,10 +34,11 @@ namespace SQLDataProducer.DataAccess.Factories
             }
         }
 
-        public static ExecutionItem CloneFromTable(TableEntity table, TableEntityDataAccess tda)
+        public static ExecutionNode CloneFromTable(TableEntity table, TableEntityDataAccess tda)
         {
             TableEntity clonedTable = tda.CloneTable(table);
-            return new ExecutionItem(clonedTable);
+            throw new NotImplementedException("CloneFromTable");
+            //return new ExecutionNode(clonedTable);
         }
 
         //public static void Save(ExecutionItemCollection execItems, string fileName)
@@ -93,7 +94,7 @@ namespace SQLDataProducer.DataAccess.Factories
                     
         //        }
 
-        //        ExecutionItem ei = new ExecutionItem(table, loadedExec.Description);
+        //        ExecutionNode ei = new ExecutionNode(table, loadedExec.Description);
         //        ei.RepeatCount = loadedExec.RepeatCount;
         //        ei.ExecutionCondition = loadedExec.ExecutionCondition;
         //        ei.ExecutionConditionValue = loadedExec.ExecutionConditionValue;

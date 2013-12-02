@@ -419,7 +419,7 @@ order by table_schema, table_name
             // TODO: When the lazy implementation is done, this need to be adjusted
             if (column.ForeignKey.Keys.Count > 0)
             {
-                IEnumerable<Generator> fkGenerators = GeneratorFactory.GetForeignKeyGenerators(column.ForeignKey.Keys);
+                IEnumerable<AbstractValueGenerator> fkGenerators = GeneratorFactory.GetForeignKeyGenerators(column.ForeignKey.Keys);
                 foreach (var fkgen in fkGenerators)
                 {
                     column.PossibleGenerators.Add(fkgen);
