@@ -24,6 +24,11 @@ namespace SQLDataProducer.Entities.DatabaseEntities
     public class ColumnDataTypeDefinition : EntityBase, IEquatable<ColumnDataTypeDefinition>
     {
 
+        public static readonly int STRING_DEFAULT_LENGTH = 50;
+
+        public static readonly int DECIMAL_DEFAULT_LENGTH = 18;
+        public static readonly int DECIMAL_DEFAULT_SCALE = 0;
+
         public ColumnDataTypeDefinition(string rawDataType, bool nullable)
         {
             Raw = rawDataType;
@@ -39,6 +44,107 @@ namespace SQLDataProducer.Entities.DatabaseEntities
                 int length = GetLengthOfStringDataType(rawDataType);
                 MaxLength = length;
             }
+            if (DBType == SqlDbType.Decimal)
+            {
+                SetLengthAndScale(rawDataType);
+            }
+            SetMaxMinValues();
+        }
+
+        private void SetMaxMinValues()
+        {
+            switch (DBType)
+            {
+                case SqlDbType.BigInt:
+                    MaxValue = long.MaxValue;
+                    MinValue = long.MinValue;
+                    break;
+                case SqlDbType.Bit:
+                    MaxValue = 1;
+                    MinValue = 0;
+                    break;
+                case SqlDbType.Decimal:
+                    SetMaxAndMinForDecimalType();
+                    break;
+                case SqlDbType.Float:
+                    MaxValue = decimal.MaxValue;
+                    MinValue = decimal.MinValue;
+                    break;
+                case SqlDbType.Int:
+                    MaxValue = int.MaxValue;
+                    MinValue = int.MinValue;
+                    break;
+                case SqlDbType.Money:
+                    //     System.Decimal. A currency value ranging from -2 63 (or -9,223,372,036,854,775,808)
+                    //     to 2 63 -1 (or +9,223,372,036,854,775,807) with an accuracy to a ten-thousandth
+                    //     of a currency unit.
+                    MaxValue = 9223372036854775807.999m;
+                    MinValue = -9223372036854775808.999m;
+                    break;
+                case SqlDbType.Real:
+                    MaxValue = decimal.MaxValue;
+                    MinValue = decimal.MinValue;
+                    break;
+                case SqlDbType.SmallInt:
+                    MaxValue = short.MaxValue;
+                    MinValue = short.MinValue;
+                    break;
+                case SqlDbType.SmallMoney:
+                    MinValue = -214748.3648m; 
+                    MaxValue = 214748.3647m;
+                    break;
+                case SqlDbType.TinyInt:
+                    MaxValue = byte.MaxValue;
+                    MinValue = byte.MinValue;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void SetMaxAndMinForDecimalType()
+        {
+            double a = Math.Pow(10, MaxLength - Scale) - 1;
+            double b = 1 - Math.Pow(0.1, Scale);
+            decimal max = (decimal)(a + b);
+            MaxValue = max;
+            MinValue = -1 * max;
+        }
+
+        private void SetLengthAndScale(string rawDataType)
+        {
+            // find the precision part of the decimal datatype - decimal(precision, scale)
+            Regex r = new Regex(@"\((?<precision>[0-9]*)(,[ ]?)?(?<scale>[0-9]*?)\)", RegexOptions.Compiled);
+            int length;
+            int scale;
+
+            if (r.Matches(rawDataType).Count > 0)
+            {
+                // a length was found in the string between the paranteses
+                var precision = r.Match(rawDataType).Result("${precision}");
+                if (!int.TryParse(precision, out length))
+                {
+                    length = DECIMAL_DEFAULT_LENGTH;
+                }
+                var s = r.Match(rawDataType).Result("${scale}");
+                if (!int.TryParse(s, out scale))
+                {
+                    scale = DECIMAL_DEFAULT_SCALE;
+                }
+            }
+            else
+            {
+                // no length in the string, use default values
+                length = DECIMAL_DEFAULT_LENGTH;
+                scale = DECIMAL_DEFAULT_SCALE;
+            }
+            if (length == 0)
+            {
+                scale = DECIMAL_DEFAULT_SCALE;
+                length = DECIMAL_DEFAULT_LENGTH;
+            }
+            MaxLength = length;
+            Scale = scale;
         }
 
         private string GetStringFormatter()
@@ -104,13 +210,13 @@ namespace SQLDataProducer.Entities.DatabaseEntities
                 }
                 else if (!int.TryParse(m, out length))
                 {
-                    length = 0;
+                    length = STRING_DEFAULT_LENGTH;
                 }
             }
             else
             {
                 // no length in the string, this is probably a sysname column
-                length = 50;
+                length = STRING_DEFAULT_LENGTH;
             }
             return length;
         }
@@ -177,8 +283,25 @@ namespace SQLDataProducer.Entities.DatabaseEntities
             }
         }
 
+        int _scale;
+        public int Scale
+        {
+            get
+            {
+                return _scale;
+            }
+            set
+            {
+                if (_scale != value)
+                {
+                    _scale = value;
+                    OnPropertyChanged("Scale");
+                }
+            }
+        }
 
         string _raw;
+       
         public string Raw
         {
             get
@@ -211,6 +334,7 @@ namespace SQLDataProducer.Entities.DatabaseEntities
             SqlDbType sqlType;
             if (!Enum.TryParse(dataType.Substring(0, dataType.IndexOf('(') > 0 ? dataType.IndexOf('(') : dataType.Length), true, out sqlType))
             {
+                // fallback to varchar
                 sqlType = SqlDbType.VarChar;
             }
 
@@ -241,6 +365,11 @@ namespace SQLDataProducer.Entities.DatabaseEntities
                 return hash;
             }
         }
+
+
+        public decimal MaxValue { get; private set; }
+        public decimal MinValue { get; private set; }        
+
     }
 
    

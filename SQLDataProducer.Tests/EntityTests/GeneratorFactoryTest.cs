@@ -62,6 +62,7 @@ namespace SQLDataProducer.Tests
         [MSTest.TestMethod]
         public void ShouldInstantiateGeneratorClassesUsingDatatype()
         {
+           // ColumnDataTypeDefinition
           //  var gen = new CountingUpDecimalGenerator(new ColumnDataTypeDefinition("varchar", false));
             Assert.Fail("not implemented");
         }
