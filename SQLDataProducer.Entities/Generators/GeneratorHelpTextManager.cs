@@ -7,8 +7,10 @@ using System.Xml.Linq;
 
 namespace SQLDataProducer.Entities.Generators
 {
-    class GeneratorHelpTextManager
+    public class GeneratorHelpTextManager
     {
+        public static readonly string HELPTEXT_FILENAME = @".\Generators\resources\GeneratorHelpTexts.xml";
+
         // cache to hold the generator texts to avoid reading the xml file multiple times.
         private static Dictionary<string, string> generatorHelpTexts;
         /// <summary>
@@ -35,9 +37,7 @@ namespace SQLDataProducer.Entities.Generators
 
             try
             {
-                string helpTextFile = @".\Generators\resources\GeneratorHelpTexts.xml";
-
-                XDocument doc = XDocument.Load(helpTextFile);
+                XDocument doc = XDocument.Load(HELPTEXT_FILENAME);
                 var texts = from en in doc.Descendants("Text")
                             select new
                             {

@@ -32,6 +32,10 @@ namespace SQLDataProducer.Entities.Generators.StringGenerators
 
         protected override object ApplyGeneratorTypeSpecificLimits(object value)
         {
+            if (value is DBNull)
+            {
+                return value;
+            }
             int maxLength = GeneratorParameters.GetValueOf<int>("MaxLength");
             if (value is string)
                 return (value as string).SubstringWithMaxLength(maxLength);

@@ -33,6 +33,10 @@ namespace SQLDataProducer.Entities.Generators.IntGenerators
 
         protected override object ApplyGeneratorTypeSpecificLimits(object value)
         {
+            if (value is DBNull)
+            {
+                return value;
+            }
             var newValue = (long)value;
             var max = GeneratorParameters.GetValueOf<long>("MaxValue");
             var min = GeneratorParameters.GetValueOf<long>("MinValue");

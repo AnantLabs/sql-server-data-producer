@@ -32,6 +32,10 @@ namespace SQLDataProducer.Entities.Generators.DecimalGenerators
 
         protected override object ApplyGeneratorTypeSpecificLimits(object value)
         {
+            if (value is DBNull)
+            {
+                return value;
+            }
             decimal max = GeneratorParameters.GetValueOf<decimal>("MaxValue");
             decimal min = GeneratorParameters.GetValueOf<decimal>("MinValue");
 

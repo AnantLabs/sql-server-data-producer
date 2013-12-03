@@ -32,7 +32,11 @@ namespace SQLDataProducer.Entities.Generators.DateTimeGenerators
 
         protected override object ApplyGeneratorTypeSpecificLimits(object value)
         {
-            return "";   
+            if (value is DBNull)
+            {
+                return value;
+            }
+            return value;   
         }
     }
 }

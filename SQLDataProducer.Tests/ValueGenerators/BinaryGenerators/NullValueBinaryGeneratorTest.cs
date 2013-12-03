@@ -23,6 +23,7 @@ namespace SQLDataProducer.Tests.ValueGenerators
             Assert.That(firstValue, Is.Not.Null);
         }
 
+
         [Test]
         [MSTest.TestMethod]
         public void ShouldTestStep()

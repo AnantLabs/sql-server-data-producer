@@ -34,10 +34,9 @@ namespace SQLDataProducer.Tests
     [MSTest.TestClass]
     public class GeneratorFactoryTest : TestBase
     {
-        List<string> supportedDatatypes = new List<string>();
+        public static List<string> supportedDatatypes = new List<string>();
 
-        public GeneratorFactoryTest()
-            : base()
+        static GeneratorFactoryTest()
         {
             supportedDatatypes.Add("BigInt");
             supportedDatatypes.Add("Binary");
@@ -71,18 +70,41 @@ namespace SQLDataProducer.Tests
             supportedDatatypes.Add("Time");
             supportedDatatypes.Add("DateTime2");
             supportedDatatypes.Add("DateTimeOffset");
-            
+
             supportedDatatypes.Add("NChar(123)");
             supportedDatatypes.Add("NVarChar(123)");
             supportedDatatypes.Add("VarBinary(123)");
             supportedDatatypes.Add("VarChar(123)");
             supportedDatatypes.Add("Binary(123)");
-            
+
             supportedDatatypes.Add("Decimal(12,10)");
             supportedDatatypes.Add("Decimal(12,1)");
             supportedDatatypes.Add("Decimal(12)");
-            
+
             supportedDatatypes.Add("DateTime2(2)");
+        }
+
+        public GeneratorFactoryTest()
+            : base()
+        {
+            
+        }
+        
+        [Test]
+        [MSTest.TestMethod]
+        public void GeneratorsShouldHaveHelpTexts()
+        {
+            foreach (string dataType in supportedDatatypes)
+            {
+                var gens = GeneratorFactory.GetAllGeneratorsForType(new ColumnDataTypeDefinition(dataType, true));
+                Assert.That(gens.Count, Is.GreaterThan(0), dataType);
+
+                foreach (var gen in gens)
+                {
+                    //Console.WriteLine(gen.GeneratorHelpText);
+                    Assert.IsNotNullOrEmpty(gen.GeneratorHelpText, string.Format("{0} does not have helptext", gen.GeneratorName));
+                }
+            }
         }
 
         [Test]
@@ -91,92 +113,93 @@ namespace SQLDataProducer.Tests
         {
             foreach (string dataType in supportedDatatypes)
             {
-                var gens = GeneratorFactory.GetAllGeneratorsForType(new ColumnDataTypeDefinition(dataType, false));
+                var gens = GeneratorFactory.GetAllGeneratorsForType(new ColumnDataTypeDefinition(dataType, true));
                 Assert.That(gens.Count, Is.GreaterThan(0), dataType);
                
                 foreach (var gen in gens)
                 {
                     try
                     {
+                        Assert.That(gen.GeneratorName, Is.Not.Empty, dataType);
+                        Assert.That(gen.GeneratorName, Is.Not.Null, dataType);
                         Assert.That(gen.GenerateValue(1), Is.Not.Null, dataType);
                     }
                     catch (Exception e)
                     {
                         Assert.Fail(string.Format("ERROR Generating value for [{0}], generator: [{1}], message : {2}", dataType, gen.GeneratorName ,e.ToString()));
                     }
-                    
                 }
             }
         }
 
-        [Test]
-        [MSTest.TestMethod]
-        public void ShouldOutputTestsForEachType()
-        {
-            string testClassTemplate = @"
-using NUnit.Framework;
-using MSTest = Microsoft.VisualStudio.TestTools.UnitTesting;
-using SQLDataProducer.Entities.DatabaseEntities;
-using {0};
+//        [Test]
+//        [MSTest.TestMethod]
+//        public void ShouldOutputTestsForEachType()
+//        {
+//            string testClassTemplate = @"
+//using NUnit.Framework;
+//using MSTest = Microsoft.VisualStudio.TestTools.UnitTesting;
+//using SQLDataProducer.Entities.DatabaseEntities;
+//using {0};
+//
+//namespace SQLDataProducer.Tests.ValueGenerators
+//{{
+//    [TestFixture]
+//    [MSTest.TestClass]
+//    public class {1}Test
+//    {{
+//        public {1}Test()
+//        {{
+//        }}
+//
+//        [Test]
+//        [MSTest.TestMethod]
+//        public void ShouldGenerateValue()
+//        {{
+//            var gen = new {1}(new ColumnDataTypeDefinition(""{2}"", false));
+//            var firstValue = gen.GenerateValue(1);
+//            Assert.That(firstValue, Is.Not.Null);
+//        }}
+//
+//        [Test]
+//        [MSTest.TestMethod]
+//        public void ShouldTestStep()
+//        {{
+//            Assert.Fail(""not implemented"");
+//        }}
+//        [Test]
+//        [MSTest.TestMethod]
+//        public void ShouldTestStartValue()
+//        {{
+//            Assert.Fail(""not implemented"");
+//        }}
+//        [Test]
+//        [MSTest.TestMethod]
+//        public void ShouldTestOverFlow()
+//        {{
+//            Assert.Fail(""not implemented"");
+//        }}
+//    }}
+//}}";
 
-namespace SQLDataProducer.Tests.ValueGenerators
-{{
-    [TestFixture]
-    [MSTest.TestClass]
-    public class {1}Test
-    {{
-        public {1}Test()
-        {{
-        }}
 
-        [Test]
-        [MSTest.TestMethod]
-        public void ShouldGenerateValue()
-        {{
-            var gen = new {1}(new ColumnDataTypeDefinition(""{2}"", false));
-            var firstValue = gen.GenerateValue(1);
-            Assert.That(firstValue, Is.Not.Null);
-        }}
-
-        [Test]
-        [MSTest.TestMethod]
-        public void ShouldTestStep()
-        {{
-            Assert.Fail(""not implemented"");
-        }}
-        [Test]
-        [MSTest.TestMethod]
-        public void ShouldTestStartValue()
-        {{
-            Assert.Fail(""not implemented"");
-        }}
-        [Test]
-        [MSTest.TestMethod]
-        public void ShouldTestOverFlow()
-        {{
-            Assert.Fail(""not implemented"");
-        }}
-    }}
-}}";
-
-
-            foreach (string dataType in supportedDatatypes)
-            {
-                var gens = GeneratorFactory.GetAllGeneratorsForType(new ColumnDataTypeDefinition(dataType, true));
-                Console.WriteLine();
-                Console.WriteLine(dataType);
-                foreach (var g in gens)
-                {
-                    string testClass = string.Format(testClassTemplate, g.GetType().Namespace, g.GetType().Name, dataType);
-                    Console.WriteLine(testClass);
-                    System.IO.Directory.CreateDirectory("c:\\temp\\" + g.GetType().Namespace.Substring(g.GetType().Namespace.LastIndexOf('.') + 1, g.GetType().Namespace.Length - g.GetType().Namespace.LastIndexOf('.') - 1));
-                    System.IO.File.WriteAllText("c:\\temp\\" + g.GetType().Namespace.Substring(g.GetType().Namespace.LastIndexOf('.') + 1 , g.GetType().Namespace.Length - g.GetType().Namespace.LastIndexOf('.') - 1 ) 
-                        + "\\" + g.GetType().Name + "Test.cs", testClass);
-                }
+//            foreach (string dataType in supportedDatatypes)
+//            {
+//                var gens = GeneratorFactory.GetAllGeneratorsForType(new ColumnDataTypeDefinition(dataType, true));
+//                Console.WriteLine();
+//                Console.WriteLine(dataType);
+//                foreach (var g in gens)
+//                {
+//                    string testClass = string.Format(testClassTemplate, g.GetType().Namespace, g.GetType().Name, dataType);
+//                    Console.WriteLine(testClass);
+//                    System.IO.Directory.CreateDirectory("c:\\temp\\" + g.GetType().Namespace.Substring(g.GetType().Namespace.LastIndexOf('.') + 1, g.GetType().Namespace.Length - g.GetType().Namespace.LastIndexOf('.') - 1));
+//                    System.IO.File.WriteAllText("c:\\temp\\" + g.GetType().Namespace.Substring(g.GetType().Namespace.LastIndexOf('.') + 1 , g.GetType().Namespace.Length - g.GetType().Namespace.LastIndexOf('.') - 1 ) 
+//                        + "\\" + g.GetType().Name + "Test.cs", testClass);
+//                }
                 
-            }
-            Assert.Fail();
-        }
+//            }
+//            Assert.Fail();
+//        }
 
         [Test]
         [MSTest.TestMethod]

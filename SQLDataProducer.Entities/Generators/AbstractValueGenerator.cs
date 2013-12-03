@@ -67,12 +67,11 @@ namespace SQLDataProducer.Entities.Generators
                 if (_generatorName != value)
                 {
                     _generatorName = value;
-                    if (string.IsNullOrEmpty(GeneratorHelpText))
-                        GeneratorHelpText = GeneratorHelpTextManager.GetGeneratorHelpText(_generatorName);
                 //    OnPropertyChanged("GeneratorName");
                 }
             }
         }
+
         private string _generatorHelpText;
         /// <summary>
         /// get Help text for the generator

@@ -81,6 +81,49 @@
     <Compile Include="EntityTests\GeneratorTests.cs" />
     <Compile Include="SerializationTests\SaveLoadTests.cs" />
     <Compile Include="TestBase.cs" />
+    <Compile Include="ValueGenerators\BinaryGenerators\NullValueBinaryGeneratorTest.cs" />
+    <Compile Include="ValueGenerators\BinaryGenerators\StaticBinaryValueGeneratorTest.cs" />
+    <Compile Include="ValueGenerators\DateTimeGenerators\CurrentDateTimeGeneratorTest.cs" />
+    <Compile Include="ValueGenerators\DateTimeGenerators\DaysSeriesDateTimeGeneratorTest.cs" />
+    <Compile Include="ValueGenerators\DateTimeGenerators\HourDateTimeGeneratorTest.cs" />
+    <Compile Include="ValueGenerators\DateTimeGenerators\MilliSecondsDateTimeGeneratorTest.cs" />
+    <Compile Include="ValueGenerators\DateTimeGenerators\MinutesDateTimeGeneratorTest.cs" />
+    <Compile Include="ValueGenerators\DateTimeGenerators\NullValueDateTimeGeneratorTest.cs" />
+    <Compile Include="ValueGenerators\DateTimeGenerators\RandomDateTimeGeneratorTest.cs" />
+    <Compile Include="ValueGenerators\DateTimeGenerators\SecondsSeriesDateTimeGeneratorTest.cs" />
+    <Compile Include="ValueGenerators\DateTimeGenerators\SqlGetDateTimeGeneratorTest.cs" />
+    <Compile Include="ValueGenerators\DateTimeGenerators\StaticDateTimeGeneratorTest.cs" />
+    <Compile Include="ValueGenerators\DateTimeGenerators\ValueFromOtherColumnDateTimeGeneratorTest.cs" />
+    <Compile Include="ValueGenerators\DecimalGenerators\CountingUpDecimalGeneratorTest.cs" />
+    <Compile Include="ValueGenerators\DecimalGenerators\NullValueDecimalGeneratorTest.cs" />
+    <Compile Include="ValueGenerators\DecimalGenerators\RandomNumberDecimalGeneratorTest.cs" />
+    <Compile Include="ValueGenerators\DecimalGenerators\StaticNumberDecimalGeneratorTest.cs" />
+    <Compile Include="ValueGenerators\GeneratorHelpTextManagerTest.cs" />
+    <Compile Include="ValueGenerators\IntGenerators\CountingUpIntGeneratorTest.cs" />
+    <Compile Include="ValueGenerators\IntGenerators\IdentityIntGeneratorTest.cs" />
+    <Compile Include="ValueGenerators\IntGenerators\NullValueIntGeneratorTest.cs" />
+    <Compile Include="ValueGenerators\IntGenerators\RandomExponentialIntGeneratorTest.cs" />
+    <Compile Include="ValueGenerators\IntGenerators\RandomForeignKeyIntGeneratorTest.cs" />
+    <Compile Include="ValueGenerators\IntGenerators\RandomIntGeneratorTest.cs" />
+    <Compile Include="ValueGenerators\IntGenerators\RandomLaplaceIntGeneratorTest.cs" />
+    <Compile Include="ValueGenerators\IntGenerators\RandomNormalDistributionIntGeneratorTest.cs" />
+    <Compile Include="ValueGenerators\IntGenerators\RandomWeibullNumbersIntGeneratorTest.cs" />
+    <Compile Include="ValueGenerators\IntGenerators\SequentialForeignKeyIntGeneratorTest.cs" />
+    <Compile Include="ValueGenerators\IntGenerators\SqlQueryIntGeneratorTest.cs" />
+    <Compile Include="ValueGenerators\IntGenerators\StaticIntGeneratorTest.cs" />
+    <Compile Include="ValueGenerators\IntGenerators\ValueFromOtherColumnIntGeneratorTest.cs" />
+    <Compile Include="ValueGenerators\StringGenerators\CitiesStringGeneratorTest.cs" />
+    <Compile Include="ValueGenerators\StringGenerators\CountriesStringGeneratorTest.cs" />
+    <Compile Include="ValueGenerators\StringGenerators\NameStringGeneratorTest.cs" />
+    <Compile Include="ValueGenerators\StringGenerators\NullValueStringGeneratorTest.cs" />
+    <Compile Include="ValueGenerators\StringGenerators\StaticStringGeneratorTest.cs" />
+    <Compile Include="ValueGenerators\StringGenerators\UserNameStringGeneratorTest.cs" />
+    <Compile Include="ValueGenerators\StringGenerators\ValueFromOtherColumnStringGeneratorTest.cs" />
+    <Compile Include="ValueGenerators\UniqueIdentifierGenerators\NullValueGuidGeneratorTest.cs" />
+    <Compile Include="ValueGenerators\UniqueIdentifierGenerators\RandomGuidGeneratorTest.cs" />
+    <Compile Include="ValueGenerators\UniqueIdentifierGenerators\StaticGuidGeneratorTest.cs" />
+    <Compile Include="ValueGenerators\XMLGenerators\NullValueXmlGeneratorTest.cs" />
+    <Compile Include="ValueGenerators\XMLGenerators\StaticXmlGeneratorTest.cs" />
     <Compile Include="ViewModelTests\ExecutionOrderViewModelTests.cs" />
     <Compile Include="ViewModelTests\Helpers\ViewModelTestHelper.cs" />
     <Compile Include="ViewModelTests\MainViewModelTests.cs" />
@@ -127,9 +170,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ValueGenerators\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

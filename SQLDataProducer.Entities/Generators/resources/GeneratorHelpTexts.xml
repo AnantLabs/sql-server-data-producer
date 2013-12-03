@@ -4,6 +4,7 @@
   <Text generatorName="Countries">A country from the Countries.txt file. Will get the N:th country from the file for each generation.</Text>
   <Text generatorName="Female names">A female name from the FemaleNames.txt file. Will get the N:th name from the file for each generation.</Text>
   <Text generatorName="Male names">A country from the MaleNames.txt file. Will get the N:th name from the file for each generation.</Text>
+  <Text generatorName="Names">A name from the MaleNames.txt or FemaleNames.txt files. Will get the N:th name from the file for each generation.</Text>
   <Text generatorName="Cities">A country from the Cities.txt file. Will get the N:th city from the file for each generation.</Text>
   <Text generatorName="User Names">A country from the UserNames.txt file. Will get the N:th username from the file for each generation.</Text>
 
@@ -27,7 +28,7 @@
   <Text generatorName="Random FOREIGN KEY Value (EAGER)">Random foreign key from the FK-Cache. Will not include rows inserted after the analyzes of the DB.</Text>
   <Text generatorName="Sequential FOREIGN KEY Value (EAGER)">The N:th foreign key from the FK-Cache. Will not include rows inserted after the analyzes of the DB.</Text>
   <Text generatorName="Random Int">A randomly generated integer within the configured limits.</Text>
-  <Text generatorName="Counting up Integer">N, starting from the min value up to the max value and back to the min value.</Text>
+  <Text generatorName="Counting Up">N, starting from the min value up to the max value and back to the min value.</Text>
   <Text generatorName="Identity from previous item">Will use the Identity value inserted by another item. Select the Item number that you wish to get identify from.</Text>
   <Text generatorName="Static Number">Any static number you configure.</Text>
   <Text generatorName="Normally Distributed Random Numbers">Random integers (Normally distributed).</Text>
@@ -47,8 +48,8 @@
   <Text generatorName="Identity From SQL Server">This column is IDENTITY and will get it's value generated automatically by SQL Server</Text>
   <Text generatorName="Sequential Identity Insert">Inserted Identity will have N as value.</Text>
   <Text generatorName="Static Decimal Number">Static decimal number that you specify.</Text>
-  
 
+  <Text generatorName="Static XML">Static XML value that you specify.</Text>
 
 </HelpTexts>
 
