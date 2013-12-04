@@ -34,7 +34,7 @@ namespace SQLDataProducer.Entities.ExecutionEntities
         public DataRowEntity ProduceRow(TableEntity table, long n)
         {
             ValidateUtil.ValidateNotNull(table, "table");
-            var row = new DataRowEntity();
+            var row = new DataRowEntity(table);
 
             foreach (var col in table.Columns)
             {

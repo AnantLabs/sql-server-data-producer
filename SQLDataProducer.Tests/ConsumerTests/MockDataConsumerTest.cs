@@ -22,6 +22,7 @@ using SQLDataProducer.Entities.DataEntities;
 using System.Collections.Generic;
 using System;
 using SQLDataProducer.Entities.DataConsumers;
+using SQLDataProducer.Entities.ExecutionEntities;
 
 namespace SQLDataProducer.Tests.ConsumerTests
 {
@@ -33,26 +34,29 @@ namespace SQLDataProducer.Tests.ConsumerTests
         private List<DataRowEntity> tenRowsDataSet;
         private List<DataRowEntity> mixedDataSet;
 
+        ValueStore valueStore = new ValueStore();
+
         public MockDataConsumerTest()
         {
+            var table = new TableEntity("dbo", "Customer");
              singleRowDataSet = new List<DataRowEntity>();
-             singleRowDataSet.Add(new DataRowEntity().AddField("CustomerId", Guid.NewGuid(), new ColumnDataTypeDefinition("int", false), false));
+             singleRowDataSet.Add(new DataRowEntity(table).AddField("CustomerId", Guid.NewGuid(), new ColumnDataTypeDefinition("int", false), false));
 
              tenRowsDataSet = new List<DataRowEntity>();
-             tenRowsDataSet.Add(new DataRowEntity().AddField("CustomerId", Guid.NewGuid(), new ColumnDataTypeDefinition("int", false), false));
-             tenRowsDataSet.Add(new DataRowEntity().AddField("CustomerId", Guid.NewGuid(), new ColumnDataTypeDefinition("int", false), false));
-             tenRowsDataSet.Add(new DataRowEntity().AddField("CustomerId", Guid.NewGuid(), new ColumnDataTypeDefinition("int", false), false));
-             tenRowsDataSet.Add(new DataRowEntity().AddField("CustomerId", Guid.NewGuid(), new ColumnDataTypeDefinition("int", false), false));
-             tenRowsDataSet.Add(new DataRowEntity().AddField("CustomerId", Guid.NewGuid(), new ColumnDataTypeDefinition("int", false), false));
-             tenRowsDataSet.Add(new DataRowEntity().AddField("CustomerId", Guid.NewGuid(), new ColumnDataTypeDefinition("int", false), false));
-             tenRowsDataSet.Add(new DataRowEntity().AddField("CustomerId", Guid.NewGuid(), new ColumnDataTypeDefinition("int", false), false));
-             tenRowsDataSet.Add(new DataRowEntity().AddField("CustomerId", Guid.NewGuid(), new ColumnDataTypeDefinition("int", false), false));
-             tenRowsDataSet.Add(new DataRowEntity().AddField("CustomerId", Guid.NewGuid(), new ColumnDataTypeDefinition("int", false), false));
-             tenRowsDataSet.Add(new DataRowEntity().AddField("CustomerId", Guid.NewGuid(), new ColumnDataTypeDefinition("int", false), false));
+             tenRowsDataSet.Add(new DataRowEntity(table).AddField("CustomerId", Guid.NewGuid(), new ColumnDataTypeDefinition("int", false), false));
+             tenRowsDataSet.Add(new DataRowEntity(table).AddField("CustomerId", Guid.NewGuid(), new ColumnDataTypeDefinition("int", false), false));
+             tenRowsDataSet.Add(new DataRowEntity(table).AddField("CustomerId", Guid.NewGuid(), new ColumnDataTypeDefinition("int", false), false));
+             tenRowsDataSet.Add(new DataRowEntity(table).AddField("CustomerId", Guid.NewGuid(), new ColumnDataTypeDefinition("int", false), false));
+             tenRowsDataSet.Add(new DataRowEntity(table).AddField("CustomerId", Guid.NewGuid(), new ColumnDataTypeDefinition("int", false), false));
+             tenRowsDataSet.Add(new DataRowEntity(table).AddField("CustomerId", Guid.NewGuid(), new ColumnDataTypeDefinition("int", false), false));
+             tenRowsDataSet.Add(new DataRowEntity(table).AddField("CustomerId", Guid.NewGuid(), new ColumnDataTypeDefinition("int", false), false));
+             tenRowsDataSet.Add(new DataRowEntity(table).AddField("CustomerId", Guid.NewGuid(), new ColumnDataTypeDefinition("int", false), false));
+             tenRowsDataSet.Add(new DataRowEntity(table).AddField("CustomerId", Guid.NewGuid(), new ColumnDataTypeDefinition("int", false), false));
+             tenRowsDataSet.Add(new DataRowEntity(table).AddField("CustomerId", Guid.NewGuid(), new ColumnDataTypeDefinition("int", false), false));
 
              mixedDataSet = new List<DataRowEntity>();
-             mixedDataSet.Add(new DataRowEntity().AddField("CustomerId", Guid.NewGuid(), new ColumnDataTypeDefinition("int", false), false));
-             mixedDataSet.Add(new DataRowEntity().AddField("OrderId", Guid.NewGuid(), new ColumnDataTypeDefinition("int", false), false));
+             mixedDataSet.Add(new DataRowEntity(table).AddField("CustomerId", Guid.NewGuid(), new ColumnDataTypeDefinition("int", false), false));
+             mixedDataSet.Add(new DataRowEntity(table).AddField("OrderId", Guid.NewGuid(), new ColumnDataTypeDefinition("int", false), false));
         }
 
         [Test]
@@ -60,9 +64,10 @@ namespace SQLDataProducer.Tests.ConsumerTests
         public void ShouldConsumeAllValues()
         {
             IDataConsumer consumer = new MockDataConsumer();
+            
             consumer.Init("");
 
-            consumer.Consume(tenRowsDataSet);
+            consumer.Consume(tenRowsDataSet, valueStore);
             Assert.That(consumer.TotalRows, Is.EqualTo(10));
           
         }
@@ -94,7 +99,7 @@ namespace SQLDataProducer.Tests.ConsumerTests
             bool exceptionHappened = false;
             try
             {
-                consumer.Consume(new List<DataRowEntity>());
+                consumer.Consume(new List<DataRowEntity>(), valueStore);
             }
             catch (System.Exception)
             {
@@ -112,7 +117,7 @@ namespace SQLDataProducer.Tests.ConsumerTests
             try
             {
                 consumer.Init("");
-                consumer.Consume(null);
+                consumer.Consume(null, valueStore);
             }
             catch (System.Exception)
             {
@@ -127,14 +132,14 @@ namespace SQLDataProducer.Tests.ConsumerTests
         {
             IDataConsumer consumer = new MockDataConsumer();
             consumer.Init("");
-            
-            consumer.Consume(singleRowDataSet);
+
+            consumer.Consume(singleRowDataSet, valueStore);
             Assert.That(consumer.TotalRows, Is.EqualTo(1));
 
             consumer.Init("");
             Assert.That(consumer.TotalRows, Is.EqualTo(0));
-            
-            consumer.Consume(singleRowDataSet);
+
+            consumer.Consume(singleRowDataSet, valueStore);
             Assert.That(consumer.TotalRows, Is.EqualTo(1));
         }
 
@@ -144,8 +149,8 @@ namespace SQLDataProducer.Tests.ConsumerTests
         {
             IDataConsumer consumer = new MockDataConsumer();
             consumer.Init("");
-           
-            consumer.Consume(singleRowDataSet);
+
+            consumer.Consume(singleRowDataSet, valueStore);
             Assert.That( consumer.TotalRows, Is.EqualTo(1));
         }
 

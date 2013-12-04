@@ -39,8 +39,8 @@ namespace SQLDataProducer.Entities.ExecutionEntities
 
         public void Run(string connectionString)
         {
-            consumer.Init("");
-            consumer.Consume(dataProducer.ProduceRows(nodeIterator.GetTablesRecursive(), currentNumberFunction));
+            consumer.Init(connectionString);
+            consumer.Consume(dataProducer.ProduceRows(nodeIterator.GetTablesRecursive(), currentNumberFunction), dataProducer.ValueStorage);
         }
     }
 }

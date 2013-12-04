@@ -1,4 +1,6 @@
 ﻿using SQLDataProducer.Entities.DataConsumers;
+using SQLDataProducer.Entities.DataEntities;
+using SQLDataProducer.Entities.ExecutionEntities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,15 +20,19 @@ namespace SQLDataProducer.Tests
             return initialized = true;
         }
 
-        public SQLDataProducer.Entities.ExecutionEntities.ExecutionResult Consume(IEnumerable<SQLDataProducer.Entities.DataEntities.DataRowEntity> rows)
+        public ExecutionResult Consume(IEnumerable<DataRowEntity> rows, ValueStore valueStore)
         {
             ValidateInitialized();
             foreach (var row in rows)
             {
                 rowCounter++;
-                Console.WriteLine(row);
+                //Console.WriteLine(row);
+                foreach (var field in row.Fields)
+                {
+                    Console.WriteLine(valueStore.GetByKey(field.KeyValue));
+                }
             }
-            
+
             return null;
         }
 

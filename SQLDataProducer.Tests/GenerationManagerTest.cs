@@ -36,7 +36,7 @@ namespace SQLDataProducer.Tests
             GenerationManager manager = new GenerationManager(new MockDataConsumer(), nodeIterator, dataProducer, getN);
         }
 
-        private long i = 0;
+        private long i = 1;
 
         private long getN()
         {

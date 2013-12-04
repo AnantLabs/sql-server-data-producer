@@ -42,7 +42,7 @@ namespace SQLDataProducer.Entities.DataConsumers
         /// <returns>An executionResult with the result of this execution. 
         /// The calling manager is responsible for collecting this 
         /// delta and append it to the big result</returns>
-        ExecutionResult Consume(IEnumerable<DataRowEntity> rows);
+        ExecutionResult Consume(IEnumerable<DataRowEntity> rows, ValueStore valueStore);
 
         /// <summary>
         /// Returns the total rows consumed since the last init

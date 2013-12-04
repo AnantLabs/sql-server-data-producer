@@ -21,6 +21,7 @@ namespace SQLDataProducer.Entities.DataEntities
     public class DataRowEntity : EntityBase
     {
         private List<DataFieldEntity> _fields;
+        private readonly TableEntity table;
 
         public List<DataFieldEntity> Fields
         {
@@ -28,9 +29,10 @@ namespace SQLDataProducer.Entities.DataEntities
             private set { _fields = value; }
         }
 
-        public DataRowEntity()
+        public DataRowEntity(TableEntity table)
         {
             Fields = new List<DataFieldEntity>();
+            this.table = table;
         }
 
         public DataRowEntity AddField(string fieldName, Guid valueKey, ColumnDataTypeDefinition datatype, bool producesValue)
