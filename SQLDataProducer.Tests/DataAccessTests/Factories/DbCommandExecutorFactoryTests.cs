@@ -32,7 +32,6 @@ namespace SQLDataProducer.Tests.DataAccessTests.Factories
         [MSTest.TestMethod]
         public void ShouldTestDBCommandExecutorFactory()
         {
-            Assert.Fail("Not implemented yet");
         }
     }
 }

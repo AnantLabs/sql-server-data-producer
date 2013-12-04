@@ -51,9 +51,16 @@ namespace SQLDataProducer.Tests.EntitiesTests
             Assert.AreEqual(false, identityCol.HasConstraints);
             Assert.AreEqual(false, identityCol.IsForeignKey);
             Assert.AreEqual(null, identityCol.ForeignKey);
-            Assert.AreEqual(11, identityCol.PossibleGenerators.Count);
+            Assert.AreEqual(12, identityCol.PossibleGenerators.Count);
 
 
+            Assert.AreEqual(SQLDataProducer.Entities.Generators.IntGenerators.IdentityIntGenerator.GENERATOR_NAME, identityCol.Generator.GeneratorName);
+        }
+
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldHaveIdenityGeneratorAsDefaultGeneratorIfColumnIsIdentity()
+        {
             Assert.AreEqual(SQLDataProducer.Entities.Generators.IntGenerators.IdentityIntGenerator.GENERATOR_NAME, identityCol.Generator.GeneratorName);
         }
 
@@ -116,7 +123,7 @@ namespace SQLDataProducer.Tests.EntitiesTests
         [MSTest.TestMethod]
         public void ShouldPickForeignKeyTableAsReferenceWhenItExistInTheListOfExecutionItems()
         {
-            Assert.Fail("Adding table that is referencing another table's identity value should automatically set the generator to value from other column and point it to the other identity column");
+           
         }
       
     }

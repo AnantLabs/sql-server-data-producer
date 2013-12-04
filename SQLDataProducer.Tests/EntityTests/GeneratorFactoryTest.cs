@@ -27,6 +27,7 @@ using SQLDataProducer.Entities.DataEntities;
 using SQLDataProducer.Entities.Generators;
 using System.Collections.ObjectModel;
 using SQLDataProducer.Entities.Generators.DecimalGenerators;
+using SQLDataProducer.Entities.Generators.StringGenerators;
 
 namespace SQLDataProducer.Tests
 {
@@ -118,6 +119,10 @@ namespace SQLDataProducer.Tests
                
                 foreach (var gen in gens)
                 {
+                    if (gen.IsTakingValueFromOtherColumn)
+                    {
+                        gen.GeneratorParameters["Value From Column"].Value = new ColumnEntity();
+                    }
                     try
                     {
                         Assert.That(gen.GeneratorName, Is.Not.Empty, dataType);
@@ -239,6 +244,14 @@ namespace SQLDataProducer.Tests
             ExpectMoreNullableThanRegular("UniqueIdentifier", 0);
             ExpectMoreNullableThanRegular("Variant", expectedStringGenerators);
             ExpectMoreNullableThanRegular("Xml", 0);
+        }
+
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldHaveNullGeneratorAsFirstGeneratorIfDataTypeIsNullable()
+        {
+            var gens = GeneratorFactory.GetAllGeneratorsForType(new ColumnDataTypeDefinition("varchar", true));
+            Assert.That(gens.First().GeneratorName, Is.EqualTo(NullValueStringGenerator.GENERATOR_NAME), "should have NULL value generator first");
         }
 
         [Test]

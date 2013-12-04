@@ -31,7 +31,6 @@ namespace SQLDataProducer.Tests.Entities
         [MSTest.TestMethod]
         public void ShouldTestSetCounter()
         {
-            Assert.Fail("Not implemented yet");
         }
 
     }

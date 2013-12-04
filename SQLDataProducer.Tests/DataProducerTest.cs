@@ -70,7 +70,9 @@ namespace SQLDataProducer.Tests
             ValueStore valueStore = new ValueStore();
             Guid g = Guid.NewGuid();
             valueStore.Put(g, "Stored Value");
-
+            
+            Assert.That(valueStore.Count, Is.EqualTo(1));
+            
             var retreived = valueStore.GetByKey(g);
             Assert.That(retreived, Is.EqualTo("Stored Value"));
             Assert.That("Stored Value", Is.EqualTo(retreived));

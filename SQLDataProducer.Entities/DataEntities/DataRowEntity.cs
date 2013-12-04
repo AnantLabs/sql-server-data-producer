@@ -33,9 +33,10 @@ namespace SQLDataProducer.Entities.DataEntities
             Fields = new List<DataFieldEntity>();
         }
 
-        public void AddField(string fieldName, Guid valueKey, ColumnDataTypeDefinition datatype, bool producesValue)
+        public DataRowEntity AddField(string fieldName, Guid valueKey, ColumnDataTypeDefinition datatype, bool producesValue)
         {
             Fields.Add(new DataFieldEntity(fieldName, valueKey, datatype, producesValue));
+            return this;
         }
     }
 }

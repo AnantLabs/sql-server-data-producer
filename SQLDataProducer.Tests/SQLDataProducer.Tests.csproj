@@ -46,13 +46,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConsumerTests\InsertConsumerTests.cs" />
+    <Compile Include="ConsumerTests\MockDataConsumerTest.cs" />
     <Compile Include="ConsumerTests\PluginLoaderTests.cs" />
     <Compile Include="ConsumerTests\DataToCSVConsumerTest.cs" />
     <Compile Include="ConsumerTests\DataToConsoleComsumerTest.cs" />
     <Compile Include="DataProducerTest.cs" />
     <Compile Include="EntityTests\GeneratorFactoryTest.cs" />
     <Compile Include="ForeignKeyTests.cs" />
-    <Compile Include="Helpers\ExecutionItemHelper.cs" />
+    <Compile Include="GenerationManager.cs" />
+    <Compile Include="GenerationManagerTest.cs" />
     <Compile Include="IntegrationTests\BugTest.cs" />
     <Compile Include="LongRunningTests.cs" />
     <Compile Include="DataAccessTests\ColumnEntityDataAccessTests.cs" />
@@ -68,17 +70,15 @@
     <Compile Include="EntityTests\DatabaseEntityFactoryTests.cs" />
     <Compile Include="EntityTests\ErrorListTests.cs" />
     <Compile Include="EntityTests\Collections\ExecutionItemCollectionTests.cs" />
-    <Compile Include="EntityTests\ExecutionItemTests.cs" />
     <Compile Include="EntityTests\ForeignKeyEntityTests.cs" />
     <Compile Include="EntityTests\Collections\GeneratorParameterCollectionTests.cs" />
     <Compile Include="EntityTests\GeneratorParameterTests.cs" />
     <Compile Include="EntityTests\SetCounterTests.cs" />
     <Compile Include="EntityTests\TableEntitityTests.cs" />
-    <Compile Include="EntityTests\DataTableGenerationTests.cs" />
     <Compile Include="EntityTests\Collections\TableEntityCollectionTests.cs" />
+    <Compile Include="MockDataConsumer.cs" />
     <Compile Include="SomeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="EntityTests\GeneratorTests.cs" />
     <Compile Include="SerializationTests\SaveLoadTests.cs" />
     <Compile Include="TestBase.cs" />
     <Compile Include="ValueGenerators\BinaryGenerators\NullValueBinaryGeneratorTest.cs" />
@@ -170,7 +170,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Helpers\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

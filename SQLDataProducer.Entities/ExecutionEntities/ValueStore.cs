@@ -40,5 +40,7 @@ namespace SQLDataProducer.Entities
             values.TryGetValue(key, out value);
             return value;
         }
+
+        public int Count { get { return values.Count; } }
     }
 }

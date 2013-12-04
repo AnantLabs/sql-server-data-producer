@@ -260,7 +260,7 @@ namespace SQLDataProducer.TaskExecuter
             if (!_isInitialized)
                 throw new InvalidOperationException("Method cannot be run before Init have been called");
 
-            _consumer.PreAction(preScript);
+            //_consumer.PreAction(preScript);
         }
 
         internal void PostAction(string postScript)
@@ -268,7 +268,7 @@ namespace SQLDataProducer.TaskExecuter
             if (!_isInitialized)
                 throw new InvalidOperationException("Method cannot be run before Init have been called");
 
-            _consumer.PostAction(postScript);
+           // _consumer.PostAction(postScript);
         }
 
         internal void Init()

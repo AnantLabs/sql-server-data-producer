@@ -41,11 +41,7 @@ namespace SQLDataProducer.Entities.Generators
 
             if (column.IsIdentity)
             {
-                //foreach (var g in Generators.Generator.GetGeneratorsForIdentity())
-                //{
-                //    gens.Insert(0, g);
-                //}
-                throw new NotImplementedException("Identity generator not implemented?");
+                gens = new ObservableCollection<AbstractValueGenerator>(gens.OrderBy(x => x.GeneratorName != IdentityIntGenerator.GENERATOR_NAME));
             }
 
             return gens;
@@ -210,7 +206,10 @@ namespace SQLDataProducer.Entities.Generators
             }
 
             if (dataType.IsNullable)
-                return new ObservableCollection<AbstractValueGenerator>(valueGenerators);
+            {
+                // sort so that the null generator is the first in the list.
+                return new ObservableCollection<AbstractValueGenerator>(valueGenerators.OrderBy( x => x.GeneratorName != NullValueIntGenerator.GENERATOR_NAME)) ;
+            }
             else
                 return new ObservableCollection<AbstractValueGenerator>(valueGenerators.Where(z => z.GeneratorName != NullValueIntGenerator.GENERATOR_NAME));
         }

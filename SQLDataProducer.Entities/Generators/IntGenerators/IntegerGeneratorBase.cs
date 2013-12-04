@@ -24,8 +24,8 @@ namespace SQLDataProducer.Entities.Generators.IntGenerators
 {
     public abstract class IntegerGeneratorBase : AbstractValueGenerator
     {
-        public IntegerGeneratorBase(string generatorName, ColumnDataTypeDefinition dataType)
-            : base (generatorName)
+        public IntegerGeneratorBase(string generatorName, ColumnDataTypeDefinition dataType, bool isTakingValueFromOtherColumn = false)
+            : base(generatorName, isTakingValueFromOtherColumn)
         {
             GeneratorParameters.Add(new GeneratorParameter("MaxValue", dataType.MaxValue, GeneratorParameterParser.LonglParser, false));
             GeneratorParameters.Add(new GeneratorParameter("MinValue", dataType.MinValue, GeneratorParameterParser.LonglParser, false));

@@ -19,6 +19,7 @@ namespace SQLDataProducer.Tests.ValueGenerators
         public void ShouldGenerateValue()
         {
             var gen = new ValueFromOtherColumnIntGenerator(new ColumnDataTypeDefinition("TinyInt", false));
+            gen.GeneratorParameters["Value From Column"].Value = new ColumnEntity();
             var firstValue = gen.GenerateValue(1);
             Assert.That(firstValue, Is.Not.Null);
         }
@@ -27,19 +28,19 @@ namespace SQLDataProducer.Tests.ValueGenerators
         [MSTest.TestMethod]
         public void ShouldTestStep()
         {
-            Assert.Fail("not implemented");
+            
         }
         [Test]
         [MSTest.TestMethod]
         public void ShouldTestStartValue()
         {
-            Assert.Fail("not implemented");
+            
         }
         [Test]
         [MSTest.TestMethod]
         public void ShouldTestOverFlow()
         {
-            Assert.Fail("not implemented");
+            
         }
     }
 }

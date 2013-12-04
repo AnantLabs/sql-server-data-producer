@@ -45,24 +45,8 @@ namespace SQLDataProducer.DataConsumers
         ExecutionResult Consume(IEnumerable<DataRowEntity> rows);
 
         /// <summary>
-        /// Perform cleanup to remove previous instances of the target
+        /// Returns the total rows consumed since the last init
         /// </summary>
-        /// <param name="target"></param>
-        /// <param name="datasetNames"></param>
-        void CleanUp(List<string> datasetNames);
-
-        /// <summary>
-        /// Some action to take before the consumation begins
-        /// </summary>
-        /// <param name="target"></param>
-        /// <param name="action"></param>
-        void PreAction(string action);
-
-        /// <summary>
-        /// Some action to take after the consumtion begins
-        /// </summary>
-        /// <param name="target"></param>
-        /// <param name="action"></param>
-        void PostAction(string action);
+        int TotalRows { get; }
     }
 }

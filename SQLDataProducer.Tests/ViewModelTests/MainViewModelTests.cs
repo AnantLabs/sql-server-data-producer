@@ -14,67 +14,64 @@ namespace SQLDataProducer.Tests.ViewModelTests
     public class MainViewModelTests : TestBase
     {
 
-        MainWindowViewModel mainVM;
-        Model.ApplicationModel model;
+        //MainWindowViewModel mainVM;
+        //Model.ApplicationModel model;
 
-        public MainViewModelTests()
-            : base()
-        {
-            //model = new Model.ApplicationModel();
-            var options = new ExecutionTaskOptions();
+        //public MainViewModelTests()
+        //    : base()
+        //{
+        //    //model = new Model.ApplicationModel();
+        //    var options = new ExecutionTaskOptions();
 
-            options.ExecutionType = ExecutionTypes.ExecutionCountBased;
-            options.FixedExecutions = 1;
+        //    options.ExecutionType = ExecutionTypes.ExecutionCountBased;
+        //    options.FixedExecutions = 1;
 
-            mainVM = new MainWindowViewModel(options);
+        //    mainVM = new MainWindowViewModel(options);
 
-            model = mainVM.Model;
-            model.ConnectionString = Connection();
-        }
+        //    model = mainVM.Model;
+        //    model.ConnectionString = Connection();
+        //}
 
-        [Test]
-        [MSTest.TestMethod]
-        [Ignore]
-        public void ShouldRun_LoadCommand()
-        {
-            // Cant test, is showing windows GUI
-        }
+        //[Test]
+        //[MSTest.TestMethod]
+        //public void ShouldRun_LoadCommand()
+        //{
+        //    // Cant test, is showing windows GUI
+        //}
 
-        [Test]
-        [MSTest.TestMethod]
-        public void ShouldRun_LoadTablesCommand()
-        {
-            mainVM.LoadTablesCommand.Execute();
-            MainViewModelDoEventsUntilQueryIsDone();
-            Assert.That(mainVM.Model.Tables.Count, Is.GreaterThan(0));
+        //[Test]
+        //[MSTest.TestMethod]
+        //public void ShouldRun_LoadTablesCommand()
+        //{
+        //    mainVM.LoadTablesCommand.Execute();
+        //    MainViewModelDoEventsUntilQueryIsDone();
+        //    Assert.That(mainVM.Model.Tables.Count, Is.GreaterThan(0));
 
-        }
+        //}
 
-        private void MainViewModelDoEventsUntilQueryIsDone()
-        {
-            while (mainVM.Model.IsQueryRunning)
-            {
-                Thread.Sleep(10);
-                DispatcherSupplier.DispatcherUtil.DoEvents();
+        //private void MainViewModelDoEventsUntilQueryIsDone()
+        //{
+        //    while (mainVM.Model.IsQueryRunning)
+        //    {
+        //        Thread.Sleep(10);
+        //        DispatcherSupplier.DispatcherUtil.DoEvents();
 
-            }
-        }
+        //    }
+        //}
 
-        [Test]
-        [MSTest.TestMethod]
-        [Ignore]
-        public void ShouldRun_RunCommand()
-        {
-            // cannot test, is showing windows
-        }
+        //[Test]
+        //[MSTest.TestMethod]
+        //public void ShouldRun_RunCommand()
+        //{
+        //    // cannot test, is showing windows
+        //}
 
-        [Test]
-        [MSTest.TestMethod]
-        [Ignore]
-        public void ShouldRun_SaveCommand()
-        {
-            // Cant test, is showing windows GUI
-        }
+        //[Test]
+        //[MSTest.TestMethod]
+        //public void ShouldRun_SaveCommand()
+        //{
+        //    // Cant test, is showing windows GUI
+        //}
 
     }
 }

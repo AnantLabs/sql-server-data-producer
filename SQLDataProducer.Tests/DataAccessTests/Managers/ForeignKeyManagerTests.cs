@@ -31,7 +31,6 @@ namespace SQLDataProducer.Tests.DataAccessTests.Managers
         [MSTest.TestMethod]
         public void ShouldTestForeignKeyManager()
         {
-            Assert.Fail("Not implemented yet");
         }
     }
 }

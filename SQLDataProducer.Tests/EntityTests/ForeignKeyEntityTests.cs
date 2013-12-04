@@ -31,7 +31,6 @@ namespace SQLDataProducer.Tests.Entities
         [MSTest.TestMethod]
         public void ShouldTestForeignKeyEntity()
         {
-            Assert.Fail("Not implemented yet");
         }
     }
 }

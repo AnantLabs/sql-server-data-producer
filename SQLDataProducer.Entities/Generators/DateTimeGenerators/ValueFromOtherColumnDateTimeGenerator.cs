@@ -26,8 +26,9 @@ namespace SQLDataProducer.Entities.Generators.DateTimeGenerators
         public static readonly string GENERATOR_NAME = "Value from other Column";
 
         public ValueFromOtherColumnDateTimeGenerator(ColumnDataTypeDefinition datatype)
-            : base(GENERATOR_NAME, datatype)
+            : base(GENERATOR_NAME, datatype, true)
         {
+            GeneratorParameters.Add(new GeneratorParameter("Value From Column", null, GeneratorParameterParser.ObjectParser));
             GeneratorParameters.Add(new GeneratorParameter("Shift Days", 0, GeneratorParameterParser.IntegerParser));
             GeneratorParameters.Add(new GeneratorParameter("Shift Hours", 0, GeneratorParameterParser.IntegerParser));
             GeneratorParameters.Add(new GeneratorParameter("Shift Minutes", 0, GeneratorParameterParser.IntegerParser));
@@ -37,13 +38,12 @@ namespace SQLDataProducer.Entities.Generators.DateTimeGenerators
 
         protected override object InternalGenerateValue(long n, Collections.GeneratorParameterCollection paramas)
         {
-            int d = paramas.GetValueOf<int>( "Shift Days");
-                int h = paramas.GetValueOf<int>( "Shift Hours");
-                int min = paramas.GetValueOf<int>( "Shift Minutes");
-                int s = paramas.GetValueOf<int>( "Shift Seconds");
-                int ms = paramas.GetValueOf<int>( "Shift Milliseconds");
-                var ts = new TimeSpan(d, h, min, s, ms);
-                return DateTime.Now.Add(ts);
+            ColumnEntity col = paramas.GetValueOf<ColumnEntity>("Value From Column");
+            if (col != null)
+            {
+                return col.ColumnIdentity;
+            }
+            throw new ArgumentNullException("Value From Column");
         }
     }
 }

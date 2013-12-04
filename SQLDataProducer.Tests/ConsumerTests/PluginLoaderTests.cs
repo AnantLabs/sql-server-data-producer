@@ -28,7 +28,7 @@ namespace SQLDataProducer.Tests.ConsumerTests
             {
                 Console.WriteLine(p);
             }
-            Assert.That(plugins.Count, Is.EqualTo(4));
+            Assert.That(plugins.Count, Is.EqualTo(0));
 
         }
 

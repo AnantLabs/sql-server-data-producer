@@ -26,36 +26,19 @@ namespace SQLDataProducer.Entities.Generators.IntGenerators
         public static readonly string GENERATOR_NAME = "Value from other Column";
 
         public ValueFromOtherColumnIntGenerator(ColumnDataTypeDefinition datatype)
-            : base(GENERATOR_NAME, datatype)
+            : base(GENERATOR_NAME, datatype, true)
         {
-            GeneratorParameters.Add(new GeneratorParameter("StartValue", 0, GeneratorParameterParser.IntegerParser));
-            GeneratorParameters.Add(new GeneratorParameter("Step", 1, GeneratorParameterParser.IntegerParser));
+            GeneratorParameters.Add(new GeneratorParameter("Value From Column", null, GeneratorParameterParser.ObjectParser));
         }
 
         protected override object InternalGenerateValue(long n, Collections.GeneratorParameterCollection paramas)
         {
-            //public static Generator CreateValueFromOtherColumnGenerator_NewWay()
-            //{
-            //    GeneratorParameterCollection paramss = new GeneratorParameterCollection();
-            //    paramss.Add(new GeneratorParameter("Value From Column", null, GeneratorParameterParser.ObjectParser));
-
-            //    Generator gen = new Generator();
-            //    gen.GeneratorName = GENERATOR_NewWayToGetValueFromOtherColumn;
-            //    gen._isTakingValueFromOtherColumn = true;
-            //    gen.ValueGenerator = (n, p) =>
-            //    {
-            //        ColumnEntity col = p.GetValueOf<ColumnEntity>("Value From Column");
-            //        if (col != null)
-            //        {
-            //            return col.ColumnIdentity;
-            //        }
-            //        throw new ArgumentNullException("Value From Column");
-            //    };
-
-            //    gen.GeneratorParameters = paramss;
-            //    return gen;
-            //}
-            return n;
+            ColumnEntity col = paramas.GetValueOf<ColumnEntity>("Value From Column");
+            if (col != null)
+            {
+                return col.ColumnIdentity;
+            }
+            throw new ArgumentNullException("Value From Column");
         }
     }
 }

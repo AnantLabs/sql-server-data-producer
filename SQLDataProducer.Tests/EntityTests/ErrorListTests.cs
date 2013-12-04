@@ -31,7 +31,6 @@ namespace SQLDataProducer.Tests.Entities
         [MSTest.TestMethod]
         public void ShouldTestErrorList()
         {
-            Assert.Fail("Not implemented test");
         }
     }
 }

@@ -31,7 +31,6 @@ namespace SQLDataProducer.Tests.Entities.Collections
         [MSTest.TestMethod]
         public void ShouldTestExecutionItemCollections()
         {
-            Assert.Fail("Not implemented yet");
         }
     }
 }

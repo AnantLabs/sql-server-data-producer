@@ -25,11 +25,12 @@ namespace SQLDataProducer.Entities.Generators
 {
     public abstract class AbstractValueGenerator
     {
-        protected AbstractValueGenerator(string generatorName)
+        protected AbstractValueGenerator(string generatorName, bool isTakingValueFromOtherColumn = false)
         {
             GeneratorName = generatorName;
             GeneratorParameters = new GeneratorParameterCollection();
             GeneratorHelpText = GeneratorHelpTextManager.GetGeneratorHelpText(generatorName);
+            _isTakingValueFromOtherColumn = isTakingValueFromOtherColumn;
         }
 
         GeneratorParameterCollection _genParameters;
@@ -114,7 +115,8 @@ namespace SQLDataProducer.Entities.Generators
         
         public object GenerateValue(long n)
         {
-            return ApplyGeneratorTypeSpecificLimits(InternalGenerateValue(n, GeneratorParameters));
+            //ApplyGeneratorTypeSpecificLimits();
+            return InternalGenerateValue(n, GeneratorParameters);
         }
 
         protected void OnPropertyChanged(string propertyName)

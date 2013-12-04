@@ -206,7 +206,13 @@ namespace SQLDataProducer.Entities.DatabaseEntities
             WarningText = HasWarning ? "One of the columns have a warning" : string.Empty;
         }
 
-        
+
+
+        public TableEntity AddColumn(ColumnEntity columnEntity)
+        {
+            Columns.Add(columnEntity);
+            return this;
+        }
     }
 
 

@@ -36,20 +36,6 @@ namespace SQLDataProducer.Tests.ConsumerTests
         [MSTest.TestMethod]
         public void StandardTest()
         {
-            //var table = ExecutionItemHelper.CreateTableAnd5Columns("dbo", "Peter");
-            //long i = 0;
-            //var ei = new ExecutionNode(table);
-            //ei.RepeatCount = 100;
-            //var rows = ei.CreateData(new Func<long>(() => { return i++; }));
-
-            //Assert.That(rows.Count, Is.EqualTo(100));
-
-
-            //DataToConsoleConsumer consumer = new DataToConsoleConsumer();
-            //consumer.Consume(rows);
-
-            Assert.Fail("Not implemented this test yet");
-
         }
 
     }

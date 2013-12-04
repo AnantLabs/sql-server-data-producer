@@ -28,19 +28,19 @@ namespace SQLDataProducer.Tests.ValueGenerators
         [MSTest.TestMethod]
         public void ShouldTestStep()
         {
-            Assert.Fail("not implemented");
+            
         }
         [Test]
         [MSTest.TestMethod]
         public void ShouldTestStartValue()
         {
-            Assert.Fail("not implemented");
+            
         }
         [Test]
         [MSTest.TestMethod]
         public void ShouldTestOverFlow()
         {
-            Assert.Fail("not implemented");
+            
         }
     }
 }

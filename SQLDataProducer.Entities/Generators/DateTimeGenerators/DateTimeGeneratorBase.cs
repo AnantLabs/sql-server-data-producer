@@ -24,8 +24,8 @@ namespace SQLDataProducer.Entities.Generators.DateTimeGenerators
 {
     public abstract class DateTimeGeneratorBase : AbstractValueGenerator
     {
-        public DateTimeGeneratorBase(string generatorName, ColumnDataTypeDefinition dataType)
-            : base (generatorName)
+        public DateTimeGeneratorBase(string generatorName, ColumnDataTypeDefinition dataType, bool isTakingValueFromOtherColumn = false)
+            : base(generatorName, isTakingValueFromOtherColumn)
         {
 
         }
