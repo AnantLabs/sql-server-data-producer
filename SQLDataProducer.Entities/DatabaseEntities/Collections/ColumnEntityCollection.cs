@@ -21,23 +21,35 @@ using System.Text;
 
 namespace SQLDataProducer.Entities.DatabaseEntities.Collections
 {
-    public class ColumnEntityCollection : ObservableCollection<ColumnEntity>
+    public class ColumnEntityCollection : IEnumerable<ColumnEntity>
     {
+        private readonly Dictionary<string, ColumnEntity> columns;
+
         public ColumnEntityCollection()
             : base()
         {
+            columns = new Dictionary<string, ColumnEntity>();
         }
 
-        public ColumnEntityCollection(IEnumerable<ColumnEntity> cols)
-            : base (cols)
+        public ColumnEntityCollection Add(ColumnEntity column)
         {
+            columns.Add(column.ColumnName, column);
+            return this;
         }
 
         public void AddRange(IEnumerable<ColumnEntity> columns)
         {
-            foreach (var c in columns)
+            foreach (var column in columns)
             {
-                base.Add(c);
+                Add(column);
+            }
+        }
+
+        public ColumnEntity this[int index]
+        {
+            get
+            {
+                return columns.Values.Skip(index).FirstOrDefault();
             }
         }
 
@@ -49,27 +61,42 @@ namespace SQLDataProducer.Entities.DatabaseEntities.Collections
         {
             // TODO: Clone using the same entity as the LOAD/SAVE functionality
             ColumnEntityCollection cols = new ColumnEntityCollection();
-            foreach (var c in Items)
+            foreach (var key in columns.Keys)
             {
-                var col = Factories.DatabaseEntityFactory.CloneColumn(c);
+                var clonedColumn = Factories.DatabaseEntityFactory.CloneColumn(columns[key]);
 
-                cols.Add(col);
+                cols.Add(clonedColumn);
             }
 
-            return new ColumnEntityCollection(cols);
+            return cols;
         }
 
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            foreach (var item in Items)
+            foreach (var key in columns.Keys)
             {
-                sb.AppendLine(item.ToString());
+                sb.AppendLine(columns[key].ToString());
             }
             return sb.ToString();
         }
 
-        
-        
+
+
+
+        public IEnumerator<ColumnEntity> GetEnumerator()
+        {
+            return columns.Values.GetEnumerator();
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return columns.Values.GetEnumerator();
+        }
+
+        public ColumnEntity Get(string columnName)
+        {
+            return columns[columnName];
+        }
     }
 }

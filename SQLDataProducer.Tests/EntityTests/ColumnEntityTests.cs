@@ -125,6 +125,17 @@ namespace SQLDataProducer.Tests.EntitiesTests
         {
            
         }
-      
+
+        //[Test]
+        //[MSTest.TestMethod]
+        //public void ShouldAssertThatNoSettableFieldsAreAdded()
+        //{
+        //    var allProperties = typeof(ColumnEntity).GetProperties();
+
+        //    Assert.That(allProperties.All(x => x.GetSetMethod() == null));
+
+        //    Assert.That(allProperties.Count(), Is.EqualTo(8));
+        //}
+
     }
 }

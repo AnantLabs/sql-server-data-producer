@@ -23,18 +23,27 @@ namespace SQLDataProducer.Entities.DatabaseEntities
 {
     public class ColumnDataTypeDefinition : EntityBase, IEquatable<ColumnDataTypeDefinition>
     {
-
         public static readonly int STRING_DEFAULT_LENGTH = 50;
-
         public static readonly int DECIMAL_DEFAULT_LENGTH = 18;
         public static readonly int DECIMAL_DEFAULT_SCALE = 0;
 
+        
+        public SqlDbType DBType { get; private set; }
+        public string StringFormatter { get; private set; }
+        public bool IsNullable { get; private set; }
+        public int Scale { get; private set; }
+        public string Raw { get; private set; }
+        
+        public int MaxLength { get; private set; }
+        public decimal MaxValue { get; private set; }
+        public decimal MinValue { get; private set; }
+
         public ColumnDataTypeDefinition(string rawDataType, bool nullable)
         {
-            Raw = rawDataType;
+            Raw = rawDataType.ToLower();
             DBType = StringToDBDataType(rawDataType);
             IsNullable = nullable;
-            _stringFormatter = GetStringFormatter();
+            StringFormatter = GetStringFormatter();
 
             if (DBType == SqlDbType.VarChar 
                 || DBType == SqlDbType.NVarChar 
@@ -221,102 +230,7 @@ namespace SQLDataProducer.Entities.DatabaseEntities
             return length;
         }
 
-        SqlDbType _dbType;
-        public SqlDbType DBType
-        {
-            get
-            {
-                return _dbType;
-            }
-            set
-            {
-                if (_dbType != value)
-                {
-                    _dbType = value;
-                    OnPropertyChanged("DBType");
-                }
-            }
-        }
-
-
-        string _stringFormatter;
-        public string StringFormatter
-        {
-            get
-            {
-                return _stringFormatter;
-            }
-        }
-
-        bool _isNullable;
-        public bool IsNullable
-        {
-            get
-            {
-                return _isNullable;
-            }
-            set
-            {
-                if (_isNullable != value)
-                {
-                    _isNullable = value;
-                    OnPropertyChanged("IsNullable");
-                }
-            }
-        }
-
-
-        int _maxLength;
-        public int MaxLength
-        {
-            get
-            {
-                return _maxLength;
-            }
-            set
-            {
-                if (_maxLength != value)
-                {
-                    _maxLength = value;
-                    OnPropertyChanged("MaxLength");
-                }
-            }
-        }
-
-        int _scale;
-        public int Scale
-        {
-            get
-            {
-                return _scale;
-            }
-            set
-            {
-                if (_scale != value)
-                {
-                    _scale = value;
-                    OnPropertyChanged("Scale");
-                }
-            }
-        }
-
-        string _raw;
-       
-        public string Raw
-        {
-            get
-            {
-                return _raw;
-            }
-            set
-            {
-                if (_raw != value)
-                {
-                    _raw = value;
-                    OnPropertyChanged("Raw");
-                }
-            }
-        }
+        
 
 
         public override string ToString()
@@ -367,9 +281,13 @@ namespace SQLDataProducer.Entities.DatabaseEntities
         }
 
 
-        public decimal MaxValue { get; private set; }
-        public decimal MinValue { get; private set; }        
 
+
+
+        public ColumnDataTypeDefinition Clone()
+        {
+            return new ColumnDataTypeDefinition(Raw, this.IsNullable);
+        }
     }
 
    

@@ -27,12 +27,9 @@ namespace SQLDataProducer.Entities.Generators.Collections
     /// </summary>
     public class GeneratorParameterCollection : Dictionary<string, GeneratorParameter>
     {
-        //Dictionary<string, GeneratorParameter> items;
-
         public GeneratorParameterCollection()
             : base()
         {
-            //items = new Dictionary<string, GeneratorParameter>();
         }
 
         /// <summary>
@@ -79,16 +76,6 @@ namespace SQLDataProducer.Entities.Generators.Collections
             this.Add(parameter.ParameterName, parameter);
         }
 
-        //public GeneratorParameter this[int index]
-        //{
-        //    get
-        //    {
-        //        return this.Keys[index];
-        //    }
-        //}
-
-        //public int Count { get { return this.Count; } }
-
         public GeneratorParameterCollection Clone()
         {
             // TODO: Clone using the same entity as the LOAD/SAVE functionality
@@ -103,12 +90,14 @@ namespace SQLDataProducer.Entities.Generators.Collections
 
         public T GetValueOf<T>(string parameterName)
         {
-            var param = this[parameterName];
-            if (param == null)
+            GeneratorParameter param = null;
+            if (!this.TryGetValue(parameterName, out param))
             {
-                throw new ArgumentNullException(parameterName);
+                throw new KeyNotFoundException(parameterName);
             }
-            if (param.Value is T)
+            if (param.Value == null)
+                throw new ArgumentNullException(parameterName);
+            else if (param.Value is T)
                 return (T)param.Value;
             else
                 throw new InvalidCastException("The parameter did not match the supplied type. parameterName: " + parameterName + ", requested type: " + typeof(T).ToString());

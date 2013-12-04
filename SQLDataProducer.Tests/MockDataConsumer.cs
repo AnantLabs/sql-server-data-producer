@@ -1,11 +1,12 @@
-﻿using System;
+﻿using SQLDataProducer.Entities.DataConsumers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace SQLDataProducer.Tests
 {
-    class MockDataConsumer : SQLDataProducer.DataConsumers.IDataConsumer
+    class MockDataConsumer : IDataConsumer
     {
 
         private int rowCounter = 0;

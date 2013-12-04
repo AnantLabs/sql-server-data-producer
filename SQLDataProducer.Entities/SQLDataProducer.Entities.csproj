@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ColumnDataTypeDefinitionCache.cs" />
     <Compile Include="DatabaseEntities\Collections\ColumnEntityCollection.cs" />
     <Compile Include="DatabaseEntities\Collections\ErrorList.cs" />
     <Compile Include="DatabaseEntities\Collections\GeneratorCollectionExtensions.cs" />
@@ -50,9 +51,14 @@
     <Compile Include="DatabaseEntities\ColumnEntity.cs" />
     <Compile Include="DatabaseEntities\ColumnDataTypeDefinition.cs" />
     <Compile Include="DatabaseEntities\Factories\DatabaseEntityFactory.cs" />
+    <Compile Include="DataConsumer\ConsumerMetaDataAttribute.cs" />
+    <Compile Include="DataConsumer\IDataConsumer.cs" />
+    <Compile Include="DataConsumer\IDataConsumerPluginWrapper.cs" />
+    <Compile Include="DataConsumer\PluginLoader.cs" />
     <Compile Include="DataEntities\DataFieldEntity.cs" />
     <Compile Include="DataEntities\DataRowEntity.cs" />
     <Compile Include="ExecutionEntities\DataProducer.cs" />
+    <Compile Include="ExecutionEntities\GenerationManager.cs" />
     <Compile Include="Generators\BinaryGenerators\BinaryGeneratorBase.cs" />
     <Compile Include="Generators\BinaryGenerators\NullValueBinaryGenerator.cs" />
     <Compile Include="Generators\BinaryGenerators\StaticBinaryGenerator.cs" />

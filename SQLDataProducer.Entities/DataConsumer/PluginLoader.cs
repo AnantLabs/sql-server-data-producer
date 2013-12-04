@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace SQLDataProducer.DataConsumers
+namespace SQLDataProducer.Entities.DataConsumers
 {
     public static class PluginLoader
     {

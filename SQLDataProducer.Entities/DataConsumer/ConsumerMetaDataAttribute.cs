@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SQLDataProducer.DataConsumers
+namespace SQLDataProducer.Entities.DataConsumers
 {
     [AttributeUsage(AttributeTargets.Class)]
     public class ConsumerMetaDataAttribute : Attribute

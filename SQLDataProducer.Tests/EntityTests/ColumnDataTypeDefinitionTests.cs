@@ -20,6 +20,7 @@ using NUnit.Framework;
 using MSTest = Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Data;
 using SQLDataProducer.Entities.DatabaseEntities;
+using SQLDataProducer.Entities;
 
 
 namespace SQLDataProducer.Tests.Entities
@@ -273,6 +274,40 @@ namespace SQLDataProducer.Tests.Entities
             var a = new ColumnDataTypeDefinition(dataType, false);
             Assert.That(a, Is.Not.Null, dataType);
         }
+
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldCloneColumnDataTypeDefinition()
+        {
+            var a = new ColumnDataTypeDefinition("decimal(20)", false);
+            ColumnDataTypeDefinition clone = a.Clone();
+            Assert.That(a.DBType, Is.EqualTo(clone.DBType));
+            Assert.That(a.IsNullable, Is.EqualTo(clone.IsNullable));
+            Assert.That(a.MaxLength, Is.EqualTo(clone.MaxLength));
+            Assert.That(a.MaxValue, Is.EqualTo(clone.MaxValue));
+            Assert.That(a.MinValue, Is.EqualTo(clone.MinValue));
+            Assert.That(a.Raw, Is.EqualTo(clone.Raw));
+            Assert.That(a.Scale, Is.EqualTo(clone.Scale));
+            Assert.That(a.StringFormatter, Is.EqualTo(clone.StringFormatter));
+        }
+
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldAssertThatNoSettableFieldsAreAdded()
+        {
+            var allProperties = typeof(ColumnDataTypeDefinition).GetProperties();
+
+            Assert.That(allProperties.All(x => x.GetSetMethod() == null));
+
+            Assert.That(allProperties.Count(), Is.EqualTo(8));
+        }
+
+        //[Test]
+        //[MSTest.TestMethod]
+        //public void ShouldCacheDataTypeDefinitionsBasedOnRaw()
+        //{
+        //    ColumnDataTypeDefinitionCache typeCache = new ColumnDataTypeDefinitionCache();
+        //}
     }
 }
 

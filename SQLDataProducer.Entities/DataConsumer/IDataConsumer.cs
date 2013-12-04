@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SQLDataProducer.DataConsumers
+namespace SQLDataProducer.Entities.DataConsumers
 {
     /// <summary>
     /// Implementers of this interface should consume the flow of data rows generated and return a result of how the the consumation went.

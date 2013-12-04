@@ -19,6 +19,9 @@ using System.Text;
 using NUnit.Framework;
 using MSTest = Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Data;
+using SQLDataProducer.Entities.DatabaseEntities.Collections;
+using SQLDataProducer.Entities.DatabaseEntities.Factories;
+using SQLDataProducer.Entities.DatabaseEntities;
 
 
 namespace SQLDataProducer.Tests.Entities.Collections
@@ -29,8 +32,43 @@ namespace SQLDataProducer.Tests.Entities.Collections
     {
         [Test]
         [MSTest.TestMethod]
-        public void ShouldTestColumnEntityCollection()
+        public void ShouldAddColumnToCollection()
         {
+            var columns = new ColumnEntityCollection();
+            columns.Add(DatabaseEntityFactory.CreateColumnEntity("CustomerId", new ColumnDataTypeDefinition("int", false), true, 1, false, null, null));
+
+            Assert.That(columns.Count(), Is.EqualTo(1));
+        }
+
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldGetColumnFromCollection()
+        {
+            var columns = new ColumnEntityCollection();
+            var column = DatabaseEntityFactory.CreateColumnEntity("CustomerId", new ColumnDataTypeDefinition("int", false), true, 1, false, null, null);
+            columns.Add(column);
+
+            Assert.That(columns[0], Is.EqualTo(column));
+            Assert.That(columns.Get("CustomerId"), Is.EqualTo(column));
+        }
+
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldGetExceptionWhenTryingToGetColumnThatDoesNotExist()
+        {
+            bool exceptionHappened = false;
+            var columns = new ColumnEntityCollection();
+
+            try
+            {
+                Assert.That(columns[0], Is.Null);
+                Assert.That(columns.Get("CustomerId"), Is.Null);
+            }
+            catch (KeyNotFoundException)
+            {
+                exceptionHappened = true;
+            }
+            Assert.That(exceptionHappened);
         }
     }
 }

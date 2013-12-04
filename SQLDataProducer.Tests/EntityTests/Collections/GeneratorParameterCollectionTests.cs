@@ -95,5 +95,41 @@ namespace SQLDataProducer.Tests.Entities.Collections
             //CollectionAssert.AreEqual(coll, coll2);
             
         }
+
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldGetExceptionIfParameterIsMissing()
+        {
+            GeneratorParameterCollection coll = new GeneratorParameterCollection();
+            bool exceptionHappened = false;
+            try
+            {
+                coll.GetValueOf<string>("unknown");
+            }
+            catch (Exception)
+            {
+                exceptionHappened = true;
+            }
+            Assert.That(exceptionHappened);
+        }
+
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldGetNullIfParameteHasNullValue()
+        {
+            bool exceptionHappened = false;
+            try
+            {
+                GeneratorParameterCollection coll = new GeneratorParameterCollection();
+                coll.Add(new GeneratorParameter("Date", null, GeneratorParameterParser.DateTimeParser));
+                coll.GetValueOf<DateTime>("Date");
+            }
+            catch (ArgumentNullException)
+            {
+                exceptionHappened = true;
+            }
+            Assert.That(exceptionHappened);
+        }
     }
+
 }

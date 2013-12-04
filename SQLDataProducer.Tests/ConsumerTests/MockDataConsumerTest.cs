@@ -21,6 +21,7 @@ using SQLDataProducer.DataConsumers;
 using SQLDataProducer.Entities.DataEntities;
 using System.Collections.Generic;
 using System;
+using SQLDataProducer.Entities.DataConsumers;
 
 namespace SQLDataProducer.Tests.ConsumerTests
 {

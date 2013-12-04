@@ -25,6 +25,7 @@ using System.IO;
 //using SQLDataProducer.ContinuousInsertion;
 using SQLDataProducer.Entities.DatabaseEntities.Collections;
 using SQLDataProducer.DataConsumers;
+using SQLDataProducer.Entities.DataConsumers;
 
 namespace SQLDataProducer.TaskExecuter
 {

@@ -27,8 +27,8 @@ using System.Linq;
 using System.Windows.Data;
 using System.ComponentModel;
 using System.Collections.Generic;
-using SQLDataProducer.DataConsumers;
 using SQLDataProducer.Helpers;
+using SQLDataProducer.Entities.DataConsumers;
 
 namespace SQLDataProducer.Model
 {
@@ -47,7 +47,7 @@ namespace SQLDataProducer.Model
             ConnectionString = SQLDataProducerSettings.Default.ConnectionString;
 
             // TODO: Move plugin folder to some other folder. Configure where it is? Or hardcode
-            _availablePlugins = SQLDataProducer.DataConsumers.PluginLoader.LoadPluginsFromFolder(Environment.CurrentDirectory);
+            _availablePlugins = PluginLoader.LoadPluginsFromFolder(Environment.CurrentDirectory);
 
             _executionItemsWithWarningsSource = new CollectionViewSource { Source = ExecutionItems };
             ExecutionItemsWithWarningsView = _executionItemsWithWarningsSource.View;

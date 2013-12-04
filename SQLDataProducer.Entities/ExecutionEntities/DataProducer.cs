@@ -21,7 +21,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SQLDataProducer.Entities
+namespace SQLDataProducer.Entities.ExecutionEntities
 {
     public sealed class DataProducer 
     {

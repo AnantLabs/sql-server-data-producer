@@ -32,22 +32,22 @@ namespace SQLDataProducer.Entities.DatabaseEntities
             TableName = tableName;
             TableSchema = tableSchema;
             Columns = new ColumnEntityCollection();
-            Columns.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(Columns_CollectionChanged);
+            //Columns.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(Columns_CollectionChanged);
         }
 
-        // Columns added event handler
-        void Columns_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            foreach (ColumnEntity item in e.NewItems)
-            {
-                if (item.HasWarning)
-                    HasWarning = true;
+        //// Columns added event handler
+        //void Columns_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        //{
+        //    foreach (ColumnEntity item in e.NewItems)
+        //    {
+        //        if (item.HasWarning)
+        //            HasWarning = true;
 
-                item.ParentTable = this;
-            }
+        //        item.ParentTable = this;
+        //    }
 
-            HasIdentityColumn = Columns.Any(c => c.IsIdentity);
-        }
+        //    HasIdentityColumn = Columns.Any(c => c.IsIdentity);
+        //}
 
 
         bool _hasIdentityColumn = false;
@@ -80,7 +80,7 @@ namespace SQLDataProducer.Entities.DatabaseEntities
                 if (_columns != value)
                 {
                     _columns = value;
-                    HasWarning = _columns.Any(c => c.HasWarning);
+                    HasWarning = _columns.Any(x => x.HasWarning);
                 }
             }
         }

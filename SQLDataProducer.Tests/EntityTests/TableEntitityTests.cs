@@ -95,15 +95,6 @@ namespace SQLDataProducer.Tests.Entities
             Assert.IsTrue(secondCol.PossibleGenerators.Count > 0);
             Assert.IsTrue(secondCol.HasWarning == false);
 
-            for (int i = 0; i < 500; i++)
-            {
-                foreach (var c in table.Columns)
-                {
-                    var val = c.GenerateValue(i);
-                    Assert.That(val, Is.Not.Null);
-                }
-            }
-
         }
     }
 }

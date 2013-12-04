@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SQLDataProducer.Entities
+namespace SQLDataProducer.Entities.ExecutionEntities
 {
     public class ValueStore
     {
