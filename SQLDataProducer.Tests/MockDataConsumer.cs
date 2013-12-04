@@ -13,6 +13,10 @@ namespace SQLDataProducer.Tests
 
         private int rowCounter = 0;
         private bool initialized = false;
+        public MockDataConsumer()
+        {
+            ValueValidator = new Action<object>(value => { return; });
+        }
 
         public bool Init(string connectionString, Dictionary<string, string> options = null)
         {
@@ -29,6 +33,7 @@ namespace SQLDataProducer.Tests
                 //Console.WriteLine(row);
                 foreach (var field in row.Fields)
                 {
+                    ValueValidator(valueStore.GetByKey(field.KeyValue));
                     Console.WriteLine(valueStore.GetByKey(field.KeyValue));
                 }
             }
@@ -56,5 +61,9 @@ namespace SQLDataProducer.Tests
                 return rowCounter;
             }
         }
+
+        public Action<object> ValueValidator { get; set; }
+
+        public static Action<object> NonNullValueValidator { get { return new Action<object>(value => { if (value == null) throw new ArgumentNullException(); }); } }
     }
 }

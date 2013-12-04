@@ -19,6 +19,8 @@ using SQLDataProducer.Entities.Generators.DecimalGenerators;
 using SQLDataProducer.Entities;
 using SQLDataProducer.Entities.ExecutionEntities;
 using SQLDataProducer.Entities.DatabaseEntities.Factories;
+using SQLDataProducer.DataConsumers.DataToCSVConsumer;
+using System.Collections.Generic;
 
 namespace SQLDataProducer.Tests
 {
@@ -75,6 +77,43 @@ namespace SQLDataProducer.Tests
 
             GenerationManager manager = new GenerationManager(consumerMock, nodeIterator, dataProducer, getN);
             manager.Run("");
+        }
+
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldHaveValuesForEachFieldInTheValueStore()
+        {
+            var rootNode = ExecutionNode.CreateLevelOneNode(1);
+            rootNode.AddTable(new TableEntity("dbo", "Customer").AddColumn(DatabaseEntityFactory.CreateColumnEntity("CustomerId", new ColumnDataTypeDefinition("int", false), false, 1, false, null, null)));
+
+            var nodeIterator = new NodeIterator(rootNode);
+            var valueStore = new ValueStore();
+            var dataProducer = new DataProducer(valueStore);
+            var consumerMock = new MockDataConsumer();
+            consumerMock.ValueValidator = MockDataConsumer.NonNullValueValidator;
+
+            GenerationManager manager = new GenerationManager(consumerMock, nodeIterator, dataProducer, getN);
+            manager.Run("");
+        }
+
+
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldRUnWithDataToCSVConsumer()
+        {
+            var rootNode = ExecutionNode.CreateLevelOneNode(1);
+            rootNode.AddTable(new TableEntity("dbo", "Customer").AddColumn(DatabaseEntityFactory.CreateColumnEntity("CustomerId", new ColumnDataTypeDefinition("int", false), false, 1, false, null, null)));
+
+            var nodeIterator = new NodeIterator(rootNode);
+            var valueStore = new ValueStore();
+            var dataProducer = new DataProducer(valueStore);
+            var consumerMock = new DataToCSVConsumer();
+
+            var options = new Dictionary<string, string>();
+            options.Add("Output Folder", @"c:\temp");
+
+            GenerationManager manager = new GenerationManager(consumerMock, nodeIterator, dataProducer, getN);
+            manager.Run("", options);
         }
     }
 }

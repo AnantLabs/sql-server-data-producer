@@ -39,7 +39,12 @@ namespace SQLDataProducer.Entities.ExecutionEntities
 
         public void Run(string connectionString)
         {
-            consumer.Init(connectionString);
+            Run(connectionString, null);
+        }
+
+        public void Run(string connectionString, Dictionary<string, string> options)
+        {
+            consumer.Init(connectionString, options);
             consumer.Consume(dataProducer.ProduceRows(nodeIterator.GetTablesRecursive(), currentNumberFunction), dataProducer.ValueStorage);
         }
     }
