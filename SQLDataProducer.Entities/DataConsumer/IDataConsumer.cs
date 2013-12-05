@@ -33,7 +33,7 @@ namespace SQLDataProducer.Entities.DataConsumers
         /// </summary>
         /// <param name="target">connectionstring to use in the consumer</param>
         /// <returns></returns>
-        bool Init(string connectionString, Dictionary<string, string> options  = null);
+        bool Init(string connectionString, Dictionary<string, string> options);
 
         /// <summary>
         /// Consume the data feed

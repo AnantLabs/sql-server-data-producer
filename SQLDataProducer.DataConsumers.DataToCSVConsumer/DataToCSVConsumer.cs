@@ -28,10 +28,16 @@ namespace SQLDataProducer.DataConsumers.DataToCSVConsumer
     public class DataToCSVConsumer : IDataConsumer
     {
 
+        public static readonly string OUTPUT_FOLDER_PARAMETER = "Output Folder";
+
         Dictionary<string, string> _options;
         private int rowCounter = 0;
+        private int identityCounter = 0;
 
-        public string OutputFolder { get { return _options["Output Folder"]; } }
+        public string OutputFolder {
+            get { return _options[OUTPUT_FOLDER_PARAMETER]; }
+            private set { _options[OUTPUT_FOLDER_PARAMETER] = value; }
+        }
 
         public void Dispose()
         {
@@ -63,6 +69,10 @@ namespace SQLDataProducer.DataConsumers.DataToCSVConsumer
 
                     foreach (var field in row.Fields)
                     {
+                        if (field.ProducesValue)
+                        {
+                            valueStore.Put(field.KeyValue, identityCounter++);
+                        }
                         var value = valueStore.GetByKey(field.KeyValue);
                         sb.Append(value);
                         Console.WriteLine(value);

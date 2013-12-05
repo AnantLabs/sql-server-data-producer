@@ -34,6 +34,11 @@ namespace SQLDataProducer.Tests.ConsumerTests
         private List<DataRowEntity> tenRowsDataSet;
         private List<DataRowEntity> mixedDataSet;
 
+        private IDataConsumer GetImplementedType()
+        {
+            return new MockDataConsumer();
+        }
+
         ValueStore valueStore = new ValueStore();
 
         public MockDataConsumerTest()
@@ -63,9 +68,9 @@ namespace SQLDataProducer.Tests.ConsumerTests
         [MSTest.TestMethod]
         public void ShouldConsumeAllValues()
         {
-            IDataConsumer consumer = new MockDataConsumer();
+            IDataConsumer consumer = GetImplementedType();
 
-            consumer.Init("");
+            consumer.Init("", null);
 
             consumer.Consume(tenRowsDataSet, valueStore);
             Assert.That(consumer.TotalRows, Is.EqualTo(10));
@@ -95,7 +100,7 @@ namespace SQLDataProducer.Tests.ConsumerTests
         [MSTest.TestMethod]
         public void ShouldThrowExceptionIfNotInitiatedBeforeRunning()
         {
-            IDataConsumer consumer = new MockDataConsumer();
+            IDataConsumer consumer = GetImplementedType();
             bool exceptionHappened = false;
             try
             {
@@ -112,11 +117,11 @@ namespace SQLDataProducer.Tests.ConsumerTests
         [MSTest.TestMethod]
         public void ShouldThrowExceptionIfConsumingNull()
         {
-            IDataConsumer consumer = new MockDataConsumer();
+            IDataConsumer consumer = GetImplementedType();
             bool exceptionHappened = false;
             try
             {
-                consumer.Init("");
+                consumer.Init("", null);
                 consumer.Consume(null, valueStore);
             }
             catch (System.Exception)
@@ -130,13 +135,13 @@ namespace SQLDataProducer.Tests.ConsumerTests
         [MSTest.TestMethod]
         public void ShouldResetTheTotalRowsConsumedAtInit()
         {
-            IDataConsumer consumer = new MockDataConsumer();
-            consumer.Init("");
+            IDataConsumer consumer = GetImplementedType();
+            consumer.Init("", null);
 
             consumer.Consume(singleRowDataSet, valueStore);
             Assert.That(consumer.TotalRows, Is.EqualTo(1));
 
-            consumer.Init("");
+            consumer.Init("", null);
             Assert.That(consumer.TotalRows, Is.EqualTo(0));
 
             consumer.Consume(singleRowDataSet, valueStore);
@@ -147,14 +152,11 @@ namespace SQLDataProducer.Tests.ConsumerTests
         [MSTest.TestMethod]
         public void ShouldCountNumberOfRowsConsumed()
         {
-            IDataConsumer consumer = new MockDataConsumer();
-            consumer.Init("");
+            IDataConsumer consumer = GetImplementedType();
+            consumer.Init("", null);
 
             consumer.Consume(singleRowDataSet, valueStore);
             Assert.That(consumer.TotalRows, Is.EqualTo(1));
         }
-
-        
-
     }
 }

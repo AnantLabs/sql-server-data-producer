@@ -13,9 +13,18 @@ namespace SQLDataProducer.Tests
 
         private int rowCounter = 0;
         private bool initialized = false;
+        private int identityCounter = 0;
+
+        public Action<object> ValueValidator { get; set; }
+        public Action<DataRowEntity> RowValidator { get; set; }
+
+        public static Action<object> NonNullValueValidator { get { return new Action<object>(value => { if (value == null) throw new ArgumentNullException(); }); } }
+        public static Action<DataRowEntity> NonNullRowValidator { get { return new Action<DataRowEntity>(value => { if (value == null) throw new ArgumentNullException(); }); } }
+        
         public MockDataConsumer()
         {
             ValueValidator = new Action<object>(value => { return; });
+            RowValidator = new Action<DataRowEntity>(value => { return; });
         }
 
         public bool Init(string connectionString, Dictionary<string, string> options = null)
@@ -30,11 +39,16 @@ namespace SQLDataProducer.Tests
             foreach (var row in rows)
             {
                 rowCounter++;
-                //Console.WriteLine(row);
+                RowValidator(row);
                 foreach (var field in row.Fields)
                 {
-                    ValueValidator(valueStore.GetByKey(field.KeyValue));
-                    Console.WriteLine(valueStore.GetByKey(field.KeyValue));
+                    if (field.ProducesValue)
+                    {
+                        valueStore.Put(field.KeyValue, identityCounter++);
+                    }
+                    var value = valueStore.GetByKey(field.KeyValue);
+                    ValueValidator(value);
+                    Console.WriteLine(value);
                 }
             }
 
@@ -62,8 +76,6 @@ namespace SQLDataProducer.Tests
             }
         }
 
-        public Action<object> ValueValidator { get; set; }
-
-        public static Action<object> NonNullValueValidator { get { return new Action<object>(value => { if (value == null) throw new ArgumentNullException(); }); } }
+       
     }
 }

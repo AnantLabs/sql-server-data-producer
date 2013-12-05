@@ -45,11 +45,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConsumerTests\DataToCSVConsumerTest.cs" />
-    <Compile Include="ConsumerTests\InsertConsumerTests.cs" />
+    <Compile Include="ConsumerTests\CommonDataConsumerTest.cs" />
     <Compile Include="ConsumerTests\MockDataConsumerTest.cs" />
     <Compile Include="ConsumerTests\PluginLoaderTests.cs" />
-    <Compile Include="ConsumerTests\DataToConsoleComsumerTest.cs" />
     <Compile Include="DataProducerTest.cs" />
     <Compile Include="DataRowEntityTest.cs" />
     <Compile Include="EntityTests\GeneratorFactoryTest.cs" />
