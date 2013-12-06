@@ -21,6 +21,7 @@ using System.IO;
 using SQLDataProducer.Entities.DataConsumers;
 using SQLDataProducer.Entities.ExecutionEntities;
 using SQLDataProducer.Entities.DataEntities;
+using SQLDataProducer.Entities.DatabaseEntities.Collections;
 
 namespace SQLDataProducer.DataConsumers.DataToCSVConsumer
 {
@@ -61,6 +62,9 @@ namespace SQLDataProducer.DataConsumers.DataToCSVConsumer
 
         public ExecutionResult Consume(IEnumerable<DataRowEntity> rows, ValueStore valueStore)
         {
+            DateTime startTime = DateTime.Now;
+            ErrorList errors = new ErrorList();
+
             using (TextWriter writer = File.AppendText(OutputFolder + "\\output.csv")) 
             {
                 foreach (var row in rows)
@@ -86,7 +90,10 @@ namespace SQLDataProducer.DataConsumers.DataToCSVConsumer
                 
                 writer.Flush();
             }
-            return null;
+
+            DateTime endTime = DateTime.Now;
+
+            return new ExecutionResult(startTime, endTime, rowCounter, errors);
         }
 
         public int TotalRows

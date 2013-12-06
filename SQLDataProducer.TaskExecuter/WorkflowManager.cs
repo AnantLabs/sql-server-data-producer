@@ -75,8 +75,8 @@ namespace SQLDataProducer.TaskExecuter
 
                 executor.PostAction(postScript);
 
-                execResult.StartTime = startTime;
-                execResult.EndTime = DateTime.Now;
+                //execResult.StartTime = startTime;
+                //execResult.EndTime = DateTime.Now;
 
                 return execResult;
             }

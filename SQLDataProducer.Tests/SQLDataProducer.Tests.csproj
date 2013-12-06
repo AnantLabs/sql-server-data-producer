@@ -50,6 +50,7 @@
     <Compile Include="ConsumerTests\PluginLoaderTests.cs" />
     <Compile Include="DataProducerTest.cs" />
     <Compile Include="DataRowEntityTest.cs" />
+    <Compile Include="EntityTests\ExecutionResultTest.cs" />
     <Compile Include="EntityTests\GeneratorFactoryTest.cs" />
     <Compile Include="ForeignKeyTests.cs" />
     <Compile Include="GenerationManagerTest.cs" />

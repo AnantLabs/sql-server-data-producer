@@ -21,133 +21,37 @@ namespace SQLDataProducer.Entities.ExecutionEntities
     public class ExecutionResult : EntityBase
     {
 
-        public ExecutionResult()
+        public ExecutionResult(DateTime startTime, DateTime endTime, long insertCount, ErrorList errors)
         {
-            //StartTime = startTime;
-            ErrorList = new ErrorList();
-            InsertCount = 0;
-            //EndTime = startTime;
+            ValidateUtil.ValidateNotNull(startTime, "startTime");
+            ValidateUtil.ValidateNotNull(endTime, "endTime");
+            ValidateUtil.ValidateNotNull(errors, "errors");
+
+            this.StartTime = startTime;
+            this.EndTime = endTime;
+            this.InsertCount = insertCount;
+            this.Errors = errors;
         }
 
         public override string ToString()
         {
             return string.Format(@"
-Executed Items:                  {0},
-Inserted Rows(Approximation):    {1},
-Start Time:                      {2},
-End Time:                        {3},
-Duration:                        {4},
-Errors:                          {5}
-", ExecutedItemCount, InsertCount, StartTime.ToString(), EndTime.ToString(), Duration.ToString(), ErrorList.Count);
+Inserted Rows(Approximation):    {0},
+Start Time:                      {1},
+End Time:                        {2},
+Duration:                        {3},
+Errors:                          {4}
+", InsertCount, StartTime.ToString(), EndTime.ToString(), Duration.ToString(), Errors.Count);
         }
 
-        long  _insertCount;
-        public long InsertCount
-        {
-            get
-            {
-                return _insertCount;
-            }
-            set
-            {
-                if (_insertCount != value)
-                {
-                    _insertCount = value;
-                    OnPropertyChanged("InsertCount");
-                }
-            }
-        }
+        public TimeSpan Duration { get { return EndTime - StartTime; }  }
 
-        ErrorList _errorList;
-        public ErrorList ErrorList
-        {
-            get
-            {
-                return _errorList;
-            }
-            set
-            {
-                if (_errorList != value)
-                {
-                    _errorList = value;
-                    OnPropertyChanged("ErrorList");
-                }
-            }
-        }
+        public DateTime StartTime { get; private set; }
 
-        DateTime _startTime;
-        public DateTime StartTime
-        {
-            get
-            {
-                return _startTime;
-            }
-            set
-            {
-                if (_startTime != value)
-                {
-                    _startTime = value;
-                    OnPropertyChanged("StartTime");
-                }
-            }
-        }
+        public DateTime EndTime { get; private set; }
 
-        DateTime _endTime;
-        public DateTime EndTime
-        {
-            get
-            {
-                return _endTime;
-            }
-            set
-            {
-                if (_endTime != value)
-                {
-                    _endTime = value;
-                    if (StartTime != null)
-                    {
-                        Duration = _endTime - StartTime;
-                        OnPropertyChanged("Duration");
-                    }
-                    
-                    OnPropertyChanged("EndTime");
-                }
-            }
-        }
+        public long InsertCount { get; private set; }
 
-        TimeSpan _duration;
-        public TimeSpan Duration
-        {
-            get
-            {
-                return _duration;
-            }
-            private set
-            {
-                if (_duration != value)
-                {
-                    _duration = value;
-                    OnPropertyChanged("Duration");
-                }
-            }
-        }
-
-        long _executedItemCount;
-        public long ExecutedItemCount
-        {
-            get
-            {
-                return _executedItemCount;
-            }
-            set
-            {
-                if (_executedItemCount != value)
-                {
-                    _executedItemCount = value;
-                    OnPropertyChanged("ExecutedItems");
-                }
-            }
-        }
-     
+        public ErrorList Errors { get; private set; }
     }
 }

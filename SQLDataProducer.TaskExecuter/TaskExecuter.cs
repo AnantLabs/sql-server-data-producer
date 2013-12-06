@@ -112,7 +112,7 @@ namespace SQLDataProducer.TaskExecuter
 
             //SQLDataProducer.Entities.Generators.Generator.InitGeneratorStartValues(Options);
 
-            ExecutionResult result = new ExecutionResult();
+            //ExecutionResult result = new ExecutionResult();
 
             try
             {
@@ -130,17 +130,17 @@ namespace SQLDataProducer.TaskExecuter
             }
             catch (Exception e)
             {
-                result.ErrorList.Add(e.ToString());
+               // result.ErrorList.Add(e.ToString());
             }
             finally
             {
-                result.ErrorList.AddRange(_errorMessages);
-                result.InsertCount = _rowInsertCounter.Peek();
-                result.ExecutedItemCount = _executionCounter.Peek();
+                //result.ErrorList.AddRange(_errorMessages);
+                //result.InsertCount = _rowInsertCounter.Peek();
+                //result.TablesTouched = _executionCounter.Peek();
                 _doneMyWork = true;
             }
 
-            return result;
+            return null;// result;
 
         }
 
