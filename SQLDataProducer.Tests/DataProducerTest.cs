@@ -308,11 +308,12 @@ namespace SQLDataProducer.Tests
         {
             TableEntity table = new TableEntity("dbo", "Calendar");
             var startDate = DatabaseEntityFactory.CreateColumnEntity("StartDate", new ColumnDataTypeDefinition("datetime", false), false, 1, false, null, null);
+            var endDate = DatabaseEntityFactory.CreateColumnEntity("EndDate", new ColumnDataTypeDefinition("datetime", false), false, 2, false, null, null);
+            endDate.Generator = new ValueFromOtherColumnDateTimeGenerator(endDate.ColumnDataType);
+            endDate.Generator.GeneratorParameters["Value From Column"].Value = startDate;
+
             table.Columns.Add(startDate);
-            var col2 = DatabaseEntityFactory.CreateColumnEntity("EndDate", new ColumnDataTypeDefinition("datetime", false), false, 2, false, null, null);
-            col2.Generator = new ValueFromOtherColumnDateTimeGenerator(col2.ColumnDataType);
-            col2.Generator.GeneratorParameters["Value From Column"].Value = startDate;
-            table.Columns.Add(col2);
+            table.Columns.Add(endDate);
 
             List<TableEntity> tables = new List<TableEntity> {table};
 
@@ -325,5 +326,20 @@ namespace SQLDataProducer.Tests
             Assert.That(row.Fields[1].KeyValue, Is.EqualTo(row.Fields[0].KeyValue));
         }
 
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldGenerateUniqueValuesForTwoRowsOfSameTable()
+        {
+            ValueStore valuestore = new ValueStore();
+            var dp = new DataProducer(valuestore);
+
+            List<TableEntity> tables = new List<TableEntity>();
+            tables.Add(customerTable);
+
+            List<DataRowEntity> rows = new List<DataRowEntity>();
+
+            rows.AddRange(dp.ProduceRows(tables, getN));
+            rows.AddRange(dp.ProduceRows(tables, getN));
+        }
     }
 }

@@ -175,7 +175,7 @@ namespace SQLDataProducer.Entities.DatabaseEntities
                 case SqlDbType.Timestamp:
                 case SqlDbType.TinyInt:
                 case SqlDbType.Udt:
-
+                case SqlDbType.Bit:
                 case SqlDbType.VarBinary:
                     return "{0}";
 
@@ -194,7 +194,6 @@ namespace SQLDataProducer.Entities.DatabaseEntities
                 case SqlDbType.VarChar:
                 case SqlDbType.Variant:
                 case SqlDbType.Xml:
-                case SqlDbType.Bit:
                     return "'{0}'";
                     
                 default:

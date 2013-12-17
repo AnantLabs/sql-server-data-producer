@@ -39,13 +39,7 @@ namespace SQLDataProducer.Entities.ExecutionEntities
             foreach (var col in table.Columns)
             {
                 var value = col.GenerateValue(n);
-                var key = col.ColumnIdentity;
-
-                // if col is generating identity or other value at insert, do not generate value now
-                if (col.IsIdentity)
-                {
-                    value = null;
-                }
+                Guid key;
 
                 if (col.Generator.IsTakingValueFromOtherColumn)
                 {
@@ -55,11 +49,21 @@ namespace SQLDataProducer.Entities.ExecutionEntities
                     }
                     else
                     {
-                        throw new InvalidCastException("The generator returned a non-GUID type when generating value from other column");
+                        throw new InvalidCastException("The generator returned a non-GUID type as key when generating value from other column");
                     }
                 }
-                else
+                else // if col is generating identity or other value at insert, do not generate value
                 {
+                    if (col.IsIdentity)
+                    {
+                        key = col.ColumnIdentity;
+                        value = null;
+                    }
+                    else
+                    {
+                        key = Guid.NewGuid();
+                    }
+                    
                     ValueStorage.Put(key, value);
                 }
                 

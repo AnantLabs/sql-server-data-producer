@@ -23,7 +23,7 @@ namespace SQLDataProducer.Tests.ConsumerTests
             {
                 Console.WriteLine(p);
             }
-            Assert.That(plugins.Count, Is.EqualTo(1));
+            Assert.That(plugins.Count, Is.EqualTo(2), "Notice when new plugins are added");
 
         }
 

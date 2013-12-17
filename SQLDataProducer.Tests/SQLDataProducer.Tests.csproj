@@ -46,6 +46,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConsumerTests\CommonDataConsumerTest.cs" />
+    <Compile Include="ConsumerTests\InsertConsumer\InsertConsumerTest.cs" />
+    <Compile Include="ConsumerTests\InsertConsumer\TableQueryGeneratorTest.cs" />
     <Compile Include="ConsumerTests\MockDataConsumerTest.cs" />
     <Compile Include="ConsumerTests\PluginLoaderTests.cs" />
     <Compile Include="DataProducerTest.cs" />

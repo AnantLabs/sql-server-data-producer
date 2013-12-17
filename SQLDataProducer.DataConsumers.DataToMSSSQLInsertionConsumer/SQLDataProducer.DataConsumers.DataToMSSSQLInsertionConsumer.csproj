@@ -48,10 +48,11 @@
     <Compile Include="Builders\EntityBuilders\TableQueryBuilder.cs" />
     <Compile Include="Builders\Helpers\QueryBuilderHelper.cs" />
     <Compile Include="DataAccess\DbCommandExecutorFactory.cs" />
-    <Compile Include="InsertComsumer.cs" />
+    <Compile Include="InsertConsumer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DataAccess\QueryExecutor.cs" />
     <Compile Include="Builders\TableEntityInsertStatementBuilder.cs" />
+    <Compile Include="TableQueryGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SQLDataProducer.Entities\SQLDataProducer.Entities.csproj">
