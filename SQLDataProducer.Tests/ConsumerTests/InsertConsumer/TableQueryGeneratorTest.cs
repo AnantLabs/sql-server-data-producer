@@ -105,15 +105,11 @@ namespace SQLDataProducer.Tests.ConsumerTests.InsertConsumer
             IEnumerable<DataRowEntity> rows = new List<DataRowEntity> { producer.ProduceRow(customerTable, 1), producer.ProduceRow(customerTable, 2) };
 
             string firstValues = generator.GenerateInsertStatements(rows, valueStore).First();
-
-            Assert.That(firstValues, Is.Not.Empty);
-            Assert.That(firstValues, Is.Not.Null);
-
             Assert.That(firstValues, Is.EqualTo("INSERT Customer(" + generator.ColumnList + ")" + 
                                             " VALUES (0, 'Arboga', 0)"));
 
-            string secondValues = generator.GenerateInsertStatements(rows, valueStore).First();
-            Assert.That(firstValues, Is.EqualTo("INSERT Customer(" + generator.ColumnList + ")" +
+            string secondValues = generator.GenerateInsertStatements(rows, valueStore).Skip(1).First();
+            Assert.That(secondValues, Is.EqualTo("INSERT Customer(" + generator.ColumnList + ")" +
                                             " VALUES (1, 'Arvika', 1)"));
         }
     }

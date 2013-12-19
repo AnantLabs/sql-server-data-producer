@@ -111,23 +111,19 @@ namespace SQLDataProducer.Tests
            
         }
 
-        private bool ExpectedExceptionHappened<T>(Action action, string testName) where T : Exception
+        private bool ExpectedExceptionHappened<T>(Action testInAction, string testName) where T : Exception
         {
             bool exceptionHappened = false;
             try
             {
-                action();
+                testInAction();
             }
             catch (T ex)
             {
                 Console.WriteLine(ex.ToString());
                 exceptionHappened = true;
             }
-            if (exceptionHappened != true)
-            {
-                Console.WriteLine("Exception did not happend on this:");
-                Console.WriteLine(testName);
-            }
+            Assert.That(exceptionHappened, "Exception did not happen during test: " + testName);
 
             return exceptionHappened;
         }
@@ -138,10 +134,28 @@ namespace SQLDataProducer.Tests
         {
             ValueStore valuestore = new ValueStore();
             var dp = new DataProducer(valuestore);
+            dp.ProduceRow(customerTable, 1);
+
 
             DataRowEntity row = dp.ProduceRow(orderTable, 1);
             Assert.That(row.Fields[3].KeyValue, Is.Not.Null);
             Assert.That(valuestore.GetByKey(row.Fields[3].KeyValue), Is.Not.Null);
+        }
+
+
+        [Test]
+        [MSTest.TestMethod]
+        public void shouldNotBeAbleToTakeValueFromColumnThatHaveNotGeneratedAnyValueYet()
+        {
+            ValueStore valuestore = new ValueStore();
+            var dp = new DataProducer(valuestore);
+
+
+            Action a = new Action(() =>
+            {
+                DataRowEntity row = dp.ProduceRow(orderTable, 1);
+            });
+            ExpectedExceptionHappened<ArgumentNullException>(a, "shouldNotBeAbleToTakeValueFromColumnThatHaveNotGeneratedAnyValueYet");
         }
 
         [Test]

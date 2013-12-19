@@ -73,7 +73,6 @@ namespace SQLDataProducer.Entities.ExecutionEntities
                     ValueStorage.Put(key, value);
                 }
                 
-                
                 row.AddField(col.ColumnName, key, col.ColumnDataType, col.IsIdentity);
             }
 
