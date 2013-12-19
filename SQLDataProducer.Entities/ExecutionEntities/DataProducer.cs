@@ -25,10 +25,14 @@ namespace SQLDataProducer.Entities.ExecutionEntities
 {
     public sealed class DataProducer 
     {
+        public ValueStore ValueStorage { get; private set; }
+        private Dictionary<Guid, Guid> columnLastKeyMap;
+
         public DataProducer(ValueStore valuestore)
         {
             ValidateUtil.ValidateNotNull(valuestore, "valuestore");
             this.ValueStorage = valuestore;
+            columnLastKeyMap = new Dictionary<Guid,Guid>();
         }
 
         public DataRowEntity ProduceRow(TableEntity table, long n)
@@ -45,27 +49,30 @@ namespace SQLDataProducer.Entities.ExecutionEntities
                 {
                     if (value.GetType().Equals(typeof(Guid)))
                     {
-                        key = (Guid)value;
+                        if(!columnLastKeyMap.TryGetValue((Guid)value, out key))
+                        {
+                            throw new ArgumentNullException("Trying to take value from column that have not yet generated any value");
+                        }
                     }
                     else
                     {
                         throw new InvalidCastException("The generator returned a non-GUID type as key when generating value from other column");
                     }
                 }
-                else // if col is generating identity or other value at insert, do not generate value
+                else if (col.IsIdentity)
                 {
-                    if (col.IsIdentity)
-                    {
-                        key = col.ColumnIdentity;
-                        value = null;
-                    }
-                    else
-                    {
-                        key = Guid.NewGuid();
-                    }
-                    
+                    key = col.ColumnIdentity;
+                    value = null;
+                    ValueStorage.Put(key, value);
+                    columnLastKeyMap[col.ColumnIdentity] = key;
+                }
+                else
+                {
+                    key = Guid.NewGuid();
+                    columnLastKeyMap[col.ColumnIdentity] = key;
                     ValueStorage.Put(key, value);
                 }
+                
                 
                 row.AddField(col.ColumnName, key, col.ColumnDataType, col.IsIdentity);
             }
@@ -84,6 +91,6 @@ namespace SQLDataProducer.Entities.ExecutionEntities
             }
         }
 
-        public ValueStore ValueStorage { get; private set; }
+        
     }
 }
