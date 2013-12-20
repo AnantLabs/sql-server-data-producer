@@ -23,6 +23,11 @@ namespace SQLDataProducer.Entities.DataEntities
         private List<DataFieldEntity> _fields;
         private readonly TableEntity table;
 
+        public TableEntity Table
+        {
+            get { return table; }
+        }
+
         public List<DataFieldEntity> Fields
         {
             get { return _fields; }

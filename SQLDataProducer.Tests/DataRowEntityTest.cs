@@ -35,6 +35,9 @@ namespace SQLDataProducer.Tests
         {
             var table = new TableEntity("dbo", "Customer");
             var row = new DataRowEntity(table);
+            Assert.That(row.Table, Is.EqualTo(table));
+            Assert.That(row.Fields, Is.Not.Null);
+            Assert.That(row.Fields.Count, Is.EqualTo(0));
         }
 
         [Test]

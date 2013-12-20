@@ -60,8 +60,8 @@ namespace SQLDataProducer.Tests.ConsumerTests.InsertConsumer
             
             Assert.That(statement, Is.Not.Null);
             Assert.That(statement, Is.Not.Empty);
-            
-            Assert.That(statement, Is.EqualTo("INSERT Customer(" + generator.ColumnList + ")"));
+
+            Assert.That(statement, Is.EqualTo("INSERT INTO Customer(" + generator.ColumnList + ")"));
         }
 
         [Test]
@@ -96,20 +96,35 @@ namespace SQLDataProducer.Tests.ConsumerTests.InsertConsumer
 
         [Test]
         [MSTest.TestMethod]
-        public void ShouldGenerateFullInsertStatement()
+        public void ShouldGenerateFullInsertStatementForOneRow()
         {
             TableQueryGenerator generator = new TableQueryGenerator(customerTable);
             var valueStore = new ValueStore();
             DataProducer producer = new DataProducer(valueStore);
 
-            IEnumerable<DataRowEntity> rows = new List<DataRowEntity> { producer.ProduceRow(customerTable, 1), producer.ProduceRow(customerTable, 2) };
+            IEnumerable<DataRowEntity> rows = new List<DataRowEntity> { producer.ProduceRow(customerTable, 1)};
 
-            string firstValues = generator.GenerateInsertStatements(rows, valueStore).First();
-            Assert.That(firstValues, Is.EqualTo("INSERT Customer(" + generator.ColumnList + ")" + 
+            string firstValues = generator.GenerateInsertStatement(rows.First(), valueStore);
+            Assert.That(firstValues, Is.EqualTo("INSERT INTO Customer(" + generator.ColumnList + ")" +
                                             " VALUES (0, 'Arboga', 0)"));
 
-            string secondValues = generator.GenerateInsertStatements(rows, valueStore).Skip(1).First();
-            Assert.That(secondValues, Is.EqualTo("INSERT Customer(" + generator.ColumnList + ")" +
+        }
+
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldGenerateFullInsertStatementForAllRows()
+        {
+            var valueStore = new ValueStore();
+            DataProducer producer = new DataProducer(valueStore);
+
+            IEnumerable<DataRowEntity> rows = new List<DataRowEntity> { producer.ProduceRow(customerTable, 1), producer.ProduceRow(customerTable, 2) };
+
+            string firstValues = TableQueryGenerator.GenerateInsertStatements(rows, valueStore).First();
+            Assert.That(firstValues, Is.EqualTo("INSERT INTO Customer(CustomerType, Name, IsActive)" + 
+                                            " VALUES (0, 'Arboga', 0)"));
+
+            string secondValues = TableQueryGenerator.GenerateInsertStatements(rows, valueStore).Skip(1).First();
+            Assert.That(secondValues, Is.EqualTo("INSERT INTO Customer(CustomerType, Name, IsActive)" +
                                             " VALUES (1, 'Arvika', 1)"));
         }
     }

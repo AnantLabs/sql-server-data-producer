@@ -16,6 +16,7 @@
 using SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer.DataAccess;
 using SQLDataProducer.Entities.DatabaseEntities;
 using SQLDataProducer.Entities.DataConsumers;
+using SQLDataProducer.Entities.DataEntities;
 using SQLDataProducer.Entities.ExecutionEntities;
 using System;
 using System.Collections.Generic;
@@ -39,12 +40,14 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer
 
         QueryExecutor _queryExecutor;
         private string _connectionString;
+        private int _rowCounter = 0;
 
         public bool Init(string connectionString, Dictionary<string, string> options)
         {
             _options = options;
             _connectionString = connectionString;
-            _queryExecutor = new QueryExecutor(_connectionString);
+           // _queryExecutor = new QueryExecutor(_connectionString);
+            _rowCounter = 0;
             return true;
         }
 
@@ -58,13 +61,12 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer
         }
 
 
-        public ExecutionResult Consume(IEnumerable<Entities.DataEntities.DataRowEntity> rows, ValueStore valueStore)
+        public ExecutionResult Consume(IEnumerable<DataRowEntity> rows, ValueStore valueStore)
         {
-
-            foreach (var row in rows)
+            foreach (var insertQuery in TableQueryGenerator.GenerateInsertStatements(rows, valueStore))
             {
-                string sql = @"insert row(columns) into table(value1, value2)";
-
+                Console.WriteLine(insertQuery);
+                _rowCounter++;
             }
 
             return null;
@@ -72,7 +74,7 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer
 
         public int TotalRows
         {
-            get { throw new NotImplementedException(); }
+            get { return _rowCounter; }
         }
     }
 }
