@@ -47,7 +47,7 @@
     <Compile Include="Builders\EntityBuilders\ExecutionItemQueryBuilder.cs" />
     <Compile Include="Builders\EntityBuilders\TableQueryBuilder.cs" />
     <Compile Include="Builders\Helpers\QueryBuilderHelper.cs" />
-    <Compile Include="DataAccess\DbCommandExecutorFactory.cs" />
+    <Compile Include="DataAccess\CommandFactory.cs" />
     <Compile Include="InsertConsumer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DataAccess\QueryExecutor.cs" />

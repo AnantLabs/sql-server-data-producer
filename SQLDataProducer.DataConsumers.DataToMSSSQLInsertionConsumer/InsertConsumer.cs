@@ -46,17 +46,17 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer
         {
             _options = options;
             _connectionString = connectionString;
-           // _queryExecutor = new QueryExecutor(_connectionString);
+            _queryExecutor = new QueryExecutor(_connectionString);
             _rowCounter = 0;
             return true;
         }
 
         public void Dispose()
         {
-            //if (_queryExecutor != null)
-            //{
-            //    _queryExecutor.Dispose();
-            //}
+            if (_queryExecutor != null)
+            {
+                _queryExecutor.Dispose();
+            }
 
         }
 
@@ -65,7 +65,7 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer
         {
             foreach (var insertQuery in TableQueryGenerator.GenerateInsertStatements(rows, valueStore))
             {
-                Console.WriteLine(insertQuery);
+                _queryExecutor.ExecuteNonQuery(insertQuery);
                 _rowCounter++;
             }
 

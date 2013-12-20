@@ -89,9 +89,22 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer.DataAccess
         /// <summary>
         /// Singleton DbProviderFactory
         /// </summary>
-        private static class DbProviderFactoryFactory
+        public static class DbProviderFactoryFactory
         {
             private static DbProviderFactory factory = null;
+            private static string provider = "System.Data.SqlClient";
+
+            public static DbProviderFactory ProviderFactory
+            {
+                set { factory = value; }
+            }
+
+            //public static string Provider
+            //{
+            //    get { return provider; }
+            //    set { provider = value; }
+            //}
+
             public static DbProviderFactory GetInstance()
             {
                 if (factory == null)
@@ -103,7 +116,7 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer.DataAccess
                     //<appSettings>
                     //  <add key="DbConnFactory" value="System.Data.SqlClient" />
                     //</appSettings>
-                    string provider = "System.Data.SqlClient";
+                    ;
                     //if (!string.IsNullOrEmpty(System.Configuration.ConfigurationManager.AppSettings["DbConnFactory"]))
                     //{
                     //    provider = System.Configuration.ConfigurationManager.AppSettings["DbConnFactory"];

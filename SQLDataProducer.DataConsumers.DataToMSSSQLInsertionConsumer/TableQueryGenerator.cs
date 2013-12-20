@@ -40,6 +40,10 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer
                     + ")";
         }
 
+        /// <summary>
+        /// To cache the query generators, so that we dont need to create a new one for each time the same table occurs.
+        /// TODO: How to clean this up?
+        /// </summary>
         private static Dictionary<string, TableQueryGenerator> tableQueryGenerators;
         static TableQueryGenerator()
         {

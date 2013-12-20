@@ -31,6 +31,12 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer.DataAccess
             _cmd = _connection.CreateCommand();
         }
 
+        public void ExecuteNonQuery(string query)
+        {
+            PrepareCommand(query, null);
+            _cmd.ExecuteNonQuery();
+        }
+
         public void ExecuteNonQuery(string query, Dictionary<string, DbParameter> parameters)
         {
             PrepareCommand(query, parameters);
@@ -41,9 +47,12 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer.DataAccess
         {
             _cmd.Parameters.Clear();
             _cmd.CommandText = query;
-            foreach (var p in parameters)
+            if (parameters != null)
             {
-                _cmd.Parameters.Add(p.Value);
+                foreach (var p in parameters)
+                {
+                    _cmd.Parameters.Add(p.Value);
+                }
             }
         }
 
