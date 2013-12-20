@@ -45,35 +45,6 @@ namespace SQLDataProducer.Tests.ConsumerTests.InsertConsumer
             
         }
         
-       
-
-        [Test]
-        [MSTest.TestMethod]
-        public void ShouldInsertOneRow()
-        {
-            CommandFactory.DbProviderFactoryFactory.ProviderFactory = SqlCeProviderFactory.Instance;
-
-            if (File.Exists("Test.sdf"))
-                File.Delete("Test.sdf");
-
-            using (engine = new SqlCeEngine("Data Source = Test.sdf"))
-            {
-                engine.CreateDatabase();
-
-                using (SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer.InsertConsumer consumer = new DataConsumers.DataToMSSSQLInsertionConsumer.InsertConsumer())
-                {
-
-                    var valueStore = new ValueStore();
-                    DataProducer producer = new DataProducer(valueStore);
-
-                    IEnumerable<DataRowEntity> rows = new List<DataRowEntity> { producer.ProduceRow(customerTable, 1) };
-
-                    consumer.Init("Data Source = Test.sdf", new Dictionary<string, string>());
-                    consumer.Consume(rows, valueStore);
-                    Assert.That(consumer.TotalRows, Is.EqualTo(1));
-                }
-            }
-        }
 
         [Test]
         [MSTest.TestMethod]

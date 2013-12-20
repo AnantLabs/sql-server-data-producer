@@ -29,7 +29,9 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer
     [ConsumerMetaData("Insert rows to DB", null)]
     public class InsertConsumer : IDataConsumer
     {
-        Dictionary<string, string> _options;
+        private Dictionary<string, string> _options;
+        private QueryExecutor _queryExecutor;
+        private int _rowCounter = 0;
 
         public string ConnectionString
         {
@@ -37,16 +39,11 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer
             set { _options["ConnectionString"] = value; }
         }
 
-
-        QueryExecutor _queryExecutor;
-        private string _connectionString;
-        private int _rowCounter = 0;
-
         public bool Init(string connectionString, Dictionary<string, string> options)
         {
             _options = options;
-            _connectionString = connectionString;
-            _queryExecutor = new QueryExecutor(_connectionString);
+            ConnectionString = connectionString;
+            _queryExecutor = new QueryExecutor(ConnectionString);
             _rowCounter = 0;
             return true;
         }
@@ -57,9 +54,7 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer
             {
                 _queryExecutor.Dispose();
             }
-
         }
-
 
         public ExecutionResult Consume(IEnumerable<DataRowEntity> rows, ValueStore valueStore)
         {
