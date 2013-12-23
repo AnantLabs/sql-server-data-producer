@@ -127,6 +127,13 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer.DataAccess
                 return factory;
             }
         }
+
+        public static DataAdapter CreateSelectDataAdapter(DbCommand cmd)
+        {
+            var adapter = DbProviderFactoryFactory.GetInstance().CreateDataAdapter();
+            adapter.SelectCommand = cmd;
+            return adapter;
+        }
     }
 
 }

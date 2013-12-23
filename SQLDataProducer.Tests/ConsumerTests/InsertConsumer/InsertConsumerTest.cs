@@ -24,6 +24,9 @@ using SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer.DataAccess;
 using System.Data.SqlServerCe;
 using System.IO;
 using System;
+using System.Data;
+using System.Collections;
+using System.Data.Common;
 
 namespace SQLDataProducer.Tests.ConsumerTests.InsertConsumer
 {
@@ -33,6 +36,7 @@ namespace SQLDataProducer.Tests.ConsumerTests.InsertConsumer
     {
         TableEntity customerTable;
         private SqlCeEngine engine;
+        private string connectionString;
 
         public InsertConsumerTest()
         {
@@ -42,79 +46,78 @@ namespace SQLDataProducer.Tests.ConsumerTests.InsertConsumer
             customerTable.Columns.Add(DatabaseEntityFactory.CreateColumnEntity("CustomerType", new ColumnDataTypeDefinition("int", false), false, 2, false, null, null));
             customerTable.Columns.Add(DatabaseEntityFactory.CreateColumnEntity("Name", new ColumnDataTypeDefinition("varchar", false), false, 3, false, null, null));
             customerTable.Columns.Add(DatabaseEntityFactory.CreateColumnEntity("IsActive", new ColumnDataTypeDefinition("bit", false), false, 4, false, null, null));
-            
+
+            var builder  = new System.Data.SqlClient.SqlConnectionStringBuilder();
+            builder.DataSource = "localhost";
+            builder.InitialCatalog = "AdventureWorks";
+            builder.IntegratedSecurity = true;
+            connectionString = builder.ToString();
         }
-        
+
 
         [Test]
         [MSTest.TestMethod]
         public void ShouldInsertLotsOfRows()
         {
-            CommandFactory.DbProviderFactoryFactory.ProviderFactory = SqlCeProviderFactory.Instance;
 
-            if (File.Exists("Test.sdf"))
-                File.Delete("Test.sdf");
+            prepareTables();
 
-            using (engine = new SqlCeEngine("Data Source = Test.sdf"))
+            using (SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer.InsertConsumer consumer = new DataConsumers.DataToMSSSQLInsertionConsumer.InsertConsumer())
             {
-                engine.CreateDatabase();
-                prepareTables();
+                var valueStore = new ValueStore();
+                DataProducer producer = new DataProducer(valueStore);
 
-                using (SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer.InsertConsumer consumer = new DataConsumers.DataToMSSSQLInsertionConsumer.InsertConsumer())
+                List<DataRowEntity> rows = new List<DataRowEntity>();
+                for (int i = 0; i < 150; i++)
                 {
-                    var valueStore = new ValueStore();
-                    DataProducer producer = new DataProducer(valueStore);
-
-                    List<DataRowEntity> rows = new List<DataRowEntity>();
-                    for (int i = 0; i < 150; i++)
-                    {
-                        rows.Add(producer.ProduceRow(customerTable, i));
-                    }
-
-                    consumer.Init("Data Source = Test.sdf", new Dictionary<string, string>());
-                    consumer.Consume(rows, valueStore);
-                    Assert.That(consumer.TotalRows, Is.EqualTo(150));
+                    rows.Add(producer.ProduceRow(customerTable, i));
                 }
 
-                verifyRowsExist();
+                consumer.Init(connectionString, new Dictionary<string, string>());
+                consumer.Consume(rows, valueStore);
+                Assert.That(consumer.TotalRows, Is.EqualTo(150));
             }
+
+            verifyRowCount("Customer", 150);
+
         }
 
-        private void verifyRowsExist()
+        private void verifyRowCount(string tableName, int expectedCount)
         {
-            using (var conn = new SqlCeConnection("Data Source = Test.sdf"))
+            using (var conn = CommandFactory.CreateDbConnection(connectionString))
             {
                 conn.Open();
-                SqlCeCommand cmd = conn.CreateCommand();
-                cmd.CommandText = "Select CustomerId, CustomerType, Name, IsActive From Customer";
-                var reader = cmd.ExecuteReader();
+                DbCommand cmd = conn.CreateCommand();
+                cmd.CommandText = "Select * From " + tableName;
+                DataAdapter adapter = CommandFactory.CreateSelectDataAdapter(cmd);
+                DataSet ds = new DataSet();
 
-                int totalRows = 0;
+                adapter.Fill(ds);
+               int totalRows =  ds.Tables[0].Rows.Count;
 
-                while (reader.Read())
-                {
-                    var customerId = reader.GetInt32(0);
-                    var customerType = reader.GetInt32(1);
-                    var name = reader.GetString(2);
-                    var isActive = reader.GetBoolean(3);
-
-                    Assert.That(customerId, Is.GreaterThan(0));
-                    Assert.That(customerType, Is.GreaterThan(-2));
-                    Assert.That(name, Is.Not.Empty);
-                    Assert.That(isActive, Is.EqualTo(true).Or.EqualTo(false));
-                    totalRows++;
-                }
-
-                Assert.That(totalRows, Is.EqualTo(150));
+               Assert.That(totalRows, Is.EqualTo(expectedCount));
             }
         }
+
+       
 
         private void prepareTables()
         {
-            using (var conn = new SqlCeConnection("Data Source = Test.sdf"))
+            using (var conn = CommandFactory.CreateDbConnection(connectionString))
             {
                 conn.Open();
-                SqlCeCommand cmd = conn.CreateCommand();
+                DbCommand cmd = conn.CreateCommand();
+
+                try
+                {
+                    cmd.CommandText = "DROP table Customer";
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception)
+                {
+
+                }
+
                 cmd.CommandText = "create table Customer (CustomerId INT IDENTITY primary key, CustomerType int not null, Name nvarchar(100), IsActive bit)";
                 cmd.ExecuteNonQuery();
             }
