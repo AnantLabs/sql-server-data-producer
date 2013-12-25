@@ -16,6 +16,7 @@
 using System.Data.Common;
 using System.Collections.Generic;
 using System;
+using System.Data;
 
 namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer.DataAccess
 {
@@ -56,17 +57,17 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer.DataAccess
             }
         }
 
-        public long ExecuteIdentity(string query, Dictionary<string, DbParameter> parameters)
-        {
-            PrepareCommand(query, parameters);
-            var outputParam = CommandFactory.CreateParameter("@Identity_output", 0, System.Data.SqlDbType.BigInt);
-            outputParam.Direction = System.Data.ParameterDirection.Output;
-            _cmd.Parameters.Add(outputParam);
+        //public long ExecuteIdentity(string query, Dictionary<string, DbParameter> parameters)
+        //{
+        //    PrepareCommand(query, parameters);
+        //    var outputParam = CommandFactory.CreateParameter("@Identity_output", 0, System.Data.SqlDbType.BigInt);
+        //    outputParam.Direction = System.Data.ParameterDirection.Output;
+        //    _cmd.Parameters.Add(outputParam);
             
-            _cmd.ExecuteNonQuery();
+        //    _cmd.ExecuteNonQuery();
 
-            return long.Parse(outputParam.Value.ToString());
-        }
+        //    return long.Parse(outputParam.Value.ToString());
+        //}
 
         public void Dispose()
         {
@@ -74,6 +75,17 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer.DataAccess
                 _cmd.Dispose();
             if(_connection != null)
                 _connection.Dispose();
+        }
+
+        public System.Data.DataTable ExecuteTableResult(string insertQuery)
+        {
+            var ad = CommandFactory.CreateSelectDataAdapter(_cmd);
+            DataSet ds = new DataSet();
+            ad.Fill(ds);
+            if (ds.Tables.Count > 0)
+                return ds.Tables[0];
+            else
+                return null;
         }
     }
 }

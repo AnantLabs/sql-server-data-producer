@@ -23,6 +23,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Transactions;
+using System.Collections;
+using System.Data;
 
 namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer
 {
@@ -60,11 +62,58 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer
         {
             foreach (var insertQuery in TableQueryGenerator.GenerateInsertStatements(rows, valueStore))
             {
-                _queryExecutor.ExecuteNonQuery(insertQuery);
+                Dictionary<Guid, object> generatedValues = InsertWithResult(insertQuery);
+                
+                if (null != generatedValues)
+                    PutGeneratedValuesInValueStore(generatedValues, valueStore);
+                
                 _rowCounter++;
             }
 
             return null;
+        }
+        /// <summary>
+        /// TODO: Refactor. Remove hardcoding of OUTPUT. to know if the inserted row should create any value (identity etc)
+        /// TODO: Refactor method of reading values from table
+        /// </summary>
+        /// <param name="insertQuery"></param>
+        /// <returns></returns>
+        private Dictionary<Guid, object> InsertWithResult(string insertQuery)
+        {
+            Dictionary<Guid, object> generatedValues = null;
+            if (insertQuery.Contains("OUTPUT.")) 
+            {
+                DataTable table = _queryExecutor.ExecuteTableResult(insertQuery);
+                generatedValues = new Dictionary<Guid, object>();
+                if (table != null)
+                {
+                    foreach (DataColumn column in table.Columns)
+                    {
+                        foreach (DataRow row in table.Rows)
+                        {
+                            Guid key;
+                            if (Guid.TryParse(column.ColumnName, out key))
+                            {
+                                generatedValues[key] = row[column];
+                            }
+                            else
+                            {
+                                throw new InvalidCastException("The column name in the datatable is expected to be GUID as a key in the value store, name was not a GUID.");
+                            }
+                        }
+                    }
+                }
+            }
+                _queryExecutor.ExecuteNonQuery(insertQuery);
+            return generatedValues;
+        }
+
+        private static void PutGeneratedValuesInValueStore(Dictionary<Guid, object> generatedValues, ValueStore valueStore)
+        {
+            foreach (var key in generatedValues.Keys)
+            {
+                valueStore.Put(key, generatedValues[key]);
+            }
         }
 
         public int TotalRows

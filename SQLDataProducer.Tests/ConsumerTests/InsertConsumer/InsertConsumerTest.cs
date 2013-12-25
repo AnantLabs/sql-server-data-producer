@@ -99,8 +99,6 @@ namespace SQLDataProducer.Tests.ConsumerTests.InsertConsumer
             }
         }
 
-       
-
         private void prepareTables()
         {
             using (var conn = CommandFactory.CreateDbConnection(connectionString))
