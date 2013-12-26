@@ -35,8 +35,11 @@ namespace SQLDataProducer.Tests.ConsumerTests.InsertConsumer
     public class InsertConsumerTest 
     {
         TableEntity customerTable;
-        private SqlCeEngine engine;
+        TableEntity orderTable;
+
+      //  private SqlCeEngine engine;
         private string connectionString;
+        private int insertCounter = 0;
 
         public InsertConsumerTest()
         {
@@ -46,6 +49,22 @@ namespace SQLDataProducer.Tests.ConsumerTests.InsertConsumer
             customerTable.Columns.Add(DatabaseEntityFactory.CreateColumnEntity("CustomerType", new ColumnDataTypeDefinition("int", false), false, 2, false, null, null));
             customerTable.Columns.Add(DatabaseEntityFactory.CreateColumnEntity("Name", new ColumnDataTypeDefinition("varchar", false), false, 3, false, null, null));
             customerTable.Columns.Add(DatabaseEntityFactory.CreateColumnEntity("IsActive", new ColumnDataTypeDefinition("bit", false), false, 4, false, null, null));
+
+            orderTable = new TableEntity("dbo", "Orders");
+            orderTable.AddColumn(DatabaseEntityFactory.CreateColumnEntity("OrderId", new ColumnDataTypeDefinition("int", false), true, 1, false, null, null));
+
+            var fk = new ForeignKeyEntity();
+            fk.ReferencingColumn = "CustomerId";
+            fk.ReferencingTable = customerTable;
+
+            var customerIdColumn = DatabaseEntityFactory.CreateColumnEntity("CustomerId", new ColumnDataTypeDefinition("int", false), false, 2, true, null, fk);
+            customerIdColumn.Generator = new SQLDataProducer.Entities.Generators.IntGenerators.ValueFromOtherColumnIntGenerator(customerIdColumn.ColumnDataType);
+            customerIdColumn.Generator.GeneratorParameters["Value From Column"].Value = customerId;
+
+            orderTable.AddColumn(customerIdColumn);
+            orderTable.AddColumn(DatabaseEntityFactory.CreateColumnEntity("ArticleId", new ColumnDataTypeDefinition("int", false), false, 3, false, null, null));
+            orderTable.AddColumn(DatabaseEntityFactory.CreateColumnEntity("TotalAmount", new ColumnDataTypeDefinition("decimal(19, 6)", false), false, 4, false, null, null));
+
 
             var builder  = new System.Data.SqlClient.SqlConnectionStringBuilder();
             builder.DataSource = "localhost";
@@ -67,19 +86,23 @@ namespace SQLDataProducer.Tests.ConsumerTests.InsertConsumer
                 var valueStore = new ValueStore();
                 DataProducer producer = new DataProducer(valueStore);
 
-                List<DataRowEntity> rows = new List<DataRowEntity>();
+                consumer.Init(connectionString, new Dictionary<string, string>());
+
                 for (int i = 0; i < 150; i++)
                 {
-                    rows.Add(producer.ProduceRow(customerTable, i));
+                     consumer.Consume( producer.ProduceRows(new List<TableEntity> { customerTable, orderTable }, getN), valueStore);
                 }
 
-                consumer.Init(connectionString, new Dictionary<string, string>());
-                consumer.Consume(rows, valueStore);
-                Assert.That(consumer.TotalRows, Is.EqualTo(150));
+                Assert.That(consumer.TotalRows, Is.EqualTo(300));
             }
 
             verifyRowCount("Customer", 150);
 
+        }
+
+        private long getN()
+        {
+            return insertCounter++;
         }
 
         private void verifyRowCount(string tableName, int expectedCount)
@@ -108,15 +131,18 @@ namespace SQLDataProducer.Tests.ConsumerTests.InsertConsumer
 
                 try
                 {
-                    cmd.CommandText = "DROP table Customer";
+                    cmd.CommandText = "DROP TABLE [Orders]; DROP table Customer;";
                     cmd.ExecuteNonQuery();
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-
+                    //Assert.Fail(e.ToString());
                 }
 
                 cmd.CommandText = "create table Customer (CustomerId INT IDENTITY primary key, CustomerType int not null, Name nvarchar(100), IsActive bit)";
+                cmd.ExecuteNonQuery();
+
+                cmd.CommandText = "create table [Orders] (OrderId int identity primary key, CustomerId INT not null foreign key references Customer(CustomerId), ArticleId int not null, TotalAmount decimal(19, 6))";
                 cmd.ExecuteNonQuery();
             }
         }

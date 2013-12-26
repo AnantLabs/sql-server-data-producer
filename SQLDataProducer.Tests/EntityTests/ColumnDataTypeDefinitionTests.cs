@@ -21,6 +21,7 @@ using MSTest = Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Data;
 using SQLDataProducer.Entities.DatabaseEntities;
 using SQLDataProducer.Entities;
+using System.Globalization;
 
 
 namespace SQLDataProducer.Tests.Entities
@@ -293,7 +294,7 @@ namespace SQLDataProducer.Tests.Entities
 
         [Test]
         [MSTest.TestMethod]
-        public void ShouldAssertThatNoSettableFieldsAreAdded()
+        public void ShouldHaveNoSettableFields()
         {
             var allProperties = typeof(ColumnDataTypeDefinition).GetProperties();
 
@@ -301,6 +302,16 @@ namespace SQLDataProducer.Tests.Entities
 
             Assert.That(allProperties.Count(), Is.EqualTo(8));
         }
+
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldGetDatatTypeStringFormatterForType()
+        {
+            var dt = new ColumnDataTypeDefinition("decimal", false);
+          //  Console.WriteLine(string.Format(CultureInfo.InvariantCulture, "{0:0.00}", new decimal(55.5555)));
+            Assert.That(dt.StringFormatter, Is.EqualTo("{0}"));
+        }
+
 
         //[Test]
         //[MSTest.TestMethod]

@@ -79,6 +79,7 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer.DataAccess
 
         public System.Data.DataTable ExecuteTableResult(string insertQuery)
         {
+            _cmd.CommandText = insertQuery;
             var ad = CommandFactory.CreateSelectDataAdapter(_cmd);
             DataSet ds = new DataSet();
             ad.Fill(ds);

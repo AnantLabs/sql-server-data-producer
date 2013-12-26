@@ -3,6 +3,7 @@ using SQLDataProducer.Entities.DataEntities;
 using SQLDataProducer.Entities.ExecutionEntities;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -36,7 +37,7 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer
             return "VALUES (" +
                     string.Join(", ", row.Fields
                     .Where(x => x.ProducesValue == false)
-                    .Select( x => string.Format(x.DataType.StringFormatter, valueStore.GetByKey(x.KeyValue))))
+                    .Select(x => string.Format(CultureInfo.InvariantCulture, x.DataType.StringFormatter, valueStore.GetByKey(x.KeyValue))))
                     + ")";
         }
 

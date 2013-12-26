@@ -81,7 +81,7 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer
         private Dictionary<Guid, object> InsertWithResult(string insertQuery)
         {
             Dictionary<Guid, object> generatedValues = null;
-            if (insertQuery.Contains("OUTPUT.")) 
+            if (insertQuery.Contains("OUTPUT INSERTED."))
             {
                 DataTable table = _queryExecutor.ExecuteTableResult(insertQuery);
                 generatedValues = new Dictionary<Guid, object>();
@@ -104,7 +104,10 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer
                     }
                 }
             }
+            else
+            {
                 _queryExecutor.ExecuteNonQuery(insertQuery);
+            }
             return generatedValues;
         }
 
