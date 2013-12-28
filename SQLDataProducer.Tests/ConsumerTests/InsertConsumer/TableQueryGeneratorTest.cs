@@ -108,8 +108,8 @@ namespace SQLDataProducer.Tests.ConsumerTests.InsertConsumer
             IEnumerable<DataRowEntity> rows = new List<DataRowEntity> { producer.ProduceRow(customerTable, 1)};
 
             string firstValues = generator.GenerateInsertStatement(rows.First(), valueStore);
-            Assert.That(firstValues, Is.EqualTo("INSERT INTO Customer(" + generator.ColumnList + ") OUTPUT INSERTED.CustomerId" +
-                                            " VALUES (0, 'Arboga', 0)"));
+            Assert.That(firstValues, Is.StringStarting("INSERT INTO Customer(" + generator.ColumnList + ") OUTPUT INSERTED.CustomerId")
+                                    .And.StringEnding(" VALUES (0, 'Arboga', 0)"));
 
         }
 
@@ -123,12 +123,12 @@ namespace SQLDataProducer.Tests.ConsumerTests.InsertConsumer
             IEnumerable<DataRowEntity> rows = new List<DataRowEntity> { producer.ProduceRow(customerTable, 1), producer.ProduceRow(customerTable, 2) };
 
             string firstValues = TableQueryGenerator.GenerateInsertStatements(rows, valueStore).First();
-            Assert.That(firstValues, Is.EqualTo("INSERT INTO Customer(CustomerType, Name, IsActive) OUTPUT INSERTED.CustomerId" + 
-                                            " VALUES (0, 'Arboga', 0)"));
+            Assert.That(firstValues, Is.StringStarting("INSERT INTO Customer(CustomerType, Name, IsActive) OUTPUT INSERTED.CustomerId AS")
+                                    .And.StringEnding(" VALUES (0, 'Arboga', 0)"));
 
             string secondValues = TableQueryGenerator.GenerateInsertStatements(rows, valueStore).Skip(1).First();
-            Assert.That(secondValues, Is.EqualTo("INSERT INTO Customer(CustomerType, Name, IsActive) OUTPUT INSERTED.CustomerId" +
-                                            " VALUES (1, 'Arvika', 1)"));
+            Assert.That(secondValues, Is.StringStarting("INSERT INTO Customer(CustomerType, Name, IsActive) OUTPUT INSERTED.CustomerId AS")
+                                        .And.StringEnding(" VALUES (1, 'Arvika', 1)"));
         }
 
         [Test]
