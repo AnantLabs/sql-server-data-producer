@@ -377,9 +377,9 @@ order by table_schema, table_name
                 TableEntity table = GetOne(string.Format("select Table_Name, Table_Schema from information_Schema.Tables WITH(NOLOCK) where table_schema = '{0}' and table_name = '{1}'", tableSchema, tableName), CreateTableEntity);
                 table.Columns.AddRange(colDa.GetAllColumnsForTable(table));
                 //    // TODO: Dont add these foreign key generators here. Should be handled more central
-                foreach (var item in table.Columns.Where(x => x.IsForeignKey))
+                foreach (var column in table.Columns.Where(x => x.IsForeignKey))
                 {
-                    GetForeignKeyGeneratorsForColumn(item);
+                    GetForeignKeyGeneratorsForColumn(column);
                 }
                 
                 table.RefreshWarnings();
