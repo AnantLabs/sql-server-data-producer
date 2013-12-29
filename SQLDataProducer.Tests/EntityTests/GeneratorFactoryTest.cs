@@ -295,5 +295,24 @@ namespace SQLDataProducer.Tests
             Assert.That(value, Is.Not.Null);
         }
         
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldGetForeignKeyGenerator()
+        {
+            ObservableCollection<string> keys = new ObservableCollection<string>();
+            var generators = GeneratorFactory.GetForeignKeyGenerators(keys);
+            // om kolumn är foreign key till annan tabell, då ska vi läsa upp 1000 rader från den tabellen och sedan använda dessa värden när vi insertar denna tabell.
+            // detta gör att vi kan inserta och använda befintliga tabellers värde utan att hålla på med hårdkodade värden
+            // bästa exempel är Type-tabeller som innehåller ett par få rader och som måste finnas i varje annan tabell.
+
+            // Load a table,
+            // load all the columns for the table
+            // if the column is marked as ForeignKey
+            //      get the primary keys for the referenced table put into column.ForeignKey.Keys
+            //      If we found any keys in that referenced table, add the foreign key Generators to this column's possible generators.
+            //      Those generators need to have the list of primary keys (in current implementation) in order to use each and every one of them
+            //      Each datatype/group should have at least one generator for foreign keys.
+        }
+        
     }
 }

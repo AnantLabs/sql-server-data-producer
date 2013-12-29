@@ -81,6 +81,11 @@
     <Compile Include="Generators\DecimalGenerators\NullValueDecimalGenerator.cs" />
     <Compile Include="Generators\DecimalGenerators\RandomNumberDecimalGenerator.cs" />
     <Compile Include="Generators\DecimalGenerators\StaticNumberDecimalGenerator.cs" />
+    <Compile Include="Generators\ForeignKeyGenerators\ForeignKeyGeneratorBase.cs" />
+    <Compile Include="Generators\ForeignKeyGenerators\LazyForeignKeyGenerator.cs" />
+    <Compile Include="Generators\ForeignKeyGenerators\RandomForeignKeyGenerator.cs" />
+    <Compile Include="Generators\ForeignKeyGenerators\SequentialForeignKeyGenerator.cs" />
+    <Compile Include="Generators\ForeignKeyGenerators\StaticForeignKeyGenerator.cs" />
     <Compile Include="Generators\IntGenerators\CountingUpIntGenerator.cs" />
     <Compile Include="Generators\IntGenerators\IdentityIntGenerator.cs" />
     <Compile Include="Generators\IntGenerators\IntegerGeneratorBase.cs" />

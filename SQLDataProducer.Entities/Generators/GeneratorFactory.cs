@@ -29,6 +29,7 @@ using SQLDataProducer.Entities.Generators.StringGenerators;
 using SQLDataProducer.Entities.Generators.BinaryGenerators;
 using SQLDataProducer.Entities.Generators.DateTimeGenerators;
 using SQLDataProducer.Entities.Generators.IntGenerators;
+using SQLDataProducer.Entities.Generators.ForeignKeyGenerators;
 
 namespace SQLDataProducer.Entities.Generators
 {
@@ -51,11 +52,7 @@ namespace SQLDataProducer.Entities.Generators
 
         public static List<AbstractValueGenerator> GetForeignKeyGenerators(IEnumerable<string> fkKeys)
         {
-            var l = new System.Collections.Generic.List<AbstractValueGenerator>();
-            //l.Add(Generators.Generator.CreateRandomForeignKeyGenerator(fkKeys));
-            //l.Add(Generators.Generator.CreateSequentialForeignKeyGenerator(fkKeys));
-            //l.Add(Generators.Generator.CreateSequentialForeignKeyGeneratorLazy(fkKeys));
-            return l;
+            return new List<AbstractValueGenerator>(GetGeneratorsOfBaseType<ForeignKeyGeneratorBase>(new List<string>(fkKeys)));
         }
 
         public static ObservableCollection<AbstractValueGenerator> GetAllGeneratorsForType(ColumnDataTypeDefinition dataType)
@@ -143,9 +140,23 @@ namespace SQLDataProducer.Entities.Generators
 
             return new ObservableCollection<AbstractValueGenerator>(a);
         }
+        public static ObservableCollection<AbstractValueGenerator> GetGeneratorsOfBaseType<T>(List<string> foreignKeys) where T : AbstractValueGenerator
+        {
+            // find all types where basetype is T and constructor takes one ColumnDTDef as parameter.
+            // type must exist in the assembly of the abstractValueGenerator
+            var a = (from t in typeof(AbstractValueGenerator).Assembly.GetTypes()
+                     where t.BaseType == (typeof(T)) && t.GetConstructor(new Type[] { typeof(List<string>) }) != null
+                     select CreateInstance(t, foreignKeys)).ToList();
+
+            return new ObservableCollection<AbstractValueGenerator>(a);
+        }
         public static AbstractValueGenerator CreateInstance(Type t, ColumnDataTypeDefinition dataType)
         {
             return Activator.CreateInstance(t, dataType) as AbstractValueGenerator;
+        }
+        public static AbstractValueGenerator CreateInstance(Type t, List<string> foreignKeys)
+        {
+            return Activator.CreateInstance(t, foreignKeys) as AbstractValueGenerator;
         }
     }
 }
