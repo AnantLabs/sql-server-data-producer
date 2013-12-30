@@ -234,12 +234,21 @@ namespace SQLDataProducer.Entities.ExecutionEntities
                 targetNode.AddTable(tableToMove);
         }
 
-        public void MoveToNewChildNode(TableEntity tableToMove, int repeatCount, string nodeName = "")
+        public void MoveTableToNewChildNode(TableEntity tableToMove, int repeatCount, string nodeName = "")
         {
             if (RemoveTable(tableToMove))
             {
                 var child = AddChild(repeatCount, nodeName);
                 child.AddTable(tableToMove);
+            }
+        }
+
+        public void RemoveTables(params TableEntity[] tablesToRemove)
+        {
+            ValidateUtil.ValidateNotNull(tablesToRemove, "tablesToRemove");
+            foreach (var tableToRemove in tablesToRemove)
+            {
+                RemoveTable(tableToRemove);
             }
         }
     }
