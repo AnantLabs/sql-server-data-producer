@@ -93,6 +93,15 @@ namespace SQLDataProducer.Entities.ExecutionEntities
                 }
             }
         }
+
+        /// <summary>
+        /// get the total expected insert count, in order to predict progress
+        /// </summary>
+        /// <returns>the number of expected inserts</returns>
+        public int GetExpectedInsertCount()
+        {
+            return GetTablesRecursive().Count();
+        }
     }
    
    

@@ -369,5 +369,39 @@ namespace SQLDataProducer.Tests.EntitiesTests
             Assert.That(thrown, Is.True);
 
         }
+
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldCountTheTotalExpectedInsertedRowsInOrderToPredictProgress()
+        {
+            // 2 Customers
+            ExecutionNode customer = ExecutionNode.CreateLevelOneNode(2, "Customer");
+            customer.AddTable(new TableEntity("dbo", "Customer"));
+
+            // Make 2 accounts
+            var accounts = customer.AddChild(2, "Accounts");
+            accounts.AddTable(new TableEntity("dbo", "Account"));
+
+            // make one one Deposit and one WithDraw
+            var accountTransactions = accounts.AddChild(1, "AccountTransactions");
+            accountTransactions.AddTable(new TableEntity("dbo", "Deposit"));
+            accountTransactions.AddTable(new TableEntity("dbo", "Withdraw"));
+
+
+            NodeIterator it = new NodeIterator(customer);
+            int actualExpectedCount = it.GetExpectedInsertCount();
+            Assert.That(actualExpectedCount, Is.EqualTo(14));
+        }
+
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldGetZeroTotalExpectedInsertedRowWhenThereIsNoTable()
+        {
+            ExecutionNode customer = ExecutionNode.CreateLevelOneNode(2, "No tables");
+            NodeIterator it = new NodeIterator(customer);
+            int actualExpectedCount = it.GetExpectedInsertCount();
+            Assert.That(actualExpectedCount, Is.EqualTo(0));
+
+        }
     }
 }
