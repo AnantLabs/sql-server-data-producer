@@ -217,15 +217,30 @@ namespace SQLDataProducer.Entities.ExecutionEntities
 
         public bool HasWarning { get; set; }
 
-        public void RemoveTable(TableEntity tableToRemove)
+        public bool RemoveTable(TableEntity tableToRemove)
         {
-            Tables.Remove(tableToRemove);
+            return Tables.Remove(tableToRemove);
         }
 
         public void MoveTableToParentNode(TableEntity tableToMove)
         {
-            Tables.Remove(tableToMove);
-            Parent.AddTable(tableToMove);
+            if(Tables.Remove(tableToMove))
+                Parent.AddTable(tableToMove);
+        }
+
+        public void MoveTableToNode(TableEntity tableToMove, ExecutionNode targetNode)
+        {
+            if(RemoveTable(tableToMove))
+                targetNode.AddTable(tableToMove);
+        }
+
+        public void MoveToNewChildNode(TableEntity tableToMove, int repeatCount, string nodeName = "")
+        {
+            if (RemoveTable(tableToMove))
+            {
+                var child = AddChild(repeatCount, nodeName);
+                child.AddTable(tableToMove);
+            }
         }
     }
     

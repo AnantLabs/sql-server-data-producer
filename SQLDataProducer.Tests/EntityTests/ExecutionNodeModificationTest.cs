@@ -99,7 +99,6 @@ namespace SQLDataProducer.Tests.EntitiesTests
 
             Assert.That(it.GetExpectedInsertCount(), Is.EqualTo(4));
             AssertOrder(it.GetTablesRecursive(), "Customer", "Accounts", "Customer", "Accounts");
-
         }
 
         [Test]
@@ -122,6 +121,56 @@ namespace SQLDataProducer.Tests.EntitiesTests
 
             Assert.That(it.GetExpectedInsertCount(), Is.EqualTo(4));
             AssertOrder(it.GetTablesRecursive(), "Customer", "Accounts", "Customer", "Accounts");
+
+        }
+
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldBeAbleToMoveTableToOtherNode()
+        {
+            // 2 Customers
+            ExecutionNode customer = ExecutionNode.CreateLevelOneNode(2, "Customer");
+            customer.AddTable(_CustomerTable);
+
+            // Make 2 accounts per customer
+            ExecutionNode accounts = customer.AddChild(2, "Accounts");
+            accounts.AddTable(_AccountTable);
+
+            NodeIterator it = new NodeIterator(customer);
+            Assert.That(it.GetExpectedInsertCount(), Is.EqualTo(6));
+            AssertOrder(it.GetTablesRecursive(), "Customer", "Accounts", "Accounts", "Customer", "Accounts", "Accounts");
+
+
+
+            accounts.MoveTableToNode(_AccountTable, customer);
+
+            Assert.That(it.GetExpectedInsertCount(), Is.EqualTo(4));
+            AssertOrder(it.GetTablesRecursive(), "Customer", "Accounts", "Customer", "Accounts");
+
+        }
+
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldBeAbleToMoveTableToNewChildNode()
+        {
+            // 2 Customers
+            ExecutionNode customer = ExecutionNode.CreateLevelOneNode(2, "Customer");
+            customer.AddTable(_CustomerTable);
+
+            // Make 2 accounts per customer
+            ExecutionNode accounts = customer.AddChild(2, "Accounts");
+            accounts.AddTable(_AccountTable);
+
+            NodeIterator it = new NodeIterator(customer);
+            Assert.That(it.GetExpectedInsertCount(), Is.EqualTo(6));
+            AssertOrder(it.GetTablesRecursive(), "Customer", "Accounts", "Accounts", "Customer", "Accounts", "Accounts");
+
+            // total 6 accounts per customer, 2 customers 12 + 2
+
+            accounts.MoveToNewChildNode(_AccountTable, 3 ,"AccountChildNode");
+           
+            Assert.That(it.GetExpectedInsertCount(), Is.EqualTo(14));
+            AssertOrder(it.GetTablesRecursive(), "Customer", "Accounts", "Accounts", "Accounts", "Accounts", "Accounts", "Accounts", "Customer", "Accounts", "Accounts", "Accounts", "Accounts", "Accounts", "Accounts");
 
         }
 
