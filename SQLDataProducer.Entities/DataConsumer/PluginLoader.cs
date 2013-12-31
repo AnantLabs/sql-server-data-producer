@@ -8,9 +8,9 @@ namespace SQLDataProducer.Entities.DataConsumers
 {
     public static class PluginLoader
     {
-        public static List<IDataConsumerPluginWrapper> LoadPluginsFromFolder(string folder)
+        public static List<DataConsumerPluginWrapper> LoadPluginsFromFolder(string folder)
         {
-            var list = new List<IDataConsumerPluginWrapper>();
+            var list = new List<DataConsumerPluginWrapper>();
 
             var types = LoadTypesFromFolder(folder);
             foreach (Type type in types)
@@ -23,7 +23,7 @@ namespace SQLDataProducer.Entities.DataConsumers
                 var consumerName = meta.ConsumerName;
                 var optionTemplate = meta.OptionsTemplate;
 
-                IDataConsumerPluginWrapper plug = new IDataConsumerPluginWrapper(consumerName, type, optionTemplate);
+                DataConsumerPluginWrapper plug = new DataConsumerPluginWrapper(consumerName, type, optionTemplate);
 
                 list.Add(plug);
             }

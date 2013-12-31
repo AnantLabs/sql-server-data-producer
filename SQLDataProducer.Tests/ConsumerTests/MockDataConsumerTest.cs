@@ -71,9 +71,13 @@ namespace SQLDataProducer.Tests.ConsumerTests
             IDataConsumer consumer = GetImplementedType();
 
             consumer.Init("", null);
-
+            int rowCount = 0;
+            consumer.ReportInsertion = new Action(() =>
+            {
+                rowCount++;
+            });
             consumer.Consume(tenRowsDataSet, valueStore);
-            Assert.That(consumer.TotalRows, Is.EqualTo(10));
+            Assert.That(rowCount, Is.EqualTo(10));
 
         }
 
@@ -131,22 +135,7 @@ namespace SQLDataProducer.Tests.ConsumerTests
             Assert.That(exceptionHappened);
         }
 
-        [Test]
-        [MSTest.TestMethod]
-        public void ShouldResetTheTotalRowsConsumedAtInit()
-        {
-            IDataConsumer consumer = GetImplementedType();
-            consumer.Init("", null);
-
-            consumer.Consume(singleRowDataSet, valueStore);
-            Assert.That(consumer.TotalRows, Is.EqualTo(1));
-
-            consumer.Init("", null);
-            Assert.That(consumer.TotalRows, Is.EqualTo(0));
-
-            consumer.Consume(singleRowDataSet, valueStore);
-            Assert.That(consumer.TotalRows, Is.EqualTo(1));
-        }
+        
 
         [Test]
         [MSTest.TestMethod]
@@ -154,9 +143,13 @@ namespace SQLDataProducer.Tests.ConsumerTests
         {
             IDataConsumer consumer = GetImplementedType();
             consumer.Init("", null);
-
+            int rowCount = 0;
+            consumer.ReportInsertion = new Action(() =>
+            {
+                rowCount++;
+            });
             consumer.Consume(singleRowDataSet, valueStore);
-            Assert.That(consumer.TotalRows, Is.EqualTo(1));
+            Assert.That(rowCount, Is.EqualTo(1));
         }
     }
 }

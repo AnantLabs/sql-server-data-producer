@@ -5,13 +5,13 @@ using System.Text;
 
 namespace SQLDataProducer.Entities.DataConsumers
 {
-    public class IDataConsumerPluginWrapper
+    public class DataConsumerPluginWrapper
     {
         public Type PluginType { get; private set; }
         public string PluginName { get; private set; }
         public Dictionary<string, string> OptionsTemplate { get; private set; }
 
-        public IDataConsumerPluginWrapper(string pluginName, Type pluginType, Dictionary<string, string> optionsTemplate)
+        public DataConsumerPluginWrapper(string pluginName, Type pluginType, Dictionary<string, string> optionsTemplate)
         {
             if (string.IsNullOrEmpty(pluginName))
                 throw new ArgumentNullException("pluginName");

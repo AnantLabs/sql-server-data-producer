@@ -33,7 +33,7 @@ namespace SQLDataProducer.Tests
             return initialized = true;
         }
 
-        public ExecutionResult Consume(IEnumerable<DataRowEntity> rows, ValueStore valueStore)
+        public void Consume(IEnumerable<DataRowEntity> rows, ValueStore valueStore)
         {
             ValidateInitialized();
             foreach (var row in rows)
@@ -52,7 +52,7 @@ namespace SQLDataProducer.Tests
                 }
             }
 
-            return null;
+            
         }
 
         private void ValidateInitialized()
@@ -76,6 +76,17 @@ namespace SQLDataProducer.Tests
             }
         }
 
-       
+
+
+
+        public Action ReportInsertion
+        {
+            set { throw new NotImplementedException(); }
+        }
+
+        public Action<Exception, DataRowEntity> ReportError
+        {
+            set { throw new NotImplementedException(); }
+        }
     }
 }

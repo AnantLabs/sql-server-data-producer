@@ -33,7 +33,8 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer
     {
         private Dictionary<string, string> _options;
         private QueryExecutor _queryExecutor;
-        private int _rowCounter = 0;
+        private Action _reportInsertion;
+        private Action<Exception, DataRowEntity> _reportError;
 
         public string ConnectionString
         {
@@ -45,8 +46,14 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer
         {
             _options = options;
             ConnectionString = connectionString;
-            _queryExecutor = new QueryExecutor(ConnectionString);
-            _rowCounter = 0;
+            try
+            {
+                _queryExecutor = new QueryExecutor(ConnectionString);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
             return true;
         }
 
@@ -58,7 +65,7 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer
             }
         }
 
-        public ExecutionResult Consume(IEnumerable<DataRowEntity> rows, ValueStore valueStore)
+        public void Consume(IEnumerable<DataRowEntity> rows, ValueStore valueStore)
         {
             foreach (var insertQuery in TableQueryGenerator.GenerateInsertStatements(rows, valueStore))
             {
@@ -66,11 +73,9 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer
                 
                 if (null != generatedValues)
                     PutGeneratedValuesInValueStore(generatedValues, valueStore);
-                
-                _rowCounter++;
-            }
 
-            return null;
+                _reportInsertion();
+            }
         }
         /// <summary>
         /// TODO: Refactor. Remove hardcoding of OUTPUT. to know if the inserted row should create any value (identity etc)
@@ -119,9 +124,14 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer
             }
         }
 
-        public int TotalRows
+        public Action ReportInsertion
         {
-            get { return _rowCounter; }
+            set { _reportInsertion = value; }
+        }
+
+        public Action<Exception, DataRowEntity> ReportError
+        {
+            set { _reportError = value; }
         }
     }
 }

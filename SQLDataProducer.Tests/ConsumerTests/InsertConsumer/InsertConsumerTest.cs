@@ -87,17 +87,22 @@ namespace SQLDataProducer.Tests.ConsumerTests.InsertConsumer
                 DataProducer producer = new DataProducer(valueStore);
 
                 consumer.Init(connectionString, new Dictionary<string, string>());
+                int rowCount = 0;
+                consumer.ReportInsertion = new Action(() =>
+                {
+                    rowCount++;
+                });
 
                 for (int i = 0; i < 150; i++)
                 {
-                     consumer.Consume( producer.ProduceRows(new List<TableEntity> { customerTable, orderTable }, getN), valueStore);
+                      consumer.Consume(producer.ProduceRows(new List<TableEntity> { customerTable, orderTable }, getN), valueStore);
                 }
 
-                Assert.That(consumer.TotalRows, Is.EqualTo(300));
+                Assert.That(rowCount, Is.EqualTo(300));
             }
 
             verifyRowCount("Customer", 150);
-
+            verifyRowCount("Orders", 150);
         }
 
         private long getN()

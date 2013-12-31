@@ -65,16 +65,16 @@ namespace SQLDataProducer.Model
         CollectionViewSource _executionItemsWithWarningsSource;
 
 
-        private IDataConsumerPluginWrapper _selectedConsumerPlugin;
-        public IDataConsumerPluginWrapper SelectedConsumer
+        private DataConsumerPluginWrapper _selectedConsumerPlugin;
+        public DataConsumerPluginWrapper SelectedConsumer
         {
             get { return _selectedConsumerPlugin; }
             set { _selectedConsumerPlugin = value; }
         }
 
 
-        private List<IDataConsumerPluginWrapper> _availablePlugins;
-        public List<IDataConsumerPluginWrapper> AvailableConsumers
+        private List<DataConsumerPluginWrapper> _availablePlugins;
+        public List<DataConsumerPluginWrapper> AvailableConsumers
         {
             get { return _availablePlugins; }
             set { _availablePlugins = value; }

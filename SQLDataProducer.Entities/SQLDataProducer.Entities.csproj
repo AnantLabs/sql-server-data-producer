@@ -53,11 +53,12 @@
     <Compile Include="DatabaseEntities\Factories\DatabaseEntityFactory.cs" />
     <Compile Include="DataConsumer\ConsumerMetaDataAttribute.cs" />
     <Compile Include="DataConsumer\IDataConsumer.cs" />
-    <Compile Include="DataConsumer\IDataConsumerPluginWrapper.cs" />
+    <Compile Include="DataConsumer\DataConsumerPluginWrapper.cs" />
     <Compile Include="DataConsumer\PluginLoader.cs" />
     <Compile Include="DataEntities\DataFieldEntity.cs" />
     <Compile Include="DataEntities\DataRowEntity.cs" />
     <Compile Include="ExecutionEntities\DataProducer.cs" />
+    <Compile Include="ExecutionEntities\ExecutionResultBuilder.cs" />
     <Compile Include="ExecutionEntities\GenerationManager.cs" />
     <Compile Include="Generators\BinaryGenerators\BinaryGeneratorBase.cs" />
     <Compile Include="Generators\BinaryGenerators\NullValueBinaryGenerator.cs" />

@@ -27,7 +27,7 @@ namespace SQLDataProducer.Tests.ConsumerTests
 
         }
 
-        private static List<IDataConsumerPluginWrapper> GetPlugins()
+        private static List<DataConsumerPluginWrapper> GetPlugins()
         {
             var folderName = Environment.CurrentDirectory;
 
@@ -76,8 +76,8 @@ namespace SQLDataProducer.Tests.ConsumerTests
                 test.ShouldConsumeDataFromDifferentTables();
                 test.ShouldCountNumberOfRowsConsumed();
                 test.ShouldProduceValuesForIdentityColumns();
-                test.ShouldResetTheTotalRowsConsumedAtInit();
-                test.ShouldReturnResultAfterConsumption();
+                
+                
                 test.ShouldThrowExceptionIfConsumingNull();
                 test.ShouldThrowExceptionIfNotInitiatedBeforeRunning();
             }

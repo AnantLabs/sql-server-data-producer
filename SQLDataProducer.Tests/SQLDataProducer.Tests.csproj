@@ -55,6 +55,7 @@
     <Compile Include="DataProducerTest.cs" />
     <Compile Include="DataRowEntityTest.cs" />
     <Compile Include="EntityTests\ExecutionNodeModificationTest.cs" />
+    <Compile Include="EntityTests\ExecutionResultBuilderTest.cs" />
     <Compile Include="EntityTests\ExecutionResultTest.cs" />
     <Compile Include="EntityTests\GeneratorFactoryTest.cs" />
     <Compile Include="ForeignKeyTests.cs" />

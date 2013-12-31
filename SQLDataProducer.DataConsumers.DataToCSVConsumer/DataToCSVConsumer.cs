@@ -60,10 +60,8 @@ namespace SQLDataProducer.DataConsumers.DataToCSVConsumer
             return true;
         }
 
-        public ExecutionResult Consume(IEnumerable<DataRowEntity> rows, ValueStore valueStore)
+        public void Consume(IEnumerable<DataRowEntity> rows, ValueStore valueStore)
         {
-            DateTime startTime = DateTime.Now;
-            ErrorList errors = new ErrorList();
 
             using (TextWriter writer = File.AppendText(OutputFolder + "\\output.csv")) 
             {
@@ -91,14 +89,22 @@ namespace SQLDataProducer.DataConsumers.DataToCSVConsumer
                 writer.Flush();
             }
 
-            DateTime endTime = DateTime.Now;
-
-            return new ExecutionResult(startTime, endTime, rowCounter, errors);
         }
 
         public int TotalRows
         {
             get { return rowCounter; }
+        }
+
+
+        public Action ReportInsertion
+        {
+            set { throw new NotImplementedException(); }
+        }
+
+        public Action<Exception, DataRowEntity> ReportError
+        {
+            set { throw new NotImplementedException(); }
         }
     }
 }

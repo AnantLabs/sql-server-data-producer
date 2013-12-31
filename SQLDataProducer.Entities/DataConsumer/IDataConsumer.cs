@@ -13,8 +13,8 @@
 //   limitations under the License.
 
 using SQLDataProducer.Entities.DatabaseEntities;
+//using SQLDataProducer.Entities.DataConsumer;
 using SQLDataProducer.Entities.DataEntities;
-
 using SQLDataProducer.Entities.ExecutionEntities;
 using System;
 using System.Collections.Generic;
@@ -31,9 +31,22 @@ namespace SQLDataProducer.Entities.DataConsumers
         /// <summary>
         /// Initialize the data consumer, Will be called once before running anything.
         /// </summary>
-        /// <param name="target">connectionstring to use in the consumer</param>
-        /// <returns></returns>
+        
+        /// <param name="connectionString">Connectionstring to be used when consuming</param>
+        /// <param name="options">string string dictionary with options that this consumer will use</param>
+        /// <returns>true if the consumer was initialized successfully</returns>
         bool Init(string connectionString, Dictionary<string, string> options);
+
+        /// <summary>
+        /// To be called when an consumation is made in order to follow
+        /// progress outside the consumer
+        /// </summary>
+        Action ReportInsertion { set; }
+
+        /// <summary>
+        /// To be called when some error occur during consumation.
+        /// </summary>
+        Action<Exception, DataRowEntity> ReportError { set; }
 
         /// <summary>
         /// Consume the data feed
@@ -42,11 +55,7 @@ namespace SQLDataProducer.Entities.DataConsumers
         /// <returns>An executionResult with the result of this execution. 
         /// The calling manager is responsible for collecting this 
         /// delta and append it to the big result</returns>
-        ExecutionResult Consume(IEnumerable<DataRowEntity> rows, ValueStore valueStore);
+        void Consume(IEnumerable<DataRowEntity> rows, ValueStore valueStore);
 
-        /// <summary>
-        /// Returns the total rows consumed since the last init
-        /// </summary>
-        int TotalRows { get; }
     }
 }

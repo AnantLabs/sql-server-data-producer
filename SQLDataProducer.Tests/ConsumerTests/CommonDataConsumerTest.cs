@@ -76,9 +76,13 @@ namespace SQLDataProducer.Tests.ConsumerTests
             IDataConsumer consumer = GetImplementedType();
 
             consumer.Init("", options);
-
+            int rowCount = 0;
+            consumer.ReportInsertion = new Action(() =>
+            {
+                rowCount++;
+            });
             consumer.Consume(tenRowsDataSet, valueStore);
-            Assert.That(consumer.TotalRows, Is.EqualTo(10), "Total rows does not match produced rows");
+            Assert.That(rowCount, Is.EqualTo(10), "Total rows does not match produced rows");
 
         }
 
@@ -100,33 +104,21 @@ namespace SQLDataProducer.Tests.ConsumerTests
             Assert.That(vs.GetByKey(row.Fields[0].KeyValue), Is.Not.Null, consumer.GetType().ToString());
         }
 
-        public void ShouldReturnResultAfterConsumption()
-        {
-            ValueStore vs = new ValueStore();
-            DataProducer producer = new DataProducer(vs);
-            DataRowEntity row = producer.ProduceRow(customerTable, 1);
 
-            IDataConsumer consumer = GetImplementedType();
-            consumer.Init("", options);
-            
-            var result = consumer.Consume(new List<DataRowEntity> { row }, vs);
-
-            Assert.That(result, Is.Not.Null, consumer.GetType().ToString());
-            Assert.That(result.Errors, Is.Not.Null, consumer.GetType().ToString());
-            Assert.That(result.InsertCount, Is.EqualTo(1), consumer.GetType().ToString());
-            Assert.That(result.Duration, Is.Not.Null, consumer.GetType().ToString());
-            Assert.That(result.EndTime, Is.Not.Null, consumer.GetType().ToString());
-            Assert.That(result.StartTime, Is.Not.Null, consumer.GetType().ToString());
-        }
+        
 
         public void ShouldConsumeDataFromDifferentTables()
         {
              IDataConsumer consumer = GetImplementedType();
 
             consumer.Init("", options);
-
+            int rowCount = 0;
+            consumer.ReportInsertion = new Action(() =>
+            {
+                rowCount++;
+            });
             consumer.Consume(mixedDataSet, valueStore);
-            Assert.That(consumer.TotalRows, Is.EqualTo(2), "Total rows does not match produced rows");
+            Assert.That(rowCount, Is.EqualTo(2), "Total rows does not match produced rows");
         }
 
         public void ShouldThrowExceptionIfNotInitiatedBeforeRunning()
@@ -160,28 +152,19 @@ namespace SQLDataProducer.Tests.ConsumerTests
             Assert.That(exceptionHappened);
         }
 
-        public void ShouldResetTheTotalRowsConsumedAtInit()
-        {
-            IDataConsumer consumer = GetImplementedType();
-            consumer.Init("", options);
-
-            consumer.Consume(singleRowDataSet, valueStore);
-            Assert.That(consumer.TotalRows, Is.EqualTo(1));
-
-            consumer.Init("", options);
-            Assert.That(consumer.TotalRows, Is.EqualTo(0));
-
-            consumer.Consume(singleRowDataSet, valueStore);
-            Assert.That(consumer.TotalRows, Is.EqualTo(1));
-        }
+       
 
         public void ShouldCountNumberOfRowsConsumed()
         {
             IDataConsumer consumer = GetImplementedType();
             consumer.Init("", options);
-
+            int rowCount = 0;
+            consumer.ReportInsertion = new Action(() =>
+            {
+                rowCount++;
+            });
             consumer.Consume(singleRowDataSet, valueStore);
-            Assert.That(consumer.TotalRows, Is.EqualTo(1));
+            Assert.That(rowCount, Is.EqualTo(1));
         }
 
     }
