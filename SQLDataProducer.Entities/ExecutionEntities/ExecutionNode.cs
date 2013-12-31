@@ -25,54 +25,30 @@ namespace SQLDataProducer.Entities.ExecutionEntities
 {
     public class ExecutionNode : EntityBase, IEquatable<ExecutionNode>
     {
-        ExecutionNode _parent;
+        private readonly ExecutionNode _parent;
         public ExecutionNode Parent
         {
             get
             {
                 return _parent;
             }
-            private set
-            {
-                if (_parent != value)
-                {
-                    _parent = value;
-                    OnPropertyChanged("Parent");
-                }
-            }
         }
 
         ObservableCollection<ExecutionNode> _children;
-        public ObservableCollection<ExecutionNode> Children
+        public IEnumerable<ExecutionNode> Children
         {
             get
             {
                 return _children;
             }
-            private set
-            {
-                if (_children != value)
-                {
-                    _children = value;
-                    OnPropertyChanged("Children");
-                }
-            }
         }
 
-        int _nodeId;
+        private readonly int _nodeId;
         public int NodeId
         {
             get
             {
                 return _nodeId;
-            }
-            private set
-            {
-                if (_nodeId != value)
-                {
-                    _nodeId = value;
-                    OnPropertyChanged("NodeId");
-                }
             }
         }
 
@@ -93,14 +69,14 @@ namespace SQLDataProducer.Entities.ExecutionEntities
             }
         }
 
-        string _nodeName;
+        private string _nodeName;
         public string NodeName
         {
             get
             {
                 return _nodeName;
             }
-            private set
+            set
             {
                 if (_nodeName != value)
                 {
@@ -128,20 +104,20 @@ namespace SQLDataProducer.Entities.ExecutionEntities
         }
 
         ObservableCollection<TableEntity> _tables;
-        public ObservableCollection<TableEntity> Tables
+        public IEnumerable<TableEntity> Tables
         {
             get
             {
                 return _tables;
             }
-            private set
-            {
-                if (_tables != value)
-                {
-                    _tables = value;
-                    OnPropertyChanged("Tables");
-                }
-            }
+            //private set
+            //{
+            //    if (_tables != value)
+            //    {
+            //        _tables = value;
+            //        OnPropertyChanged("Tables");
+            //    }
+            //}
         }
 
         private static int nodeCounter = 0;
@@ -150,7 +126,7 @@ namespace SQLDataProducer.Entities.ExecutionEntities
         {
             var n = new ExecutionNode(this.Level + 1, this, repeatCount, nodeName);
             this.HasChildren = true;
-            Children.Add(n);
+            _children.Add(n);
             return n;
         }
 
@@ -159,14 +135,29 @@ namespace SQLDataProducer.Entities.ExecutionEntities
             return new ExecutionNode(1, null, repeatCount, nodeName);
         }
 
-        public int RepeatCount { get; set; }
+        private int _repeatCount  = 1;
+        public int RepeatCount
+        {
+            get
+            {
+                return _repeatCount;
+            }
+            private set
+            {
+                if (_repeatCount != value)
+                {
+                    _repeatCount = value;
+                    OnPropertyChanged("RepeatCount");
+                }
+            }
+        }
 
         private ExecutionNode(int level, ExecutionNode parent, int repeatCount, string nodeName)
         {
-            Parent = parent;
-            NodeId = nodeCounter++;
-            Tables = new ObservableCollection<TableEntity>();
-            Children = new ObservableCollection<ExecutionNode>();
+            _parent = parent;
+            _nodeId = nodeCounter++;
+            _tables = new ObservableCollection<TableEntity>();
+            _children = new ObservableCollection<ExecutionNode>();
             RepeatCount = repeatCount;
             NodeName = nodeName;
 
@@ -210,28 +201,33 @@ namespace SQLDataProducer.Entities.ExecutionEntities
                 , this.NodeId, this.Level, this.RepeatCount);
         }
 
-        public void AddTable(TableEntity tableEntity)
+        public void AddTable(TableEntity tableToAdd)
         {
-            Tables.Add(tableEntity);
+            if (!Tables.Contains(tableToAdd))
+                _tables.Add(tableToAdd);
         }
 
-        public bool HasWarning { get; set; }
+        public bool HasWarning { get; private set; }
 
         public bool RemoveTable(TableEntity tableToRemove)
         {
-            return Tables.Remove(tableToRemove);
+            return _tables.Remove(tableToRemove);
         }
 
         public void MoveTableToParentNode(TableEntity tableToMove)
         {
-            if(Tables.Remove(tableToMove))
+            if (_tables.Remove(tableToMove))
                 Parent.AddTable(tableToMove);
+            else
+                throw new KeyNotFoundException("unable to move table since it did not exist in the node");
         }
 
         public void MoveTableToNode(TableEntity tableToMove, ExecutionNode targetNode)
         {
-            if(RemoveTable(tableToMove))
+            if (RemoveTable(tableToMove))
                 targetNode.AddTable(tableToMove);
+            else
+                throw new KeyNotFoundException("unable to move table since it did not exist in the node");
         }
 
         public void MoveTableToNewChildNode(TableEntity tableToMove, int repeatCount, string nodeName = "")
@@ -241,6 +237,8 @@ namespace SQLDataProducer.Entities.ExecutionEntities
                 var child = AddChild(repeatCount, nodeName);
                 child.AddTable(tableToMove);
             }
+            else
+                throw new KeyNotFoundException("unable to move table since it did not exist in the node");
         }
 
         public void RemoveTables(params TableEntity[] tablesToRemove)

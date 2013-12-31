@@ -73,11 +73,11 @@ namespace SQLDataProducer.Tests.EntitiesTests
         {
             ExecutionNode node = ExecutionNode.CreateLevelOneNode(1);
             node.AddChild(100);
-            Assert.AreEqual(1, node.Children.Count, "Number of children");
+            Assert.AreEqual(1, node.Children.Count(), "Number of children");
 
             node.AddChild(1);
             node.AddChild(1);
-            Assert.AreEqual(3, node.Children.Count, "Number of children");
+            Assert.AreEqual(3, node.Children.Count(), "Number of children");
             foreach (var item in node.Children)
             {
                 Assert.That(item.Level, Is.GreaterThan(1));
@@ -92,27 +92,6 @@ namespace SQLDataProducer.Tests.EntitiesTests
                 }
             }
         }
-
-        //[Test]
-        //[MSTest.TestMethod]
-        //public void shouldIterateOverAllNodesInTree()
-        //{
-        //    ExecutionNode node = ExecutionNode.CreateLevelOneNode(1);
-        //    node.AddChild(1).AddChild(1).AddChild(1).AddChild(1).AddChild(1).AddChild(1);
-
-        //    int counter = 0;
-        //    NodeIterator it = new NodeIterator(node);
-        //    Assert.That(node.Children.Count, Is.GreaterThan(0));
-
-        //    foreach (var item in it.GetNodesRecursive())
-        //    {
-        //        counter++;
-        //        Console.WriteLine(item.NodeId);
-        //    }
-
-        //    Assert.That(counter, Is.EqualTo(7));
-
-        //}
 
         [Test]
         [MSTest.TestMethod]
@@ -133,55 +112,18 @@ namespace SQLDataProducer.Tests.EntitiesTests
             Assert.That(node2, Is.EqualTo(node2));
         }
 
-        //[Test]
-        //[MSTest.TestMethod]
-        //public void shouldGetEachExecutionNodeOnlyOnceFromTheIterator()
-        //{
-        //    ExecutionNode node = ExecutionNode.CreateLevelOneNode(1);
-        //    node.AddChild(1).AddChild(1).AddChild(1).AddChild(1).AddChild(1).AddChild(1);
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldNotBeAbleToAddSameTableTwice()
+        {
+            ExecutionNode node1 = ExecutionNode.CreateLevelOneNode(1);
+            TableEntity customerTable = new TableEntity("dbo", "Customer");
+            node1.AddTable(customerTable);
+            node1.AddTable(customerTable);
+            node1.AddTable(customerTable);
+            Assert.That(node1.Tables.Count(), Is.EqualTo(1));
+        }
 
-        //    int counter = 0;
-        //    NodeIterator it = new NodeIterator(node);
-        //    Assert.That(node.Children.Count, Is.GreaterThan(0));
-
-        //    HashSet<ExecutionNode> nodes = new HashSet<ExecutionNode>();
-
-        //    foreach (var item in it.GetNodesRecursive())
-        //    {
-        //        nodes.Add(item);
-        //        counter++;
-        //        Console.WriteLine(item.NodeId);
-        //    }
-
-        //    Assert.That(counter, Is.EqualTo(7));
-        //    Assert.That(nodes.Count, Is.EqualTo(7));
-        //}
-
-        //[Test]
-        //[MSTest.TestMethod]
-        //public void shouldHaveWantedOrderInTheRecursiveness()
-        //{
-        //    string[] requestedOrder = { "User", "Deposit", "Order", "Transactions", "Tracking", "Withdraw" };
-
-        //    ExecutionNode User = ExecutionNode.CreateLevelOneNode(50, "User");
-
-        //    var deposit = User.AddChild(1, "Deposit");
-        //    var Order = User.AddChild(100, "Order");
-        //    var withdraw = User.AddChild(1, "Withdraw");
-        //    var transactions = Order.AddChild(2, "Transactions");
-        //    var tracking = Order.AddChild(1, "Tracking");
-
-        //    NodeIterator it = new NodeIterator(User);
-
-        //    List<ExecutionNode> actual = new List<ExecutionNode>(it.GetNodesRecursive());
-            
-        //    Assert.That(actual.Count, Is.EqualTo(6));
-
-        //    for (int i = 0; i < requestedOrder.Length; i++)
-        //    {
-        //        Assert.That(requestedOrder[i], Is.EqualTo(actual[i].NodeName));
-        //    }
-        //}
 
         [Test]
         [MSTest.TestMethod]
@@ -231,7 +173,7 @@ namespace SQLDataProducer.Tests.EntitiesTests
 
             int counter = 0;
             NodeIterator it = new NodeIterator(node);
-            Assert.That(node.Children.Count, Is.EqualTo(0));
+            Assert.That(node.Children.Count(), Is.EqualTo(0));
 
             HashSet<TableEntity> nodes = new HashSet<TableEntity>();
 
@@ -278,13 +220,13 @@ namespace SQLDataProducer.Tests.EntitiesTests
         public void ShouldGetAllExecutionItems()
         {
             ExecutionNode node = ExecutionNode.CreateLevelOneNode(1);
-            node.Tables.Add(new TableEntity("",""));
-            node.Tables.Add(new TableEntity("", ""));
+            node.AddTable(new TableEntity("",""));
+            node.AddTable(new TableEntity("", ""));
 
             var child = node.AddChild(1);
-            child.Tables.Add(new TableEntity("", ""));
-            child.Tables.Add(new TableEntity("", ""));
-            child.Tables.Add(new TableEntity("", ""));
+            node.AddTable(new TableEntity("", ""));
+            node.AddTable(new TableEntity("", ""));
+            node.AddTable(new TableEntity("", ""));
 
             NodeIterator it = new NodeIterator(node);
             int counter = 0;

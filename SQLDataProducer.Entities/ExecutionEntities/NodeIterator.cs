@@ -81,7 +81,7 @@ namespace SQLDataProducer.Entities.ExecutionEntities
                     yield return table;
                 }
 
-                if (node.Children.Count > 0)
+                if (node.Children.Any( x => true))
                 {
                     foreach (var child in node.Children)
                     {
