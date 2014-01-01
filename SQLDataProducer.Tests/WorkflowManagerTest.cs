@@ -12,18 +12,17 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-using System.Windows.Controls;
+using NUnit.Framework;
+using MSTest = Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace SQLDataProducer.Views
+
+
+namespace SQLDataProducer.Tests
 {
-    /// <summary>
-    /// Interaction logic for ExecutionDetailsView.xaml
-    /// </summary>
-    public partial class ExecutionDetailsView : UserControl
+    [TestFixture]
+    [MSTest.TestClass]
+    public class WorkflowManagerTest
     {
-        public ExecutionDetailsView()
-        {
-            InitializeComponent();
-        }
+
     }
 }

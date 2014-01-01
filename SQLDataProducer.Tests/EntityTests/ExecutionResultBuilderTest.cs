@@ -1,4 +1,4 @@
-﻿// Copyright 2012-2013 Peter Henell
+﻿// Copyright 2012-2014 Peter Henell
 
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -20,6 +20,8 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using MSTest = Microsoft.VisualStudio.TestTools.UnitTesting;
 using SQLDataProducer.Entities.ExecutionEntities;
+using SQLDataProducer.Entities.DataEntities;
+using System.Threading;
 
 namespace SQLDataProducer.Tests.EntityTests
 {
@@ -34,7 +36,8 @@ namespace SQLDataProducer.Tests.EntityTests
         {
             ExecutionResultBuilder builder = new ExecutionResultBuilder();
             builder.Begin();
-            builder.AddError(new Exception());
+            builder.AddError(new Exception(), new DataRowEntity(null));
+            Thread.Sleep(1); // to get different enddate than startdate
             builder.Increment();
 
             ExecutionResult result = builder.Build();

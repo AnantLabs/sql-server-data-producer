@@ -1,4 +1,4 @@
-﻿// Copyright 2012-2013 Peter Henell
+﻿// Copyright 2012-2014 Peter Henell
 
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -39,13 +39,6 @@ namespace SQLDataProducer.Entities.ExecutionEntities
             _startTime = DateTime.Now;
         }
 
-        public void AddError(Exception exception)
-        {
-            int errorCount = 0;
-            _errors.TryGetValue(exception, out errorCount);
-            _errors.Add(exception, errorCount++);
-        }
-
         public void Increment()
         {
             _counter.Increment();
@@ -58,6 +51,11 @@ namespace SQLDataProducer.Entities.ExecutionEntities
            return new ExecutionResult(_startTime, DateTime.Now, _counter.Peek(), errorList);
         }
 
-        
+        public void AddError(Exception exception, DataEntities.DataRowEntity dataRowEntity)
+        {
+            int errorCount = 0;
+            _errors.TryGetValue(exception, out errorCount);
+            _errors.Add(exception, errorCount++);
+        }
     }
 }

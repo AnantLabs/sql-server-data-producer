@@ -133,6 +133,7 @@
     <Compile Include="ViewModelTests\Helpers\ViewModelTestHelper.cs" />
     <Compile Include="ViewModelTests\MainViewModelTests.cs" />
     <Compile Include="ViewModelTests\SidePanelViewModelTests.cs" />
+    <Compile Include="WorkflowManagerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SQLDataProducer.DataAccess\SQLDataProducer.DataAccess.csproj">
