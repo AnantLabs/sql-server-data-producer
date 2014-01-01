@@ -14,6 +14,8 @@ namespace SQLDataProducer.Tests
         private int rowCounter = 0;
         private bool initialized = false;
         private int identityCounter = 0;
+        private Action<Exception, DataRowEntity> _reportError;
+        private Action _reportInsertion;
 
         public Action<object> ValueValidator { get; set; }
         public Action<DataRowEntity> RowValidator { get; set; }
@@ -25,6 +27,15 @@ namespace SQLDataProducer.Tests
         {
             ValueValidator = new Action<object>(value => { return; });
             RowValidator = new Action<DataRowEntity>(value => { return; });
+            _reportError = new Action<Exception, DataRowEntity>( (ex, row) =>
+            {
+                Console.WriteLine("Error was reported");
+            });
+            _reportInsertion = new Action(() =>
+            {
+                Console.WriteLine("insertion made");
+            });
+
         }
 
         public bool Init(string connectionString, Dictionary<string, string> options = null)
@@ -39,6 +50,7 @@ namespace SQLDataProducer.Tests
             foreach (var row in rows)
             {
                 rowCounter++;
+                _reportInsertion();
                 RowValidator(row);
                 foreach (var field in row.Fields)
                 {
@@ -81,12 +93,12 @@ namespace SQLDataProducer.Tests
 
         public Action ReportInsertion
         {
-            set { throw new NotImplementedException(); }
+            set { _reportInsertion = value; }
         }
 
         public Action<Exception, DataRowEntity> ReportError
         {
-            set { throw new NotImplementedException(); }
+            set { _reportError = value; }
         }
     }
 }

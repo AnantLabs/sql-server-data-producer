@@ -67,6 +67,9 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer
 
         public void Consume(IEnumerable<DataRowEntity> rows, ValueStore valueStore)
         {
+            if (_queryExecutor == null)
+                throw new ArgumentNullException("init must be called before consume");
+
             foreach (var insertQuery in TableQueryGenerator.GenerateInsertStatements(rows, valueStore))
             {
                 Dictionary<Guid, object> generatedValues = InsertWithResult(insertQuery);

@@ -34,10 +34,24 @@ namespace SQLDataProducer.DataConsumers.DataToCSVConsumer
         Dictionary<string, string> _options;
         private int rowCounter = 0;
         private int identityCounter = 0;
+        private Action _reportInsertion;
+        private Action<Exception, DataRowEntity> _reportError;
 
         public string OutputFolder {
             get { return _options[OUTPUT_FOLDER_PARAMETER]; }
             private set { _options[OUTPUT_FOLDER_PARAMETER] = value; }
+        }
+
+        public DataToCSVConsumer()
+        {
+            _reportError = new Action<Exception, DataRowEntity>((ex, row) =>
+            {
+                Console.WriteLine("Error was reported");
+            });
+            _reportInsertion = new Action(() =>
+            {
+                Console.WriteLine("insertion made");
+            });
         }
 
         public void Dispose()
@@ -62,6 +76,8 @@ namespace SQLDataProducer.DataConsumers.DataToCSVConsumer
 
         public void Consume(IEnumerable<DataRowEntity> rows, ValueStore valueStore)
         {
+            if (_options == null)
+                throw new ArgumentNullException("Init was not called before calling consume");
 
             using (TextWriter writer = File.AppendText(OutputFolder + "\\output.csv")) 
             {
@@ -82,7 +98,7 @@ namespace SQLDataProducer.DataConsumers.DataToCSVConsumer
                     writer.Write(sb.ToString());
 
                     rowCounter++;
-
+                    _reportInsertion();
                     writer.WriteLine();    
                 }
                 
@@ -99,12 +115,12 @@ namespace SQLDataProducer.DataConsumers.DataToCSVConsumer
 
         public Action ReportInsertion
         {
-            set { throw new NotImplementedException(); }
+            set { _reportInsertion = value; }
         }
 
         public Action<Exception, DataRowEntity> ReportError
         {
-            set { throw new NotImplementedException(); }
+            set { _reportError = value; }
         }
     }
 }

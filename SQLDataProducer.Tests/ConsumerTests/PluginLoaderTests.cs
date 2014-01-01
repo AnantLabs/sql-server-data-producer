@@ -70,7 +70,7 @@ namespace SQLDataProducer.Tests.ConsumerTests
                         options[key] = ".";
                     }
                 }
-
+                Console.WriteLine(  "Now running: " + plugin.PluginName);
                 var test = new CommonDataConsumerTest(options, new Func<IDataConsumer>(() => { return plugin.CreateInstance(); }));
                 test.ShouldConsumeAllValues();
                 test.ShouldConsumeDataFromDifferentTables();
