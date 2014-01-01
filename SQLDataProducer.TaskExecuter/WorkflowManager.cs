@@ -25,7 +25,6 @@ namespace SQLDataProducer.TaskExecuter
     public class WorkflowManager
     {
 
-
         public WorkflowManager()
         {
 
@@ -74,9 +73,6 @@ namespace SQLDataProducer.TaskExecuter
                 ExecutionResult execResult = executor.Execute();
 
                 executor.PostAction(postScript);
-
-                //execResult.StartTime = startTime;
-                //execResult.EndTime = DateTime.Now;
 
                 return execResult;
             }

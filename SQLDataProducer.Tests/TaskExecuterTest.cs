@@ -13,23 +13,31 @@
 //   limitations under the License.
 
 using NUnit.Framework;
+using SQLDataProducer.Entities.DataConsumers;
+using SQLDataProducer.Entities.ExecutionEntities;
+using SQLDataProducer.Entities.OptionEntities;
 using SQLDataProducer.TaskExecuter;
 using MSTest = Microsoft.VisualStudio.TestTools.UnitTesting;
-
-
 
 namespace SQLDataProducer.Tests
 {
     [TestFixture]
     [MSTest.TestClass]
-    public class WorkflowManagerTest
+    public class TaskExecuterTest
     {
+        string connectionString = "";
+        IDataConsumer consumer = new MockDataConsumer();
+        ExecutionResultBuilder builder = new ExecutionResultBuilder();
+        ExecutionTaskOptions options = new ExecutionTaskOptions();
+        ExecutionNode rootNode = ExecutionNode.CreateLevelOneNode(1, "Root");
+
         [Test]
         [MSTest.TestMethod]
-        public void ShouldInstantiateWorkflowManager()
+        public void ShouldInstantiateTaskExecuter()
         {
-            WorkflowManager manager = new WorkflowManager();
+            TaskExecuter.TaskExecuter executor = new TaskExecuter.TaskExecuter(null, null, null, null, null);
 
         }
     }
 }
+

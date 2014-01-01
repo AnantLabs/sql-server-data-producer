@@ -85,6 +85,7 @@
     <Compile Include="SomeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SerializationTests\SaveLoadTests.cs" />
+    <Compile Include="TaskExecuterTest.cs" />
     <Compile Include="TestBase.cs" />
     <Compile Include="ValueGenerators\BinaryGenerators\NullValueBinaryGeneratorTest.cs" />
     <Compile Include="ValueGenerators\BinaryGenerators\StaticBinaryValueGeneratorTest.cs" />
@@ -159,6 +160,10 @@
     <ProjectReference Include="..\SQLDataProducer.Entities\SQLDataProducer.Entities.csproj">
       <Project>{0D135CAD-55DB-4090-BB5F-2C493A1F0072}</Project>
       <Name>SQLDataProducer.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SQLDataProducer.TaskExecuter\SQLDataProducer.TaskExecuter.csproj">
+      <Project>{ad47b9d0-0a49-49ed-9cf0-123809e266d4}</Project>
+      <Name>SQLDataProducer.TaskExecuter</Name>
     </ProjectReference>
     <ProjectReference Include="..\SQLDataProducer\SQLDataProducer.csproj">
       <Project>{295ab733-d88a-46e2-a08f-3e8baaef1573}</Project>
