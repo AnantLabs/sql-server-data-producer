@@ -77,5 +77,29 @@ namespace SQLDataProducer.Tests.EntityTests
 
             return exceptionHappened;
         }
+
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldResetAllValuesIfCallingBeginSeveralTimes()
+        {
+            ExecutionResultBuilder builder = new ExecutionResultBuilder();
+            builder.Begin();
+            builder.Increment();
+            builder.Increment();
+            builder.Increment();
+            builder.AddError(new Exception(), null);
+            var result = builder.Build();
+            Assert.That(result.InsertCount, Is.EqualTo(3));
+            Assert.That(result.Errors.Count, Is.EqualTo(1));
+
+            ExpectedExceptionHappened<InvalidOperationException>(new Action(() => { builder.Build(); }), "should not be able to build again before calling begin");
+
+            builder.Begin();
+            builder.Increment();
+            var result2 = builder.Build();
+            Assert.That(result2.InsertCount, Is.EqualTo(1));
+            Assert.That(result2.Errors.Count, Is.EqualTo(0));
+
+        }
     }
 }

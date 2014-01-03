@@ -31,14 +31,14 @@ namespace SQLDataProducer.Entities.ExecutionEntities
 
         public ExecutionResultBuilder()
         {
-            _errors = new Dictionary<Exception, int>();
-            _counter = new SetCounter();
             _initialized = false;
         }
 
         public ExecutionResultBuilder Begin()
         {
             _initialized = true;
+            _errors = new Dictionary<Exception, int>();
+            _counter = new SetCounter();
             _startTime = DateTime.Now;
             return this;
         }
@@ -62,6 +62,7 @@ namespace SQLDataProducer.Entities.ExecutionEntities
             ValidateInitialized();
             ErrorList errorList = new ErrorList(25);
             errorList.AddRange(_errors.Keys.Select(x => x.ToString()));
+            _initialized = false;
             return new ExecutionResult(_startTime, DateTime.Now, _counter.Peek(), errorList);
         }
 
