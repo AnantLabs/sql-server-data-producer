@@ -8,6 +8,7 @@ using System.Text;
 
 namespace SQLDataProducer.Tests
 {
+    [ConsumerMetaData("Insert rows to DB", null)]
     class MockDataConsumer : IDataConsumer
     {
 

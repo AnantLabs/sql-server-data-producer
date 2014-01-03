@@ -20,7 +20,6 @@ namespace SQLDataProducer.Entities.OptionEntities
     {
         public ExecutionTaskOptions()
         {
-         
         }
 
         long _startValue = 1;
@@ -61,63 +60,6 @@ namespace SQLDataProducer.Entities.OptionEntities
             }
         }
 
-        int _fixedExecutions = 1;
-        /// <summary>
-        /// Get and Set the number of executions to run when using the Count based execution type.
-        /// </summary>
-        public int FixedExecutions
-        {
-            get
-            {
-                return _fixedExecutions;
-            }
-            set
-            {
-                if (_fixedExecutions != value)
-                {
-                    _fixedExecutions = value;
-                    OnPropertyChanged("FixedExecutions");
-                }
-            }
-        }
-
-        ExecutionTypes _executionType = ExecutionTypes.ExecutionCountBased;
-        public ExecutionTypes ExecutionType
-        {
-            get
-            {
-                return _executionType;
-            }
-            set
-            {
-                if (_executionType != value)
-                {
-                    _executionType = value;
-                    OnPropertyChanged("ExecutionType");
-                }
-            }
-        }
-       
-        int _secondsToRun = 2;
-        /// <summary>
-        /// Set and get the number of seconds that this task should be run when using the DurationBased Execution
-        /// </summary>
-        public int SecondsToRun
-        {
-            get
-            {
-                return _secondsToRun;
-            }
-            set
-            {
-                if (_secondsToRun != value)
-                {
-                    _secondsToRun = value;
-                    OnPropertyChanged("SecondsToRun");
-                }
-            }
-        }
-
         int _maxThreads = 1;
         /// <summary>
         /// Set and get the maximum number of threads used in the execution of the task.
@@ -134,48 +76,6 @@ namespace SQLDataProducer.Entities.OptionEntities
                 {
                     _maxThreads = value;
                     OnPropertyChanged("MaxThreads");
-                }
-            }
-        }
-
-        float _percentCompleted = 0;
-        /// <summary>
-        /// The percentage of how far the task have been executed. 
-        /// Changing this manually will not change the remaining amount of work in the task and the manual change will be overwritten.
-        /// </summary>
-        public float PercentCompleted
-        {
-            get
-            {
-                return _percentCompleted;
-            }
-            set
-            {
-                if (_percentCompleted != value)
-                {
-                    _percentCompleted = value;
-                    OnPropertyChanged("PercentCompleted");
-                }
-            }
-        }
-
-
-        private NumberGeneratorMethods _numberGeneratorMethod = NumberGeneratorMethods.NewNForEachRow;
-        /// <summary>
-        /// Get set the method to use when generating N for the insertions.
-        /// </summary>
-        public NumberGeneratorMethods NumberGeneratorMethod
-        {
-            get
-            {
-                return _numberGeneratorMethod;
-            }
-            set
-            {
-                if (_numberGeneratorMethod != value)
-                {
-                    _numberGeneratorMethod = value;
-                    OnPropertyChanged("NumberGeneratorMethod");
                 }
             }
         }

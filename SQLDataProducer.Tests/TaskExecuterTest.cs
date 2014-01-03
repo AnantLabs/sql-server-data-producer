@@ -17,6 +17,7 @@ using SQLDataProducer.Entities.DataConsumers;
 using SQLDataProducer.Entities.ExecutionEntities;
 using SQLDataProducer.Entities.OptionEntities;
 using SQLDataProducer.TaskExecuter;
+using System.Collections.Generic;
 using MSTest = Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace SQLDataProducer.Tests
@@ -27,15 +28,18 @@ namespace SQLDataProducer.Tests
     {
         string connectionString = "";
         IDataConsumer consumer = new MockDataConsumer();
+        Dictionary<string, string> consumerOptions = new Dictionary<string,string>();
+
         ExecutionResultBuilder builder = new ExecutionResultBuilder();
         ExecutionTaskOptions options = new ExecutionTaskOptions();
         ExecutionNode rootNode = ExecutionNode.CreateLevelOneNode(1, "Root");
+
 
         [Test]
         [MSTest.TestMethod]
         public void ShouldInstantiateTaskExecuter()
         {
-            TaskExecuter.TaskExecuter executor = new TaskExecuter.TaskExecuter(null, null, null, null, null);
+           // TaskExecuter.TaskExecuter executor = new TaskExecuter.TaskExecuter(null, null, null, null, null);
 
         }
     }

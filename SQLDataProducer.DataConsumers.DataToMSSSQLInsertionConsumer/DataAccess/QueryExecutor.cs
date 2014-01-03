@@ -57,18 +57,6 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer.DataAccess
             }
         }
 
-        //public long ExecuteIdentity(string query, Dictionary<string, DbParameter> parameters)
-        //{
-        //    PrepareCommand(query, parameters);
-        //    var outputParam = CommandFactory.CreateParameter("@Identity_output", 0, System.Data.SqlDbType.BigInt);
-        //    outputParam.Direction = System.Data.ParameterDirection.Output;
-        //    _cmd.Parameters.Add(outputParam);
-            
-        //    _cmd.ExecuteNonQuery();
-
-        //    return long.Parse(outputParam.Value.ToString());
-        //}
-
         public void Dispose()
         {
             if (_cmd != null)
@@ -79,6 +67,7 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer.DataAccess
 
         public System.Data.DataTable ExecuteTableResult(string insertQuery)
         {
+            Console.WriteLine(insertQuery);
             _cmd.CommandText = insertQuery;
             var ad = CommandFactory.CreateSelectDataAdapter(_cmd);
             DataSet ds = new DataSet();

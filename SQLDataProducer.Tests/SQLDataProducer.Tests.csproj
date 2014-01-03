@@ -59,8 +59,8 @@
     <Compile Include="EntityTests\ExecutionResultTest.cs" />
     <Compile Include="EntityTests\GeneratorFactoryTest.cs" />
     <Compile Include="ForeignKeyTests.cs" />
-    <Compile Include="GenerationManagerTest.cs" />
     <Compile Include="IntegrationTests\BugTest.cs" />
+    <Compile Include="IntegrationTests\WorkflowManagerIT.cs" />
     <Compile Include="LongRunningTests.cs" />
     <Compile Include="DataAccessTests\ColumnEntityDataAccessTests.cs" />
     <Compile Include="DataAccessTests\Factories\DbCommandExecutorFactoryTests.cs" />
@@ -82,6 +82,7 @@
     <Compile Include="EntityTests\TableEntitityTests.cs" />
     <Compile Include="EntityTests\Collections\TableEntityCollectionTests.cs" />
     <Compile Include="MockDataConsumer.cs" />
+    <Compile Include="NodeIteratorTest.cs" />
     <Compile Include="SomeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SerializationTests\SaveLoadTests.cs" />

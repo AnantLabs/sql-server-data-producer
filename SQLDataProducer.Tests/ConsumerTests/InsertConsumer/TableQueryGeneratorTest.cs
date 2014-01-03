@@ -32,6 +32,7 @@ namespace SQLDataProducer.Tests.ConsumerTests.InsertConsumer
 
         private TableEntity customerTable;
         private TableEntity tableWithIdentity;
+        private TableEntity tableWithNullFields;
 
         public TableQueryGeneratorTest()
         {
@@ -42,9 +43,13 @@ namespace SQLDataProducer.Tests.ConsumerTests.InsertConsumer
             customerTable.Columns.Add(DatabaseEntityFactory.CreateColumnEntity("Name", new ColumnDataTypeDefinition("varchar", false), false, 3, false, null, null));
             customerTable.Columns.Add(DatabaseEntityFactory.CreateColumnEntity("IsActive", new ColumnDataTypeDefinition("bit", false), false, 4, false, null, null));
 
-            tableWithIdentity = new TableEntity("Dbo", "Order");
+            tableWithIdentity = new TableEntity("dbo", "Order");
             tableWithIdentity.AddColumn(DatabaseEntityFactory.CreateColumnEntity("OrderId", new ColumnDataTypeDefinition("int", false), true, 1, false, null, null));
             tableWithIdentity.AddColumn(DatabaseEntityFactory.CreateColumnEntity("OrderDate", new ColumnDataTypeDefinition("datetime", false), false, 2, false, null, null));
+
+            tableWithNullFields = new TableEntity("dbo", "OrderDetails");
+            tableWithNullFields.AddColumn(DatabaseEntityFactory.CreateColumnEntity("OrderDetailId", new ColumnDataTypeDefinition("int", false), true, 1, false, null, null));
+            tableWithNullFields.AddColumn(DatabaseEntityFactory.CreateColumnEntity("Details", new ColumnDataTypeDefinition("varchar(max)", true), false, 2, false, null, null));
         }
 
         [Test]
@@ -64,7 +69,7 @@ namespace SQLDataProducer.Tests.ConsumerTests.InsertConsumer
             Assert.That(statement, Is.Not.Null);
             Assert.That(statement, Is.Not.Empty);
 
-            Assert.That(statement, Is.EqualTo("INSERT INTO Customer(" + generator.ColumnList + ")"));
+            Assert.That(statement, Is.EqualTo("INSERT INTO dbo.Customer(" + generator.ColumnList + ")"));
         }
 
         [Test]
@@ -108,7 +113,7 @@ namespace SQLDataProducer.Tests.ConsumerTests.InsertConsumer
             IEnumerable<DataRowEntity> rows = new List<DataRowEntity> { producer.ProduceRow(customerTable, 1)};
 
             string firstValues = generator.GenerateInsertStatement(rows.First(), valueStore);
-            Assert.That(firstValues, Is.StringStarting("INSERT INTO Customer(" + generator.ColumnList + ") OUTPUT INSERTED.CustomerId")
+            Assert.That(firstValues, Is.StringStarting("INSERT INTO dbo.Customer(" + generator.ColumnList + ") OUTPUT INSERTED.CustomerId")
                                     .And.StringEnding(" VALUES (0, 'Arboga', 0)"));
 
         }
@@ -123,11 +128,11 @@ namespace SQLDataProducer.Tests.ConsumerTests.InsertConsumer
             IEnumerable<DataRowEntity> rows = new List<DataRowEntity> { producer.ProduceRow(customerTable, 1), producer.ProduceRow(customerTable, 2) };
 
             string firstValues = TableQueryGenerator.GenerateInsertStatements(rows, valueStore).First();
-            Assert.That(firstValues, Is.StringStarting("INSERT INTO Customer(CustomerType, Name, IsActive) OUTPUT INSERTED.CustomerId AS")
+            Assert.That(firstValues, Is.StringStarting("INSERT INTO dbo.Customer(CustomerType, Name, IsActive) OUTPUT INSERTED.CustomerId AS")
                                     .And.StringEnding(" VALUES (0, 'Arboga', 0)"));
 
             string secondValues = TableQueryGenerator.GenerateInsertStatements(rows, valueStore).Skip(1).First();
-            Assert.That(secondValues, Is.StringStarting("INSERT INTO Customer(CustomerType, Name, IsActive) OUTPUT INSERTED.CustomerId AS")
+            Assert.That(secondValues, Is.StringStarting("INSERT INTO dbo.Customer(CustomerType, Name, IsActive) OUTPUT INSERTED.CustomerId AS")
                                         .And.StringEnding(" VALUES (1, 'Arvika', 1)"));
         }
 
@@ -146,8 +151,23 @@ namespace SQLDataProducer.Tests.ConsumerTests.InsertConsumer
             Assert.That(generator.ColumnList, Is.EqualTo("OrderDate"));
             Assert.That(
                 generator.GenerateInsertStatement(rows.First(), valueStore),
-                Is.StringStarting("INSERT INTO Order(" + generator.ColumnList + ") OUTPUT INSERTED.OrderId"));
+                Is.StringStarting("INSERT INTO dbo.Order(" + generator.ColumnList + ") OUTPUT INSERTED.OrderId"));
 
+        }
+
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldKnowAboutNullValues()
+        {
+            var valueStore = new ValueStore();
+            DataProducer producer = new DataProducer(valueStore);
+
+            TableQueryGenerator generator = new TableQueryGenerator(tableWithNullFields);
+
+            IEnumerable<DataRowEntity> rows = new List<DataRowEntity> { producer.ProduceRow(tableWithNullFields, 1) };
+
+            string actual = generator.GenerateValuesStatement(rows.First(), valueStore);
+            Assert.That(actual, Is.EqualTo("VALUES (NULL)"));
         }
     }
 }

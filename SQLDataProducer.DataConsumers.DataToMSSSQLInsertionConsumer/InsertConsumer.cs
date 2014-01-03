@@ -42,6 +42,16 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer
             set { _options["ConnectionString"] = value; }
         }
 
+        public InsertConsumer()
+        {
+            _reportInsertion = new Action(() =>
+            {
+            });
+            _reportError = new Action<Exception, DataRowEntity>((e, row) =>
+            {
+            });
+        }
+
         public bool Init(string connectionString, Dictionary<string, string> options)
         {
             _options = options;
@@ -50,8 +60,9 @@ namespace SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer
             {
                 _queryExecutor = new QueryExecutor(ConnectionString);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.ToString());
                 return false;
             }
             return true;

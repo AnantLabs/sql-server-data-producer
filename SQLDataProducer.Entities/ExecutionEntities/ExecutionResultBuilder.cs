@@ -27,32 +27,47 @@ namespace SQLDataProducer.Entities.ExecutionEntities
         private DateTime _startTime;
         private Dictionary<Exception, int> _errors;
         private SetCounter _counter;
+        private bool _initialized;
 
         public ExecutionResultBuilder()
         {
             _errors = new Dictionary<Exception, int>();
             _counter = new SetCounter();
+            _initialized = false;
         }
 
-        public void Begin()
+        public ExecutionResultBuilder Begin()
         {
+            _initialized = true;
             _startTime = DateTime.Now;
+            return this;
         }
 
         public void Increment()
         {
+            ValidateInitialized();
             _counter.Increment();
+        }
+
+        private void ValidateInitialized()
+        {
+            if (_initialized)
+                return;
+            else
+                throw new InvalidOperationException("call Begin before any other operation");
         }
 
         public ExecutionResult Build()
         {
+            ValidateInitialized();
             ErrorList errorList = new ErrorList(25);
             errorList.AddRange(_errors.Keys.Select(x => x.ToString()));
-           return new ExecutionResult(_startTime, DateTime.Now, _counter.Peek(), errorList);
+            return new ExecutionResult(_startTime, DateTime.Now, _counter.Peek(), errorList);
         }
 
         public void AddError(Exception exception, DataEntities.DataRowEntity dataRowEntity)
         {
+            ValidateInitialized();
             int errorCount = 0;
             _errors.TryGetValue(exception, out errorCount);
             _errors.Add(exception, errorCount++);

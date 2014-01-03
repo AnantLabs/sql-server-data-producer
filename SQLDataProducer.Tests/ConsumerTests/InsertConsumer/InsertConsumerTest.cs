@@ -37,7 +37,7 @@ namespace SQLDataProducer.Tests.ConsumerTests.InsertConsumer
         TableEntity customerTable;
         TableEntity orderTable;
 
-      //  private SqlCeEngine engine;
+      
         private string connectionString;
         private int insertCounter = 0;
 

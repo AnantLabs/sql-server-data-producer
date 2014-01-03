@@ -60,6 +60,7 @@ namespace SQLDataProducer.Model
                 }
                 return true;
             });
+           
         }
 
         CollectionViewSource _executionItemsWithWarningsSource;
@@ -454,28 +455,28 @@ namespace SQLDataProducer.Model
 
             WorkFlowManager = new WorkflowManager();
             var consumer = SelectedConsumer.CreateInstance();
-            _executor = new TaskExecuter.TaskExecuter(Options, ConnectionString, ExecutionItems, consumer);
-            WorkFlowManager.RunWorkFlowAsync(_executor, (executionResult) =>
-            {
-                IsQueryRunning = false;
-                // Modal window need to be started from STA thread.
-                DispatcherSupplier.CurrentDispatcher.Invoke(
-                    DispatcherPriority.Normal,
-                    new ThreadStart(() =>
-                    {
-                        // Show the Execution Summary window with results.
-                        ExecutionSummaryWindow win = new ExecutionSummaryWindow(executionResult, this);
-                        win.ShowDialog();
-                        _executor.Dispose();
-                    })
-                    );
+            //_executor = new TaskExecuter.TaskExecuter(Options, ConnectionString, ExecutionItems, consumer);
+            //WorkFlowManager.RunWorkFlowAsync(_executor, (executionResult) =>
+            //{
+            //    IsQueryRunning = false;
+            //    // Modal window need to be started from STA thread.
+            //    DispatcherSupplier.CurrentDispatcher.Invoke(
+            //        DispatcherPriority.Normal,
+            //        new ThreadStart(() =>
+            //        {
+            //            // Show the Execution Summary window with results.
+            //            ExecutionSummaryWindow win = new ExecutionSummaryWindow(executionResult, this);
+            //            win.ShowDialog();
+            //            _executor.Dispose();
+            //        })
+            //        );
 
-            }
-                , string.Empty
-                , string.Empty);
+            //}
+            //    , string.Empty
+            //    , string.Empty);
         }
 
-        TaskExecuter.TaskExecuter _executor ;
+      //  TaskExecuter.TaskExecuter _executor ;
 
         protected void OnPropertyChanged(string propertyName)
         {
@@ -489,10 +490,10 @@ namespace SQLDataProducer.Model
 
         internal void StopAsync()
         {
-            if (_executor != null)
-            {
-                _executor.EndExecute();    
-            }
+            //if (_executor != null)
+            //{
+            //    _executor.EndExecute();    
+            //}
             
             IsQueryRunning = false;
         }

@@ -19,15 +19,20 @@ using SQLDataProducer.Entities;
 using SQLDataProducer.Entities.OptionEntities;
 using SQLDataProducer.DataAccess;
 using SQLDataProducer.DataConsumers;
+using System.Collections.Generic;
+using SQLDataProducer.Entities.DataConsumers;
 
 namespace SQLDataProducer.TaskExecuter
 {
     public class WorkflowManager
     {
 
+        private NodeIterator iterator;
+        private long counter = 0;
+
         public WorkflowManager()
         {
-
+            
         }
 
         /// <summary>
@@ -35,48 +40,45 @@ namespace SQLDataProducer.TaskExecuter
         /// </summary>
         public void StopAsync()
         {
-            throw new NotImplementedException("fix after refactoring");
-            //if (_executor != null)
-            //{
-            //    _executor.EndExecute();
-            //}
+            if (iterator != null)
+            {
+                iterator.Cancel();
+            }
         }
 
-        public ExecutionResult RunWorkFlow(TaskExecuter executor, string preScript = null, string postScript = null)
-        {
-            return InternalRunWorkFlow(executor, preScript, postScript);
-        }
-
-        public void RunWorkFlowAsync(TaskExecuter executor, Action<ExecutionResult> onCompletedCallback, string preScript = null, string postScript = null)
+        public void RunWorkFlowAsync(string connectionString, DataConsumerPluginWrapper consumerWrapper, ExecutionResultBuilder builder, ExecutionTaskOptions options, ExecutionNode rootNode)
         {
             Action a = new Action(() =>
                 {
-                    ExecutionResult res = InternalRunWorkFlow(executor, preScript, postScript);
-                    onCompletedCallback(res);
+                    RunWorkFlow(connectionString, consumerWrapper, builder, options, rootNode);
                 });
             a.BeginInvoke(null, null);
         }
 
-
-        private ExecutionResult InternalRunWorkFlow(TaskExecuter executor, string preScript = null, string postScript = null)
+        public void RunWorkFlow(string connectionString, DataConsumerPluginWrapper consumerWrapper, ExecutionResultBuilder builder, ExecutionTaskOptions options, ExecutionNode rootNode)
         {
-            DateTime startTime = DateTime.Now;
+            counter = 0;
 
-            // Initialize the start values for the generators
-            using (executor)
+            using (var consumer = consumerWrapper.CreateInstance())
+            using (iterator = new NodeIterator(rootNode))
             {
-                executor.Init();
+                consumer.ReportInsertion = builder.Increment;
+                consumer.ReportError = builder.AddError;
 
-                executor.CleanUp();
+                ValueStore valueStore = new ValueStore();
+                DataProducer producer = new DataProducer(valueStore);
 
-                executor.PreAction(preScript);
-                ExecutionResult execResult = executor.Execute();
+                builder.Begin();
 
-                executor.PostAction(postScript);
+                consumer.Init(connectionString, consumerWrapper.OptionsTemplate);
 
-                return execResult;
+                consumer.Consume(producer.ProduceRows(iterator.GetTablesRecursive(), getN), valueStore);
             }
         }
 
+        private long getN()
+        {
+            return counter++;
+        }
     }
 }

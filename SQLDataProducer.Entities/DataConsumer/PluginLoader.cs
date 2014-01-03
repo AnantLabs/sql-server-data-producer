@@ -30,7 +30,7 @@ namespace SQLDataProducer.Entities.DataConsumers
             return list;
         }
 
-        private static ConsumerMetaDataAttribute GetMetaDataOfType(Type type)
+        public static ConsumerMetaDataAttribute GetMetaDataOfType(Type type)
         {
             return type.GetCustomAttributes(typeof(ConsumerMetaDataAttribute), true)
                 .FirstOrDefault() as ConsumerMetaDataAttribute;

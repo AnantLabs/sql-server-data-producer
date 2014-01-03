@@ -13,7 +13,13 @@
 //   limitations under the License.
 
 using NUnit.Framework;
+using SQLDataProducer.Entities.DatabaseEntities;
+using SQLDataProducer.Entities.DataConsumers;
+using SQLDataProducer.Entities.ExecutionEntities;
+using SQLDataProducer.Entities.OptionEntities;
 using SQLDataProducer.TaskExecuter;
+using System.Collections.Generic;
+using System.Threading;
 using MSTest = Microsoft.VisualStudio.TestTools.UnitTesting;
 
 
@@ -24,12 +30,64 @@ namespace SQLDataProducer.Tests
     [MSTest.TestClass]
     public class WorkflowManagerTest
     {
+
+        string connectionString = "";
+
+        ExecutionResultBuilder builder = new ExecutionResultBuilder();
+        ExecutionTaskOptions options = new ExecutionTaskOptions();
+        ExecutionNode rootNode = ExecutionNode.CreateLevelOneNode(1, "Root");
+        DataConsumerPluginWrapper wrapper;
+
+        WorkflowManager manager = new WorkflowManager();
+
+        public WorkflowManagerTest()
+        {
+            var consumerMeta = PluginLoader.GetMetaDataOfType(typeof(MockDataConsumer));
+            wrapper = new DataConsumerPluginWrapper(consumerMeta.ConsumerName, typeof(MockDataConsumer), consumerMeta.OptionsTemplate);
+        }
+
         [Test]
         [MSTest.TestMethod]
         public void ShouldInstantiateWorkflowManager()
         {
-            WorkflowManager manager = new WorkflowManager();
+            builder = new ExecutionResultBuilder().Begin();
+            
+            manager.RunWorkFlow(connectionString, wrapper, builder, options, rootNode);
+            
+            var result = builder.Build();
+            Assert.That(result.Errors.Count, Is.EqualTo(0));
+            Assert.That(result.InsertCount, Is.EqualTo(0));
+        }
 
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldConsumeOneRow()
+        {
+            builder = new ExecutionResultBuilder();
+            builder.Begin();
+            rootNode = ExecutionNode.CreateLevelOneNode(1, "Root");
+            rootNode.AddTable(new TableEntity("dbo", "Customer"));
+            
+            manager.RunWorkFlow(connectionString, wrapper, builder, options, rootNode);
+            
+            var result = builder.Build();
+            Assert.That(result.Errors.Count, Is.EqualTo(0));
+            Assert.That(result.InsertCount, Is.EqualTo(1));
+        }
+
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldRunWorkflowAsync()
+        {
+            builder = new ExecutionResultBuilder().Begin();
+            rootNode = ExecutionNode.CreateLevelOneNode(1, "Root");
+            rootNode.AddTable(new TableEntity("dbo", "Customer"));
+
+            manager.RunWorkFlowAsync(connectionString, wrapper, builder, options, rootNode);
+            Thread.Sleep(10); // give some time for the async method to complete
+            var result = builder.Build();
+            Assert.That(result.Errors.Count, Is.EqualTo(0));
+            Assert.That(result.InsertCount, Is.EqualTo(1));
         }
     }
 }

@@ -23,39 +23,19 @@ using System.Text;
 
 namespace SQLDataProducer.Entities.ExecutionEntities
 {
-    public class NodeIterator
+    public class NodeIterator : IDisposable
     {
         private ExecutionNode executionNode;
+        private System.Threading.CancellationTokenSource cancelationToken;
+
 
         public NodeIterator(ExecutionEntities.ExecutionNode node)
         {
             ValidateUtil.ValidateNotNull(node, "node");
 
+            cancelationToken = new System.Threading.CancellationTokenSource();
             this.executionNode = node;
         }
-
-        //public IEnumerable<ExecutionNode> GetNodesRecursive()
-        //{
-        //    return GetNodes(executionNode);
-        //}
-
-        //private static IEnumerable<ExecutionNode> GetNodes(ExecutionNode node)
-        //{
-        //    if (node.Level == 1)
-        //        yield return node;
-
-        //    if (node.Children.Count > 0)
-        //    {
-        //        foreach (var child in node.Children)
-        //        {
-        //            yield return child;
-        //            foreach (var m in GetNodes(child))
-        //            {
-        //                yield return m;
-        //            }
-        //        }
-        //    }
-        //}
 
         /// <summary>
         /// Gets all tables recursively, in the order of the nodes, repeated according to the node settings
@@ -76,8 +56,14 @@ namespace SQLDataProducer.Entities.ExecutionEntities
         {
             for (int i = 0; i < node.RepeatCount; i++)
             {
+                if (cancelationToken.IsCancellationRequested)
+                    break;
+
                 foreach (var table in node.Tables)
                 {
+                    if (cancelationToken.IsCancellationRequested)
+                        break;
+                    
                     yield return table;
                 }
 
@@ -101,6 +87,19 @@ namespace SQLDataProducer.Entities.ExecutionEntities
         public int GetExpectedInsertCount()
         {
             return GetTablesRecursive().Count();
+        }
+
+        public void Dispose()
+        {
+            if (cancelationToken != null)
+            {
+                cancelationToken.Dispose();
+            }
+        }
+
+        public void Cancel()
+        {
+            cancelationToken.Cancel();
         }
     }
    

@@ -28,35 +28,14 @@ namespace SQLDataProducer.Tests
 {
     public class TestBase
     {
-        //protected IEnumerable<Generators.Generator> gens = Generators.Generator.GetDateTimeGenerators()
-        //                                    .Concat(Generators.Generator.GetDecimalGenerators(5000))
-        //                                    .Concat(Generators.Generator.GetGeneratorsForBigInt())
-        //                                    .Concat(Generators.Generator.GetGeneratorsForBit())
-        //                                    .Concat(Generators.Generator.GetGeneratorsForInt())
-        //                                    .Concat(Generators.Generator.GetGeneratorsForSmallInt())
-        //                                    .Concat(Generators.Generator.GetGeneratorsForTinyInt())
-        //                                    .Concat(Generators.Generator.GetGUIDGenerators())
-        //                                    .Concat(Generators.Generator.GetStringGenerators(1))
-        //                                    .Concat(Generators.Generator.GetBinaryGenerators(1))
-        //                                    .Concat(Generators.Generator.GetXMLGenerators())
-        //                                    .Concat(Generators.Generator.GetGeneratorsForIdentity())
-        //                                    .Concat(new Generators.Generator[] { Generators.Generator.CreateNULLValueGenerator() });
-
-
-        //protected IDataConsumer DefaultDataConsumer = new DataToConsoleConsumer();
-
         public TestBase()
         {
-            //DefaultDataConsumer.Init(Connection());
             CreateTablesInDB();
         }
 
         private static void CreateTablesInDB()
         {
             AdhocDataAccess adhd = new AdhocDataAccess(Connection());
-
-            //string createDB = "use master; if not exists(select 1 from sys.databases where name = 'AdventureWorks') exec('create database AdventureWorks'); use AdventureWorks";
-            //adhd.ExecuteNonQuery(createDB);
 
             string sql = @"
 
@@ -116,7 +95,7 @@ create table Person.Person(
 );
 
 create table Person.AnotherTable(
-	NewPersonId int foreign key references Person.NewPerson(NewPersonId),
+	NewPersonId int foreign key references Person.NewPerson(NewPersonId) not null,
 	AnotherColumn char(1),
     ThirdColumn char(1) not null
 );";

@@ -59,7 +59,6 @@
     <Compile Include="DataEntities\DataRowEntity.cs" />
     <Compile Include="ExecutionEntities\DataProducer.cs" />
     <Compile Include="ExecutionEntities\ExecutionResultBuilder.cs" />
-    <Compile Include="ExecutionEntities\GenerationManager.cs" />
     <Compile Include="Generators\BinaryGenerators\BinaryGeneratorBase.cs" />
     <Compile Include="Generators\BinaryGenerators\NullValueBinaryGenerator.cs" />
     <Compile Include="Generators\BinaryGenerators\StaticBinaryGenerator.cs" />

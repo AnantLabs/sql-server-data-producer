@@ -50,5 +50,32 @@ namespace SQLDataProducer.Tests.EntityTests
 
             Assert.That(result.EndTime, Is.GreaterThan(result.StartTime));
         }
+
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldNotBeAbleToPerformActionsOnBuilderBeforeStaringIt()
+        {
+            ExecutionResultBuilder builder = new ExecutionResultBuilder();
+            ExpectedExceptionHappened<InvalidOperationException>(new Action(() => { builder.Increment(); }), "should throw exception if using un-initialized builder");
+            ExpectedExceptionHappened<InvalidOperationException>(new Action(() => { builder.AddError(new ArgumentNullException(), null); }), "should throw exception if using un-initialized builder");
+            ExpectedExceptionHappened<InvalidOperationException>(new Action(() => { builder.Build(); }), "should throw exception if using un-initialized builder");
+        }
+
+        private bool ExpectedExceptionHappened<T>(Action testInAction, string testName) where T : Exception
+        {
+            bool exceptionHappened = false;
+            try
+            {
+                testInAction();
+            }
+            catch (T ex)
+            {
+                Console.WriteLine(ex.ToString());
+                exceptionHappened = true;
+            }
+            Assert.That(exceptionHappened, "Exception did not happen during test: " + testName);
+
+            return exceptionHappened;
+        }
     }
 }
