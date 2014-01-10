@@ -29,49 +29,48 @@
             </Style.Triggers>
         </Style>
 
+        <BooleanToVisibilityConverter x:Key="visiConv" />
+        
         <DataTemplate x:Key="recursiveListViewData">
+
             <DataTemplate.Resources>
                 <Style TargetType="Button" BasedOn="{StaticResource LinkButton}">
                     <Setter Property="Margin" Value="10 0 0 0" />
                 </Style>
             </DataTemplate.Resources>
+            <StackPanel>
+                <Rectangle HorizontalAlignment="Center" VerticalAlignment="Stretch" Fill="DarkGray" Height="25" Width="1" 
+                           Visibility="{Binding Path=Parent.Parent, TargetNullValue=Collapsed}" />
+                
+                <Border BorderThickness="1" BorderBrush="Gray" Background="Snow" CornerRadius="3 3 3 3" Margin="0 0 0 0" Width="200">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" MinWidth="150" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
 
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-
-                <TextBlock Grid.Column="0" Text="{Binding RepeatCount}" Margin="3 0 0 0" />
-                <Border BorderBrush="Black" Margin="5 0 0 5" Padding="0 0 10 0"  MinWidth="100" BorderThickness="1 0 0 1" Grid.Column="1" >
-                    <StackPanel>
-                        <ItemsControl ItemsSource="{Binding Tables}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{Binding FullName}" Margin="3 0 0 0"/>
-                                        <!--<Button Content="Up" />
-                                        <Button Content="Down" />
-                                        -->
-                                        <!--<Button Content="Add" />-->
-                                        <!--
-                                        <Button Content="Delete" />-->
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                        <ItemsControl ItemsSource="{Binding Children}" ItemTemplate="{DynamicResource recursiveListViewData}" Margin="15 0 0 0" />
-                        <StackPanel Orientation="Horizontal">
-                            <!--<Button Content="New EI In Group" />
-                            <Button Content="Add Group Inside" />
-                            <Button Content="Remove Group" />
-                            <Button Content="Merge Group With Outer Group" />-->
+                        <StackPanel Orientation="Vertical" Grid.Column="1" Margin="0 0 5 0">
+                            <TextBlock HorizontalAlignment="Right" Foreground="Gray" Text="{Binding RepeatCount, StringFormat=# {0}}" Margin="0 -16 -10 0"  />
+                               
+                            <Button Content="+T" HorizontalAlignment="Right" />
+                            <Button Content="+N" HorizontalAlignment="Right" />
                         </StackPanel>
-                    </StackPanel>
+
+                        <StackPanel Grid.Column="0">
+                            <ItemsControl ItemsSource="{Binding Tables}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding FullName}" Margin="3 0 0 0"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </Grid>
                 </Border>
-            </Grid>
-
-
+                <ItemsControl ItemsSource="{Binding Children}" ItemTemplate="{DynamicResource recursiveListViewData}" Margin="15 0 0 0" />
+            </StackPanel>
         </DataTemplate>
     </Window.Resources>
 
@@ -85,7 +84,7 @@
 
         <ListBox Grid.Column="0" ItemsSource="{Binding Model.Tables}" SelectedItem="{Binding SelectedTable, Mode=TwoWay}" />
 
-        <ItemsControl  Grid.Column="1" ItemTemplate="{DynamicResource recursiveListViewData}" ItemsSource="{Binding Model.RootNode.Children}" />
+        <ItemsControl  Grid.Column="1" ItemTemplate="{DynamicResource recursiveListViewData}" ItemsSource="{Binding Model.RootNode.Children}" Margin="0 20 0 0" />
 
     </Grid>
 </Window>

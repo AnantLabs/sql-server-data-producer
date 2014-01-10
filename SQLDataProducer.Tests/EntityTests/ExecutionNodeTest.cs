@@ -193,11 +193,5 @@ namespace SQLDataProducer.Tests.EntitiesTests
             Assert.That(child.Parent, Is.Not.Null);
             Assert.That(child.Parent, Is.EqualTo(node));
         }
-
-       
-
-       
-
-        
     }
 }

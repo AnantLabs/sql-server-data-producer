@@ -15,7 +15,7 @@ namespace SQLDataProducer.GUI.Model
 
         public void GetNewProjectModel(Action<ProjectModel, Exception> callback)
         {
-            callback(new ProjectModel(), null);
+            callback(SQLDataProducer.GUI.Model.DesignModels.ProjectModelDummy.Instance, null);
         }
     }
 }
