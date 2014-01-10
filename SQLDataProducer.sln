@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Windows Desktop
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQLDataProducer", "SQLDataProducer\SQLDataProducer.csproj", "{295AB733-D88A-46E2-A08F-3E8BAAEF1573}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConnectionStringCreatorGUI", "SQLConnectionStringBuilderGUI\ConnectionStringCreatorGUI\ConnectionStringCreatorGUI.csproj", "{7319917A-8A1B-41CA-99BC-6E14C324DC63}"
@@ -22,6 +24,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQLDataProducer.DataConsumers.DataToMSSSQLScriptConsumer", "SQLDataProducer.DataConsumers.DataToMSSSQLScriptConsumer\SQLDataProducer.DataConsumers.DataToMSSSQLScriptConsumer.csproj", "{39DDEF14-C02A-4D30-862E-3C91AA91E00B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer", "SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer\SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer.csproj", "{9D8F07DA-F510-4C84-9B3B-8C2A612EEED7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQLDataProducer.GUI", "SQLDataProducer.GUI\SQLDataProducer.GUI.csproj", "{96D57B17-5775-4327-997C-48FD3D9E09AA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -143,6 +147,16 @@ Global
 		{9D8F07DA-F510-4C84-9B3B-8C2A612EEED7}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{9D8F07DA-F510-4C84-9B3B-8C2A612EEED7}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{9D8F07DA-F510-4C84-9B3B-8C2A612EEED7}.Release|x86.ActiveCfg = Release|Any CPU
+		{96D57B17-5775-4327-997C-48FD3D9E09AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96D57B17-5775-4327-997C-48FD3D9E09AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96D57B17-5775-4327-997C-48FD3D9E09AA}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{96D57B17-5775-4327-997C-48FD3D9E09AA}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{96D57B17-5775-4327-997C-48FD3D9E09AA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{96D57B17-5775-4327-997C-48FD3D9E09AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96D57B17-5775-4327-997C-48FD3D9E09AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96D57B17-5775-4327-997C-48FD3D9E09AA}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{96D57B17-5775-4327-997C-48FD3D9E09AA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{96D57B17-5775-4327-997C-48FD3D9E09AA}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

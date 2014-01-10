@@ -39,13 +39,21 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="GalaSoft.MvvmLight.Extras.WPF45">
+      <HintPath>..\packages\MvvmLightLibs.4.2.30.0\lib\net45\GalaSoft.MvvmLight.Extras.WPF45.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.WPF45">
+      <HintPath>..\packages\MvvmLightLibs.4.2.30.0\lib\net45\GalaSoft.MvvmLight.WPF45.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ThirdPartyAssemblies\System.Windows.Interactivity.dll</HintPath>
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLightLibs.4.2.30.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -78,61 +86,46 @@
     <Compile Include="DelegateAsyncCommand.cs" />
     <Compile Include="Helpers\DispatcherSupplier.cs" />
     <Compile Include="Helpers\NotepadHelper.cs" />
-    <Compile Include="ModalWindows\CloneExecutionItemWindow.xaml.cs">
-      <DependentUpon>CloneExecutionItemWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ModalWindows\ExecutionSummaryWindow.xaml.cs">
-      <DependentUpon>ExecutionSummaryWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ModalWindows\ShowPreviewWindow.xaml.cs">
-      <DependentUpon>ShowPreviewWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ModalWindows\YesNoWindow.xaml.cs">
-      <DependentUpon>YesNoWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ModalWindows\MassImportWindow.xaml.cs">
-      <DependentUpon>MassImportWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Model\ApplicationModel.cs" />
+    <Compile Include="Model\ProjectModel.cs" />
+    <Compile Include="Model\ProjectModelDummy.cs" />
+    <Compile Include="Model\OldApplicationModel.cs" />
+    <Compile Include="NotifyingObject.cs" />
     <Compile Include="SQLDataProducerSettings.cs" />
     <Compile Include="SQLDataProducerSettings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>SQLDataProducerSettings.settings</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\ConfigureReferenceGeneratorViewModel.cs" />
-    <Compile Include="ViewModels\ExecutionOptionsViewModel.cs" />
-    <Compile Include="ViewModels\IYesNoViewModel.cs" />
-    <Compile Include="ViewModels\SidePanelViewModel.cs" />
-    <Compile Include="Views\ConfigureExecutionNodes.xaml.cs">
-      <DependentUpon>ConfigureExecutionNodes.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ConfigureReferenceGeneratorView.xaml.cs">
-      <DependentUpon>ConfigureReferenceGeneratorView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ExecutionItemListView.xaml.cs">
-      <DependentUpon>ExecutionItemListView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ExecutionItemOptionsView.xaml.cs">
-      <DependentUpon>ExecutionItemOptionsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ExecutionsOptionsView.xaml.cs">
-      <DependentUpon>ExecutionsOptionsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\LoadDatabaseMetadataView.xaml.cs">
-      <DependentUpon>LoadDatabaseMetadataView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ScriptEditView.xaml.cs">
-      <DependentUpon>ScriptEditView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ViewModels\ExecutionDetailsViewModel.cs" />
-    <Compile Include="ViewModels\ExecutionOrderViewModel.cs" />
+    <Compile Include="ViewModels\ColumnDetailsViewModel.cs" />
+    <Compile Include="ViewModels\ControlPanelViewModel.cs" />
+    <Compile Include="ViewModels\DatabaseTablesViewModel.cs" />
+    <Compile Include="ViewModels\ExecutionNodeViewModel.cs" />
+    <Compile Include="ViewModels\ApplicationViewModel.cs" />
+    <Compile Include="ViewModels\TableDetailsViewModel.cs" />
+    <Compile Include="ViewModels\ProjectViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
-    <Compile Include="Views\ExecutionDetailsView.xaml.cs">
-      <DependentUpon>ExecutionDetailsView.xaml</DependentUpon>
+    <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Compile Include="Views\ApplicationView.xaml.cs">
+      <DependentUpon>ApplicationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ExecutionOrderView.xaml.cs">
-      <DependentUpon>ExecutionOrderView.xaml</DependentUpon>
+    <Compile Include="Views\ColumnDetailsView.xaml.cs">
+      <DependentUpon>ColumnDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ControlPanelView.xaml.cs">
+      <DependentUpon>ControlPanelView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DatabaseTablesView.xaml.cs">
+      <DependentUpon>DatabaseTablesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ExecutionNodeView.xaml.cs">
+      <DependentUpon>ExecutionNodeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ProjectView.xaml.cs">
+      <DependentUpon>ProjectView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TableDetailsView.xaml.cs">
+      <DependentUpon>TableDetailsView.xaml</DependentUpon>
     </Compile>
     <Page Include="Controls\MainMenuControl.xaml">
       <SubType>Designer</SubType>
@@ -155,69 +148,40 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="ModalWindows\CloneExecutionItemWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ModalWindows\ExecutionSummaryWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ModalWindows\ShowPreviewWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ModalWindows\YesNoWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ModalWindows\MassImportWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Styles\Styles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ConfigureExecutionNodes.xaml">
+    <Page Include="Views\ApplicationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ConfigureReferenceGeneratorView.xaml">
+    <Page Include="Views\ColumnDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ExecutionItemListView.xaml">
+    <Page Include="Views\ControlPanelView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ExecutionItemOptionsView.xaml">
+    <Page Include="Views\DatabaseTablesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ExecutionsOptionsView.xaml">
+    <Page Include="Views\ExecutionNodeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\LoadDatabaseMetadataView.xaml">
+    <Page Include="Views\ProjectView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ScriptEditView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ExecutionDetailsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ExecutionOrderView.xaml">
+    <Page Include="Views\TableDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -237,6 +201,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="App.config" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

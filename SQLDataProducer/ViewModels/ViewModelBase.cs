@@ -17,17 +17,25 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using SQLDataProducer.Model;
 
 namespace SQLDataProducer.ViewModels
 {
-    public abstract partial class ViewModelBase : System.ComponentModel.INotifyPropertyChanged
+    public abstract partial class ViewModelBase : NotifyingObject
     {
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-
-        protected void OnPropertyChanged(string propertyName)
+        public ViewModelBase(ProjectModel model)
         {
-            if (PropertyChanged != null)
-                PropertyChanged.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            this.model = model;
+        }
+
+        private ProjectModel model;
+        public ProjectModel Model
+        {
+            get { return model; }
+            set { 
+                model = value;
+                OnPropertyChanged("Model");
+            }
         }
     }
 }

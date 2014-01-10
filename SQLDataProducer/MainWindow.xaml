@@ -22,7 +22,12 @@
         Title="SQL Server Data Producer"
         WindowState="Maximized"
         >
-    <Window.Resources>
+    <TabControl>
+        <TabItem DataContext="ProjectViewModel" >
+            <my:ProjectView DataContext="{Binding ProjectViewModel}" />
+        </TabItem>
+    </TabControl>
+    <!--<Window.Resources>
         <conv:VisibilityConverter x:Key="visiConv" />
         <conv:ProgressConverter x:Key="progStateConv" />
 
@@ -109,5 +114,5 @@
                 <TextBlock>Tbd</TextBlock>
             </TabItem>
         </TabControl>
-    </Grid>
+    </Grid>-->
 </Window>

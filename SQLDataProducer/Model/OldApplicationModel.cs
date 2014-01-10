@@ -22,7 +22,7 @@ using SQLDataProducer.TaskExecuter;
 using System.Windows;
 using System.Windows.Threading;
 using System.Threading;
-using SQLDataProducer.ModalWindows;
+//using SQLDataProducer.ModalWindows;
 using System.Linq;
 using System.Windows.Data;
 using System.ComponentModel;
@@ -32,11 +32,11 @@ using SQLDataProducer.Entities.DataConsumers;
 
 namespace SQLDataProducer.Model
 {
-    public class ApplicationModel : INotifyPropertyChanged
+    public class OldApplicationModel : INotifyPropertyChanged
     {
 
 
-        public ApplicationModel()
+        public OldApplicationModel()
         {
             Tables = new TableEntityCollection();
             //WorkFlowManager = new WorkflowManager();

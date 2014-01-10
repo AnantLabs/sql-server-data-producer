@@ -12,17 +12,30 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
+using System.ComponentModel;
 using System.Windows;
 using SQLDataProducer.Entities.OptionEntities;
 using SQLDataProducer.ViewModels;
+//using SQLDataProducer.ViewModels;
 
 namespace SQLDataProducer
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
+        private ProjectViewModel projectViewMode;
+
+        public ProjectViewModel ProjectViewModel
+        {
+            get { return projectViewMode; }
+            set { 
+                projectViewMode = value;
+                
+            }
+        }
+
         ExecutionTaskOptions _options;
         public MainWindow(ExecutionTaskOptions options)
         {
@@ -33,7 +46,14 @@ namespace SQLDataProducer
 
         void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            this.DataContext = new MainWindowViewModel(_options);
+            projectViewMode = new ProjectViewModel(new Model.ProjectModel());
         }
+
+        public void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }
