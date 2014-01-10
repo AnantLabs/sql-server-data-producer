@@ -120,7 +120,7 @@ namespace SQLDataProducer.Entities.DatabaseEntities
 
         public override string ToString()
         {
-            return string.Format("TableName = '{0}', TableSchema = '{1}', Columns = '{2}', HasIdentityColumn = '{3}', HasWarning = '{4}', WarningText = '{5}'", this.TableName, this.TableSchema, this.Columns, this.HasIdentityColumn, this.HasWarning, this.WarningText);
+            return FullName;// string.Format("TableName = '{0}', TableSchema = '{1}', Columns = '{2}', HasIdentityColumn = '{3}', HasWarning = '{4}', WarningText = '{5}'", this.TableName, this.TableSchema, this.Columns, this.HasIdentityColumn, this.HasWarning, this.WarningText);
         }
 
         public string FullName

@@ -12,7 +12,6 @@ namespace SQLDataProducer.Entities.DatabaseEntities.Factories
     {
         public static ColumnEntity CreateColumnEntity(string columnName, ColumnDataTypeDefinition columnDatatype, bool isIdentity, int ordinalPosition, bool isForeignKey, string constraintDefinition, ForeignKeyEntity foreignKeyEntity)
         {
-
             ColumnEntity c = new ColumnEntity(columnName, columnDatatype, isIdentity, ordinalPosition, isForeignKey, constraintDefinition, foreignKeyEntity);
             var gens = Generators.GeneratorFactory.GetGeneratorsForColumn(c);
             c.PossibleGenerators = gens;
@@ -20,6 +19,7 @@ namespace SQLDataProducer.Entities.DatabaseEntities.Factories
             
             return c;
         }
+
 
         public static ColumnEntity CreateColumnEntity(string columnName, ColumnDataTypeDefinition columnDatatype, bool isIdentity, int ordinalPosition, bool isForeignKey, string constraintDefinition, ForeignKeyEntity foreignKeyEntity, string generatorName)
         {
@@ -31,7 +31,7 @@ namespace SQLDataProducer.Entities.DatabaseEntities.Factories
             return c;
         }
 
-        internal static ColumnEntity CloneColumn(ColumnEntity c)
+        public static ColumnEntity CloneColumn(ColumnEntity c)
         {
             // TODO: Clone using the same entity as the LOAD/SAVE functionality
             var col = new ColumnEntity(c.ColumnName, c.ColumnDataType, c.IsIdentity, c.OrdinalPosition, c.IsForeignKey, c.Constraints, c.ForeignKey == null ? null : c.ForeignKey.Clone());
@@ -39,5 +39,6 @@ namespace SQLDataProducer.Entities.DatabaseEntities.Factories
             col.Generator = col.PossibleGenerators.Where(x => x.GeneratorName == c.Generator.GeneratorName).Single();
             return col;
         }
+
     }
 }

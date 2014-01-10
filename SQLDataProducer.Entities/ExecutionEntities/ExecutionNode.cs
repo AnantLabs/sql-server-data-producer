@@ -201,10 +201,11 @@ namespace SQLDataProducer.Entities.ExecutionEntities
                 , this.NodeId, this.Level, this.RepeatCount);
         }
 
-        public void AddTable(TableEntity tableToAdd)
+        public ExecutionNode AddTable(TableEntity tableToAdd)
         {
             if (!Tables.Contains(tableToAdd))
                 _tables.Add(tableToAdd);
+            return this;
         }
 
         public bool HasWarning { get; private set; }
