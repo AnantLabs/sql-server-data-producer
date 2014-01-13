@@ -142,7 +142,7 @@ namespace SQLDataProducer.Entities.ExecutionEntities
             {
                 return _repeatCount;
             }
-            private set
+            set
             {
                 if (_repeatCount != value)
                 {

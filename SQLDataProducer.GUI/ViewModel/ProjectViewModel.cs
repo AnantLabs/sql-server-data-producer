@@ -1,5 +1,8 @@
 ﻿using GalaSoft.MvvmLight;
+using SQLDataProducer.Entities.ExecutionEntities;
 using SQLDataProducer.GUI.Model;
+using System.Linq;
+using SQLDataProducer.Entities.DatabaseEntities;
 
 namespace SQLDataProducer.GUI.ViewModel
 {
@@ -44,6 +47,68 @@ namespace SQLDataProducer.GUI.ViewModel
         }
 
         /// <summary>
+        /// The <see cref="SelectedExecutionNode" /> property's name.
+        /// </summary>
+        public const string SelectedExecutionNodePropertyName = "SelectedExecutionNode";
+
+        private ExecutionNode _selectedExecutionNode = null;
+
+        /// <summary>
+        /// Sets and gets the SelectedExecutionNode property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public ExecutionNode SelectedExecutionNode
+        {
+            get
+            {
+                return _selectedExecutionNode;
+            }
+
+            set
+            {
+                if (_selectedExecutionNode == value)
+                {
+                    return;
+                }
+
+                RaisePropertyChanging(SelectedExecutionNodePropertyName);
+                _selectedExecutionNode = value;
+                RaisePropertyChanged(SelectedExecutionNodePropertyName);
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="SelectedTable" /> property's name.
+        /// </summary>
+        public const string SelectedTablePropertyName = "SelectedTable";
+
+        private TableEntity _selectedTable = null;
+
+        /// <summary>
+        /// Sets and gets the SelectedTable property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public TableEntity SelectedTable
+        {
+            get
+            {
+                return _selectedTable;
+            }
+
+            set
+            {
+                if (_selectedTable == value)
+                {
+                    return;
+                }
+
+                RaisePropertyChanging(SelectedTablePropertyName);
+                _selectedTable = value;
+                RaisePropertyChanged(SelectedTablePropertyName);
+            }
+        }
+
+        /// <summary>
         /// Initializes a new instance of the ProjectViewModel class.
         /// </summary>
         public ProjectViewModel(IDataService dataservice)
@@ -58,6 +123,7 @@ namespace SQLDataProducer.GUI.ViewModel
                 }
 
                 Model = model ;
+                SelectedExecutionNode = Model.RootNode.Children.First();
             });
         }
     }

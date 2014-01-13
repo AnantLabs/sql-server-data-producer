@@ -27,7 +27,7 @@ namespace SQLDataProducer.GUI.Model.DesignModels
 
             var orderNode = customerNode.AddChild(3, "Orders").AddTable(CreateOrderTable()).AddTable(CreateOrderTable()).AddTable(CreateOrderTable());
             orderNode.AddChild(44, "Someting").AddTable(CreateCustomerTable());
-            customerNode.AddChild(3, "Orders").AddTable(CreateOrderTable());
+            customerNode.AddChild(3, "Another order").AddTable(CreateOrderTable());
             
         }
 
