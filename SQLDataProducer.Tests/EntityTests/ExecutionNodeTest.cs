@@ -124,6 +124,65 @@ namespace SQLDataProducer.Tests.EntitiesTests
             Assert.That(node1.Tables.Count(), Is.EqualTo(1));
         }
 
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldMoveTableUpInTheListOfTables()
+        {
+            ExecutionNode node1 = ExecutionNode.CreateLevelOneNode(1);
+            TableEntity customerTable = new TableEntity("dbo", "Customer");
+            var orderTable = new TableEntity("dbo", "Order");
+            node1.AddTable(orderTable);
+            node1.AddTable(customerTable);
+
+            Assert.That(node1.Tables.First(), Is.EqualTo(orderTable));
+
+            node1.MoveTableUp(customerTable);
+            
+            Assert.That(node1.Tables.Count(), Is.EqualTo(2));
+            Assert.That(node1.Tables.First(), Is.EqualTo(customerTable));
+
+            node1.MoveTableUp(customerTable);
+            Assert.That(node1.Tables.First(), Is.EqualTo(customerTable), "moving a table above the top should leave it where it is");
+        }
+
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldMoveTableDownInTheListOfTables()
+        {
+            ExecutionNode node1 = ExecutionNode.CreateLevelOneNode(1);
+            TableEntity customerTable = new TableEntity("dbo", "Customer");
+            var orderTable = new TableEntity("dbo", "Order");
+            node1.AddTable(orderTable);
+            node1.AddTable(customerTable);
+
+            Assert.That(node1.Tables.Last(), Is.EqualTo(customerTable));
+
+            node1.MoveTableDown(orderTable);
+
+            Assert.That(node1.Tables.Count(), Is.EqualTo(2));
+            Assert.That(node1.Tables.Last(), Is.EqualTo(orderTable));
+
+            node1.MoveTableUp(customerTable);
+            Assert.That(node1.Tables.Last(), Is.EqualTo(orderTable), "moving a table below the bottom should leave it where it is");
+        }
+
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldNotMoveATableThatIsNotPartOfTheNode()
+        {
+            ExecutionNode node1 = ExecutionNode.CreateLevelOneNode(1);
+            var customerTable = new TableEntity("dbo", "Customer");
+            var orderTable = new TableEntity("dbo", "Order");
+            node1.AddTable(customerTable);
+
+            node1.MoveTableUp(orderTable);
+            node1.MoveTableUp(orderTable);
+
+            node1.MoveTableDown(orderTable);
+            node1.MoveTableDown(orderTable);
+
+            Assert.That(node1.Tables.Count(), Is.EqualTo(1));
+        }
 
         [Test]
         [MSTest.TestMethod]

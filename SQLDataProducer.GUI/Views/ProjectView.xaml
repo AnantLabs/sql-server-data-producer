@@ -11,7 +11,7 @@
         DataContext="{Binding Project, Source={StaticResource Locator}}">
     <Window.Resources>
 
-        
+
 
         <Style x:Key="LinkButton" TargetType="Button">
             <Setter Property="Template">
@@ -78,6 +78,11 @@
                 <ItemsControl ItemsSource="{Binding Children}" ItemTemplate="{DynamicResource recursiveListViewData}" Margin="15 0 0 0" />
             </StackPanel>
         </DataTemplate>-->
+
+        <Style TargetType="ListBox">
+            <Setter Property="BorderBrush" Value="Silver"/>
+        </Style>
+
     </Window.Resources>
 
     <Grid>
@@ -99,6 +104,7 @@
             <e:Interaction.Behaviors>
                 <behaviours:BindableSelectedItemBehavior SelectedItem="{Binding SelectedExecutionNode, Mode=TwoWay}" />
             </e:Interaction.Behaviors>
+            
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Children}" DataType="{x:Type entities:ExecutionNode}">
                     <DataTemplate.Resources>
@@ -107,33 +113,33 @@
                             <Setter Property="HorizontalAlignment" Value="Right" />
                         </Style>
                     </DataTemplate.Resources>
-                    
+
                     <Border CornerRadius="3" BorderThickness="1" BorderBrush="Silver" Margin="3 3 3 3" Width="200">
                         <Grid Margin="3 0 3 0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"  />
                                 <ColumnDefinition Width="55" />
                             </Grid.ColumnDefinitions>
-                            
+
                             <StackPanel Grid.Column="1" HorizontalAlignment="Right" >
                                 <TextBlock Text="{Binding NodeName}" HorizontalAlignment="Right" />
                                 <TextBlock Text="{Binding RepeatCount}" HorizontalAlignment="Right" />
                                 <!--<Button Content="Edit" Command="{Binding EditExecutionNodeCommand}" />-->
                             </StackPanel>
-                            
+
                             <ItemsControl ItemsSource="{Binding Tables}" Grid.Column="0">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="{Binding FullName}" Margin="3 0 0 0"/>
-                                            
+
                                         </StackPanel>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
                         </Grid>
                     </Border>
-                    
+
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
         </TreeView>
@@ -142,35 +148,118 @@
               Visibility="{Binding Path=SelectedExecutionNode, TargetNullValue=Collapsed}" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="10" />
-                <ColumnDefinition Width="200" />
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="200" />
                 <ColumnDefinition Width="200" />
             </Grid.ColumnDefinitions>
-            
+
             <GroupBox Grid.Column="1" Header="Configure Node:">
                 <StackPanel >
-                    
+
                     <GroupBox Header="Basic info">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="50*" />
                                 <ColumnDefinition Width="50*" />
                             </Grid.ColumnDefinitions>
-                            
+
                             <Grid.RowDefinitions>
                                 <RowDefinition />
                                 <RowDefinition />
                             </Grid.RowDefinitions>
-                            
+
                             <TextBlock Text="Node Name" Grid.Column="0" Grid.Row="0" />
                             <TextBlock Text="Repeat Count" Grid.Column="0" Grid.Row="1" />
 
                             <TextBox Text="{Binding SelectedExecutionNode.NodeName}"  Grid.Column="1" Grid.Row="0"/>
-                            <TextBox Text="{Binding SelectedExecutionNode.RepeatCount, Mode=TwoWay}"  Grid.Column="1" Grid.Row="1"/>  
+                            <TextBox Text="{Binding SelectedExecutionNode.RepeatCount, Mode=TwoWay}"  Grid.Column="1" Grid.Row="1"/>
                         </Grid>
                     </GroupBox>
                     <GroupBox Header="Tables in Node">
-                        <ListBox ItemsSource="{Binding SelectedExecutionNode.Tables}" SelectedItem="{Binding SelectedTable}">
+                        <StackPanel Orientation="Horizontal">
+                            <ListBox ItemsSource="{Binding SelectedExecutionNode.Tables}" SelectedItem="{Binding SelectedTable}" >
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="120" />
+                                                <ColumnDefinition Width="auto" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Text="{Binding FullName}" Grid.Column="0" />
+
+                                            <StackPanel Grid.Column="1" Orientation="Horizontal" >
+                                                <Button Content="-" Command="{Binding DataContext.RemoveTableFromSelectedNodeCommand, RelativeSource={RelativeSource FindAncestor, 
+                                                    AncestorType={x:Type ListBox}}}" CommandParameter="{Binding .}" />
+                                                <Button Content="u" Command="{Binding DataContext.MoveTableUpCommand, RelativeSource={RelativeSource FindAncestor, 
+                                                    AncestorType={x:Type ListBox}}}" CommandParameter="{Binding .}" />
+                                                <Button Content="d" Command="{Binding DataContext.MoveTableDownCommand, RelativeSource={RelativeSource FindAncestor, 
+                                                    AncestorType={x:Type ListBox}}}" CommandParameter="{Binding .}" />
+                                            </StackPanel>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                            <GroupBox >
+                                <GroupBox.Header>
+                                    <TextBlock Text="{Binding Path=SelectedTable.FullName, StringFormat=Configure {0}}" />
+                                </GroupBox.Header>
+                                <!--Visibility="{Binding SelectedTable, TargetNullValue=Collapsed}">-->
+                                <DataGrid ItemsSource="{Binding Path=SelectedTable.Columns, Mode=OneWay, UpdateSourceTrigger=Explicit}" 
+                                        AutoGenerateColumns="false" 
+                                        IsReadOnly="True" 
+                                        SelectionMode="Single"
+                                        SelectionUnit="FullRow"
+                                        SelectedItem="{Binding SelectedColumn, Mode=TwoWay}">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Binding="{Binding ColumnName, Mode=OneWay}" Header="Column Name" IsReadOnly="True" />
+                                        <DataGridTextColumn Binding="{Binding ColumnDataType, Mode=OneWay}" Header="Data Type" IsReadOnly="True" />
+                                        <DataGridCheckBoxColumn IsReadOnly="True" Binding="{Binding ColumnDataType.IsNullable, Mode=OneWay}" Header="Nullable?" />
+
+                                        <DataGridTemplateColumn CanUserResize="False">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <!--<Image 
+                                            Source="/SQLDataProducer;component/Styles/Warning.png" ToolTip="{Binding WarningText, Mode=OneWay}" Visibility="{Binding HasWarning, Mode=OneWay, Converter={StaticResource ResourceKey=visiConv}}"  />-->
+                                                    <TextBlock Text="w"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+
+                                        <DataGridTemplateColumn Header="Data Generator">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel>
+                                                        <TextBlock Text="{Binding Generator.GeneratorName, Mode=OneWay}" Height="25" />
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridCheckBoxColumn Binding="{Binding HasConstraints, Mode=OneWay}" Width="110"
+                                            Header="Has Constraints?" IsReadOnly="True"/>
+                                        <DataGridTextColumn Binding="{Binding Generator.GeneratorParameters.NiceString, Mode=OneWay}" Width="*"
+                                            Header="Parameters" IsReadOnly="True"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </GroupBox>
+                        </StackPanel>
+
+                    </GroupBox>
+                    <GroupBox Header="Node operations">
+                        <StackPanel>
+                            <Button Content="Add Child Node"  Command="{Binding AddChildNodeCommand}" CommandParameter="{Binding SelectedExecutionNode}" />
+                            <Button Content="Add Parent Node" Command="{Binding AddParentNodeCommand}" CommandParameter="{Binding SelectedExecutionNode}"/>
+                            <Button Content="Merge Node with Parent Node" Command="{Binding MergeNodeWithParentNodeCommand}" CommandParameter="{Binding SelectedExecutionNode}" />
+                            <Button Content="Remove Node" Command="{Binding RemoveNodeCommand}" CommandParameter="{Binding SelectedExecutionNode}"/>
+                        </StackPanel>
+                    </GroupBox>
+                </StackPanel>
+            </GroupBox>
+
+            <Border Grid.Column="2">
+                <StackPanel>
+                    <GroupBox Header="Available tables">
+                        <ListBox ItemsSource="{Binding Model.Tables}" >
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <Grid>
@@ -178,38 +267,21 @@
                                             <ColumnDefinition Width="120" />
                                             <ColumnDefinition Width="auto" />
                                         </Grid.ColumnDefinitions>
-                                        
+
                                         <TextBlock Text="{Binding FullName}" Grid.Column="0" />
-                                        
+
                                         <StackPanel Grid.Column="1" Orientation="Horizontal" >
-                                            <Button Content="-" HorizontalAlignment="Right" Command="{Binding RemoveTableFromNodeCommand}" />
-                                            <Button Content="u" Command="{Binding MoveTableUpCommand}" />
-                                            <Button Content="d" Command="{Binding MoveTableDownCommand}" />
+                                            <Button Content="+" Command="{Binding DataContext.AddTableToSelectedExecutionNodeCommand, RelativeSource={RelativeSource FindAncestor, 
+                                                    AncestorType={x:Type ListBox}}}" CommandParameter="{Binding .}" />
                                         </StackPanel>
                                     </Grid>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>
                     </GroupBox>
-                    <GroupBox Header="Node operations">
-                        <StackPanel>
-                            <Button Content="Add Child Node"  Command="{Binding AddChildNodeCommand}"/>
-                            <Button Content="Add Parent Node" Command="{Binding AddParentNodeCommand}" />
-                            <Button Content="Merge Node with Parent Node" Command="{Binding MergeNodeWithParentNodeCommand}" />
-                            <Button Content="Remove Node" Command="{Binding RemoveNodeCommand}"/>
-                        </StackPanel>
-                    </GroupBox>
-                </StackPanel>
-            </GroupBox>
-            
-            <Border Grid.Column="2">
-                <StackPanel>
-                    <GroupBox Header="Available tables">
-                        <ListBox ItemsSource="{Binding Model.Tables}" />
-                    </GroupBox>
                 </StackPanel>
             </Border>
-            
+
             <Border Grid.Column="3">
                 <!--<DataGrid ItemsSource="{Binding Path=Model.SelectedExecutionItem.TargetTable.Columns, Mode=OneWay, UpdateSourceTrigger=Explicit}" 
                            
@@ -286,11 +358,13 @@
                                         <TextBlock Text="{Binding ParameterName}" Grid.Column="0" Margin="3 3 3 3" />
 
                                         <TextBox Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"  Grid.Column="1" MinWidth="150" Style="{StaticResource ResourceKey=NotEnabledIfValueFromOtherColumnGenerator}"/>
-                                        --><!--<ContentControl 
+                                        -->
+                <!--<ContentControl 
                                                         Style="{StaticResource ResourceKey=ParameterConfigurationStyle}" 
                                                         Grid.Column="1" 
                                                         MinWidth="150" 
-                                                        HorizontalAlignment="Left" />--><!--
+                                                        HorizontalAlignment="Left" />-->
+                <!--
 
                                         <Button Content="Pick Column" Grid.Column="2"
                                                 Command="{Binding Path=DataContext.ConfigureReferenceParameterCommand, 
@@ -316,8 +390,8 @@
                 </GroupBox>-->
 
             </Border>
-            
+
         </Grid>
-        
+
     </Grid>
 </Window>

@@ -10,9 +10,9 @@ using System.Windows;
 [assembly: AssemblyTitle("SQLDataProducer.GUI")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Net Entertainment NE, AB")]
+[assembly: AssemblyCompany("Peter Henell")]
 [assembly: AssemblyProduct("SQLDataProducer.GUI")]
-[assembly: AssemblyCopyright("Copyright © Net Entertainment NE, AB 2014")]
+[assembly: AssemblyCopyright("Peter Henell @ 2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

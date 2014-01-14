@@ -16,12 +16,25 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SQLDataProducer.Entities.DatabaseEntities;
+using System.Threading.Tasks;
+using SQLDataProducer.GUI.Model;
 
-namespace SQLDataProducer.GUI.Model
+namespace SQLDataProducer.Tests.ViewModelTests
 {
-    public interface IDataService
+    public class MockDataService : IDataService
     {
-        void GetNewProjectModel(Action<ProjectModel, Exception> callback);
+        private ProjectModel _model = new ProjectModel();
+
+        public ProjectModel Model
+        {
+            get { return _model; }
+            set { _model = value; }
+        }
+
+
+        public void GetNewProjectModel(Action<ProjectModel, Exception> callback)
+        {
+            callback(Model, null);
+        }
     }
 }

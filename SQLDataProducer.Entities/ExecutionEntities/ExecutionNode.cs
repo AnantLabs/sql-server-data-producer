@@ -250,6 +250,42 @@ namespace SQLDataProducer.Entities.ExecutionEntities
                 RemoveTable(tableToRemove);
             }
         }
+
+        /// <summary>
+        /// Move the table up in the list of tables of this node
+        /// </summary>
+        /// <param name="tableToMove"></param>
+        public void MoveTableUp(TableEntity tableToMove)
+        {
+            if (_tables.Contains(tableToMove))
+            {
+                int currentIndex = _tables.IndexOf(tableToMove);
+                int newIndex = currentIndex - 1;
+                if (newIndex < 0)
+                    return;
+
+                _tables.Move(currentIndex, newIndex);
+                OnPropertyChanged("Tables");
+            }
+        }
+
+        /// <summary>
+        /// Move the table down in the list of tables in this node
+        /// </summary>
+        /// <param name="tableToMove"></param>
+        public void MoveTableDown(TableEntity tableToMove)
+        {
+            if (_tables.Contains(tableToMove))
+            {
+                int currentIndex = _tables.IndexOf(tableToMove);
+                int newIndex = currentIndex + 1;
+                if (newIndex >= _tables.Count)
+                    return;
+
+                _tables.Move(currentIndex, newIndex);
+                OnPropertyChanged("Tables");
+            }
+        }
     }
     
 }

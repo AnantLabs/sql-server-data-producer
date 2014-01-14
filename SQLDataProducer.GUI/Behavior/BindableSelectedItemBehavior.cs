@@ -38,7 +38,7 @@ namespace SQLDataProducer.GUI.Behavior
         protected override void OnAttached()
         {
             base.OnAttached();
-
+            
             this.AssociatedObject.SelectedItemChanged += OnTreeViewSelectedItemChanged;
         }
 

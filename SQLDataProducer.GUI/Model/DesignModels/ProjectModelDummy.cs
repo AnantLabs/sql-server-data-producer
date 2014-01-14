@@ -8,28 +8,8 @@ using SQLDataProducer.Entities.DatabaseEntities.Factories;
 
 namespace SQLDataProducer.GUI.Model.DesignModels
 {
-    public class ProjectModelDummy
+    public sealed class ProjectModelDummyFactory
     {
-        static ProjectModelDummy()
-        {
-            model = new ProjectModel();
-
-            var customerTable = CreateCustomerTable();
-            model.Tables.Add(customerTable);
-
-            var ordertable = CreateOrderTable();
-            model.Tables.Add(ordertable);
-
-
-            var customerNode = model.RootNode.AddChild(10, "Customer");
-            customerNode.AddTable(CreateCustomerTable());
-            customerNode.AddTable(CreateCustomerTable());
-
-            var orderNode = customerNode.AddChild(3, "Orders").AddTable(CreateOrderTable()).AddTable(CreateOrderTable()).AddTable(CreateOrderTable());
-            orderNode.AddChild(44, "Someting").AddTable(CreateCustomerTable());
-            customerNode.AddChild(3, "Another order").AddTable(CreateOrderTable());
-            
-        }
 
         private static TableEntity CreateOrderTable()
         {
@@ -53,13 +33,27 @@ namespace SQLDataProducer.GUI.Model.DesignModels
             return customerTable;
         }
 
-        private static ProjectModel model;
-        public static ProjectModel Instance
+        
+        public static ProjectModel GetNewInstance()
         {
-            get
-            {
-                return model;
-            }
+            var model = new ProjectModel();
+
+            var customerTable = CreateCustomerTable();
+            model.Tables.Add(customerTable);
+
+            var ordertable = CreateOrderTable();
+            model.Tables.Add(ordertable);
+
+
+            var customerNode = model.RootNode.AddChild(10, "Customer");
+            customerNode.AddTable(CreateCustomerTable());
+            customerNode.AddTable(CreateCustomerTable());
+
+            var orderNode = customerNode.AddChild(3, "Orders").AddTable(CreateOrderTable()).AddTable(CreateOrderTable()).AddTable(CreateOrderTable());
+            orderNode.AddChild(44, "Someting").AddTable(CreateCustomerTable());
+            customerNode.AddChild(3, "Another order").AddTable(CreateOrderTable());
+            
+            return model;
         }
     }
 }
