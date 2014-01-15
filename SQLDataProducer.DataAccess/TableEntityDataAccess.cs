@@ -354,7 +354,7 @@ order by table_schema, table_name
             do
             {
                 var col = ColumnEntityDataAccess.CreateColumn(reader);
-                table.Columns.Add(col);
+                table.AddColumn(col);
 
             } while (reader.Read() && (
                 reader.GetString(reader.GetOrdinal("Table_Name")) == t.TableName &&
@@ -375,7 +375,7 @@ order by table_schema, table_name
             using (ColumnEntityDataAccess colDa = new ColumnEntityDataAccess(this._connectionString))
             {
                 TableEntity table = GetOne(string.Format("select Table_Name, Table_Schema from information_Schema.Tables WITH(NOLOCK) where table_schema = '{0}' and table_name = '{1}'", tableSchema, tableName), CreateTableEntity);
-                table.Columns.AddRange(colDa.GetAllColumnsForTable(table));
+                table.AddColumns(colDa.GetAllColumnsForTable(table));
                 //    // TODO: Dont add these foreign key generators here. Should be handled more central
                 foreach (var column in table.Columns.Where(x => x.IsForeignKey))
                 {

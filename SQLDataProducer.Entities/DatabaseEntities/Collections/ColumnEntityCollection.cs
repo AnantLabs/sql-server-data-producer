@@ -63,7 +63,7 @@ namespace SQLDataProducer.Entities.DatabaseEntities.Collections
             ColumnEntityCollection cols = new ColumnEntityCollection();
             foreach (var key in columns.Keys)
             {
-                var clonedColumn = Factories.DatabaseEntityFactory.CloneColumn(columns[key]);
+                var clonedColumn = Factories.DatabaseEntityFactory.CreateColumnFromColumn(columns[key]);
 
                 cols.Add(clonedColumn);
             }

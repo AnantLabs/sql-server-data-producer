@@ -59,7 +59,7 @@ namespace SQLDataProducer.Tests.Entities
         {
             TableEntity table = new TableEntity("dbo", "Customer");
 
-            table.Columns.Add(DatabaseEntityFactory.CreateColumnEntity(
+            table.AddColumn(DatabaseEntityFactory.CreateColumnEntity(
                                 "CustomerName",
                                 new ColumnDataTypeDefinition("varchar(500)", true),
                                 false,
@@ -68,7 +68,7 @@ namespace SQLDataProducer.Tests.Entities
                                 string.Empty,
                                 null));
 
-            ColumnEntity firstCol = table.Columns[0];
+            ColumnEntity firstCol = table.Columns.First();
             Assert.IsTrue(firstCol.ColumnName == "CustomerName");
             Assert.IsTrue(firstCol.IsForeignKey == false);
             Assert.IsTrue(firstCol.IsIdentity == false);
@@ -77,7 +77,7 @@ namespace SQLDataProducer.Tests.Entities
             Assert.IsTrue(firstCol.PossibleGenerators.Count > 0);
             Assert.IsTrue(firstCol.HasWarning == false);
 
-            table.Columns.Add(DatabaseEntityFactory.CreateColumnEntity(
+            table.AddColumn(DatabaseEntityFactory.CreateColumnEntity(
                                "CustomerID",
                                new ColumnDataTypeDefinition("int", false),
                                true,
@@ -86,7 +86,7 @@ namespace SQLDataProducer.Tests.Entities
                                string.Empty,
                                null));
 
-            ColumnEntity secondCol = table.Columns[1];
+            ColumnEntity secondCol = table.Columns.Skip(1).First();
             Assert.IsTrue(secondCol.ColumnName == "CustomerID");
             Assert.IsTrue(secondCol.IsForeignKey == false);
             Assert.IsTrue(secondCol.IsIdentity == true);
@@ -95,6 +95,76 @@ namespace SQLDataProducer.Tests.Entities
             Assert.IsTrue(secondCol.PossibleGenerators.Count > 0);
             Assert.IsTrue(secondCol.HasWarning == false);
 
+        }
+
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldAddColumnToTable()
+        {
+            TableEntity table = new TableEntity("dbo", "Customer");
+            var column = DatabaseEntityFactory.CreateColumnEntity(
+                                "CustomerName",
+                                new ColumnDataTypeDefinition("varchar(500)", true),
+                                false,
+                                2,
+                                false,
+                                string.Empty,
+                                null);
+            table.AddColumn(column);
+
+            Assert.That(table.Columns.Contains(column));
+
+        }
+
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldAddIdentityColumnAndBeMarkedWithIdentityTable()
+        {
+            TableEntity table = new TableEntity("dbo", "Customer");
+            var column = DatabaseEntityFactory.CreateColumnEntity(
+                                "CustomerId",
+                                new ColumnDataTypeDefinition("int", true),
+                                true,
+                                1,
+                                false,
+                                string.Empty,
+                                null);
+            table.AddColumn(column);
+
+            Assert.That(table.Columns.Contains(column));
+            Assert.That(table.HasIdentityColumn);
+        }
+
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldAddRangeOfColumns()
+        {
+            TableEntity table = new TableEntity("dbo", "Customer");
+            var idColumn = DatabaseEntityFactory.CreateColumnEntity(
+                                "CustomerId",
+                                new ColumnDataTypeDefinition("int", true),
+                                true,
+                                1,
+                                false,
+                                string.Empty,
+                                null);
+
+            var nameColumn = DatabaseEntityFactory.CreateColumnEntity(
+                               "CustomerName",
+                               new ColumnDataTypeDefinition("varchar(500)", true),
+                               false,
+                               2,
+                               false,
+                               string.Empty,
+                               null);
+
+            IEnumerable<ColumnEntity> columnsToAdd = new List<ColumnEntity> { idColumn, nameColumn };
+
+            table.AddColumns(columnsToAdd);
+
+            Assert.That(table.Columns.Contains(idColumn));
+            Assert.That(table.Columns.Contains(nameColumn));
+            Assert.That(table.HasIdentityColumn);
         }
     }
 }

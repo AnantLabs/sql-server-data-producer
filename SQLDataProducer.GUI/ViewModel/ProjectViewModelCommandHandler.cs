@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SQLDataProducer.Entities.DatabaseEntities;
+using SQLDataProducer.Entities.DatabaseEntities.Factories;
 using SQLDataProducer.Entities.ExecutionEntities;
 
 namespace SQLDataProducer.GUI.ViewModel
@@ -20,7 +21,8 @@ namespace SQLDataProducer.GUI.ViewModel
         {
             if (_projectViewModel.SelectedExecutionNode != null)
             {
-                _projectViewModel.SelectedExecutionNode.AddTable(tableToAdd);
+                var newTable = DatabaseEntityFactory.CreateTableFromTable(tableToAdd);
+                _projectViewModel.SelectedExecutionNode.AddTable(newTable);
             }
         }
 

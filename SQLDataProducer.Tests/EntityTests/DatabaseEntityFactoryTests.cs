@@ -57,11 +57,11 @@ namespace SQLDataProducer.Tests.Entities
 
         [Test]
         [MSTest.TestMethod]
-        public void ShouldCloneColumn()
+        public void ShouldCreateColumnFromColumn()
         {
             var originalColumn = c1;
 
-            ColumnEntity clonedColumn = DatabaseEntityFactory.CloneColumn(originalColumn);
+            ColumnEntity clonedColumn = DatabaseEntityFactory.CreateColumnFromColumn(originalColumn);
 
             Assert.AreEqual("id", originalColumn.ColumnName);
             Assert.AreEqual("int", originalColumn.ColumnDataType.Raw);
@@ -78,5 +78,21 @@ namespace SQLDataProducer.Tests.Entities
             Assert.AreEqual(originalColumn.OrdinalPosition, clonedColumn.OrdinalPosition);
 
         }
+
+         [Test]
+        [MSTest.TestMethod]
+        public void ShouldCreateTableFromTable()
+        {
+            TableEntity table = new TableEntity("dbo", "Customer");
+            table.AddColumn(DatabaseEntityFactory.CreateColumnFromColumn(c1))
+                 .AddColumn(DatabaseEntityFactory.CreateColumnFromColumn(c2));
+
+            var clonedTable = DatabaseEntityFactory.CreateTableFromTable(table);
+
+            Assert.That(clonedTable.FullName, Is.EqualTo(table.FullName));
+            CollectionAssert.AreEqual(table.Columns, clonedTable.Columns);
+
+        }
+
     }
 }

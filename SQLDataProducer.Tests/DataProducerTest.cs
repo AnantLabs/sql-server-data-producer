@@ -44,10 +44,10 @@ namespace SQLDataProducer.Tests
         {
             customerTable = new TableEntity("dbo", "Customer");
             var customerId = DatabaseEntityFactory.CreateColumnEntity("CustomerId", new ColumnDataTypeDefinition("int", false), true, 1, false, null, null);
-            customerTable.Columns.Add(customerId);
-            customerTable.Columns.Add(DatabaseEntityFactory.CreateColumnEntity("CustomerType", new ColumnDataTypeDefinition("int", false), false, 2, false, null, null));
-            customerTable.Columns.Add(DatabaseEntityFactory.CreateColumnEntity("Name", new ColumnDataTypeDefinition("varchar", true), false, 3, false, null, null));
-            customerTable.Columns.Add(DatabaseEntityFactory.CreateColumnEntity("IsActive", new ColumnDataTypeDefinition("bit", true), false, 4, false, null, null));
+            customerTable.AddColumn(customerId);
+            customerTable.AddColumn(DatabaseEntityFactory.CreateColumnEntity("CustomerType", new ColumnDataTypeDefinition("int", false), false, 2, false, null, null));
+            customerTable.AddColumn(DatabaseEntityFactory.CreateColumnEntity("Name", new ColumnDataTypeDefinition("varchar", true), false, 3, false, null, null));
+            customerTable.AddColumn(DatabaseEntityFactory.CreateColumnEntity("IsActive", new ColumnDataTypeDefinition("bit", true), false, 4, false, null, null));
 
             var fk = new ForeignKeyEntity();
             fk.ReferencingColumn = "CustomerId";
@@ -57,11 +57,11 @@ namespace SQLDataProducer.Tests
             var customerIdColumn = DatabaseEntityFactory.CreateColumnEntity("CustomerId", new ColumnDataTypeDefinition("int", false), false, 2, true, null, fk);
             customerIdColumn.Generator = new SQLDataProducer.Entities.Generators.IntGenerators.ValueFromOtherColumnIntGenerator(customerIdColumn.ColumnDataType);
             customerIdColumn.Generator.GeneratorParameters["Value From Column"].Value = customerId;
-            
-            orderTable.Columns.Add(DatabaseEntityFactory.CreateColumnEntity("OrderId", new ColumnDataTypeDefinition("int", false), true, 1, false, null, null));
-            orderTable.Columns.Add(customerIdColumn);
-            orderTable.Columns.Add(DatabaseEntityFactory.CreateColumnEntity("Amount", new ColumnDataTypeDefinition("decimal(19, 6)", false), false, 3, false, null, null));
-            orderTable.Columns.Add(DatabaseEntityFactory.CreateColumnEntity("SessionId", new ColumnDataTypeDefinition("uniqueidentifier", false), false, 4, false, null, null));
+
+            orderTable.AddColumn(DatabaseEntityFactory.CreateColumnEntity("OrderId", new ColumnDataTypeDefinition("int", false), true, 1, false, null, null));
+            orderTable.AddColumn(customerIdColumn);
+            orderTable.AddColumn(DatabaseEntityFactory.CreateColumnEntity("Amount", new ColumnDataTypeDefinition("decimal(19, 6)", false), false, 3, false, null, null));
+            orderTable.AddColumn(DatabaseEntityFactory.CreateColumnEntity("SessionId", new ColumnDataTypeDefinition("uniqueidentifier", false), false, 4, false, null, null));
         }
 
         [Test]
@@ -194,7 +194,7 @@ namespace SQLDataProducer.Tests
             Assert.That(row.Fields, Is.Not.Null);
             Assert.That(row.Fields.Count, Is.EqualTo(4));
 
-            Assert.That(row.Fields[0].FieldName, Is.EqualTo(customerTable.Columns[0].ColumnName));
+            Assert.That(row.Fields[0].FieldName, Is.EqualTo(customerTable.Columns.First().ColumnName));
             Assert.That(row.Fields[0].ProducesValue, Is.True);
             Assert.That(row.Fields[0].KeyValue, Is.Not.Null);
 
@@ -326,8 +326,8 @@ namespace SQLDataProducer.Tests
             endDate.Generator = new ValueFromOtherColumnDateTimeGenerator(endDate.ColumnDataType);
             endDate.Generator.GeneratorParameters["Value From Column"].Value = startDate;
 
-            table.Columns.Add(startDate);
-            table.Columns.Add(endDate);
+            table.AddColumn(startDate);
+            table.AddColumn(endDate);
 
             List<TableEntity> tables = new List<TableEntity> {table};
 

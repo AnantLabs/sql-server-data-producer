@@ -19,6 +19,7 @@ using System.Text;
 using NUnit.Framework;
 using MSTest = Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Data;
+using SQLDataProducer.Entities.DatabaseEntities;
 
 
 namespace SQLDataProducer.Tests.Entities
@@ -29,8 +30,19 @@ namespace SQLDataProducer.Tests.Entities
     {
         [Test]
         [MSTest.TestMethod]
-        public void ShouldTestForeignKeyEntity()
+        public void ShouldCloneForeignKeyEntity()
         {
+            ForeignKeyEntity foreignKey = new ForeignKeyEntity();
+            foreignKey.ReferencingColumn = "CustomerId";
+            foreignKey.ReferencingTable = new TableEntity("dbo", "Customer");
+            foreignKey.Keys.Add("Peter");
+            foreignKey.Keys.Add("Henell");
+
+            var cloned = foreignKey.Clone();
+
+            Assert.That(cloned.ReferencingColumn, Is.EqualTo(foreignKey.ReferencingColumn));
+            Assert.That(cloned.ReferencingTable, Is.EqualTo(foreignKey.ReferencingTable));
+            CollectionAssert.AreEqual(cloned.Keys, foreignKey.Keys);
         }
     }
 }

@@ -79,12 +79,12 @@ namespace SQLDataProducer.Entities.DatabaseEntities
             }
         }
 
-        internal ForeignKeyEntity Clone()
+        public ForeignKeyEntity Clone()
         {
             // TODO: Clone using the same entity as the LOAD/SAVE functionality
             ForeignKeyEntity fk = new ForeignKeyEntity();
             fk.ReferencingColumn = this.ReferencingColumn;
-            fk.ReferencingTable = this.ReferencingTable.Clone();
+            fk.ReferencingTable = this.ReferencingTable;
             fk.Keys = new ObservableCollection<string>(this.Keys); ;
             return fk;
         }

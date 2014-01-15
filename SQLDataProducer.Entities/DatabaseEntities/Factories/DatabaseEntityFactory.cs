@@ -31,14 +31,31 @@ namespace SQLDataProducer.Entities.DatabaseEntities.Factories
             return c;
         }
 
-        public static ColumnEntity CloneColumn(ColumnEntity c)
+        public static ColumnEntity CreateColumnFromColumn(ColumnEntity originalColumn)
         {
-            // TODO: Clone using the same entity as the LOAD/SAVE functionality
-            var col = new ColumnEntity(c.ColumnName, c.ColumnDataType, c.IsIdentity, c.OrdinalPosition, c.IsForeignKey, c.Constraints, c.ForeignKey == null ? null : c.ForeignKey.Clone());
-            col.PossibleGenerators = c.PossibleGenerators.Clone();
-            col.Generator = col.PossibleGenerators.Where(x => x.GeneratorName == c.Generator.GeneratorName).Single();
-            return col;
+            ColumnDataTypeDefinition dataType = new ColumnDataTypeDefinition(originalColumn.ColumnDataType.Raw, originalColumn.ColumnDataType.IsNullable);
+            var constraints = originalColumn.Constraints;
+            var foreignKeys = originalColumn.ForeignKey == null ? null : originalColumn.ForeignKey.Clone();
+
+
+            var newColumn = CreateColumnEntity(originalColumn.ColumnName, dataType, originalColumn.IsIdentity, originalColumn.OrdinalPosition, originalColumn.IsForeignKey, constraints, foreignKeys);
+            
+            return newColumn;
         }
 
+        /// <summary>
+        /// Crateas a new table with the same columns as the original table. The default values will be used for all column parameters.
+        /// </summary>
+        /// <param name="table"></param>
+        /// <returns></returns>
+        public static TableEntity CreateTableFromTable(TableEntity table)
+        {
+            var newTable = new TableEntity(table.TableSchema, table.TableName);
+            foreach (var column in table.Columns)
+            {
+                newTable.AddColumn(CreateColumnFromColumn(column));
+            }
+            return newTable;
+        }
     }
 }

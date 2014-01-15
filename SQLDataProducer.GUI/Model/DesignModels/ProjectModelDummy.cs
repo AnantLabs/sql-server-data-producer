@@ -14,10 +14,10 @@ namespace SQLDataProducer.GUI.Model.DesignModels
         private static TableEntity CreateOrderTable()
         {
             var ordertable = new TableEntity("dbo", "Orders");
-            ordertable.Columns.Add(DatabaseEntityFactory.CreateColumnEntity("OrderId", new ColumnDataTypeDefinition("int", false), true, 1, false, null, null));
-            ordertable.Columns.Add(DatabaseEntityFactory.CreateColumnEntity("OrderDate", new ColumnDataTypeDefinition("datetime", false), false, 2, false, null, null));
-            ordertable.Columns.Add(DatabaseEntityFactory.CreateColumnEntity("Quantity", new ColumnDataTypeDefinition("int", false), false, 3, false, null, null));
-            ordertable.Columns.Add(DatabaseEntityFactory.CreateColumnEntity("TotalCost", new ColumnDataTypeDefinition("decimal(19,6)", false), false, 4, false, null, null));
+            ordertable.AddColumn(DatabaseEntityFactory.CreateColumnEntity("OrderId", new ColumnDataTypeDefinition("int", false), true, 1, false, null, null));
+            ordertable.AddColumn(DatabaseEntityFactory.CreateColumnEntity("OrderDate", new ColumnDataTypeDefinition("datetime", false), false, 2, false, null, null));
+            ordertable.AddColumn(DatabaseEntityFactory.CreateColumnEntity("Quantity", new ColumnDataTypeDefinition("int", false), false, 3, false, null, null));
+            ordertable.AddColumn(DatabaseEntityFactory.CreateColumnEntity("TotalCost", new ColumnDataTypeDefinition("decimal(19,6)", false), false, 4, false, null, null));
             
             return ordertable;
         }
@@ -26,10 +26,10 @@ namespace SQLDataProducer.GUI.Model.DesignModels
         {
             var customerTable = new TableEntity("dbo", "Customer");
             var customerId = DatabaseEntityFactory.CreateColumnEntity("CustomerId", new ColumnDataTypeDefinition("int", false), true, 1, false, null, null);
-            customerTable.Columns.Add(customerId);
-            customerTable.Columns.Add(DatabaseEntityFactory.CreateColumnEntity("CustomerType", new ColumnDataTypeDefinition("int", false), false, 2, false, null, null));
-            customerTable.Columns.Add(DatabaseEntityFactory.CreateColumnEntity("Name", new ColumnDataTypeDefinition("varchar", false), false, 3, false, null, null));
-            customerTable.Columns.Add(DatabaseEntityFactory.CreateColumnEntity("IsActive", new ColumnDataTypeDefinition("bit", false), false, 4, false, null, null));
+            customerTable.AddColumn(customerId);
+            customerTable.AddColumn(DatabaseEntityFactory.CreateColumnEntity("CustomerType", new ColumnDataTypeDefinition("int", false), false, 2, false, null, null));
+            customerTable.AddColumn(DatabaseEntityFactory.CreateColumnEntity("Name", new ColumnDataTypeDefinition("varchar", false), false, 3, false, null, null));
+            customerTable.AddColumn(DatabaseEntityFactory.CreateColumnEntity("IsActive", new ColumnDataTypeDefinition("bit", false), false, 4, false, null, null));
             return customerTable;
         }
 

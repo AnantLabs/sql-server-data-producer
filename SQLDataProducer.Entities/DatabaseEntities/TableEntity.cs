@@ -20,6 +20,7 @@ using System.Linq;
 using System.Text;
 using SQLDataProducer.Entities.ExecutionEntities;
 using System.Xml.Linq;
+using System.Collections.Generic;
 
 
 namespace SQLDataProducer.Entities.DatabaseEntities
@@ -31,24 +32,8 @@ namespace SQLDataProducer.Entities.DatabaseEntities
         {
             TableName = tableName;
             TableSchema = tableSchema;
-            Columns = new ColumnEntityCollection();
-            //Columns.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(Columns_CollectionChanged);
+            _columns = new ColumnEntityCollection();
         }
-
-        //// Columns added event handler
-        //void Columns_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        //{
-        //    foreach (ColumnEntity item in e.NewItems)
-        //    {
-        //        if (item.HasWarning)
-        //            HasWarning = true;
-
-        //        item.ParentTable = this;
-        //    }
-
-        //    HasIdentityColumn = Columns.Any(c => c.IsIdentity);
-        //}
-
 
         bool _hasIdentityColumn = false;
         public bool HasIdentityColumn
@@ -69,19 +54,11 @@ namespace SQLDataProducer.Entities.DatabaseEntities
 
 
         ColumnEntityCollection _columns;
-        public ColumnEntityCollection Columns
+        public IEnumerable<ColumnEntity> Columns
         {
             get
             {
                 return _columns;
-            }
-            private set
-            {
-                if (_columns != value)
-                {
-                    _columns = value;
-                    HasWarning = _columns.Any(x => x.HasWarning);
-                }
             }
         }
 
@@ -136,7 +113,7 @@ namespace SQLDataProducer.Entities.DatabaseEntities
             // TODO: Clone using the same entity as the LOAD/SAVE functionality
             var t = new TableEntity(this.TableSchema, this.TableName);
             t.HasIdentityColumn = this.HasIdentityColumn;
-            t.Columns = this.Columns.Clone();
+            t._columns = _columns.Clone();
             t.RefreshWarnings();
             return t;
         }
@@ -152,7 +129,7 @@ namespace SQLDataProducer.Entities.DatabaseEntities
             {
                 return _hasWarning;
             }
-            set
+            private set
             {
                 _hasWarning = value;
                 OnPropertyChanged("HasWarning");
@@ -169,7 +146,7 @@ namespace SQLDataProducer.Entities.DatabaseEntities
             {
                 return _warningText;
             }
-            set
+            private set
             {
                 _warningText = value;
                 OnPropertyChanged("WarningText");
@@ -177,24 +154,24 @@ namespace SQLDataProducer.Entities.DatabaseEntities
         }
 
 
-        /// <summary>
-        ///  Execution item where this table is used.
-        /// </summary>
-        ExecutionNode _parentExecutionItem;
-        public ExecutionNode ParentExecutionItem
-        {
-            get
-            {
-                return _parentExecutionItem;
-            }
-            set
-            {
-                if (_parentExecutionItem != value)
-                {
-                    _parentExecutionItem = value;
-                }
-            }
-        }
+        ///// <summary>
+        /////  Execution item where this table is used.
+        ///// </summary>
+        //ExecutionNode _parentExecutionItem;
+        //public ExecutionNode ParentExecutionItem
+        //{
+        //    get
+        //    {
+        //        return _parentExecutionItem;
+        //    }
+        //    set
+        //    {
+        //        if (_parentExecutionItem != value)
+        //        {
+        //            _parentExecutionItem = value;
+        //        }
+        //    }
+        //}
 
         public void RefreshWarnings()
         {
@@ -210,8 +187,22 @@ namespace SQLDataProducer.Entities.DatabaseEntities
 
         public TableEntity AddColumn(ColumnEntity columnEntity)
         {
-            Columns.Add(columnEntity);
+            _columns.Add(columnEntity);
+            if (columnEntity.IsIdentity)
+                HasIdentityColumn = true;
+
+            if (columnEntity.HasWarning)
+                HasWarning = true;
+
             return this;
+        }
+
+        public void AddColumns(IEnumerable<ColumnEntity> columnsToAdd)
+        {
+            foreach (var column in columnsToAdd)
+            {
+                AddColumn(column);
+            }
         }
     }
 
