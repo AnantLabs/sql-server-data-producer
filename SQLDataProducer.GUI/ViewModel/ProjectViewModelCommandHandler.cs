@@ -61,7 +61,11 @@ namespace SQLDataProducer.GUI.ViewModel
 
         public void AddParentNode(ExecutionNode nodeToManipulate)
         {
-            throw new NotImplementedException();
+            if (nodeToManipulate != null)
+            {
+                var newNode = nodeToManipulate.AddParent(1);
+                _projectViewModel.SelectedExecutionNode = newNode;
+            }
         }
 
         public void MergeNodeWithParentNode(ExecutionNode nodeToMergeWithParent)

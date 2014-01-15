@@ -244,13 +244,60 @@ namespace SQLDataProducer.Tests.EntitiesTests
         [MSTest.TestMethod]
         public void ShouldHaveParentIfItIsChild()
         {
-            ExecutionNode node = ExecutionNode.CreateLevelOneNode(1);
-            Assert.That(node.HasChildren, Is.False);
+            ExecutionNode root = ExecutionNode.CreateLevelOneNode(1);
+            Assert.That(root.HasChildren, Is.False);
 
-            var child = node.AddChild(1);
-            Assert.That(node.HasChildren, Is.True);
-            Assert.That(child.Parent, Is.Not.Null);
-            Assert.That(child.Parent, Is.EqualTo(node));
+            var child = root.AddChild(1);
+            Assert.That(root.HasChildren, Is.True);
+            Assert.That(child.Parent, Is.EqualTo(root));
         }
+
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldAddParentNodeToNode()
+        {
+            ExecutionNode root = ExecutionNode.CreateLevelOneNode(1);
+            var customer = root.AddChild(1, "Customer");
+            var order = customer.AddChild(10, "Order");
+
+            string expected =
+@"-Customer
+--Order";
+            Assert.That(customer.getDebugString(), Is.EqualTo(expected));
+
+            order.AddParent(1, "CustomerGroup");
+            expected =
+@"-Customer
+--CustomerGroup
+---Order";
+            Assert.That(customer.getDebugString(), Is.EqualTo(expected));
+
+        }
+
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldCreateDebugString()
+        {
+            ExecutionNode root = ExecutionNode.CreateLevelOneNode(1, "Root");
+            var customer = root.AddChild(1, "Customer");
+            var order = customer.AddChild(10, "Order");
+            root.AddChild(1, "Invoice");
+
+            string expected =
+@"Root
+-Customer
+--Order
+-Invoice";
+            string actual = root.getDebugString();
+            Console.WriteLine("{" + actual + "}");
+            Console.WriteLine("{" + expected + "}");
+
+            Assert.That(actual, Is.EqualTo(expected));
+            Assert.That(order.getDebugString(), Is.EqualTo("--Order"));
+
+            Assert.That(customer.getDebugString(), Is.EqualTo("-Customer" + Environment.NewLine + "--Order"));
+
+        }
+
     }
 }

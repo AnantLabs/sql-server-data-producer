@@ -67,24 +67,6 @@ namespace SQLDataProducer.Tests.ViewModels
 
         [Test]
         [MSTest.TestMethod]
-        public void ShouldAddTableToSelectedNode()
-        {
-            var viewModel = new ProjectViewModel(dataService);
-            ProjectViewModelCommandHandler commandHandler = new ProjectViewModelCommandHandler(viewModel);
-
-            viewModel.SelectedExecutionNode = viewModel.Model.RootNode.Children.First();
-
-            int countBeforeAdding = viewModel.SelectedExecutionNode.Tables.Count();
-
-            var tableToAdd = viewModel.Model.Tables.First();
-            commandHandler.AddTableToNode(tableToAdd);
-
-            Assert.That(viewModel.SelectedExecutionNode.Tables.Count(), Is.EqualTo(countBeforeAdding+1));
-            Assert.That(viewModel.SelectedExecutionNode.Tables.Last(), Is.EqualTo(tableToAdd));
-        }
-
-        [Test]
-        [MSTest.TestMethod]
         public void ShouldAddChildNodeAndMarkItAsSelected()
         {
             var viewModel = new ProjectViewModel(dataService);
@@ -158,6 +140,19 @@ namespace SQLDataProducer.Tests.ViewModels
 
             Assert.That(viewModel.SelectedExecutionNode.Tables.Where(x => x.FullName.Equals(tableToAdd.FullName)).Count(), Is.EqualTo(1), "Added table should be in collection");
             Assert.That(viewModel.SelectedExecutionNode.Tables.Contains(tableToAdd), Is.False, "Added table should not be the same table, it should be cloned and be a new entity");
+        }
+
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldAddParentNode()
+        {
+            var viewModel = new ProjectViewModel(dataService);
+            ProjectViewModelCommandHandler commandHandler = new ProjectViewModelCommandHandler(viewModel);
+
+            var oldSelectedNode = viewModel.SelectedExecutionNode;
+
+            commandHandler.AddParentNode(viewModel.SelectedExecutionNode);
+            Assert.That(viewModel.SelectedExecutionNode, Is.Not.EqualTo(oldSelectedNode));
         }
         
         

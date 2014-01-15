@@ -18,6 +18,7 @@ namespace SQLDataProducer.GUI.Model.DesignModels
             ordertable.AddColumn(DatabaseEntityFactory.CreateColumnEntity("OrderDate", new ColumnDataTypeDefinition("datetime", false), false, 2, false, null, null));
             ordertable.AddColumn(DatabaseEntityFactory.CreateColumnEntity("Quantity", new ColumnDataTypeDefinition("int", false), false, 3, false, null, null));
             ordertable.AddColumn(DatabaseEntityFactory.CreateColumnEntity("TotalCost", new ColumnDataTypeDefinition("decimal(19,6)", false), false, 4, false, null, null));
+            ordertable.AddColumn(DatabaseEntityFactory.CreateColumnEntity("CustomerId", new ColumnDataTypeDefinition("int", false), false, 5, true, null, new ForeignKeyEntity()));
             
             return ordertable;
         }

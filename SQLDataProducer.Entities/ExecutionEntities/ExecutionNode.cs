@@ -110,14 +110,6 @@ namespace SQLDataProducer.Entities.ExecutionEntities
             {
                 return _tables;
             }
-            //private set
-            //{
-            //    if (_tables != value)
-            //    {
-            //        _tables = value;
-            //        OnPropertyChanged("Tables");
-            //    }
-            //}
         }
 
         private static int nodeCounter = 0;
@@ -285,6 +277,67 @@ namespace SQLDataProducer.Entities.ExecutionEntities
                 _tables.Move(currentIndex, newIndex);
                 OnPropertyChanged("Tables");
             }
+        }
+
+        /// <summary>
+        /// Get string displaying the hierarchy of the node and it's children.
+        /// </summary>
+        /// <remarks>
+        /// Consider JP's answer at http://stackoverflow.com/questions/1208703/can-an-anonymous-method-in-c-sharp-call-itself
+        /// </remarks>
+        /// <returns></returns>
+        public string getDebugString()
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+
+            Action<ExecutionNode, StringBuilder> builder = null;
+            builder = new Action<ExecutionNode, StringBuilder>( (root, sb) =>
+            {
+                sb.Append(new string('-', root.Level - 1));
+                sb.Append(root.NodeName);
+
+                foreach (var child in root.Children)
+                {
+                    sb.AppendLine();
+                    builder.Invoke(child, sb);
+                }
+            });
+
+            builder.Invoke(this, stringBuilder);
+
+            return stringBuilder.ToString();
+        }
+
+        /// <summary>
+        /// Creates a new node, move current node to child as that node, returns the new node
+        /// </summary>
+        /// <param name="repeatCount"></param>
+        /// <param name="nodeName"></param>
+        /// <returns></returns>
+        public ExecutionNode AddParent(int repeatCount, string nodeName = "")
+        {
+            var newParent = this.Parent.AddChild(repeatCount, nodeName);
+
+            MoveAtoTheLocationOfB(Parent._children, newParent, this);
+            Parent._children.Remove(this);
+            this._level++;
+            newParent._children.Add(this);
+            return newParent;
+
+            /*
+             * new child, parent add child
+             * move newChild to current node position
+             * remove current node
+             * newchild add currentNode
+             * 
+             */
+        }
+
+        private void MoveAtoTheLocationOfB(ObservableCollection<ExecutionNode> nodes, ExecutionNode a, ExecutionNode b)
+        {
+            int aIndex = nodes.IndexOf(a);
+            int bIndex = nodes.IndexOf(a);
+            nodes.Move(aIndex, bIndex);
         }
     }
     
