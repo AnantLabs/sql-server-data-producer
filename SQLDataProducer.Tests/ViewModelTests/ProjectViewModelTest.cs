@@ -109,5 +109,6 @@ namespace SQLDataProducer.Tests.ViewModels
             viewModel.SelectedExecutionNode = null;
         }
        
+
     }
 }

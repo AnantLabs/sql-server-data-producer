@@ -364,7 +364,33 @@ namespace SQLDataProducer.Tests.EntitiesTests
             Assert.That(merged.Tables, Is.Empty);
         }
 
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldRemoveNode()
+        {
+            ExecutionNode root = ExecutionNode.CreateLevelOneNode(1, "Root");
+            var customer = root.AddChild(1, "Customer");
+            var order = customer.AddChild(10, "Order");
+            var recall = order.AddChild(1, "Recall");
 
+            var someNode = order.RemoveNode();
+
+            Assert.That(someNode, Is.EqualTo(customer), "When removing a node, the parent node should be returned");
+            Assert.That(customer.Children.Contains(order), Is.Not.True);
+
+        }
+
+
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldNotBeAbleToRemoveRootNode()
+        {
+            ExecutionNode root = ExecutionNode.CreateLevelOneNode(1, "Root");
+            var customer = root.AddChild(1, "Customer");
+
+            var someNode = root.RemoveNode();
+            Assert.That(someNode, Is.EqualTo(root));
+        }
 
     }
 }

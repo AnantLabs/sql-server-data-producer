@@ -359,6 +359,16 @@ namespace SQLDataProducer.Entities.ExecutionEntities
 
             return Parent;
         }
+
+        public ExecutionNode RemoveNode()
+        {
+            if (isRoot)
+                return this;
+
+            Parent._children.Remove(this);
+            return Parent;
+        }
+
     }
     
 }

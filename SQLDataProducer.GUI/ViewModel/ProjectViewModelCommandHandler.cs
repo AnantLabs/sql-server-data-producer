@@ -79,7 +79,11 @@ namespace SQLDataProducer.GUI.ViewModel
 
         public void RemoveNode(ExecutionNode nodeToRemove)
         {
-            throw new NotImplementedException();
+            if (nodeToRemove != null)
+            {
+                var parentNode = nodeToRemove.RemoveNode();
+                _projectViewModel.SelectedExecutionNode = parentNode;
+            }
         }
     }
 }

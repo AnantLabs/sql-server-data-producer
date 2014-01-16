@@ -184,8 +184,20 @@ namespace SQLDataProducer.Tests.ViewModels
 
             commandHandler.MergeNodeWithParentNode(nodeToMerge);
             commandHandler.MergeNodeWithParentNode(null);
+        }
 
-            //Assert.That(viewModel.SelectedExecutionNode, Is.EqualTo(oldParent));
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldRemoveNode()
+        {
+            var viewModel = new ProjectViewModel(dataService);
+            ProjectViewModelCommandHandler commandHandler = new ProjectViewModelCommandHandler(viewModel);
+
+            var nodeToRemove = viewModel.SelectedExecutionNode.Children.First();
+            viewModel.SelectedExecutionNode = nodeToRemove;
+            commandHandler.RemoveNode(nodeToRemove);
+
+            Assert.That(viewModel.SelectedExecutionNode, Is.EqualTo(nodeToRemove.Parent));
         }
 
     }
