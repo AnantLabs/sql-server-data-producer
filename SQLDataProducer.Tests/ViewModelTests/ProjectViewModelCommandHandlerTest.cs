@@ -155,6 +155,5 @@ namespace SQLDataProducer.Tests.ViewModels
             Assert.That(viewModel.SelectedExecutionNode, Is.Not.EqualTo(oldSelectedNode));
         }
         
-        
     }
 }

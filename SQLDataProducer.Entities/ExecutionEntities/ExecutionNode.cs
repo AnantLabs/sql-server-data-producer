@@ -25,7 +25,7 @@ namespace SQLDataProducer.Entities.ExecutionEntities
 {
     public class ExecutionNode : EntityBase, IEquatable<ExecutionNode>
     {
-        private readonly ExecutionNode _parent;
+        private ExecutionNode _parent;
         public ExecutionNode Parent
         {
             get
@@ -52,20 +52,15 @@ namespace SQLDataProducer.Entities.ExecutionEntities
             }
         }
 
-        int _level;
+        
         public int Level
         {
             get
             {
-                return _level;
-            }
-            private set
-            {
-                if (_level != value)
-                {
-                    _level = value;
-                    OnPropertyChanged("Level");
-                }
+                if (isRoot)
+                    return 1;
+                else
+                    return Parent.Level + 1;
             }
         }
 
@@ -113,18 +108,29 @@ namespace SQLDataProducer.Entities.ExecutionEntities
         }
 
         private static int nodeCounter = 0;
+        private bool isRoot = false;
 
         public ExecutionNode AddChild(int repeatCount, string nodeName = "")
         {
-            var n = new ExecutionNode(this.Level + 1, this, repeatCount, nodeName);
+            var n = new ExecutionNode(this, repeatCount, nodeName);
             this.HasChildren = true;
             _children.Add(n);
             return n;
         }
 
+        private ExecutionNode AddChild(ExecutionNode node)
+        {
+            this.HasChildren = true;
+            _children.Add(node);
+            node._parent = this;
+            return node;
+        }
+
         public static ExecutionNode CreateLevelOneNode(int repeatCount, string nodeName = "")
         {
-            return new ExecutionNode(1, null, repeatCount, nodeName);
+            var node = new ExecutionNode(null, repeatCount, nodeName);
+            node.isRoot = true;
+            return node;
         }
 
         private int _repeatCount  = 1;
@@ -144,7 +150,7 @@ namespace SQLDataProducer.Entities.ExecutionEntities
             }
         }
 
-        private ExecutionNode(int level, ExecutionNode parent, int repeatCount, string nodeName)
+        private ExecutionNode(ExecutionNode parent, int repeatCount, string nodeName)
         {
             _parent = parent;
             _nodeId = nodeCounter++;
@@ -152,8 +158,7 @@ namespace SQLDataProducer.Entities.ExecutionEntities
             _children = new ObservableCollection<ExecutionNode>();
             RepeatCount = repeatCount;
             NodeName = nodeName;
-
-            Level = level;
+            
             HasChildren = false;
         }
 
@@ -316,28 +321,25 @@ namespace SQLDataProducer.Entities.ExecutionEntities
         /// <returns></returns>
         public ExecutionNode AddParent(int repeatCount, string nodeName = "")
         {
+            if (this.isRoot)
+                return this;
+            
             var newParent = this.Parent.AddChild(repeatCount, nodeName);
 
             MoveAtoTheLocationOfB(Parent._children, newParent, this);
             Parent._children.Remove(this);
-            this._level++;
-            newParent._children.Add(this);
+            newParent.AddChild(this);
             return newParent;
-
-            /*
-             * new child, parent add child
-             * move newChild to current node position
-             * remove current node
-             * newchild add currentNode
-             * 
-             */
         }
 
         private void MoveAtoTheLocationOfB(ObservableCollection<ExecutionNode> nodes, ExecutionNode a, ExecutionNode b)
         {
             int aIndex = nodes.IndexOf(a);
-            int bIndex = nodes.IndexOf(a);
-            nodes.Move(aIndex, bIndex);
+            int bIndex = nodes.IndexOf(b);
+            if (aIndex > 0 && bIndex > 0)
+            {
+                nodes.Move(aIndex, bIndex);    
+            }
         }
     }
     

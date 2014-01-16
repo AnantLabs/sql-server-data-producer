@@ -198,6 +198,9 @@ namespace SQLDataProducer.Tests.EntitiesTests
             Assert.That(node3, Is.EqualTo(node1));
 
             Assert.That(node2, Is.EqualTo(node2));
+
+            object boxed = node1;
+            Assert.That(boxed, Is.EqualTo(node1));
         }
 
         [Test]
@@ -256,7 +259,7 @@ namespace SQLDataProducer.Tests.EntitiesTests
         [MSTest.TestMethod]
         public void ShouldAddParentNodeToNode()
         {
-            ExecutionNode root = ExecutionNode.CreateLevelOneNode(1);
+            ExecutionNode root = ExecutionNode.CreateLevelOneNode(1, "Root");
             var customer = root.AddChild(1, "Customer");
             var order = customer.AddChild(10, "Order");
 
@@ -267,11 +270,36 @@ namespace SQLDataProducer.Tests.EntitiesTests
 
             order.AddParent(1, "CustomerGroup");
             expected =
-@"-Customer
+@"Root
+-Customer
 --CustomerGroup
 ---Order";
-            Assert.That(customer.getDebugString(), Is.EqualTo(expected));
+            Assert.That(root.getDebugString(), Is.EqualTo(expected));
+            customer.AddParent(1, "Country");
+            expected =
+@"Root
+-Country
+--Customer
+---CustomerGroup
+----Order";
+            Assert.That(root.getDebugString(), Is.EqualTo(expected));
 
+        }
+
+
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldNotBeAbleToAddParentToRoot()
+        {
+            ExecutionNode root = ExecutionNode.CreateLevelOneNode(1, "Root");
+            var customer = root.AddChild(1, "Customer");
+            var order = customer.AddChild(10, "Order");
+
+            string beforeAddingParent = root.getDebugString();
+
+            var returnNode = root.AddParent(1, "Nono");
+            Assert.That(returnNode, Is.EqualTo(root));
+            Assert.That(root.getDebugString(), Is.EqualTo(beforeAddingParent));
         }
 
         [Test]
@@ -298,6 +326,8 @@ namespace SQLDataProducer.Tests.EntitiesTests
             Assert.That(customer.getDebugString(), Is.EqualTo("-Customer" + Environment.NewLine + "--Order"));
 
         }
+
+        
 
     }
 }
