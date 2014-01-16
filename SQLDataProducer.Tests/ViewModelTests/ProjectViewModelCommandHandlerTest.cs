@@ -154,6 +154,39 @@ namespace SQLDataProducer.Tests.ViewModels
             commandHandler.AddParentNode(viewModel.SelectedExecutionNode);
             Assert.That(viewModel.SelectedExecutionNode, Is.Not.EqualTo(oldSelectedNode));
         }
-        
+
+
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldMergWithparentNode()
+        {
+            var viewModel = new ProjectViewModel(dataService);
+            ProjectViewModelCommandHandler commandHandler = new ProjectViewModelCommandHandler(viewModel);
+
+            var nodeToMerge = viewModel.SelectedExecutionNode.Children.First();
+            var oldParent = nodeToMerge.Parent;
+            // Set selected so that we can see that it is changed
+            viewModel.SelectedExecutionNode = viewModel.SelectedExecutionNode.Children.First();
+
+            commandHandler.MergeNodeWithParentNode(nodeToMerge);
+
+            Assert.That(viewModel.SelectedExecutionNode, Is.EqualTo(oldParent));
+        }
+
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldMergeTheTopNode()
+        {
+            var viewModel = new ProjectViewModel(dataService);
+            ProjectViewModelCommandHandler commandHandler = new ProjectViewModelCommandHandler(viewModel);
+
+            var nodeToMerge = viewModel.SelectedExecutionNode;
+
+            commandHandler.MergeNodeWithParentNode(nodeToMerge);
+            commandHandler.MergeNodeWithParentNode(null);
+
+            //Assert.That(viewModel.SelectedExecutionNode, Is.EqualTo(oldParent));
+        }
+
     }
 }

@@ -327,7 +327,44 @@ namespace SQLDataProducer.Tests.EntitiesTests
 
         }
 
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldMergeNodeWithParent()
+        {
+            ExecutionNode root = ExecutionNode.CreateLevelOneNode(1, "Root");
+            var customer = root.AddChild(1, "Customer");
+            var order = customer.AddChild(10, "Order");
+            var recall = order.AddChild(1, "Recall");
+            
+            customer.AddTable(new TableEntity("dbo", "Customer")).AddTable(new TableEntity("dbo", "Account"));
+            order.AddTable(new TableEntity("dbo", "Order")).AddTable(new TableEntity("dbo", "OrderLine")).AddTable(new TableEntity("dbo", "Invoice"));
+
+            var tablesBeforeMerge = new List<TableEntity>(customer.Tables);
+            var tablesToBeMerged = new List<TableEntity>(order.Tables);
+
+            var mergedInto = order.MergeWithParent();
+
+            Assert.That(mergedInto, Is.EqualTo(customer));
+            CollectionAssert.IsSubsetOf(tablesBeforeMerge, customer.Tables);
+            CollectionAssert.IsSubsetOf(tablesToBeMerged, customer.Tables);
+            Assert.That(customer.Tables.Count(), Is.EqualTo(tablesBeforeMerge.Count + tablesToBeMerged.Count));
+            Assert.That(customer.Children.Contains(recall));
+        }
+
         
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldNotBeAbleToMergeRootNodeWithParent()
+        {
+            ExecutionNode root = ExecutionNode.CreateLevelOneNode(1, "Root");
+            var customer = root.AddChild(1, "Customer").AddTable(new TableEntity("dbo", "Customer"));
+
+            var merged = root.MergeWithParent();
+            Assert.That(merged, Is.EqualTo(root));
+            Assert.That(merged.Tables, Is.Empty);
+        }
+
+
 
     }
 }

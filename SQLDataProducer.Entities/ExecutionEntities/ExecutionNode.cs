@@ -341,6 +341,24 @@ namespace SQLDataProducer.Entities.ExecutionEntities
                 nodes.Move(aIndex, bIndex);    
             }
         }
+
+        public ExecutionNode MergeWithParent()
+        {
+            if (this.isRoot)
+                return this;
+
+            Parent._children.Remove(this);
+            foreach (var table in Tables)
+            {
+                Parent.AddTable(table);
+            }
+            foreach (var child in Children)
+            {
+                Parent.AddChild(child);
+            }
+
+            return Parent;
+        }
     }
     
 }

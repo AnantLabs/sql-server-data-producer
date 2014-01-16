@@ -75,6 +75,10 @@ namespace SQLDataProducer.GUI.ViewModel
                 RaisePropertyChanging(SelectedExecutionNodePropertyName);
                 _selectedExecutionNode = value;
                 RaisePropertyChanged(SelectedExecutionNodePropertyName);
+
+                if (value == null)
+                    return;
+
                 if (value.Tables.Count() > 0)
                 {
                     SelectedTable = value.Tables.First();

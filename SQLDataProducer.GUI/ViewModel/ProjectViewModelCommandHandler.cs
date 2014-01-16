@@ -70,7 +70,11 @@ namespace SQLDataProducer.GUI.ViewModel
 
         public void MergeNodeWithParentNode(ExecutionNode nodeToMergeWithParent)
         {
-            throw new NotImplementedException();
+            if (nodeToMergeWithParent != null)
+            {
+                var parentNode = nodeToMergeWithParent.MergeWithParent();
+                _projectViewModel.SelectedExecutionNode = parentNode;
+            }
         }
 
         public void RemoveNode(ExecutionNode nodeToRemove)

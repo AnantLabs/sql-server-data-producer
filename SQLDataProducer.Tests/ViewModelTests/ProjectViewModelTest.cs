@@ -100,6 +100,14 @@ namespace SQLDataProducer.Tests.ViewModels
             Assert.That(viewModel.SelectedColumn, Is.Null);
         }
 
+
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldNotCrashSettingSelectedNodeToNull()
+        {
+            ProjectViewModel viewModel = new ProjectViewModel(designDataService);
+            viewModel.SelectedExecutionNode = null;
+        }
        
     }
 }
