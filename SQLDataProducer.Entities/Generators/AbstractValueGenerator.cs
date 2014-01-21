@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace SQLDataProducer.Entities.Generators
 {
@@ -31,6 +32,17 @@ namespace SQLDataProducer.Entities.Generators
             GeneratorParameters = new GeneratorParameterCollection();
             GeneratorHelpText = GeneratorHelpTextManager.GetGeneratorHelpText(generatorName);
             _isTakingValueFromOtherColumn = isTakingValueFromOtherColumn;
+        }
+
+        ThreadLocal<SetCounter> setCounter = new ThreadLocal<SetCounter>(() =>
+        {
+            return new SetCounter();
+        });
+
+        public SetCounter Counter
+        {
+            get { return setCounter.Value; }
+
         }
 
         GeneratorParameterCollection _genParameters;
@@ -107,6 +119,19 @@ namespace SQLDataProducer.Entities.Generators
         public object GenerateValue(long n)
         {
             return ApplyGeneratorTypeSpecificLimits(InternalGenerateValue(n, GeneratorParameters));
+        }
+        /// <summary>
+        /// Will use internal counter to generate value
+        /// </summary>
+        /// <returns></returns>
+        public object GenerateValue()
+        {
+            return GenerateValue(Counter.GetNext());
+        }
+
+        public void ResetCounter()
+        {
+            Counter.Reset();
         }
 
         protected void OnPropertyChanged(string propertyName)

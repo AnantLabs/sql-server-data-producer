@@ -29,8 +29,8 @@ namespace SQLDataProducer.Entities.Generators.IntGenerators
             : base(GENERATOR_NAME, datatype)
         {
             
-            GeneratorParameters.Add(new GeneratorParameter("StartValue", 0.0m, GeneratorParameterParser.DecimalParser));
-            GeneratorParameters.Add(new GeneratorParameter("Step", 1.0m, GeneratorParameterParser.DecimalParser));
+            //GeneratorParameters.Add(new GeneratorParameter("StartValue", 0.0m, GeneratorParameterParser.DecimalParser));
+            //GeneratorParameters.Add(new GeneratorParameter("Step", 1.0m, GeneratorParameterParser.DecimalParser));
         }
 
         protected override object InternalGenerateValue(long n, Collections.GeneratorParameterCollection paramas)

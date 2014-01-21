@@ -71,6 +71,7 @@
     <Compile Include="EntityTests\ExecutionResultBuilderTest.cs" />
     <Compile Include="EntityTests\ExecutionResultTest.cs" />
     <Compile Include="EntityTests\GeneratorFactoryTest.cs" />
+    <Compile Include="EntityTests\SetCounterTest.cs" />
     <Compile Include="ForeignKeyTests.cs" />
     <Compile Include="IntegrationTests\BugTest.cs" />
     <Compile Include="IntegrationTests\WorkflowManagerIT.cs" />

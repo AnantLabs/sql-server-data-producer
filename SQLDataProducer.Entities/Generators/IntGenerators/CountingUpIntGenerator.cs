@@ -38,7 +38,7 @@ namespace SQLDataProducer.Entities.Generators.IntGenerators
             int startValue = paramas.GetValueOf<int>("StartValue");
             long maxValue = paramas.GetValueOf<long>("MaxValue");
 
-            return (startValue + (step * (n - 1))) % maxValue;
+            return startValue + ((step * (n - 1)) % maxValue);
         }
     }
 }
