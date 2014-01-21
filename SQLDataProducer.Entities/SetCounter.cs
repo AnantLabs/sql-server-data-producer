@@ -19,7 +19,7 @@ namespace SQLDataProducer.Entities
     public class SetCounter
     {
         long _counter;
-        long Counter { get { return _counter; } }
+        //long Counter { get { return _counter; } }
         public SetCounter()
         {
             _counter = 0;
@@ -47,20 +47,9 @@ namespace SQLDataProducer.Entities
             return Interlocked.Add(ref _counter, n);
         }
 
-        object _lock = new object();
-
-        internal bool IncrementIfLessThan(long targetNumExecutions)
+        public void Reset()
         {
-            lock (_lock)
-            {
-                long next = Peek() + 1;
-                if (next < targetNumExecutions)
-                {
-                    Increment();
-                    return true;
-                }
-                return false;
-            }
+            Interlocked.Exchange(ref _counter, 0);
         }
     }
 }
