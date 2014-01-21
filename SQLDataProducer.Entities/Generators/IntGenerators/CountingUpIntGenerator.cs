@@ -36,8 +36,9 @@ namespace SQLDataProducer.Entities.Generators.IntGenerators
         {
             int step = paramas.GetValueOf<int>("Step");
             int startValue = paramas.GetValueOf<int>("StartValue");
+            long maxValue = paramas.GetValueOf<long>("MaxValue");
 
-            return startValue + (step * (n - 1));
+            return (startValue + (step * (n - 1))) % maxValue;
         }
     }
 }

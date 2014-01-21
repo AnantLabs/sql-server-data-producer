@@ -22,7 +22,7 @@ namespace SQLDataProducer.Tests.ValueGenerators
         {
             get
             {
-                return new CountingUpIntGenerator(new ColumnDataTypeDefinition("TinyInt", false));
+                return new CountingUpIntGenerator(new ColumnDataTypeDefinition("tinyint", false));
             }
         }
 
@@ -114,13 +114,12 @@ namespace SQLDataProducer.Tests.ValueGenerators
             var generator = NextGenerator;
             long maxValue = generator.GeneratorParameters.GetValueOf<long>("MaxValue");
             Assert.That(generator.GenerateValue(maxValue + 1), Is.EqualTo(1));
+            Assert.That(generator.GenerateValue(maxValue + 2), Is.EqualTo(2));
+
+            generator.GeneratorParameters["MaxValue"].Value = 10;
+            Assert.That(generator.GenerateValue(11), Is.EqualTo(1));
+            Assert.That(generator.GenerateValue(12), Is.EqualTo(2));
         }
 
-        [Test]
-        [MSTest.TestMethod]
-        public void ShouldTestOverFlow()
-        {
-            
-        }
     }
 }
