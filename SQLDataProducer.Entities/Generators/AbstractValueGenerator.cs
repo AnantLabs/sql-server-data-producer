@@ -27,7 +27,7 @@ namespace SQLDataProducer.Entities.Generators
     {
         protected AbstractValueGenerator(string generatorName, bool isTakingValueFromOtherColumn = false)
         {
-            GeneratorName = generatorName;
+            _generatorName = generatorName;
             GeneratorParameters = new GeneratorParameterCollection();
             GeneratorHelpText = GeneratorHelpTextManager.GetGeneratorHelpText(generatorName);
             _isTakingValueFromOtherColumn = isTakingValueFromOtherColumn;
@@ -53,7 +53,7 @@ namespace SQLDataProducer.Entities.Generators
         }
 
 
-        string _generatorName;
+        private readonly string _generatorName;
         /// <summary>
         /// Get name of generator
         /// </summary>
@@ -62,14 +62,6 @@ namespace SQLDataProducer.Entities.Generators
             get
             {
                 return _generatorName;
-            }
-            private set
-            {
-                if (_generatorName != value)
-                {
-                    _generatorName = value;
-                //    OnPropertyChanged("GeneratorName");
-                }
             }
         }
 
@@ -86,7 +78,6 @@ namespace SQLDataProducer.Entities.Generators
             private set
             {
                 _generatorHelpText = value;
-               // OnPropertyChanged("GeneratorHelpText");
             }
         }
 
@@ -115,8 +106,7 @@ namespace SQLDataProducer.Entities.Generators
         
         public object GenerateValue(long n)
         {
-            //ApplyGeneratorTypeSpecificLimits();
-            return InternalGenerateValue(n, GeneratorParameters);
+            return ApplyGeneratorTypeSpecificLimits(InternalGenerateValue(n, GeneratorParameters));
         }
 
         protected void OnPropertyChanged(string propertyName)

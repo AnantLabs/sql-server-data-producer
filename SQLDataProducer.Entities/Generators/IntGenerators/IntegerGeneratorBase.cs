@@ -37,11 +37,19 @@ namespace SQLDataProducer.Entities.Generators.IntGenerators
             {
                 return value;
             }
-            var newValue = (long)value;
-            var max = GeneratorParameters.GetValueOf<long>("MaxValue");
-            var min = GeneratorParameters.GetValueOf<long>("MinValue");
+            if (value is long)
+            {
+                var newValue = (long)value;
+                var max = GeneratorParameters.GetValueOf<long>("MaxValue");
+                var min = GeneratorParameters.GetValueOf<long>("MinValue");
 
-            return Math.Min(Math.Max(min, newValue), max);   
+                return Math.Min(Math.Max(min, newValue), max);
+            }
+            else
+            {
+                return value;
+            }
+
         }
     }
 }

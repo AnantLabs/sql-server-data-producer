@@ -13,7 +13,7 @@
 
 
 
-        <Style x:Key="LinkButton" TargetType="Button">
+        <Style TargetType="Button">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -86,6 +86,7 @@
     </Window.Resources>
 
     <Grid>
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="5" />
             <ColumnDefinition Width="Auto" />
@@ -97,18 +98,18 @@
 
         <!--<ItemsControl  Grid.Column="1" ItemTemplate="{DynamicResource recursiveListViewData}" ItemsSource="{Binding Model.RootNode.Children}" Margin="0 20 0 0" />-->
         <TreeView ItemsSource="{Binding Model.RootNode.Children}" 
-                  Margin="10" Grid.Column="1" 
+                  Margin="10,10,27,10" Grid.Column="1" 
                   HorizontalAlignment="Stretch" 
-                  VerticalAlignment="Stretch" 
+                  VerticalAlignment="Stretch" Grid.RowSpan="2" 
                   >
             <e:Interaction.Behaviors>
                 <behaviours:BindableSelectedItemBehavior SelectedItem="{Binding SelectedExecutionNode, Mode=TwoWay}" />
             </e:Interaction.Behaviors>
-            
+
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Children}" DataType="{x:Type entities:ExecutionNode}">
                     <DataTemplate.Resources>
-                        <Style TargetType="Button" BasedOn="{StaticResource LinkButton}">
+                        <Style TargetType="Button">
                             <Setter Property="Margin" Value="10 0 0 0" />
                             <Setter Property="HorizontalAlignment" Value="Right" />
                         </Style>
@@ -144,8 +145,8 @@
             </TreeView.ItemTemplate>
         </TreeView>
 
-        <Grid Grid.Column="2" 
-              Visibility="{Binding Path=SelectedExecutionNode, TargetNullValue=Collapsed}" >
+        <Grid Grid.Column="1" 
+              Visibility="{Binding Path=SelectedExecutionNode, TargetNullValue=Collapsed}" Grid.ColumnSpan="2" Margin="261,0,17,0" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="10" />
                 <ColumnDefinition Width="Auto" />
@@ -153,7 +154,7 @@
                 <ColumnDefinition Width="200" />
             </Grid.ColumnDefinitions>
 
-            <GroupBox Grid.Column="1" Header="Configure Node:">
+            <GroupBox Grid.Column="1" Header="Configure Node:" Grid.RowSpan="2">
                 <StackPanel >
 
                     <GroupBox Header="Basic info">
@@ -245,12 +246,60 @@
                         </StackPanel>
 
                     </GroupBox>
+                    <GroupBox Header="Configure Column">
+                        <GroupBox Header="Configure the Parameters for the Generator" Grid.Column="1" Grid.Row="1">
+                            <StackPanel>
+                                <ListBox
+                        ItemsSource="{Binding SelectedColumn.Generator.GeneratorParameters, Mode=OneWay}" 
+                          VerticalAlignment="Stretch">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid 
+                                        Visibility="{Binding IsWriteEnabled, Mode=OneWay, Converter={StaticResource ResourceKey=visiConv}}"
+                                        HorizontalAlignment="Stretch" 
+                                        VerticalAlignment="Stretch">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="150" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Text="{Binding ParameterName, Mode=OneWay}" Grid.Column="0" Margin="3 3 3 3" />
+
+                                                <TextBox Text="{Binding Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  
+                                                         Grid.Column="1" MinWidth="150" />
+
+
+                                                <Button Content="Pick Column" Grid.Column="2"
+                                                Command="{Binding Path=DataContext.ConfigureReferenceParameterCommand, 
+                                                RelativeSource={RelativeSource FindAncestor, 
+                                                AncestorType={x:Type ListBox}}}" 
+                                                CommandParameter="{Binding .}" 
+                                               
+                                            >
+                                                </Button>
+
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+
+                                <GroupBox Header="Generator Description" Margin="0 5 0 0">
+                                    <TextBlock Text="{Binding SelectedColumn.Generator.GeneratorHelpText, Mode=OneWay}" TextWrapping="Wrap" />
+                                </GroupBox>
+                                <GroupBox Header="Column Constraints" Margin="0 5 0 0">
+                                    <TextBlock Text="{Binding SelectedColumn.Constraints, Mode=OneWay}" TextWrapping="Wrap"  />
+                                </GroupBox>
+                            </StackPanel>
+                        </GroupBox>
+                    </GroupBox>
+                    
                     <GroupBox Header="Node operations">
                         <StackPanel>
                             <Button Content="Add Child Node"  Command="{Binding AddChildNodeCommand}" CommandParameter="{Binding SelectedExecutionNode}" />
                             <Button Content="Add Parent Node" Command="{Binding AddParentNodeCommand}" CommandParameter="{Binding SelectedExecutionNode}"/>
                             <Button Content="Merge Node with Parent Node" Command="{Binding MergeNodeWithParentNodeCommand}" CommandParameter="{Binding SelectedExecutionNode}" />
                             <Button Content="Remove Node" Command="{Binding RemoveNodeCommand}" CommandParameter="{Binding SelectedExecutionNode}"/>
+                            <Button Content="Move Node Up" Command="{Binding MoveNodeUpCommand}" CommandParameter="{Binding SelectedExecutionNode}"/>
                         </StackPanel>
                     </GroupBox>
                 </StackPanel>
@@ -282,7 +331,10 @@
                 </StackPanel>
             </Border>
 
-            <Border Grid.Column="3">
+            <Border>
+                
+
+
                 <!--<DataGrid ItemsSource="{Binding Path=Model.SelectedExecutionItem.TargetTable.Columns, Mode=OneWay, UpdateSourceTrigger=Explicit}" 
                            
                             AutoGenerateColumns="false" 

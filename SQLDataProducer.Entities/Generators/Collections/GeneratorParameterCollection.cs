@@ -25,12 +25,15 @@ namespace SQLDataProducer.Entities.Generators.Collections
     /// <summary>
     /// To enable binding to the NiceString property to the DataGrid.
     /// </summary>
-    public class GeneratorParameterCollection : Dictionary<string, GeneratorParameter>
+    public class GeneratorParameterCollection : IEnumerable<GeneratorParameter>
     {
         public GeneratorParameterCollection()
-            : base()
         {
+            parameters = new Dictionary<string, GeneratorParameter>();
         }
+
+        private Dictionary<string, GeneratorParameter> parameters;
+
 
         /// <summary>
         /// Returns a humanly readable string that describes the GeneratorParameters in the collection.
@@ -41,9 +44,9 @@ namespace SQLDataProducer.Entities.Generators.Collections
         {
             StringBuilder sb = new StringBuilder();
 
-            foreach (var key in this.Keys)
+            foreach (var key in parameters.Keys)
             {
-                sb.AppendFormat("{0};", this[key]);
+                sb.AppendFormat("{0};", parameters[key]);
             }
             return sb.ToString();
         }
@@ -51,9 +54,9 @@ namespace SQLDataProducer.Entities.Generators.Collections
         private string ToNiceString()
         {
             StringBuilder sb = new StringBuilder();
-            foreach (var key in this.Keys)
+            foreach (var key in parameters.Keys)
             {
-                var s = this[key];
+                var s = parameters[key];
                 // Avoid showing parameters that cannot be changed anyway
                 if (!s.IsWriteEnabled)
                     continue;
@@ -73,25 +76,40 @@ namespace SQLDataProducer.Entities.Generators.Collections
 
         public void Add(GeneratorParameter parameter)
         {
-            this.Add(parameter.ParameterName, parameter);
+            parameters.Add(parameter.ParameterName, parameter);
         }
 
         public GeneratorParameterCollection Clone()
         {
             // TODO: Clone using the same entity as the LOAD/SAVE functionality
             var paramCollection = new GeneratorParameterCollection();
-            foreach (var g in this.Values)
+            foreach (var g in parameters.Values)
             {
                 paramCollection.Add(g.Clone());
             }
             return paramCollection;
         }
 
+        public GeneratorParameter this[string parameterName]
+        {
+            get
+            {
+                return parameters[parameterName];
+            }
+        }
+
+        public int Count
+        {
+            get
+            {
+                return parameters.Count;
+            }
+        }
 
         public T GetValueOf<T>(string parameterName)
         {
             GeneratorParameter param = null;
-            if (!this.TryGetValue(parameterName, out param))
+            if (!parameters.TryGetValue(parameterName, out param))
             {
                 throw new KeyNotFoundException(parameterName);
             }
@@ -101,6 +119,16 @@ namespace SQLDataProducer.Entities.Generators.Collections
                 return (T)param.Value;
             else
                 throw new InvalidCastException("The parameter did not match the supplied type. parameterName: " + parameterName + ", requested type: " + typeof(T).ToString());
+        }
+
+        public IEnumerator<GeneratorParameter> GetEnumerator()
+        {
+            return parameters.Values.GetEnumerator();
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return parameters.Values.GetEnumerator();
         }
     }
 }

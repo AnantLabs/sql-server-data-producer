@@ -99,7 +99,7 @@ namespace SQLDataProducer.Tests.ConsumerTests.InsertConsumer
             Assert.That(values, Is.Not.Empty);
             Assert.That(values, Is.Not.Null);
 
-            Assert.That(values, Is.EqualTo("VALUES (0, 'Arboga', 0)"));
+            Assert.That(values, Is.EqualTo("VALUES (1, 'Arboga', 1)"));
         }
 
         [Test]
@@ -114,7 +114,7 @@ namespace SQLDataProducer.Tests.ConsumerTests.InsertConsumer
 
             string firstValues = generator.GenerateInsertStatement(rows.First(), valueStore);
             Assert.That(firstValues, Is.StringStarting("INSERT INTO dbo.Customer(" + generator.ColumnList + ") OUTPUT INSERTED.CustomerId")
-                                    .And.StringEnding(" VALUES (0, 'Arboga', 0)"));
+                                    .And.StringEnding(" VALUES (1, 'Arboga', 1)"));
 
         }
 
@@ -129,11 +129,11 @@ namespace SQLDataProducer.Tests.ConsumerTests.InsertConsumer
 
             string firstValues = TableQueryGenerator.GenerateInsertStatements(rows, valueStore).First();
             Assert.That(firstValues, Is.StringStarting("INSERT INTO dbo.Customer(CustomerType, Name, IsActive) OUTPUT INSERTED.CustomerId AS")
-                                    .And.StringEnding(" VALUES (0, 'Arboga', 0)"));
+                                    .And.StringEnding(" VALUES (1, 'Arboga', 1)"));
 
             string secondValues = TableQueryGenerator.GenerateInsertStatements(rows, valueStore).Skip(1).First();
             Assert.That(secondValues, Is.StringStarting("INSERT INTO dbo.Customer(CustomerType, Name, IsActive) OUTPUT INSERTED.CustomerId AS")
-                                        .And.StringEnding(" VALUES (1, 'Arvika', 1)"));
+                                        .And.StringEnding(" VALUES (2, 'Arvika', 1)"));
         }
 
         [Test]

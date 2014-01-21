@@ -28,7 +28,7 @@ namespace SQLDataProducer.Entities.Generators.IntGenerators
         public CountingUpIntGenerator(ColumnDataTypeDefinition datatype)
             : base(GENERATOR_NAME, datatype)
         {
-            GeneratorParameters.Add(new GeneratorParameter("StartValue", 0, GeneratorParameterParser.IntegerParser));
+            GeneratorParameters.Add(new GeneratorParameter("StartValue", 1, GeneratorParameterParser.IntegerParser));
             GeneratorParameters.Add(new GeneratorParameter("Step", 1, GeneratorParameterParser.IntegerParser));
         }
 
