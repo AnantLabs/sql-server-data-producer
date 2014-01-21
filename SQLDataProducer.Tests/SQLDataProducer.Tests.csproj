@@ -92,7 +92,6 @@
     <Compile Include="EntityTests\ForeignKeyEntityTests.cs" />
     <Compile Include="EntityTests\Collections\GeneratorParameterCollectionTests.cs" />
     <Compile Include="EntityTests\GeneratorParameterTests.cs" />
-    <Compile Include="EntityTests\SetCounterTests.cs" />
     <Compile Include="EntityTests\TableEntitityTests.cs" />
     <Compile Include="EntityTests\Collections\TableEntityCollectionTests.cs" />
     <Compile Include="MockDataConsumer.cs" />

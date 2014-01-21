@@ -95,7 +95,7 @@ namespace SQLDataProducer.Tests.ConsumerTests.InsertConsumer
 
                 for (int i = 0; i < 150; i++)
                 {
-                      consumer.Consume(producer.ProduceRows(new List<TableEntity> { customerTable, orderTable }, getN), valueStore);
+                      consumer.Consume(producer.ProduceRows(new List<TableEntity> { customerTable, orderTable }), valueStore);
                 }
 
                 Assert.That(rowCount, Is.EqualTo(300));

@@ -90,25 +90,18 @@ namespace SQLDataProducer.Tests
             Action nullValuesInProduceRow = new Action ( () =>
                 { 
                     DataProducer dp = new DataProducer(new ValueStore()); 
-                    dp.ProduceRow(null, 1);
+                    dp.ProduceRow(null);
                 });
 
             Action nullTablesInProduceRows = new Action ( () =>
                 { 
                     DataProducer dp = new DataProducer(new ValueStore());
-                    dp.ProduceRows(null, new Func<long>(() => { return 1; })).Count();
+                    dp.ProduceRows(null).Count();
                 });
-            Action nullGetNInProduceRows = new Action ( () =>
-                { 
-                    DataProducer dp = new DataProducer(new ValueStore()); 
-                    dp.ProduceRows(new List<TableEntity>(), null).Count();
-                });
-
+         
             Assert.That(ExpectedExceptionHappened<ArgumentNullException>(nullValuesInConstructor, "nullValuesInConstructor"));
             Assert.That(ExpectedExceptionHappened<ArgumentNullException>(nullValuesInProduceRow, "nullValuesInProduceRow"));
             Assert.That(ExpectedExceptionHappened<ArgumentNullException>(nullTablesInProduceRows, "nullTablesInProduceRows"));
-            Assert.That(ExpectedExceptionHappened<ArgumentNullException>(nullGetNInProduceRows, "nullGetNInProduceRows"));
-           
         }
 
         private bool ExpectedExceptionHappened<T>(Action testInAction, string testName) where T : Exception
@@ -134,10 +127,10 @@ namespace SQLDataProducer.Tests
         {
             ValueStore valuestore = new ValueStore();
             var dp = new DataProducer(valuestore);
-            dp.ProduceRow(customerTable, 1);
+            dp.ProduceRow(customerTable);
 
 
-            DataRowEntity row = dp.ProduceRow(orderTable, 1);
+            DataRowEntity row = dp.ProduceRow(orderTable);
             Assert.That(row.Fields[3].KeyValue, Is.Not.Null);
             Assert.That(valuestore.GetByKey(row.Fields[3].KeyValue), Is.Not.Null);
         }
@@ -153,7 +146,7 @@ namespace SQLDataProducer.Tests
 
             Action a = new Action(() =>
             {
-                DataRowEntity row = dp.ProduceRow(orderTable, 1);
+                DataRowEntity row = dp.ProduceRow(orderTable);
             });
             ExpectedExceptionHappened<ArgumentNullException>(a, "shouldNotBeAbleToTakeValueFromColumnThatHaveNotGeneratedAnyValueYet");
         }
@@ -188,7 +181,7 @@ namespace SQLDataProducer.Tests
             ValueStore valuestore = new ValueStore();
             var dp = new DataProducer(valuestore);
             
-            DataRowEntity row = dp.ProduceRow(customerTable, 1);
+            DataRowEntity row = dp.ProduceRow(customerTable);
             
             Assert.That(row, Is.Not.Null);
             Assert.That(row.Fields, Is.Not.Null);
@@ -251,7 +244,7 @@ namespace SQLDataProducer.Tests
 
             List<DataRowEntity> rows = new List<DataRowEntity>();
 
-            rows.AddRange( dp.ProduceRows(tables, getN));
+            rows.AddRange( dp.ProduceRows(tables));
             Assert.That(rows.Count, Is.EqualTo(2));
 
             Assert.That(rows[0].Fields.Count, Is.EqualTo(4));
@@ -277,7 +270,7 @@ namespace SQLDataProducer.Tests
             tables.Add(customerTable);
             List<DataRowEntity> rows = new List<DataRowEntity>();
 
-            rows.AddRange(dp.ProduceRows(tables, getN));
+            rows.AddRange(dp.ProduceRows(tables));
 
             var row = rows[0];
             var value = valuestore.GetByKey(row.Fields[0].KeyValue);
@@ -300,7 +293,7 @@ namespace SQLDataProducer.Tests
 
             List<DataRowEntity> rows = new List<DataRowEntity>();
 
-            rows.AddRange(dp.ProduceRows(tables, getN));
+            rows.AddRange(dp.ProduceRows(tables));
             Assert.That(rows.Count, Is.EqualTo(2));
             var customerRow = rows[0];
             var orderRow = rows[1];
@@ -331,7 +324,7 @@ namespace SQLDataProducer.Tests
 
             List<TableEntity> tables = new List<TableEntity> {table};
 
-            List<DataRowEntity> rows = new List<DataRowEntity>(new DataProducer(new ValueStore()).ProduceRows(tables, getN));
+            List<DataRowEntity> rows = new List<DataRowEntity>(new DataProducer(new ValueStore()).ProduceRows(tables));
             Assert.That(rows.Count, Is.EqualTo(1));
 
             var row = rows[0];
@@ -352,8 +345,9 @@ namespace SQLDataProducer.Tests
 
             List<DataRowEntity> rows = new List<DataRowEntity>();
 
-            rows.AddRange(dp.ProduceRows(tables, getN));
-            rows.AddRange(dp.ProduceRows(tables, getN));
+            rows.AddRange(dp.ProduceRows(tables));
+            rows.AddRange(dp.ProduceRows(tables));
+            CollectionAssert.AllItemsAreUnique(rows);
         }
     }
 }

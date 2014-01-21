@@ -92,7 +92,7 @@ namespace SQLDataProducer.Tests.ConsumerTests.InsertConsumer
             TableQueryGenerator generator = new TableQueryGenerator(customerTable);
             var valueStore = new ValueStore();
             DataProducer producer = new DataProducer(valueStore);
-            var dataRow = producer.ProduceRow(customerTable, 1);
+            var dataRow = producer.ProduceRow(customerTable);
 
             string values = generator.GenerateValuesStatement(dataRow, valueStore);
 
@@ -110,7 +110,7 @@ namespace SQLDataProducer.Tests.ConsumerTests.InsertConsumer
             var valueStore = new ValueStore();
             DataProducer producer = new DataProducer(valueStore);
 
-            IEnumerable<DataRowEntity> rows = new List<DataRowEntity> { producer.ProduceRow(customerTable, 1)};
+            IEnumerable<DataRowEntity> rows = new List<DataRowEntity> { producer.ProduceRow(customerTable)};
 
             string firstValues = generator.GenerateInsertStatement(rows.First(), valueStore);
             Assert.That(firstValues, Is.StringStarting("INSERT INTO dbo.Customer(" + generator.ColumnList + ") OUTPUT INSERTED.CustomerId")
@@ -125,7 +125,7 @@ namespace SQLDataProducer.Tests.ConsumerTests.InsertConsumer
             var valueStore = new ValueStore();
             DataProducer producer = new DataProducer(valueStore);
 
-            IEnumerable<DataRowEntity> rows = new List<DataRowEntity> { producer.ProduceRow(customerTable, 1), producer.ProduceRow(customerTable, 2) };
+            IEnumerable<DataRowEntity> rows = new List<DataRowEntity> { producer.ProduceRow(customerTable), producer.ProduceRow(customerTable) };
 
             string firstValues = TableQueryGenerator.GenerateInsertStatements(rows, valueStore).First();
             Assert.That(firstValues, Is.StringStarting("INSERT INTO dbo.Customer(CustomerType, Name, IsActive) OUTPUT INSERTED.CustomerId AS")
@@ -145,7 +145,7 @@ namespace SQLDataProducer.Tests.ConsumerTests.InsertConsumer
 
             TableQueryGenerator generator = new TableQueryGenerator(tableWithIdentity);
 
-            IEnumerable<DataRowEntity> rows = new List<DataRowEntity> { producer.ProduceRow(tableWithIdentity, 1) };
+            IEnumerable<DataRowEntity> rows = new List<DataRowEntity> { producer.ProduceRow(tableWithIdentity) };
 
 
             Assert.That(generator.ColumnList, Is.EqualTo("OrderDate"));
@@ -164,7 +164,7 @@ namespace SQLDataProducer.Tests.ConsumerTests.InsertConsumer
 
             TableQueryGenerator generator = new TableQueryGenerator(tableWithNullFields);
 
-            IEnumerable<DataRowEntity> rows = new List<DataRowEntity> { producer.ProduceRow(tableWithNullFields, 1) };
+            IEnumerable<DataRowEntity> rows = new List<DataRowEntity> { producer.ProduceRow(tableWithNullFields) };
 
             string actual = generator.GenerateValuesStatement(rows.First(), valueStore);
             Assert.That(actual, Is.EqualTo("VALUES (NULL)"));

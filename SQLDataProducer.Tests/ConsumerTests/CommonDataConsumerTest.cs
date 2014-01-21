@@ -91,7 +91,7 @@ namespace SQLDataProducer.Tests.ConsumerTests
         {
             ValueStore vs = new ValueStore();
             DataProducer producer = new DataProducer(vs);
-            DataRowEntity row = producer.ProduceRow( customerTable, 1);
+            DataRowEntity row = producer.ProduceRow( customerTable);
             
             // check that the value of the identity column have not been generated
             Assert.That(vs.GetByKey(row.Fields[0].KeyValue), Is.Null);

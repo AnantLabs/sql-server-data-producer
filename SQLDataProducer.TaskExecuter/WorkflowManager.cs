@@ -28,7 +28,7 @@ namespace SQLDataProducer.TaskExecuter
     {
 
         private NodeIterator iterator;
-        private long counter = 0;
+     //   private long counter = 0;
 
         public WorkflowManager()
         {
@@ -57,7 +57,7 @@ namespace SQLDataProducer.TaskExecuter
 
         public void RunWorkFlow(string connectionString, DataConsumerPluginWrapper consumerWrapper, ExecutionResultBuilder builder, ExecutionTaskOptions options, ExecutionNode rootNode)
         {
-            counter = 0;
+          //  counter = 0;
 
             using (var consumer = consumerWrapper.CreateInstance())
             using (iterator = new NodeIterator(rootNode))
@@ -72,13 +72,13 @@ namespace SQLDataProducer.TaskExecuter
 
                 consumer.Init(connectionString, consumerWrapper.OptionsTemplate);
 
-                consumer.Consume(producer.ProduceRows(iterator.GetTablesRecursive(), getN), valueStore);
+                consumer.Consume(producer.ProduceRows(iterator.GetTablesRecursive()), valueStore);
             }
         }
 
-        private long getN()
-        {
-            return counter++;
-        }
+        //private long getN()
+        //{
+        //    return counter++;
+        //}
     }
 }
