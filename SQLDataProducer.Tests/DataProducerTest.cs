@@ -225,12 +225,6 @@ namespace SQLDataProducer.Tests
             Assert.That(nullableFieldCounter, Is.EqualTo(nullColumns));
         }
 
-        static long i = 0;
-        Func<long> getN = new Func<long>(() =>
-        {
-            return i++;
-        });
-
         [Test]
         [MSTest.TestMethod]
         public void ShouldProduceDataForAllTables()

@@ -28,7 +28,6 @@ namespace SQLDataProducer.TaskExecuter
     {
 
         private NodeIterator iterator;
-     //   private long counter = 0;
 
         public WorkflowManager()
         {
@@ -75,10 +74,5 @@ namespace SQLDataProducer.TaskExecuter
                 consumer.Consume(producer.ProduceRows(iterator.GetTablesRecursive()), valueStore);
             }
         }
-
-        //private long getN()
-        //{
-        //    return counter++;
-        //}
     }
 }

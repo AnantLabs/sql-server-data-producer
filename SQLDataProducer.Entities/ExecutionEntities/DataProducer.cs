@@ -88,7 +88,5 @@ namespace SQLDataProducer.Entities.ExecutionEntities
                 yield return ProduceRow(table);
             }
         }
-
-        
     }
 }

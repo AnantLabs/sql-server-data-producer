@@ -59,6 +59,8 @@ namespace SQLDataProducer.Entities.ExecutionEntities
                 if (cancelationToken.IsCancellationRequested)
                     break;
 
+                node.ResetCounters();
+
                 foreach (var table in node.Tables)
                 {
                     if (cancelationToken.IsCancellationRequested)
