@@ -204,6 +204,14 @@ namespace SQLDataProducer.Entities.DatabaseEntities
                 AddColumn(column);
             }
         }
+
+        //public void ResetGeneratorCounters()
+        //{
+        //    foreach (var col in Columns)
+        //    {
+        //        col.Generator.ResetCounter();
+        //    }
+        //}
     }
 
 

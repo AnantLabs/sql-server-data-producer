@@ -215,10 +215,10 @@ namespace SQLDataProducer.Entities.DatabaseEntities
         {
             return  Generator.GenerateValue(n);
         }
-        public object GenerateValue()
-        {
-            return Generator.GenerateValue();
-        }
+        //public object GenerateValue(long n)
+        //{
+        //    return Generator.GenerateValue(n);
+        //}
 		public override string ToString()
 		{
 			return string.Format("ColumnName: {0}", ColumnName);

@@ -37,8 +37,7 @@ namespace SQLDataProducer.Tests.ConsumerTests.InsertConsumer
         public TableQueryGeneratorTest()
         {
             customerTable = new TableEntity("dbo", "Customer");
-            var customerId = DatabaseEntityFactory.CreateColumnEntity("CustomerId", new ColumnDataTypeDefinition("int", false), true, 1, false, null, null);
-            customerTable.AddColumn(customerId);
+            customerTable.AddColumn(DatabaseEntityFactory.CreateColumnEntity("CustomerId", new ColumnDataTypeDefinition("int", false), true, 1, false, null, null));
             customerTable.AddColumn(DatabaseEntityFactory.CreateColumnEntity("CustomerType", new ColumnDataTypeDefinition("int", false), false, 2, false, null, null));
             customerTable.AddColumn(DatabaseEntityFactory.CreateColumnEntity("Name", new ColumnDataTypeDefinition("varchar", false), false, 3, false, null, null));
             customerTable.AddColumn(DatabaseEntityFactory.CreateColumnEntity("IsActive", new ColumnDataTypeDefinition("bit", false), false, 4, false, null, null));
@@ -92,7 +91,7 @@ namespace SQLDataProducer.Tests.ConsumerTests.InsertConsumer
             TableQueryGenerator generator = new TableQueryGenerator(customerTable);
             var valueStore = new ValueStore();
             DataProducer producer = new DataProducer(valueStore);
-            var dataRow = producer.ProduceRow(customerTable);
+            var dataRow = producer.ProduceRow(customerTable, 1);
 
             string values = generator.GenerateValuesStatement(dataRow, valueStore);
 
@@ -110,12 +109,11 @@ namespace SQLDataProducer.Tests.ConsumerTests.InsertConsumer
             var valueStore = new ValueStore();
             DataProducer producer = new DataProducer(valueStore);
 
-            IEnumerable<DataRowEntity> rows = new List<DataRowEntity> { producer.ProduceRow(customerTable)};
-
+            IEnumerable<DataRowEntity> rows = new List<DataRowEntity> { producer.ProduceRow(customerTable, 1)};
+           
             string firstValues = generator.GenerateInsertStatement(rows.First(), valueStore);
             Assert.That(firstValues, Is.StringStarting("INSERT INTO dbo.Customer(" + generator.ColumnList + ") OUTPUT INSERTED.CustomerId")
                                     .And.StringEnding(" VALUES (1, 'Arboga', 1)"));
-
         }
 
         [Test]
@@ -125,7 +123,7 @@ namespace SQLDataProducer.Tests.ConsumerTests.InsertConsumer
             var valueStore = new ValueStore();
             DataProducer producer = new DataProducer(valueStore);
 
-            IEnumerable<DataRowEntity> rows = new List<DataRowEntity> { producer.ProduceRow(customerTable), producer.ProduceRow(customerTable) };
+            IEnumerable<DataRowEntity> rows = new List<DataRowEntity> { producer.ProduceRow(customerTable, 1), producer.ProduceRow(customerTable, 2) };
 
             string firstValues = TableQueryGenerator.GenerateInsertStatements(rows, valueStore).First();
             Assert.That(firstValues, Is.StringStarting("INSERT INTO dbo.Customer(CustomerType, Name, IsActive) OUTPUT INSERTED.CustomerId AS")
@@ -145,7 +143,7 @@ namespace SQLDataProducer.Tests.ConsumerTests.InsertConsumer
 
             TableQueryGenerator generator = new TableQueryGenerator(tableWithIdentity);
 
-            IEnumerable<DataRowEntity> rows = new List<DataRowEntity> { producer.ProduceRow(tableWithIdentity) };
+            IEnumerable<DataRowEntity> rows = new List<DataRowEntity> { producer.ProduceRow(tableWithIdentity, 1) };
 
 
             Assert.That(generator.ColumnList, Is.EqualTo("OrderDate"));
@@ -164,7 +162,7 @@ namespace SQLDataProducer.Tests.ConsumerTests.InsertConsumer
 
             TableQueryGenerator generator = new TableQueryGenerator(tableWithNullFields);
 
-            IEnumerable<DataRowEntity> rows = new List<DataRowEntity> { producer.ProduceRow(tableWithNullFields) };
+            IEnumerable<DataRowEntity> rows = new List<DataRowEntity> { producer.ProduceRow(tableWithNullFields, 1) };
 
             string actual = generator.GenerateValuesStatement(rows.First(), valueStore);
             Assert.That(actual, Is.EqualTo("VALUES (NULL)"));

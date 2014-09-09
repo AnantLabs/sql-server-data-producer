@@ -86,12 +86,12 @@ namespace SQLDataProducer.Tests.ConsumerTests
                 Assert.That(rowCount, Is.EqualTo(10), "Total rows does not match produced rows");
             }
         }
-
+        
         public void ShouldProduceValuesForIdentityColumns()
         {
             ValueStore vs = new ValueStore();
             DataProducer producer = new DataProducer(vs);
-            DataRowEntity row = producer.ProduceRow( customerTable);
+            DataRowEntity row = producer.ProduceRow( customerTable, 1);
             
             // check that the value of the identity column have not been generated
             Assert.That(vs.GetByKey(row.Fields[0].KeyValue), Is.Null);

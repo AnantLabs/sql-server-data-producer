@@ -104,25 +104,25 @@ namespace SQLDataProducer.Tests.ValueGenerators
         {
             foreach (var generator in PossibleGenerators)
             {
-                Assert.That(generator.GenerateValue(), Is.EqualTo(1));
+                Assert.That(generator.GenerateValue(1), Is.EqualTo(1));
             }
         }
 
-        [Test]
-        [MSTest.TestMethod]
-        public void ShouldIncrementCounterWhenNoNValueIsSupplied()
-        {
-            foreach (var generator in PossibleGenerators)
-            {
-                Assert.That(generator.GenerateValue(), Is.EqualTo(1));
-                long maxValue = generator.GeneratorParameters.GetValueOf<long>("MaxValue");
-                if (maxValue != 1)
-                {
-                    Assert.That(generator.GenerateValue(), Is.EqualTo(2));
-                }
-                Assert.That(generator.GenerateValue(1), Is.EqualTo(1), "Should use the supplied for generation");
-            }
-        }
+        //[Test]
+        //[MSTest.TestMethod]
+        //public void ShouldIncrementCounterWhenNoNValueIsSupplied()
+        //{
+        //    foreach (var generator in PossibleGenerators)
+        //    {
+        //        Assert.That(generator.GenerateValue(), Is.EqualTo(1));
+        //        long maxValue = generator.GeneratorParameters.GetValueOf<long>("MaxValue");
+        //        if (maxValue != 1)
+        //        {
+        //            Assert.That(generator.GenerateValue(), Is.EqualTo(2));
+        //        }
+        //        Assert.That(generator.GenerateValue(1), Is.EqualTo(1), "Should use the supplied for generation");
+        //    }
+        //}
 
 
         [Test]
@@ -207,10 +207,11 @@ namespace SQLDataProducer.Tests.ValueGenerators
 
 
         [MSTest.TestMethod]
+        [Test]
         public void ShouldTestBit()
         {
             CountingUpIntGenerator generator = new CountingUpIntGenerator(new ColumnDataTypeDefinition("bit", false));
-            generator.GenerateValue();
+            generator.GenerateValue(1);
         }
     }
 }

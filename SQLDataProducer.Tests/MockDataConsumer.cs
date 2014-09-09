@@ -61,7 +61,7 @@ namespace SQLDataProducer.Tests
                     }
                     var value = valueStore.GetByKey(field.KeyValue);
                     ValueValidator(value);
-                    Console.WriteLine(value);
+                //    Console.WriteLine(value);
                 }
             }
 

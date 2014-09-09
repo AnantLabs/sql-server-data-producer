@@ -34,16 +34,19 @@ namespace SQLDataProducer.Entities.Generators
             _isTakingValueFromOtherColumn = isTakingValueFromOtherColumn;
         }
 
-        ThreadLocal<SetCounter> setCounter = new ThreadLocal<SetCounter>(() =>
-        {
-            return new SetCounter();
-        });
+        //ThreadLocal<SetCounter> _setCounterThreadWrapper = new ThreadLocal<SetCounter>(() =>
+        //{
+        //    return new SetCounter();
+        //});
 
-        public SetCounter Counter
-        {
-            get { return setCounter.Value; }
-
-        }
+        //public SetCounter Counter
+        //{
+        //    // Det verkar som att eftersom den är thread local så delar varje thread på samma SetCounter trots att det är en instansvariabel?
+        //    // Fyra columner = increment * 4
+        //    get { 
+        //        return _setCounterThreadWrapper.Value; 
+        //    }
+        //}
 
         GeneratorParameterCollection _genParameters;
         /// <summary>
@@ -120,19 +123,20 @@ namespace SQLDataProducer.Entities.Generators
         {
             return ApplyGeneratorTypeSpecificLimits(InternalGenerateValue(n, GeneratorParameters));
         }
-        /// <summary>
-        /// Will use internal counter to generate value
-        /// </summary>
-        /// <returns></returns>
-        public object GenerateValue()
-        {
-            return GenerateValue(Counter.GetNext());
-        }
+        ///// <summary>
+        ///// Will use internal counter to generate value
+        ///// </summary>
+        ///// <returns></returns>
+        //public object GenerateValue(long n)
+        //{
+        //    //return GenerateValue(Counter.GetNext());
+        //    return GenerateValueInternal(n);
+        //}
 
-        public void ResetCounter()
-        {
-            Counter.Reset();
-        }
+        //public void ResetCounter()
+        //{
+        //    Counter.Reset();
+        //}
 
         protected void OnPropertyChanged(string propertyName)
         {
@@ -143,7 +147,7 @@ namespace SQLDataProducer.Entities.Generators
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
+        
         public override bool Equals(System.Object obj)
         {
             AbstractValueGenerator p = obj as AbstractValueGenerator;

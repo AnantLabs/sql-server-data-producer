@@ -59,7 +59,8 @@ namespace SQLDataProducer.Entities.ExecutionEntities
                 if (cancelationToken.IsCancellationRequested)
                     break;
 
-                node.ResetCounters();
+                // Todo: implement resetting
+               // node.ResetCounters();
 
                 foreach (var table in node.Tables)
                 {
@@ -86,9 +87,9 @@ namespace SQLDataProducer.Entities.ExecutionEntities
         /// get the total expected insert count, in order to predict progress
         /// </summary>
         /// <returns>the number of expected inserts</returns>
-        public int GetExpectedInsertCount()
+        public long GetExpectedInsertCount()
         {
-            return GetTablesRecursive().Count();
+            return GetTablesRecursive().LongCount();
         }
 
         public void Dispose()
@@ -97,11 +98,25 @@ namespace SQLDataProducer.Entities.ExecutionEntities
             {
                 cancelationToken.Dispose();
             }
+            // TODO: Release all the Threadlocal stuff from generators
         }
 
         public void Cancel()
         {
             cancelationToken.Cancel();
+        }
+
+
+        IEnumerable<long> numbers;
+        public IEnumerable<long> Numbers
+        {
+            get
+            {
+                if (null == numbers)
+                    numbers = LongEnumerable.Range(1, GetExpectedInsertCount());    
+                
+                return numbers;
+            }
         }
     }
    

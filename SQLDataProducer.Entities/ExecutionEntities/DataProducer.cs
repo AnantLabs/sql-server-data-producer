@@ -35,14 +35,14 @@ namespace SQLDataProducer.Entities.ExecutionEntities
             columnLastKeyMap = new Dictionary<Guid,Guid>();
         }
 
-        public DataRowEntity ProduceRow(TableEntity table)
+        public DataRowEntity ProduceRow(TableEntity table, long n)
         {
             ValidateUtil.ValidateNotNull(table, "table");
             var row = new DataRowEntity(table);
 
             foreach (var col in table.Columns)
             {
-                var value = col.GenerateValue();
+                var value = col.GenerateValue(n);
                 Guid key;
 
                 if (col.Generator.IsTakingValueFromOtherColumn)
@@ -79,13 +79,13 @@ namespace SQLDataProducer.Entities.ExecutionEntities
             return row;
         }
       
-        public IEnumerable<DataRowEntity> ProduceRows(IEnumerable<TableEntity> tables)
+        public IEnumerable<DataRowEntity> ProduceRows(IEnumerable<TableEntity> tables, IEnumerable<long> numbers)
         {
             ValidateUtil.ValidateNotNull(tables, "tables");
-
-            foreach (var table in tables)
+            
+            foreach (var zip in tables.Zip(numbers, (t, n) => new { Table = t, N = n }))
             {
-                yield return ProduceRow(table);
+                yield return ProduceRow(zip.Table, zip.N);
             }
         }
     }

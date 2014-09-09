@@ -130,6 +130,7 @@
     <Compile Include="Generators\RandomSupplier.cs" />
     <Compile Include="Generators\XMLGenerators\XMLGenerator.cs" />
     <Compile Include="ExecutionEntities\NodeIterator.cs" />
+    <Compile Include="LongEnumerable.cs" />
     <Compile Include="OptionEntities\ExecutionTaskOptions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DatabaseEntities\TableEntity.cs" />

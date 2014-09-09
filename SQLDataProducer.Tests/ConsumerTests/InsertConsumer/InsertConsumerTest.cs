@@ -21,7 +21,7 @@ using SQLDataProducer.Entities.ExecutionEntities;
 using System.Collections.Generic;
 using SQLDataProducer.Entities.DataEntities;
 using SQLDataProducer.DataConsumers.DataToMSSSQLInsertionConsumer.DataAccess;
-using System.Data.SqlServerCe;
+//using System.Data.SqlServerCe;
 using System.IO;
 using System;
 using System.Data;
@@ -95,7 +95,7 @@ namespace SQLDataProducer.Tests.ConsumerTests.InsertConsumer
 
                 for (int i = 0; i < 150; i++)
                 {
-                      consumer.Consume(producer.ProduceRows(new List<TableEntity> { customerTable, orderTable }), valueStore);
+                      consumer.Consume(producer.ProduceRows(new List<TableEntity> { customerTable, orderTable }, new List<long> {1, 300}), valueStore);
                 }
 
                 Assert.That(rowCount, Is.EqualTo(300));

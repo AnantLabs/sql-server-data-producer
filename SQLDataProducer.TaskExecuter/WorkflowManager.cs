@@ -56,8 +56,6 @@ namespace SQLDataProducer.TaskExecuter
 
         public void RunWorkFlow(string connectionString, DataConsumerPluginWrapper consumerWrapper, ExecutionResultBuilder builder, ExecutionTaskOptions options, ExecutionNode rootNode)
         {
-          //  counter = 0;
-
             using (var consumer = consumerWrapper.CreateInstance())
             using (iterator = new NodeIterator(rootNode))
             {
@@ -70,8 +68,9 @@ namespace SQLDataProducer.TaskExecuter
                 builder.Begin();
 
                 consumer.Init(connectionString, consumerWrapper.OptionsTemplate);
+                // hmm: Iterator should hold the Ienumerable and reset it when ever it starts over on a node?
 
-                consumer.Consume(producer.ProduceRows(iterator.GetTablesRecursive()), valueStore);
+                consumer.Consume(producer.ProduceRows(iterator.GetTablesRecursive(), iterator.Numbers), valueStore);
             }
         }
     }

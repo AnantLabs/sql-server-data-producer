@@ -104,7 +104,7 @@ create table Person.AnotherTable(
         }
         public static string Connection()
         {
-            return "Data Source=localhost;Initial Catalog=AdventureWorks;Integrated Security=True";
+            return "Data Source=localhost;Initial Catalog=CustomerDB;Integrated Security=True";
         }
 
 

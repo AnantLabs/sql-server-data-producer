@@ -193,7 +193,7 @@ namespace SQLDataProducer.Tests
 
 
             NodeIterator it = new NodeIterator(customer);
-            int actualExpectedCount = it.GetExpectedInsertCount();
+            long actualExpectedCount = it.GetExpectedInsertCount();
             Assert.That(actualExpectedCount, Is.EqualTo(14));
         }
 
@@ -203,7 +203,7 @@ namespace SQLDataProducer.Tests
         {
             ExecutionNode customer = ExecutionNode.CreateLevelOneNode(2, "No tables");
             NodeIterator it = new NodeIterator(customer);
-            int actualExpectedCount = it.GetExpectedInsertCount();
+            long actualExpectedCount = it.GetExpectedInsertCount();
             Assert.That(actualExpectedCount, Is.EqualTo(0));
 
         }

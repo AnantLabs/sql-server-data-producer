@@ -35,7 +35,6 @@ namespace SQLDataProducer.Tests
 
         ExecutionResultBuilder builder = new ExecutionResultBuilder();
         ExecutionTaskOptions options = new ExecutionTaskOptions();
-        ExecutionNode rootNode = ExecutionNode.CreateLevelOneNode(1, "Root");
         DataConsumerPluginWrapper wrapper;
 
         WorkflowManager manager = new WorkflowManager();
@@ -46,18 +45,7 @@ namespace SQLDataProducer.Tests
             wrapper = new DataConsumerPluginWrapper(consumerMeta.ConsumerName, typeof(MockDataConsumer), consumerMeta.OptionsTemplate);
         }
 
-        [Test]
-        [MSTest.TestMethod]
-        public void ShouldInstantiateWorkflowManager()
-        {
-            builder = new ExecutionResultBuilder().Begin();
-            
-            manager.RunWorkFlow(connectionString, wrapper, builder, options, rootNode);
-            
-            var result = builder.Build();
-            Assert.That(result.Errors.Count, Is.EqualTo(0));
-            Assert.That(result.InsertCount, Is.EqualTo(0));
-        }
+      
 
         [Test]
         [MSTest.TestMethod]
@@ -65,7 +53,7 @@ namespace SQLDataProducer.Tests
         {
             builder = new ExecutionResultBuilder();
             builder.Begin();
-            rootNode = ExecutionNode.CreateLevelOneNode(1, "Root");
+            ExecutionNode rootNode = ExecutionNode.CreateLevelOneNode(1, "Root");
             rootNode.AddTable(new TableEntity("dbo", "Customer"));
             
             manager.RunWorkFlow(connectionString, wrapper, builder, options, rootNode);
@@ -80,7 +68,7 @@ namespace SQLDataProducer.Tests
         public void ShouldRunWorkflowAsync()
         {
             builder = new ExecutionResultBuilder().Begin();
-            rootNode = ExecutionNode.CreateLevelOneNode(1, "Root");
+            ExecutionNode rootNode = ExecutionNode.CreateLevelOneNode(1, "Root");
             rootNode.AddTable(new TableEntity("dbo", "Customer"));
 
             manager.RunWorkFlowAsync(connectionString, wrapper, builder, options, rootNode);
@@ -90,10 +78,25 @@ namespace SQLDataProducer.Tests
             Assert.That(result.InsertCount, Is.EqualTo(1));
         }
 
+        [Test]
         [MSTest.TestMethod]
+        public void ShouldInstantiateWorkflowManager()
+        {
+            builder = new ExecutionResultBuilder().Begin();
+            ExecutionNode rootNode = ExecutionNode.CreateLevelOneNode(1, "Root");
+            manager.RunWorkFlow(connectionString, wrapper, builder, options, rootNode);
+
+            var result = builder.Build();
+            Assert.That(result.Errors.Count, Is.EqualTo(0), "error count");
+            Assert.That(result.InsertCount, Is.EqualTo(0), "insert count");
+        }
+
+        [MSTest.TestMethod]
+        [Test]
         public void ShouldResetAllTheGeneratorsBeforeStarting()
         {
-            Assert.Fail("Implement recursive call on each child when ever a node starts his execution");
+            Assert.Fail("Implement recursive call on each child when ever a node starts his execution (again)");
+            // Recursive? Borde räcka med att den nollställer varje nod vid nystart, de andra noderna kommer nollställas i egen takt
         }
     }
 }
