@@ -90,13 +90,5 @@ namespace SQLDataProducer.Tests
             Assert.That(result.Errors.Count, Is.EqualTo(0), "error count");
             Assert.That(result.InsertCount, Is.EqualTo(0), "insert count");
         }
-
-        [MSTest.TestMethod]
-        [Test]
-        public void ShouldResetAllTheGeneratorsBeforeStarting()
-        {
-            Assert.Fail("Implement recursive call on each child when ever a node starts his execution (again)");
-            // Recursive? Borde räcka med att den nollställer varje nod vid nystart, de andra noderna kommer nollställas i egen takt
-        }
     }
 }

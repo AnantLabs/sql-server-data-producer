@@ -39,7 +39,7 @@ namespace SQLDataProducer.Tests
             ExecutionNode node = ExecutionNode.CreateLevelOneNode(1000000);
             node.AddTable(new TableEntity("", ""));
 
-            List<TableEntity> tables = new List<TableEntity>();
+            var tables = new List<ExecutionTable>();
 
             NodeIterator iterator = new NodeIterator(node);
             Action a = new Action(() =>
@@ -70,7 +70,7 @@ namespace SQLDataProducer.Tests
 
             foreach (var item in it.GetTablesRecursive())
             {
-                nodes.Add(item);
+                nodes.Add(item.Table);
                 counter++;
             }
 
@@ -145,8 +145,8 @@ namespace SQLDataProducer.Tests
 
             NodeIterator it = new NodeIterator(customer);
 
-            List<TableEntity> actual =
-                new List<TableEntity>(it.GetTablesRecursive());
+            var actual =
+                new List<TableEntity>(it.GetTablesRecursive().Select( x => x.Table));
 
             for (int i = 0; i < requestedOrder.Length; i++)
             {

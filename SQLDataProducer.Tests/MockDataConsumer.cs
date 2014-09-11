@@ -92,12 +92,12 @@ namespace SQLDataProducer.Tests
 
 
 
-        public Action ReportInsertion
+        public Action ReportInsertionCallback
         {
             set { _reportInsertion = value; }
         }
 
-        public Action<Exception, DataRowEntity> ReportError
+        public Action<Exception, DataRowEntity> ReportErrorCallback
         {
             set { _reportError = value; }
         }

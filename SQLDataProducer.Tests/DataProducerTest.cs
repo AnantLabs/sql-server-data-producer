@@ -96,7 +96,7 @@ namespace SQLDataProducer.Tests
             Action nullTablesInProduceRows = new Action ( () =>
                 { 
                     DataProducer dp = new DataProducer(new ValueStore());
-                    dp.ProduceRows(null, new List<long> { 1, 2 }).Count();
+                    dp.ProduceRows(null).Count();
                 });
          
             Assert.That(ExpectedExceptionHappened<ArgumentNullException>(nullValuesInConstructor, "nullValuesInConstructor"));
@@ -232,13 +232,13 @@ namespace SQLDataProducer.Tests
             ValueStore valuestore = new ValueStore();
             var dp = new DataProducer(valuestore);
 
-            List<TableEntity> tables = new List<TableEntity>();
-            tables.Add(customerTable);
-            tables.Add(orderTable);
+            var tables = new List<ExecutionTable>();
+            tables.Add(new ExecutionTable(customerTable, 1));
+            tables.Add(new ExecutionTable(orderTable, 2));
 
             List<DataRowEntity> rows = new List<DataRowEntity>();
 
-            rows.AddRange( dp.ProduceRows(tables, new List<long> {1, 2}));
+            rows.AddRange( dp.ProduceRows(tables));
             Assert.That(rows.Count, Is.EqualTo(2));
 
             Assert.That(rows[0].Fields.Count, Is.EqualTo(4));
@@ -260,11 +260,11 @@ namespace SQLDataProducer.Tests
             ValueStore valuestore = new ValueStore();
             var dp = new DataProducer(valuestore);
 
-            List<TableEntity> tables = new List<TableEntity>();
-            tables.Add(customerTable);
+            var tables = new List<ExecutionTable>();
+            tables.Add(new ExecutionTable(customerTable, 1));
             List<DataRowEntity> rows = new List<DataRowEntity>();
 
-            rows.AddRange(dp.ProduceRows(tables, new List<long> { 1 }));
+            rows.AddRange(dp.ProduceRows(tables));
 
             var row = rows[0];
             var value = valuestore.GetByKey(row.Fields[0].KeyValue);
@@ -281,14 +281,14 @@ namespace SQLDataProducer.Tests
             ValueStore valuestore = new ValueStore();
             var dp = new DataProducer(valuestore);
 
-            List<TableEntity> tables = new List<TableEntity>();
-            tables.Add(customerTable);
-            tables.Add(orderTable);
+            var tables = new List<ExecutionTable>();
+            tables.Add(new ExecutionTable(customerTable, 1));
+            tables.Add(new ExecutionTable(orderTable, 2));
 
             List<DataRowEntity> rows = new List<DataRowEntity>();
             long n = 1L;
 
-            rows.AddRange(dp.ProduceRows(tables, new List<long> {1, 2}));
+            rows.AddRange(dp.ProduceRows(tables));
             Assert.That(rows.Count, Is.EqualTo(2));
             var customerRow = rows[0];
             var orderRow = rows[1];
@@ -317,9 +317,10 @@ namespace SQLDataProducer.Tests
             table.AddColumn(startDate);
             table.AddColumn(endDate);
 
-            List<TableEntity> tables = new List<TableEntity> {table};
+            var tables = new List<ExecutionTable>();
+            tables.Add(new ExecutionTable(table, 1));
 
-            List<DataRowEntity> rows = new List<DataRowEntity>(new DataProducer(new ValueStore()).ProduceRows(tables, new List<long> {1}));
+            List<DataRowEntity> rows = new List<DataRowEntity>(new DataProducer(new ValueStore()).ProduceRows(tables));
             Assert.That(rows.Count, Is.EqualTo(1));
 
             var row = rows[0];
@@ -328,6 +329,8 @@ namespace SQLDataProducer.Tests
             Assert.That(row.Fields[1].KeyValue, Is.EqualTo(row.Fields[0].KeyValue));
         }
 
+     
+
         [Test]
         [MSTest.TestMethod]
         public void ShouldGenerateUniqueValuesForTwoRowsOfSameTable()
@@ -335,14 +338,39 @@ namespace SQLDataProducer.Tests
             ValueStore valuestore = new ValueStore();
             var dp = new DataProducer(valuestore);
 
-            List<TableEntity> tables = new List<TableEntity>();
-            tables.Add(customerTable);
+            var tables = new List<ExecutionTable>();
+            tables.Add(new ExecutionTable(customerTable, 1));
+            tables.Add(new ExecutionTable(customerTable, 2));
 
             List<DataRowEntity> rows = new List<DataRowEntity>();
 
-            rows.AddRange(dp.ProduceRows(tables, new List<long> { 1 }));
-            rows.AddRange(dp.ProduceRows(tables, new List<long> { 1 }));
-            CollectionAssert.AllItemsAreUnique(rows);
+            rows.AddRange(dp.ProduceRows(tables));
+            Assert.That(rows.Count, Is.EqualTo(2));
+           
+            // Only one not nullable column in this table... not much of a test after all this work
+            Assert.That(valuestore.GetByKey(rows[0].Fields[1].KeyValue), Is.Not.EqualTo(valuestore.GetByKey(rows[1].Fields[1].KeyValue)));
         }
+
+
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldGenerateSameValuesForTwoRowsOfSameTable()
+        {
+            ValueStore valuestore = new ValueStore();
+            var dp = new DataProducer(valuestore);
+
+            var tables = new List<ExecutionTable>();
+            tables.Add(new ExecutionTable(customerTable, 1));
+            tables.Add(new ExecutionTable(customerTable, 1));
+
+            List<DataRowEntity> rows = new List<DataRowEntity>();
+
+            rows.AddRange(dp.ProduceRows(tables));
+            Assert.That(rows.Count, Is.EqualTo(2));
+
+            // Only one not nullable column in this table... not much of a test after all this work
+            Assert.That(valuestore.GetByKey(rows[0].Fields[1].KeyValue), Is.EqualTo(valuestore.GetByKey(rows[1].Fields[1].KeyValue)));
+        }
+    
     }
 }

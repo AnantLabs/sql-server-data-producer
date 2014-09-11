@@ -72,7 +72,7 @@ namespace SQLDataProducer.Tests.ConsumerTests
 
             consumer.Init("", null);
             int rowCount = 0;
-            consumer.ReportInsertion = new Action(() =>
+            consumer.ReportInsertionCallback = new Action(() =>
             {
                 rowCount++;
             });
@@ -144,7 +144,7 @@ namespace SQLDataProducer.Tests.ConsumerTests
             IDataConsumer consumer = GetImplementedType();
             consumer.Init("", null);
             int rowCount = 0;
-            consumer.ReportInsertion = new Action(() =>
+            consumer.ReportInsertionCallback = new Action(() =>
             {
                 rowCount++;
             });

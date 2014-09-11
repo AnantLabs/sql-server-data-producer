@@ -41,12 +41,12 @@ namespace SQLDataProducer.Entities.DataConsumers
         /// To be called when an consumation is made in order to follow
         /// progress outside the consumer
         /// </summary>
-        Action ReportInsertion { set; }
+        Action ReportInsertionCallback { set; }
 
         /// <summary>
         /// To be called when some error occur during consumation.
         /// </summary>
-        Action<Exception, DataRowEntity> ReportError { set; }
+        Action<Exception, DataRowEntity> ReportErrorCallback { set; }
 
         /// <summary>
         /// Consume the data feed

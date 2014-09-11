@@ -133,8 +133,8 @@ namespace SQLDataProducer.Entities.ExecutionEntities
             return node;
         }
 
-        private int _repeatCount  = 1;
-        public int RepeatCount
+        private long _repeatCount  = 1;
+        public long RepeatCount
         {
             get
             {

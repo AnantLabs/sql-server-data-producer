@@ -41,7 +41,7 @@ namespace SQLDataProducer.Entities.ExecutionEntities
         /// Gets all tables recursively, in the order of the nodes, repeated according to the node settings
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<TableEntity> GetTablesRecursive()
+        public IEnumerable<ExecutionTable> GetTablesRecursive()
         {
             return GetOrderedTables(executionNode);
         }
@@ -51,23 +51,20 @@ namespace SQLDataProducer.Entities.ExecutionEntities
         ///     in this node, repeat X times: Return my tables then return the tables of my children
         /// </summary>
         /// <param name="node"></param>
-        /// <returns></returns>
-        private IEnumerable<TableEntity> GetOrderedTables(ExecutionNode node)
+        /// <returns>Stream of tables to be consumed</returns>
+        private IEnumerable<ExecutionTable> GetOrderedTables(ExecutionNode node)
         {
-            for (int i = 0; i < node.RepeatCount; i++)
+            for (long i = 0; i < node.RepeatCount; i++)
             {
                 if (cancelationToken.IsCancellationRequested)
                     break;
-
-                // Todo: implement resetting
-               // node.ResetCounters();
 
                 foreach (var table in node.Tables)
                 {
                     if (cancelationToken.IsCancellationRequested)
                         break;
                     
-                    yield return table;
+                    yield return new ExecutionTable(table, i);
                 }
 
                 if (node.Children.Any( x => true))
@@ -98,25 +95,11 @@ namespace SQLDataProducer.Entities.ExecutionEntities
             {
                 cancelationToken.Dispose();
             }
-            // TODO: Release all the Threadlocal stuff from generators
         }
 
         public void Cancel()
         {
             cancelationToken.Cancel();
-        }
-
-
-        IEnumerable<long> numbers;
-        public IEnumerable<long> Numbers
-        {
-            get
-            {
-                if (null == numbers)
-                    numbers = LongEnumerable.Range(1, GetExpectedInsertCount());    
-                
-                return numbers;
-            }
         }
     }
    

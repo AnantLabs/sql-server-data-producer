@@ -70,12 +70,12 @@ namespace SQLDataProducer.Tests.EntitiesTests
 
             NodeIterator it = new NodeIterator(customer);
             Assert.That(it.GetExpectedInsertCount(), Is.EqualTo(6));
-            AssertOrder(it.GetTablesRecursive(), "Customer", "Accounts", "Accounts", "Customer", "Accounts", "Accounts");
+            AssertOrder(it.GetTablesRecursive().Select( x => x.Table), "Customer", "Accounts", "Accounts", "Customer", "Accounts", "Accounts");
 
             accounts.RemoveTable(_AccountTable);
 
             Assert.That(it.GetExpectedInsertCount(), Is.EqualTo(2));
-            AssertOrder(it.GetTablesRecursive(), "Customer", "Customer");
+            AssertOrder(it.GetTablesRecursive().Select(x => x.Table), "Customer", "Customer");
         }
 
         [Test]
@@ -89,7 +89,7 @@ namespace SQLDataProducer.Tests.EntitiesTests
 
             NodeIterator it = new NodeIterator(customer);
             Assert.That(it.GetExpectedInsertCount(), Is.EqualTo(4));
-            AssertOrder(it.GetTablesRecursive(), "Customer", "Accounts", "Customer", "Accounts");
+            AssertOrder(it.GetTablesRecursive().Select(x => x.Table), "Customer", "Accounts", "Customer", "Accounts");
 
             customer.RemoveTables(_AccountTable, _CustomerTable);
 
@@ -111,12 +111,12 @@ namespace SQLDataProducer.Tests.EntitiesTests
 
             NodeIterator it = new NodeIterator(customer);
             Assert.That(it.GetExpectedInsertCount(), Is.EqualTo(6));
-            AssertOrder(it.GetTablesRecursive(), "Customer", "Accounts", "Accounts", "Customer", "Accounts", "Accounts");
+            AssertOrder(it.GetTablesRecursive().Select(x => x.Table), "Customer", "Accounts", "Accounts", "Customer", "Accounts", "Accounts");
 
             accounts.MoveTableToParentNode(_AccountTable);
 
             Assert.That(it.GetExpectedInsertCount(), Is.EqualTo(4));
-            AssertOrder(it.GetTablesRecursive(), "Customer", "Accounts", "Customer", "Accounts");
+            AssertOrder(it.GetTablesRecursive().Select(x => x.Table), "Customer", "Accounts", "Customer", "Accounts");
         }
 
         [Test]
@@ -133,12 +133,12 @@ namespace SQLDataProducer.Tests.EntitiesTests
 
             NodeIterator it = new NodeIterator(customer);
             Assert.That(it.GetExpectedInsertCount(), Is.EqualTo(6));
-            AssertOrder(it.GetTablesRecursive(), "Customer", "Accounts", "Accounts", "Customer", "Accounts", "Accounts");
+            AssertOrder(it.GetTablesRecursive().Select(x => x.Table), "Customer", "Accounts", "Accounts", "Customer", "Accounts", "Accounts");
 
             accounts.MoveTableToParentNode(_AccountTable);
 
             Assert.That(it.GetExpectedInsertCount(), Is.EqualTo(4));
-            AssertOrder(it.GetTablesRecursive(), "Customer", "Accounts", "Customer", "Accounts");
+            AssertOrder(it.GetTablesRecursive().Select(x => x.Table), "Customer", "Accounts", "Customer", "Accounts");
         }
 
         [Test]
@@ -155,12 +155,12 @@ namespace SQLDataProducer.Tests.EntitiesTests
 
             NodeIterator it = new NodeIterator(customer);
             Assert.That(it.GetExpectedInsertCount(), Is.EqualTo(6));
-            AssertOrder(it.GetTablesRecursive(), "Customer", "Accounts", "Accounts", "Customer", "Accounts", "Accounts");
+            AssertOrder(it.GetTablesRecursive().Select(x => x.Table), "Customer", "Accounts", "Accounts", "Customer", "Accounts", "Accounts");
 
             accounts.MoveTableToNode(_AccountTable, customer);
 
             Assert.That(it.GetExpectedInsertCount(), Is.EqualTo(4));
-            AssertOrder(it.GetTablesRecursive(), "Customer", "Accounts", "Customer", "Accounts");
+            AssertOrder(it.GetTablesRecursive().Select(x => x.Table), "Customer", "Accounts", "Customer", "Accounts");
         }
 
         [Test]
@@ -177,12 +177,12 @@ namespace SQLDataProducer.Tests.EntitiesTests
 
             NodeIterator it = new NodeIterator(customer);
             Assert.That(it.GetExpectedInsertCount(), Is.EqualTo(6));
-            AssertOrder(it.GetTablesRecursive(), "Customer", "Accounts", "Accounts", "Customer", "Accounts", "Accounts");
+            AssertOrder(it.GetTablesRecursive().Select(x => x.Table), "Customer", "Accounts", "Accounts", "Customer", "Accounts", "Accounts");
 
             accounts.MoveTableToNewChildNode(_AccountTable, 3 ,"AccountChildNode");
             // total 6 accounts per customer, 2 customers 12 + 2
             Assert.That(it.GetExpectedInsertCount(), Is.EqualTo(14));
-            AssertOrder(it.GetTablesRecursive(), "Customer", "Accounts", "Accounts", "Accounts", "Accounts", "Accounts", "Accounts", "Customer", "Accounts", "Accounts", "Accounts", "Accounts", "Accounts", "Accounts");
+            AssertOrder(it.GetTablesRecursive().Select(x => x.Table), "Customer", "Accounts", "Accounts", "Accounts", "Accounts", "Accounts", "Accounts", "Customer", "Accounts", "Accounts", "Accounts", "Accounts", "Accounts", "Accounts");
         }
 
         private void AssertOrder(IEnumerable<TableEntity> actualOrder, params string[] expectedOrder)

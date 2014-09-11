@@ -59,8 +59,8 @@ namespace SQLDataProducer.TaskExecuter
             using (var consumer = consumerWrapper.CreateInstance())
             using (iterator = new NodeIterator(rootNode))
             {
-                consumer.ReportInsertion = builder.Increment;
-                consumer.ReportError = builder.AddError;
+                consumer.ReportInsertionCallback = builder.Increment;
+                consumer.ReportErrorCallback = builder.AddError;
 
                 ValueStore valueStore = new ValueStore();
                 DataProducer producer = new DataProducer(valueStore);
@@ -70,7 +70,7 @@ namespace SQLDataProducer.TaskExecuter
                 consumer.Init(connectionString, consumerWrapper.OptionsTemplate);
                 // hmm: Iterator should hold the Ienumerable and reset it when ever it starts over on a node?
 
-                consumer.Consume(producer.ProduceRows(iterator.GetTablesRecursive(), iterator.Numbers), valueStore);
+                consumer.Consume(producer.ProduceRows(iterator.GetTablesRecursive()), valueStore);
             }
         }
     }

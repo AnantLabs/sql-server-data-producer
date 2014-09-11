@@ -78,7 +78,7 @@ namespace SQLDataProducer.Tests.ConsumerTests
             if (consumer.Init("", options))
             {
                 int rowCount = 0;
-                consumer.ReportInsertion = new Action(() =>
+                consumer.ReportInsertionCallback = new Action(() =>
                 {
                     rowCount++;
                 });
@@ -100,7 +100,7 @@ namespace SQLDataProducer.Tests.ConsumerTests
             if (consumer.Init("", options))
             {
                 int counter = 0;
-                consumer.ReportInsertion = new Action(() =>
+                consumer.ReportInsertionCallback = new Action(() =>
                 {
                     counter++;
                 });
@@ -122,7 +122,7 @@ namespace SQLDataProducer.Tests.ConsumerTests
              if (consumer.Init("", options))
              {
                  int rowCount = 0;
-                 consumer.ReportInsertion = new Action(() =>
+                 consumer.ReportInsertionCallback = new Action(() =>
                  {
                      rowCount++;
                  });
@@ -170,7 +170,7 @@ namespace SQLDataProducer.Tests.ConsumerTests
             if (consumer.Init("", options))
             {
                 int rowCount = 0;
-                consumer.ReportInsertion = new Action(() =>
+                consumer.ReportInsertionCallback = new Action(() =>
                 {
                     rowCount++;
                 });

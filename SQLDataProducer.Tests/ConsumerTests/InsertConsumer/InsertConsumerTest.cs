@@ -88,14 +88,14 @@ namespace SQLDataProducer.Tests.ConsumerTests.InsertConsumer
 
                 consumer.Init(connectionString, new Dictionary<string, string>());
                 int rowCount = 0;
-                consumer.ReportInsertion = new Action(() =>
+                consumer.ReportInsertionCallback = new Action(() =>
                 {
                     rowCount++;
                 });
 
                 for (int i = 0; i < 150; i++)
                 {
-                      consumer.Consume(producer.ProduceRows(new List<TableEntity> { customerTable, orderTable }, new List<long> {1, 300}), valueStore);
+                      consumer.Consume(producer.ProduceRows(new List<ExecutionTable> { new ExecutionTable(customerTable, 1), new ExecutionTable(orderTable, 2) }), valueStore);
                 }
 
                 Assert.That(rowCount, Is.EqualTo(300));
