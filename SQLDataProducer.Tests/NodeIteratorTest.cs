@@ -207,5 +207,57 @@ namespace SQLDataProducer.Tests
             Assert.That(actualExpectedCount, Is.EqualTo(0));
 
         }
+
+        [Test]
+        [MSTest.TestMethod]
+        public void ShouldRestartNodeCounterWhenNodeIsRestarted()
+        {
+            // 2 Customers
+            ExecutionNode customer = ExecutionNode.CreateLevelOneNode(2, "Customer");
+            customer.AddTable(new TableEntity("dbo", "Customer"));
+
+            // Make 2 accounts
+            var accounts = customer.AddChild(2, "Accounts");
+            accounts.AddTable(new TableEntity("dbo", "Account"));
+
+            // make one one Deposit and one WithDraw
+            var accountTransactions = accounts.AddChild(1, "AccountTransactions");
+            accountTransactions.AddTable(new TableEntity("dbo", "Deposit"));
+            accountTransactions.AddTable(new TableEntity("dbo", "Withdraw"));
+
+
+            NodeIterator it = new NodeIterator(customer);
+
+            var et = it.GetTablesRecursive().ToList();
+            int rowCounter = 0;
+            et[rowCounter++].AssertNAndTable(1, "Customer");
+            et[rowCounter++].AssertNAndTable(1, "Account");
+            et[rowCounter++].AssertNAndTable(1, "Deposit");
+            et[rowCounter++].AssertNAndTable(1, "Withdraw");             
+            // first customer, second account
+            et[rowCounter++].AssertNAndTable(2, "Account");
+            et[rowCounter++].AssertNAndTable(1, "Deposit");
+            et[rowCounter++].AssertNAndTable(1, "Withdraw");
+            
+            // second customer
+            et[rowCounter++].AssertNAndTable(2, "Customer"); 
+            et[rowCounter++].AssertNAndTable(1, "Account");
+            et[rowCounter++].AssertNAndTable(1, "Deposit");
+            et[rowCounter++].AssertNAndTable(1, "Withdraw");
+            et[rowCounter++].AssertNAndTable(2, "Account");
+            et[rowCounter++].AssertNAndTable(1, "Deposit");
+            et[rowCounter++].AssertNAndTable(1, "Withdraw");
+
+        }
+
+    }
+
+    public static class ExecutionTableAssertExtensions
+    {
+        public static void AssertNAndTable(this ExecutionTable current, long N, string table)
+        {
+            Assert.That(current.N, Is.EqualTo(N));
+            Assert.That(current.Table.TableName, Is.EqualTo(table));
+        }
     }
 }

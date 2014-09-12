@@ -54,7 +54,7 @@ namespace SQLDataProducer.Entities.ExecutionEntities
         /// <returns>Stream of tables to be consumed</returns>
         private IEnumerable<ExecutionTable> GetOrderedTables(ExecutionNode node)
         {
-            for (long i = 0; i < node.RepeatCount; i++)
+            for (long i = 1; i < node.RepeatCount + 1; i++)
             {
                 if (cancelationToken.IsCancellationRequested)
                     break;

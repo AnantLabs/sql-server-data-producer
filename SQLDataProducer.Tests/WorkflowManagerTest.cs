@@ -90,5 +90,7 @@ namespace SQLDataProducer.Tests
             Assert.That(result.Errors.Count, Is.EqualTo(0), "error count");
             Assert.That(result.InsertCount, Is.EqualTo(0), "insert count");
         }
+
+      
     }
 }
