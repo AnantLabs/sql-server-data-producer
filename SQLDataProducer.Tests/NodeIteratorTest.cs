@@ -249,7 +249,6 @@ namespace SQLDataProducer.Tests
             et[rowCounter++].AssertNAndTable(1, "Withdraw");
 
         }
-
     }
 
     public static class ExecutionTableAssertExtensions

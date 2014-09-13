@@ -81,6 +81,32 @@ namespace SQLDataProducer.Tests.ConsumerTests
 
         }
 
+        //[Test]
+        //[MSTest.TestMethod]
+        //public void ShouldNotConsumeMoreAndMoreMemory()
+        //{
+        //    IDataConsumer consumer = GetImplementedType();
+
+        //    consumer.Init("", null);
+        //    int rowCount = 0;
+        //    consumer.ReportInsertionCallback = new Action(() =>
+        //    {
+        //        rowCount++;
+        //    });
+        //    for (int i = 0; i < 100000; i++)
+        //    {
+        //        var vs = new ValueStore();
+        //        for (int k = 0; k < 100000; k++)
+        //        {
+        //            consumer.Consume(tenRowsDataSet, vs);
+        //        }
+                
+        //    }
+            
+        //    Assert.That(rowCount, Is.EqualTo(10));
+
+        //}
+
         [Test]
         [MSTest.TestMethod]
         public void ShouldProduceValuesForIdentityColumns()

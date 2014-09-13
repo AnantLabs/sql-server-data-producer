@@ -91,6 +91,23 @@ namespace SQLDataProducer.Tests
             Assert.That(result.InsertCount, Is.EqualTo(0), "insert count");
         }
 
+        //[Test]
+        //[MSTest.TestMethod]
+        //public void ShouldNotConsumeMoreAndMoreMemory()
+        //{
+        //    builder = new ExecutionResultBuilder().Begin();
+        //    ExecutionNode rootNode = ExecutionNode.CreateLevelOneNode(10000, "Root");
+            
+        //    for (int i = 0; i < 10000000; i++)
+        //    {
+        //        manager.RunWorkFlow(connectionString, wrapper, builder, options, rootNode);
+        //    }
+
+        //    var result = builder.Build();
+        //    Assert.That(result.Errors.Count, Is.EqualTo(0), "error count");
+        //    Assert.That(result.InsertCount, Is.EqualTo(0), "insert count");
+        //}
+
       
     }
 }
